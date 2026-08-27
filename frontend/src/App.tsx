@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
+import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 type Tender = {
@@ -21,6 +21,9 @@ type TenderDocument = {
   file_size_bytes: number;
   sha256: string;
   status: string;
+  revision_of_document_id: string | null;
+  revision_number: number;
+  is_current: boolean;
   imported_at: string;
 };
 
@@ -32,9 +35,20 @@ type ImportResult = {
   document_id: string | null;
   stored_relative_path: string | null;
   sha256: string | null;
+  revision_of_document_id: string | null;
+  revision_number: number | null;
+  is_current: boolean | null;
+};
+
+type PendingConflict = {
+  file: File;
+  sourceRelativePath: string | null;
+  filename: string;
+  candidates: TenderDocument[];
 };
 
 const API_URL = "http://localhost:8000";
+const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
 function App() {
   const [tenders, setTenders] = useState<Tender[]>([]);
@@ -45,27 +59,63 @@ function App() {
   const [externalReference, setExternalReference] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [documentsLoading, setDocumentsLoading] = useState(false);
+  const [documentsError, setDocumentsError] = useState<string | null>(null);
   const [importing, setImporting] = useState(false);
   const [importResults, setImportResults] = useState<ImportResult[]>([]);
+  const [pendingConflict, setPendingConflict] = useState<PendingConflict | null>(null);
+  const [selectedRevisionTargetId, setSelectedRevisionTargetId] = useState<string>("");
+  const documentRequestRef = useRef(0);
 
   const loadTenders = async () => {
     try {
       const response = await axios.get<Tender[]>(`${API_URL}/tenders`);
       setTenders(response.data);
-      if (!selectedTenderId && response.data[0]) {
-        setSelectedTenderId(response.data[0].id);
+
+      const storedTenderId = window.localStorage.getItem(SELECTED_TENDER_STORAGE_KEY);
+      const isStoredTenderValid = storedTenderId && response.data.some((tender) => tender.id === storedTenderId);
+
+      if (storedTenderId && isStoredTenderValid) {
+        setSelectedTenderId(storedTenderId);
+        return;
       }
+
+      window.localStorage.removeItem(SELECTED_TENDER_STORAGE_KEY);
+      setSelectedTenderId(null);
     } catch (err) {
       setError("Unable to load tenders from the backend.");
     }
   };
 
+  const handleSelectTender = (tenderId: string) => {
+    setSelectedTenderId(tenderId);
+    window.localStorage.setItem(SELECTED_TENDER_STORAGE_KEY, tenderId);
+  };
+
   const loadDocuments = async (tenderId: string) => {
+    const requestId = ++documentRequestRef.current;
+    setDocumentsLoading(true);
+    setDocumentsError(null);
+
     try {
       const response = await axios.get<TenderDocument[]>(`${API_URL}/tenders/${tenderId}/documents`);
+
+      if (requestId !== documentRequestRef.current) {
+        return;
+      }
+
       setDocuments(response.data);
     } catch (err) {
+      if (requestId !== documentRequestRef.current) {
+        return;
+      }
+
       setDocuments([]);
+      setDocumentsError("No fue posible cargar los documentos.");
+    } finally {
+      if (requestId === documentRequestRef.current) {
+        setDocumentsLoading(false);
+      }
     }
   };
 
@@ -74,9 +124,14 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (selectedTenderId) {
-      void loadDocuments(selectedTenderId);
+    if (!selectedTenderId) {
+      setDocuments([]);
+      setDocumentsError(null);
+      setDocumentsLoading(false);
+      return;
     }
+
+    void loadDocuments(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -105,6 +160,45 @@ function App() {
       setError("Unable to create the Tender.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const resolveConflict = async (action: "IMPORT_INDEPENDENT" | "NEW_REVISION") => {
+    if (!selectedTenderId || !pendingConflict) {
+      return;
+    }
+
+    setImporting(true);
+    setError("");
+
+    try {
+      const formData = new FormData();
+      formData.append("files", pendingConflict.file);
+      if (pendingConflict.sourceRelativePath) {
+        formData.append("source_relative_paths", pendingConflict.sourceRelativePath);
+      }
+      formData.append("conflict_action", action);
+
+      if (action === "NEW_REVISION") {
+        if (!selectedRevisionTargetId) {
+          setError("Debe seleccionar un documento actual para crear una revisión.");
+          return;
+        }
+        formData.append("revision_of_document_id", selectedRevisionTargetId);
+      }
+
+      const response = await axios.post<ImportResult[]>(`${API_URL}/tenders/${selectedTenderId}/documents/import`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      setImportResults(response.data);
+      setPendingConflict(null);
+      setSelectedRevisionTargetId("");
+      await loadDocuments(selectedTenderId);
+    } catch (err) {
+      setError("No se pudo resolver el conflicto del documento.");
+    } finally {
+      setImporting(false);
     }
   };
 
@@ -137,6 +231,21 @@ function App() {
       const response = await axios.post<ImportResult[]>(`${API_URL}/tenders/${selectedTenderId}/documents/import`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+
+      const conflicts = response.data.filter((result) => result.status === "NAME_CONFLICT");
+      if (conflicts.length > 0 && selectedFiles.length > 0) {
+        const conflictFile = selectedFiles[0];
+        const candidates = documents.filter((document) => document.original_filename === conflicts[0].filename);
+        setPendingConflict({
+          file: conflictFile,
+          sourceRelativePath: relativePaths[0] || null,
+          filename: conflicts[0].filename,
+          candidates,
+        });
+        if (candidates[0]) {
+          setSelectedRevisionTargetId(candidates[0].id);
+        }
+      }
 
       setImportResults(response.data);
       await loadDocuments(selectedTenderId);
@@ -220,7 +329,7 @@ function App() {
                   <button
                     key={tender.id}
                     type="button"
-                    onClick={() => setSelectedTenderId(tender.id)}
+                    onClick={() => handleSelectTender(tender.id)}
                     style={{
                       textAlign: "left",
                       border: active ? "2px solid #1b5bd8" : "1px solid #e8edf2",
@@ -230,7 +339,14 @@ function App() {
                       cursor: "pointer",
                     }}
                   >
-                    <div style={{ fontWeight: 700, fontSize: 18 }}>{tender.title}</div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+                      <div style={{ fontWeight: 700, fontSize: 18 }}>{tender.title}</div>
+                      {active && (
+                        <span style={{ fontSize: 12, background: "#dfeeff", color: "#1b5bd8", borderRadius: 999, padding: "4px 8px", fontWeight: 700 }}>
+                          Seleccionado
+                        </span>
+                      )}
+                    </div>
                     <div style={{ fontSize: 14, color: "#52607a", marginTop: 8 }}>
                       {tender.institution_profile || "No institution profile"} • {tender.external_reference || "No external reference"}
                     </div>
@@ -239,6 +355,9 @@ function App() {
                     </div>
                     <div style={{ fontSize: 12, color: "#5d6d88", marginTop: 4 }}>
                       Created: {new Date(tender.created_at).toLocaleString()}
+                    </div>
+                    <div style={{ marginTop: 10, fontSize: 12, fontWeight: 700, color: active ? "#1b5bd8" : "#52607a" }}>
+                      {active ? "Seleccionado" : "Abrir"}
                     </div>
                   </button>
                 );
@@ -259,6 +378,44 @@ function App() {
           </label>
           <div style={{ marginTop: 12, color: "#52607a" }}>{importing ? "Importing..." : "Ready to import."}</div>
 
+          {pendingConflict && (
+            <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 12, background: "#fff8e7", padding: 16 }}>
+              <h3 style={{ marginTop: 0 }}>Conflicto de documento</h3>
+              <p style={{ margin: "8px 0" }}>
+                Ya existe un documento con el mismo nombre, pero el contenido es diferente. Archivo: <strong>{pendingConflict.filename}</strong>
+              </p>
+
+              {pendingConflict.candidates.length > 0 && (
+                <div style={{ marginTop: 12 }}>
+                  <label style={{ display: "block", marginBottom: 6, fontWeight: 600 }}>Selecciona la revisión actual para registrar la nueva revisión</label>
+                  <select
+                    value={selectedRevisionTargetId}
+                    onChange={(event) => setSelectedRevisionTargetId(event.target.value)}
+                    style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #cfd8e3" }}
+                  >
+                    {pendingConflict.candidates.map((candidate) => (
+                      <option key={candidate.id} value={candidate.id}>
+                        {candidate.original_filename} • Rev {candidate.revision_number} • {candidate.is_current ? "Vigente" : "Sustituido"}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 16 }}>
+                <button type="button" onClick={() => void resolveConflict("IMPORT_INDEPENDENT")} style={{ padding: "10px 14px", borderRadius: 8, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700 }}>
+                  Importar como documento independiente
+                </button>
+                <button type="button" onClick={() => void resolveConflict("NEW_REVISION")} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
+                  Registrar como nueva revisión
+                </button>
+                <button type="button" onClick={() => setPendingConflict(null)} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          )}
+
           {importResults.length > 0 && (
             <div style={{ marginTop: 16, display: "grid", gap: 8 }}>
               {importResults.map((result, index) => (
@@ -275,30 +432,40 @@ function App() {
         </section>
       )}
 
-      {selectedTenderId && (
+      {selectedTenderId ? (
         <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
-          <h2>Document Registry</h2>
+          <h2>Documentos</h2>
 
-          {documents.length === 0 ? (
-            <p>No documents imported for this Tender yet.</p>
-          ) : (
+          {documentsLoading && <p>Cargando documentos...</p>}
+
+          {!documentsLoading && documentsError && <p>{documentsError}</p>}
+
+          {!documentsLoading && !documentsError && documents.length === 0 && (
+            <p>Esta licitación todavía no tiene documentos importados.</p>
+          )}
+
+          {!documentsLoading && !documentsError && documents.length > 0 && (
             <div style={{ display: "grid", gap: 12 }}>
               {documents.map((document) => (
                 <div key={document.id} style={{ border: "1px solid #e8edf2", borderRadius: 10, padding: 14, background: "#f8fafc" }}>
                   <div style={{ fontWeight: 700, fontSize: 18 }}>{document.original_filename}</div>
                   <div style={{ fontSize: 12, color: "#52607a", marginTop: 6 }}>
-                    {document.source_relative_path || "No source path"} • {document.file_size_bytes} bytes • {document.mime_type || "unknown type"}
+                    Revisión {document.revision_number} • {document.is_current ? "Vigente" : "Sustituido"}
                   </div>
-                  <div style={{ fontSize: 12, color: "#52607a", marginTop: 6 }}>
-                    Status: {document.status} • Imported: {new Date(document.imported_at).toLocaleString()}
-                  </div>
-                  <div style={{ fontSize: 11, color: "#52607a", marginTop: 6, wordBreak: "break-all" }}>
-                    SHA-256: {document.sha256}
-                  </div>
+                  {document.sha256 && (
+                    <div style={{ fontSize: 11, color: "#52607a", marginTop: 6, wordBreak: "break-all" }}>
+                      SHA-256: {document.sha256.slice(0, 12)}...
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
           )}
+        </section>
+      ) : (
+        <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
+          <h2>Documentos</h2>
+          <p style={{ color: "#52607a" }}>Selecciona una licitación para ver sus documentos</p>
         </section>
       )}
     </div>
