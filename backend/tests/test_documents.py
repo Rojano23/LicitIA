@@ -919,6 +919,78 @@ def test_ocr_auto_runs_both_providers_for_image_only_and_mixed_content(monkeypat
     assert all(item["scope"] == "IMAGE_REGION" for item in result["results"])
 
 
+def test_normalize_document_content_preserves_separate_native_and_ocr_sources() -> None:
+    tender_id = _create_tender("Normalized Sources")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("reference.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/reference.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        page = DocumentPage(
+            document_id=document_id,
+            page_number=1,
+            text="Native page text\nwith meaningful lines\n",
+            char_count=32,
+            extraction_method="NATIVE_PDF",
+            status="TEXT_EXTRACTED",
+        )
+        db.add(page)
+        db.commit()
+        db.refresh(page)
+
+        tesseract = PageOcrResult(
+            document_page_id=page.id,
+            engine="TESSERACT",
+            engine_version="1.0",
+            language="es+en",
+            text="Tesseract OCR line 1\nTesseract OCR line 2\n",
+            status="OCR_TEXT_EXTRACTED",
+            confidence=0.90,
+            processing_time_ms=200,
+            warnings=None,
+            scope="FULL_PAGE",
+            region_id=None,
+        )
+        paddle = PageOcrResult(
+            document_page_id=page.id,
+            engine="PADDLEOCR",
+            engine_version="2.0",
+            language="es",
+            text="Paddle OCR line 1\nPaddle OCR line 2\n",
+            status="OCR_TEXT_EXTRACTED",
+            confidence=0.88,
+            processing_time_ms=220,
+            warnings=None,
+            scope="FULL_PAGE",
+            region_id=None,
+        )
+        db.add_all([tesseract, paddle])
+        db.commit()
+    finally:
+        db.close()
+
+    normalize_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/normalize")
+    assert normalize_response.status_code == 200, normalize_response.text
+    summary = normalize_response.json()
+    assert summary["normalized_sources"] == 3
+    assert summary["chunks_created"] >= 3
+
+    normalized_response = client.get(f"/tenders/{tender_id}/documents/{document_id}/normalized")
+    assert normalized_response.status_code == 200, normalized_response.text
+    normalized = normalized_response.json()
+    assert {item["source_type"] for item in normalized} == {"NATIVE_PDF", "OCR"}
+    assert {item["engine"] for item in normalized if item["engine"] is not None} == {"TESSERACT", "PADDLEOCR"}
+
+    rerun = client.post(f"/tenders/{tender_id}/documents/{document_id}/normalize")
+    assert rerun.status_code == 200, rerun.text
+    assert rerun.json()["normalized_sources"] == 3
+
+
 def test_compare_mode_persists_independent_provider_results(monkeypatch) -> None:
     import fitz
 

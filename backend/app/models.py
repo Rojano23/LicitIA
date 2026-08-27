@@ -140,6 +140,68 @@ class DocumentPageRegion(Base):
 
     document_page: Mapped["DocumentPage"] = relationship(back_populates="regions")
     ocr_results: Mapped[list["PageOcrResult"]] = relationship(back_populates="region", cascade="all, delete-orphan")
+    normalized_content: Mapped[list[NormalizedContent]] = relationship(back_populates="region", cascade="all, delete-orphan")
+
+
+class NormalizedContent(Base):
+    __tablename__ = "normalized_content"
+
+    __table_args__ = (
+        Index("ix_normalized_content_document_page_id", "document_page_id"),
+        Index("ix_normalized_content_page_ocr_result_id", "page_ocr_result_id"),
+        Index("ix_normalized_content_region_id", "region_id"),
+        UniqueConstraint(
+            "document_page_id",
+            "page_ocr_result_id",
+            "region_id",
+            "source_type",
+            "source_scope",
+            "engine",
+            name="uq_normalized_content_source",
+        ),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    document_page_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    page_ocr_result_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("page_ocr_results.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
+    )
+    region_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_page_regions.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
+    )
+    source_type: Mapped[str] = mapped_column(String(32), nullable=False, default="NATIVE_PDF")
+    source_scope: Mapped[str] = mapped_column(String(32), nullable=False, default="NATIVE_PAGE")
+    engine: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    normalized_text: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    char_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    content_sha256: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    document_page: Mapped["DocumentPage"] = relationship(back_populates="normalized_content")
+    page_ocr_result: Mapped["PageOcrResult | None"] = relationship(back_populates="normalized_content")
+    region: Mapped[DocumentPageRegion | None] = relationship(back_populates="normalized_content")
+    chunks: Mapped[list["DocumentChunk"]] = relationship(back_populates="normalized_content", cascade="all, delete-orphan")
 
 
 class DocumentPage(Base):
@@ -171,6 +233,7 @@ class DocumentPage(Base):
     document: Mapped[TenderDocument] = relationship(back_populates="pages")
     regions: Mapped[list[DocumentPageRegion]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
     ocr_results: Mapped[list["PageOcrResult"]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
+    normalized_content: Mapped[list[NormalizedContent]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
 
     @property
     def content_profile(self) -> str:
@@ -230,3 +293,34 @@ class PageOcrResult(Base):
 
     document_page: Mapped[DocumentPage] = relationship(back_populates="ocr_results")
     region: Mapped[DocumentPageRegion | None] = relationship(back_populates="ocr_results")
+    normalized_content: Mapped[list[NormalizedContent]] = relationship(back_populates="page_ocr_result", cascade="all, delete-orphan")
+
+
+class DocumentChunk(Base):
+    __tablename__ = "document_chunks"
+
+    __table_args__ = (
+        Index("ix_document_chunks_normalized_content_id", "normalized_content_id"),
+        UniqueConstraint("normalized_content_id", "chunk_index", name="uq_document_chunks_normalized_content_chunk"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    normalized_content_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("normalized_content.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    chunk_index: Mapped[int] = mapped_column(Integer, nullable=False)
+    text: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    char_start: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    char_end: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    char_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    content_sha256: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    normalized_content: Mapped[NormalizedContent] = relationship(back_populates="chunks")

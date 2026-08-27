@@ -129,6 +129,51 @@ class OcrProviderStatusRead(BaseModel):
     status_reason: str | None = None
 
 
+class DocumentChunkRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    normalized_content_id: str
+    chunk_index: int
+    text: str
+    char_start: int
+    char_end: int
+    char_count: int
+    content_sha256: str
+    created_at: datetime
+
+
+class NormalizedContentRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    document_page_id: str
+    page_ocr_result_id: str | None = None
+    region_id: str | None = None
+    source_type: str
+    source_scope: str
+    engine: str | None = None
+    normalized_text: str
+    char_count: int
+    content_sha256: str
+    created_at: datetime
+    updated_at: datetime
+    chunks: list[DocumentChunkRead] = Field(default_factory=list)
+
+
+class NormalizationSummaryRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    document_id: str
+    page_count: int
+    normalized_sources: int
+    chunks_created: int
+    skipped_empty_sources: int
+    acquisition_gaps: int
+    created: int
+    updated: int
+
+
 class DocumentOcrResult(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

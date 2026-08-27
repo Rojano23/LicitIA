@@ -23,6 +23,7 @@ ALLOWED_CONFLICT_ACTIONS = {"NONE", "IMPORT_INDEPENDENT", "NEW_REVISION"}
 
 from app.config import get_settings
 from app.database import get_db
+from app.content_normalization import list_normalized_sources, process_document_normalization
 from app.models import (
     DocumentPage,
     DocumentPageRegion,
@@ -39,6 +40,8 @@ from app.schemas import (
     DocumentImportResult,
     DocumentOcrResult,
     DocumentPageRead,
+    NormalizedContentRead,
+    NormalizationSummaryRead,
     OcrProviderStatusRead,
     PageOcrResultRead,
     TenderCreate,
@@ -713,6 +716,55 @@ def extract_document_pages_legacy(document_id: str, db: Session = Depends(get_db
     if document is None:
         raise HTTPException(status_code=404, detail="Document not found")
     return extract_document_pages(document.tender_id, document_id, db=db)
+
+
+@app.post("/tenders/{tender_id}/documents/{document_id}/normalize", response_model=NormalizationSummaryRead)
+def normalize_document_content(
+    tender_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
+
+    summary = process_document_normalization(db, document)
+    db.commit()
+    return {
+        "document_id": document.id,
+        "page_count": document.page_count,
+        "normalized_sources": summary["normalized_sources"],
+        "chunks_created": summary["chunks_created"],
+        "skipped_empty_sources": summary["skipped_empty_sources"],
+        "acquisition_gaps": summary["acquisition_gaps"],
+        "created": summary["created"],
+        "updated": summary["updated"],
+    }
+
+
+@app.get("/tenders/{tender_id}/documents/{document_id}/normalized", response_model=list[NormalizedContentRead])
+def list_document_normalized_content(
+    tender_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> list[object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
+
+    return list_normalized_sources(db, document_id)
 
 
 @app.get("/tenders/{tender_id}/documents/{document_id}/pages", response_model=list[DocumentPageRead])
