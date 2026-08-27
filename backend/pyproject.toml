@@ -3,6 +3,9 @@ name = "licitia-backend"
 version = "0.1.0"
 description = "LicitIA backend for Tender workspace MVP-01.1"
 requires-python = ">=3.11"
+dependencies = [
+  "PyMuPDF==1.26.3",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

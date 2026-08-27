@@ -21,10 +21,23 @@ type TenderDocument = {
   file_size_bytes: number;
   sha256: string;
   status: string;
+  processing_status?: string;
+  page_count?: number;
   revision_of_document_id: string | null;
   revision_number: number;
   is_current: boolean;
   imported_at: string;
+};
+
+type DocumentPage = {
+  id: string;
+  document_id: string;
+  page_number: number;
+  text: string;
+  char_count: number;
+  extraction_method: string;
+  status: string;
+  extracted_at: string;
 };
 
 type ImportResult = {
@@ -66,6 +79,9 @@ function App() {
   const [pendingConflict, setPendingConflict] = useState<PendingConflict | null>(null);
   const [selectedRevisionTargetId, setSelectedRevisionTargetId] = useState<string>("");
   const [selectedDocumentId, setSelectedDocumentId] = useState<string | null>(null);
+  const [documentPages, setDocumentPages] = useState<DocumentPage[]>([]);
+  const [documentPagesLoading, setDocumentPagesLoading] = useState(false);
+  const [selectedPageNumber, setSelectedPageNumber] = useState<number | null>(null);
   const documentRequestRef = useRef(0);
 
   const loadTenders = async () => {
@@ -263,6 +279,39 @@ function App() {
   const selectedDocument = documents.find((document) => document.id === selectedDocumentId) ?? null;
   const selectedDocumentUrl =
     selectedTenderId && selectedDocumentId ? `${API_URL}/tenders/${selectedTenderId}/documents/${selectedDocumentId}/content` : null;
+  const selectedPage = documentPages.find((page) => page.page_number === selectedPageNumber) ?? null;
+
+  const loadDocumentPages = async (tenderId: string, documentId: string) => {
+    setDocumentPagesLoading(true);
+    try {
+      const response = await axios.get<DocumentPage[]>(`${API_URL}/tenders/${tenderId}/documents/${documentId}/pages`);
+      setDocumentPages(response.data);
+      setSelectedPageNumber(response.data[0]?.page_number ?? null);
+    } catch (err) {
+      setDocumentPages([]);
+      setSelectedPageNumber(null);
+    } finally {
+      setDocumentPagesLoading(false);
+    }
+  };
+
+  const handleExtractPdfText = async () => {
+    if (!selectedTenderId || !selectedDocumentId) {
+      return;
+    }
+
+    setDocumentPagesLoading(true);
+    try {
+      await axios.post(`${API_URL}/tenders/${selectedTenderId}/documents/${selectedDocumentId}/extract-pages`);
+      await loadDocuments(selectedTenderId);
+      await loadDocumentPages(selectedTenderId, selectedDocumentId);
+    } catch (err) {
+      setError("No se pudo extraer el texto del PDF.");
+    } finally {
+      setDocumentPagesLoading(false);
+    }
+  };
+
   const isPdfDocument = (document: TenderDocument | null) => {
     if (!document) {
       return false;
@@ -493,7 +542,10 @@ function App() {
                     </div>
                     <button
                       type="button"
-                      onClick={() => setSelectedDocumentId(document.id)}
+                      onClick={() => {
+                        setSelectedDocumentId(document.id);
+                        void loadDocumentPages(selectedTenderId ?? "", document.id);
+                      }}
                       style={{
                         padding: "8px 12px",
                         borderRadius: 8,
@@ -520,10 +572,69 @@ function App() {
           {selectedDocument && (
             <div style={{ marginTop: 20 }}>
               <h3 style={{ marginBottom: 12 }}>{selectedDocument.original_filename}</h3>
+
+              {isPdfDocument(selectedDocument) && (
+                <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 16, flexWrap: "wrap" }}>
+                  <button type="button" onClick={() => void handleExtractPdfText()} style={{ padding: "10px 14px", borderRadius: 8, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700 }}>
+                    Extraer texto PDF
+                  </button>
+                  <span style={{ fontSize: 12, color: "#52607a" }}>
+                    Estado: {selectedDocument.processing_status ?? "PENDING"}
+                  </span>
+                </div>
+              )}
+
               {isPdfDocument(selectedDocument) && selectedDocumentUrl ? (
                 <iframe src={selectedDocumentUrl} className="pdf-viewer" title={selectedDocument.original_filename} />
               ) : (
                 <div className="viewer-placeholder">Este documento no puede mostrarse en el visor local PDF.</div>
+              )}
+
+              {documentPages.length > 0 && (
+                <div style={{ marginTop: 20, border: "1px solid #e8edf2", borderRadius: 12, padding: 16, background: "#f8fafc" }}>
+                  <h4 style={{ marginTop: 0, marginBottom: 12 }}>Texto extraído por página</h4>
+
+                  {documentPagesLoading ? (
+                    <p>Cargando páginas…</p>
+                  ) : (
+                    <>
+                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
+                        {documentPages.map((page) => (
+                          <button
+                            key={page.id}
+                            type="button"
+                            onClick={() => setSelectedPageNumber(page.page_number)}
+                            style={{
+                              borderRadius: 999,
+                              border: selectedPageNumber === page.page_number ? "1px solid #1b5bd8" : "1px solid #d9e1ec",
+                              background: selectedPageNumber === page.page_number ? "#edf4ff" : "#fff",
+                              color: selectedPageNumber === page.page_number ? "#1b5bd8" : "#1a1a1a",
+                              padding: "6px 10px",
+                              cursor: "pointer",
+                              fontWeight: 700,
+                            }}
+                          >
+                            Pág. {page.page_number}
+                          </button>
+                        ))}
+                      </div>
+
+                      {selectedPage && (
+                        <div style={{ border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#fff" }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 8, flexWrap: "wrap" }}>
+                            <strong>Página {selectedPage.page_number}</strong>
+                            <span style={{ color: "#52607a", fontSize: 12 }}>
+                              {selectedPage.status} • {selectedPage.char_count} caracteres • {selectedPage.extraction_method}
+                            </span>
+                          </div>
+                          <pre style={{ whiteSpace: "pre-wrap", margin: 0, fontFamily: "ui-monospace, SFMono-Regular, monospace", fontSize: 12, lineHeight: 1.5 }}>
+                            {selectedPage.text || "(Sin texto nativo detectado en esta página)"}
+                          </pre>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
               )}
             </div>
           )}

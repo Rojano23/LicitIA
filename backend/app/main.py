@@ -5,6 +5,7 @@ import mimetypes
 import os
 import shutil
 import tempfile
+from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
 
@@ -15,12 +16,21 @@ from pathlib import PurePosixPath
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+import fitz
+
 ALLOWED_CONFLICT_ACTIONS = {"NONE", "IMPORT_INDEPENDENT", "NEW_REVISION"}
 
 from app.config import get_settings
 from app.database import get_db
-from app.models import Tender, TenderDocument, TenderDocumentStatus
-from app.schemas import DocumentImportResult, TenderCreate, TenderDocumentRead, TenderRead
+from app.models import (
+    DocumentPage,
+    DocumentPageStatus,
+    Tender,
+    TenderDocument,
+    TenderDocumentProcessingStatus,
+    TenderDocumentStatus,
+)
+from app.schemas import DocumentExtractionResult, DocumentImportResult, DocumentPageRead, TenderCreate, TenderDocumentRead, TenderRead
 
 settings = get_settings()
 
@@ -118,6 +128,40 @@ def _resolve_document_file_path(stored_relative_path: str) -> Path:
         raise HTTPException(status_code=400, detail="Document storage path escapes the local data directory")
 
     return resolved_path
+
+
+def _is_pdf_document(document: TenderDocument) -> bool:
+    mime_type = (document.mime_type or "").lower()
+    extension = Path(document.original_filename or "").suffix.lower()
+    return "pdf" in mime_type or extension == ".pdf"
+
+
+def _extract_pdf_pages(file_path: Path) -> list[tuple[int, str]]:
+    pdf_document = fitz.open(str(file_path))
+    try:
+        extracted_pages: list[tuple[int, str]] = []
+        for page_number in range(pdf_document.page_count):
+            page = pdf_document[page_number]
+            text = page.get_text("text")
+            extracted_pages.append((page_number + 1, text))
+        return extracted_pages
+    finally:
+        pdf_document.close()
+
+
+def _page_status_for_text(page_text: str) -> str:
+    normalized_text = (page_text or "").strip()
+    return DocumentPageStatus.TEXT_EXTRACTED.value if normalized_text else DocumentPageStatus.NO_TEXT.value
+
+
+def _document_processing_status_for_pages(page_statuses: list[str]) -> str:
+    if not page_statuses:
+        return TenderDocumentProcessingStatus.NO_NATIVE_TEXT.value
+    if all(status == DocumentPageStatus.NO_TEXT.value for status in page_statuses):
+        return TenderDocumentProcessingStatus.NO_NATIVE_TEXT.value
+    if all(status == DocumentPageStatus.TEXT_EXTRACTED.value for status in page_statuses):
+        return TenderDocumentProcessingStatus.TEXT_EXTRACTION_COMPLETE.value
+    return TenderDocumentProcessingStatus.TEXT_EXTRACTION_PARTIAL.value
 
 
 @app.get("/health")
@@ -435,6 +479,107 @@ def get_document(document_id: str, db: Session = Depends(get_db)) -> TenderDocum
     if document is None:
         raise HTTPException(status_code=404, detail="Document not found")
     return document
+
+
+@app.post("/tenders/{tender_id}/documents/{document_id}/extract-pages", response_model=DocumentExtractionResult)
+def extract_document_pages(
+    tender_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
+    if not _is_pdf_document(document):
+        raise HTTPException(status_code=400, detail="Only PDF documents can be extracted.")
+
+    file_path = _resolve_document_file_path(document.stored_relative_path)
+    if not file_path.exists() or not file_path.is_file():
+        raise HTTPException(status_code=404, detail="Stored document file not found")
+
+    try:
+        extracted_pages = _extract_pdf_pages(file_path)
+    except Exception as exc:  # pragma: no cover - defensive coverage for parser failure
+        document.processing_status = TenderDocumentProcessingStatus.TEXT_EXTRACTION_FAILED.value
+        document.page_count = 0
+        document.text_extracted_at = None
+        db.commit()
+        raise HTTPException(status_code=500, detail=f"PDF text extraction failed: {exc}") from exc
+
+    for page_record in list(document.pages):
+        db.delete(page_record)
+
+    page_records: list[DocumentPage] = []
+    page_statuses: list[str] = []
+    for page_number, text in extracted_pages:
+        normalized_text = text or ""
+        page_status = _page_status_for_text(normalized_text)
+        page_statuses.append(page_status)
+        page_records.append(
+            DocumentPage(
+                document_id=document.id,
+                page_number=page_number,
+                text=normalized_text,
+                char_count=len(normalized_text.strip()),
+                extraction_method="NATIVE_PDF",
+                status=page_status,
+            )
+        )
+    document.pages.extend(page_records)
+    document.processing_status = _document_processing_status_for_pages(page_statuses)
+    document.page_count = len(extracted_pages)
+    document.text_extracted_at = datetime.now(timezone.utc)
+    db.commit()
+    db.refresh(document)
+
+    return {
+        "document_id": document.id,
+        "processing_status": document.processing_status,
+        "page_count": document.page_count,
+        "extracted_at": document.text_extracted_at,
+    }
+
+
+@app.post("/documents/{document_id}/extract-pages", response_model=DocumentExtractionResult)
+def extract_document_pages_legacy(document_id: str, db: Session = Depends(get_db)) -> dict[str, object]:
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    return extract_document_pages(document.tender_id, document_id, db=db)
+
+
+@app.get("/tenders/{tender_id}/documents/{document_id}/pages", response_model=list[DocumentPageRead])
+def list_document_pages(
+    tender_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> list[DocumentPage]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
+
+    statement = select(DocumentPage).where(DocumentPage.document_id == document_id).order_by(DocumentPage.page_number.asc())
+    return db.execute(statement).scalars().all()
+
+
+@app.get("/documents/{document_id}/pages", response_model=list[DocumentPageRead])
+def list_document_pages_legacy(document_id: str, db: Session = Depends(get_db)) -> list[DocumentPage]:
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    return list_document_pages(document.tender_id, document_id, db=db)
 
 
 @app.get("/tenders/{tender_id}/documents/{document_id}/content")

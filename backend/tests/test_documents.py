@@ -390,6 +390,120 @@ def test_import_independent_persists_explicit_human_decision() -> None:
     assert any(item["conflict_resolution_action"] == "IMPORT_INDEPENDENT" for item in payload_documents)
 
 
+def test_pdf_pages_are_extracted_and_persisted() -> None:
+    import fitz
+
+    tender_id = _create_tender("PDF Extraction")
+    pdf_document = fitz.open()
+    page_one = pdf_document.new_page()
+    page_one.insert_text((72, 72), "Tender title: Extraction test")
+    page_two = pdf_document.new_page()
+    page_two.insert_text((72, 72), "Second page with obligation details")
+    pdf_bytes = pdf_document.write()
+    pdf_document.close()
+
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("report.pdf", pdf_bytes, "application/pdf"))],
+        data={"source_relative_paths": "folder/report.pdf"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+
+    extract_response = client.post(f"/documents/{document_id}/extract-pages")
+    assert extract_response.status_code == 200, extract_response.text
+    extraction = extract_response.json()
+    assert extraction["processing_status"] == "TEXT_EXTRACTION_COMPLETE"
+    assert extraction["page_count"] == 2
+
+    pages_response = client.get(f"/documents/{document_id}/pages")
+    assert pages_response.status_code == 200, pages_response.text
+    pages = pages_response.json()
+    assert len(pages) == 2
+    assert [page["page_number"] for page in pages] == [1, 2]
+    assert any("Extraction test" in page["text"] for page in pages)
+    assert any("obligation details" in page["text"] for page in pages)
+
+
+def test_pdf_extraction_tracks_native_text_metadata_and_tender_scope() -> None:
+    import fitz
+
+    tender_id = _create_tender("PDF Metadata")
+    pdf_document = fitz.open()
+    page_one = pdf_document.new_page()
+    page_one.insert_text((72, 72), "Mandatory obligation section")
+    pdf_document.new_page()
+    pdf_bytes = pdf_document.write()
+    pdf_document.close()
+
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("metadata.pdf", pdf_bytes, "application/pdf"))],
+        data={"source_relative_paths": "folder/metadata.pdf"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+
+    extract_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/extract-pages")
+    assert extract_response.status_code == 200, extract_response.text
+    extraction = extract_response.json()
+    assert extraction["processing_status"] == "TEXT_EXTRACTION_PARTIAL"
+    assert extraction["page_count"] == 2
+
+    pages_response = client.get(f"/tenders/{tender_id}/documents/{document_id}/pages")
+    assert pages_response.status_code == 200, pages_response.text
+    pages = pages_response.json()
+    assert len(pages) == 2
+    assert pages[0]["status"] == "TEXT_EXTRACTED"
+    assert pages[0]["char_count"] > 0
+    assert pages[0]["extraction_method"] == "NATIVE_PDF"
+    assert pages[1]["status"] == "NO_TEXT"
+    assert pages[1]["char_count"] == 0
+
+
+def test_blank_pdf_is_marked_as_no_native_text() -> None:
+    import fitz
+
+    tender_id = _create_tender("Blank PDF")
+    blank_pdf = fitz.open()
+    blank_pdf.new_page()
+    payload = blank_pdf.write()
+    blank_pdf.close()
+
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("blank.pdf", payload, "application/pdf"))],
+        data={"source_relative_paths": "folder/blank.pdf"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+
+    extract_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/extract-pages")
+    assert extract_response.status_code == 200, extract_response.text
+    assert extract_response.json()["processing_status"] == "NO_NATIVE_TEXT"
+
+    pages_response = client.get(f"/tenders/{tender_id}/documents/{document_id}/pages")
+    assert pages_response.status_code == 200, pages_response.text
+    pages = pages_response.json()
+    assert pages[0]["status"] == "NO_TEXT"
+    assert pages[0]["char_count"] == 0
+
+
+def test_pdf_extraction_rejects_non_pdf_documents() -> None:
+    tender_id = _create_tender("Invalid Extraction")
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("notes.txt", b"hello world", "text/plain"))],
+        data={"source_relative_paths": "folder/notes.txt"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+
+    extract_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/extract-pages")
+    assert extract_response.status_code == 400, extract_response.text
+    assert "PDF" in extract_response.json()["detail"]
+
+
 def test_pdf_content_route_returns_file_from_immutable_storage() -> None:
     tender_id = _create_tender("PDF Viewer")
     payload = b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\ntrailer\n<<>>\n%%EOF\n"
