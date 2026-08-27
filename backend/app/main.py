@@ -1,12 +1,22 @@
-from fastapi import Depends, FastAPI, HTTPException, status
+from __future__ import annotations
+
+import hashlib
+import mimetypes
+import os
+import shutil
+import tempfile
+from pathlib import Path
+from uuid import uuid4
+
+from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.config import get_settings
-from app.database import Base, engine, get_db
-from app.models import Tender
-from app.schemas import TenderCreate, TenderRead
+from app.database import get_db
+from app.models import Tender, TenderDocument, TenderDocumentStatus
+from app.schemas import DocumentImportResult, TenderCreate, TenderDocumentRead, TenderRead
 
 settings = get_settings()
 
@@ -19,6 +29,65 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+def get_licitia_data_root() -> Path:
+    configured_root = Path(get_settings().licitia_data_dir)
+    if not configured_root.is_absolute():
+        configured_root = Path(__file__).resolve().parents[1] / configured_root
+    configured_root.mkdir(parents=True, exist_ok=True)
+    return configured_root
+
+
+def _safe_filename(filename: str) -> str:
+    candidate = os.path.basename(filename or "document.bin").strip()
+    if not candidate:
+        candidate = "document.bin"
+    return candidate
+
+
+def _hash_file(file_handle) -> tuple[str, int]:
+    hasher = hashlib.sha256()
+    total_size = 0
+    file_handle.seek(0)
+    while chunk := file_handle.read(65536):
+        hasher.update(chunk)
+        total_size += len(chunk)
+    file_handle.seek(0)
+    return hasher.hexdigest(), total_size
+
+
+def _store_uploaded_file(tender_id: str, upload: UploadFile, source_relative_path: str | None) -> tuple[str, str]:
+    data_root = get_licitia_data_root()
+    document_id = str(uuid4())
+    safe_name = _safe_filename(upload.filename or "document.bin")
+    storage_dir = data_root / "tenders" / tender_id / "originals" / document_id
+    storage_dir.mkdir(parents=True, exist_ok=True)
+    destination = storage_dir / safe_name
+
+    staging_dir = None
+    try:
+        with tempfile.TemporaryDirectory(prefix=".staging_", dir=storage_dir.parent) as staging_dir_name:
+            staging_dir = Path(staging_dir_name)
+            staged_path = staging_dir / safe_name
+            upload.file.seek(0)
+            with open(staged_path, "wb") as temp_handle:
+                while chunk := upload.file.read(65536):
+                    temp_handle.write(chunk)
+            if destination.exists():
+                raise HTTPException(status_code=409, detail="Storage path collision detected")
+            shutil.move(str(staged_path), str(destination))
+    except Exception:
+        if destination.exists():
+            destination.unlink(missing_ok=True)
+        if staging_dir is not None and staging_dir.exists():
+            shutil.rmtree(staging_dir, ignore_errors=True)
+        raise
+
+    stored_relative_path = str(Path("tenders") / tender_id / "originals" / document_id / safe_name)
+    if source_relative_path:
+        source_relative_path = source_relative_path.replace("\\", "/")
+    return stored_relative_path, source_relative_path or None
 
 
 @app.get("/health")
@@ -57,3 +126,152 @@ def get_tender(tender_id: str, db: Session = Depends(get_db)) -> Tender:
     if tender is None:
         raise HTTPException(status_code=404, detail="Tender not found")
     return tender
+
+
+@app.post("/tenders/{tender_id}/documents/import", response_model=list[DocumentImportResult])
+async def import_documents(
+    tender_id: str,
+    files: list[UploadFile] = File(...),
+    source_relative_paths: list[str] | None = Form(default=None),
+    db: Session = Depends(get_db),
+) -> list[DocumentImportResult]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+    if not files:
+        raise HTTPException(status_code=400, detail="No files were provided")
+
+    input_relative_paths = source_relative_paths or [None for _ in files]
+    if len(input_relative_paths) != len(files):
+        input_relative_paths = [None for _ in files]
+
+    results: list[DocumentImportResult] = []
+
+    for index, upload in enumerate(files):
+        filename = upload.filename or "document.bin"
+        source_relative_path = input_relative_paths[index] if index < len(input_relative_paths) else None
+
+        if not filename.strip():
+            results.append(
+                DocumentImportResult(
+                    filename="document.bin",
+                    source_relative_path=source_relative_path,
+                    status=TenderDocumentStatus.FAILED.value,
+                    message="Empty filename was provided.",
+                )
+            )
+            continue
+
+        try:
+            upload.file.seek(0)
+            sha256_value, file_size = _hash_file(upload.file)
+            mime_type = upload.content_type or mimetypes.guess_type(filename)[0]
+
+            is_duplicate = db.execute(
+                select(TenderDocument).where(
+                    TenderDocument.tender_id == tender_id,
+                    TenderDocument.sha256 == sha256_value,
+                )
+            ).scalar_one_or_none()
+            if is_duplicate is not None:
+                results.append(
+                    DocumentImportResult(
+                        filename=filename,
+                        source_relative_path=source_relative_path,
+                        status=TenderDocumentStatus.DUPLICATE.value,
+                        message="Document content already exists in this Tender.",
+                        document_id=is_duplicate.id,
+                        sha256=sha256_value,
+                    )
+                )
+                continue
+
+            existing_name = db.execute(
+                select(TenderDocument).where(
+                    TenderDocument.tender_id == tender_id,
+                    TenderDocument.original_filename == filename,
+                    TenderDocument.sha256 != sha256_value,
+                )
+            ).scalar_one_or_none()
+            if existing_name is not None:
+                results.append(
+                    DocumentImportResult(
+                        filename=filename,
+                        source_relative_path=source_relative_path,
+                        status=TenderDocumentStatus.NAME_CONFLICT.value,
+                        message="Same filename already exists with different content; human review required.",
+                        sha256=sha256_value,
+                    )
+                )
+                continue
+
+            stored_relative_path, source_relative_path = _store_uploaded_file(tender_id, upload, source_relative_path)
+
+            document = TenderDocument(
+                tender_id=tender_id,
+                original_filename=filename,
+                source_relative_path=source_relative_path,
+                stored_relative_path=stored_relative_path,
+                mime_type=mime_type,
+                file_size_bytes=file_size,
+                sha256=sha256_value,
+                status=TenderDocumentStatus.IMPORTED.value,
+            )
+            try:
+                db.add(document)
+                db.commit()
+                db.refresh(document)
+            except Exception:
+                db.rollback()
+                file_path = get_licitia_data_root() / stored_relative_path
+                if file_path.exists():
+                    file_path.unlink(missing_ok=True)
+                    parent = file_path.parent
+                    while parent != get_licitia_data_root() and not any(parent.iterdir()):
+                        parent.rmdir()
+                        parent = parent.parent
+                raise
+
+            results.append(
+                DocumentImportResult(
+                    filename=filename,
+                    source_relative_path=source_relative_path,
+                    status=document.status,
+                    message="Imported successfully.",
+                    document_id=document.id,
+                    stored_relative_path=document.stored_relative_path,
+                    sha256=document.sha256,
+                )
+            )
+        except HTTPException:
+            raise
+        except Exception as exc:
+            db.rollback()
+            results.append(
+                DocumentImportResult(
+                    filename=filename,
+                    source_relative_path=source_relative_path,
+                    status=TenderDocumentStatus.FAILED.value,
+                    message=f"Import failed: {exc}",
+                    sha256=None,
+                )
+            )
+
+    return results
+
+
+@app.get("/tenders/{tender_id}/documents", response_model=list[TenderDocumentRead])
+def list_tender_documents(tender_id: str, db: Session = Depends(get_db)) -> list[TenderDocument]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+    statement = select(TenderDocument).where(TenderDocument.tender_id == tender_id).order_by(TenderDocument.imported_at.desc())
+    return db.execute(statement).scalars().all()
+
+
+@app.get("/documents/{document_id}", response_model=TenderDocumentRead)
+def get_document(document_id: str, db: Session = Depends(get_db)) -> TenderDocument:
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    return document

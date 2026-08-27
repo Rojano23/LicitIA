@@ -21,7 +21,9 @@
 **/coverage/
 **/*.tsbuildinfo
 
-# Environment
+# Local data and environment
+**/.licitia-data/
+**/.licitia-data*/
 **/.env
 **/.env.*
 !**/.env.example

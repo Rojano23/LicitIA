@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     app_port: int = 8000
     database_url: str = "postgresql+psycopg://postgres:change_me@localhost:5432/licitia_dev"
     frontend_url: str = "http://localhost:5173"
+    licitia_data_dir: str = ".licitia-data"
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
