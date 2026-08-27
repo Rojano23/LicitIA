@@ -13,6 +13,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+ALLOWED_CONFLICT_ACTIONS = {"NONE", "IMPORT_INDEPENDENT", "NEW_REVISION"}
+
 from app.config import get_settings
 from app.database import get_db
 from app.models import Tender, TenderDocument, TenderDocumentStatus
@@ -43,6 +45,15 @@ def _safe_filename(filename: str) -> str:
     candidate = os.path.basename(filename or "document.bin").strip()
     if not candidate:
         candidate = "document.bin"
+    return candidate
+
+
+def _normalize_conflict_action(value: str | None) -> str:
+    if value is None:
+        return "NONE"
+    candidate = value.strip().upper()
+    if candidate not in ALLOWED_CONFLICT_ACTIONS:
+        raise HTTPException(status_code=400, detail=f"Unsupported conflict action: {value}")
     return candidate
 
 
@@ -133,6 +144,8 @@ async def import_documents(
     tender_id: str,
     files: list[UploadFile] = File(...),
     source_relative_paths: list[str] | None = Form(default=None),
+    conflict_action: str | None = Form(default=None),
+    revision_of_document_id: str | None = Form(default=None),
     db: Session = Depends(get_db),
 ) -> list[DocumentImportResult]:
     tender = db.get(Tender, tender_id)
@@ -145,6 +158,7 @@ async def import_documents(
     if len(input_relative_paths) != len(files):
         input_relative_paths = [None for _ in files]
 
+    normalized_conflict_action = _normalize_conflict_action(conflict_action)
     results: list[DocumentImportResult] = []
 
     for index, upload in enumerate(files):
@@ -187,23 +201,142 @@ async def import_documents(
                 continue
 
             existing_name = db.execute(
-                select(TenderDocument).where(
+                select(TenderDocument)
+                .where(
                     TenderDocument.tender_id == tender_id,
                     TenderDocument.original_filename == filename,
                     TenderDocument.sha256 != sha256_value,
                 )
-            ).scalar_one_or_none()
+                .order_by(TenderDocument.is_current.desc(), TenderDocument.revision_number.desc(), TenderDocument.imported_at.desc())
+            ).first()
             if existing_name is not None:
-                results.append(
-                    DocumentImportResult(
-                        filename=filename,
-                        source_relative_path=source_relative_path,
-                        status=TenderDocumentStatus.NAME_CONFLICT.value,
-                        message="Same filename already exists with different content; human review required.",
-                        sha256=sha256_value,
+                if normalized_conflict_action == "NONE":
+                    results.append(
+                        DocumentImportResult(
+                            filename=filename,
+                            source_relative_path=source_relative_path,
+                            status=TenderDocumentStatus.NAME_CONFLICT.value,
+                            message="Same filename already exists with different content; human review required.",
+                            document_id=existing_name[0].id,
+                            sha256=sha256_value,
+                            revision_number=existing_name[0].revision_number,
+                            is_current=existing_name[0].is_current,
+                        )
                     )
-                )
-                continue
+                    continue
+
+                if normalized_conflict_action == "IMPORT_INDEPENDENT":
+                    stored_relative_path, source_relative_path = _store_uploaded_file(tender_id, upload, source_relative_path)
+                    document = TenderDocument(
+                        tender_id=tender_id,
+                        original_filename=filename,
+                        source_relative_path=source_relative_path,
+                        stored_relative_path=stored_relative_path,
+                        mime_type=mime_type,
+                        file_size_bytes=file_size,
+                        sha256=sha256_value,
+                        status=TenderDocumentStatus.IMPORTED.value,
+                        revision_of_document_id=None,
+                        revision_number=1,
+                        is_current=True,
+                        conflict_resolution_action="IMPORT_INDEPENDENT",
+                    )
+                    try:
+                        db.add(document)
+                        db.commit()
+                        db.refresh(document)
+                    except Exception:
+                        db.rollback()
+                        file_path = get_licitia_data_root() / stored_relative_path
+                        if file_path.exists():
+                            file_path.unlink(missing_ok=True)
+                            parent = file_path.parent
+                            while parent != get_licitia_data_root() and not any(parent.iterdir()):
+                                parent.rmdir()
+                                parent = parent.parent
+                        raise
+
+                    results.append(
+                        DocumentImportResult(
+                            filename=filename,
+                            source_relative_path=source_relative_path,
+                            status=document.status,
+                            message="Imported successfully.",
+                            document_id=document.id,
+                            stored_relative_path=document.stored_relative_path,
+                            sha256=document.sha256,
+                            revision_of_document_id=document.revision_of_document_id,
+                            conflict_resolution_action=document.conflict_resolution_action,
+                            revision_number=document.revision_number,
+                            is_current=document.is_current,
+                        )
+                    )
+                    continue
+                elif normalized_conflict_action == "NEW_REVISION":
+                    if not revision_of_document_id:
+                        raise HTTPException(status_code=400, detail="revision_of_document_id is required for NEW_REVISION")
+                    target_document = db.get(TenderDocument, revision_of_document_id)
+                    if target_document is None:
+                        raise HTTPException(status_code=404, detail="Revision target document not found")
+                    if target_document.tender_id != tender_id:
+                        raise HTTPException(status_code=400, detail="Revision target must belong to the same Tender")
+                    if target_document.original_filename != filename:
+                        raise HTTPException(status_code=400, detail="Revision target filename must match the incoming filename")
+                    if not target_document.is_current:
+                        raise HTTPException(status_code=400, detail="Only the current revision can receive a new revision")
+                    if target_document.sha256 == sha256_value:
+                        raise HTTPException(status_code=400, detail="Target document content already matches the incoming file")
+
+                    stored_relative_path, source_relative_path = _store_uploaded_file(tender_id, upload, source_relative_path)
+                    target_document.is_current = False
+
+                    document = TenderDocument(
+                        tender_id=tender_id,
+                        original_filename=filename,
+                        source_relative_path=source_relative_path,
+                        stored_relative_path=stored_relative_path,
+                        mime_type=mime_type,
+                        file_size_bytes=file_size,
+                        sha256=sha256_value,
+                        status=TenderDocumentStatus.IMPORTED.value,
+                        revision_of_document_id=target_document.id,
+                        revision_number=target_document.revision_number + 1,
+                        is_current=True,
+                        conflict_resolution_action="NEW_REVISION",
+                    )
+                    try:
+                        db.add(document)
+                        db.commit()
+                        db.refresh(document)
+                    except Exception:
+                        db.rollback()
+                        file_path = get_licitia_data_root() / stored_relative_path
+                        if file_path.exists():
+                            file_path.unlink(missing_ok=True)
+                            parent = file_path.parent
+                            while parent != get_licitia_data_root() and not any(parent.iterdir()):
+                                parent.rmdir()
+                                parent = parent.parent
+                        raise
+
+                    results.append(
+                        DocumentImportResult(
+                            filename=filename,
+                            source_relative_path=source_relative_path,
+                            status=document.status,
+                            message="Imported successfully.",
+                            document_id=document.id,
+                            stored_relative_path=document.stored_relative_path,
+                            sha256=document.sha256,
+                            revision_of_document_id=document.revision_of_document_id,
+                            conflict_resolution_action=document.conflict_resolution_action,
+                            revision_number=document.revision_number,
+                            is_current=document.is_current,
+                        )
+                    )
+                    continue
+                else:
+                    raise HTTPException(status_code=400, detail=f"Unsupported conflict action: {normalized_conflict_action}")
 
             stored_relative_path, source_relative_path = _store_uploaded_file(tender_id, upload, source_relative_path)
 
@@ -216,6 +349,10 @@ async def import_documents(
                 file_size_bytes=file_size,
                 sha256=sha256_value,
                 status=TenderDocumentStatus.IMPORTED.value,
+                revision_number=1,
+                is_current=True,
+                revision_of_document_id=None,
+                conflict_resolution_action=None,
             )
             try:
                 db.add(document)
@@ -241,6 +378,10 @@ async def import_documents(
                     document_id=document.id,
                     stored_relative_path=document.stored_relative_path,
                     sha256=document.sha256,
+                    revision_of_document_id=document.revision_of_document_id,
+                    conflict_resolution_action=document.conflict_resolution_action,
+                    revision_number=document.revision_number,
+                    is_current=document.is_current,
                 )
             )
         except HTTPException:

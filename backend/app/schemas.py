@@ -33,6 +33,10 @@ class TenderDocumentRead(BaseModel):
     file_size_bytes: int
     sha256: str
     status: str
+    revision_of_document_id: str | None = None
+    conflict_resolution_action: str | None = None
+    revision_number: int = 1
+    is_current: bool = True
     imported_at: datetime
 
 
@@ -44,3 +48,7 @@ class DocumentImportResult(BaseModel):
     document_id: str | None = None
     stored_relative_path: str | None = None
     sha256: str | None = None
+    revision_of_document_id: str | None = None
+    conflict_resolution_action: str | None = None
+    revision_number: int | None = None
+    is_current: bool | None = None
