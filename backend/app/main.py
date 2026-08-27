@@ -10,6 +10,8 @@ from uuid import uuid4
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from pathlib import PurePosixPath
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -99,6 +101,23 @@ def _store_uploaded_file(tender_id: str, upload: UploadFile, source_relative_pat
     if source_relative_path:
         source_relative_path = source_relative_path.replace("\\", "/")
     return stored_relative_path, source_relative_path or None
+
+
+def _resolve_document_file_path(stored_relative_path: str) -> Path:
+    if not stored_relative_path or not stored_relative_path.strip():
+        raise HTTPException(status_code=400, detail="Document storage path is missing")
+
+    normalized_path = stored_relative_path.replace("\\", "/")
+    pure_path = PurePosixPath(normalized_path)
+    if pure_path.is_absolute() or any(part in ("", ".", "..") for part in pure_path.parts):
+        raise HTTPException(status_code=400, detail="Document storage path is invalid")
+
+    data_root = get_licitia_data_root().resolve()
+    resolved_path = (data_root / pure_path).resolve()
+    if not resolved_path.is_relative_to(data_root):
+        raise HTTPException(status_code=400, detail="Document storage path escapes the local data directory")
+
+    return resolved_path
 
 
 @app.get("/health")
@@ -416,3 +435,32 @@ def get_document(document_id: str, db: Session = Depends(get_db)) -> TenderDocum
     if document is None:
         raise HTTPException(status_code=404, detail="Document not found")
     return document
+
+
+@app.get("/tenders/{tender_id}/documents/{document_id}/content")
+def get_document_content(tender_id: str, document_id: str, db: Session = Depends(get_db)) -> FileResponse:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
+
+    file_path = _resolve_document_file_path(document.stored_relative_path)
+    if not file_path.exists() or not file_path.is_file():
+        raise HTTPException(status_code=404, detail="Stored document file not found")
+
+    upper_mime = (document.mime_type or "").lower()
+    file_extension = file_path.suffix.lower()
+    if "pdf" not in upper_mime and file_extension != ".pdf":
+        raise HTTPException(status_code=400, detail="Only PDF files can be displayed in the local viewer")
+
+    return FileResponse(
+        path=str(file_path),
+        media_type="application/pdf",
+        filename=document.original_filename,
+        content_disposition_type="inline",
+    )

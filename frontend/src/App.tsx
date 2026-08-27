@@ -65,6 +65,7 @@ function App() {
   const [importResults, setImportResults] = useState<ImportResult[]>([]);
   const [pendingConflict, setPendingConflict] = useState<PendingConflict | null>(null);
   const [selectedRevisionTargetId, setSelectedRevisionTargetId] = useState<string>("");
+  const [selectedDocumentId, setSelectedDocumentId] = useState<string | null>(null);
   const documentRequestRef = useRef(0);
 
   const loadTenders = async () => {
@@ -128,9 +129,11 @@ function App() {
       setDocuments([]);
       setDocumentsError(null);
       setDocumentsLoading(false);
+      setSelectedDocumentId(null);
       return;
     }
 
+    setSelectedDocumentId(null);
     void loadDocuments(selectedTenderId);
   }, [selectedTenderId]);
 
@@ -257,8 +260,41 @@ function App() {
     }
   };
 
+  const selectedDocument = documents.find((document) => document.id === selectedDocumentId) ?? null;
+  const selectedDocumentUrl =
+    selectedTenderId && selectedDocumentId ? `${API_URL}/tenders/${selectedTenderId}/documents/${selectedDocumentId}/content` : null;
+  const isPdfDocument = (document: TenderDocument | null) => {
+    if (!document) {
+      return false;
+    }
+    const mimeType = document.mime_type?.toLowerCase() ?? "";
+    const filename = document.original_filename.toLowerCase();
+    return mimeType.includes("pdf") || filename.endsWith(".pdf");
+  };
+
   return (
     <div style={{ maxWidth: 1200, margin: "40px auto", padding: "0 20px", fontFamily: "sans-serif" }}>
+      <style>{`
+        .pdf-viewer {
+          width: 100%;
+          min-height: 760px;
+          border: 1px solid #d9e1ec;
+          border-radius: 12px;
+          background: #f8fafc;
+        }
+        .viewer-placeholder {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 240px;
+          border: 1px dashed #d9e1ec;
+          border-radius: 12px;
+          background: #f8fafc;
+          color: #52607a;
+          padding: 20px;
+          text-align: center;
+        }
+      `}</style>
       <h1>LicitIA — Tender Workspace</h1>
 
       <div style={{ display: "grid", gridTemplateColumns: "370px 1fr", gap: 24 }}>
@@ -447,10 +483,29 @@ function App() {
           {!documentsLoading && !documentsError && documents.length > 0 && (
             <div style={{ display: "grid", gap: 12 }}>
               {documents.map((document) => (
-                <div key={document.id} style={{ border: "1px solid #e8edf2", borderRadius: 10, padding: 14, background: "#f8fafc" }}>
-                  <div style={{ fontWeight: 700, fontSize: 18 }}>{document.original_filename}</div>
-                  <div style={{ fontSize: 12, color: "#52607a", marginTop: 6 }}>
-                    Revisión {document.revision_number} • {document.is_current ? "Vigente" : "Sustituido"}
+                <div key={document.id} style={{ border: "1px solid #e8edf2", borderRadius: 10, padding: 14, background: selectedDocumentId === document.id ? "#edf4ff" : "#f8fafc" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: 18 }}>{document.original_filename}</div>
+                      <div style={{ fontSize: 12, color: "#52607a", marginTop: 6 }}>
+                        Revisión {document.revision_number} • {document.is_current ? "Vigente" : "Sustituido"}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedDocumentId(document.id)}
+                      style={{
+                        padding: "8px 12px",
+                        borderRadius: 8,
+                        border: "1px solid #cfd8e3",
+                        background: selectedDocumentId === document.id ? "#1b5bd8" : "#fff",
+                        color: selectedDocumentId === document.id ? "#fff" : "#1a1a1a",
+                        fontWeight: 700,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {selectedDocumentId === document.id ? "Vista previa" : "Ver"}
+                    </button>
                   </div>
                   {document.sha256 && (
                     <div style={{ fontSize: 11, color: "#52607a", marginTop: 6, wordBreak: "break-all" }}>
@@ -459,6 +514,17 @@ function App() {
                   )}
                 </div>
               ))}
+            </div>
+          )}
+
+          {selectedDocument && (
+            <div style={{ marginTop: 20 }}>
+              <h3 style={{ marginBottom: 12 }}>{selectedDocument.original_filename}</h3>
+              {isPdfDocument(selectedDocument) && selectedDocumentUrl ? (
+                <iframe src={selectedDocumentUrl} className="pdf-viewer" title={selectedDocument.original_filename} />
+              ) : (
+                <div className="viewer-placeholder">Este documento no puede mostrarse en el visor local PDF.</div>
+              )}
             </div>
           )}
         </section>

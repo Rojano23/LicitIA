@@ -2,7 +2,9 @@ import hashlib
 
 from fastapi.testclient import TestClient
 
+from app.database import SessionLocal
 from app.main import app
+from app.models import TenderDocument
 
 client = TestClient(app)
 
@@ -386,3 +388,99 @@ def test_import_independent_persists_explicit_human_decision() -> None:
     assert all(item["is_current"] is True for item in payload_documents)
     assert all(item["conflict_resolution_action"] in {None, "IMPORT_INDEPENDENT"} for item in payload_documents)
     assert any(item["conflict_resolution_action"] == "IMPORT_INDEPENDENT" for item in payload_documents)
+
+
+def test_pdf_content_route_returns_file_from_immutable_storage() -> None:
+    tender_id = _create_tender("PDF Viewer")
+    payload = b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\ntrailer\n<<>>\n%%EOF\n"
+
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("spec.pdf", payload, "application/pdf"))],
+        data={"source_relative_paths": "folder/spec.pdf"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+
+    content_response = client.get(f"/tenders/{tender_id}/documents/{document_id}/content")
+    assert content_response.status_code == 200, content_response.text
+    assert content_response.headers["content-type"].startswith("application/pdf")
+    assert content_response.headers["content-disposition"].lower().startswith("inline")
+    assert not content_response.headers["content-disposition"].lower().startswith("attachment")
+    assert content_response.content.startswith(b"%PDF")
+
+
+def test_pdf_content_route_rejects_foreign_document() -> None:
+    tender_a = _create_tender("Foreign Access A")
+    tender_b = _create_tender("Foreign Access B")
+
+    import_response = client.post(
+        f"/tenders/{tender_a}/documents/import",
+        files=[("files", ("a.pdf", b"%PDF-1.4\nA\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/a.pdf"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    foreign_document_id = import_response.json()[0]["document_id"]
+
+    response = client.get(f"/tenders/{tender_b}/documents/{foreign_document_id}/content")
+    assert response.status_code == 404, response.text
+
+
+def test_pdf_content_route_rejects_missing_storage_file() -> None:
+    tender_id = _create_tender("Missing File")
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("missing.pdf", b"%PDF-1.4\nMISSING\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/missing.pdf"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+    stored_relative_path = import_response.json()[0]["stored_relative_path"]
+
+    from app.main import get_licitia_data_root
+
+    file_path = get_licitia_data_root() / stored_relative_path
+    assert file_path.exists()
+    file_path.unlink()
+
+    response = client.get(f"/tenders/{tender_id}/documents/{document_id}/content")
+    assert response.status_code == 404, response.text
+
+
+def test_pdf_content_route_rejects_path_traversal() -> None:
+    tender_id = _create_tender("Traversal Guard")
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("safe.pdf", b"%PDF-1.4\nSAFE\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/safe.pdf"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        document = db.get(TenderDocument, document_id)
+        assert document is not None
+        document.stored_relative_path = "../outside/traversal.pdf"
+        db.commit()
+    finally:
+        db.close()
+
+    response = client.get(f"/tenders/{tender_id}/documents/{document_id}/content")
+    assert response.status_code == 400, response.text
+    assert "invalid" in response.text.lower() or "escapes" in response.text.lower()
+
+
+def test_pdf_content_route_rejects_non_pdf_viewer_requests() -> None:
+    tender_id = _create_tender("Non PDF Guard")
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("notes.txt", b"plain text\n", "text/plain"))],
+        data={"source_relative_paths": "folder/notes.txt"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+
+    response = client.get(f"/tenders/{tender_id}/documents/{document_id}/content")
+    assert response.status_code == 400, response.text
+    assert "Only PDF files can be displayed" in response.text
