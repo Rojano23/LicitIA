@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import io
 import mimetypes
 import os
 import shutil
@@ -13,8 +14,8 @@ from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile, sta
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pathlib import PurePosixPath
-from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy import and_, or_, select
+from sqlalchemy.orm import Session, selectinload
 
 import fitz
 
@@ -24,16 +25,36 @@ from app.config import get_settings
 from app.database import get_db
 from app.models import (
     DocumentPage,
+    DocumentPageRegion,
     DocumentPageStatus,
+    PageOcrResult,
     Tender,
     TenderDocument,
     TenderDocumentProcessingStatus,
     TenderDocumentStatus,
 )
-from app.schemas import DocumentExtractionResult, DocumentImportResult, DocumentPageRead, TenderCreate, TenderDocumentRead, TenderRead
+from app.ocr import build_default_ocr_provider_registry
+from app.schemas import (
+    DocumentExtractionResult,
+    DocumentImportResult,
+    DocumentOcrResult,
+    DocumentPageRead,
+    OcrProviderStatusRead,
+    PageOcrResultRead,
+    TenderCreate,
+    TenderDocumentRead,
+    TenderRead,
+)
 
 settings = get_settings()
 
+MIN_IMAGE_REGION_AREA_RATIO = 0.03
+MIN_IMAGE_REGION_PIXEL_DIMENSION = 120
+AUTO_OCR_PROVIDER_ORDER = ["TESSERACT", "PADDLEOCR"]
+
+# MVP-02.2 policy: AUTO acquisition is dual-provider for OCR-dependent pages.
+# Native text remains authoritative for TEXT_ONLY pages; image-only and mixed-content pages
+# keep both engine results as independent, non-fused provenance records.
 app = FastAPI(title="LicitIA", version="0.1.0")
 
 app.add_middleware(
@@ -154,6 +175,111 @@ def _page_status_for_text(page_text: str) -> str:
     return DocumentPageStatus.TEXT_EXTRACTED.value if normalized_text else DocumentPageStatus.NO_TEXT.value
 
 
+def _page_image_regions_for_page(page: fitz.Page) -> list[dict[str, float | int]]:
+    page_area = float(page.rect.width * page.rect.height)
+    regions: list[dict[str, float | int]] = []
+    for image_index, image_data in enumerate(page.get_images(full=True)):
+        image_name = image_data[7] if len(image_data) > 7 else None
+        if image_name is None:
+            continue
+        try:
+            rects = page.get_image_rects(image_name)
+        except Exception:
+            continue
+        for region_index, rect in enumerate(rects or []):
+            if hasattr(rect, "x0"):
+                x0, y0, x1, y1 = float(rect.x0), float(rect.y0), float(rect.x1), float(rect.y1)
+            else:
+                x0, y0, x1, y1 = (float(value) for value in rect[:4])
+            width = max(float(x1 - x0), 0.0)
+            height = max(float(y1 - y0), 0.0)
+            if width < MIN_IMAGE_REGION_PIXEL_DIMENSION or height < MIN_IMAGE_REGION_PIXEL_DIMENSION:
+                continue
+            area_ratio = (width * height) / max(page_area, 1.0)
+            if area_ratio < MIN_IMAGE_REGION_AREA_RATIO:
+                continue
+            regions.append(
+                {
+                    "region_index": len(regions) + 1,
+                    "region_type": "IMAGE",
+                    "x0": x0,
+                    "y0": y0,
+                    "x1": x1,
+                    "y1": y1,
+                    "width": width,
+                    "height": height,
+                    "area_ratio": area_ratio,
+                }
+            )
+    return regions
+
+
+def _page_content_profile(page_text: str, image_regions: list[dict[str, float | int]]) -> str:
+    has_native_text = bool((page_text or "").strip())
+    has_image_region = bool(image_regions)
+    if has_native_text and has_image_region:
+        return "MIXED_CONTENT"
+    if has_native_text:
+        return "TEXT_ONLY"
+    if has_image_region:
+        return "IMAGE_ONLY"
+    return "TEXT_ONLY"
+
+
+def _page_ocr_jobs(page_record: DocumentPage, page: fitz.Page, *, force: bool = False) -> list[dict[str, object]]:
+    text_present = bool((page_record.text or "").strip())
+    image_regions = _page_image_regions_for_page(page)
+    if not text_present:
+        return [{"scope": "FULL_PAGE", "region_id": None, "region_index": None}]
+    if image_regions and not force:
+        return [{"scope": "IMAGE_REGION", "region_id": None, "region_index": region["region_index"]} for region in image_regions]
+    if force:
+        return [{"scope": "FULL_PAGE", "region_id": None, "region_index": None}]
+    return []
+
+
+def _ensure_page_image_regions(db: Session, page_record: DocumentPage, page: fitz.Page) -> list[DocumentPageRegion]:
+    detected_regions = _page_image_regions_for_page(page)
+    if not detected_regions:
+        return []
+
+    stored_regions: list[DocumentPageRegion] = []
+    for region_data in detected_regions:
+        region_index = int(region_data["region_index"])
+        stored_region = db.execute(
+            select(DocumentPageRegion).where(
+                DocumentPageRegion.document_page_id == page_record.id,
+                DocumentPageRegion.region_index == region_index,
+            )
+        ).scalar_one_or_none()
+        if stored_region is None:
+            stored_region = DocumentPageRegion(
+                document_page_id=page_record.id,
+                region_index=region_index,
+                region_type=str(region_data["region_type"]),
+                x0=float(region_data["x0"]),
+                y0=float(region_data["y0"]),
+                x1=float(region_data["x1"]),
+                y1=float(region_data["y1"]),
+                width=float(region_data["width"]),
+                height=float(region_data["height"]),
+                area_ratio=float(region_data["area_ratio"]),
+            )
+            db.add(stored_region)
+            db.flush()
+        else:
+            stored_region.region_type = str(region_data["region_type"])
+            stored_region.x0 = float(region_data["x0"])
+            stored_region.y0 = float(region_data["y0"])
+            stored_region.x1 = float(region_data["x1"])
+            stored_region.y1 = float(region_data["y1"])
+            stored_region.width = float(region_data["width"])
+            stored_region.height = float(region_data["height"])
+            stored_region.area_ratio = float(region_data["area_ratio"])
+        stored_regions.append(stored_region)
+    return stored_regions
+
+
 def _document_processing_status_for_pages(page_statuses: list[str]) -> str:
     if not page_statuses:
         return TenderDocumentProcessingStatus.NO_NATIVE_TEXT.value
@@ -162,6 +288,33 @@ def _document_processing_status_for_pages(page_statuses: list[str]) -> str:
     if all(status == DocumentPageStatus.TEXT_EXTRACTED.value for status in page_statuses):
         return TenderDocumentProcessingStatus.TEXT_EXTRACTION_COMPLETE.value
     return TenderDocumentProcessingStatus.TEXT_EXTRACTION_PARTIAL.value
+
+
+def get_ocr_providers() -> list[object]:
+    return build_default_ocr_provider_registry()
+
+
+def _render_pdf_page_image(file_path: Path, page_number: int):
+    pdf_document = fitz.open(str(file_path))
+    try:
+        page = pdf_document[page_number - 1]
+        pix = page.get_pixmap(matrix=fitz.Matrix(2, 2))
+        return pix
+    finally:
+        pdf_document.close()
+
+
+def _page_ocr_payload_for_result(result: dict[str, object]) -> dict[str, object]:
+    return {
+        "text": str(result.get("text", "")),
+        "status": str(result.get("status", "OCR_TEXT_EXTRACTED")),
+        "engine": str(result.get("engine", "UNKNOWN")),
+        "engine_version": str(result.get("engine_version", "unknown")),
+        "language": str(result.get("language", "es+en")),
+        "confidence": result.get("confidence"),
+        "processing_time_ms": result.get("processing_time_ms"),
+        "warnings": "; ".join(result.get("warnings", []) or []) if isinstance(result.get("warnings", []), list) else str(result.get("warnings") or ""),
+    }
 
 
 @app.get("/health")
@@ -517,25 +670,33 @@ def extract_document_pages(
 
     page_records: list[DocumentPage] = []
     page_statuses: list[str] = []
-    for page_number, text in extracted_pages:
-        normalized_text = text or ""
-        page_status = _page_status_for_text(normalized_text)
-        page_statuses.append(page_status)
-        page_records.append(
-            DocumentPage(
-                document_id=document.id,
-                page_number=page_number,
-                text=normalized_text,
-                char_count=len(normalized_text.strip()),
-                extraction_method="NATIVE_PDF",
-                status=page_status,
+    pdf_document = fitz.open(str(file_path))
+    try:
+        for page_number, text in extracted_pages:
+            normalized_text = text or ""
+            page_status = _page_status_for_text(normalized_text)
+            page_statuses.append(page_status)
+            page_records.append(
+                DocumentPage(
+                    document_id=document.id,
+                    page_number=page_number,
+                    text=normalized_text,
+                    char_count=len(normalized_text.strip()),
+                    extraction_method="NATIVE_PDF",
+                    status=page_status,
+                )
             )
-        )
-    document.pages.extend(page_records)
-    document.processing_status = _document_processing_status_for_pages(page_statuses)
-    document.page_count = len(extracted_pages)
-    document.text_extracted_at = datetime.now(timezone.utc)
-    db.commit()
+        document.pages.extend(page_records)
+        db.flush()
+        for page_record in page_records:
+            page = pdf_document[page_record.page_number - 1]
+            _ensure_page_image_regions(db, page_record, page)
+        document.processing_status = _document_processing_status_for_pages(page_statuses)
+        document.page_count = len(extracted_pages)
+        document.text_extracted_at = datetime.now(timezone.utc)
+        db.commit()
+    finally:
+        pdf_document.close()
     db.refresh(document)
 
     return {
@@ -570,7 +731,12 @@ def list_document_pages(
     if document.tender_id != tender_id:
         raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
 
-    statement = select(DocumentPage).where(DocumentPage.document_id == document_id).order_by(DocumentPage.page_number.asc())
+    statement = (
+        select(DocumentPage)
+        .options(selectinload(DocumentPage.regions), selectinload(DocumentPage.ocr_results))
+        .where(DocumentPage.document_id == document_id)
+        .order_by(DocumentPage.page_number.asc())
+    )
     return db.execute(statement).scalars().all()
 
 
@@ -609,3 +775,263 @@ def get_document_content(tender_id: str, document_id: str, db: Session = Depends
         filename=document.original_filename,
         content_disposition_type="inline",
     )
+
+
+@app.get("/ocr/providers", response_model=list[OcrProviderStatusRead])
+def list_ocr_providers() -> list[dict[str, object]]:
+    providers = get_ocr_providers()
+    payload: list[dict[str, object]] = []
+    for provider in providers:
+        payload.append(
+            {
+                "provider_id": provider.provider_id,
+                "provider_name": provider.provider_name,
+                "status": provider.status,
+                "version": provider.version,
+                "status_reason": provider.status_reason,
+            }
+        )
+    return payload
+
+
+@app.post("/tenders/{tender_id}/documents/{document_id}/ocr", response_model=DocumentOcrResult)
+def run_document_ocr(
+    tender_id: str,
+    document_id: str,
+    payload: dict | None = None,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    if payload is None:
+        payload = {}
+
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
+    if not _is_pdf_document(document):
+        raise HTTPException(status_code=400, detail="Only PDF documents can be OCR-processed.")
+
+    provider_mode = str(payload.get("provider", "AUTO")).upper()
+    requested_pages = payload.get("page_numbers")
+    force = bool(payload.get("force", False))
+    scope = str(payload.get("scope", "AUTO")).upper()
+    region_index = payload.get("region_index")
+    language = str(payload.get("language", "es+en")) or "es+en"
+
+    available_providers = get_ocr_providers()
+    try:
+        selected_providers = [
+            provider for provider in available_providers if provider.provider_id == provider_mode
+        ] if provider_mode in {"TESSERACT", "PADDLEOCR"} else [
+            provider for provider in available_providers if provider.status == "AVAILABLE"
+        ]
+        if provider_mode == "AUTO":
+            preferred_order = AUTO_OCR_PROVIDER_ORDER
+            selected_providers = []
+            for provider_id in preferred_order:
+                for provider in available_providers:
+                    if provider.provider_id == provider_id and provider.status == "AVAILABLE":
+                        selected_providers.append(provider)
+                        break
+            if not selected_providers:
+                raise RuntimeError("No OCR providers are currently available")
+        elif provider_mode == "COMPARE":
+            selected_providers = [provider for provider in available_providers if provider.status == "AVAILABLE"]
+            if not selected_providers:
+                raise RuntimeError("No OCR providers are currently available")
+        elif provider_mode in {"TESSERACT", "PADDLEOCR"}:
+            if not selected_providers or selected_providers[0].status != "AVAILABLE":
+                raise RuntimeError(f"OCR provider {provider_mode} is unavailable")
+        else:
+            raise HTTPException(status_code=400, detail=f"Unsupported OCR provider mode: {provider_mode}")
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+    file_path = _resolve_document_file_path(document.stored_relative_path)
+    if not file_path.exists() or not file_path.is_file():
+        raise HTTPException(status_code=404, detail="Stored document file not found")
+
+    pdf_document = fitz.open(str(file_path))
+    try:
+        page_records = db.execute(
+            select(DocumentPage).where(DocumentPage.document_id == document_id).order_by(DocumentPage.page_number.asc())
+        ).scalars().all()
+        if not page_records:
+            for page_number in range(pdf_document.page_count):
+                page = pdf_document[page_number]
+                text = page.get_text("text") or ""
+                page_record = DocumentPage(
+                    document_id=document.id,
+                    page_number=page_number + 1,
+                    text=text,
+                    char_count=len(text.strip()),
+                    extraction_method="NATIVE_PDF",
+                    status=_page_status_for_text(text),
+                )
+                db.add(page_record)
+                page_records.append(page_record)
+            document.page_count = pdf_document.page_count
+            document.processing_status = _document_processing_status_for_pages([page.status for page in page_records])
+            db.flush()
+
+        if requested_pages is None:
+            requested_page_numbers = [page_record.page_number for page_record in page_records]
+        else:
+            requested_page_numbers = []
+            for item in requested_pages:
+                try:
+                    requested_page_numbers.append(int(item))
+                except (TypeError, ValueError):
+                    raise HTTPException(status_code=400, detail=f"Invalid page number: {item}") from None
+
+        eligible_pages: list[DocumentPage] = []
+        for page_record in page_records:
+            if page_record.page_number not in requested_page_numbers:
+                continue
+            page_index = page_record.page_number - 1
+            if page_index < 0 or page_index >= pdf_document.page_count:
+                continue
+            page = pdf_document[page_index]
+            image_regions = _ensure_page_image_regions(db, page_record, page)
+            page_record_content_profile = _page_content_profile(page_record.text or "", [
+                {"region_index": region.region_index, "region_type": region.region_type, "x0": region.x0, "y0": region.y0, "x1": region.x1, "y1": region.y1, "width": region.width, "height": region.height, "area_ratio": region.area_ratio}
+                for region in image_regions
+            ])
+            if scope == "FULL_PAGE":
+                eligible_pages.append(page_record)
+                continue
+            if scope == "IMAGE_REGION":
+                if image_regions:
+                    eligible_pages.append(page_record)
+                continue
+            if not force and page_record.status == DocumentPageStatus.TEXT_EXTRACTED.value and (page_record.text or "").strip() and page_record_content_profile == "TEXT_ONLY":
+                continue
+            if not force and page_record.status == DocumentPageStatus.TEXT_EXTRACTED.value and page_record_content_profile == "MIXED_CONTENT":
+                eligible_pages.append(page_record)
+                continue
+            eligible_pages.append(page_record)
+
+        results: list[dict[str, object]] = []
+        for page_record in eligible_pages:
+            page_index = page_record.page_number - 1
+            if page_index < 0 or page_index >= pdf_document.page_count:
+                continue
+            page = pdf_document[page_index]
+            page_regions = _ensure_page_image_regions(db, page_record, page)
+            ocr_jobs: list[dict[str, object]] = []
+            if scope in {"FULL_PAGE", "IMAGE_REGION"}:
+                requested_region_index = region_index if region_index is not None else None
+                if scope == "IMAGE_REGION":
+                    if requested_region_index is None:
+                        filtered_regions = page_regions
+                    else:
+                        filtered_regions = [region for region in page_regions if region.region_index == int(requested_region_index)]
+                    ocr_jobs = [{"scope": "IMAGE_REGION", "region_id": region.id, "region_index": region.region_index} for region in filtered_regions]
+                else:
+                    ocr_jobs = [{"scope": "FULL_PAGE", "region_id": None, "region_index": None}]
+            elif force:
+                ocr_jobs = [{"scope": "FULL_PAGE", "region_id": None, "region_index": None}]
+            elif page_record.status == DocumentPageStatus.NO_TEXT.value:
+                ocr_jobs = [{"scope": "FULL_PAGE", "region_id": None, "region_index": None}]
+            elif page_regions:
+                ocr_jobs = [{"scope": "IMAGE_REGION", "region_id": region.id, "region_index": region.region_index} for region in page_regions]
+            if not ocr_jobs:
+                continue
+            for provider in selected_providers:
+                for job in ocr_jobs:
+                    region_id = job["region_id"]
+                    scope_name = str(job["scope"])
+                    region_index_value = job["region_index"]
+                    if scope_name == "IMAGE_REGION":
+                        region_record = db.get(DocumentPageRegion, str(region_id))
+                        if region_record is None:
+                            continue
+                        region_rect = fitz.Rect(region_record.x0, region_record.y0, region_record.x1, region_record.y1)
+                        pix = page.get_pixmap(matrix=fitz.Matrix(2, 2), clip=region_rect)
+                        payload_bytes = pix.tobytes("png")
+                    else:
+                        pix = page.get_pixmap(matrix=fitz.Matrix(2, 2))
+                        payload_bytes = pix.tobytes("png")
+                    try:
+                        provider_result = provider.recognize(payload_bytes, language=language)
+                    except Exception as exc:  # pragma: no cover - provider runtime issue
+                        provider_result = {
+                            "text": "",
+                            "status": "OCR_FAILED",
+                            "engine": provider.provider_id,
+                            "engine_version": provider.version,
+                            "language": language,
+                            "confidence": None,
+                            "processing_time_ms": None,
+                            "warnings": [str(exc)],
+                        }
+                    saved_payload = _page_ocr_payload_for_result(provider_result)
+                    stored_result = db.execute(
+                        select(PageOcrResult).where(
+                            PageOcrResult.document_page_id == page_record.id,
+                            PageOcrResult.engine == provider.provider_id,
+                            PageOcrResult.scope == scope_name,
+                            or_(PageOcrResult.region_id == region_id, and_(PageOcrResult.region_id.is_(None), region_id is None)),
+                        )
+                    ).scalar_one_or_none()
+                    if stored_result is None:
+                        stored_result = PageOcrResult(
+                            document_page_id=page_record.id,
+                            engine=str(saved_payload["engine"]),
+                            engine_version=str(saved_payload["engine_version"]),
+                            language=str(saved_payload["language"]),
+                            text=str(saved_payload["text"]),
+                            status=str(saved_payload["status"]),
+                            confidence=saved_payload["confidence"],
+                            processing_time_ms=saved_payload["processing_time_ms"],
+                            warnings=str(saved_payload["warnings"]),
+                            scope=scope_name,
+                            region_id=str(region_id) if region_id is not None else None,
+                        )
+                        db.add(stored_result)
+                    else:
+                        stored_result.engine_version = str(saved_payload["engine_version"])
+                        stored_result.language = str(saved_payload["language"])
+                        stored_result.text = str(saved_payload["text"])
+                        stored_result.status = str(saved_payload["status"])
+                        stored_result.confidence = saved_payload["confidence"]
+                        stored_result.processing_time_ms = saved_payload["processing_time_ms"]
+                        stored_result.warnings = str(saved_payload["warnings"])
+                        stored_result.scope = scope_name
+                        stored_result.region_id = str(region_id) if region_id is not None else None
+                    db.flush()
+                    results.append(
+                        {
+                            "id": stored_result.id,
+                            "document_page_id": page_record.id,
+                            "page_number": page_record.page_number,
+                            "engine": stored_result.engine,
+                            "engine_version": stored_result.engine_version,
+                            "language": stored_result.language,
+                            "text": stored_result.text,
+                            "status": stored_result.status,
+                            "confidence": stored_result.confidence,
+                            "processing_time_ms": stored_result.processing_time_ms,
+                            "warnings": stored_result.warnings,
+                            "scope": stored_result.scope,
+                            "region_id": stored_result.region_id,
+                            "created_at": stored_result.created_at,
+                            "updated_at": stored_result.updated_at,
+                        }
+                    )
+        db.commit()
+    finally:
+        pdf_document.close()
+
+    response_results = [PageOcrResultRead.model_validate(item) for item in results]
+    return {
+        "document_id": document.id,
+        "provider": provider_mode,
+        "mode": provider_mode,
+        "page_count": len(response_results),
+        "results": [result.model_dump() for result in response_results],
+    }

@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from uuid import uuid4
 
-from sqlalchemy import Boolean, DateTime, ForeignKey, Index, Integer, String, Text, UniqueConstraint
+from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Index, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -108,6 +108,40 @@ class TenderDocument(Base):
     pages: Mapped[list["DocumentPage"]] = relationship(back_populates="document", cascade="all, delete-orphan")
 
 
+class DocumentPageRegion(Base):
+    __tablename__ = "document_page_regions"
+
+    __table_args__ = (
+        Index("ix_document_page_regions_document_page_id", "document_page_id"),
+        UniqueConstraint("document_page_id", "region_index", name="uq_document_page_regions_document_page_index"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    document_page_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    region_index: Mapped[int] = mapped_column(Integer, nullable=False)
+    region_type: Mapped[str] = mapped_column(String(32), nullable=False, default="IMAGE")
+    x0: Mapped[float] = mapped_column(Float, nullable=False)
+    y0: Mapped[float] = mapped_column(Float, nullable=False)
+    x1: Mapped[float] = mapped_column(Float, nullable=False)
+    y1: Mapped[float] = mapped_column(Float, nullable=False)
+    width: Mapped[float] = mapped_column(Float, nullable=False)
+    height: Mapped[float] = mapped_column(Float, nullable=False)
+    area_ratio: Mapped[float] = mapped_column(Float, nullable=False, default=0.0)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    document_page: Mapped["DocumentPage"] = relationship(back_populates="regions")
+    ocr_results: Mapped[list["PageOcrResult"]] = relationship(back_populates="region", cascade="all, delete-orphan")
+
+
 class DocumentPage(Base):
     __tablename__ = "document_pages"
 
@@ -135,3 +169,64 @@ class DocumentPage(Base):
     )
 
     document: Mapped[TenderDocument] = relationship(back_populates="pages")
+    regions: Mapped[list[DocumentPageRegion]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
+    ocr_results: Mapped[list["PageOcrResult"]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
+
+    @property
+    def content_profile(self) -> str:
+        has_native_text = bool((self.text or "").strip())
+        has_eligible_image = any(region.region_type == "IMAGE" and region.area_ratio >= 0.03 for region in self.regions)
+        if has_native_text and has_eligible_image:
+            return "MIXED_CONTENT"
+        if has_native_text:
+            return "TEXT_ONLY"
+        if has_eligible_image:
+            return "IMAGE_ONLY"
+        return "TEXT_ONLY"
+
+
+class PageOcrResult(Base):
+    __tablename__ = "page_ocr_results"
+
+    __table_args__ = (
+        Index("ix_page_ocr_results_document_page_id", "document_page_id"),
+        Index("ix_page_ocr_results_region_id", "region_id"),
+        UniqueConstraint("document_page_id", "engine", "scope", "region_id", name="uq_page_ocr_document_page_engine_scope_region"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    document_page_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    engine: Mapped[str] = mapped_column(String(32), nullable=False)
+    engine_version: Mapped[str] = mapped_column(String(64), nullable=False, default="unknown")
+    language: Mapped[str] = mapped_column(String(64), nullable=False, default="es+en")
+    text: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    status: Mapped[str] = mapped_column(String(32), nullable=False, default="OCR_TEXT_EXTRACTED")
+    confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+    processing_time_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    warnings: Mapped[str | None] = mapped_column(Text, nullable=True)
+    scope: Mapped[str] = mapped_column(String(32), nullable=False, default="FULL_PAGE")
+    region_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_page_regions.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    document_page: Mapped[DocumentPage] = relationship(back_populates="ocr_results")
+    region: Mapped[DocumentPageRegion | None] = relationship(back_populates="ocr_results")

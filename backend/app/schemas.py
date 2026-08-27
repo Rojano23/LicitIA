@@ -43,6 +43,43 @@ class TenderDocumentRead(BaseModel):
     text_extracted_at: datetime | None = None
 
 
+class DocumentPageRegionRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    document_page_id: str
+    region_index: int
+    region_type: str
+    x0: float
+    y0: float
+    x1: float
+    y1: float
+    width: float
+    height: float
+    area_ratio: float
+    created_at: datetime
+
+
+class PageOcrResultRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    document_page_id: str
+    page_number: int | None = None
+    engine: str
+    engine_version: str
+    language: str
+    text: str
+    status: str
+    confidence: float | None = None
+    processing_time_ms: int | None = None
+    warnings: str | None = None
+    scope: str = "FULL_PAGE"
+    region_id: str | None = None
+    created_at: datetime
+    updated_at: datetime
+
+
 class DocumentPageRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -54,6 +91,9 @@ class DocumentPageRead(BaseModel):
     extraction_method: str = "NATIVE_PDF"
     status: str
     extracted_at: datetime
+    content_profile: str = "TEXT_ONLY"
+    regions: list[DocumentPageRegionRead] = Field(default_factory=list)
+    ocr_results: list[PageOcrResultRead] = Field(default_factory=list)
 
 
 class DocumentExtractionResult(BaseModel):
@@ -77,3 +117,23 @@ class DocumentImportResult(BaseModel):
     conflict_resolution_action: str | None = None
     revision_number: int | None = None
     is_current: bool | None = None
+
+
+class OcrProviderStatusRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    provider_id: str
+    provider_name: str
+    status: str
+    version: str | None = None
+    status_reason: str | None = None
+
+
+class DocumentOcrResult(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    document_id: str
+    provider: str
+    mode: str
+    page_count: int
+    results: list[PageOcrResultRead]

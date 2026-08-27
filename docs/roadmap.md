@@ -94,7 +94,14 @@ Convertir archivos en contenido estructurado por página/sección.
 - detección básica de tablas;
 - DOCX/XLSX seleccionados;
 - clasificación documental inicial;
-- estado/calidad de extracción.
+- estado/calidad de extracción;
+- adquisición dual-provider para páginas OCR-dependientes.
+
+### Política MVP-02.2
+
+La adquisición automática de OCR no fusiona ni prioriza resultados por defecto. Para páginas `TEXT_ONLY` sin regiones visuales elegibles, se usa la extracción nativa y no se dispara OCR automático. Para páginas `IMAGE_ONLY` o `MIXED_CONTENT`, `AUTO` ejecuta Tesseract y PaddleOCR por separado sobre cada región elegible o sobre la página completa cuando corresponde, conservando cada resultado con su provenance original.
+
+Esto no significa que los textos OCR queden automáticamente “confiables” ni que deban combinarse. La reconciliación de resultados entre proveedores pertenece a una fase posterior de normalización y evidencia, no a MVP-02.2.
 
 ### Métricas
 

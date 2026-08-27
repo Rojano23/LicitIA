@@ -29,6 +29,22 @@ type TenderDocument = {
   imported_at: string;
 };
 
+type PageOcrResult = {
+  id: string;
+  document_page_id: string;
+  page_number: number | null;
+  engine: string;
+  engine_version: string;
+  language: string;
+  text: string;
+  status: string;
+  confidence: number | null;
+  processing_time_ms: number | null;
+  warnings: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 type DocumentPage = {
   id: string;
   document_id: string;
@@ -38,6 +54,7 @@ type DocumentPage = {
   extraction_method: string;
   status: string;
   extracted_at: string;
+  ocr_results: PageOcrResult[];
 };
 
 type ImportResult = {
@@ -58,6 +75,14 @@ type PendingConflict = {
   sourceRelativePath: string | null;
   filename: string;
   candidates: TenderDocument[];
+};
+
+type OcrProvider = {
+  provider_id: string;
+  provider_name: string;
+  status: string;
+  version: string | null;
+  status_reason: string | null;
 };
 
 const API_URL = "http://localhost:8000";
@@ -82,6 +107,9 @@ function App() {
   const [documentPages, setDocumentPages] = useState<DocumentPage[]>([]);
   const [documentPagesLoading, setDocumentPagesLoading] = useState(false);
   const [selectedPageNumber, setSelectedPageNumber] = useState<number | null>(null);
+  const [ocrProviders, setOcrProviders] = useState<OcrProvider[]>([]);
+  const [ocrMode, setOcrMode] = useState("AUTO");
+  const [ocrRunning, setOcrRunning] = useState(false);
   const documentRequestRef = useRef(0);
 
   const loadTenders = async () => {
@@ -151,6 +179,7 @@ function App() {
 
     setSelectedDocumentId(null);
     void loadDocuments(selectedTenderId);
+    void loadOcrProviders();
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -309,6 +338,37 @@ function App() {
       setError("No se pudo extraer el texto del PDF.");
     } finally {
       setDocumentPagesLoading(false);
+    }
+  };
+
+  const loadOcrProviders = async () => {
+    try {
+      const response = await axios.get<OcrProvider[]>(`${API_URL}/ocr/providers`);
+      setOcrProviders(response.data);
+    } catch (err) {
+      setOcrProviders([]);
+    }
+  };
+
+  const handleRunOcr = async () => {
+    if (!selectedTenderId || !selectedDocumentId) {
+      return;
+    }
+
+    setOcrRunning(true);
+    try {
+      const pageSelection = selectedPageNumber ? [selectedPageNumber] : undefined;
+      await axios.post(`${API_URL}/tenders/${selectedTenderId}/documents/${selectedDocumentId}/ocr`, {
+        provider: ocrMode,
+        page_numbers: pageSelection,
+        force: false,
+      });
+      await loadDocumentPages(selectedTenderId, selectedDocumentId);
+      await loadOcrProviders();
+    } catch (err) {
+      setError("No se pudo ejecutar el OCR del documento.");
+    } finally {
+      setOcrRunning(false);
     }
   };
 
@@ -584,6 +644,41 @@ function App() {
                 </div>
               )}
 
+              {isPdfDocument(selectedDocument) && (
+                <div style={{ marginBottom: 16, border: "1px solid #e8edf2", borderRadius: 12, padding: 16, background: "#f8fafc" }}>
+                  <h4 style={{ marginTop: 0, marginBottom: 12 }}>OCR providers</h4>
+                  <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+                    <select value={ocrMode} onChange={(event) => setOcrMode(event.target.value)} style={{ padding: "10px 12px", borderRadius: 8, border: "1px solid #cfd8e3" }}>
+                      <option value="AUTO">AUTO</option>
+                      <option value="TESSERACT">TESSERACT</option>
+                      <option value="PADDLEOCR">PADDLEOCR</option>
+                      <option value="COMPARE">COMPARE</option>
+                    </select>
+                    <button type="button" onClick={() => void handleRunOcr()} disabled={ocrRunning} style={{ padding: "10px 14px", borderRadius: 8, border: "none", background: "#0f766e", color: "#fff", fontWeight: 700, cursor: ocrRunning ? "not-allowed" : "pointer" }}>
+                      {ocrRunning ? "Procesando OCR..." : "Ejecutar OCR"}
+                    </button>
+                  </div>
+
+                  <div style={{ display: "grid", gap: 8, marginTop: 12 }}>
+                    {ocrProviders.length === 0 ? (
+                      <div style={{ color: "#52607a", fontSize: 12 }}>Catalogando providers OCR…</div>
+                    ) : (
+                      ocrProviders.map((provider) => (
+                        <div key={provider.provider_id} style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", border: "1px solid #d9e1ec", borderRadius: 8, padding: "8px 10px", background: "#fff" }}>
+                          <div>
+                            <strong>{provider.provider_name}</strong>
+                            <div style={{ fontSize: 12, color: "#52607a" }}>{provider.version ?? "versión desconocida"}</div>
+                          </div>
+                          <span style={{ fontSize: 12, borderRadius: 999, padding: "4px 8px", background: provider.status === "AVAILABLE" ? "#dcfce7" : "#fee2e2", color: provider.status === "AVAILABLE" ? "#166534" : "#991b1b", fontWeight: 700 }}>
+                            {provider.status}
+                          </span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+
               {isPdfDocument(selectedDocument) && selectedDocumentUrl ? (
                 <iframe src={selectedDocumentUrl} className="pdf-viewer" title={selectedDocument.original_filename} />
               ) : (
@@ -620,16 +715,48 @@ function App() {
                       </div>
 
                       {selectedPage && (
-                        <div style={{ border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#fff" }}>
-                          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 8, flexWrap: "wrap" }}>
-                            <strong>Página {selectedPage.page_number}</strong>
-                            <span style={{ color: "#52607a", fontSize: 12 }}>
-                              {selectedPage.status} • {selectedPage.char_count} caracteres • {selectedPage.extraction_method}
-                            </span>
+                        <div style={{ display: "grid", gap: 16 }}>
+                          <div style={{ border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#fff" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 8, flexWrap: "wrap" }}>
+                              <strong>Texto nativo</strong>
+                              <span style={{ color: "#52607a", fontSize: 12 }}>
+                                {selectedPage.status} • {selectedPage.char_count} caracteres • {selectedPage.extraction_method}
+                              </span>
+                            </div>
+                            <pre style={{ whiteSpace: "pre-wrap", margin: 0, fontFamily: "ui-monospace, SFMono-Regular, monospace", fontSize: 12, lineHeight: 1.5 }}>
+                              {selectedPage.text || "(Sin texto nativo detectado en esta página)"}
+                            </pre>
                           </div>
-                          <pre style={{ whiteSpace: "pre-wrap", margin: 0, fontFamily: "ui-monospace, SFMono-Regular, monospace", fontSize: 12, lineHeight: 1.5 }}>
-                            {selectedPage.text || "(Sin texto nativo detectado en esta página)"}
-                          </pre>
+
+                          {selectedPage.ocr_results && selectedPage.ocr_results.length > 0 && (
+                            <div style={{ border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#fff" }}>
+                              <div style={{ marginBottom: 12, fontWeight: 700 }}>OCR alternativas</div>
+                              <div style={{ display: "grid", gap: 12 }}>
+                                {selectedPage.ocr_results.map((ocrResult) => (
+                                  <div key={ocrResult.id} style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                                    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 6, flexWrap: "wrap" }}>
+                                      <strong>OCR — {ocrResult.engine}</strong>
+                                      <span style={{ color: "#52607a", fontSize: 12 }}>
+                                        {ocrResult.status} • {ocrResult.text.length} caracteres • {ocrResult.engine_version}
+                                      </span>
+                                    </div>
+                                    <div style={{ color: "#52607a", fontSize: 12, marginBottom: 8 }}>
+                                      {ocrResult.language || "idioma no especificado"}
+                                    </div>
+                                    {ocrResult.status === "OCR_FAILED" ? (
+                                      <div style={{ color: "#991b1b", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 6, padding: 8 }}>
+                                        OCR falló: {ocrResult.warnings || "No se pudo completar la lectura por OCR."}
+                                      </div>
+                                    ) : (
+                                      <pre style={{ whiteSpace: "pre-wrap", margin: 0, fontFamily: "ui-monospace, SFMono-Regular, monospace", fontSize: 12, lineHeight: 1.5 }}>
+                                        {ocrResult.text || "No se detectó texto OCR en esta página."}
+                                      </pre>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       )}
                     </>

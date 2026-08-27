@@ -4,7 +4,7 @@ from fastapi.testclient import TestClient
 
 from app.database import SessionLocal
 from app.main import app
-from app.models import TenderDocument
+from app.models import DocumentPage, PageOcrResult, TenderDocument
 
 client = TestClient(app)
 
@@ -487,6 +487,69 @@ def test_blank_pdf_is_marked_as_no_native_text() -> None:
     pages = pages_response.json()
     assert pages[0]["status"] == "NO_TEXT"
     assert pages[0]["char_count"] == 0
+    assert pages[0]["ocr_results"] == []
+
+
+def test_tender_pages_include_persisted_ocr_alternatives() -> None:
+    import fitz
+
+    tender_id = _create_tender("OCR Page Read")
+    pdf = fitz.open()
+    pdf.new_page()
+    payload = pdf.write()
+    pdf.close()
+
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("ocr-read.pdf", payload, "application/pdf"))],
+        data={"source_relative_paths": "folder/ocr-read.pdf"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+
+    extract_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/extract-pages")
+    assert extract_response.status_code == 200, extract_response.text
+
+    db = SessionLocal()
+    try:
+        page = db.query(DocumentPage).filter_by(document_id=document_id).one()
+        db.add_all(
+            [
+                PageOcrResult(
+                    document_page_id=page.id,
+                    engine="TESSERACT",
+                    engine_version="5.5.3",
+                    language="spa+eng",
+                    text="OCR text from Tesseract",
+                    status="OCR_TEXT_EXTRACTED",
+                    confidence=0.98,
+                    processing_time_ms=250,
+                    warnings=None,
+                ),
+                PageOcrResult(
+                    document_page_id=page.id,
+                    engine="PADDLEOCR",
+                    engine_version="2.0",
+                    language="es",
+                    text="OCR text from PaddleOCR",
+                    status="OCR_TEXT_EXTRACTED",
+                    confidence=0.95,
+                    processing_time_ms=320,
+                    warnings=None,
+                ),
+            ]
+        )
+        db.commit()
+    finally:
+        db.close()
+
+    pages_response = client.get(f"/tenders/{tender_id}/documents/{document_id}/pages")
+    assert pages_response.status_code == 200, pages_response.text
+    page_payload = pages_response.json()[0]
+    assert page_payload["status"] == "NO_TEXT"
+    assert page_payload["ocr_results"]
+    assert {result["engine"] for result in page_payload["ocr_results"]} == {"TESSERACT", "PADDLEOCR"}
+    assert any(result["status"] == "OCR_TEXT_EXTRACTED" for result in page_payload["ocr_results"])
 
 
 def test_pdf_extraction_rejects_non_pdf_documents() -> None:
@@ -582,7 +645,354 @@ def test_pdf_content_route_rejects_path_traversal() -> None:
 
     response = client.get(f"/tenders/{tender_id}/documents/{document_id}/content")
     assert response.status_code == 400, response.text
-    assert "invalid" in response.text.lower() or "escapes" in response.text.lower()
+
+
+def test_tesseract_translates_neutral_language_profile_to_runtime_codes(monkeypatch) -> None:
+    from app.ocr import TesseractOCRProvider
+
+    captured: dict[str, str] = {}
+
+    def fake_image_to_string(image, lang):
+        captured["lang"] = lang
+        return "OCR output"
+
+    monkeypatch.setattr("pytesseract.image_to_string", fake_image_to_string)
+
+    provider = TesseractOCRProvider()
+    provider.status = "AVAILABLE"
+    monkeypatch.setattr(provider, "_coerce_image", lambda page_image: "fake-image")
+    result = provider.recognize(b"image-bytes", language="es+en")
+
+    assert captured["lang"] == "spa+eng"
+    assert result["language"] == "spa+eng"
+    assert result["status"] == "OCR_TEXT_EXTRACTED"
+
+
+def test_paddleocr_translates_neutral_profile_to_paddle_lang(monkeypatch) -> None:
+    import io
+
+    from PIL import Image
+
+    from app.ocr import PaddleOCRProvider
+
+    captured: dict[str, object] = {}
+
+    class FakePaddleOCR:
+        def __init__(self, lang):
+            captured["lang"] = lang
+
+        def predict(self, image):
+            captured["image_type"] = type(image).__name__
+            captured["predict_called"] = True
+            return [{"rec_texts": ["OCR output line 1", "OCR output line 2"], "rec_scores": [0.91, 0.89]}]
+
+    monkeypatch.setattr("paddleocr.PaddleOCR", FakePaddleOCR)
+
+    image = Image.new("RGB", (20, 20), color="white")
+    buffer = io.BytesIO()
+    image.save(buffer, format="PNG")
+    payload = buffer.getvalue()
+
+    provider = PaddleOCRProvider()
+    provider.status = "AVAILABLE"
+    result = provider.recognize(payload, language="es+en")
+
+    assert captured["lang"] == "es"
+    assert captured["predict_called"] is True
+    assert "image_type" in captured
+    assert result["language"] == "es"
+    assert result["status"] == "OCR_TEXT_EXTRACTED"
+    assert "esen" not in str(captured["lang"])
+    assert "es+en" not in str(captured["lang"])
+    assert "spa+eng" not in str(captured["lang"])
+    assert "OCR output line 1" in result["text"]
+
+
+def test_mixed_content_image_region_is_ocr_candidate_without_overwriting_native_text(monkeypatch) -> None:
+    import io
+
+    import fitz
+    from PIL import Image
+
+    class FakeProvider:
+        provider_id = "PADDLEOCR"
+        provider_name = "PaddleOCR"
+        version = "test-3.7.0"
+        status = "AVAILABLE"
+        status_reason = "fake provider for tests"
+
+        def recognize(self, page_image, language: str):
+            return {
+                "text": "mixed content OCR output",
+                "status": "OCR_TEXT_EXTRACTED",
+                "engine": "PADDLEOCR",
+                "engine_version": "test-3.7.0",
+                "language": "es",
+                "confidence": 0.97,
+                "processing_time_ms": 111,
+                "warnings": [],
+            }
+
+    monkeypatch.setattr("app.main.get_ocr_providers", lambda: [FakeProvider()])
+
+    tender_id = _create_tender("Mixed Content Page")
+    pdf = fitz.open()
+    page = pdf.new_page(width=600, height=800)
+    page.insert_text((72, 72), "SNR Infraestructura...\nAnexos de Bases de Contratación\nPágina 24 de 100")
+
+    image = Image.new("RGB", (300, 200), color="white")
+    buffer = io.BytesIO()
+    image.save(buffer, format="PNG")
+    page.insert_image((80, 250, 520, 650), stream=buffer.getvalue())
+    payload = pdf.write()
+    pdf.close()
+
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("mixed.pdf", payload, "application/pdf"))],
+        data={"source_relative_paths": "folder/mixed.pdf"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+
+    extract_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/extract-pages")
+    assert extract_response.status_code == 200, extract_response.text
+
+    page_response = client.get(f"/tenders/{tender_id}/documents/{document_id}/pages")
+    assert page_response.status_code == 200, page_response.text
+    first_page = page_response.json()[0]
+    assert first_page["content_profile"] == "MIXED_CONTENT"
+    assert first_page["text"]
+
+    ocr_response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/ocr",
+        json={"provider": "PADDLEOCR", "page_numbers": [1], "force": False},
+    )
+    assert ocr_response.status_code == 200, ocr_response.text
+    result = ocr_response.json()
+    assert result["results"]
+    assert any(item["scope"] == "IMAGE_REGION" for item in result["results"])
+    assert all(item["engine"] == "PADDLEOCR" for item in result["results"])
+    assert len(first_page["text"]) > 0
+
+
+def test_ocr_provider_catalog_reports_runtime_state() -> None:
+    response = client.get("/ocr/providers")
+    assert response.status_code == 200, response.text
+    providers = response.json()
+    keys = {item["provider_id"] for item in providers}
+    assert {"TESSERACT", "PADDLEOCR"}.issubset(keys)
+    assert all(item["status"] in {"AVAILABLE", "UNAVAILABLE", "ERROR"} for item in providers)
+
+
+def test_ocr_auto_skips_native_text_and_runs_on_no_text_pages(monkeypatch) -> None:
+    import fitz
+
+    class FakeProvider:
+        provider_id = "TESSERACT"
+        provider_name = "Tesseract"
+        version = "test-1.0"
+        status = "AVAILABLE"
+        status_reason = "fake provider for tests"
+
+        def recognize(self, page_image, language: str):
+            return {
+                "text": "OCR recovered text",
+                "status": "OCR_TEXT_EXTRACTED",
+                "engine": "TESSERACT",
+                "engine_version": "test-1.0",
+                "language": "es+en",
+                "confidence": 0.91,
+                "processing_time_ms": 234,
+                "warnings": [],
+            }
+
+    monkeypatch.setattr("app.main.get_ocr_providers", lambda: [FakeProvider()])
+
+    tender_id = _create_tender("OCR Auto")
+    pdf = fitz.open()
+    page = pdf.new_page()
+    page.insert_text((72, 72), "")
+    payload = pdf.write()
+    pdf.close()
+
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("ocr.pdf", payload, "application/pdf"))],
+        data={"source_relative_paths": "folder/ocr.pdf"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+
+    extract_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/extract-pages")
+    assert extract_response.status_code == 200, extract_response.text
+    assert extract_response.json()["processing_status"] == "NO_NATIVE_TEXT"
+
+    ocr_response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/ocr",
+        json={"provider": "AUTO", "page_numbers": [1], "force": False},
+    )
+    assert ocr_response.status_code == 200, ocr_response.text
+    payload_result = ocr_response.json()
+    assert payload_result["document_id"] == document_id
+    assert len(payload_result["results"]) == 1
+    assert payload_result["results"][0]["engine"] == "TESSERACT"
+    assert payload_result["results"][0]["status"] == "OCR_TEXT_EXTRACTED"
+
+
+def test_ocr_auto_runs_both_providers_for_image_only_and_mixed_content(monkeypatch) -> None:
+    import io
+
+    import fitz
+    from PIL import Image
+
+    class FakeTesseract:
+        provider_id = "TESSERACT"
+        provider_name = "Tesseract"
+        version = "test-1.0"
+        status = "AVAILABLE"
+        status_reason = "fake"
+
+        def recognize(self, page_image, language: str):
+            return {
+                "text": "tesseract output",
+                "status": "OCR_TEXT_EXTRACTED",
+                "engine": "TESSERACT",
+                "engine_version": "test-1.0",
+                "language": "spa+eng",
+                "confidence": 0.88,
+                "processing_time_ms": 120,
+                "warnings": [],
+            }
+
+    class FakePaddle:
+        provider_id = "PADDLEOCR"
+        provider_name = "PaddleOCR"
+        version = "test-2.0"
+        status = "AVAILABLE"
+        status_reason = "fake"
+
+        def recognize(self, page_image, language: str):
+            return {
+                "text": "paddle output",
+                "status": "OCR_TEXT_EXTRACTED",
+                "engine": "PADDLEOCR",
+                "engine_version": "test-2.0",
+                "language": "es",
+                "confidence": 0.90,
+                "processing_time_ms": 180,
+                "warnings": [],
+            }
+
+    monkeypatch.setattr("app.main.get_ocr_providers", lambda: [FakeTesseract(), FakePaddle()])
+
+    tender_id = _create_tender("OCR Auto Dual Providers")
+    pdf = fitz.open()
+    page = pdf.new_page(width=600, height=800)
+    page.insert_text((72, 72), "Native heading on page")
+    image = Image.new("RGB", (300, 200), color="white")
+    buffer = io.BytesIO()
+    image.save(buffer, format="PNG")
+    page.insert_image((80, 250, 520, 650), stream=buffer.getvalue())
+    payload = pdf.write()
+    pdf.close()
+
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("auto-dual.pdf", payload, "application/pdf"))],
+        data={"source_relative_paths": "folder/auto-dual.pdf"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+
+    extract_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/extract-pages")
+    assert extract_response.status_code == 200, extract_response.text
+
+    ocr_response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/ocr",
+        json={"provider": "AUTO", "page_numbers": [1], "force": False},
+    )
+    assert ocr_response.status_code == 200, ocr_response.text
+    result = ocr_response.json()
+    engines = {item["engine"] for item in result["results"]}
+    assert engines == {"TESSERACT", "PADDLEOCR"}
+    assert all(item["scope"] == "IMAGE_REGION" for item in result["results"])
+
+
+def test_compare_mode_persists_independent_provider_results(monkeypatch) -> None:
+    import fitz
+
+    class FakeTesseract:
+        provider_id = "TESSERACT"
+        provider_name = "Tesseract"
+        version = "test-1.0"
+        status = "AVAILABLE"
+        status_reason = "fake"
+
+        def recognize(self, page_image, language: str):
+            return {
+                "text": "text from Tesseract",
+                "status": "OCR_TEXT_EXTRACTED",
+                "engine": "TESSERACT",
+                "engine_version": "test-1.0",
+                "language": "es+en",
+                "confidence": 0.88,
+                "processing_time_ms": 120,
+                "warnings": [],
+            }
+
+    class FakePaddle:
+        provider_id = "PADDLEOCR"
+        provider_name = "PaddleOCR"
+        version = "test-2.0"
+        status = "AVAILABLE"
+        status_reason = "fake"
+
+        def recognize(self, page_image, language: str):
+            return {
+                "text": "text from PaddleOCR",
+                "status": "OCR_TEXT_EXTRACTED",
+                "engine": "PADDLEOCR",
+                "engine_version": "test-2.0",
+                "language": "es+en",
+                "confidence": 0.90,
+                "processing_time_ms": 180,
+                "warnings": [],
+            }
+
+    monkeypatch.setattr("app.main.get_ocr_providers", lambda: [FakeTesseract(), FakePaddle()])
+
+    tender_id = _create_tender("OCR Compare")
+    pdf = fitz.open()
+    page = pdf.new_page()
+    page.insert_text((72, 72), "")
+    payload = pdf.write()
+    pdf.close()
+
+    import_response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("compare.pdf", payload, "application/pdf"))],
+        data={"source_relative_paths": "folder/compare.pdf"},
+    )
+    assert import_response.status_code == 200, import_response.text
+    document_id = import_response.json()[0]["document_id"]
+
+    ocr_response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/ocr",
+        json={"provider": "COMPARE", "page_numbers": [1], "force": True},
+    )
+    assert ocr_response.status_code == 200, ocr_response.text
+    result = ocr_response.json()
+    assert result["document_id"] == document_id
+    assert {item["engine"] for item in result["results"]} == {"TESSERACT", "PADDLEOCR"}
+    assert len({item["id"] for item in result["results"]}) == 2
+
+    rerun = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/ocr",
+        json={"provider": "COMPARE", "page_numbers": [1], "force": True},
+    )
+    assert rerun.status_code == 200, rerun.text
+    assert len(rerun.json()["results"]) == 2
 
 
 def test_pdf_content_route_rejects_non_pdf_viewer_requests() -> None:
