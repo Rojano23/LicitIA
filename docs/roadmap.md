@@ -42,26 +42,41 @@ Un agente nuevo puede leer el repositorio y explicar correctamente:
 
 ## MVP-01 — Tender Workspace
 
+### Estado
+
+Completado y validado humanamente.
+
 ### Objetivo
 
-Crear y administrar un expediente local sin IA.
+Crear y administrar un expediente local sin IA, con trazabilidad completa del ciclo de tender y documentos.
 
-### Funciones
+### Funciones implementadas
 
 - crear licitación;
-- importar múltiples archivos;
-- almacenar originales;
-- hash SHA-256;
-- metadatos;
-- estado de procesamiento;
-- listado de documentos;
-- visor PDF;
-- eliminar/reimportar con auditoría;
-- persistencia local.
+- persistencia en PostgreSQL;
+- selección explícita de licitación por UUID;
+- importación múltiple de documentos reales;
+- almacenamiento local inmutable de originales;
+- hash SHA-256 para integridad;
+- metadatos persistentes del documento;
+- detección de duplicados;
+- detección de conflicto por nombre con contenido distinto;
+- resolución humana explícita del conflicto;
+- importación independiente del mismo nombre;
+- manejo de revisiones con número de versión;
+- estado vigente y sustituido por revisión;
+- conservación del origen de la decisión humana de conflicto;
+- registro persistente del expediente y sus documentos;
+- visor PDF local seguro;
+- visualización inline sin descarga automática;
+- revisiones actuales y sustituidas visualizables de forma independiente;
+- persistencia al reiniciar;
+- protección contra path traversal;
+- operación local-first sin dependencia de servicios externos.
 
 ### Criterio de salida
 
-Golden Tender #001 puede cargarse completo, navegarse y verificarse sin alterar originales.
+Golden Tender #001 puede cargarse, navegarse, verificarse y revisarse sin alterar originales ni perder trazabilidad del expediente.
 
 ---
 
