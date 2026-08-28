@@ -24,6 +24,7 @@ REFERENCE_EXTRACTOR_VERSION = "mvp-02.5.1"
 
 RELATIONSHIP_REFERENCES = "REFERENCES"
 RELATIONSHIP_MODIFIES = "MODIFIES"
+RELATIONSHIP_ORIGIN_REFERENCE_ENGINE = "REFERENCE_ENGINE"
 
 STATUS_NOT_READY = "NOT_READY"
 STATUS_COMPLETED = "COMPLETED"
@@ -459,6 +460,7 @@ def _serialize_relationship(
         "target_document_id": relationship.target_document_id,
         "target_document_filename": target_doc.original_filename if target_doc else None,
         "relationship_type": relationship.relationship_type,
+        "relationship_origin": relationship.relationship_origin,
         "supporting_references": supporting_references,
         "created_at": relationship.created_at,
         "updated_at": relationship.updated_at,
@@ -560,6 +562,7 @@ def _materialize_relationships(
             select(DocumentRelationship).where(
                 DocumentRelationship.tender_id == tender_id,
                 DocumentRelationship.source_document_id == source_document_id,
+                DocumentRelationship.relationship_origin == RELATIONSHIP_ORIGIN_REFERENCE_ENGINE,
             )
         )
         .scalars()
@@ -591,6 +594,7 @@ def _materialize_relationships(
                 source_document_id=key[0],
                 target_document_id=key[1],
                 relationship_type=key[2],
+                relationship_origin=RELATIONSHIP_ORIGIN_REFERENCE_ENGINE,
             )
             db.add(row)
             db.flush()

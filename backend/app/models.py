@@ -58,6 +58,7 @@ class Tender(Base):
 
     documents: Mapped[list["TenderDocument"]] = relationship(back_populates="tender")
     events: Mapped[list["TenderEvent"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
+    changes: Mapped[list["TenderChange"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
 
 
 class TenderDocument(Base):
@@ -138,6 +139,18 @@ class TenderDocument(Base):
     event_evidence: Mapped[list["TenderEventEvidence"]] = relationship(
         back_populates="source_document",
         foreign_keys="TenderEventEvidence.source_document_id",
+    )
+    sourced_changes: Mapped[list["TenderChange"]] = relationship(
+        back_populates="source_document",
+        foreign_keys="TenderChange.source_document_id",
+    )
+    targeted_changes: Mapped[list["TenderChange"]] = relationship(
+        back_populates="target_document",
+        foreign_keys="TenderChange.target_document_id",
+    )
+    change_evidence: Mapped[list["TenderChangeEvidence"]] = relationship(
+        back_populates="source_document",
+        foreign_keys="TenderChangeEvidence.source_document_id",
     )
 
 
@@ -666,6 +679,7 @@ class DocumentRelationship(Base):
         index=True,
     )
     relationship_type: Mapped[str] = mapped_column(String(32), nullable=False, default="REFERENCES")
+    relationship_origin: Mapped[str] = mapped_column(String(32), nullable=False, default="REFERENCE_ENGINE")
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
@@ -774,3 +788,109 @@ class TenderEventEvidence(Base):
 
     event: Mapped[TenderEvent] = relationship(back_populates="evidence")
     source_document: Mapped[TenderDocument] = relationship(back_populates="event_evidence", foreign_keys=[source_document_id])
+
+
+class TenderChange(Base):
+    __tablename__ = "tender_changes"
+
+    __table_args__ = (
+        UniqueConstraint("tender_id", "semantic_key", name="uq_tender_change_semantic_key"),
+        Index("ix_tender_changes_tender_id", "tender_id"),
+        Index("ix_tender_changes_review_status", "review_status"),
+        Index("ix_tender_changes_change_type", "change_type"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    semantic_key: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    change_type: Mapped[str] = mapped_column(String(32), nullable=False, default="UNKNOWN")
+    target_reference_key: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    target_document_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    target_candidate_document_ids: Mapped[str | None] = mapped_column(Text, nullable=True)
+    target_locator_text: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    before_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    after_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    review_status: Mapped[str] = mapped_column(String(32), nullable=False, default="SUGGESTED")
+    detection_origin: Mapped[str] = mapped_column(String(32), nullable=False, default="DETERMINISTIC")
+    detector_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-03.3")
+    human_change_type: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    human_target_document_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    human_target_locator_text: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    human_before_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    human_after_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    human_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship(back_populates="changes")
+    source_document: Mapped[TenderDocument] = relationship(back_populates="sourced_changes", foreign_keys=[source_document_id])
+    target_document: Mapped[TenderDocument | None] = relationship(back_populates="targeted_changes", foreign_keys=[target_document_id])
+    human_target_document: Mapped[TenderDocument | None] = relationship(foreign_keys=[human_target_document_id])
+    evidence: Mapped[list["TenderChangeEvidence"]] = relationship(back_populates="change", cascade="all, delete-orphan")
+
+
+class TenderChangeEvidence(Base):
+    __tablename__ = "tender_change_evidence"
+
+    __table_args__ = (
+        UniqueConstraint("change_id", "source_document_id", "source_page", "excerpt_sha256", name="uq_tender_change_evidence_item"),
+        Index("ix_tender_change_evidence_change_id", "change_id"),
+        Index("ix_tender_change_evidence_source_document_id", "source_document_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    change_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_changes.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    excerpt_sha256: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    change: Mapped[TenderChange] = relationship(back_populates="evidence")
+    source_document: Mapped[TenderDocument] = relationship(back_populates="change_evidence", foreign_keys=[source_document_id])

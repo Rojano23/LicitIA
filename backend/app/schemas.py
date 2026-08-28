@@ -286,6 +286,7 @@ class DocumentRelationshipRead(BaseModel):
     target_document_id: str
     target_document_filename: str | None = None
     relationship_type: str
+    relationship_origin: str | None = None
     supporting_references: list[DocumentRelationshipSupportRead] = Field(default_factory=list)
     created_at: datetime
     updated_at: datetime
@@ -645,4 +646,77 @@ class TenderEventDecisionWrite(BaseModel):
     event_time: time | None = None
     date_precision: str | None = Field(default=None, max_length=16)
     timezone: str | None = Field(default=None, max_length=32)
+    human_note: str | None = Field(default=None, max_length=2000)
+
+
+class TenderChangeTargetCandidateRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    document_id: str
+    original_filename: str
+    processing_status: str | None = None
+
+
+class TenderChangeEvidenceRead(BaseModel):
+    id: str
+    source_document_id: str
+    source_filename: str | None = None
+    source_page: int | None = None
+    source_excerpt: str
+
+
+class TenderChangeRead(BaseModel):
+    id: str
+    tender_id: str
+    semantic_key: str
+    change_type: str
+    target_reference_key: str | None = None
+    target_document_id: str | None = None
+    target_filename: str | None = None
+    target_candidate_documents: list[TenderChangeTargetCandidateRead] = Field(default_factory=list)
+    target_locator_text: str | None = None
+    before_text: str | None = None
+    after_text: str | None = None
+    source_document_id: str
+    source_filename: str | None = None
+    source_page: int | None = None
+    source_excerpt: str
+    source_event_date: date | None = None
+    review_status: str
+    detection_origin: str
+    detector_version: str
+    human_change_type: str | None = None
+    human_target_document_id: str | None = None
+    human_target_locator_text: str | None = None
+    human_before_text: str | None = None
+    human_after_text: str | None = None
+    human_note: str | None = None
+    created_at: datetime
+    updated_at: datetime
+    evidence: list[TenderChangeEvidenceRead] = Field(default_factory=list)
+
+
+class TenderChangesCountsRead(BaseModel):
+    total_changes: int
+    suggested_changes: int
+    confirmed_changes: int
+    rejected_changes: int
+    duplicate_semantic_count: int
+
+
+class TenderChangesRead(BaseModel):
+    tender_id: str
+    changes_version: str
+    generated_at: datetime
+    counts: TenderChangesCountsRead
+    changes: list[TenderChangeRead] = Field(default_factory=list)
+
+
+class TenderChangeDecisionWrite(BaseModel):
+    action: str = Field(..., min_length=1, max_length=64)
+    change_type: str | None = Field(default=None, max_length=32)
+    target_document_id: str | None = None
+    target_locator_text: str | None = Field(default=None, max_length=255)
+    before_text: str | None = Field(default=None, max_length=4000)
+    after_text: str | None = Field(default=None, max_length=4000)
     human_note: str | None = Field(default=None, max_length=2000)

@@ -333,6 +333,63 @@ type TenderTimeline = {
   events: TenderEvent[];
 };
 
+type TenderChangeTargetCandidate = {
+  document_id: string;
+  original_filename: string;
+  processing_status: string | null;
+};
+
+type TenderChangeEvidence = {
+  id: string;
+  source_document_id: string;
+  source_filename: string | null;
+  source_page: number | null;
+  source_excerpt: string;
+};
+
+type TenderChange = {
+  id: string;
+  tender_id: string;
+  semantic_key: string;
+  change_type: string;
+  target_reference_key: string | null;
+  target_document_id: string | null;
+  target_filename: string | null;
+  target_candidate_documents: TenderChangeTargetCandidate[];
+  target_locator_text: string | null;
+  before_text: string | null;
+  after_text: string | null;
+  source_document_id: string;
+  source_filename: string | null;
+  source_page: number | null;
+  source_excerpt: string;
+  source_event_date: string | null;
+  review_status: string;
+  detection_origin: string;
+  detector_version: string;
+  human_change_type: string | null;
+  human_target_document_id: string | null;
+  human_target_locator_text: string | null;
+  human_before_text: string | null;
+  human_after_text: string | null;
+  human_note: string | null;
+  evidence: TenderChangeEvidence[];
+};
+
+type TenderChanges = {
+  tender_id: string;
+  changes_version: string;
+  generated_at: string;
+  counts: {
+    total_changes: number;
+    suggested_changes: number;
+    confirmed_changes: number;
+    rejected_changes: number;
+    duplicate_semantic_count: number;
+  };
+  changes: TenderChange[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -369,12 +426,21 @@ function App() {
   const [relationshipBaselineLoading, setRelationshipBaselineLoading] = useState(false);
   const [timeline, setTimeline] = useState<TenderTimeline | null>(null);
   const [timelineLoading, setTimelineLoading] = useState(false);
+  const [changes, setChanges] = useState<TenderChanges | null>(null);
+  const [changesLoading, setChangesLoading] = useState(false);
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
   const [editEventType, setEditEventType] = useState("");
   const [editTitle, setEditTitle] = useState("");
   const [editDate, setEditDate] = useState("");
   const [editTime, setEditTime] = useState("");
   const [editNote, setEditNote] = useState("");
+  const [editingChangeId, setEditingChangeId] = useState<string | null>(null);
+  const [editChangeType, setEditChangeType] = useState("");
+  const [editChangeTargetDocumentId, setEditChangeTargetDocumentId] = useState("");
+  const [editChangeLocator, setEditChangeLocator] = useState("");
+  const [editChangeBeforeText, setEditChangeBeforeText] = useState("");
+  const [editChangeAfterText, setEditChangeAfterText] = useState("");
+  const [editChangeNote, setEditChangeNote] = useState("");
   const documentRequestRef = useRef(0);
 
   const EVENT_TYPE_OPTIONS = [
@@ -389,6 +455,18 @@ function App() {
     "CONTRACT_SIGNATURE_DEADLINE",
     "ADDENDUM_PUBLICATION",
     "CANCELLATION",
+  ];
+
+  const CHANGE_TYPE_OPTIONS = [
+    "CLARIFIES",
+    "MODIFIES",
+    "REPLACES",
+    "ADDS",
+    "REMOVES",
+    "CORRECTS",
+    "CONFIRMS",
+    "OTHER",
+    "UNKNOWN",
   ];
 
   const loadTenders = async () => {
@@ -457,6 +535,7 @@ function App() {
       setAudit(null);
       setRelationshipBaseline(null);
       setTimeline(null);
+      setChanges(null);
       return;
     }
 
@@ -466,6 +545,7 @@ function App() {
     void loadDocumentIntelligenceAudit(selectedTenderId);
     void loadRelationshipBaseline(selectedTenderId);
     void loadTenderTimeline(selectedTenderId);
+    void loadTenderChanges(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -744,6 +824,7 @@ function App() {
       const response = await axios.post<DocumentIntelligenceAudit>(`${API_URL}/tenders/${selectedTenderId}/audit-document-intelligence`);
       setAudit(response.data);
       await loadRelationshipBaseline(selectedTenderId);
+      await loadTenderChanges(selectedTenderId);
     } catch (err) {
       setError("No se pudo auditar el estado documental del expediente.");
     } finally {
@@ -775,6 +856,18 @@ function App() {
     }
   };
 
+  const loadTenderChanges = async (tenderId: string) => {
+    setChangesLoading(true);
+    try {
+      const response = await axios.get<TenderChanges>(`${API_URL}/tenders/${tenderId}/changes`);
+      setChanges(response.data);
+    } catch (err) {
+      setChanges(null);
+    } finally {
+      setChangesLoading(false);
+    }
+  };
+
   const handleAnalyzeEvents = async () => {
     if (!selectedTenderId) {
       return;
@@ -788,6 +881,37 @@ function App() {
       setError("No se pudo analizar la línea de tiempo del procedimiento.");
     } finally {
       setTimelineLoading(false);
+    }
+  };
+
+  const handleAnalyzeChanges = async () => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    setChangesLoading(true);
+    try {
+      const response = await axios.post<TenderChanges>(`${API_URL}/tenders/${selectedTenderId}/analyze-changes`);
+      setChanges(response.data);
+      await loadRelationshipBaseline(selectedTenderId);
+    } catch (err) {
+      setError("No se pudieron analizar aclaraciones y modificaciones.");
+    } finally {
+      setChangesLoading(false);
+    }
+  };
+
+  const handleChangeDecision = async (changeId: string, action: "CONFIRM" | "REJECT" | "RESET_TO_SUGGESTED") => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    try {
+      const response = await axios.patch<TenderChanges>(`${API_URL}/tenders/${selectedTenderId}/changes/${changeId}`, { action });
+      setChanges(response.data);
+      await loadRelationshipBaseline(selectedTenderId);
+    } catch (err) {
+      setError("No se pudo guardar la decisión del cambio.");
     }
   };
 
@@ -851,6 +975,51 @@ function App() {
     }
   };
 
+  const openEditChange = (changeItem: TenderChange) => {
+    setEditingChangeId(changeItem.id);
+    setEditChangeType(changeItem.human_change_type ?? changeItem.change_type);
+    setEditChangeTargetDocumentId(changeItem.human_target_document_id ?? changeItem.target_document_id ?? "");
+    setEditChangeLocator(changeItem.human_target_locator_text ?? changeItem.target_locator_text ?? "");
+    setEditChangeBeforeText(changeItem.human_before_text ?? changeItem.before_text ?? "");
+    setEditChangeAfterText(changeItem.human_after_text ?? changeItem.after_text ?? "");
+    setEditChangeNote(changeItem.human_note ?? "");
+  };
+
+  const cancelEditChange = () => {
+    setEditingChangeId(null);
+    setEditChangeType("");
+    setEditChangeTargetDocumentId("");
+    setEditChangeLocator("");
+    setEditChangeBeforeText("");
+    setEditChangeAfterText("");
+    setEditChangeNote("");
+  };
+
+  const saveChangeOverride = async (changeId: string) => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    try {
+      const payload: Record<string, string> = {
+        action: "OVERRIDE",
+        change_type: editChangeType,
+        target_locator_text: editChangeLocator,
+        before_text: editChangeBeforeText,
+        after_text: editChangeAfterText,
+        human_note: editChangeNote,
+      };
+      payload.target_document_id = editChangeTargetDocumentId;
+
+      const response = await axios.patch<TenderChanges>(`${API_URL}/tenders/${selectedTenderId}/changes/${changeId}`, payload);
+      setChanges(response.data);
+      cancelEditChange();
+      await loadRelationshipBaseline(selectedTenderId);
+    } catch (err) {
+      setError("No se pudo modificar el cambio detectado.");
+    }
+  };
+
   const openEventSource = async (eventItem: TenderEvent) => {
     if (!selectedTenderId || !eventItem.source_document_id) {
       return;
@@ -862,6 +1031,20 @@ function App() {
     await loadDocumentReferences(selectedTenderId, eventItem.source_document_id);
     if (eventItem.source_page !== null) {
       setSelectedPageNumber(eventItem.source_page);
+    }
+  };
+
+  const openChangeSource = async (changeItem: TenderChange) => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    setSelectedDocumentId(changeItem.source_document_id);
+    await loadDocumentPages(selectedTenderId, changeItem.source_document_id);
+    await loadDocumentClassification(selectedTenderId, changeItem.source_document_id);
+    await loadDocumentReferences(selectedTenderId, changeItem.source_document_id);
+    if (changeItem.source_page !== null) {
+      setSelectedPageNumber(changeItem.source_page);
     }
   };
 
@@ -885,6 +1068,30 @@ function App() {
       eventItem.human_event_date ||
       eventItem.human_event_time ||
       eventItem.human_note,
+    );
+  };
+
+  const changeStatusLabel = (status: string) => {
+    if (status === "CONFIRMED") {
+      return "Confirmado";
+    }
+    if (status === "REJECTED") {
+      return "Rechazado";
+    }
+    if (status === "SUGGESTED") {
+      return "Sugerido";
+    }
+    return status;
+  };
+
+  const hasChangeHumanOverride = (changeItem: TenderChange) => {
+    return Boolean(
+      changeItem.human_change_type ||
+      changeItem.human_target_document_id ||
+      changeItem.human_target_locator_text ||
+      changeItem.human_before_text !== null ||
+      changeItem.human_after_text !== null ||
+      changeItem.human_note,
     );
   };
 
@@ -1247,6 +1454,180 @@ function App() {
                           {row.reference_analysis_status} • A:{row.auto_resolved_reference_count} H:{row.human_resolved_reference_count} Am:{row.ambiguous_reference_count} U:{row.unresolved_reference_count}
                         </td>
                         <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{row.integrity_findings.join(", ") || "OK"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </section>
+      )}
+
+      {selectedTenderId && (
+        <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+            <h2 style={{ margin: 0 }}>Aclaraciones y modificaciones</h2>
+            <button type="button" onClick={() => void handleAnalyzeChanges()} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
+              {changesLoading ? "Analizando..." : "Analizar cambios"}
+            </button>
+          </div>
+
+          {changesLoading && <div style={{ color: "#52607a", fontSize: 13 }}>Cargando cambios detectados...</div>}
+          {!changesLoading && !changes && <div style={{ color: "#52607a", fontSize: 13 }}>Sin análisis de aclaraciones/modificaciones todavía.</div>}
+
+          {changes && (
+            <>
+              <div style={{ marginTop: 10, fontSize: 13, color: "#52607a" }}>
+                Versión {changes.changes_version} • Actualizado: {new Date(changes.generated_at).toLocaleString()}
+              </div>
+              <div style={{ marginTop: 10, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10 }}>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Total cambios</div>
+                  <div style={{ fontWeight: 700 }}>{changes.counts.total_changes}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Sugeridos / Confirmados</div>
+                  <div style={{ fontWeight: 700 }}>{changes.counts.suggested_changes} / {changes.counts.confirmed_changes}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Rechazados</div>
+                  <div style={{ fontWeight: 700 }}>{changes.counts.rejected_changes}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Duplicados semánticos</div>
+                  <div style={{ fontWeight: 700 }}>{changes.counts.duplicate_semantic_count}</div>
+                </div>
+              </div>
+
+              <div style={{ marginTop: 12, overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                  <thead>
+                    <tr style={{ background: "#f8fafc" }}>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Tipo</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Cambio detectado</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Origen</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Documento afectado</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Ubicación</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Estado</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {changes.changes.map((changeItem) => (
+                      <tr key={changeItem.id}>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          <div style={{ fontWeight: 700 }}>{changeItem.human_change_type ?? changeItem.change_type}</div>
+                          {hasChangeHumanOverride(changeItem) && <div style={{ color: "#0f766e" }}>Modificado por usuario</div>}
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          <div>{changeItem.source_excerpt}</div>
+                          <div style={{ color: "#52607a" }}>Antes: {changeItem.human_before_text ?? changeItem.before_text ?? "-"}</div>
+                          <div style={{ color: "#52607a" }}>Después: {changeItem.human_after_text ?? changeItem.after_text ?? "-"}</div>
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          {changeItem.source_filename ?? changeItem.source_document_id}
+                          <div style={{ color: "#52607a" }}>Pág. {changeItem.source_page ?? "-"}</div>
+                          {changeItem.source_event_date && <div style={{ color: "#52607a" }}>Evento: {changeItem.source_event_date}</div>}
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          {(changeItem.human_target_document_id ? documents.find((item) => item.id === changeItem.human_target_document_id)?.original_filename : null) ?? changeItem.target_filename ?? changeItem.target_reference_key ?? "Sin resolver"}
+                          {changeItem.target_candidate_documents.length > 1 && (
+                            <div style={{ color: "#52607a" }}>Ambigua: {changeItem.target_candidate_documents.map((item) => item.original_filename).join(" | ")}</div>
+                          )}
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          {changeItem.human_target_locator_text ?? changeItem.target_locator_text ?? "-"}
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          {changeStatusLabel(changeItem.review_status)}
+                          {changeItem.human_note && <div style={{ color: "#52607a" }}>{changeItem.human_note}</div>}
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                            {changeItem.review_status === "SUGGESTED" && (
+                              <button type="button" onClick={() => void handleChangeDecision(changeItem.id, "CONFIRM")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                Confirmar
+                              </button>
+                            )}
+                            <button type="button" onClick={() => openEditChange(changeItem)} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                              Modificar
+                            </button>
+                            {changeItem.review_status !== "REJECTED" ? (
+                              <button type="button" onClick={() => void handleChangeDecision(changeItem.id, "REJECT")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                Rechazar
+                              </button>
+                            ) : (
+                              <button type="button" onClick={() => void handleChangeDecision(changeItem.id, "RESET_TO_SUGGESTED")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                Restablecer
+                              </button>
+                            )}
+                            <button type="button" onClick={() => void openChangeSource(changeItem)} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                              Ver fuente
+                            </button>
+                          </div>
+
+                          {changeItem.evidence.length > 0 && (
+                            <details style={{ marginTop: 6 }}>
+                              <summary style={{ cursor: "pointer", color: "#1b5bd8", fontWeight: 700 }}>Evidencias</summary>
+                              <div style={{ marginTop: 6, display: "grid", gap: 6 }}>
+                                {changeItem.evidence.map((evidence) => (
+                                  <div key={evidence.id} style={{ fontSize: 12, color: "#52607a" }}>
+                                    "{evidence.source_excerpt}" ({evidence.source_filename ?? evidence.source_document_id} · pág. {evidence.source_page ?? "-"})
+                                  </div>
+                                ))}
+                              </div>
+                            </details>
+                          )}
+
+                          {editingChangeId === changeItem.id && (
+                            <div style={{ marginTop: 10, border: "1px solid #d9e1ec", borderRadius: 8, padding: 10, background: "#f8fafc", display: "grid", gap: 8 }}>
+                              <label style={{ fontSize: 12, color: "#52607a" }}>
+                                Tipo de cambio
+                                <select value={editChangeType} onChange={(event) => setEditChangeType(event.target.value)} style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #cfd8e3", marginTop: 4 }}>
+                                  {CHANGE_TYPE_OPTIONS.map((item) => (
+                                    <option key={item} value={item}>{item}</option>
+                                  ))}
+                                </select>
+                              </label>
+                              <label style={{ fontSize: 12, color: "#52607a" }}>
+                                Documento destino
+                                <select value={editChangeTargetDocumentId} onChange={(event) => setEditChangeTargetDocumentId(event.target.value)} style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #cfd8e3", marginTop: 4 }}>
+                                  <option value="">Sin resolver</option>
+                                  {documents
+                                    .filter((item) => item.id !== changeItem.source_document_id && item.is_current)
+                                    .map((item) => (
+                                      <option key={item.id} value={item.id}>{item.original_filename}</option>
+                                    ))}
+                                </select>
+                              </label>
+                              <label style={{ fontSize: 12, color: "#52607a" }}>
+                                Ubicación / numeral
+                                <input value={editChangeLocator} onChange={(event) => setEditChangeLocator(event.target.value)} style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #cfd8e3", marginTop: 4 }} />
+                              </label>
+                              <label style={{ fontSize: 12, color: "#52607a" }}>
+                                Texto anterior
+                                <textarea value={editChangeBeforeText} onChange={(event) => setEditChangeBeforeText(event.target.value)} style={{ width: "100%", minHeight: 56, padding: 8, borderRadius: 6, border: "1px solid #cfd8e3", marginTop: 4 }} />
+                              </label>
+                              <label style={{ fontSize: 12, color: "#52607a" }}>
+                                Texto nuevo
+                                <textarea value={editChangeAfterText} onChange={(event) => setEditChangeAfterText(event.target.value)} style={{ width: "100%", minHeight: 56, padding: 8, borderRadius: 6, border: "1px solid #cfd8e3", marginTop: 4 }} />
+                              </label>
+                              <label style={{ fontSize: 12, color: "#52607a" }}>
+                                Nota
+                                <textarea value={editChangeNote} onChange={(event) => setEditChangeNote(event.target.value)} style={{ width: "100%", minHeight: 56, padding: 8, borderRadius: 6, border: "1px solid #cfd8e3", marginTop: 4 }} />
+                              </label>
+                              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                                <button type="button" onClick={() => void saveChangeOverride(changeItem.id)} style={{ padding: "6px 10px", borderRadius: 6, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700 }}>
+                                  Guardar
+                                </button>
+                                <button type="button" onClick={cancelEditChange} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                  Cancelar
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

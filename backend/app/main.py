@@ -34,6 +34,7 @@ from app.document_references import (
     list_tender_relationships,
 )
 from app.relationship_baseline import generate_tender_relationship_baseline
+from app.tender_changes import analyze_tender_changes, list_tender_changes, update_tender_change_human_decision
 from app.tender_events import analyze_tender_events, list_tender_events, update_tender_event_human_decision
 from app.models import (
     DocumentPage,
@@ -62,6 +63,8 @@ from app.schemas import (
     PageOcrResultRead,
     TenderRelationshipBaselineRead,
     TenderCreate,
+    TenderChangeDecisionWrite,
+    TenderChangesRead,
     TenderDocumentRead,
     TenderEventDecisionWrite,
     TenderRead,
@@ -1081,6 +1084,68 @@ def update_tender_event_endpoint(
             event_time=payload.event_time,
             date_precision=payload.date_precision,
             timezone_name=payload.timezone,
+            human_note=payload.human_note,
+        )
+        db.commit()
+        return result
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.post("/tenders/{tender_id}/analyze-changes", response_model=TenderChangesRead)
+def analyze_tender_changes_endpoint(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        payload = analyze_tender_changes(db, tender_id)
+        db.commit()
+        return payload
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/tenders/{tender_id}/changes", response_model=TenderChangesRead)
+def get_tender_changes_endpoint(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        return list_tender_changes(db, tender_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.patch("/tenders/{tender_id}/changes/{change_id}", response_model=TenderChangesRead)
+def update_tender_change_endpoint(
+    tender_id: str,
+    change_id: str,
+    payload: TenderChangeDecisionWrite,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        result = update_tender_change_human_decision(
+            db,
+            tender_id=tender_id,
+            change_id=change_id,
+            action=payload.action,
+            change_type=payload.change_type,
+            target_document_id=payload.target_document_id,
+            target_locator_text=payload.target_locator_text,
+            before_text=payload.before_text,
+            after_text=payload.after_text,
             human_note=payload.human_note,
         )
         db.commit()
