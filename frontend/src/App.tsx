@@ -390,6 +390,65 @@ type TenderChanges = {
   changes: TenderChange[];
 };
 
+type EffectiveScopeChange = {
+  id: string;
+  semantic_key: string;
+  review_status: string;
+  change_type: string;
+  target_document_id: string | null;
+  target_filename: string | null;
+  target_reference_key: string | null;
+  target_locator_text: string | null;
+  normalized_locator: string;
+  before_text: string | null;
+  after_text: string | null;
+  source_document_id: string;
+  source_filename: string | null;
+  source_page: number | null;
+  source_excerpt: string;
+  source_is_current: boolean;
+  temporal_status: string;
+  temporal_event_date: string | null;
+  temporal_event_time: string | null;
+  temporal_date_precision: string | null;
+  temporal_event_ids: string[];
+  temporal_reason: string;
+};
+
+type TenderEffectiveStateScope = {
+  scope_key: string;
+  scope_kind: string;
+  target_document_id: string | null;
+  target_filename: string | null;
+  target_reference_key: string | null;
+  target_locator_text: string | null;
+  normalized_locator: string;
+  resolution_status: string;
+  effective_mutation: EffectiveScopeChange | null;
+  confirmed_mutations: EffectiveScopeChange[];
+  confirmed_non_replacing_assertions: EffectiveScopeChange[];
+  pending_changes: EffectiveScopeChange[];
+  rejected_changes: EffectiveScopeChange[];
+  non_current_confirmed_changes: EffectiveScopeChange[];
+  temporal_reason: string;
+  warnings: string[];
+};
+
+type TenderEffectiveState = {
+  tender_id: string;
+  state_version: string;
+  generated_at: string;
+  summary: {
+    total_scopes: number;
+    determined: number;
+    pending_review: number;
+    ambiguous_precedence: number;
+    unresolved_target: number;
+    no_confirmed_change: number;
+  };
+  scopes: TenderEffectiveStateScope[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -428,6 +487,8 @@ function App() {
   const [timelineLoading, setTimelineLoading] = useState(false);
   const [changes, setChanges] = useState<TenderChanges | null>(null);
   const [changesLoading, setChangesLoading] = useState(false);
+  const [effectiveState, setEffectiveState] = useState<TenderEffectiveState | null>(null);
+  const [effectiveStateLoading, setEffectiveStateLoading] = useState(false);
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
   const [editEventType, setEditEventType] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -536,6 +597,7 @@ function App() {
       setRelationshipBaseline(null);
       setTimeline(null);
       setChanges(null);
+      setEffectiveState(null);
       return;
     }
 
@@ -546,6 +608,7 @@ function App() {
     void loadRelationshipBaseline(selectedTenderId);
     void loadTenderTimeline(selectedTenderId);
     void loadTenderChanges(selectedTenderId);
+    void loadEffectiveState(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -868,6 +931,18 @@ function App() {
     }
   };
 
+  const loadEffectiveState = async (tenderId: string) => {
+    setEffectiveStateLoading(true);
+    try {
+      const response = await axios.get<TenderEffectiveState>(`${API_URL}/tenders/${tenderId}/effective-state`);
+      setEffectiveState(response.data);
+    } catch (err) {
+      setEffectiveState(null);
+    } finally {
+      setEffectiveStateLoading(false);
+    }
+  };
+
   const handleAnalyzeEvents = async () => {
     if (!selectedTenderId) {
       return;
@@ -877,6 +952,7 @@ function App() {
     try {
       const response = await axios.post<TenderTimeline>(`${API_URL}/tenders/${selectedTenderId}/analyze-events`);
       setTimeline(response.data);
+      await loadEffectiveState(selectedTenderId);
     } catch (err) {
       setError("No se pudo analizar la línea de tiempo del procedimiento.");
     } finally {
@@ -894,6 +970,7 @@ function App() {
       const response = await axios.post<TenderChanges>(`${API_URL}/tenders/${selectedTenderId}/analyze-changes`);
       setChanges(response.data);
       await loadRelationshipBaseline(selectedTenderId);
+      await loadEffectiveState(selectedTenderId);
     } catch (err) {
       setError("No se pudieron analizar aclaraciones y modificaciones.");
     } finally {
@@ -910,6 +987,7 @@ function App() {
       const response = await axios.patch<TenderChanges>(`${API_URL}/tenders/${selectedTenderId}/changes/${changeId}`, { action });
       setChanges(response.data);
       await loadRelationshipBaseline(selectedTenderId);
+      await loadEffectiveState(selectedTenderId);
     } catch (err) {
       setError("No se pudo guardar la decisión del cambio.");
     }
@@ -923,6 +1001,7 @@ function App() {
     try {
       const response = await axios.patch<TenderTimeline>(`${API_URL}/tenders/${selectedTenderId}/events/${eventId}`, { action });
       setTimeline(response.data);
+      await loadEffectiveState(selectedTenderId);
     } catch (err) {
       setError("No se pudo guardar la decisión del evento.");
     }
@@ -970,6 +1049,7 @@ function App() {
       const response = await axios.patch<TenderTimeline>(`${API_URL}/tenders/${selectedTenderId}/events/${eventId}`, payload);
       setTimeline(response.data);
       cancelEditEvent();
+      await loadEffectiveState(selectedTenderId);
     } catch (err) {
       setError("No se pudo modificar el evento.");
     }
@@ -1015,6 +1095,7 @@ function App() {
       setChanges(response.data);
       cancelEditChange();
       await loadRelationshipBaseline(selectedTenderId);
+      await loadEffectiveState(selectedTenderId);
     } catch (err) {
       setError("No se pudo modificar el cambio detectado.");
     }
@@ -1093,6 +1174,25 @@ function App() {
       changeItem.human_after_text !== null ||
       changeItem.human_note,
     );
+  };
+
+  const effectiveStatusLabel = (status: string) => {
+    if (status === "DETERMINED") {
+      return "Determinado";
+    }
+    if (status === "PENDING_REVIEW") {
+      return "Pendiente de revisión";
+    }
+    if (status === "AMBIGUOUS_PRECEDENCE") {
+      return "Orden ambiguo";
+    }
+    if (status === "UNRESOLVED_TARGET") {
+      return "Destino no resuelto";
+    }
+    if (status === "NO_CONFIRMED_CHANGE") {
+      return "Sin cambio confirmado";
+    }
+    return status;
   };
 
   const referenceStatusLabel = (status: string) => {
@@ -1630,6 +1730,115 @@ function App() {
                         </td>
                       </tr>
                     ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </section>
+      )}
+
+      {selectedTenderId && (
+        <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+            <h2 style={{ margin: 0 }}>Estado efectivo</h2>
+            <button type="button" onClick={() => selectedTenderId && void loadEffectiveState(selectedTenderId)} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
+              {effectiveStateLoading ? "Actualizando..." : "Actualizar estado efectivo"}
+            </button>
+          </div>
+
+          {effectiveStateLoading && <div style={{ color: "#52607a", fontSize: 13 }}>Calculando estado efectivo...</div>}
+          {!effectiveStateLoading && !effectiveState && <div style={{ color: "#52607a", fontSize: 13 }}>No se pudo cargar el estado efectivo.</div>}
+
+          {effectiveState && (
+            <>
+              <div style={{ marginTop: 10, fontSize: 13, color: "#52607a" }}>
+                Versión {effectiveState.state_version} • Actualizado: {new Date(effectiveState.generated_at).toLocaleString()}
+              </div>
+              <div style={{ marginTop: 10, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 10 }}>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Ámbitos analizados</div>
+                  <div style={{ fontWeight: 700 }}>{effectiveState.summary.total_scopes}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Determinados</div>
+                  <div style={{ fontWeight: 700 }}>{effectiveState.summary.determined}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Pendientes de revisión</div>
+                  <div style={{ fontWeight: 700 }}>{effectiveState.summary.pending_review}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Orden ambiguo</div>
+                  <div style={{ fontWeight: 700 }}>{effectiveState.summary.ambiguous_precedence}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Destino no resuelto</div>
+                  <div style={{ fontWeight: 700 }}>{effectiveState.summary.unresolved_target}</div>
+                </div>
+              </div>
+
+              <div style={{ marginTop: 12, overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                  <thead>
+                    <tr style={{ background: "#f8fafc" }}>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Documento afectado</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Ubicación</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Último cambio confirmado</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Fecha de cambio</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Estado</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Pendientes</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Fuente</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {effectiveState.scopes.map((scope) => {
+                      const effective = scope.effective_mutation;
+                      const latestDate = effective?.temporal_event_date ?? "-";
+                      const latestTime = effective?.temporal_event_time ? ` ${effective.temporal_event_time.slice(0, 5)}` : "";
+                      const latestChangeText = effective
+                        ? `${effective.change_type}: ${effective.before_text ?? "-"} -> ${effective.after_text ?? "-"}`
+                        : "-";
+                      const sourceText = effective
+                        ? `${effective.source_filename ?? effective.source_document_id} · pág. ${effective.source_page ?? "-"}`
+                        : "-";
+
+                      return (
+                        <tr key={scope.scope_key}>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            {scope.target_filename ?? scope.target_reference_key ?? "Sin destino"}
+                          </td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{scope.target_locator_text ?? "-"}</td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            <div>{latestChangeText}</div>
+                            {scope.resolution_status === "AMBIGUOUS_PRECEDENCE" && (
+                              <div style={{ marginTop: 6, color: "#7a4b00" }}>
+                                No hay evidencia temporal suficiente para determinar qué cambio es posterior.
+                              </div>
+                            )}
+                          </td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{`${latestDate}${latestTime}`}</td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            {effectiveStatusLabel(scope.resolution_status)}
+                            <div style={{ color: "#52607a", marginTop: 4 }}>{scope.temporal_reason}</div>
+                          </td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{scope.pending_changes.length}</td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            <div>{sourceText}</div>
+                            {scope.warnings.length > 0 && (
+                              <details style={{ marginTop: 6 }}>
+                                <summary style={{ cursor: "pointer", color: "#1b5bd8", fontWeight: 700 }}>Advertencias</summary>
+                                <div style={{ marginTop: 6, display: "grid", gap: 6 }}>
+                                  {scope.warnings.map((warning) => (
+                                    <div key={`${scope.scope_key}-${warning}`} style={{ color: "#52607a" }}>{warning}</div>
+                                  ))}
+                                </div>
+                              </details>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
