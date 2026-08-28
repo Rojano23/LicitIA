@@ -164,7 +164,14 @@ El usuario puede clasificar un documento a partir de evidencia de archivo y cont
 - MVP-03.2 (Tender Events & Timeline): CLOSED
 - MVP-03.3 (Clarifications & Modifications): CLOSED
 - MVP-03.4 (Effective Tender State): CLOSED
-- MVP-03.5 (Document Map + Tender State Snapshot): IN IMPLEMENTATION
+- MVP-03.5 (Document Map + Tender State Snapshot): CLOSED
+- MVP-03.6 (Golden Tender Integrated Acceptance): CLOSED
+- MVP-03 (Tender Understanding): CLOSED
+
+Nota de cierre MVP-03:
+MVP-03 closed with Golden Tender in PARTIALLY_UNDERSTOOD state because Tender Understanding is structurally coherent while the real corpus still contains intentionally visible processing gaps, unresolved/ambiguous references and human-review pending items. This does not block MVP-03 closure because incomplete evidence is explicitly represented rather than silently treated as understood.
+
+Requirement extraction begins in MVP-04.
 
 Nota de consolidación MVP-03.1:
 Document references, physical document relationships and corpus integrity were implemented ahead of schedule in MVP-02.5/MVP-02.6 because Golden Tender acceptance required them. MVP-03 reuses and consolidates these capabilities rather than duplicating them.
