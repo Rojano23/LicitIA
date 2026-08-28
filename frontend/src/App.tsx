@@ -449,6 +449,142 @@ type TenderEffectiveState = {
   scopes: TenderEffectiveStateScope[];
 };
 
+type SnapshotPendingAction = {
+  category: string;
+  severity: string;
+  title: string;
+  description: string;
+  document_id: string | null;
+  source_page: number | null;
+  related_entity_id: string | null;
+};
+
+type SnapshotDocumentMapEntry = {
+  source_document_id: string;
+  source_filename: string | null;
+  relationship_type: string;
+  target_document_id: string;
+  target_filename: string | null;
+  supporting_reference_count: number;
+  supporting_pages: number[];
+  resolution_origin: string;
+  supporting_change_ids: string[];
+};
+
+type TenderStateSnapshot = {
+  tender_id: string;
+  snapshot_version: string;
+  generated_at: string;
+  readiness: {
+    code: string;
+    label: string;
+    reason: string;
+    understanding_scope_note: string;
+  };
+  versions: {
+    document_intelligence_audit_version: string | null;
+    relationship_baseline_version: string | null;
+    timeline_version: string | null;
+    changes_version: string | null;
+    effective_state_version: string | null;
+  };
+  summary: {
+    documents: {
+      total_documents: number;
+      current_documents: number;
+      non_current_documents: number;
+      ready_for_analysis: number;
+      pending_processing: number;
+      with_normalized_content: number;
+      without_normalized_content: number;
+      classified: number;
+      unclassified: number;
+      confirmed_classifications: number;
+      suggested_classifications: number;
+    };
+    relationships: {
+      total_reference_mentions: number;
+      relationship_edge_count: number;
+      duplicate_edge_count: number;
+      self_edge_count: number;
+      unresolved_reference_groups_count: number;
+      ambiguous_reference_groups_count: number;
+    };
+    timeline: {
+      total_events: number;
+      suggested_events: number;
+      confirmed_events: number;
+      rejected_events: number;
+      duplicate_semantic_count: number;
+    };
+    changes: {
+      total_changes: number;
+      suggested_changes: number;
+      confirmed_changes: number;
+      rejected_changes: number;
+      unresolved_target_count: number;
+      ambiguous_target_count: number;
+      confirmed_mutating_count: number;
+      confirmed_non_replacing_count: number;
+    };
+    effective_state: {
+      total_scopes: number;
+      determined: number;
+      pending_review: number;
+      ambiguous_precedence: number;
+      unresolved_target: number;
+      no_confirmed_change: number;
+    };
+    pending_actions: {
+      total: number;
+      blocking: number;
+      warning: number;
+      info: number;
+    };
+    integrity: {
+      audit_overall_readiness: string;
+      total_findings: number;
+      cross_layer_issue_count: number;
+    };
+  };
+  documents: {
+    matrix: Array<{
+      document_id: string;
+      filename: string;
+      processing_status: string;
+      normalized: boolean;
+      classification_status: string;
+      reference_analysis_status: string;
+      event_count: number;
+      change_count: number;
+      findings_count: number;
+    }>;
+  };
+  relationships: {
+    document_map: SnapshotDocumentMapEntry[];
+  };
+  timeline: {
+    events: TenderEvent[];
+  };
+  changes: {
+    items: TenderChange[];
+  };
+  effective_state: {
+    scopes: Array<{
+      scope_key: string;
+      target_document_id: string | null;
+      target_filename: string | null;
+      target_reference_key: string | null;
+      target_locator_text: string | null;
+      resolution_status: string;
+      effective_change_id: string | null;
+      pending_change_count: number;
+    }>;
+  };
+  pending_actions: SnapshotPendingAction[];
+  top_pending_actions: SnapshotPendingAction[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -489,6 +625,8 @@ function App() {
   const [changesLoading, setChangesLoading] = useState(false);
   const [effectiveState, setEffectiveState] = useState<TenderEffectiveState | null>(null);
   const [effectiveStateLoading, setEffectiveStateLoading] = useState(false);
+  const [stateSnapshot, setStateSnapshot] = useState<TenderStateSnapshot | null>(null);
+  const [stateSnapshotLoading, setStateSnapshotLoading] = useState(false);
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
   const [editEventType, setEditEventType] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -598,6 +736,7 @@ function App() {
       setTimeline(null);
       setChanges(null);
       setEffectiveState(null);
+      setStateSnapshot(null);
       return;
     }
 
@@ -609,6 +748,7 @@ function App() {
     void loadTenderTimeline(selectedTenderId);
     void loadTenderChanges(selectedTenderId);
     void loadEffectiveState(selectedTenderId);
+    void loadTenderStateSnapshot(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -672,6 +812,7 @@ function App() {
       setPendingConflict(null);
       setSelectedRevisionTargetId("");
       await loadDocuments(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudo resolver el conflicto del documento.");
     } finally {
@@ -726,6 +867,7 @@ function App() {
 
       setImportResults(response.data);
       await loadDocuments(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("Unable to import the selected documents.");
     } finally {
@@ -763,6 +905,7 @@ function App() {
       await axios.post(`${API_URL}/tenders/${selectedTenderId}/documents/${selectedDocumentId}/extract-pages`);
       await loadDocuments(selectedTenderId);
       await loadDocumentPages(selectedTenderId, selectedDocumentId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudo extraer el texto del PDF.");
     } finally {
@@ -794,6 +937,7 @@ function App() {
       });
       await loadDocumentPages(selectedTenderId, selectedDocumentId);
       await loadOcrProviders();
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudo ejecutar el OCR del documento.");
     } finally {
@@ -834,6 +978,8 @@ function App() {
     try {
       const response = await axios.post<ReferenceAnalysis>(`${API_URL}/tenders/${selectedTenderId}/documents/${selectedDocumentId}/analyze-references`);
       setReferenceAnalysis(response.data);
+      await loadRelationshipBaseline(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudieron analizar las referencias del documento.");
     } finally {
@@ -860,6 +1006,8 @@ function App() {
       }
       const response = await axios.patch<ReferenceAnalysis>(`${API_URL}/tenders/${selectedTenderId}/references/${referenceId}`, payload);
       setReferenceAnalysis(response.data);
+      await loadRelationshipBaseline(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudo guardar la decisión de referencia.");
     }
@@ -888,6 +1036,7 @@ function App() {
       setAudit(response.data);
       await loadRelationshipBaseline(selectedTenderId);
       await loadTenderChanges(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudo auditar el estado documental del expediente.");
     } finally {
@@ -943,6 +1092,18 @@ function App() {
     }
   };
 
+  const loadTenderStateSnapshot = async (tenderId: string) => {
+    setStateSnapshotLoading(true);
+    try {
+      const response = await axios.get<TenderStateSnapshot>(`${API_URL}/tenders/${tenderId}/state-snapshot`);
+      setStateSnapshot(response.data);
+    } catch (err) {
+      setStateSnapshot(null);
+    } finally {
+      setStateSnapshotLoading(false);
+    }
+  };
+
   const handleAnalyzeEvents = async () => {
     if (!selectedTenderId) {
       return;
@@ -953,6 +1114,7 @@ function App() {
       const response = await axios.post<TenderTimeline>(`${API_URL}/tenders/${selectedTenderId}/analyze-events`);
       setTimeline(response.data);
       await loadEffectiveState(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudo analizar la línea de tiempo del procedimiento.");
     } finally {
@@ -971,6 +1133,7 @@ function App() {
       setChanges(response.data);
       await loadRelationshipBaseline(selectedTenderId);
       await loadEffectiveState(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudieron analizar aclaraciones y modificaciones.");
     } finally {
@@ -988,6 +1151,7 @@ function App() {
       setChanges(response.data);
       await loadRelationshipBaseline(selectedTenderId);
       await loadEffectiveState(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudo guardar la decisión del cambio.");
     }
@@ -1002,6 +1166,7 @@ function App() {
       const response = await axios.patch<TenderTimeline>(`${API_URL}/tenders/${selectedTenderId}/events/${eventId}`, { action });
       setTimeline(response.data);
       await loadEffectiveState(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudo guardar la decisión del evento.");
     }
@@ -1050,6 +1215,7 @@ function App() {
       setTimeline(response.data);
       cancelEditEvent();
       await loadEffectiveState(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudo modificar el evento.");
     }
@@ -1096,6 +1262,7 @@ function App() {
       cancelEditChange();
       await loadRelationshipBaseline(selectedTenderId);
       await loadEffectiveState(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudo modificar el cambio detectado.");
     }
@@ -1195,6 +1362,63 @@ function App() {
     return status;
   };
 
+  const readinessLabel = (value: string) => {
+    if (value === "UNDERSTOOD") {
+      return "Comprension estructural consolidada";
+    }
+    if (value === "PARTIALLY_UNDERSTOOD") {
+      return "Comprension parcial";
+    }
+    if (value === "NOT_READY") {
+      return "No listo estructuralmente";
+    }
+    return value;
+  };
+
+  const pendingSeverityLabel = (value: string) => {
+    if (value === "BLOCKING") {
+      return "Bloqueante";
+    }
+    if (value === "WARNING") {
+      return "Advertencia";
+    }
+    if (value === "INFO") {
+      return "Informativo";
+    }
+    return value;
+  };
+
+  const pendingCategoryLabel = (value: string) => {
+    if (value === "PROCESS_DOCUMENT") {
+      return "Procesar documento";
+    }
+    if (value === "REVIEW_CLASSIFICATION") {
+      return "Revisar clasificacion";
+    }
+    if (value === "RESOLVE_REFERENCE") {
+      return "Resolver referencia";
+    }
+    if (value === "REVIEW_EVENT") {
+      return "Revisar evento";
+    }
+    if (value === "REVIEW_CHANGE") {
+      return "Revisar cambio";
+    }
+    if (value === "RESOLVE_CHANGE_TARGET") {
+      return "Resolver destino de cambio";
+    }
+    if (value === "RESOLVE_PRECEDENCE") {
+      return "Resolver precedencia";
+    }
+    if (value === "REVIEW_DOCUMENT_COLLISION") {
+      return "Revisar colision de documentos";
+    }
+    if (value === "REPROCESS_STALE_ANALYSIS") {
+      return "Reprocesar analisis desactualizado";
+    }
+    return value;
+  };
+
   const referenceStatusLabel = (status: string) => {
     if (status === "AUTO_RESOLVED") {
       return "Resuelta";
@@ -1290,6 +1514,8 @@ function App() {
     try {
       const response = await axios.post<ClassificationResult>(`${API_URL}/tenders/${selectedTenderId}/documents/${selectedDocumentId}/classify`);
       setClassificationResult(response.data);
+      await loadDocumentIntelligenceAudit(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setClassificationResult(null);
       setError("No se pudo clasificar el documento.");
@@ -1310,6 +1536,8 @@ function App() {
         human_note: "Confirmado por usuario",
       });
       setClassificationResult(response.data);
+      await loadDocumentIntelligenceAudit(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudo confirmar la clasificación.");
     }
@@ -1326,6 +1554,8 @@ function App() {
         human_note: "Revisión humana requerida",
       });
       setClassificationResult(response.data);
+      await loadDocumentIntelligenceAudit(selectedTenderId);
+      await loadTenderStateSnapshot(selectedTenderId);
     } catch (err) {
       setError("No se pudo marcar la clasificación para revisión.");
     }
@@ -1475,10 +1705,132 @@ function App() {
         <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
             <h2 style={{ margin: 0 }}>Estado del expediente</h2>
-            <button type="button" onClick={() => void handleRunDocumentIntelligenceAudit()} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
-              {auditLoading ? "Auditando..." : "Auditar expediente"}
-            </button>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <button type="button" onClick={() => selectedTenderId && void loadTenderStateSnapshot(selectedTenderId)} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
+                {stateSnapshotLoading ? "Actualizando snapshot..." : "Actualizar snapshot"}
+              </button>
+              <button type="button" onClick={() => void handleRunDocumentIntelligenceAudit()} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
+                {auditLoading ? "Auditando..." : "Auditar expediente"}
+              </button>
+            </div>
           </div>
+
+          {stateSnapshotLoading && <div style={{ color: "#52607a", fontSize: 13, marginTop: 10 }}>Consolidando snapshot del expediente...</div>}
+          {!stateSnapshotLoading && !stateSnapshot && <div style={{ color: "#52607a", fontSize: 13, marginTop: 10 }}>No se pudo cargar el snapshot del expediente.</div>}
+
+          {stateSnapshot && (
+            <>
+              <div style={{ marginTop: 12, fontSize: 13, color: "#52607a" }}>
+                Snapshot {stateSnapshot.snapshot_version} • Readiness: <strong>{readinessLabel(stateSnapshot.readiness.code)}</strong> ({stateSnapshot.readiness.code}) • {new Date(stateSnapshot.generated_at).toLocaleString()}
+              </div>
+              <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>{stateSnapshot.readiness.reason}</div>
+
+              <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 10 }}>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Documentos</div>
+                  <div style={{ fontWeight: 700 }}>{stateSnapshot.summary.documents.current_documents} actuales / {stateSnapshot.summary.documents.total_documents} totales</div>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Pendientes proc.: {stateSnapshot.summary.documents.pending_processing}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Relaciones</div>
+                  <div style={{ fontWeight: 700 }}>{stateSnapshot.summary.relationships.relationship_edge_count} aristas</div>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Ambiguas {stateSnapshot.summary.relationships.ambiguous_reference_groups_count} • Sin resolver {stateSnapshot.summary.relationships.unresolved_reference_groups_count}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Eventos</div>
+                  <div style={{ fontWeight: 700 }}>{stateSnapshot.summary.timeline.total_events}</div>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Sugeridos {stateSnapshot.summary.timeline.suggested_events} • Confirmados {stateSnapshot.summary.timeline.confirmed_events}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Cambios</div>
+                  <div style={{ fontWeight: 700 }}>{stateSnapshot.summary.changes.total_changes}</div>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Sugeridos {stateSnapshot.summary.changes.suggested_changes} • Confirmados {stateSnapshot.summary.changes.confirmed_changes}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Estado efectivo</div>
+                  <div style={{ fontWeight: 700 }}>{stateSnapshot.summary.effective_state.total_scopes} ambitos</div>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Determinados {stateSnapshot.summary.effective_state.determined} • Orden por revisar {stateSnapshot.summary.effective_state.ambiguous_precedence}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Pendientes</div>
+                  <div style={{ fontWeight: 700 }}>{stateSnapshot.summary.pending_actions.total}</div>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>B {stateSnapshot.summary.pending_actions.blocking} • W {stateSnapshot.summary.pending_actions.warning} • I {stateSnapshot.summary.pending_actions.info}</div>
+                </div>
+              </div>
+
+              <div style={{ marginTop: 12, border: "1px solid #e8edf2", borderRadius: 10, padding: 10, background: "#f8fafc" }}>
+                <div style={{ fontWeight: 700, marginBottom: 8 }}>Pendientes principales</div>
+                {stateSnapshot.top_pending_actions.length === 0 ? (
+                  <div style={{ color: "#52607a", fontSize: 12 }}>Sin pendientes estructurales.</div>
+                ) : (
+                  <div style={{ display: "grid", gap: 6 }}>
+                    {stateSnapshot.top_pending_actions.map((item) => (
+                      <div key={`${item.category}-${item.related_entity_id ?? ""}-${item.document_id ?? ""}`} style={{ fontSize: 12 }}>
+                        <strong>{pendingSeverityLabel(item.severity)}</strong> • {pendingCategoryLabel(item.category)} • {item.title}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div style={{ marginTop: 12, overflowX: "auto" }}>
+                <div style={{ fontWeight: 700, marginBottom: 8 }}>Mapa documental consolidado</div>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                  <thead>
+                    <tr style={{ background: "#f8fafc" }}>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Origen</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Relación</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Destino</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Soporte</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {stateSnapshot.relationships.document_map.slice(0, 20).map((entry) => (
+                      <tr key={`${entry.source_document_id}-${entry.relationship_type}-${entry.target_document_id}`}>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{entry.source_filename ?? entry.source_document_id}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{entry.relationship_type}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{entry.target_filename ?? entry.target_document_id}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          {entry.supporting_reference_count} refs • págs {entry.supporting_pages.length > 0 ? entry.supporting_pages.join(", ") : "-"} • origen {entry.resolution_origin}
+                          {entry.supporting_change_ids.length > 0 && <div style={{ color: "#52607a" }}>Cambios: {entry.supporting_change_ids.join(", ")}</div>}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div style={{ marginTop: 12, overflowX: "auto" }}>
+                <div style={{ fontWeight: 700, marginBottom: 8 }}>Matriz por documento vigente</div>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                  <thead>
+                    <tr style={{ background: "#f8fafc" }}>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Documento</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Procesamiento</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Normalizado</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Clasificación</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Referencias</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Eventos/Cambios</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Findings</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {stateSnapshot.documents.matrix.map((row) => (
+                      <tr key={row.document_id}>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{row.filename}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{row.processing_status}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{row.normalized ? "Sí" : "No"}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{row.classification_status}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{row.reference_analysis_status}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{row.event_count} / {row.change_count}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{row.findings_count}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
 
           {!audit && <p style={{ color: "#52607a" }}>Sin auditoría cargada para esta licitación.</p>}
 

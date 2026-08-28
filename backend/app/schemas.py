@@ -787,3 +787,198 @@ class TenderEffectiveStateRead(BaseModel):
     generated_at: datetime
     summary: TenderEffectiveStateSummaryRead
     scopes: list[TenderEffectiveStateScopeRead] = Field(default_factory=list)
+
+
+class SnapshotReadinessRead(BaseModel):
+    code: str
+    label: str
+    reason: str
+    understanding_scope_note: str
+
+
+class SnapshotVersionsRead(BaseModel):
+    document_intelligence_audit_version: str | None = None
+    relationship_baseline_version: str | None = None
+    timeline_version: str | None = None
+    changes_version: str | None = None
+    effective_state_version: str | None = None
+
+
+class SnapshotDocumentsSummaryRead(BaseModel):
+    total_documents: int
+    current_documents: int
+    non_current_documents: int
+    ready_for_analysis: int
+    pending_processing: int
+    with_normalized_content: int
+    without_normalized_content: int
+    classified: int
+    unclassified: int
+    confirmed_classifications: int
+    suggested_classifications: int
+
+
+class SnapshotRelationshipsSummaryRead(BaseModel):
+    total_reference_mentions: int
+    reference_status_counts: AuditReferenceStatusCountsRead
+    relationship_edge_count: int
+    relationship_type_counts: AuditRelationshipTypeCountsRead
+    duplicate_edge_count: int
+    self_edge_count: int
+    unresolved_reference_groups_count: int
+    ambiguous_reference_groups_count: int
+
+
+class SnapshotTimelineSummaryRead(BaseModel):
+    total_events: int
+    suggested_events: int
+    confirmed_events: int
+    rejected_events: int
+    duplicate_semantic_count: int
+
+
+class SnapshotChangesSummaryRead(BaseModel):
+    total_changes: int
+    suggested_changes: int
+    confirmed_changes: int
+    rejected_changes: int
+    duplicate_semantic_count: int
+    counts_by_change_type: dict[str, int] = Field(default_factory=dict)
+    unresolved_target_count: int
+    ambiguous_target_count: int
+    confirmed_mutating_count: int
+    confirmed_non_replacing_count: int
+
+
+class SnapshotEffectiveStateSummaryRead(BaseModel):
+    total_scopes: int
+    determined: int
+    pending_review: int
+    ambiguous_precedence: int
+    unresolved_target: int
+    no_confirmed_change: int
+
+
+class SnapshotPendingActionsSummaryRead(BaseModel):
+    total: int
+    blocking: int
+    warning: int
+    info: int
+
+
+class SnapshotIntegritySummaryRead(BaseModel):
+    audit_overall_readiness: str
+    total_findings: int
+    cross_layer_issue_count: int
+
+
+class SnapshotSummaryRead(BaseModel):
+    documents: SnapshotDocumentsSummaryRead
+    relationships: SnapshotRelationshipsSummaryRead
+    timeline: SnapshotTimelineSummaryRead
+    changes: SnapshotChangesSummaryRead
+    effective_state: SnapshotEffectiveStateSummaryRead
+    pending_actions: SnapshotPendingActionsSummaryRead
+    integrity: SnapshotIntegritySummaryRead
+
+
+class SnapshotDocumentMatrixRowRead(BaseModel):
+    document_id: str
+    filename: str
+    processing_status: str
+    normalized: bool
+    classification_status: str
+    reference_analysis_status: str
+    event_count: int
+    change_count: int
+    findings_count: int
+
+
+class SnapshotDocumentMapEntryRead(BaseModel):
+    source_document_id: str
+    source_filename: str | None = None
+    relationship_type: str
+    target_document_id: str
+    target_filename: str | None = None
+    supporting_reference_count: int
+    supporting_pages: list[int] = Field(default_factory=list)
+    resolution_origin: str
+    supporting_change_ids: list[str] = Field(default_factory=list)
+
+
+class SnapshotEffectiveScopeRead(BaseModel):
+    scope_key: str
+    target_document_id: str | None = None
+    target_filename: str | None = None
+    target_reference_key: str | None = None
+    target_locator_text: str | None = None
+    resolution_status: str
+    effective_change_id: str | None = None
+    pending_change_count: int
+
+
+class SnapshotCrossLayerIssueRead(BaseModel):
+    code: str
+    severity: str
+    message: str
+    related_entity_id: str | None = None
+    document_id: str | None = None
+
+
+class SnapshotIntegrityRead(BaseModel):
+    document_intelligence_audit: dict[str, object]
+    cross_layer_issues: list[SnapshotCrossLayerIssueRead] = Field(default_factory=list)
+
+
+class SnapshotPendingActionRead(BaseModel):
+    category: str
+    severity: str
+    title: str
+    description: str
+    document_id: str | None = None
+    source_page: int | None = None
+    related_entity_id: str | None = None
+
+
+class SnapshotDocumentsRead(BaseModel):
+    summary: SnapshotDocumentsSummaryRead
+    matrix: list[SnapshotDocumentMatrixRowRead] = Field(default_factory=list)
+
+
+class SnapshotRelationshipsRead(BaseModel):
+    summary: SnapshotRelationshipsSummaryRead
+    unresolved_reference_groups: list[UnresolvedReferenceGroupRead] = Field(default_factory=list)
+    ambiguous_reference_groups: list[AmbiguousReferenceGroupRead] = Field(default_factory=list)
+    document_map: list[SnapshotDocumentMapEntryRead] = Field(default_factory=list)
+
+
+class SnapshotTimelineRead(BaseModel):
+    summary: SnapshotTimelineSummaryRead
+    events: list[TenderEventRead] = Field(default_factory=list)
+
+
+class SnapshotChangesRead(BaseModel):
+    summary: SnapshotChangesSummaryRead
+    items: list[TenderChangeRead] = Field(default_factory=list)
+
+
+class SnapshotEffectiveStateRead(BaseModel):
+    summary: SnapshotEffectiveStateSummaryRead
+    scopes: list[SnapshotEffectiveScopeRead] = Field(default_factory=list)
+
+
+class TenderStateSnapshotRead(BaseModel):
+    tender_id: str
+    snapshot_version: str
+    generated_at: datetime
+    readiness: SnapshotReadinessRead
+    versions: SnapshotVersionsRead
+    summary: SnapshotSummaryRead
+    documents: SnapshotDocumentsRead
+    relationships: SnapshotRelationshipsRead
+    timeline: SnapshotTimelineRead
+    changes: SnapshotChangesRead
+    effective_state: SnapshotEffectiveStateRead
+    integrity: SnapshotIntegrityRead
+    pending_actions: list[SnapshotPendingActionRead] = Field(default_factory=list)
+    top_pending_actions: list[SnapshotPendingActionRead] = Field(default_factory=list)

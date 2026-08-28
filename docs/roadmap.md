@@ -163,7 +163,8 @@ El usuario puede clasificar un documento a partir de evidencia de archivo y cont
 - MVP-03.1 (Relationship Baseline Consolidation): CLOSED
 - MVP-03.2 (Tender Events & Timeline): CLOSED
 - MVP-03.3 (Clarifications & Modifications): CLOSED
-- MVP-03.4 (Effective Tender State): IN IMPLEMENTATION
+- MVP-03.4 (Effective Tender State): CLOSED
+- MVP-03.5 (Document Map + Tender State Snapshot): IN IMPLEMENTATION
 
 Nota de consolidación MVP-03.1:
 Document references, physical document relationships and corpus integrity were implemented ahead of schedule in MVP-02.5/MVP-02.6 because Golden Tender acceptance required them. MVP-03 reuses and consolidates these capabilities rather than duplicating them.
