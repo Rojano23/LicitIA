@@ -283,6 +283,56 @@ type RelationshipBaseline = {
   document_map: DocumentMapEntry[];
 };
 
+type TenderEventEvidence = {
+  id: string;
+  source_document_id: string;
+  source_filename: string | null;
+  source_page: number | null;
+  source_excerpt: string;
+};
+
+type TenderEvent = {
+  id: string;
+  tender_id: string;
+  semantic_key: string;
+  event_type: string;
+  title: string;
+  event_date: string | null;
+  event_time: string | null;
+  date_precision: string;
+  timezone: string | null;
+  review_status: string;
+  detection_origin: string;
+  detector_version: string;
+  source_document_id: string | null;
+  source_filename: string | null;
+  source_page: number | null;
+  source_excerpt: string | null;
+  raw_date_text: string | null;
+  human_event_type: string | null;
+  human_title: string | null;
+  human_event_date: string | null;
+  human_event_time: string | null;
+  human_date_precision: string | null;
+  human_timezone: string | null;
+  human_note: string | null;
+  evidence: TenderEventEvidence[];
+};
+
+type TenderTimeline = {
+  tender_id: string;
+  timeline_version: string;
+  generated_at: string;
+  counts: {
+    total_events: number;
+    suggested_events: number;
+    confirmed_events: number;
+    rejected_events: number;
+    duplicate_semantic_count: number;
+  };
+  events: TenderEvent[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -317,7 +367,29 @@ function App() {
   const [auditLoading, setAuditLoading] = useState(false);
   const [relationshipBaseline, setRelationshipBaseline] = useState<RelationshipBaseline | null>(null);
   const [relationshipBaselineLoading, setRelationshipBaselineLoading] = useState(false);
+  const [timeline, setTimeline] = useState<TenderTimeline | null>(null);
+  const [timelineLoading, setTimelineLoading] = useState(false);
+  const [editingEventId, setEditingEventId] = useState<string | null>(null);
+  const [editEventType, setEditEventType] = useState("");
+  const [editTitle, setEditTitle] = useState("");
+  const [editDate, setEditDate] = useState("");
+  const [editTime, setEditTime] = useState("");
+  const [editNote, setEditNote] = useState("");
   const documentRequestRef = useRef(0);
+
+  const EVENT_TYPE_OPTIONS = [
+    "TENDER_PUBLICATION",
+    "BIDDING_RULES_PUBLICATION",
+    "SITE_VISIT",
+    "CLARIFICATION_MEETING",
+    "PROPOSAL_SUBMISSION_DEADLINE",
+    "TECHNICAL_OPENING",
+    "ECONOMIC_OPENING",
+    "AWARD_ANNOUNCEMENT",
+    "CONTRACT_SIGNATURE_DEADLINE",
+    "ADDENDUM_PUBLICATION",
+    "CANCELLATION",
+  ];
 
   const loadTenders = async () => {
     try {
@@ -384,6 +456,7 @@ function App() {
       setReferenceAnalysis(null);
       setAudit(null);
       setRelationshipBaseline(null);
+      setTimeline(null);
       return;
     }
 
@@ -392,6 +465,7 @@ function App() {
     void loadOcrProviders();
     void loadDocumentIntelligenceAudit(selectedTenderId);
     void loadRelationshipBaseline(selectedTenderId);
+    void loadTenderTimeline(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -687,6 +761,131 @@ function App() {
     } finally {
       setRelationshipBaselineLoading(false);
     }
+  };
+
+  const loadTenderTimeline = async (tenderId: string) => {
+    setTimelineLoading(true);
+    try {
+      const response = await axios.get<TenderTimeline>(`${API_URL}/tenders/${tenderId}/events`);
+      setTimeline(response.data);
+    } catch (err) {
+      setTimeline(null);
+    } finally {
+      setTimelineLoading(false);
+    }
+  };
+
+  const handleAnalyzeEvents = async () => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    setTimelineLoading(true);
+    try {
+      const response = await axios.post<TenderTimeline>(`${API_URL}/tenders/${selectedTenderId}/analyze-events`);
+      setTimeline(response.data);
+    } catch (err) {
+      setError("No se pudo analizar la línea de tiempo del procedimiento.");
+    } finally {
+      setTimelineLoading(false);
+    }
+  };
+
+  const handleEventDecision = async (eventId: string, action: "CONFIRM" | "REJECT" | "RESET_TO_SUGGESTED") => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    try {
+      const response = await axios.patch<TenderTimeline>(`${API_URL}/tenders/${selectedTenderId}/events/${eventId}`, { action });
+      setTimeline(response.data);
+    } catch (err) {
+      setError("No se pudo guardar la decisión del evento.");
+    }
+  };
+
+  const openEditEvent = (eventItem: TenderEvent) => {
+    setEditingEventId(eventItem.id);
+    setEditEventType(eventItem.human_event_type ?? eventItem.event_type);
+    setEditTitle(eventItem.human_title ?? eventItem.title);
+    setEditDate(eventItem.human_event_date ?? eventItem.event_date ?? "");
+    setEditTime(eventItem.human_event_time ? eventItem.human_event_time.slice(0, 5) : eventItem.event_time ? eventItem.event_time.slice(0, 5) : "");
+    setEditNote(eventItem.human_note ?? "");
+  };
+
+  const cancelEditEvent = () => {
+    setEditingEventId(null);
+    setEditEventType("");
+    setEditTitle("");
+    setEditDate("");
+    setEditTime("");
+    setEditNote("");
+  };
+
+  const saveEventOverride = async (eventId: string) => {
+    if (!selectedTenderId) {
+      return;
+    }
+    if (!editDate.trim()) {
+      setError("La fecha del evento es obligatoria para modificar un evento.");
+      return;
+    }
+
+    try {
+      const payload: Record<string, string> = {
+        action: "OVERRIDE",
+        event_type: editEventType,
+        title: editTitle,
+        event_date: editDate,
+        date_precision: "DAY",
+        human_note: editNote,
+      };
+      if (editTime.trim()) {
+        payload.event_time = `${editTime}:00`;
+      }
+      const response = await axios.patch<TenderTimeline>(`${API_URL}/tenders/${selectedTenderId}/events/${eventId}`, payload);
+      setTimeline(response.data);
+      cancelEditEvent();
+    } catch (err) {
+      setError("No se pudo modificar el evento.");
+    }
+  };
+
+  const openEventSource = async (eventItem: TenderEvent) => {
+    if (!selectedTenderId || !eventItem.source_document_id) {
+      return;
+    }
+
+    setSelectedDocumentId(eventItem.source_document_id);
+    await loadDocumentPages(selectedTenderId, eventItem.source_document_id);
+    await loadDocumentClassification(selectedTenderId, eventItem.source_document_id);
+    await loadDocumentReferences(selectedTenderId, eventItem.source_document_id);
+    if (eventItem.source_page !== null) {
+      setSelectedPageNumber(eventItem.source_page);
+    }
+  };
+
+  const eventStatusLabel = (status: string) => {
+    if (status === "CONFIRMED") {
+      return "Confirmado";
+    }
+    if (status === "REJECTED") {
+      return "Rechazado";
+    }
+    if (status === "SUGGESTED") {
+      return "Sugerido";
+    }
+    return status;
+  };
+
+  const hasHumanOverride = (eventItem: TenderEvent) => {
+    return Boolean(
+      eventItem.human_event_type ||
+      eventItem.human_title ||
+      eventItem.human_event_date ||
+      eventItem.human_event_time ||
+      eventItem.human_note,
+    );
   };
 
   const referenceStatusLabel = (status: string) => {
@@ -1107,6 +1306,164 @@ function App() {
                         <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{entry.target_filename ?? entry.target_document_id}</td>
                         <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
                           {entry.supporting_reference_count} refs • págs {entry.supporting_pages.length > 0 ? entry.supporting_pages.join(", ") : "-"} • origen {entry.resolution_origin}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </section>
+      )}
+
+      {selectedTenderId && (
+        <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+            <h2 style={{ margin: 0 }}>Timeline del procedimiento</h2>
+            <button type="button" onClick={() => void handleAnalyzeEvents()} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
+              {timelineLoading ? "Analizando..." : "Analizar eventos"}
+            </button>
+          </div>
+
+          {timelineLoading && <div style={{ color: "#52607a", fontSize: 13 }}>Cargando timeline...</div>}
+          {!timelineLoading && !timeline && <div style={{ color: "#52607a", fontSize: 13 }}>Sin timeline todavía para esta licitación.</div>}
+
+          {timeline && (
+            <>
+              <div style={{ marginTop: 10, fontSize: 13, color: "#52607a" }}>
+                Versión {timeline.timeline_version} • Actualizado: {new Date(timeline.generated_at).toLocaleString()}
+              </div>
+              <div style={{ marginTop: 10, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10 }}>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Total eventos</div>
+                  <div style={{ fontWeight: 700 }}>{timeline.counts.total_events}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Sugeridos / Confirmados</div>
+                  <div style={{ fontWeight: 700 }}>{timeline.counts.suggested_events} / {timeline.counts.confirmed_events}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Rechazados</div>
+                  <div style={{ fontWeight: 700 }}>{timeline.counts.rejected_events}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Duplicados semánticos</div>
+                  <div style={{ fontWeight: 700 }}>{timeline.counts.duplicate_semantic_count}</div>
+                </div>
+              </div>
+
+              <div style={{ marginTop: 12, overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                  <thead>
+                    <tr style={{ background: "#f8fafc" }}>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Evento</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Fecha / Hora</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Estado</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Fuente</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {timeline.events.map((eventItem) => (
+                      <tr key={eventItem.id}>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          <div style={{ fontWeight: 700 }}>{eventItem.human_title ?? eventItem.title}</div>
+                          <div style={{ color: "#52607a" }}>{eventItem.human_event_type ?? eventItem.event_type}</div>
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          {eventItem.human_event_date ?? eventItem.event_date ?? "-"} {eventItem.human_event_time ?? eventItem.event_time ?? ""}
+                          <div style={{ color: "#52607a" }}>Precisión: {eventItem.date_precision}</div>
+                          {hasHumanOverride(eventItem) && (
+                            <div style={{ color: "#0f766e", marginTop: 4 }}>Modificado por usuario</div>
+                          )}
+                          {hasHumanOverride(eventItem) && (
+                            <div style={{ color: "#52607a", marginTop: 4 }}>
+                              Detectado: {eventItem.event_date ?? "-"} {eventItem.event_time ?? ""}
+                            </div>
+                          )}
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          {eventStatusLabel(eventItem.review_status)}
+                          {eventItem.human_note && <div style={{ color: "#52607a", marginTop: 4 }}>{eventItem.human_note}</div>}
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          {eventItem.source_filename ?? eventItem.source_document_id ?? "-"}
+                          <div style={{ color: "#52607a" }}>Pág. {eventItem.source_page ?? "-"}</div>
+                          {eventItem.evidence.length > 0 && (
+                            <details style={{ marginTop: 6 }}>
+                              <summary style={{ cursor: "pointer", color: "#1b5bd8", fontWeight: 700 }}>Evidencia</summary>
+                              <div style={{ marginTop: 6, display: "grid", gap: 6 }}>
+                                {eventItem.evidence.map((evidence) => (
+                                  <div key={evidence.id} style={{ fontSize: 12, color: "#52607a" }}>
+                                    "{evidence.source_excerpt}" ({evidence.source_filename ?? evidence.source_document_id} · pág. {evidence.source_page ?? "-"})
+                                  </div>
+                                ))}
+                              </div>
+                            </details>
+                          )}
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                            {eventItem.review_status === "SUGGESTED" && (
+                              <button type="button" onClick={() => void handleEventDecision(eventItem.id, "CONFIRM")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                Confirmar
+                              </button>
+                            )}
+                            <button type="button" onClick={() => openEditEvent(eventItem)} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                              Modificar
+                            </button>
+                            {eventItem.review_status !== "REJECTED" ? (
+                              <button type="button" onClick={() => void handleEventDecision(eventItem.id, "REJECT")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                Rechazar
+                              </button>
+                            ) : (
+                              <button type="button" onClick={() => void handleEventDecision(eventItem.id, "RESET_TO_SUGGESTED")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                Restablecer
+                              </button>
+                            )}
+                            {eventItem.source_document_id && (
+                              <button type="button" onClick={() => void openEventSource(eventItem)} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                Ver fuente
+                              </button>
+                            )}
+                          </div>
+                          {editingEventId === eventItem.id && (
+                            <div style={{ marginTop: 10, border: "1px solid #d9e1ec", borderRadius: 8, padding: 10, background: "#f8fafc", display: "grid", gap: 8 }}>
+                              <label style={{ fontSize: 12, color: "#52607a" }}>
+                                Evento
+                                <select value={editEventType} onChange={(event) => setEditEventType(event.target.value)} style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #cfd8e3", marginTop: 4 }}>
+                                  {EVENT_TYPE_OPTIONS.map((item) => (
+                                    <option key={item} value={item}>{item}</option>
+                                  ))}
+                                </select>
+                              </label>
+                              <label style={{ fontSize: 12, color: "#52607a" }}>
+                                Título
+                                <input value={editTitle} onChange={(event) => setEditTitle(event.target.value)} style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #cfd8e3", marginTop: 4 }} />
+                              </label>
+                              <label style={{ fontSize: 12, color: "#52607a" }}>
+                                Fecha
+                                <input type="date" value={editDate} onChange={(event) => setEditDate(event.target.value)} style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #cfd8e3", marginTop: 4 }} />
+                              </label>
+                              <label style={{ fontSize: 12, color: "#52607a" }}>
+                                Hora (opcional)
+                                <input type="time" value={editTime} onChange={(event) => setEditTime(event.target.value)} style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #cfd8e3", marginTop: 4 }} />
+                              </label>
+                              <label style={{ fontSize: 12, color: "#52607a" }}>
+                                Nota (opcional)
+                                <textarea value={editNote} onChange={(event) => setEditNote(event.target.value)} style={{ width: "100%", minHeight: 68, padding: 8, borderRadius: 6, border: "1px solid #cfd8e3", marginTop: 4 }} />
+                              </label>
+                              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                                <button type="button" onClick={() => void saveEventOverride(eventItem.id)} style={{ padding: "6px 10px", borderRadius: 6, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700 }}>
+                                  Guardar
+                                </button>
+                                <button type="button" onClick={cancelEditEvent} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                  Cancelar
+                                </button>
+                              </div>
+                            </div>
+                          )}
                         </td>
                       </tr>
                     ))}

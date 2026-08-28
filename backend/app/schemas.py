@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime, time
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -581,3 +581,68 @@ class TenderRelationshipBaselineRead(BaseModel):
     ambiguous_reference_groups: list[AmbiguousReferenceGroupRead] = Field(default_factory=list)
     relationship_edges: list[RelationshipEdgeSummaryRead] = Field(default_factory=list)
     document_map: list[DocumentMapEntryRead] = Field(default_factory=list)
+
+
+class TenderEventEvidenceRead(BaseModel):
+    id: str
+    source_document_id: str
+    source_filename: str | None = None
+    source_page: int | None = None
+    source_excerpt: str
+
+
+class TenderEventRead(BaseModel):
+    id: str
+    tender_id: str
+    semantic_key: str
+    event_type: str
+    title: str
+    event_date: date | None = None
+    event_time: time | None = None
+    date_precision: str
+    timezone: str | None = None
+    review_status: str
+    detection_origin: str
+    detector_version: str
+    source_document_id: str | None = None
+    source_filename: str | None = None
+    source_page: int | None = None
+    source_excerpt: str | None = None
+    raw_date_text: str | None = None
+    human_event_type: str | None = None
+    human_title: str | None = None
+    human_event_date: date | None = None
+    human_event_time: time | None = None
+    human_date_precision: str | None = None
+    human_timezone: str | None = None
+    human_note: str | None = None
+    created_at: datetime
+    updated_at: datetime
+    evidence: list[TenderEventEvidenceRead] = Field(default_factory=list)
+
+
+class TenderTimelineCountsRead(BaseModel):
+    total_events: int
+    suggested_events: int
+    confirmed_events: int
+    rejected_events: int
+    duplicate_semantic_count: int
+
+
+class TenderTimelineRead(BaseModel):
+    tender_id: str
+    timeline_version: str
+    generated_at: datetime
+    counts: TenderTimelineCountsRead
+    events: list[TenderEventRead] = Field(default_factory=list)
+
+
+class TenderEventDecisionWrite(BaseModel):
+    action: str = Field(..., min_length=1, max_length=64)
+    event_type: str | None = Field(default=None, max_length=64)
+    title: str | None = Field(default=None, max_length=255)
+    event_date: date | None = None
+    event_time: time | None = None
+    date_precision: str | None = Field(default=None, max_length=16)
+    timezone: str | None = Field(default=None, max_length=32)
+    human_note: str | None = Field(default=None, max_length=2000)

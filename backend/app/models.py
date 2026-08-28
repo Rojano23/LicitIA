@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import date, datetime, time, timezone
 from enum import Enum
 from uuid import uuid4
 
-from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Index, Integer, String, Text, UniqueConstraint
+from sqlalchemy import Boolean, Date, DateTime, Float, ForeignKey, Index, Integer, String, Text, Time, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -57,6 +57,7 @@ class Tender(Base):
     )
 
     documents: Mapped[list["TenderDocument"]] = relationship(back_populates="tender")
+    events: Mapped[list["TenderEvent"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
 
 
 class TenderDocument(Base):
@@ -129,6 +130,14 @@ class TenderDocument(Base):
     inbound_relationships: Mapped[list["DocumentRelationship"]] = relationship(
         back_populates="target_document",
         foreign_keys="DocumentRelationship.target_document_id",
+    )
+    sourced_events: Mapped[list["TenderEvent"]] = relationship(
+        back_populates="source_document",
+        foreign_keys="TenderEvent.source_document_id",
+    )
+    event_evidence: Mapped[list["TenderEventEvidence"]] = relationship(
+        back_populates="source_document",
+        foreign_keys="TenderEventEvidence.source_document_id",
     )
 
 
@@ -671,3 +680,97 @@ class DocumentRelationship(Base):
 
     source_document: Mapped[TenderDocument] = relationship(back_populates="outbound_relationships", foreign_keys=[source_document_id])
     target_document: Mapped[TenderDocument] = relationship(back_populates="inbound_relationships", foreign_keys=[target_document_id])
+
+
+class TenderEvent(Base):
+    __tablename__ = "tender_events"
+
+    __table_args__ = (
+        UniqueConstraint("tender_id", "semantic_key", name="uq_tender_event_semantic_key"),
+        Index("ix_tender_events_tender_id", "tender_id"),
+        Index("ix_tender_events_review_status", "review_status"),
+        Index("ix_tender_events_event_date", "event_date"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    semantic_key: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    event_type: Mapped[str] = mapped_column(String(64), nullable=False, default="UNKNOWN")
+    title: Mapped[str] = mapped_column(String(255), nullable=False, default="")
+    event_date: Mapped[date | None] = mapped_column(Date, nullable=True)
+    event_time: Mapped[time | None] = mapped_column(Time(timezone=False), nullable=True)
+    date_precision: Mapped[str] = mapped_column(String(16), nullable=False, default="DAY")
+    timezone: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    raw_date_text: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    review_status: Mapped[str] = mapped_column(String(32), nullable=False, default="SUGGESTED")
+    detection_origin: Mapped[str] = mapped_column(String(32), nullable=False, default="DETERMINISTIC")
+    detector_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-03.2")
+    source_document_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+    source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    source_excerpt: Mapped[str | None] = mapped_column(Text, nullable=True)
+    human_event_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    human_title: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    human_event_date: Mapped[date | None] = mapped_column(Date, nullable=True)
+    human_event_time: Mapped[time | None] = mapped_column(Time(timezone=False), nullable=True)
+    human_date_precision: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    human_timezone: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    human_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship(back_populates="events")
+    source_document: Mapped[TenderDocument | None] = relationship(back_populates="sourced_events", foreign_keys=[source_document_id])
+    evidence: Mapped[list["TenderEventEvidence"]] = relationship(back_populates="event", cascade="all, delete-orphan")
+
+
+class TenderEventEvidence(Base):
+    __tablename__ = "tender_event_evidence"
+
+    __table_args__ = (
+        UniqueConstraint("event_id", "source_document_id", "source_page", "excerpt_sha256", name="uq_tender_event_evidence_item"),
+        Index("ix_tender_event_evidence_event_id", "event_id"),
+        Index("ix_tender_event_evidence_source_document_id", "source_document_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    event_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_events.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    excerpt_sha256: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    event: Mapped[TenderEvent] = relationship(back_populates="evidence")
+    source_document: Mapped[TenderDocument] = relationship(back_populates="event_evidence", foreign_keys=[source_document_id])
