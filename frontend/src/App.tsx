@@ -248,6 +248,41 @@ type DocumentIntelligenceAudit = {
   findings: AuditFinding[];
 };
 
+type BaselineReferenceStatusCounts = {
+  AUTO_RESOLVED: number;
+  HUMAN_RESOLVED: number;
+  AMBIGUOUS: number;
+  UNRESOLVED: number;
+  IGNORED: number;
+};
+
+type DocumentMapEntry = {
+  source_document_id: string;
+  source_filename: string | null;
+  relationship_type: string;
+  target_document_id: string;
+  target_filename: string | null;
+  supporting_reference_count: number;
+  supporting_pages: number[];
+  resolution_origin: string;
+};
+
+type RelationshipBaseline = {
+  tender_id: string;
+  baseline_version: string;
+  source_audit_version: string;
+  generated_at: string;
+  counts: {
+    relationship_edge_count: number;
+    unresolved_reference_groups_count: number;
+    ambiguous_reference_groups_count: number;
+    duplicate_edge_count: number;
+    self_edge_count: number;
+  };
+  reference_status_counts: BaselineReferenceStatusCounts;
+  document_map: DocumentMapEntry[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -280,6 +315,8 @@ function App() {
   const [referenceTargetSelections, setReferenceTargetSelections] = useState<Record<string, string>>({});
   const [audit, setAudit] = useState<DocumentIntelligenceAudit | null>(null);
   const [auditLoading, setAuditLoading] = useState(false);
+  const [relationshipBaseline, setRelationshipBaseline] = useState<RelationshipBaseline | null>(null);
+  const [relationshipBaselineLoading, setRelationshipBaselineLoading] = useState(false);
   const documentRequestRef = useRef(0);
 
   const loadTenders = async () => {
@@ -346,6 +383,7 @@ function App() {
       setSelectedDocumentId(null);
       setReferenceAnalysis(null);
       setAudit(null);
+      setRelationshipBaseline(null);
       return;
     }
 
@@ -353,6 +391,7 @@ function App() {
     void loadDocuments(selectedTenderId);
     void loadOcrProviders();
     void loadDocumentIntelligenceAudit(selectedTenderId);
+    void loadRelationshipBaseline(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -630,10 +669,23 @@ function App() {
     try {
       const response = await axios.post<DocumentIntelligenceAudit>(`${API_URL}/tenders/${selectedTenderId}/audit-document-intelligence`);
       setAudit(response.data);
+      await loadRelationshipBaseline(selectedTenderId);
     } catch (err) {
       setError("No se pudo auditar el estado documental del expediente.");
     } finally {
       setAuditLoading(false);
+    }
+  };
+
+  const loadRelationshipBaseline = async (tenderId: string) => {
+    setRelationshipBaselineLoading(true);
+    try {
+      const response = await axios.get<RelationshipBaseline>(`${API_URL}/tenders/${tenderId}/relationship-baseline`);
+      setRelationshipBaseline(response.data);
+    } catch (err) {
+      setRelationshipBaseline(null);
+    } finally {
+      setRelationshipBaselineLoading(false);
     }
   };
 
@@ -996,6 +1048,66 @@ function App() {
                           {row.reference_analysis_status} • A:{row.auto_resolved_reference_count} H:{row.human_resolved_reference_count} Am:{row.ambiguous_reference_count} U:{row.unresolved_reference_count}
                         </td>
                         <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{row.integrity_findings.join(", ") || "OK"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </section>
+      )}
+
+      {selectedTenderId && (
+        <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
+          <h2 style={{ marginTop: 0 }}>Mapa documental</h2>
+          {relationshipBaselineLoading && <div style={{ color: "#52607a", fontSize: 13 }}>Cargando baseline relacional...</div>}
+          {!relationshipBaselineLoading && !relationshipBaseline && (
+            <div style={{ color: "#52607a", fontSize: 13 }}>No se pudo cargar el baseline relacional.</div>
+          )}
+          {relationshipBaseline && (
+            <>
+              <div style={{ fontSize: 13, color: "#52607a" }}>
+                Baseline {relationshipBaseline.baseline_version} (fuente audit {relationshipBaseline.source_audit_version}) • {new Date(relationshipBaseline.generated_at).toLocaleString()}
+              </div>
+              <div style={{ marginTop: 10, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10 }}>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Relaciones</div>
+                  <div style={{ fontWeight: 700 }}>{relationshipBaseline.counts.relationship_edge_count}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Referencias ambiguas</div>
+                  <div style={{ fontWeight: 700 }}>{relationshipBaseline.reference_status_counts.AMBIGUOUS}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Referencia sin documento físico resuelto</div>
+                  <div style={{ fontWeight: 700 }}>{relationshipBaseline.reference_status_counts.UNRESOLVED}</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Integridad del grafo</div>
+                  <div style={{ fontWeight: 700 }}>Dup {relationshipBaseline.counts.duplicate_edge_count} • Self {relationshipBaseline.counts.self_edge_count}</div>
+                </div>
+              </div>
+
+              <div style={{ marginTop: 12, overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                  <thead>
+                    <tr style={{ background: "#f8fafc" }}>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Documento origen</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Relación</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Documento destino</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Evidencias</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {relationshipBaseline.document_map.map((entry) => (
+                      <tr key={`${entry.source_document_id}-${entry.relationship_type}-${entry.target_document_id}`}>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{entry.source_filename ?? entry.source_document_id}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{entry.relationship_type}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{entry.target_filename ?? entry.target_document_id}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          {entry.supporting_reference_count} refs • págs {entry.supporting_pages.length > 0 ? entry.supporting_pages.join(", ") : "-"} • origen {entry.resolution_origin}
+                        </td>
                       </tr>
                     ))}
                   </tbody>

@@ -89,7 +89,7 @@ Golden Tender #001 puede cargarse, navegarse, verificarse y revisarse sin altera
 - MVP-02.3 (NormalizedContent + chunking): CLOSED
 - MVP-02.4 (Document Classification): CLOSED
 - MVP-02.5 (References + Relationships): CLOSED
-- MVP-02.6 (Golden Tender Integrated Acceptance): IN ACCEPTANCE
+- MVP-02.6 (Golden Tender Integrated Acceptance): CLOSED
 
 ### Objetivo
 
@@ -157,6 +157,13 @@ El usuario puede clasificar un documento a partir de evidencia de archivo y cont
 ---
 
 ## MVP-03 — Tender Understanding
+
+### Estado actual
+
+- MVP-03.1 (Relationship Baseline Consolidation): IN IMPLEMENTATION
+
+Nota de consolidación MVP-03.1:
+Document references, physical document relationships and corpus integrity were implemented ahead of schedule in MVP-02.5/MVP-02.6 because Golden Tender acceptance required them. MVP-03 reuses and consolidates these capabilities rather than duplicating them.
 
 ### Objetivo
 
