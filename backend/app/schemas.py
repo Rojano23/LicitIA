@@ -720,3 +720,70 @@ class TenderChangeDecisionWrite(BaseModel):
     before_text: str | None = Field(default=None, max_length=4000)
     after_text: str | None = Field(default=None, max_length=4000)
     human_note: str | None = Field(default=None, max_length=2000)
+
+
+class EffectiveScopeChangeRead(BaseModel):
+    id: str
+    semantic_key: str
+    review_status: str
+    change_type: str
+    target_document_id: str | None = None
+    target_filename: str | None = None
+    target_reference_key: str | None = None
+    target_locator_text: str | None = None
+    normalized_locator: str
+    before_text: str | None = None
+    after_text: str | None = None
+    source_document_id: str
+    source_filename: str | None = None
+    source_page: int | None = None
+    source_excerpt: str
+    source_is_current: bool
+    temporal_status: str
+    temporal_event_date: date | None = None
+    temporal_event_time: time | None = None
+    temporal_date_precision: str | None = None
+    temporal_event_ids: list[str] = Field(default_factory=list)
+    temporal_reason: str
+    human_change_type: str | None = None
+    human_target_document_id: str | None = None
+    human_target_locator_text: str | None = None
+    human_before_text: str | None = None
+    human_after_text: str | None = None
+    human_note: str | None = None
+
+
+class TenderEffectiveStateScopeRead(BaseModel):
+    scope_key: str
+    scope_kind: str
+    target_document_id: str | None = None
+    target_filename: str | None = None
+    target_reference_key: str | None = None
+    target_locator_text: str | None = None
+    normalized_locator: str
+    resolution_status: str
+    effective_mutation: EffectiveScopeChangeRead | None = None
+    confirmed_mutations: list[EffectiveScopeChangeRead] = Field(default_factory=list)
+    confirmed_non_replacing_assertions: list[EffectiveScopeChangeRead] = Field(default_factory=list)
+    pending_changes: list[EffectiveScopeChangeRead] = Field(default_factory=list)
+    rejected_changes: list[EffectiveScopeChangeRead] = Field(default_factory=list)
+    non_current_confirmed_changes: list[EffectiveScopeChangeRead] = Field(default_factory=list)
+    temporal_reason: str
+    warnings: list[str] = Field(default_factory=list)
+
+
+class TenderEffectiveStateSummaryRead(BaseModel):
+    total_scopes: int
+    determined: int
+    pending_review: int
+    ambiguous_precedence: int
+    unresolved_target: int
+    no_confirmed_change: int
+
+
+class TenderEffectiveStateRead(BaseModel):
+    tender_id: str
+    state_version: str
+    generated_at: datetime
+    summary: TenderEffectiveStateSummaryRead
+    scopes: list[TenderEffectiveStateScopeRead] = Field(default_factory=list)

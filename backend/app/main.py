@@ -34,6 +34,7 @@ from app.document_references import (
     list_tender_relationships,
 )
 from app.relationship_baseline import generate_tender_relationship_baseline
+from app.effective_tender_state import get_tender_effective_state
 from app.tender_changes import analyze_tender_changes, list_tender_changes, update_tender_change_human_decision
 from app.tender_events import analyze_tender_events, list_tender_events, update_tender_event_human_decision
 from app.models import (
@@ -61,6 +62,7 @@ from app.schemas import (
     NormalizationSummaryRead,
     OcrProviderStatusRead,
     PageOcrResultRead,
+    TenderEffectiveStateRead,
     TenderRelationshipBaselineRead,
     TenderCreate,
     TenderChangeDecisionWrite,
@@ -1150,6 +1152,21 @@ def update_tender_change_endpoint(
         )
         db.commit()
         return result
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/tenders/{tender_id}/effective-state", response_model=TenderEffectiveStateRead)
+def get_tender_effective_state_endpoint(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        return get_tender_effective_state(db, tender_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
