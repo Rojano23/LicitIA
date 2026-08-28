@@ -124,6 +124,7 @@ type ClassificationResult = {
 type ReferenceCandidate = {
   document_id: string;
   original_filename: string;
+  processing_status: string | null;
 };
 
 type ReferenceItem = {
@@ -180,6 +181,73 @@ type ReferenceAnalysis = {
   };
 };
 
+type AuditFinding = {
+  code: string;
+  severity: string;
+  message: string;
+  document_id: string | null;
+  document_filename: string | null;
+};
+
+type AuditDocumentRow = {
+  document_id: string;
+  document_short_id: string;
+  filename: string;
+  is_current: boolean;
+  processing_status: string;
+  page_count: number;
+  text_acquisition_state: string;
+  normalized: boolean;
+  normalized_source_count: number;
+  classification_type: string;
+  classification_status: string;
+  classification_version: string | null;
+  reference_analysis_status: string;
+  reference_extractor_version: string | null;
+  reference_count: number;
+  auto_resolved_reference_count: number;
+  human_resolved_reference_count: number;
+  ambiguous_reference_count: number;
+  unresolved_reference_count: number;
+  ignored_reference_count: number;
+  integrity_findings: string[];
+};
+
+type DocumentIntelligenceAudit = {
+  tender_id: string;
+  audit_version: string;
+  generated_at: string;
+  overall_readiness: string;
+  summary: {
+    documents: {
+      total_documents: number;
+      current_documents: number;
+      non_current_documents: number;
+    };
+    classification: {
+      classified_documents: number;
+      unclassified_documents: number;
+      status_counts: {
+        SUGGESTED: number;
+        CONFIRMED: number;
+        NEEDS_REVIEW: number;
+        OVERRIDDEN: number;
+      };
+    };
+    references: {
+      status_counts: {
+        AUTO_RESOLVED: number;
+        HUMAN_RESOLVED: number;
+        AMBIGUOUS: number;
+        UNRESOLVED: number;
+        IGNORED: number;
+      };
+    };
+  };
+  document_rows: AuditDocumentRow[];
+  findings: AuditFinding[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -210,6 +278,8 @@ function App() {
   const [referenceAnalysis, setReferenceAnalysis] = useState<ReferenceAnalysis | null>(null);
   const [referenceLoading, setReferenceLoading] = useState(false);
   const [referenceTargetSelections, setReferenceTargetSelections] = useState<Record<string, string>>({});
+  const [audit, setAudit] = useState<DocumentIntelligenceAudit | null>(null);
+  const [auditLoading, setAuditLoading] = useState(false);
   const documentRequestRef = useRef(0);
 
   const loadTenders = async () => {
@@ -275,12 +345,14 @@ function App() {
       setDocumentsLoading(false);
       setSelectedDocumentId(null);
       setReferenceAnalysis(null);
+      setAudit(null);
       return;
     }
 
     setSelectedDocumentId(null);
     void loadDocuments(selectedTenderId);
     void loadOcrProviders();
+    void loadDocumentIntelligenceAudit(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -537,6 +609,34 @@ function App() {
     }
   };
 
+  const loadDocumentIntelligenceAudit = async (tenderId: string) => {
+    setAuditLoading(true);
+    try {
+      const response = await axios.get<DocumentIntelligenceAudit>(`${API_URL}/tenders/${tenderId}/document-intelligence-audit`);
+      setAudit(response.data);
+    } catch (err) {
+      setAudit(null);
+    } finally {
+      setAuditLoading(false);
+    }
+  };
+
+  const handleRunDocumentIntelligenceAudit = async () => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    setAuditLoading(true);
+    try {
+      const response = await axios.post<DocumentIntelligenceAudit>(`${API_URL}/tenders/${selectedTenderId}/audit-document-intelligence`);
+      setAudit(response.data);
+    } catch (err) {
+      setError("No se pudo auditar el estado documental del expediente.");
+    } finally {
+      setAuditLoading(false);
+    }
+  };
+
   const referenceStatusLabel = (status: string) => {
     if (status === "AUTO_RESOLVED") {
       return "Resuelta";
@@ -555,6 +655,73 @@ function App() {
     }
     return status;
   };
+
+  const shortId = (value: string | null) => (value ? value.slice(0, 8) : "");
+
+  const candidateLabel = (candidate: ReferenceCandidate) => {
+    return `${candidate.original_filename} · ${shortId(candidate.document_id)} · ${candidate.processing_status ?? "PENDING"}`;
+  };
+
+  const groupedReferences = (() => {
+    if (!referenceAnalysis) {
+      return [] as Array<{
+        groupKey: string;
+        normalized_reference_key: string;
+        resolution_status: string;
+        relationship_hint: string;
+        mentions: ReferenceItem[];
+        page_numbers: number[];
+        candidate_label: string;
+        target_label: string;
+      }>;
+    }
+
+    const groups = new Map<string, {
+      groupKey: string;
+      normalized_reference_key: string;
+      resolution_status: string;
+      relationship_hint: string;
+      mentions: ReferenceItem[];
+      page_numbers: Set<number>;
+      candidate_label: string;
+      target_label: string;
+    }>();
+
+    for (const mention of referenceAnalysis.references) {
+      const candidateSignature = mention.ambiguous_candidates.map((item) => item.document_id).sort().join(",");
+      const key = `${mention.normalized_reference_key}|${mention.resolution_status}|${candidateSignature}`;
+      const candidateText = mention.ambiguous_candidates
+        .map((candidate) => `${candidate.original_filename} · ${shortId(candidate.document_id)} · ${candidate.processing_status ?? "PENDING"}`)
+        .join(" | ");
+      const targetText = mention.resolved_target_filename
+        ? `${mention.resolved_target_filename} · ${shortId(mention.resolved_target_document_id)}`
+        : "-";
+
+      const existing = groups.get(key);
+      if (existing) {
+        existing.mentions.push(mention);
+        if (mention.page_number !== null) {
+          existing.page_numbers.add(mention.page_number);
+        }
+        continue;
+      }
+
+      groups.set(key, {
+        groupKey: key,
+        normalized_reference_key: mention.normalized_reference_key,
+        resolution_status: mention.resolution_status,
+        relationship_hint: mention.relationship_hint,
+        mentions: [mention],
+        page_numbers: mention.page_number !== null ? new Set([mention.page_number]) : new Set(),
+        candidate_label: candidateText,
+        target_label: targetText,
+      });
+    }
+
+    return Array.from(groups.values())
+      .map((item) => ({ ...item, page_numbers: Array.from(item.page_numbers).sort((a, b) => a - b) }))
+      .sort((a, b) => b.mentions.length - a.mentions.length);
+  })();
 
   const handleClassifyDocument = async () => {
     if (!selectedTenderId || !selectedDocumentId) {
@@ -748,6 +915,99 @@ function App() {
 
       {selectedTenderId && (
         <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+            <h2 style={{ margin: 0 }}>Estado del expediente</h2>
+            <button type="button" onClick={() => void handleRunDocumentIntelligenceAudit()} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
+              {auditLoading ? "Auditando..." : "Auditar expediente"}
+            </button>
+          </div>
+
+          {!audit && <p style={{ color: "#52607a" }}>Sin auditoría cargada para esta licitación.</p>}
+
+          {audit && (
+            <>
+              <div style={{ marginTop: 12, fontSize: 13, color: "#52607a" }}>
+                Estado general: <strong>{audit.overall_readiness}</strong> • Versión auditoría: {audit.audit_version} • Actualizado: {new Date(audit.generated_at).toLocaleString()}
+              </div>
+
+              <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10 }}>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Documentos</div>
+                  <div style={{ fontWeight: 700 }}>{audit.summary.documents.current_documents} actuales / {audit.summary.documents.total_documents} totales</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Clasificación</div>
+                  <div style={{ fontWeight: 700 }}>{audit.summary.classification.classified_documents} clasificados / {audit.summary.classification.unclassified_documents} pendientes</div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Referencias</div>
+                  <div style={{ fontWeight: 700 }}>
+                    Auto {audit.summary.references.status_counts.AUTO_RESOLVED} • Usuario {audit.summary.references.status_counts.HUMAN_RESOLVED} • Ambiguas {audit.summary.references.status_counts.AMBIGUOUS}
+                  </div>
+                  <div style={{ fontWeight: 700 }}>
+                    Sin resolver {audit.summary.references.status_counts.UNRESOLVED} • Ignoradas {audit.summary.references.status_counts.IGNORED}
+                  </div>
+                </div>
+                <div style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontSize: 12, color: "#52607a" }}>Hallazgos</div>
+                  <div style={{ fontWeight: 700 }}>{audit.findings.length} hallazgos</div>
+                </div>
+              </div>
+
+              {audit.findings.length > 0 && (
+                <div style={{ marginTop: 12, border: "1px solid #e8edf2", borderRadius: 10, padding: 10, background: "#f8fafc" }}>
+                  <div style={{ fontWeight: 700, marginBottom: 8 }}>Hallazgos de integridad</div>
+                  <div style={{ display: "grid", gap: 6 }}>
+                    {audit.findings.slice(0, 10).map((finding, index) => (
+                      <div key={`${finding.code}-${index}`} style={{ fontSize: 12 }}>
+                        <strong>{finding.severity}</strong> • {finding.code} • {finding.message}
+                        {finding.document_filename ? ` (${finding.document_filename})` : ""}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div style={{ marginTop: 12, overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                  <thead>
+                    <tr style={{ background: "#f8fafc" }}>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Documento</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Texto</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Normalizado</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Clasificación</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Referencias</th>
+                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e8edf2" }}>Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {audit.document_rows.map((row) => (
+                      <tr key={row.document_id}>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          <div style={{ fontWeight: 700 }}>{row.filename}</div>
+                          <div style={{ color: "#52607a" }}>{row.document_short_id} • {row.processing_status}</div>
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{row.text_acquisition_state}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{row.normalized ? `Sí (${row.normalized_source_count})` : "No"}</td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          {row.classification_type} • {row.classification_status}
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                          {row.reference_analysis_status} • A:{row.auto_resolved_reference_count} H:{row.human_resolved_reference_count} Am:{row.ambiguous_reference_count} U:{row.unresolved_reference_count}
+                        </td>
+                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{row.integrity_findings.join(", ") || "OK"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </section>
+      )}
+
+      {selectedTenderId && (
+        <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
           <h2>Import Documents</h2>
           <p style={{ color: "#52607a", marginTop: -4 }}>
             Select a Tender and import multiple files or an entire folder. Duplicates are detected by SHA-256.
@@ -890,52 +1150,71 @@ function App() {
                 <div style={{ marginBottom: 20, border: "1px solid #d9e1ec", borderRadius: 12, padding: 16, background: "#f8fafc" }}>
                   <h4 style={{ marginTop: 0, marginBottom: 12 }}>Referencias detectadas</h4>
                   <div style={{ fontSize: 12, color: "#52607a", marginBottom: 10 }}>
-                    Estado análisis: {referenceAnalysis.status} • Total: {referenceAnalysis.counts.total_reference_mentions} • Resueltas: {referenceAnalysis.counts.resolved_references} • Ambiguas: {referenceAnalysis.counts.ambiguous_references} • No encontradas: {referenceAnalysis.counts.unresolved_references}
+                    Estado análisis: {referenceAnalysis.status} • Total: {referenceAnalysis.counts.total_reference_mentions} • Auto-resueltas: {referenceAnalysis.counts.resolved_references} • Resueltas por usuario: {referenceAnalysis.counts.human_resolved_references} • Ambiguas: {referenceAnalysis.counts.ambiguous_references} • Sin documento resuelto: {referenceAnalysis.counts.unresolved_references} • Ignoradas: {referenceAnalysis.counts.ignored_references}
                   </div>
 
                   {referenceAnalysis.references.length === 0 ? (
                     <div style={{ fontSize: 12, color: "#52607a" }}>No se detectaron referencias documentales.</div>
                   ) : (
                     <div style={{ display: "grid", gap: 8 }}>
-                      {referenceAnalysis.references.map((reference) => (
-                        <div key={reference.id} style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#fff" }}>
-                          <div style={{ fontWeight: 700, marginBottom: 6 }}>Referencia: {reference.raw_reference_text}</div>
+                      {groupedReferences.map((group) => (
+                        <div key={group.groupKey} style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#fff" }}>
+                          <div style={{ fontWeight: 700, marginBottom: 6 }}>{group.normalized_reference_key}</div>
                           <div style={{ fontSize: 12, color: "#52607a" }}>
-                            Relación: {reference.relationship_hint} • Documento destino: {reference.resolved_target_filename ?? "-"} • Estado: {referenceStatusLabel(reference.resolution_status)} • Página: {reference.page_number ?? "-"}
+                            {group.mentions.length} menciones • Estado: {referenceStatusLabel(group.resolution_status)} • Relación: {group.relationship_hint} • Páginas: {group.page_numbers.length > 0 ? group.page_numbers.join(", ") : "-"}
                           </div>
                           <div style={{ fontSize: 12, color: "#52607a", marginTop: 4 }}>
-                            Evidencia: {reference.excerpt}
+                            Destino: {group.target_label}
                           </div>
-                          {(reference.resolution_status === "AMBIGUOUS" || reference.resolution_status === "UNRESOLVED") && (
-                            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
-                              <select
-                                value={referenceTargetSelections[reference.id] ?? ""}
-                                onChange={(event) =>
-                                  setReferenceTargetSelections((prev) => ({
-                                    ...prev,
-                                    [reference.id]: event.target.value,
-                                  }))
-                                }
-                                style={{ padding: "6px 8px", borderRadius: 6, border: "1px solid #cfd8e3" }}
-                              >
-                                <option value="">Seleccionar documento destino</option>
-                                {reference.ambiguous_candidates.map((candidate) => (
-                                  <option key={candidate.document_id} value={candidate.document_id}>
-                                    {candidate.original_filename}
-                                  </option>
-                                ))}
-                              </select>
-                              <button type="button" onClick={() => void handleReferenceDecision(reference.id, "RESOLVE_TO_DOCUMENT")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
-                                Resolver
-                              </button>
-                              <button type="button" onClick={() => void handleReferenceDecision(reference.id, "MARK_UNRESOLVED")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
-                                Marcar no encontrada
-                              </button>
-                              <button type="button" onClick={() => void handleReferenceDecision(reference.id, "IGNORE_REFERENCE")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
-                                Ignorar
-                              </button>
+                          {group.candidate_label && (
+                            <div style={{ fontSize: 12, color: "#52607a", marginTop: 4 }}>
+                              Candidatos: {group.candidate_label}
                             </div>
                           )}
+
+                          <details style={{ marginTop: 8 }}>
+                            <summary style={{ cursor: "pointer", fontSize: 12, color: "#1b5bd8", fontWeight: 700 }}>Ver evidencias y acciones</summary>
+                            <div style={{ display: "grid", gap: 8, marginTop: 8 }}>
+                              {group.mentions.map((reference) => (
+                                <div key={reference.id} style={{ border: "1px solid #edf2f7", borderRadius: 8, padding: 8, background: "#f8fafc" }}>
+                                  <div style={{ fontSize: 12, color: "#52607a" }}>
+                                    Página: {reference.page_number ?? "-"} • Texto: {reference.raw_reference_text}
+                                  </div>
+                                  <div style={{ fontSize: 12, marginTop: 4 }}>{reference.excerpt}</div>
+                                  {(reference.resolution_status === "AMBIGUOUS" || reference.resolution_status === "UNRESOLVED") && (
+                                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
+                                      <select
+                                        value={referenceTargetSelections[reference.id] ?? ""}
+                                        onChange={(event) =>
+                                          setReferenceTargetSelections((prev) => ({
+                                            ...prev,
+                                            [reference.id]: event.target.value,
+                                          }))
+                                        }
+                                        style={{ padding: "6px 8px", borderRadius: 6, border: "1px solid #cfd8e3" }}
+                                      >
+                                        <option value="">Seleccionar documento destino</option>
+                                        {reference.ambiguous_candidates.map((candidate) => (
+                                          <option key={candidate.document_id} value={candidate.document_id}>
+                                            {candidateLabel(candidate)}
+                                          </option>
+                                        ))}
+                                      </select>
+                                      <button type="button" onClick={() => void handleReferenceDecision(reference.id, "RESOLVE_TO_DOCUMENT")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                        Resolver
+                                      </button>
+                                      <button type="button" onClick={() => void handleReferenceDecision(reference.id, "MARK_UNRESOLVED")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                        Marcar no encontrada
+                                      </button>
+                                      <button type="button" onClick={() => void handleReferenceDecision(reference.id, "IGNORE_REFERENCE")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                        Ignorar
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </details>
                         </div>
                       ))}
                     </div>

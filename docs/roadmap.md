@@ -82,6 +82,15 @@ Golden Tender #001 puede cargarse, navegarse, verificarse y revisarse sin altera
 
 ## MVP-02 — Document Intelligence
 
+### Estado actual
+
+- MVP-02.1 (PDF extraction): CLOSED
+- MVP-02.2 (OCR acquisition): CLOSED
+- MVP-02.3 (NormalizedContent + chunking): CLOSED
+- MVP-02.4 (Document Classification): CLOSED
+- MVP-02.5 (References + Relationships): CLOSED
+- MVP-02.6 (Golden Tender Integrated Acceptance): IN ACCEPTANCE
+
 ### Objetivo
 
 Convertir archivos en contenido estructurado por página/sección.

@@ -389,7 +389,13 @@ def _serialize_reference(reference: DocumentReference, current_docs_by_id: dict[
         target_doc = current_docs_by_id.get(candidate_id)
         if target_doc is None:
             continue
-        candidates.append({"document_id": target_doc.id, "original_filename": target_doc.original_filename})
+        candidates.append(
+            {
+                "document_id": target_doc.id,
+                "original_filename": target_doc.original_filename,
+                "processing_status": target_doc.processing_status,
+            }
+        )
 
     target_doc = current_docs_by_id.get(effective_target_id) if effective_target_id else None
     return {

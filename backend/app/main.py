@@ -25,6 +25,7 @@ from app.config import get_settings
 from app.database import get_db
 from app.content_normalization import list_normalized_sources, process_document_normalization
 from app.document_classification import apply_human_classification_decision, get_document_classification, process_document_classification
+from app.document_intelligence_audit import generate_document_intelligence_audit
 from app.document_references import (
     analyze_document_references,
     analyze_tender_references,
@@ -45,6 +46,7 @@ from app.models import (
 from app.ocr import build_default_ocr_provider_registry
 from app.schemas import (
     DocumentClassificationRead,
+    DocumentIntelligenceAuditRead,
     DocumentReferenceAnalysisRead,
     DocumentReferenceDecisionWrite,
     DocumentExtractionResult,
@@ -981,6 +983,30 @@ def update_reference_resolution_endpoint(
         return result
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.post("/tenders/{tender_id}/audit-document-intelligence", response_model=DocumentIntelligenceAuditRead)
+def audit_tender_document_intelligence(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    return generate_document_intelligence_audit(db, tender_id)
+
+
+@app.get("/tenders/{tender_id}/document-intelligence-audit", response_model=DocumentIntelligenceAuditRead)
+def get_tender_document_intelligence_audit(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    return generate_document_intelligence_audit(db, tender_id)
 
 
 @app.get("/tenders/{tender_id}/documents/{document_id}/pages", response_model=list[DocumentPageRead])
