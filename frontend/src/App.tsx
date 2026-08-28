@@ -121,6 +121,65 @@ type ClassificationResult = {
   not_ready: boolean;
 };
 
+type ReferenceCandidate = {
+  document_id: string;
+  original_filename: string;
+};
+
+type ReferenceItem = {
+  id: string;
+  source_document_id: string;
+  raw_reference_text: string;
+  normalized_reference_key: string;
+  relationship_hint: string;
+  resolution_status: string;
+  resolved_target_document_id: string | null;
+  resolved_target_filename: string | null;
+  page_number: number | null;
+  excerpt: string;
+  source_type: string | null;
+  source_scope: string | null;
+  source_engine: string | null;
+  ambiguous_candidates: ReferenceCandidate[];
+  human_decision: string | null;
+};
+
+type RelationshipSupport = {
+  reference_id: string;
+  raw_reference_text: string;
+  normalized_reference_key: string;
+  page_number: number | null;
+  excerpt: string;
+};
+
+type RelationshipItem = {
+  id: string;
+  source_document_id: string;
+  source_document_filename: string | null;
+  target_document_id: string;
+  target_document_filename: string | null;
+  relationship_type: string;
+  supporting_references: RelationshipSupport[];
+};
+
+type ReferenceAnalysis = {
+  document_id: string;
+  status: string;
+  extractor_version: string;
+  input_fingerprint_sha256: string;
+  references: ReferenceItem[];
+  relationships: RelationshipItem[];
+  counts: {
+    total_reference_mentions: number;
+    resolved_references: number;
+    ambiguous_references: number;
+    unresolved_references: number;
+    human_resolved_references: number;
+    ignored_references: number;
+    resolved_relationships: number;
+  };
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -148,6 +207,9 @@ function App() {
   const [ocrRunning, setOcrRunning] = useState(false);
   const [classificationResult, setClassificationResult] = useState<ClassificationResult | null>(null);
   const [classificationLoading, setClassificationLoading] = useState(false);
+  const [referenceAnalysis, setReferenceAnalysis] = useState<ReferenceAnalysis | null>(null);
+  const [referenceLoading, setReferenceLoading] = useState(false);
+  const [referenceTargetSelections, setReferenceTargetSelections] = useState<Record<string, string>>({});
   const documentRequestRef = useRef(0);
 
   const loadTenders = async () => {
@@ -212,6 +274,7 @@ function App() {
       setDocumentsError(null);
       setDocumentsLoading(false);
       setSelectedDocumentId(null);
+      setReferenceAnalysis(null);
       return;
     }
 
@@ -420,6 +483,77 @@ function App() {
     } finally {
       setClassificationLoading(false);
     }
+  };
+
+  const loadDocumentReferences = async (tenderId: string, documentId: string) => {
+    setReferenceLoading(true);
+    try {
+      const response = await axios.get<ReferenceAnalysis>(`${API_URL}/tenders/${tenderId}/documents/${documentId}/references`);
+      setReferenceAnalysis(response.data);
+    } catch (err) {
+      setReferenceAnalysis(null);
+    } finally {
+      setReferenceLoading(false);
+    }
+  };
+
+  const handleAnalyzeReferences = async () => {
+    if (!selectedTenderId || !selectedDocumentId) {
+      return;
+    }
+
+    setReferenceLoading(true);
+    try {
+      const response = await axios.post<ReferenceAnalysis>(`${API_URL}/tenders/${selectedTenderId}/documents/${selectedDocumentId}/analyze-references`);
+      setReferenceAnalysis(response.data);
+    } catch (err) {
+      setError("No se pudieron analizar las referencias del documento.");
+    } finally {
+      setReferenceLoading(false);
+    }
+  };
+
+  const handleReferenceDecision = async (referenceId: string, action: string) => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    try {
+      const payload: Record<string, string> = {
+        action,
+      };
+      if (action === "RESOLVE_TO_DOCUMENT") {
+        const selectedTarget = referenceTargetSelections[referenceId];
+        if (!selectedTarget) {
+          setError("Seleccione un documento destino para resolver la referencia.");
+          return;
+        }
+        payload.human_target_document_id = selectedTarget;
+      }
+      const response = await axios.patch<ReferenceAnalysis>(`${API_URL}/tenders/${selectedTenderId}/references/${referenceId}`, payload);
+      setReferenceAnalysis(response.data);
+    } catch (err) {
+      setError("No se pudo guardar la decisión de referencia.");
+    }
+  };
+
+  const referenceStatusLabel = (status: string) => {
+    if (status === "AUTO_RESOLVED") {
+      return "Resuelta";
+    }
+    if (status === "AMBIGUOUS") {
+      return "Ambigua";
+    }
+    if (status === "UNRESOLVED") {
+      return "No encontrada";
+    }
+    if (status === "HUMAN_RESOLVED") {
+      return "Resuelta por usuario";
+    }
+    if (status === "IGNORED") {
+      return "Ignorada";
+    }
+    return status;
   };
 
   const handleClassifyDocument = async () => {
@@ -706,6 +840,7 @@ function App() {
                         setSelectedDocumentId(document.id);
                         void loadDocumentPages(selectedTenderId ?? "", document.id);
                         void loadDocumentClassification(selectedTenderId ?? "", document.id);
+                        void loadDocumentReferences(selectedTenderId ?? "", document.id);
                       }}
                       style={{
                         padding: "8px 12px",
@@ -742,9 +877,69 @@ function App() {
                   <button type="button" onClick={() => void handleClassifyDocument()} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
                     {classificationLoading ? "Clasificando..." : "Clasificar documento"}
                   </button>
+                  <button type="button" onClick={() => void handleAnalyzeReferences()} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
+                    {referenceLoading ? "Analizando referencias..." : "Analizar referencias"}
+                  </button>
                   <span style={{ fontSize: 12, color: "#52607a" }}>
                     Estado: {selectedDocument.processing_status ?? "PENDING"}
                   </span>
+                </div>
+              )}
+
+              {referenceAnalysis && (
+                <div style={{ marginBottom: 20, border: "1px solid #d9e1ec", borderRadius: 12, padding: 16, background: "#f8fafc" }}>
+                  <h4 style={{ marginTop: 0, marginBottom: 12 }}>Referencias detectadas</h4>
+                  <div style={{ fontSize: 12, color: "#52607a", marginBottom: 10 }}>
+                    Estado análisis: {referenceAnalysis.status} • Total: {referenceAnalysis.counts.total_reference_mentions} • Resueltas: {referenceAnalysis.counts.resolved_references} • Ambiguas: {referenceAnalysis.counts.ambiguous_references} • No encontradas: {referenceAnalysis.counts.unresolved_references}
+                  </div>
+
+                  {referenceAnalysis.references.length === 0 ? (
+                    <div style={{ fontSize: 12, color: "#52607a" }}>No se detectaron referencias documentales.</div>
+                  ) : (
+                    <div style={{ display: "grid", gap: 8 }}>
+                      {referenceAnalysis.references.map((reference) => (
+                        <div key={reference.id} style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#fff" }}>
+                          <div style={{ fontWeight: 700, marginBottom: 6 }}>Referencia: {reference.raw_reference_text}</div>
+                          <div style={{ fontSize: 12, color: "#52607a" }}>
+                            Relación: {reference.relationship_hint} • Documento destino: {reference.resolved_target_filename ?? "-"} • Estado: {referenceStatusLabel(reference.resolution_status)} • Página: {reference.page_number ?? "-"}
+                          </div>
+                          <div style={{ fontSize: 12, color: "#52607a", marginTop: 4 }}>
+                            Evidencia: {reference.excerpt}
+                          </div>
+                          {(reference.resolution_status === "AMBIGUOUS" || reference.resolution_status === "UNRESOLVED") && (
+                            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
+                              <select
+                                value={referenceTargetSelections[reference.id] ?? ""}
+                                onChange={(event) =>
+                                  setReferenceTargetSelections((prev) => ({
+                                    ...prev,
+                                    [reference.id]: event.target.value,
+                                  }))
+                                }
+                                style={{ padding: "6px 8px", borderRadius: 6, border: "1px solid #cfd8e3" }}
+                              >
+                                <option value="">Seleccionar documento destino</option>
+                                {reference.ambiguous_candidates.map((candidate) => (
+                                  <option key={candidate.document_id} value={candidate.document_id}>
+                                    {candidate.original_filename}
+                                  </option>
+                                ))}
+                              </select>
+                              <button type="button" onClick={() => void handleReferenceDecision(reference.id, "RESOLVE_TO_DOCUMENT")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                Resolver
+                              </button>
+                              <button type="button" onClick={() => void handleReferenceDecision(reference.id, "MARK_UNRESOLVED")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                Marcar no encontrada
+                              </button>
+                              <button type="button" onClick={() => void handleReferenceDecision(reference.id, "IGNORE_REFERENCE")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                Ignorar
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 

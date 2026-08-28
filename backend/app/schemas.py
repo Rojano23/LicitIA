@@ -226,3 +226,95 @@ class DocumentOcrResult(BaseModel):
     mode: str
     page_count: int
     results: list[PageOcrResultRead]
+
+
+class DocumentReferenceCandidateRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    document_id: str
+    original_filename: str
+
+
+class DocumentReferenceRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    source_document_id: str
+    document_page_id: str | None = None
+    normalized_content_id: str | None = None
+    document_chunk_id: str | None = None
+    source_scope: str | None = None
+    source_type: str | None = None
+    source_engine: str | None = None
+    source_region_id: str | None = None
+    raw_reference_text: str
+    normalized_reference_key: str
+    reference_kind: str
+    relationship_hint: str
+    resolution_status: str
+    resolved_target_document_id: str | None = None
+    resolved_target_filename: str | None = None
+    ambiguous_candidates: list[DocumentReferenceCandidateRead] = Field(default_factory=list)
+    human_target_document_id: str | None = None
+    human_note: str | None = None
+    human_decision: str | None = None
+    excerpt: str
+    extractor_version: str
+    created_at: datetime
+    updated_at: datetime
+    page_number: int | None = None
+
+
+class DocumentRelationshipSupportRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    reference_id: str
+    raw_reference_text: str
+    normalized_reference_key: str
+    page_number: int | None = None
+    excerpt: str
+
+
+class DocumentRelationshipRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    tender_id: str
+    source_document_id: str
+    source_document_filename: str | None = None
+    target_document_id: str
+    target_document_filename: str | None = None
+    relationship_type: str
+    supporting_references: list[DocumentRelationshipSupportRead] = Field(default_factory=list)
+    created_at: datetime
+    updated_at: datetime
+
+
+class DocumentReferenceCountsRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    total_reference_mentions: int
+    resolved_references: int
+    ambiguous_references: int
+    unresolved_references: int
+    human_resolved_references: int
+    ignored_references: int
+    resolved_relationships: int
+
+
+class DocumentReferenceAnalysisRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    document_id: str
+    status: str
+    extractor_version: str
+    input_fingerprint_sha256: str
+    references: list[DocumentReferenceRead] = Field(default_factory=list)
+    relationships: list[DocumentRelationshipRead] = Field(default_factory=list)
+    counts: DocumentReferenceCountsRead
+
+
+class DocumentReferenceDecisionWrite(BaseModel):
+    action: str = Field(..., min_length=1, max_length=64)
+    human_target_document_id: str | None = None
+    human_note: str | None = Field(default=None, max_length=2000)

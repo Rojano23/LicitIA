@@ -9,6 +9,9 @@ from app.main import app
 from app.models import (
     DocumentClassification,
     DocumentClassificationCandidate,
+    DocumentReference,
+    DocumentReferenceAnalysis,
+    DocumentRelationship,
     DocumentClassificationTag,
     DocumentPage,
     NormalizedContent,
@@ -93,6 +96,18 @@ def _seed_normalized_lines(document_id: str, lines: list[str]) -> None:
 
 def _classify(tender_id: str, document_id: str) -> dict:
     response = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
+def _analyze_references(tender_id: str, document_id: str) -> dict:
+    response = client.post(f"/tenders/{tender_id}/documents/{document_id}/analyze-references")
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
+def _get_references(tender_id: str, document_id: str) -> dict:
+    response = client.get(f"/tenders/{tender_id}/documents/{document_id}/references")
     assert response.status_code == 200, response.text
     return response.json()
 
@@ -2053,3 +2068,458 @@ def test_pdf_content_route_rejects_non_pdf_viewer_requests() -> None:
     response = client.get(f"/tenders/{tender_id}/documents/{document_id}/content")
     assert response.status_code == 400, response.text
     assert "Only PDF files can be displayed" in response.text
+
+
+def test_reference_exact_annex_resolution_creates_relationship() -> None:
+    tender_id = _create_tender("References Exact Annex")
+    source_id = _import_classification_pdf(tender_id, "bases-source.pdf")
+    target_id = _import_classification_pdf(tender_id, "ANEXO D.pdf")
+
+    _seed_normalized_lines(source_id, ["Conforme al Anexo D se ejecutará el servicio"])
+
+    payload = _analyze_references(tender_id, source_id)
+    assert payload["counts"]["resolved_references"] == 1
+    assert payload["relationships"][0]["relationship_type"] == "REFERENCES"
+    assert payload["relationships"][0]["target_document_id"] == target_id
+
+
+def test_reference_canonical_annex_normalization_uses_same_key() -> None:
+    tender_id = _create_tender("References Canonical Annex")
+    source_id = _import_classification_pdf(tender_id, "source.pdf")
+    _import_classification_pdf(tender_id, "Anexo D.pdf")
+
+    _seed_normalized_lines(source_id, ["Anexo \"D\"", "ANEXO D", "anexo d"])
+    payload = _analyze_references(tender_id, source_id)
+
+    keys = {item["normalized_reference_key"] for item in payload["references"]}
+    assert keys == {"ANEXO:D"}
+
+
+def test_reference_missing_document_stays_unresolved() -> None:
+    tender_id = _create_tender("References Missing")
+    source_id = _import_classification_pdf(tender_id, "source-missing.pdf")
+    _seed_normalized_lines(source_id, ["Ver Anexo Z para requisitos adicionales"])
+
+    payload = _analyze_references(tender_id, source_id)
+    assert payload["counts"]["unresolved_references"] == 1
+    assert payload["counts"]["resolved_relationships"] == 0
+
+
+def test_reference_ambiguous_target_does_not_auto_resolve() -> None:
+    tender_id = _create_tender("References Ambiguous")
+    source_id = _import_classification_pdf(tender_id, "convocatoria-source.pdf")
+    _import_classification_pdf(tender_id, "bases de contratacion v1.pdf")
+    _import_classification_pdf(tender_id, "bases de contratacion v2.pdf")
+    _seed_normalized_lines(source_id, ["De acuerdo con las Bases de Contratación"])
+
+    payload = _analyze_references(tender_id, source_id)
+    assert payload["counts"]["ambiguous_references"] == 1
+    assert payload["counts"]["resolved_relationships"] == 0
+    candidates = payload["references"][0]["ambiguous_candidates"]
+    assert len(candidates) == 2
+    assert [item["document_id"] for item in candidates] == sorted(item["document_id"] for item in candidates)
+    assert {item["original_filename"] for item in candidates} == {
+        "bases de contratacion v1.pdf",
+        "bases de contratacion v2.pdf",
+    }
+
+
+def test_reference_bases_alias_with_ordinal_and_suffix_auto_resolves() -> None:
+    tender_id = _create_tender("References Bases Alias")
+    source_id = _import_classification_pdf(tender_id, "convocatoria-source.pdf")
+    target_id = _import_classification_pdf(tender_id, "2. Bases - ABC-123.pdf")
+    _seed_normalized_lines(source_id, ["Bases de Contratación"])
+
+    payload = _analyze_references(tender_id, source_id)
+    assert payload["counts"]["resolved_references"] == 1
+    reference = payload["references"][0]
+    assert reference["normalized_reference_key"] == "BASES_DE_CONTRATACION"
+    assert reference["resolution_status"] == "AUTO_RESOLVED"
+    assert reference["resolved_target_document_id"] == target_id
+
+
+def test_reference_bases_alias_two_current_candidates_is_ambiguous() -> None:
+    tender_id = _create_tender("References Bases Ambiguous")
+    source_id = _import_classification_pdf(tender_id, "convocatoria-source.pdf")
+    first_target_id = _import_classification_pdf(tender_id, "2. Bases - ABC-123.pdf")
+    second_target_id = _import_classification_pdf(tender_id, "4. Bases - XYZ-999.pdf")
+    _seed_normalized_lines(source_id, ["Bases de Contratación"])
+
+    payload = _analyze_references(tender_id, source_id)
+    reference = payload["references"][0]
+    assert reference["resolution_status"] == "AMBIGUOUS"
+    assert reference["resolved_target_document_id"] is None
+    candidate_ids = [item["document_id"] for item in reference["ambiguous_candidates"]]
+    assert candidate_ids == sorted(candidate_ids)
+    assert set(candidate_ids) == {first_target_id, second_target_id}
+
+
+def test_reference_bases_alias_current_only_ignores_obsolete_revision() -> None:
+    tender_id = _create_tender("References Bases Current Only")
+    source_id = _import_classification_pdf(tender_id, "convocatoria-source.pdf")
+    obsolete_target_id = _import_classification_pdf(tender_id, "2. Bases - ABC-123.pdf")
+    current_target_id = _import_classification_pdf(tender_id, "2. Bases - XYZ-999.pdf")
+    _seed_normalized_lines(source_id, ["Bases de Contratación"])
+
+    db = SessionLocal()
+    try:
+        obsolete_doc = db.get(TenderDocument, obsolete_target_id)
+        assert obsolete_doc is not None
+        obsolete_doc.is_current = False
+        db.commit()
+    finally:
+        db.close()
+
+    payload = _analyze_references(tender_id, source_id)
+    reference = payload["references"][0]
+    assert reference["resolution_status"] == "AUTO_RESOLVED"
+    assert reference["resolved_target_document_id"] == current_target_id
+    assert [item["document_id"] for item in reference["ambiguous_candidates"]] == [current_target_id]
+
+
+def test_reference_bases_alias_without_physical_target_stays_unresolved() -> None:
+    tender_id = _create_tender("References Bases Missing")
+    source_id = _import_classification_pdf(tender_id, "convocatoria-source.pdf")
+    _seed_normalized_lines(source_id, ["Bases de Contratación"])
+
+    payload = _analyze_references(tender_id, source_id)
+    reference = payload["references"][0]
+    assert reference["resolution_status"] == "UNRESOLVED"
+    assert reference["resolved_target_document_id"] is None
+    assert reference["ambiguous_candidates"] == []
+
+
+def test_reference_bases_alias_normalizes_leading_ordinal_and_tender_suffix() -> None:
+    tender_id = _create_tender("References Bases Filename Normalization")
+    source_id = _import_classification_pdf(tender_id, "convocatoria-source.pdf")
+    target_id = _import_classification_pdf(tender_id, "010) BASES - PROC-AB-2026-77.pdf")
+    _seed_normalized_lines(source_id, ["Bases de Contratación"])
+
+    payload = _analyze_references(tender_id, source_id)
+    reference = payload["references"][0]
+    assert reference["resolution_status"] == "AUTO_RESOLVED"
+    assert reference["resolved_target_document_id"] == target_id
+
+
+def test_reference_contract_model_does_not_resolve_to_document_package_section() -> None:
+    tender_id = _create_tender("References Contract Model Package Guard")
+    source_id = _import_classification_pdf(tender_id, "convocatoria-source.pdf")
+    package_id = _import_classification_pdf(tender_id, "2.1. ANEXOS - CAD-265-2026.pdf")
+    _seed_normalized_lines(source_id, ["Modelo de Contrato"])
+    _seed_normalized_lines(package_id, ["Modelo de Contrato", "Contenido interno"])
+
+    payload = _analyze_references(tender_id, source_id)
+    reference = payload["references"][0]
+    assert reference["normalized_reference_key"] == "MODELO_DE_CONTRATO"
+    assert reference["resolution_status"] == "UNRESOLVED"
+    assert reference["resolved_target_document_id"] is None
+
+
+def test_reference_human_resolution_survives_resolver_version_bump() -> None:
+    tender_id = _create_tender("References Human Resolve Version")
+    source_id = _import_classification_pdf(tender_id, "source-human-version.pdf")
+    target_a = _import_classification_pdf(tender_id, "2. Bases - AAA-100.pdf")
+    target_b = _import_classification_pdf(tender_id, "3. Bases - BBB-200.pdf")
+    _seed_normalized_lines(source_id, ["Bases de Contratación"])
+
+    first = _analyze_references(tender_id, source_id)
+    reference_id = first["references"][0]["id"]
+    assert first["references"][0]["resolution_status"] == "AMBIGUOUS"
+
+    patch = client.patch(
+        f"/tenders/{tender_id}/references/{reference_id}",
+        json={"action": "RESOLVE_TO_DOCUMENT", "human_target_document_id": target_a, "human_note": "Resolución humana"},
+    )
+    assert patch.status_code == 200, patch.text
+
+    db = SessionLocal()
+    try:
+        analysis = db.query(DocumentReferenceAnalysis).filter_by(document_id=source_id).one()
+        analysis.extractor_version = "mvp-02.5"
+        db.commit()
+    finally:
+        db.close()
+
+    rerun = _analyze_references(tender_id, source_id)
+    assert rerun["references"][0]["resolution_status"] == "HUMAN_RESOLVED"
+    assert rerun["references"][0]["resolved_target_document_id"] == target_a
+    assert target_b in [item["document_id"] for item in rerun["references"][0]["ambiguous_candidates"]]
+
+
+def test_reference_second_identical_rerun_is_idempotent_with_mvp_02_5_1() -> None:
+    tender_id = _create_tender("References Idempotent 02.5.1")
+    source_id = _import_classification_pdf(tender_id, "source-idempotent-v251.pdf")
+    _import_classification_pdf(tender_id, "2. Bases - ABC-123.pdf")
+    _seed_normalized_lines(source_id, ["Bases de Contratación"])
+
+    first = _analyze_references(tender_id, source_id)
+    second = _analyze_references(tender_id, source_id)
+
+    assert first["extractor_version"] == "mvp-02.5.1"
+    assert second["extractor_version"] == "mvp-02.5.1"
+    assert [item["id"] for item in first["references"]] == [item["id"] for item in second["references"]]
+
+
+def test_reference_self_reference_does_not_create_self_edge() -> None:
+    tender_id = _create_tender("References Self")
+    source_id = _import_classification_pdf(tender_id, "ANEXO D.pdf")
+    _seed_normalized_lines(source_id, ["Conforme al Anexo D se ejecutará"])
+
+    payload = _analyze_references(tender_id, source_id)
+    assert payload["counts"]["resolved_relationships"] == 0
+    assert payload["references"][0]["resolution_status"] == "IGNORED"
+
+
+def test_reference_repeated_mentions_create_single_relationship_edge() -> None:
+    tender_id = _create_tender("References Repeated")
+    source_id = _import_classification_pdf(tender_id, "bases.pdf")
+    _import_classification_pdf(tender_id, "ANEXO D.pdf")
+    _seed_normalized_lines(source_id, ["Conforme al Anexo D"] * 5)
+
+    payload = _analyze_references(tender_id, source_id)
+    assert payload["counts"]["resolved_relationships"] == 1
+    relationships = client.get(f"/tenders/{tender_id}/relationships").json()
+    assert len(relationships) == 1
+
+
+def test_reference_ocr_duplicate_sources_do_not_duplicate_semantic_reference() -> None:
+    tender_id = _create_tender("References OCR Dedup")
+    source_id = _import_classification_pdf(tender_id, "source-ocr.pdf")
+    _import_classification_pdf(tender_id, "ANEXO D.pdf")
+
+    db = SessionLocal()
+    try:
+        page = DocumentPage(
+            document_id=source_id,
+            page_number=1,
+            text="",
+            char_count=0,
+            extraction_method="NATIVE_PDF",
+            status="NO_TEXT",
+        )
+        db.add(page)
+        db.flush()
+        db.add(
+            NormalizedContent(
+                document_page_id=page.id,
+                source_type="OCR",
+                source_scope="IMAGE_REGION",
+                engine="TESSERACT",
+                normalized_text="conforme al anexo d",
+                char_count=19,
+                content_sha256="ocr-tess",
+            )
+        )
+        db.add(
+            NormalizedContent(
+                document_page_id=page.id,
+                source_type="OCR",
+                source_scope="IMAGE_REGION",
+                engine="PADDLEOCR",
+                normalized_text="conforme al anexo d",
+                char_count=19,
+                content_sha256="ocr-paddle",
+            )
+        )
+        db.commit()
+    finally:
+        db.close()
+
+    payload = _analyze_references(tender_id, source_id)
+    assert payload["counts"]["total_reference_mentions"] == 1
+
+
+def test_reference_multiple_supporting_mentions_appear_under_single_edge() -> None:
+    tender_id = _create_tender("References Support")
+    source_id = _import_classification_pdf(tender_id, "bases-support.pdf")
+    _import_classification_pdf(tender_id, "ANEXO D.pdf")
+    _seed_normalized_lines(source_id, ["Conforme al Anexo D", "Ver Anexo D para mayor detalle"])
+
+    _analyze_references(tender_id, source_id)
+    relationships = client.get(f"/tenders/{tender_id}/relationships").json()
+    assert len(relationships) == 1
+    assert len(relationships[0]["supporting_references"]) >= 2
+
+
+def test_reference_modifies_requires_explicit_reference_target() -> None:
+    tender_id = _create_tender("References Modifies")
+    source_id = _import_classification_pdf(tender_id, "bases-modifica.pdf")
+    _import_classification_pdf(tender_id, "ANEXO D.pdf")
+    _seed_normalized_lines(source_id, ["Se modifica el Anexo D conforme al acta"])
+
+    payload = _analyze_references(tender_id, source_id)
+    assert payload["relationships"][0]["relationship_type"] == "MODIFIES"
+
+
+def test_reference_generic_modification_word_without_target_creates_no_relationship() -> None:
+    tender_id = _create_tender("References No Modifies")
+    source_id = _import_classification_pdf(tender_id, "bases-plazo.pdf")
+    _seed_normalized_lines(source_id, ["Modificación del plazo contractual"])
+
+    payload = _analyze_references(tender_id, source_id)
+    assert payload["counts"]["total_reference_mentions"] == 0
+    assert payload["counts"]["resolved_relationships"] == 0
+
+
+def test_reference_generic_prose_does_not_create_false_document_references() -> None:
+    tender_id = _create_tender("References Prose Guard")
+    source_id = _import_classification_pdf(tender_id, "prose.pdf")
+    _seed_normalized_lines(source_id, ["el contrato tendrá vigencia", "en formato electrónico", "experiencia del participante"])
+
+    payload = _analyze_references(tender_id, source_id)
+    assert payload["counts"]["total_reference_mentions"] == 0
+
+
+def test_reference_current_only_resolution_ignores_obsolete_candidate() -> None:
+    tender_id = _create_tender("References Current Only")
+    source_id = _import_classification_pdf(tender_id, "source-current.pdf")
+    old_target_id = _import_classification_pdf(tender_id, "ANEXO D old.pdf")
+    current_target_id = _import_classification_pdf(tender_id, "ANEXO D current.pdf")
+    _seed_normalized_lines(source_id, ["ver Anexo D"])
+
+    db = SessionLocal()
+    try:
+        old_doc = db.get(TenderDocument, old_target_id)
+        assert old_doc is not None
+        old_doc.is_current = False
+        db.commit()
+    finally:
+        db.close()
+
+    payload = _analyze_references(tender_id, source_id)
+    assert payload["references"][0]["resolved_target_document_id"] == current_target_id
+
+
+def test_reference_human_resolution_persists_across_rerun() -> None:
+    tender_id = _create_tender("References Human Resolve")
+    source_id = _import_classification_pdf(tender_id, "source-human.pdf")
+    target_a = _import_classification_pdf(tender_id, "bases de contratacion a.pdf")
+    _import_classification_pdf(tender_id, "bases de contratacion b.pdf")
+    _seed_normalized_lines(source_id, ["de acuerdo con las bases de contratación"])
+
+    first = _analyze_references(tender_id, source_id)
+    reference_id = first["references"][0]["id"]
+    patch = client.patch(
+        f"/tenders/{tender_id}/references/{reference_id}",
+        json={"action": "RESOLVE_TO_DOCUMENT", "human_target_document_id": target_a, "human_note": "Resolución humana"},
+    )
+    assert patch.status_code == 200, patch.text
+
+    rerun = _analyze_references(tender_id, source_id)
+    assert rerun["references"][0]["resolution_status"] == "HUMAN_RESOLVED"
+    assert rerun["references"][0]["resolved_target_document_id"] == target_a
+
+
+def test_reference_human_ignored_persists_across_rerun() -> None:
+    tender_id = _create_tender("References Human Ignore")
+    source_id = _import_classification_pdf(tender_id, "source-ignore.pdf")
+    _import_classification_pdf(tender_id, "ANEXO D.pdf")
+    _seed_normalized_lines(source_id, ["ver anexo d"])
+
+    first = _analyze_references(tender_id, source_id)
+    reference_id = first["references"][0]["id"]
+    patch = client.patch(
+        f"/tenders/{tender_id}/references/{reference_id}",
+        json={"action": "IGNORE_REFERENCE", "human_note": "No aplica"},
+    )
+    assert patch.status_code == 200, patch.text
+
+    rerun = _analyze_references(tender_id, source_id)
+    assert rerun["references"][0]["resolution_status"] == "IGNORED"
+
+
+def test_reference_same_input_is_idempotent_and_stale_edges_are_removed_on_input_change() -> None:
+    tender_id = _create_tender("References Idempotent")
+    source_id = _import_classification_pdf(tender_id, "source-idempotent.pdf")
+    _import_classification_pdf(tender_id, "ANEXO D.pdf")
+    _seed_normalized_lines(source_id, ["conforme al anexo d"])
+
+    first = _analyze_references(tender_id, source_id)
+    second = _analyze_references(tender_id, source_id)
+    assert [item["id"] for item in first["references"]] == [item["id"] for item in second["references"]]
+    assert first["counts"]["resolved_relationships"] == 1
+    assert second["counts"]["resolved_relationships"] == 1
+
+    db = SessionLocal()
+    try:
+        content = db.query(NormalizedContent).join(DocumentPage).filter(DocumentPage.document_id == source_id).first()
+        assert content is not None
+        content.normalized_text = "sin referencias explícitas"
+        content.char_count = len(content.normalized_text)
+        db.commit()
+    finally:
+        db.close()
+
+    third = _analyze_references(tender_id, source_id)
+    assert third["counts"]["resolved_relationships"] == 0
+
+
+def test_reference_analysis_does_not_modify_classification_rows() -> None:
+    tender_id = _create_tender("References Classifier Isolation")
+    source_id = _import_classification_pdf(tender_id, "source-isolation.pdf")
+    _import_classification_pdf(tender_id, "ANEXO D.pdf")
+    _seed_normalized_lines(source_id, ["CONVOCATORIA", "conforme al anexo d"])
+
+    classify_payload = _classify(tender_id, source_id)
+    confirm = client.patch(
+        f"/tenders/{tender_id}/documents/{source_id}/classification",
+        json={"action": "CONFIRM", "human_note": "Confirmado"},
+    )
+    assert confirm.status_code == 200, confirm.text
+
+    before = client.get(f"/tenders/{tender_id}/documents/{source_id}/classification").json()
+    _analyze_references(tender_id, source_id)
+    after = client.get(f"/tenders/{tender_id}/documents/{source_id}/classification").json()
+
+    assert after["suggested_type"] == classify_payload["suggested_type"]
+    assert after["candidate_scores"] == before["candidate_scores"]
+    assert after["functional_tags"] == before["functional_tags"]
+    assert after["classification_status"] == "CONFIRMED"
+
+
+def test_reference_not_ready_without_normalized_content() -> None:
+    tender_id = _create_tender("References Not Ready")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("empty.txt", b"plain\n", "text/plain"))],
+        data={"source_relative_paths": "folder/empty.txt"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    payload = _analyze_references(tender_id, document_id)
+    assert payload["status"] == "NOT_READY"
+    assert payload["counts"]["total_reference_mentions"] == 0
+
+
+def test_reference_batch_resilience_for_ready_and_not_ready_documents() -> None:
+    tender_id = _create_tender("References Batch")
+    ready_id = _import_classification_pdf(tender_id, "ready.pdf")
+    _import_classification_pdf(tender_id, "ANEXO D.pdf")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("not-ready.txt", b"plain\n", "text/plain"))],
+        data={"source_relative_paths": "folder/not-ready.txt"},
+    )
+    assert response.status_code == 200, response.text
+    not_ready_id = response.json()[0]["document_id"]
+    _seed_normalized_lines(ready_id, ["conforme al anexo d"])
+
+    batch = client.post(f"/tenders/{tender_id}/analyze-references")
+    assert batch.status_code == 200, batch.text
+    payload = batch.json()
+    by_id = {item["document_id"]: item for item in payload}
+    assert by_id[ready_id]["status"] == "COMPLETED"
+    assert by_id[not_ready_id]["status"] == "NOT_READY"
+
+
+def test_reference_get_endpoint_returns_detected_references() -> None:
+    tender_id = _create_tender("References GET")
+    source_id = _import_classification_pdf(tender_id, "source-get.pdf")
+    _import_classification_pdf(tender_id, "ANEXO D.pdf")
+    _seed_normalized_lines(source_id, ["conforme al anexo d"])
+
+    _analyze_references(tender_id, source_id)
+    payload = _get_references(tender_id, source_id)
+    assert payload["counts"]["total_reference_mentions"] == 1
+    assert payload["references"][0]["raw_reference_text"].lower().startswith("anexo")

@@ -25,6 +25,13 @@ from app.config import get_settings
 from app.database import get_db
 from app.content_normalization import list_normalized_sources, process_document_normalization
 from app.document_classification import apply_human_classification_decision, get_document_classification, process_document_classification
+from app.document_references import (
+    analyze_document_references,
+    analyze_tender_references,
+    apply_human_reference_decision,
+    list_document_references,
+    list_tender_relationships,
+)
 from app.models import (
     DocumentPage,
     DocumentPageRegion,
@@ -38,10 +45,13 @@ from app.models import (
 from app.ocr import build_default_ocr_provider_registry
 from app.schemas import (
     DocumentClassificationRead,
+    DocumentReferenceAnalysisRead,
+    DocumentReferenceDecisionWrite,
     DocumentExtractionResult,
     DocumentImportResult,
     DocumentOcrResult,
     DocumentPageRead,
+    DocumentRelationshipRead,
     NormalizedContentRead,
     NormalizationSummaryRead,
     OcrProviderStatusRead,
@@ -862,6 +872,7 @@ def classify_tender_documents(
                 "is_composite": False,
                 "human_type": None,
                 "human_note": None,
+                "candidate_scores": [],
                 "functional_tags": [],
                 "evidence": [],
                 "input_fingerprint_sha256": "",
@@ -869,6 +880,107 @@ def classify_tender_documents(
             })
     db.commit()
     return results
+
+
+@app.post("/tenders/{tender_id}/documents/{document_id}/analyze-references", response_model=DocumentReferenceAnalysisRead)
+def analyze_document_references_endpoint(
+    tender_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
+
+    payload = analyze_document_references(db, tender_id, document)
+    db.commit()
+    return payload
+
+
+@app.post("/tenders/{tender_id}/analyze-references", response_model=list[DocumentReferenceAnalysisRead])
+def analyze_tender_references_endpoint(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> list[dict[str, object]]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    payload = analyze_tender_references(db, tender_id)
+    db.commit()
+    return payload
+
+
+@app.get("/tenders/{tender_id}/documents/{document_id}/references", response_model=DocumentReferenceAnalysisRead)
+def get_document_references_endpoint(
+    tender_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
+
+    return list_document_references(db, tender_id, document_id)
+
+
+@app.get("/tenders/{tender_id}/relationships", response_model=list[DocumentRelationshipRead])
+def get_tender_relationships_endpoint(
+    tender_id: str,
+    source_document_id: str | None = None,
+    target_document_id: str | None = None,
+    relationship_type: str | None = None,
+    db: Session = Depends(get_db),
+) -> list[dict[str, object]]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    return list_tender_relationships(
+        db,
+        tender_id,
+        source_document_id=source_document_id,
+        target_document_id=target_document_id,
+        relationship_type=relationship_type,
+    )
+
+
+@app.patch("/tenders/{tender_id}/references/{reference_id}", response_model=DocumentReferenceAnalysisRead)
+def update_reference_resolution_endpoint(
+    tender_id: str,
+    reference_id: str,
+    payload: DocumentReferenceDecisionWrite,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        result = apply_human_reference_decision(
+            db,
+            tender_id=tender_id,
+            reference_id=reference_id,
+            action=payload.action,
+            human_target_document_id=payload.human_target_document_id,
+            human_note=payload.human_note,
+        )
+        db.commit()
+        return result
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 
 @app.get("/tenders/{tender_id}/documents/{document_id}/pages", response_model=list[DocumentPageRead])

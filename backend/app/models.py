@@ -107,6 +107,29 @@ class TenderDocument(Base):
     tender: Mapped[Tender] = relationship(back_populates="documents")
     pages: Mapped[list["DocumentPage"]] = relationship(back_populates="document", cascade="all, delete-orphan")
     classifications: Mapped[list["DocumentClassification"]] = relationship(back_populates="document", cascade="all, delete-orphan")
+    reference_analysis: Mapped["DocumentReferenceAnalysis | None"] = relationship(back_populates="document", cascade="all, delete-orphan")
+    outbound_references: Mapped[list["DocumentReference"]] = relationship(
+        back_populates="source_document",
+        cascade="all, delete-orphan",
+        foreign_keys="DocumentReference.source_document_id",
+    )
+    resolved_references: Mapped[list["DocumentReference"]] = relationship(
+        back_populates="resolved_target_document",
+        foreign_keys="DocumentReference.resolved_target_document_id",
+    )
+    human_resolved_references: Mapped[list["DocumentReference"]] = relationship(
+        back_populates="human_target_document",
+        foreign_keys="DocumentReference.human_target_document_id",
+    )
+    outbound_relationships: Mapped[list["DocumentRelationship"]] = relationship(
+        back_populates="source_document",
+        foreign_keys="DocumentRelationship.source_document_id",
+        cascade="all, delete-orphan",
+    )
+    inbound_relationships: Mapped[list["DocumentRelationship"]] = relationship(
+        back_populates="target_document",
+        foreign_keys="DocumentRelationship.target_document_id",
+    )
 
 
 class DocumentPageRegion(Base):
@@ -473,3 +496,178 @@ class DocumentClassificationCandidate(Base):
     )
 
     classification: Mapped[DocumentClassification] = relationship(back_populates="candidates")
+
+
+class DocumentReferenceAnalysis(Base):
+    __tablename__ = "document_reference_analyses"
+
+    __table_args__ = (
+        UniqueConstraint("document_id", name="uq_document_reference_analysis_document"),
+        Index("ix_document_reference_analyses_document_id", "document_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    input_fingerprint_sha256: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    extractor_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-02.5.1")
+    status: Mapped[str] = mapped_column(String(32), nullable=False, default="NOT_READY")
+    analyzed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    document: Mapped[TenderDocument] = relationship(back_populates="reference_analysis")
+    references: Mapped[list["DocumentReference"]] = relationship(back_populates="analysis", cascade="all, delete-orphan")
+
+
+class DocumentReference(Base):
+    __tablename__ = "document_references"
+
+    __table_args__ = (
+        UniqueConstraint("source_document_id", "reference_identity_key", name="uq_document_reference_identity"),
+        Index("ix_document_references_source_document_id", "source_document_id"),
+        Index("ix_document_references_resolution_status", "resolution_status"),
+        Index("ix_document_references_normalized_reference_key", "normalized_reference_key"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    analysis_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_reference_analyses.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    document_page_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
+    )
+    normalized_content_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("normalized_content.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
+    )
+    document_chunk_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_chunks.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
+    )
+    reference_identity_key: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    raw_reference_text: Mapped[str] = mapped_column(String(255), nullable=False, default="")
+    normalized_reference_key: Mapped[str] = mapped_column(String(128), nullable=False, default="")
+    reference_kind: Mapped[str] = mapped_column(String(32), nullable=False, default="UNKNOWN")
+    relationship_hint: Mapped[str] = mapped_column(String(32), nullable=False, default="REFERENCES")
+    resolution_status: Mapped[str] = mapped_column(String(32), nullable=False, default="UNRESOLVED")
+    resolved_target_document_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    auto_candidate_document_ids: Mapped[str | None] = mapped_column(Text, nullable=True)
+    human_target_document_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    human_decision: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    human_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    source_scope: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    source_type: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    source_engine: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    source_region_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_page_regions.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    excerpt: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    extractor_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-02.5")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    analysis: Mapped[DocumentReferenceAnalysis | None] = relationship(back_populates="references")
+    source_document: Mapped[TenderDocument] = relationship(back_populates="outbound_references", foreign_keys=[source_document_id])
+    resolved_target_document: Mapped[TenderDocument | None] = relationship(back_populates="resolved_references", foreign_keys=[resolved_target_document_id])
+    human_target_document: Mapped[TenderDocument | None] = relationship(back_populates="human_resolved_references", foreign_keys=[human_target_document_id])
+    document_page: Mapped[DocumentPage | None] = relationship(foreign_keys=[document_page_id])
+    normalized_content: Mapped[NormalizedContent | None] = relationship(foreign_keys=[normalized_content_id])
+    document_chunk: Mapped[DocumentChunk | None] = relationship(foreign_keys=[document_chunk_id])
+
+
+class DocumentRelationship(Base):
+    __tablename__ = "document_relationships"
+
+    __table_args__ = (
+        UniqueConstraint("source_document_id", "target_document_id", "relationship_type", name="uq_document_relationship_edge"),
+        Index("ix_document_relationships_tender_id", "tender_id"),
+        Index("ix_document_relationships_source_document_id", "source_document_id"),
+        Index("ix_document_relationships_target_document_id", "target_document_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    target_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    relationship_type: Mapped[str] = mapped_column(String(32), nullable=False, default="REFERENCES")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    source_document: Mapped[TenderDocument] = relationship(back_populates="outbound_relationships", foreign_keys=[source_document_id])
+    target_document: Mapped[TenderDocument] = relationship(back_populates="inbound_relationships", foreign_keys=[target_document_id])
