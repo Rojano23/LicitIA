@@ -85,6 +85,42 @@ type OcrProvider = {
   status_reason: string | null;
 };
 
+type ClassificationEvidence = {
+  document_page_id: string | null;
+  normalized_content_id: string | null;
+  document_chunk_id: string | null;
+  source_kind: string;
+  signal: string;
+  excerpt: string;
+  weight_or_score: number;
+};
+
+type ClassificationTag = {
+  tag: string;
+  score: number;
+};
+
+type ClassificationCandidateScore = {
+  type: string;
+  score: number;
+};
+
+type ClassificationResult = {
+  document_id: string;
+  suggested_type: string;
+  suggested_score: number;
+  effective_type: string;
+  classification_status: string;
+  is_composite: boolean;
+  human_type: string | null;
+  human_note: string | null;
+  candidate_scores: ClassificationCandidateScore[];
+  functional_tags: ClassificationTag[];
+  evidence: ClassificationEvidence[];
+  input_fingerprint_sha256: string;
+  not_ready: boolean;
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -110,6 +146,8 @@ function App() {
   const [ocrProviders, setOcrProviders] = useState<OcrProvider[]>([]);
   const [ocrMode, setOcrMode] = useState("AUTO");
   const [ocrRunning, setOcrRunning] = useState(false);
+  const [classificationResult, setClassificationResult] = useState<ClassificationResult | null>(null);
+  const [classificationLoading, setClassificationLoading] = useState(false);
   const documentRequestRef = useRef(0);
 
   const loadTenders = async () => {
@@ -372,6 +410,68 @@ function App() {
     }
   };
 
+  const loadDocumentClassification = async (tenderId: string, documentId: string) => {
+    setClassificationLoading(true);
+    try {
+      const response = await axios.get<ClassificationResult>(`${API_URL}/tenders/${tenderId}/documents/${documentId}/classification`);
+      setClassificationResult(response.data);
+    } catch (err) {
+      setClassificationResult(null);
+    } finally {
+      setClassificationLoading(false);
+    }
+  };
+
+  const handleClassifyDocument = async () => {
+    if (!selectedTenderId || !selectedDocumentId) {
+      return;
+    }
+
+    setClassificationLoading(true);
+    try {
+      const response = await axios.post<ClassificationResult>(`${API_URL}/tenders/${selectedTenderId}/documents/${selectedDocumentId}/classify`);
+      setClassificationResult(response.data);
+    } catch (err) {
+      setClassificationResult(null);
+      setError("No se pudo clasificar el documento.");
+    } finally {
+      setClassificationLoading(false);
+    }
+  };
+
+  const handleConfirmClassification = async () => {
+    if (!selectedTenderId || !selectedDocumentId || !classificationResult) {
+      return;
+    }
+
+    try {
+      const response = await axios.patch<ClassificationResult>(`${API_URL}/tenders/${selectedTenderId}/documents/${selectedDocumentId}/classification`, {
+        action: "CONFIRM",
+        human_type: classificationResult.effective_type,
+        human_note: "Confirmado por usuario",
+      });
+      setClassificationResult(response.data);
+    } catch (err) {
+      setError("No se pudo confirmar la clasificación.");
+    }
+  };
+
+  const handleReviewClassification = async () => {
+    if (!selectedTenderId || !selectedDocumentId) {
+      return;
+    }
+
+    try {
+      const response = await axios.patch<ClassificationResult>(`${API_URL}/tenders/${selectedTenderId}/documents/${selectedDocumentId}/classification`, {
+        action: "MARK_FOR_REVIEW",
+        human_note: "Revisión humana requerida",
+      });
+      setClassificationResult(response.data);
+    } catch (err) {
+      setError("No se pudo marcar la clasificación para revisión.");
+    }
+  };
+
   const isPdfDocument = (document: TenderDocument | null) => {
     if (!document) {
       return false;
@@ -605,6 +705,7 @@ function App() {
                       onClick={() => {
                         setSelectedDocumentId(document.id);
                         void loadDocumentPages(selectedTenderId ?? "", document.id);
+                        void loadDocumentClassification(selectedTenderId ?? "", document.id);
                       }}
                       style={{
                         padding: "8px 12px",
@@ -638,9 +739,68 @@ function App() {
                   <button type="button" onClick={() => void handleExtractPdfText()} style={{ padding: "10px 14px", borderRadius: 8, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700 }}>
                     Extraer texto PDF
                   </button>
+                  <button type="button" onClick={() => void handleClassifyDocument()} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
+                    {classificationLoading ? "Clasificando..." : "Clasificar documento"}
+                  </button>
                   <span style={{ fontSize: 12, color: "#52607a" }}>
                     Estado: {selectedDocument.processing_status ?? "PENDING"}
                   </span>
+                </div>
+              )}
+
+              {classificationResult && (
+                <div style={{ marginBottom: 20, border: "1px solid #d9e1ec", borderRadius: 12, padding: 16, background: "#f8fafc" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: 18 }}>{classificationResult.effective_type}</div>
+                      <div style={{ fontSize: 12, color: "#52607a", marginTop: 4 }}>
+                        Tipo sugerido: {classificationResult.suggested_type} • Puntuación: {classificationResult.suggested_score}
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                      <button type="button" onClick={() => void handleConfirmClassification()} style={{ padding: "8px 12px", borderRadius: 8, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700 }}>Confirmar</button>
+                      <button type="button" onClick={() => void handleReviewClassification()} style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>Revisar</button>
+                    </div>
+                  </div>
+
+                  {classificationResult.candidate_scores.length > 0 && (
+                    <div style={{ marginTop: 12 }}>
+                      <div style={{ fontSize: 12, color: "#52607a", marginBottom: 6 }}>Tipos candidatos</div>
+                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        {classificationResult.candidate_scores.map((candidate) => (
+                          <span key={candidate.type} style={{ fontSize: 12, borderRadius: 999, background: "#ede9fe", color: "#312e81", padding: "4px 8px", fontWeight: 700 }}>
+                            {candidate.type} ({candidate.score})
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {classificationResult.functional_tags.length > 0 && (
+                    <div style={{ marginTop: 12 }}>
+                      <div style={{ fontSize: 12, color: "#52607a", marginBottom: 6 }}>Funciones detectadas</div>
+                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        {classificationResult.functional_tags.map((tag) => (
+                          <span key={tag.tag} style={{ fontSize: 12, borderRadius: 999, background: "#e0f2fe", color: "#0f172a", padding: "4px 8px", fontWeight: 700 }}>
+                            {tag.tag} ({tag.score})
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {classificationResult.evidence.length > 0 && (
+                    <div style={{ marginTop: 12, display: "grid", gap: 8 }}>
+                      {classificationResult.evidence.slice(0, 3).map((item, index) => (
+                        <div key={`${item.signal}-${index}`} style={{ border: "1px solid #e8edf2", borderRadius: 8, padding: 10, background: "#fff" }}>
+                          <div style={{ fontSize: 12, color: "#52607a", marginBottom: 6 }}>
+                            {item.source_kind} • {item.signal} • peso {item.weight_or_score}
+                          </div>
+                          <div style={{ fontSize: 12, whiteSpace: "pre-wrap" }}>{item.excerpt}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 

@@ -116,6 +116,37 @@ El sistema puede explicar qué tipo de documento es cada archivo del Golden Tend
 
 ---
 
+## MVP-02.4 — Evidence-Based Document Classification
+
+### Objetivo
+
+Clasificar documentos físicos del expediente con un flujo determinista, explicable y revisable, sin depender de LLM ni de reglas PEMEX.
+
+### Funciones
+
+- taxonomía Core genérica para documento físico;
+- reglas deterministas sobre nombre y contenido normalizado;
+- persistencia de sugerencia, evidencia y funcional tags;
+- clasificación compuesta para paquetes documentales;
+- deduplicación de señales por origen físico (página / región / OCR provider);
+- override y confirmación humana;
+- status UNKNOWN / NEEDS_REVIEW / CONFIRMED / OVERRIDDEN.
+
+### Fuera de alcance
+
+- extracción de requisitos;
+- evaluación de cumplimiento;
+- referencias entre documentos;
+- secciones lógicas dentro de un PDF;
+- embeddings, pgvector, semántica LLM;
+- OCR fusion ni reconcilación de proveedores.
+
+### Criterio de salida
+
+El usuario puede clasificar un documento a partir de evidencia de archivo y contenido normalizado, ver la evidencia, confirmar o revisar la decisión y dejar constancia de un override humano sin que el motor lo reescriba silenciosamente.
+
+---
+
 ## MVP-03 — Tender Understanding
 
 ### Objetivo
