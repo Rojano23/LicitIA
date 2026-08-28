@@ -585,6 +585,75 @@ type TenderStateSnapshot = {
   top_pending_actions: SnapshotPendingAction[];
 };
 
+type EvaluationModelEvidence = {
+  id: string;
+  source_document_id: string;
+  source_filename: string | null;
+  source_page: number | null;
+  source_excerpt: string;
+  evidence_role: string;
+};
+
+type EvaluationModelPayload = {
+  suggested_method: string;
+  effective_method: string;
+  review_status: string;
+  summary: string;
+  human_method: string | null;
+  human_summary: string | null;
+  detector_version: string;
+  evidence: EvaluationModelEvidence[];
+};
+
+type EvaluationCriterionEvidence = {
+  id: string;
+  source_document_id: string;
+  source_filename: string | null;
+  source_page: number | null;
+  source_excerpt: string;
+  evidence_role: string;
+};
+
+type EvaluationCriterion = {
+  id: string;
+  criterion_type: string;
+  category: string | null;
+  title: string;
+  criterion_text: string;
+  weight_value: number | null;
+  weight_unit: string | null;
+  threshold_operator: string | null;
+  threshold_value: number | null;
+  threshold_unit: string | null;
+  is_exclusionary: boolean | null;
+  review_status: string;
+  source_document_id: string;
+  source_filename: string | null;
+  source_page: number | null;
+  source_excerpt: string;
+  human_note: string | null;
+  evidence: EvaluationCriterionEvidence[];
+};
+
+type TenderEvaluation = {
+  tender_id: string;
+  evaluation_version: string;
+  generated_at: string;
+  model: EvaluationModelPayload;
+  criteria_summary: {
+    total: number;
+    suggested: number;
+    confirmed: number;
+    rejected: number;
+    exclusionary: number;
+    scoring: number;
+    gates: number;
+    by_type: Record<string, number>;
+    by_category: Record<string, number>;
+  };
+  criteria: EvaluationCriterion[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -627,6 +696,8 @@ function App() {
   const [effectiveStateLoading, setEffectiveStateLoading] = useState(false);
   const [stateSnapshot, setStateSnapshot] = useState<TenderStateSnapshot | null>(null);
   const [stateSnapshotLoading, setStateSnapshotLoading] = useState(false);
+  const [evaluation, setEvaluation] = useState<TenderEvaluation | null>(null);
+  const [evaluationLoading, setEvaluationLoading] = useState(false);
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
   const [editEventType, setEditEventType] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -664,6 +735,18 @@ function App() {
     "REMOVES",
     "CORRECTS",
     "CONFIRMS",
+    "OTHER",
+    "UNKNOWN",
+  ];
+
+  const EVALUATION_METHOD_OPTIONS = [
+    "BINARY_COMPLIANCE",
+    "POINTS_PERCENTAGES",
+    "COST_BENEFIT",
+    "LOWEST_EVALUATED_PRICE",
+    "TECHNICAL_ECONOMIC_COMBINED",
+    "MULTI_STAGE",
+    "MIXED",
     "OTHER",
     "UNKNOWN",
   ];
@@ -737,6 +820,7 @@ function App() {
       setChanges(null);
       setEffectiveState(null);
       setStateSnapshot(null);
+      setEvaluation(null);
       return;
     }
 
@@ -749,6 +833,7 @@ function App() {
     void loadTenderChanges(selectedTenderId);
     void loadEffectiveState(selectedTenderId);
     void loadTenderStateSnapshot(selectedTenderId);
+    void loadTenderEvaluation(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -1104,6 +1189,135 @@ function App() {
     }
   };
 
+  const loadTenderEvaluation = async (tenderId: string) => {
+    setEvaluationLoading(true);
+    try {
+      const response = await axios.get<TenderEvaluation>(`${API_URL}/tenders/${tenderId}/evaluation`);
+      setEvaluation(response.data);
+    } catch (err) {
+      setEvaluation(null);
+    } finally {
+      setEvaluationLoading(false);
+    }
+  };
+
+  const handleAnalyzeEvaluation = async () => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    setEvaluationLoading(true);
+    try {
+      const response = await axios.post<TenderEvaluation>(`${API_URL}/tenders/${selectedTenderId}/analyze-evaluation`);
+      setEvaluation(response.data);
+    } catch (err) {
+      setError("No se pudo analizar el modelo de evaluacion.");
+    } finally {
+      setEvaluationLoading(false);
+    }
+  };
+
+  const handleEvaluationModelDecision = async (action: "CONFIRM" | "REJECT" | "RESET_TO_SUGGESTED") => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    try {
+      const response = await axios.patch<TenderEvaluation>(`${API_URL}/tenders/${selectedTenderId}/evaluation`, { action });
+      setEvaluation(response.data);
+    } catch (err) {
+      setError("No se pudo guardar la decision del modelo de evaluacion.");
+    }
+  };
+
+  const handleEvaluationModelOverride = async () => {
+    if (!selectedTenderId || !evaluation) {
+      return;
+    }
+
+    const method = window.prompt("Metodo de evaluacion (codigo)", evaluation.model.effective_method);
+    if (method === null) {
+      return;
+    }
+    const summary = window.prompt("Resumen de la decision", evaluation.model.summary);
+    if (summary === null) {
+      return;
+    }
+
+    const normalizedMethod = method.trim().toUpperCase();
+    if (!EVALUATION_METHOD_OPTIONS.includes(normalizedMethod)) {
+      setError("Metodo de evaluacion invalido para MVP-04.1.");
+      return;
+    }
+
+    try {
+      const response = await axios.patch<TenderEvaluation>(`${API_URL}/tenders/${selectedTenderId}/evaluation`, {
+        action: "OVERRIDE",
+        method: normalizedMethod,
+        summary,
+      });
+      setEvaluation(response.data);
+    } catch (err) {
+      setError("No se pudo modificar el modelo de evaluacion.");
+    }
+  };
+
+  const handleCriterionDecision = async (criterionId: string, action: "CONFIRM" | "REJECT" | "RESET_TO_SUGGESTED") => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    try {
+      const response = await axios.patch<TenderEvaluation>(`${API_URL}/tenders/${selectedTenderId}/evaluation-criteria/${criterionId}`, { action });
+      setEvaluation(response.data);
+    } catch (err) {
+      setError("No se pudo guardar la decision del criterio de evaluacion.");
+    }
+  };
+
+  const handleCriterionOverride = async (criterion: EvaluationCriterion) => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    const criterionType = window.prompt("Tipo de criterio", criterion.criterion_type);
+    if (criterionType === null) {
+      return;
+    }
+    const category = window.prompt("Categoria (opcional)", criterion.category ?? "");
+    if (category === null) {
+      return;
+    }
+    const title = window.prompt("Titulo", criterion.title);
+    if (title === null) {
+      return;
+    }
+    const criterionText = window.prompt("Texto del criterio", criterion.criterion_text);
+    if (criterionText === null) {
+      return;
+    }
+    const exclusionaryRaw = window.prompt("Es excluyente? (true/false, opcional)", criterion.is_exclusionary === null ? "" : String(criterion.is_exclusionary));
+    if (exclusionaryRaw === null) {
+      return;
+    }
+
+    const exclusionary = exclusionaryRaw.trim() === "" ? null : exclusionaryRaw.trim().toLowerCase() === "true";
+
+    try {
+      const response = await axios.patch<TenderEvaluation>(`${API_URL}/tenders/${selectedTenderId}/evaluation-criteria/${criterion.id}`, {
+        action: "OVERRIDE",
+        criterion_type: criterionType.trim().toUpperCase(),
+        category: category.trim() ? category.trim().toUpperCase() : null,
+        title: title.trim(),
+        criterion_text: criterionText.trim(),
+        is_exclusionary: exclusionary,
+      });
+      setEvaluation(response.data);
+    } catch (err) {
+      setError("No se pudo modificar el criterio de evaluacion.");
+    }
+  };
+
   const handleAnalyzeEvents = async () => {
     if (!selectedTenderId) {
       return;
@@ -1415,6 +1629,90 @@ function App() {
     }
     if (value === "REPROCESS_STALE_ANALYSIS") {
       return "Reprocesar analisis desactualizado";
+    }
+    return value;
+  };
+
+  const evaluationReviewLabel = (value: string) => {
+    if (value === "SUGGESTED") {
+      return "Sugerido";
+    }
+    if (value === "CONFIRMED") {
+      return "Confirmado";
+    }
+    if (value === "REJECTED") {
+      return "Rechazado";
+    }
+    return value;
+  };
+
+  const evaluationMethodLabel = (value: string) => {
+    if (value === "BINARY_COMPLIANCE") {
+      return "Evaluacion binaria";
+    }
+    if (value === "POINTS_PERCENTAGES") {
+      return "Puntos y porcentajes";
+    }
+    if (value === "COST_BENEFIT") {
+      return "Costo-beneficio";
+    }
+    if (value === "LOWEST_EVALUATED_PRICE") {
+      return "Menor precio evaluado";
+    }
+    if (value === "TECHNICAL_ECONOMIC_COMBINED") {
+      return "Tecnica y economica combinada";
+    }
+    if (value === "MULTI_STAGE") {
+      return "Multietapa";
+    }
+    if (value === "MIXED") {
+      return "Mixto";
+    }
+    if (value === "OTHER") {
+      return "Otro";
+    }
+    if (value === "UNKNOWN") {
+      return "Sin evidencia suficiente";
+    }
+    return value;
+  };
+
+  const criterionTypeLabel = (value: string) => {
+    if (value === "PASS_FAIL_RULE") {
+      return "Regla cumple/no cumple";
+    }
+    if (value === "SCORING_COMPONENT") {
+      return "Componente de puntuacion";
+    }
+    if (value === "MINIMUM_SCORE") {
+      return "Puntaje minimo";
+    }
+    if (value === "WEIGHTING_RULE") {
+      return "Regla de ponderacion";
+    }
+    if (value === "QUALIFICATION_GATE") {
+      return "Condicion de paso";
+    }
+    if (value === "REJECTION_CAUSE") {
+      return "Causa de desechamiento";
+    }
+    if (value === "AWARD_RULE") {
+      return "Regla de adjudicacion";
+    }
+    if (value === "PRICE_EVALUATION_RULE") {
+      return "Regla de evaluacion economica";
+    }
+    if (value === "TECHNICAL_EVALUATION_RULE") {
+      return "Regla de evaluacion tecnica";
+    }
+    if (value === "ADMINISTRATIVE_EVALUATION_RULE") {
+      return "Regla de evaluacion administrativa";
+    }
+    if (value === "LEGAL_EVALUATION_RULE") {
+      return "Regla de evaluacion legal";
+    }
+    if (value === "EXPERIENCE_EVALUATION_RULE") {
+      return "Regla de evaluacion de experiencia";
     }
     return value;
   };
@@ -1831,6 +2129,105 @@ function App() {
               </div>
             </>
           )}
+
+          <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#f8fafc" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <h3 style={{ margin: 0 }}>Modelo de evaluacion</h3>
+              <button type="button" onClick={() => void handleAnalyzeEvaluation()} style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                {evaluationLoading ? "Analizando..." : "Analizar evaluacion"}
+              </button>
+            </div>
+
+            {evaluationLoading && <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>Analizando modelo y criterios de evaluacion...</div>}
+            {!evaluationLoading && !evaluation && <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>Sin analisis de evaluacion disponible.</div>}
+
+            {evaluation && (
+              <>
+                <div style={{ marginTop: 8, fontSize: 13, color: "#334155" }}>
+                  Metodo detectado: <strong>{evaluationMethodLabel(evaluation.model.effective_method)}</strong> ({evaluation.model.effective_method})
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                  Estado: <strong>{evaluationReviewLabel(evaluation.model.review_status)}</strong> • Motor: {evaluation.model.detector_version}
+                </div>
+                <div style={{ marginTop: 6, fontSize: 12, color: "#334155" }}>{evaluation.model.summary}</div>
+
+                <div style={{ marginTop: 8, display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <button type="button" onClick={() => void handleEvaluationModelDecision("CONFIRM")} style={{ padding: "6px 10px", borderRadius: 6, border: "none", background: "#0f766e", color: "#fff", fontWeight: 700 }}>
+                    Confirmar
+                  </button>
+                  <button type="button" onClick={() => void handleEvaluationModelOverride()} style={{ padding: "6px 10px", borderRadius: 6, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700 }}>
+                    Modificar
+                  </button>
+                  <button type="button" onClick={() => void handleEvaluationModelDecision("REJECT")} style={{ padding: "6px 10px", borderRadius: 6, border: "none", background: "#b91c1c", color: "#fff", fontWeight: 700 }}>
+                    Rechazar
+                  </button>
+                  <button type="button" onClick={() => void handleEvaluationModelDecision("RESET_TO_SUGGESTED")} style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                    Reset
+                  </button>
+                </div>
+
+                <div style={{ marginTop: 10, fontSize: 12, color: "#52607a" }}>
+                  Evidencia del modelo: {evaluation.model.evidence.length}
+                </div>
+                <div style={{ display: "grid", gap: 6, marginTop: 6 }}>
+                  {evaluation.model.evidence.slice(0, 6).map((evidence) => (
+                    <div key={evidence.id} style={{ fontSize: 12, color: "#334155" }}>
+                      <strong>{evidence.evidence_role}</strong> • {evidence.source_filename ?? evidence.source_document_id} p{evidence.source_page ?? "-"} • {evidence.source_excerpt}
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ marginTop: 12, fontSize: 13, color: "#334155" }}>
+                  Criterios de evaluacion: <strong>{evaluation.criteria_summary.total}</strong> • Sugeridos {evaluation.criteria_summary.suggested} • Confirmados {evaluation.criteria_summary.confirmed} • Rechazados {evaluation.criteria_summary.rejected}
+                </div>
+
+                <div style={{ marginTop: 10, overflowX: "auto" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                    <thead>
+                      <tr style={{ background: "#eef2f7" }}>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Tipo</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Categoria</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Criterio</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Peso/Umbral</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Excluyente</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Fuente</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Estado</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {evaluation.criteria.map((criterion) => (
+                        <tr key={criterion.id}>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{criterionTypeLabel(criterion.criterion_type)}</td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{criterion.category ?? "-"}</td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{criterion.criterion_text}</td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            {criterion.weight_value !== null ? `${criterion.weight_value} ${criterion.weight_unit ?? ""}` : "-"}
+                            {criterion.threshold_value !== null && (
+                              <div>{criterion.threshold_operator ?? ""} {criterion.threshold_value} {criterion.threshold_unit ?? ""}</div>
+                            )}
+                          </td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{criterion.is_exclusionary === null ? "-" : criterion.is_exclusionary ? "Si" : "No"}</td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            {criterion.source_filename ?? criterion.source_document_id} p{criterion.source_page ?? "-"}
+                          </td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{evaluationReviewLabel(criterion.review_status)}</td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                              <button type="button" onClick={() => void handleCriterionDecision(criterion.id, "CONFIRM")} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#0f766e", color: "#fff", fontWeight: 700 }}>Confirmar</button>
+                              <button type="button" onClick={() => void handleCriterionOverride(criterion)} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700 }}>Modificar</button>
+                              <button type="button" onClick={() => void handleCriterionDecision(criterion.id, "REJECT")} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#b91c1c", color: "#fff", fontWeight: 700 }}>Rechazar</button>
+                              <button type="button" onClick={() => void handleCriterionDecision(criterion.id, "RESET_TO_SUGGESTED")} style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>Reset</button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+          </div>
 
           {!audit && <p style={{ color: "#52607a" }}>Sin auditoría cargada para esta licitación.</p>}
 

@@ -199,6 +199,11 @@ El usuario puede ver qué documentos definen, complementan o modifican otros y q
 
 ## MVP-04 — Evaluation & Requirements
 
+### Estado actual
+
+- MVP-03 (Tender Understanding): CLOSED
+- MVP-04.1 (Evaluation Model Detection): IN IMPLEMENTATION
+
 ### Objetivo
 
 Transformar criterios del procedimiento en requisitos verificables.

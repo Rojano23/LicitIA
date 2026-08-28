@@ -982,3 +982,114 @@ class TenderStateSnapshotRead(BaseModel):
     integrity: SnapshotIntegrityRead
     pending_actions: list[SnapshotPendingActionRead] = Field(default_factory=list)
     top_pending_actions: list[SnapshotPendingActionRead] = Field(default_factory=list)
+
+
+class EvaluationModelEvidenceRead(BaseModel):
+    id: str
+    source_document_id: str
+    source_filename: str | None = None
+    source_page: int | None = None
+    source_excerpt: str
+    evidence_role: str
+
+
+class TenderEvaluationModelRead(BaseModel):
+    suggested_method: str
+    effective_method: str
+    review_status: str
+    summary: str
+    human_method: str | None = None
+    human_summary: str | None = None
+    detector_version: str
+    created_at: datetime
+    updated_at: datetime
+    evidence: list[EvaluationModelEvidenceRead] = Field(default_factory=list)
+
+
+class EvaluationCriterionEvidenceRead(BaseModel):
+    id: str
+    source_document_id: str
+    source_filename: str | None = None
+    source_page: int | None = None
+    source_excerpt: str
+    evidence_role: str
+
+
+class EvaluationCriterionRead(BaseModel):
+    id: str
+    tender_id: str
+    evaluation_model_id: str
+    semantic_key: str
+    criterion_type: str
+    category: str | None = None
+    title: str
+    criterion_text: str
+    weight_value: float | None = None
+    weight_unit: str | None = None
+    threshold_operator: str | None = None
+    threshold_value: float | None = None
+    threshold_unit: str | None = None
+    is_exclusionary: bool | None = None
+    review_status: str
+    detection_origin: str
+    detector_version: str
+    source_document_id: str
+    source_filename: str | None = None
+    source_page: int | None = None
+    source_excerpt: str
+    human_criterion_type: str | None = None
+    human_category: str | None = None
+    human_title: str | None = None
+    human_criterion_text: str | None = None
+    human_weight_value: float | None = None
+    human_weight_unit: str | None = None
+    human_threshold_operator: str | None = None
+    human_threshold_value: float | None = None
+    human_threshold_unit: str | None = None
+    human_is_exclusionary: bool | None = None
+    human_note: str | None = None
+    created_at: datetime
+    updated_at: datetime
+    evidence: list[EvaluationCriterionEvidenceRead] = Field(default_factory=list)
+
+
+class EvaluationCriteriaSummaryRead(BaseModel):
+    total: int
+    suggested: int
+    confirmed: int
+    rejected: int
+    exclusionary: int
+    scoring: int
+    gates: int
+    by_type: dict[str, int] = Field(default_factory=dict)
+    by_category: dict[str, int] = Field(default_factory=dict)
+
+
+class TenderEvaluationRead(BaseModel):
+    tender_id: str
+    evaluation_version: str
+    generated_at: datetime
+    model: TenderEvaluationModelRead
+    criteria_summary: EvaluationCriteriaSummaryRead
+    criteria: list[EvaluationCriterionRead] = Field(default_factory=list)
+
+
+class TenderEvaluationModelDecisionWrite(BaseModel):
+    action: str = Field(..., min_length=1, max_length=64)
+    method: str | None = Field(default=None, max_length=64)
+    summary: str | None = Field(default=None, max_length=4000)
+
+
+class EvaluationCriterionDecisionWrite(BaseModel):
+    action: str = Field(..., min_length=1, max_length=64)
+    criterion_type: str | None = Field(default=None, max_length=64)
+    category: str | None = Field(default=None, max_length=64)
+    title: str | None = Field(default=None, max_length=255)
+    criterion_text: str | None = Field(default=None, max_length=4000)
+    weight_value: float | None = None
+    weight_unit: str | None = Field(default=None, max_length=32)
+    threshold_operator: str | None = Field(default=None, max_length=32)
+    threshold_value: float | None = None
+    threshold_unit: str | None = Field(default=None, max_length=32)
+    is_exclusionary: bool | None = None
+    human_note: str | None = Field(default=None, max_length=2000)

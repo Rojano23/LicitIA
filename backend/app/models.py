@@ -894,3 +894,200 @@ class TenderChangeEvidence(Base):
 
     change: Mapped[TenderChange] = relationship(back_populates="evidence")
     source_document: Mapped[TenderDocument] = relationship(back_populates="change_evidence", foreign_keys=[source_document_id])
+
+
+class TenderEvaluationModel(Base):
+    __tablename__ = "tender_evaluation_models"
+
+    __table_args__ = (
+        UniqueConstraint("tender_id", name="uq_tender_evaluation_model_tender"),
+        Index("ix_tender_evaluation_models_tender_id", "tender_id"),
+        Index("ix_tender_evaluation_models_review_status", "review_status"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    suggested_method: Mapped[str] = mapped_column(String(64), nullable=False, default="UNKNOWN")
+    human_method: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    review_status: Mapped[str] = mapped_column(String(32), nullable=False, default="SUGGESTED")
+    summary: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    human_summary: Mapped[str | None] = mapped_column(Text, nullable=True)
+    detector_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-04.1")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship()
+    evidence: Mapped[list["TenderEvaluationModelEvidence"]] = relationship(back_populates="evaluation_model", cascade="all, delete-orphan")
+    criteria: Mapped[list["EvaluationCriterion"]] = relationship(back_populates="evaluation_model", cascade="all, delete-orphan")
+
+
+class TenderEvaluationModelEvidence(Base):
+    __tablename__ = "tender_evaluation_model_evidence"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "evaluation_model_id",
+            "source_document_id",
+            "source_page",
+            "excerpt_sha256",
+            name="uq_tender_evaluation_model_evidence_item",
+        ),
+        Index("ix_tender_evaluation_model_evidence_model_id", "evaluation_model_id"),
+        Index("ix_tender_evaluation_model_evidence_source_document_id", "source_document_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    evaluation_model_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_evaluation_models.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    excerpt_sha256: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    evidence_role: Mapped[str] = mapped_column(String(32), nullable=False, default="OTHER")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    evaluation_model: Mapped[TenderEvaluationModel] = relationship(back_populates="evidence")
+    source_document: Mapped[TenderDocument] = relationship(foreign_keys=[source_document_id])
+
+
+class EvaluationCriterion(Base):
+    __tablename__ = "evaluation_criteria"
+
+    __table_args__ = (
+        UniqueConstraint("tender_id", "semantic_key", name="uq_evaluation_criteria_semantic_key"),
+        Index("ix_evaluation_criteria_tender_id", "tender_id"),
+        Index("ix_evaluation_criteria_evaluation_model_id", "evaluation_model_id"),
+        Index("ix_evaluation_criteria_review_status", "review_status"),
+        Index("ix_evaluation_criteria_type", "criterion_type"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    evaluation_model_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_evaluation_models.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    semantic_key: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    criterion_type: Mapped[str] = mapped_column(String(64), nullable=False, default="UNKNOWN")
+    category: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    title: Mapped[str] = mapped_column(String(255), nullable=False, default="")
+    criterion_text: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    weight_value: Mapped[float | None] = mapped_column(Float, nullable=True)
+    weight_unit: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    threshold_operator: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    threshold_value: Mapped[float | None] = mapped_column(Float, nullable=True)
+    threshold_unit: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    is_exclusionary: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    detection_origin: Mapped[str] = mapped_column(String(32), nullable=False, default="DETERMINISTIC")
+    review_status: Mapped[str] = mapped_column(String(32), nullable=False, default="SUGGESTED")
+    detector_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-04.1")
+    human_criterion_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    human_category: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    human_title: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    human_criterion_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    human_weight_value: Mapped[float | None] = mapped_column(Float, nullable=True)
+    human_weight_unit: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    human_threshold_operator: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    human_threshold_value: Mapped[float | None] = mapped_column(Float, nullable=True)
+    human_threshold_unit: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    human_is_exclusionary: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
+    human_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    evaluation_model: Mapped[TenderEvaluationModel] = relationship(back_populates="criteria")
+    source_document: Mapped[TenderDocument] = relationship(foreign_keys=[source_document_id])
+    evidence: Mapped[list["EvaluationCriterionEvidence"]] = relationship(back_populates="criterion", cascade="all, delete-orphan")
+
+
+class EvaluationCriterionEvidence(Base):
+    __tablename__ = "evaluation_criterion_evidence"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "criterion_id",
+            "source_document_id",
+            "source_page",
+            "excerpt_sha256",
+            name="uq_evaluation_criterion_evidence_item",
+        ),
+        Index("ix_evaluation_criterion_evidence_criterion_id", "criterion_id"),
+        Index("ix_evaluation_criterion_evidence_source_document_id", "source_document_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    criterion_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("evaluation_criteria.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    excerpt_sha256: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    evidence_role: Mapped[str] = mapped_column(String(32), nullable=False, default="OTHER")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    criterion: Mapped[EvaluationCriterion] = relationship(back_populates="evidence")
+    source_document: Mapped[TenderDocument] = relationship(foreign_keys=[source_document_id])

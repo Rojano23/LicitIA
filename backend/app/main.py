@@ -38,6 +38,12 @@ from app.effective_tender_state import get_tender_effective_state
 from app.tender_state_snapshot import generate_tender_state_snapshot
 from app.tender_changes import analyze_tender_changes, list_tender_changes, update_tender_change_human_decision
 from app.tender_events import analyze_tender_events, list_tender_events, update_tender_event_human_decision
+from app.tender_evaluation import (
+    analyze_tender_evaluation,
+    get_tender_evaluation,
+    update_evaluation_criterion_human_decision,
+    update_tender_evaluation_model_human_decision,
+)
 from app.models import (
     DocumentPage,
     DocumentPageRegion,
@@ -73,6 +79,9 @@ from app.schemas import (
     TenderEventDecisionWrite,
     TenderRead,
     TenderTimelineRead,
+    TenderEvaluationRead,
+    TenderEvaluationModelDecisionWrite,
+    EvaluationCriterionDecisionWrite,
 )
 
 settings = get_settings()
@@ -1184,6 +1193,97 @@ def get_tender_state_snapshot_endpoint(
 
     try:
         return generate_tender_state_snapshot(db, tender_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.post("/tenders/{tender_id}/analyze-evaluation", response_model=TenderEvaluationRead)
+def analyze_tender_evaluation_endpoint(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        payload = analyze_tender_evaluation(db, tender_id)
+        db.commit()
+        return payload
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/tenders/{tender_id}/evaluation", response_model=TenderEvaluationRead)
+def get_tender_evaluation_endpoint(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        return get_tender_evaluation(db, tender_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.patch("/tenders/{tender_id}/evaluation", response_model=TenderEvaluationRead)
+def update_tender_evaluation_endpoint(
+    tender_id: str,
+    payload: TenderEvaluationModelDecisionWrite,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        result = update_tender_evaluation_model_human_decision(
+            db,
+            tender_id=tender_id,
+            action=payload.action,
+            method=payload.method,
+            summary=payload.summary,
+        )
+        db.commit()
+        return result
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.patch("/tenders/{tender_id}/evaluation-criteria/{criterion_id}", response_model=TenderEvaluationRead)
+def update_tender_evaluation_criterion_endpoint(
+    tender_id: str,
+    criterion_id: str,
+    payload: EvaluationCriterionDecisionWrite,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        result = update_evaluation_criterion_human_decision(
+            db,
+            tender_id=tender_id,
+            criterion_id=criterion_id,
+            action=payload.action,
+            criterion_type=payload.criterion_type,
+            category=payload.category,
+            title=payload.title,
+            criterion_text=payload.criterion_text,
+            weight_value=payload.weight_value,
+            weight_unit=payload.weight_unit,
+            threshold_operator=payload.threshold_operator,
+            threshold_value=payload.threshold_value,
+            threshold_unit=payload.threshold_unit,
+            is_exclusionary=payload.is_exclusionary,
+            human_note=payload.human_note,
+        )
+        db.commit()
+        return result
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
