@@ -33,6 +33,7 @@ from app.document_references import (
     list_document_references,
     list_tender_relationships,
 )
+from app.relationship_baseline import generate_tender_relationship_baseline
 from app.models import (
     DocumentPage,
     DocumentPageRegion,
@@ -58,6 +59,7 @@ from app.schemas import (
     NormalizationSummaryRead,
     OcrProviderStatusRead,
     PageOcrResultRead,
+    TenderRelationshipBaselineRead,
     TenderCreate,
     TenderDocumentRead,
     TenderRead,
@@ -1007,6 +1009,18 @@ def get_tender_document_intelligence_audit(
         raise HTTPException(status_code=404, detail="Tender not found")
 
     return generate_document_intelligence_audit(db, tender_id)
+
+
+@app.get("/tenders/{tender_id}/relationship-baseline", response_model=TenderRelationshipBaselineRead)
+def get_tender_relationship_baseline(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    return generate_tender_relationship_baseline(db, tender_id)
 
 
 @app.get("/tenders/{tender_id}/documents/{document_id}/pages", response_model=list[DocumentPageRead])

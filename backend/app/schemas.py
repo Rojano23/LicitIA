@@ -544,3 +544,40 @@ class DocumentIntelligenceAuditRead(BaseModel):
     ambiguous_reference_groups: list[AmbiguousReferenceGroupRead] = Field(default_factory=list)
     relationship_summary: RelationshipSummaryRead
     registry_anomalies: RegistryAnomaliesRead
+
+
+class RelationshipBaselineCountsRead(BaseModel):
+    total_physical_documents: int
+    current_documents: int
+    documents_analyzed_for_references: int
+    total_reference_mentions: int
+    relationship_edge_count: int
+    unresolved_reference_groups_count: int
+    ambiguous_reference_groups_count: int
+    duplicate_edge_count: int
+    self_edge_count: int
+
+
+class DocumentMapEntryRead(BaseModel):
+    source_document_id: str
+    source_filename: str | None = None
+    relationship_type: str
+    target_document_id: str
+    target_filename: str | None = None
+    supporting_reference_count: int
+    supporting_pages: list[int] = Field(default_factory=list)
+    resolution_origin: str
+
+
+class TenderRelationshipBaselineRead(BaseModel):
+    tender_id: str
+    baseline_version: str
+    source_audit_version: str
+    generated_at: datetime
+    counts: RelationshipBaselineCountsRead
+    reference_status_counts: AuditReferenceStatusCountsRead
+    relationship_type_counts: AuditRelationshipTypeCountsRead
+    unresolved_reference_groups: list[UnresolvedReferenceGroupRead] = Field(default_factory=list)
+    ambiguous_reference_groups: list[AmbiguousReferenceGroupRead] = Field(default_factory=list)
+    relationship_edges: list[RelationshipEdgeSummaryRead] = Field(default_factory=list)
+    document_map: list[DocumentMapEntryRead] = Field(default_factory=list)
