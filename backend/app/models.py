@@ -106,6 +106,7 @@ class TenderDocument(Base):
 
     tender: Mapped[Tender] = relationship(back_populates="documents")
     pages: Mapped[list["DocumentPage"]] = relationship(back_populates="document", cascade="all, delete-orphan")
+    classifications: Mapped[list["DocumentClassification"]] = relationship(back_populates="document", cascade="all, delete-orphan")
 
 
 class DocumentPageRegion(Base):
@@ -202,6 +203,7 @@ class NormalizedContent(Base):
     page_ocr_result: Mapped["PageOcrResult | None"] = relationship(back_populates="normalized_content")
     region: Mapped[DocumentPageRegion | None] = relationship(back_populates="normalized_content")
     chunks: Mapped[list["DocumentChunk"]] = relationship(back_populates="normalized_content", cascade="all, delete-orphan")
+    classification_evidence: Mapped[list["DocumentClassificationEvidence"]] = relationship(back_populates="normalized_content", cascade="all, delete-orphan")
 
 
 class DocumentPage(Base):
@@ -234,6 +236,7 @@ class DocumentPage(Base):
     regions: Mapped[list[DocumentPageRegion]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
     ocr_results: Mapped[list["PageOcrResult"]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
     normalized_content: Mapped[list[NormalizedContent]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
+    classification_evidence: Mapped[list["DocumentClassificationEvidence"]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
 
     @property
     def content_profile(self) -> str:
@@ -324,3 +327,149 @@ class DocumentChunk(Base):
     )
 
     normalized_content: Mapped[NormalizedContent] = relationship(back_populates="chunks")
+    classification_evidence: Mapped[list["DocumentClassificationEvidence"]] = relationship(back_populates="document_chunk", cascade="all, delete-orphan")
+
+
+class DocumentClassification(Base):
+    __tablename__ = "document_classifications"
+
+    __table_args__ = (
+        UniqueConstraint("document_id", name="uq_document_classification_document"),
+        Index("ix_document_classification_document_id", "document_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    suggested_type: Mapped[str] = mapped_column(String(64), nullable=False, default="UNKNOWN")
+    suggested_score: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    classification_status: Mapped[str] = mapped_column(String(32), nullable=False, default="SUGGESTED")
+    classifier_method: Mapped[str] = mapped_column(String(64), nullable=False, default="RULE_BASED_GENERIC")
+    classifier_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-02.4")
+    input_fingerprint_sha256: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    is_composite: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    human_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    human_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    document: Mapped[TenderDocument] = relationship(back_populates="classifications")
+    evidence: Mapped[list["DocumentClassificationEvidence"]] = relationship(back_populates="classification", cascade="all, delete-orphan")
+    candidates: Mapped[list["DocumentClassificationCandidate"]] = relationship(back_populates="classification", cascade="all, delete-orphan")
+    tags: Mapped[list["DocumentClassificationTag"]] = relationship(back_populates="classification", cascade="all, delete-orphan")
+
+
+class DocumentClassificationEvidence(Base):
+    __tablename__ = "document_classification_evidence"
+
+    __table_args__ = (
+        Index("ix_document_classification_evidence_classification_id", "classification_id"),
+        Index("ix_document_classification_evidence_document_page_id", "document_page_id"),
+        Index("ix_document_classification_evidence_normalized_content_id", "normalized_content_id"),
+        Index("ix_document_classification_evidence_document_chunk_id", "document_chunk_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    classification_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_classifications.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    document_page_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
+    )
+    normalized_content_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("normalized_content.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
+    )
+    document_chunk_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_chunks.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
+    )
+    source_kind: Mapped[str] = mapped_column(String(32), nullable=False, default="CONTENT")
+    signal: Mapped[str] = mapped_column(String(128), nullable=False, default="")
+    excerpt: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    weight_or_score: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    classification: Mapped[DocumentClassification] = relationship(back_populates="evidence")
+    document_page: Mapped[DocumentPage | None] = relationship(back_populates="classification_evidence")
+    normalized_content: Mapped[NormalizedContent | None] = relationship(back_populates="classification_evidence")
+    document_chunk: Mapped[DocumentChunk | None] = relationship(back_populates="classification_evidence")
+
+
+class DocumentClassificationTag(Base):
+    __tablename__ = "document_classification_tags"
+
+    __table_args__ = (
+        UniqueConstraint("classification_id", "tag", name="uq_document_classification_tag"),
+        Index("ix_document_classification_tags_classification_id", "classification_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    classification_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_classifications.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    tag: Mapped[str] = mapped_column(String(64), nullable=False)
+    score: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    classification: Mapped[DocumentClassification] = relationship(back_populates="tags")
+
+
+class DocumentClassificationCandidate(Base):
+    __tablename__ = "document_classification_candidates"
+
+    __table_args__ = (
+        UniqueConstraint("classification_id", "candidate_type", name="uq_document_classification_candidate"),
+        Index("ix_document_classification_candidates_classification_id", "classification_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    classification_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_classifications.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    candidate_type: Mapped[str] = mapped_column(String(64), nullable=False)
+    score: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    classification: Mapped[DocumentClassification] = relationship(back_populates="candidates")

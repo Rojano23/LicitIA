@@ -24,6 +24,7 @@ ALLOWED_CONFLICT_ACTIONS = {"NONE", "IMPORT_INDEPENDENT", "NEW_REVISION"}
 from app.config import get_settings
 from app.database import get_db
 from app.content_normalization import list_normalized_sources, process_document_normalization
+from app.document_classification import apply_human_classification_decision, get_document_classification, process_document_classification
 from app.models import (
     DocumentPage,
     DocumentPageRegion,
@@ -36,6 +37,7 @@ from app.models import (
 )
 from app.ocr import build_default_ocr_provider_registry
 from app.schemas import (
+    DocumentClassificationRead,
     DocumentExtractionResult,
     DocumentImportResult,
     DocumentOcrResult,
@@ -765,6 +767,108 @@ def list_document_normalized_content(
         raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
 
     return list_normalized_sources(db, document_id)
+
+
+@app.post("/tenders/{tender_id}/documents/{document_id}/classify", response_model=DocumentClassificationRead)
+def classify_document(
+    tender_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
+
+    classification = process_document_classification(db, document)
+    db.commit()
+    return classification
+
+
+@app.get("/tenders/{tender_id}/documents/{document_id}/classification", response_model=DocumentClassificationRead)
+def get_document_classification_endpoint(
+    tender_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
+
+    classification = get_document_classification(db, document_id)
+    return classification
+
+
+@app.patch("/tenders/{tender_id}/documents/{document_id}/classification", response_model=DocumentClassificationRead)
+def update_document_classification(
+    tender_id: str,
+    document_id: str,
+    payload: dict[str, str | None],
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    document = db.get(TenderDocument, document_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Document not found for the selected Tender")
+
+    action = str(payload.get("action") or "").upper()
+    human_type = payload.get("human_type")
+    human_note = payload.get("human_note")
+    if not action:
+        raise HTTPException(status_code=400, detail="Action is required")
+
+    classification = apply_human_classification_decision(db, document, action, human_type, human_note)
+    db.commit()
+    return classification
+
+
+@app.post("/tenders/{tender_id}/classify-documents", response_model=list[DocumentClassificationRead])
+def classify_tender_documents(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> list[dict[str, object]]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    results: list[dict[str, object]] = []
+    documents = db.execute(select(TenderDocument).where(TenderDocument.tender_id == tender_id).order_by(TenderDocument.imported_at.desc())).scalars().all()
+    for document in documents:
+        try:
+            results.append(process_document_classification(db, document))
+        except Exception:
+            results.append({
+                "document_id": document.id,
+                "suggested_type": "UNKNOWN",
+                "suggested_score": 0,
+                "effective_type": "UNKNOWN",
+                "classification_status": "NOT_READY",
+                "is_composite": False,
+                "human_type": None,
+                "human_note": None,
+                "functional_tags": [],
+                "evidence": [],
+                "input_fingerprint_sha256": "",
+                "not_ready": True,
+            })
+    db.commit()
+    return results
 
 
 @app.get("/tenders/{tender_id}/documents/{document_id}/pages", response_model=list[DocumentPageRead])

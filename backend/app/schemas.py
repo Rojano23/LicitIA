@@ -174,6 +174,50 @@ class NormalizationSummaryRead(BaseModel):
     updated: int
 
 
+class DocumentClassificationEvidenceRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    document_page_id: str | None = None
+    normalized_content_id: str | None = None
+    document_chunk_id: str | None = None
+    source_kind: str
+    signal: str
+    excerpt: str
+    weight_or_score: int
+
+
+class DocumentClassificationTagRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    tag: str
+    score: int
+
+
+class DocumentClassificationCandidateRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    type: str
+    score: int
+
+
+class DocumentClassificationRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    document_id: str
+    suggested_type: str
+    suggested_score: int
+    effective_type: str
+    classification_status: str
+    is_composite: bool
+    human_type: str | None = None
+    human_note: str | None = None
+    candidate_scores: list[DocumentClassificationCandidateRead] = Field(default_factory=list)
+    functional_tags: list[DocumentClassificationTagRead] = Field(default_factory=list)
+    evidence: list[DocumentClassificationEvidenceRead] = Field(default_factory=list)
+    input_fingerprint_sha256: str
+    not_ready: bool = False
+
+
 class DocumentOcrResult(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

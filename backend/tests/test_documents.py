@@ -1,12 +1,40 @@
 import hashlib
+import importlib.util
+from pathlib import Path
 
 from fastapi.testclient import TestClient
 
 from app.database import SessionLocal
 from app.main import app
-from app.models import DocumentPage, PageOcrResult, TenderDocument
+from app.models import (
+    DocumentClassification,
+    DocumentClassificationCandidate,
+    DocumentClassificationTag,
+    DocumentPage,
+    NormalizedContent,
+    PageOcrResult,
+    TenderDocument,
+)
 
 client = TestClient(app)
+
+ALLOWED_FUNCTIONAL_TAGS = {
+    "TECHNICAL",
+    "COMMERCIAL",
+    "ECONOMIC",
+    "ADMINISTRATIVE",
+    "LEGAL",
+    "CONTRACTUAL",
+    "SCHEDULE",
+    "EXPERIENCE",
+    "PERSONNEL",
+    "SAFETY",
+    "GUARANTEE",
+    "REGISTRATION",
+    "INSTRUCTIONS",
+}
+
+MIGRATION_PATH = Path(__file__).resolve().parents[1] / "alembic" / "versions" / "20260827_document_classification_candidates.py"
 
 
 def _create_tender(title: str = "Document Tender") -> str:
@@ -20,6 +48,61 @@ def _create_tender(title: str = "Document Tender") -> str:
     )
     assert response.status_code == 201, response.text
     return response.json()["id"]
+
+
+def _import_classification_pdf(tender_id: str, filename: str = "classification.pdf") -> str:
+    unique_payload = f"%PDF-1.4\n1 0 obj\n<< /Title ({filename}) >>\nendobj\n%%EOF\n".encode("utf-8")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", (filename, unique_payload, "application/pdf"))],
+        data={"source_relative_paths": f"folder/{filename}"},
+    )
+    assert response.status_code == 200, response.text
+    return response.json()[0]["document_id"]
+
+
+def _seed_normalized_lines(document_id: str, lines: list[str]) -> None:
+    db = SessionLocal()
+    try:
+        for page_number, text in enumerate(lines, start=1):
+            page = DocumentPage(
+                document_id=document_id,
+                page_number=page_number,
+                text=text,
+                char_count=len(text),
+                extraction_method="NATIVE_PDF",
+                status="TEXT_EXTRACTED",
+            )
+            db.add(page)
+            db.flush()
+            db.add(
+                NormalizedContent(
+                    document_page_id=page.id,
+                    source_type="NATIVE_PDF",
+                    source_scope="NATIVE_PAGE",
+                    engine=None,
+                    normalized_text=text,
+                    char_count=len(text),
+                    content_sha256=f"seed-{document_id}-{page_number}",
+                )
+            )
+        db.commit()
+    finally:
+        db.close()
+
+
+def _classify(tender_id: str, document_id: str) -> dict:
+    response = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
+def _load_candidate_migration_module():
+    spec = importlib.util.spec_from_file_location("candidate_migration", MIGRATION_PATH)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def test_import_duplicate_and_name_conflict() -> None:
@@ -1065,6 +1148,896 @@ def test_compare_mode_persists_independent_provider_results(monkeypatch) -> None
     )
     assert rerun.status_code == 200, rerun.text
     assert len(rerun.json()["results"]) == 2
+
+
+def test_document_classification_detects_execution_schedule_from_content() -> None:
+    tender_id = _create_tender("Execution Schedule Classification")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("schedule.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/schedule.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        page = DocumentPage(
+            document_id=document_id,
+            page_number=1,
+            text="Programa de ejecución de los servicios",
+            char_count=40,
+            extraction_method="NATIVE_PDF",
+            status="TEXT_EXTRACTED",
+        )
+        db.add(page)
+        db.commit()
+        db.refresh(page)
+
+        db.add(
+            NormalizedContent(
+                document_page_id=page.id,
+                source_type="NATIVE_PDF",
+                source_scope="NATIVE_PAGE",
+                engine=None,
+                normalized_text="Programa de ejecución de los servicios",
+                char_count=40,
+                content_sha256="schedule-1",
+            )
+        )
+        db.commit()
+    finally:
+        db.close()
+
+    classify_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert classify_response.status_code == 200, classify_response.text
+    payload = classify_response.json()
+    assert payload["suggested_type"] == "EXECUTION_SCHEDULE"
+    assert payload["is_composite"] is False
+    assert payload["classification_status"] in {"SUGGESTED", "NEEDS_REVIEW"}
+    assert payload["not_ready"] is False
+
+
+def test_document_classification_get_exposes_candidates_and_functional_tags() -> None:
+    tender_id = _create_tender("GET Classification Contract")
+    document_id = _import_classification_pdf(tender_id, "get-contract.pdf")
+    _seed_normalized_lines(document_id, ["Modelo de contrato para prestación de servicios"])
+
+    post_payload = _classify(tender_id, document_id)
+    get_response = client.get(f"/tenders/{tender_id}/documents/{document_id}/classification")
+    assert get_response.status_code == 200, get_response.text
+    get_payload = get_response.json()
+
+    assert get_payload["candidate_scores"] == post_payload["candidate_scores"]
+    assert get_payload["functional_tags"] == post_payload["functional_tags"]
+    assert any(item["type"] == "CONTRACT_DRAFT" for item in get_payload["candidate_scores"])
+    assert any(item["tag"] == "CONTRACTUAL" for item in get_payload["functional_tags"])
+
+
+def test_document_classification_exposes_candidates_separately_from_functional_tags() -> None:
+    tender_id = _create_tender("Semantic Split")
+    document_id = _import_classification_pdf(tender_id, "semantic-split.pdf")
+    _seed_normalized_lines(
+        document_id,
+        [
+            "BASES DE CONTRATACIÓN",
+            "modelo de contrato y propuesta económica con fianza",
+        ],
+    )
+
+    payload = _classify(tender_id, document_id)
+
+    candidate_types = {item["type"] for item in payload["candidate_scores"]}
+    functional_tags = {item["tag"] for item in payload["functional_tags"]}
+
+    assert payload["candidate_scores"]
+    assert "BIDDING_RULES" in candidate_types
+    assert functional_tags <= ALLOWED_FUNCTIONAL_TAGS
+    assert functional_tags.isdisjoint(candidate_types)
+
+    db = SessionLocal()
+    try:
+        classification = db.query(DocumentClassification).filter_by(document_id=document_id).one()
+        candidates = db.query(DocumentClassificationCandidate).filter_by(classification_id=classification.id).all()
+        tags = db.query(DocumentClassificationTag).filter_by(classification_id=classification.id).all()
+        assert len(candidates) > 0
+        assert all(item.candidate_type in candidate_types for item in candidates)
+        assert all(item.tag in ALLOWED_FUNCTIONAL_TAGS for item in tags)
+    finally:
+        db.close()
+
+
+def test_document_classification_functional_tag_schedule_from_evidence() -> None:
+    tender_id = _create_tender("Functional Schedule")
+    document_id = _import_classification_pdf(tender_id, "schedule-tag.pdf")
+    _seed_normalized_lines(document_id, ["Programa de ejecución de los servicios"])
+
+    payload = _classify(tender_id, document_id)
+    tag_scores = {item["tag"]: item["score"] for item in payload["functional_tags"]}
+    assert "SCHEDULE" in tag_scores
+    assert tag_scores["SCHEDULE"] > 0
+
+
+def test_document_classification_functional_tag_experience_from_evidence() -> None:
+    tender_id = _create_tender("Functional Experience")
+    document_id = _import_classification_pdf(tender_id, "experience-tag.pdf")
+    _seed_normalized_lines(document_id, ["Requisitos de calificación por experiencia comprobable"])
+
+    payload = _classify(tender_id, document_id)
+    tag_scores = {item["tag"]: item["score"] for item in payload["functional_tags"]}
+    assert "EXPERIENCE" in tag_scores
+
+
+def test_document_classification_functional_tag_personnel_from_evidence() -> None:
+    tender_id = _create_tender("Functional Personnel")
+    document_id = _import_classification_pdf(tender_id, "personnel-tag.pdf")
+    _seed_normalized_lines(document_id, ["Se requiere personal profesional certificado"])
+
+    payload = _classify(tender_id, document_id)
+    tag_scores = {item["tag"]: item["score"] for item in payload["functional_tags"]}
+    assert "PERSONNEL" in tag_scores
+
+
+def test_document_classification_functional_tag_guarantee_from_evidence() -> None:
+    tender_id = _create_tender("Functional Guarantee")
+    document_id = _import_classification_pdf(tender_id, "guarantee-tag.pdf")
+    _seed_normalized_lines(document_id, ["Garantía de cumplimiento y fianza de seriedad"])
+
+    payload = _classify(tender_id, document_id)
+    tag_scores = {item["tag"]: item["score"] for item in payload["functional_tags"]}
+    assert "GUARANTEE" in tag_scores
+
+
+def test_document_classification_functional_tag_technical_from_evidence() -> None:
+    tender_id = _create_tender("Functional Technical")
+    document_id = _import_classification_pdf(tender_id, "technical-tag.pdf")
+    _seed_normalized_lines(document_id, ["Especificaciones técnicas para alcance del servicio"])
+
+    payload = _classify(tender_id, document_id)
+    tag_scores = {item["tag"]: item["score"] for item in payload["functional_tags"]}
+    assert "TECHNICAL" in tag_scores
+
+
+def test_document_classification_functional_tag_economic_from_evidence() -> None:
+    tender_id = _create_tender("Functional Economic")
+    document_id = _import_classification_pdf(tender_id, "economic-tag.pdf")
+    _seed_normalized_lines(document_id, ["Propuesta económica y catálogo de conceptos"])
+
+    payload = _classify(tender_id, document_id)
+    tag_scores = {item["tag"]: item["score"] for item in payload["functional_tags"]}
+    assert "ECONOMIC" in tag_scores
+
+
+def test_document_classification_functional_tag_contractual_from_evidence() -> None:
+    tender_id = _create_tender("Functional Contractual")
+    document_id = _import_classification_pdf(tender_id, "contract-tag.pdf")
+    _seed_normalized_lines(document_id, ["Modelo de contrato para prestación de servicios"])
+
+    payload = _classify(tender_id, document_id)
+    tag_scores = {item["tag"]: item["score"] for item in payload["functional_tags"]}
+    assert "CONTRACTUAL" in tag_scores
+
+
+def test_document_classification_unrelated_text_does_not_create_uncontrolled_functional_tag() -> None:
+    tender_id = _create_tender("No Uncontrolled Tag")
+    document_id = _import_classification_pdf(tender_id, "unrelated.pdf")
+    _seed_normalized_lines(document_id, ["Documento informativo de antecedentes generales del proceso"])
+
+    payload = _classify(tender_id, document_id)
+    functional_tags = {item["tag"] for item in payload["functional_tags"]}
+    assert functional_tags <= ALLOWED_FUNCTIONAL_TAGS
+    assert functional_tags == set()
+
+
+def test_document_classification_repeated_signal_does_not_inflate_functional_tag_score_by_page_count() -> None:
+    tender_id = _create_tender("No Tag Inflation")
+    document_id = _import_classification_pdf(tender_id, "inflation.pdf")
+    _seed_normalized_lines(document_id, ["Experiencia comprobable"] * 60)
+
+    payload = _classify(tender_id, document_id)
+    tag_scores = {item["tag"]: item["score"] for item in payload["functional_tags"]}
+    assert "EXPERIENCE" in tag_scores
+    assert tag_scores["EXPERIENCE"] <= 55
+
+
+def test_document_classification_candidate_and_functional_scores_are_stable_after_rerun_and_confirmed_survives() -> None:
+    tender_id = _create_tender("Candidate And Tags Stable")
+    document_id = _import_classification_pdf(tender_id, "stable-rerun.pdf")
+    _seed_normalized_lines(document_id, ["Programa de ejecución", "Modelo de contrato", "fianza"])
+
+    first = _classify(tender_id, document_id)
+    first_candidates = first["candidate_scores"]
+    first_tags = first["functional_tags"]
+
+    confirm = client.patch(
+        f"/tenders/{tender_id}/documents/{document_id}/classification",
+        json={"action": "CONFIRM", "human_note": "Confirmado"},
+    )
+    assert confirm.status_code == 200, confirm.text
+    assert confirm.json()["classification_status"] == "CONFIRMED"
+
+    rerun = _classify(tender_id, document_id)
+    assert rerun["classification_status"] == "CONFIRMED"
+    assert rerun["candidate_scores"] == first_candidates
+    assert rerun["functional_tags"] == first_tags
+
+
+def test_legacy_candidate_tags_are_cleaned_up_into_candidates() -> None:
+    module = _load_candidate_migration_module()
+
+    tender_id = _create_tender("Legacy Cleanup")
+    document_id = _import_classification_pdf(tender_id, "legacy-cleanup.pdf")
+    _seed_normalized_lines(document_id, ["Modelo de contrato para prestación de servicios"])
+
+    db = SessionLocal()
+    try:
+        classification = DocumentClassification(document_id=document_id)
+        db.add(classification)
+        db.flush()
+        db.add(
+            DocumentClassificationTag(
+                classification_id=classification.id,
+                tag="BIDDING_RULES",
+                score=55,
+            )
+        )
+        db.add(
+            DocumentClassificationTag(
+                classification_id=classification.id,
+                tag="CONTRACTUAL",
+                score=49,
+            )
+        )
+        db.commit()
+
+        module._cleanup_legacy_candidate_tags(db.connection())
+        db.commit()
+
+        refreshed = db.query(DocumentClassification).filter_by(id=classification.id).one()
+        assert {candidate.candidate_type for candidate in refreshed.candidates} == {"BIDDING_RULES"}
+        assert {tag.tag for tag in refreshed.tags} == {"CONTRACTUAL"}
+    finally:
+        db.close()
+
+
+def test_document_classification_validated_type_outcomes_do_not_regress() -> None:
+    tender_id = _create_tender("Validated Outcomes")
+
+    convocatoria_id = _import_classification_pdf(tender_id, "convocatoria.pdf")
+    bases_id = _import_classification_pdf(tender_id, "bases.pdf")
+    anexos_id = _import_classification_pdf(tender_id, "anexos.pdf")
+    anexo_d_id = _import_classification_pdf(tender_id, "anexo-d.pdf")
+
+    _seed_normalized_lines(
+        convocatoria_id,
+        [
+            "CONVOCATORIA",
+            "De acuerdo con el modelo de contrato y las bases de contratación.",
+        ],
+    )
+    _seed_normalized_lines(
+        bases_id,
+        [
+            "BASES DE CONTRATACIÓN",
+            "Conforme al modelo de contrato, especificaciones técnicas y propuesta económica.",
+        ],
+    )
+    _seed_normalized_lines(
+        anexos_id,
+        [
+            "Especificaciones técnicas",
+            "Programa de ejecución",
+            "Modelo de contrato",
+            "Formato de entrega",
+        ],
+    )
+    _seed_normalized_lines(
+        anexo_d_id,
+        [
+            "PROGRAMA GENERAL DE EJECUCIÓN",
+            "Conforme al modelo de contrato y especificaciones técnicas.",
+        ],
+    )
+
+    convocatoria = _classify(tender_id, convocatoria_id)
+    bases = _classify(tender_id, bases_id)
+    anexos = _classify(tender_id, anexos_id)
+    anexo_d = _classify(tender_id, anexo_d_id)
+
+    assert convocatoria["suggested_type"] == "NOTICE"
+    assert convocatoria["is_composite"] is False
+
+    assert bases["suggested_type"] == "BIDDING_RULES"
+    assert bases["is_composite"] is False
+
+    assert anexos["suggested_type"] == "DOCUMENT_PACKAGE"
+    assert anexos["is_composite"] is True
+
+    assert anexo_d["suggested_type"] == "EXECUTION_SCHEDULE"
+    assert anexo_d["is_composite"] is False
+
+
+def test_document_classification_human_override_survives_rerun() -> None:
+    tender_id = _create_tender("Human Override")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("contract.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/contract.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        page = DocumentPage(
+            document_id=document_id,
+            page_number=1,
+            text="modelo de contrato para el suministro",
+            char_count=40,
+            extraction_method="NATIVE_PDF",
+            status="TEXT_EXTRACTED",
+        )
+        db.add(page)
+        db.commit()
+        db.refresh(page)
+
+        db.add(
+            NormalizedContent(
+                document_page_id=page.id,
+                source_type="NATIVE_PDF",
+                source_scope="NATIVE_PAGE",
+                engine=None,
+                normalized_text="modelo de contrato para el suministro",
+                char_count=40,
+                content_sha256="abc123",
+            )
+        )
+        db.commit()
+    finally:
+        db.close()
+
+    first = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert first.status_code == 200, first.text
+
+    override_response = client.patch(
+        f"/tenders/{tender_id}/documents/{document_id}/classification",
+        json={"action": "OVERRIDE", "human_type": "CONTRACT_DRAFT", "human_note": "Manual override"},
+    )
+    assert override_response.status_code == 200, override_response.text
+    assert override_response.json()["effective_type"] == "CONTRACT_DRAFT"
+
+    rerun = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert rerun.status_code == 200, rerun.text
+    assert rerun.json()["effective_type"] == "CONTRACT_DRAFT"
+
+
+def test_document_classification_repeated_boilerplate_is_unique_signal_only() -> None:
+    tender_id = _create_tender("Repeated Boilerplate")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("bases.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/bases.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        for page_number in range(1, 101):
+            page = DocumentPage(
+                document_id=document_id,
+                page_number=page_number,
+                text="Bases de contratación\n",
+                char_count=24,
+                extraction_method="NATIVE_PDF",
+                status="TEXT_EXTRACTED",
+            )
+            db.add(page)
+            db.flush()
+            db.add(
+                NormalizedContent(
+                    document_page_id=page.id,
+                    source_type="NATIVE_PDF",
+                    source_scope="NATIVE_PAGE",
+                    normalized_text="Bases de contratación\n",
+                    char_count=24,
+                    content_sha256=f"repeat-{page_number}",
+                )
+            )
+        db.commit()
+    finally:
+        db.close()
+
+    classify_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert classify_response.status_code == 200, classify_response.text
+    payload = classify_response.json()
+    assert payload["suggested_type"] == "BIDDING_RULES"
+    assert payload["suggested_score"] >= 35
+    bases_evidence = [item for item in payload["evidence"] if "bases de contrat" in item["signal"]]
+    assert len(bases_evidence) == 1
+
+
+def test_document_classification_composite_package_requires_diverse_signals() -> None:
+    tender_id = _create_tender("Composite Package")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("package.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/package.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        sources = [
+            (1, "requisitos de calificación para experiencia"),
+            (2, "programa de ejecución de los servicios"),
+            (3, "modelo de contrato para suministro"),
+            (4, "garantia y fianza"),
+        ]
+        for page_number, text in sources:
+            page = DocumentPage(
+                document_id=document_id,
+                page_number=page_number,
+                text=text,
+                char_count=len(text),
+                extraction_method="NATIVE_PDF",
+                status="TEXT_EXTRACTED",
+            )
+            db.add(page)
+            db.flush()
+            db.add(
+                NormalizedContent(
+                    document_page_id=page.id,
+                    source_type="NATIVE_PDF",
+                    source_scope="NATIVE_PAGE",
+                    normalized_text=text,
+                    char_count=len(text),
+                    content_sha256=f"package-{page_number}",
+                )
+            )
+        db.commit()
+    finally:
+        db.close()
+
+    classify_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert classify_response.status_code == 200, classify_response.text
+    payload = classify_response.json()
+    assert payload["is_composite"] is True
+    assert payload["suggested_type"] == "DOCUMENT_PACKAGE"
+
+
+def test_document_classification_notice_with_references_is_not_composite() -> None:
+    tender_id = _create_tender("Notice With References")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("convocatoria.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/convocatoria.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        page_texts = [
+            "CONVOCATORIA\nLicitación pública nacional",
+            "De acuerdo con el modelo de contrato y las bases de contratación, se presentará propuesta económica y garantía.",
+        ]
+        for page_number, text in enumerate(page_texts, start=1):
+            page = DocumentPage(
+                document_id=document_id,
+                page_number=page_number,
+                text=text,
+                char_count=len(text),
+                extraction_method="NATIVE_PDF",
+                status="TEXT_EXTRACTED",
+            )
+            db.add(page)
+            db.flush()
+            db.add(
+                NormalizedContent(
+                    document_page_id=page.id,
+                    source_type="NATIVE_PDF",
+                    source_scope="NATIVE_PAGE",
+                    normalized_text=text,
+                    char_count=len(text),
+                    content_sha256=f"notice-ref-{page_number}",
+                )
+            )
+        db.commit()
+    finally:
+        db.close()
+
+    classify_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert classify_response.status_code == 200, classify_response.text
+    payload = classify_response.json()
+    assert payload["suggested_type"] == "NOTICE"
+    assert payload["is_composite"] is False
+
+
+def test_document_classification_bidding_rules_with_references_is_not_composite() -> None:
+    tender_id = _create_tender("Rules With References")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("bases.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/bases.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        page_texts = [
+            "BASES DE CONTRATACIÓN\nCondiciones de participación",
+            "Conforme al modelo de contrato, especificaciones técnicas y propuesta económica se deberán presentar garantías.",
+        ]
+        for page_number, text in enumerate(page_texts, start=1):
+            page = DocumentPage(
+                document_id=document_id,
+                page_number=page_number,
+                text=text,
+                char_count=len(text),
+                extraction_method="NATIVE_PDF",
+                status="TEXT_EXTRACTED",
+            )
+            db.add(page)
+            db.flush()
+            db.add(
+                NormalizedContent(
+                    document_page_id=page.id,
+                    source_type="NATIVE_PDF",
+                    source_scope="NATIVE_PAGE",
+                    normalized_text=text,
+                    char_count=len(text),
+                    content_sha256=f"rules-ref-{page_number}",
+                )
+            )
+        db.commit()
+    finally:
+        db.close()
+
+    classify_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert classify_response.status_code == 200, classify_response.text
+    payload = classify_response.json()
+    assert payload["suggested_type"] == "BIDDING_RULES"
+    assert payload["is_composite"] is False
+
+
+def test_document_classification_toc_list_alone_does_not_trigger_composite() -> None:
+    tender_id = _create_tender("TOC Only")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("toc.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/toc.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    toc_text = """
+    INDICE DE CONTENIDO
+    Anexo B - Especificaciones Particulares
+    Anexo C - Relación de Conceptos
+    Anexo D - Programa General de Ejecución
+    Anexo E - Modelo de Contrato
+    """
+
+    db = SessionLocal()
+    try:
+        page = DocumentPage(
+            document_id=document_id,
+            page_number=1,
+            text=toc_text,
+            char_count=len(toc_text),
+            extraction_method="NATIVE_PDF",
+            status="TEXT_EXTRACTED",
+        )
+        db.add(page)
+        db.flush()
+        db.add(
+            NormalizedContent(
+                document_page_id=page.id,
+                source_type="NATIVE_PDF",
+                source_scope="NATIVE_PAGE",
+                normalized_text=toc_text,
+                char_count=len(toc_text),
+                content_sha256="toc-only-1",
+            )
+        )
+        db.commit()
+    finally:
+        db.close()
+
+    classify_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert classify_response.status_code == 200, classify_response.text
+    payload = classify_response.json()
+    assert payload["is_composite"] is False
+    assert payload["suggested_type"] != "DOCUMENT_PACKAGE"
+
+
+def test_document_classification_execution_schedule_with_references_is_not_composite() -> None:
+    tender_id = _create_tender("Schedule With References")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("anexo-d.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/anexo-d.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        page_texts = [
+            "PROGRAMA GENERAL DE EJECUCIÓN DE LOS SERVICIOS",
+            "Conforme al modelo de contrato y especificaciones técnicas, este cronograma regirá actividades.",
+        ]
+        for page_number, text in enumerate(page_texts, start=1):
+            page = DocumentPage(
+                document_id=document_id,
+                page_number=page_number,
+                text=text,
+                char_count=len(text),
+                extraction_method="NATIVE_PDF",
+                status="TEXT_EXTRACTED",
+            )
+            db.add(page)
+            db.flush()
+            db.add(
+                NormalizedContent(
+                    document_page_id=page.id,
+                    source_type="NATIVE_PDF",
+                    source_scope="NATIVE_PAGE",
+                    normalized_text=text,
+                    char_count=len(text),
+                    content_sha256=f"schedule-ref-{page_number}",
+                )
+            )
+        db.commit()
+    finally:
+        db.close()
+
+    classify_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert classify_response.status_code == 200, classify_response.text
+    payload = classify_response.json()
+    assert payload["suggested_type"] == "EXECUTION_SCHEDULE"
+    assert payload["is_composite"] is False
+
+
+def test_document_classification_human_confirmed_survives_recompute() -> None:
+    tender_id = _create_tender("Human Confirmed")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("confirmed.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/confirmed.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        page = DocumentPage(
+            document_id=document_id,
+            page_number=1,
+            text="Programa de ejecución de los servicios",
+            char_count=40,
+            extraction_method="NATIVE_PDF",
+            status="TEXT_EXTRACTED",
+        )
+        db.add(page)
+        db.commit()
+        db.refresh(page)
+        db.add(
+            NormalizedContent(
+                document_page_id=page.id,
+                source_type="NATIVE_PDF",
+                source_scope="NATIVE_PAGE",
+                normalized_text="Programa de ejecución de los servicios",
+                char_count=40,
+                content_sha256="confirmed-1",
+            )
+        )
+        db.commit()
+    finally:
+        db.close()
+
+    first = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert first.status_code == 200, first.text
+
+    confirm = client.patch(
+        f"/tenders/{tender_id}/documents/{document_id}/classification",
+        json={"action": "CONFIRM", "human_note": "Confirmado por analista"},
+    )
+    assert confirm.status_code == 200, confirm.text
+    assert confirm.json()["classification_status"] == "CONFIRMED"
+
+    rerun = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert rerun.status_code == 200, rerun.text
+    assert rerun.json()["classification_status"] == "CONFIRMED"
+
+
+def test_document_classification_version_change_forces_recompute() -> None:
+    tender_id = _create_tender("Version Invalidation")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("versioned.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/versioned.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        page = DocumentPage(
+            document_id=document_id,
+            page_number=1,
+            text="BASES DE CONTRATACIÓN",
+            char_count=22,
+            extraction_method="NATIVE_PDF",
+            status="TEXT_EXTRACTED",
+        )
+        db.add(page)
+        db.flush()
+        db.add(
+            NormalizedContent(
+                document_page_id=page.id,
+                source_type="NATIVE_PDF",
+                source_scope="NATIVE_PAGE",
+                normalized_text="BASES DE CONTRATACIÓN",
+                char_count=22,
+                content_sha256="version-old",
+            )
+        )
+        db.commit()
+    finally:
+        db.close()
+
+    first = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert first.status_code == 200, first.text
+
+    db = SessionLocal()
+    try:
+        classification = db.query(DocumentClassification).filter_by(document_id=document_id).one()
+        classification.classifier_version = "mvp-02.4.1"
+        db.commit()
+    finally:
+        db.close()
+
+    rerun = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert rerun.status_code == 200, rerun.text
+
+    db = SessionLocal()
+    try:
+        classification = db.query(DocumentClassification).filter_by(document_id=document_id).one()
+        assert classification.classifier_version == "mvp-02.4.2"
+    finally:
+        db.close()
+
+
+def test_document_classification_second_identical_rerun_is_idempotent() -> None:
+    tender_id = _create_tender("Idempotent Rerun")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("idem.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/idem.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        page = DocumentPage(
+            document_id=document_id,
+            page_number=1,
+            text="CONVOCATORIA",
+            char_count=12,
+            extraction_method="NATIVE_PDF",
+            status="TEXT_EXTRACTED",
+        )
+        db.add(page)
+        db.flush()
+        db.add(
+            NormalizedContent(
+                document_page_id=page.id,
+                source_type="NATIVE_PDF",
+                source_scope="NATIVE_PAGE",
+                normalized_text="CONVOCATORIA",
+                char_count=12,
+                content_sha256="idem-1",
+            )
+        )
+        db.commit()
+    finally:
+        db.close()
+
+    first = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert first.status_code == 200, first.text
+
+    db = SessionLocal()
+    try:
+        before = db.query(DocumentClassification).filter_by(document_id=document_id).one()
+        before_updated_at = before.updated_at
+    finally:
+        db.close()
+
+    second = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert second.status_code == 200, second.text
+
+    db = SessionLocal()
+    try:
+        after = db.query(DocumentClassification).filter_by(document_id=document_id).one()
+        assert after.updated_at == before_updated_at
+    finally:
+        db.close()
+
+
+def test_document_classification_human_review_survives_rerun() -> None:
+    tender_id = _create_tender("Human Review")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("review.pdf", b"%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n", "application/pdf"))],
+        data={"source_relative_paths": "folder/review.pdf"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    db = SessionLocal()
+    try:
+        page = DocumentPage(
+            document_id=document_id,
+            page_number=1,
+            text="Bases de contratación",
+            char_count=24,
+            extraction_method="NATIVE_PDF",
+            status="TEXT_EXTRACTED",
+        )
+        db.add(page)
+        db.commit()
+        db.refresh(page)
+        db.add(
+            NormalizedContent(
+                document_page_id=page.id,
+                source_type="NATIVE_PDF",
+                source_scope="NATIVE_PAGE",
+                normalized_text="Bases de contratación",
+                char_count=24,
+                content_sha256="review-1",
+            )
+        )
+        db.commit()
+    finally:
+        db.close()
+
+    first = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert first.status_code == 200, first.text
+
+    review_response = client.patch(
+        f"/tenders/{tender_id}/documents/{document_id}/classification",
+        json={"action": "MARK_FOR_REVIEW", "human_note": "Revisión humana requerida"},
+    )
+    assert review_response.status_code == 200, review_response.text
+    assert review_response.json()["classification_status"] == "NEEDS_REVIEW"
+    assert review_response.json()["human_note"] == "Revisión humana requerida"
+
+    rerun = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert rerun.status_code == 200, rerun.text
+    assert rerun.json()["classification_status"] == "NEEDS_REVIEW"
+    assert rerun.json()["human_note"] == "Revisión humana requerida"
+
+
+def test_document_classification_not_ready_without_normalized_content() -> None:
+    tender_id = _create_tender("Not Ready")
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", ("notes.txt", b"plain text\n", "text/plain"))],
+        data={"source_relative_paths": "folder/notes.txt"},
+    )
+    assert response.status_code == 200, response.text
+    document_id = response.json()[0]["document_id"]
+
+    classify_response = client.post(f"/tenders/{tender_id}/documents/{document_id}/classify")
+    assert classify_response.status_code == 200, classify_response.text
+    payload = classify_response.json()
+    assert payload["not_ready"] is True
+    assert payload["suggested_type"] == "UNKNOWN"
 
 
 def test_pdf_content_route_rejects_non_pdf_viewer_requests() -> None:
