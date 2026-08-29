@@ -21,6 +21,85 @@ class TenderRead(BaseModel):
     updated_at: datetime
 
 
+class CompanyCreate(BaseModel):
+    name: str = Field(..., min_length=1, max_length=255)
+    legal_name: str | None = Field(default=None, max_length=255)
+    tax_id: str | None = Field(default=None, max_length=64)
+
+
+class CompanyUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=1, max_length=255)
+    legal_name: str | None = Field(default=None, max_length=255)
+    tax_id: str | None = Field(default=None, max_length=64)
+    status: str | None = Field(default=None, max_length=32)
+
+
+class CompanyRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    name: str
+    legal_name: str | None = None
+    tax_id: str | None = None
+    status: str
+    created_at: datetime
+    updated_at: datetime
+
+
+class CompanyDocumentRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    company_id: str
+    original_filename: str
+    source_relative_path: str | None = None
+    stored_relative_path: str
+    mime_type: str | None = None
+    file_size_bytes: int
+    sha256: str
+    status: str
+    document_type: str | None = None
+    label: str | None = None
+    issuer: str | None = None
+    issue_date: date | None = None
+    expiration_date: date | None = None
+    metadata_note: str | None = None
+    archived_at: datetime | None = None
+    revision_of_document_id: str | None = None
+    conflict_resolution_action: str | None = None
+    revision_number: int = 1
+    is_current: bool = True
+    imported_at: datetime
+    updated_at: datetime
+
+
+class CompanyDocumentImportResult(BaseModel):
+    filename: str
+    source_relative_path: str | None = None
+    status: str
+    message: str | None = None
+    document_id: str | None = None
+    stored_relative_path: str | None = None
+    sha256: str | None = None
+    revision_of_document_id: str | None = None
+    conflict_resolution_action: str | None = None
+    revision_number: int | None = None
+    is_current: bool | None = None
+
+
+class CompanyDocumentUpdate(BaseModel):
+    document_type: str | None = Field(default=None, max_length=64)
+    label: str | None = Field(default=None, max_length=255)
+    issuer: str | None = Field(default=None, max_length=255)
+    issue_date: date | None = None
+    expiration_date: date | None = None
+    metadata_note: str | None = Field(default=None, max_length=2000)
+
+
+class CompanyDocumentArchiveWrite(BaseModel):
+    archived: bool = True
+
+
 class TenderDocumentRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

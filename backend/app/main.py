@@ -20,6 +20,7 @@ from sqlalchemy.orm import Session, selectinload
 import fitz
 
 ALLOWED_CONFLICT_ACTIONS = {"NONE", "IMPORT_INDEPENDENT", "NEW_REVISION"}
+ALLOWED_COMPANY_CONFLICT_ACTIONS = {"NONE", "NEW_DOCUMENT", "NEW_REVISION"}
 
 from app.config import get_settings
 from app.database import get_db
@@ -50,6 +51,10 @@ from app.requirement_semantics import analyze_tender_requirement_semantics, get_
 from app.requirement_versioning import analyze_tender_requirement_versions, get_tender_requirement_effective_state
 from app.requirement_matrix import get_tender_requirement_matrix, update_requirement_review
 from app.models import (
+    Company,
+    CompanyDocument,
+    CompanyDocumentStatus,
+    CompanyStatus,
     DocumentPage,
     DocumentPageRegion,
     DocumentPageStatus,
@@ -61,6 +66,13 @@ from app.models import (
 )
 from app.ocr import build_default_ocr_provider_registry
 from app.schemas import (
+    CompanyCreate,
+    CompanyDocumentArchiveWrite,
+    CompanyDocumentImportResult,
+    CompanyDocumentRead,
+    CompanyDocumentUpdate,
+    CompanyRead,
+    CompanyUpdate,
     DocumentClassificationRead,
     DocumentIntelligenceAuditRead,
     DocumentReferenceAnalysisRead,
@@ -139,6 +151,15 @@ def _normalize_conflict_action(value: str | None) -> str:
     return candidate
 
 
+def _normalize_company_conflict_action(value: str | None) -> str:
+    if value is None:
+        return "NONE"
+    candidate = value.strip().upper()
+    if candidate not in ALLOWED_COMPANY_CONFLICT_ACTIONS:
+        raise HTTPException(status_code=400, detail=f"Unsupported conflict action: {value}")
+    return candidate
+
+
 def _hash_file(file_handle) -> tuple[str, int]:
     hasher = hashlib.sha256()
     total_size = 0
@@ -178,6 +199,39 @@ def _store_uploaded_file(tender_id: str, upload: UploadFile, source_relative_pat
         raise
 
     stored_relative_path = str(Path("tenders") / tender_id / "originals" / document_id / safe_name)
+    if source_relative_path:
+        source_relative_path = source_relative_path.replace("\\", "/")
+    return stored_relative_path, source_relative_path or None
+
+
+def _store_uploaded_company_file(company_id: str, upload: UploadFile, source_relative_path: str | None) -> tuple[str, str]:
+    data_root = get_licitia_data_root()
+    document_id = str(uuid4())
+    safe_name = _safe_filename(upload.filename or "document.bin")
+    storage_dir = data_root / "companies" / company_id / "originals" / document_id
+    storage_dir.mkdir(parents=True, exist_ok=True)
+    destination = storage_dir / safe_name
+
+    staging_dir = None
+    try:
+        with tempfile.TemporaryDirectory(prefix=".staging_", dir=storage_dir.parent) as staging_dir_name:
+            staging_dir = Path(staging_dir_name)
+            staged_path = staging_dir / safe_name
+            upload.file.seek(0)
+            with open(staged_path, "wb") as temp_handle:
+                while chunk := upload.file.read(65536):
+                    temp_handle.write(chunk)
+            if destination.exists():
+                raise HTTPException(status_code=409, detail="Storage path collision detected")
+            shutil.move(str(staged_path), str(destination))
+    except Exception:
+        if destination.exists():
+            destination.unlink(missing_ok=True)
+        if staging_dir is not None and staging_dir.exists():
+            shutil.rmtree(staging_dir, ignore_errors=True)
+        raise
+
+    stored_relative_path = str(Path("companies") / company_id / "originals" / document_id / safe_name)
     if source_relative_path:
         source_relative_path = source_relative_path.replace("\\", "/")
     return stored_relative_path, source_relative_path or None
@@ -402,6 +456,65 @@ def get_tender(tender_id: str, db: Session = Depends(get_db)) -> Tender:
     if tender is None:
         raise HTTPException(status_code=404, detail="Tender not found")
     return tender
+
+
+@app.post("/companies", response_model=CompanyRead, status_code=status.HTTP_201_CREATED)
+def create_company(payload: CompanyCreate, db: Session = Depends(get_db)) -> Company:
+    cleaned_name = payload.name.strip()
+    if not cleaned_name:
+        raise HTTPException(status_code=400, detail="Company name is required")
+
+    company = Company(
+        name=cleaned_name,
+        legal_name=(payload.legal_name.strip() if payload.legal_name else None),
+        tax_id=(payload.tax_id.strip() if payload.tax_id else None),
+        status=CompanyStatus.ACTIVE.value,
+    )
+
+    db.add(company)
+    db.commit()
+    db.refresh(company)
+    return company
+
+
+@app.get("/companies", response_model=list[CompanyRead])
+def list_companies(db: Session = Depends(get_db)) -> list[Company]:
+    statement = select(Company).order_by(Company.created_at.desc())
+    return db.execute(statement).scalars().all()
+
+
+@app.get("/companies/{company_id}", response_model=CompanyRead)
+def get_company(company_id: str, db: Session = Depends(get_db)) -> Company:
+    company = db.get(Company, company_id)
+    if company is None:
+        raise HTTPException(status_code=404, detail="Company not found")
+    return company
+
+
+@app.patch("/companies/{company_id}", response_model=CompanyRead)
+def update_company(company_id: str, payload: CompanyUpdate, db: Session = Depends(get_db)) -> Company:
+    company = db.get(Company, company_id)
+    if company is None:
+        raise HTTPException(status_code=404, detail="Company not found")
+
+    if payload.name is not None:
+        cleaned_name = payload.name.strip()
+        if not cleaned_name:
+            raise HTTPException(status_code=400, detail="Company name cannot be empty")
+        company.name = cleaned_name
+    if payload.legal_name is not None:
+        company.legal_name = payload.legal_name.strip() or None
+    if payload.tax_id is not None:
+        company.tax_id = payload.tax_id.strip() or None
+    if payload.status is not None:
+        normalized_status = payload.status.strip().upper()
+        if normalized_status not in {CompanyStatus.ACTIVE.value, CompanyStatus.ARCHIVED.value}:
+            raise HTTPException(status_code=400, detail="Unsupported company status")
+        company.status = normalized_status
+
+    db.commit()
+    db.refresh(company)
+    return company
 
 
 @app.post("/tenders/{tender_id}/documents/import", response_model=list[DocumentImportResult])
@@ -664,6 +777,381 @@ async def import_documents(
             )
 
     return results
+
+
+@app.post("/companies/{company_id}/documents/import", response_model=list[CompanyDocumentImportResult])
+async def import_company_documents(
+    company_id: str,
+    files: list[UploadFile] = File(...),
+    source_relative_paths: list[str] | None = Form(default=None),
+    conflict_action: str | None = Form(default=None),
+    revision_of_document_id: str | None = Form(default=None),
+    db: Session = Depends(get_db),
+) -> list[CompanyDocumentImportResult]:
+    company = db.get(Company, company_id)
+    if company is None:
+        raise HTTPException(status_code=404, detail="Company not found")
+    if not files:
+        raise HTTPException(status_code=400, detail="No files were provided")
+
+    input_relative_paths = source_relative_paths or [None for _ in files]
+    if len(input_relative_paths) != len(files):
+        input_relative_paths = [None for _ in files]
+
+    normalized_conflict_action = _normalize_company_conflict_action(conflict_action)
+    results: list[CompanyDocumentImportResult] = []
+
+    for index, upload in enumerate(files):
+        filename = upload.filename or "document.bin"
+        source_relative_path = input_relative_paths[index] if index < len(input_relative_paths) else None
+
+        if not filename.strip():
+            results.append(
+                CompanyDocumentImportResult(
+                    filename="document.bin",
+                    source_relative_path=source_relative_path,
+                    status=CompanyDocumentStatus.FAILED.value,
+                    message="Empty filename was provided.",
+                )
+            )
+            continue
+
+        try:
+            upload.file.seek(0)
+            sha256_value, file_size = _hash_file(upload.file)
+            mime_type = upload.content_type or mimetypes.guess_type(filename)[0]
+
+            is_duplicate = db.execute(
+                select(CompanyDocument).where(
+                    CompanyDocument.company_id == company_id,
+                    CompanyDocument.sha256 == sha256_value,
+                )
+            ).scalar_one_or_none()
+            if is_duplicate is not None:
+                results.append(
+                    CompanyDocumentImportResult(
+                        filename=filename,
+                        source_relative_path=source_relative_path,
+                        status=CompanyDocumentStatus.DUPLICATE.value,
+                        message="Document content already exists in this Company library.",
+                        document_id=is_duplicate.id,
+                        sha256=sha256_value,
+                    )
+                )
+                continue
+
+            existing_name = db.execute(
+                select(CompanyDocument)
+                .where(
+                    CompanyDocument.company_id == company_id,
+                    CompanyDocument.original_filename == filename,
+                    CompanyDocument.sha256 != sha256_value,
+                )
+                .order_by(CompanyDocument.is_current.desc(), CompanyDocument.revision_number.desc(), CompanyDocument.imported_at.desc())
+            ).first()
+
+            if existing_name is not None:
+                if normalized_conflict_action == "NONE":
+                    results.append(
+                        CompanyDocumentImportResult(
+                            filename=filename,
+                            source_relative_path=source_relative_path,
+                            status=CompanyDocumentStatus.NAME_CONFLICT.value,
+                            message="Same filename already exists with different content; human review required.",
+                            document_id=existing_name[0].id,
+                            sha256=sha256_value,
+                            revision_number=existing_name[0].revision_number,
+                            is_current=existing_name[0].is_current,
+                        )
+                    )
+                    continue
+
+                if normalized_conflict_action == "NEW_DOCUMENT":
+                    stored_relative_path, source_relative_path = _store_uploaded_company_file(company_id, upload, source_relative_path)
+                    document = CompanyDocument(
+                        company_id=company_id,
+                        original_filename=filename,
+                        source_relative_path=source_relative_path,
+                        stored_relative_path=stored_relative_path,
+                        mime_type=mime_type,
+                        file_size_bytes=file_size,
+                        sha256=sha256_value,
+                        status=CompanyDocumentStatus.IMPORTED.value,
+                        revision_of_document_id=None,
+                        revision_number=1,
+                        is_current=True,
+                        conflict_resolution_action="NEW_DOCUMENT",
+                    )
+                    try:
+                        db.add(document)
+                        db.commit()
+                        db.refresh(document)
+                    except Exception:
+                        db.rollback()
+                        file_path = get_licitia_data_root() / stored_relative_path
+                        if file_path.exists():
+                            file_path.unlink(missing_ok=True)
+                            parent = file_path.parent
+                            while parent != get_licitia_data_root() and not any(parent.iterdir()):
+                                parent.rmdir()
+                                parent = parent.parent
+                        raise
+
+                    results.append(
+                        CompanyDocumentImportResult(
+                            filename=filename,
+                            source_relative_path=source_relative_path,
+                            status=document.status,
+                            message="Imported successfully.",
+                            document_id=document.id,
+                            stored_relative_path=document.stored_relative_path,
+                            sha256=document.sha256,
+                            revision_of_document_id=document.revision_of_document_id,
+                            conflict_resolution_action=document.conflict_resolution_action,
+                            revision_number=document.revision_number,
+                            is_current=document.is_current,
+                        )
+                    )
+                    continue
+
+                if normalized_conflict_action == "NEW_REVISION":
+                    if not revision_of_document_id:
+                        raise HTTPException(status_code=400, detail="revision_of_document_id is required for NEW_REVISION")
+                    target_document = db.get(CompanyDocument, revision_of_document_id)
+                    if target_document is None:
+                        raise HTTPException(status_code=404, detail="Revision target document not found")
+                    if target_document.company_id != company_id:
+                        raise HTTPException(status_code=400, detail="Revision target must belong to the same Company")
+                    if target_document.original_filename != filename:
+                        raise HTTPException(status_code=400, detail="Revision target filename must match the incoming filename")
+                    if not target_document.is_current:
+                        raise HTTPException(status_code=400, detail="Only the current revision can receive a new revision")
+                    if target_document.sha256 == sha256_value:
+                        raise HTTPException(status_code=400, detail="Target document content already matches the incoming file")
+
+                    stored_relative_path, source_relative_path = _store_uploaded_company_file(company_id, upload, source_relative_path)
+                    target_document.is_current = False
+
+                    document = CompanyDocument(
+                        company_id=company_id,
+                        original_filename=filename,
+                        source_relative_path=source_relative_path,
+                        stored_relative_path=stored_relative_path,
+                        mime_type=mime_type,
+                        file_size_bytes=file_size,
+                        sha256=sha256_value,
+                        status=CompanyDocumentStatus.IMPORTED.value,
+                        revision_of_document_id=target_document.id,
+                        revision_number=target_document.revision_number + 1,
+                        is_current=True,
+                        conflict_resolution_action="NEW_REVISION",
+                    )
+                    try:
+                        db.add(document)
+                        db.commit()
+                        db.refresh(document)
+                    except Exception:
+                        db.rollback()
+                        file_path = get_licitia_data_root() / stored_relative_path
+                        if file_path.exists():
+                            file_path.unlink(missing_ok=True)
+                            parent = file_path.parent
+                            while parent != get_licitia_data_root() and not any(parent.iterdir()):
+                                parent.rmdir()
+                                parent = parent.parent
+                        raise
+
+                    results.append(
+                        CompanyDocumentImportResult(
+                            filename=filename,
+                            source_relative_path=source_relative_path,
+                            status=document.status,
+                            message="Imported successfully.",
+                            document_id=document.id,
+                            stored_relative_path=document.stored_relative_path,
+                            sha256=document.sha256,
+                            revision_of_document_id=document.revision_of_document_id,
+                            conflict_resolution_action=document.conflict_resolution_action,
+                            revision_number=document.revision_number,
+                            is_current=document.is_current,
+                        )
+                    )
+                    continue
+
+                raise HTTPException(status_code=400, detail=f"Unsupported conflict action: {normalized_conflict_action}")
+
+            stored_relative_path, source_relative_path = _store_uploaded_company_file(company_id, upload, source_relative_path)
+            document = CompanyDocument(
+                company_id=company_id,
+                original_filename=filename,
+                source_relative_path=source_relative_path,
+                stored_relative_path=stored_relative_path,
+                mime_type=mime_type,
+                file_size_bytes=file_size,
+                sha256=sha256_value,
+                status=CompanyDocumentStatus.IMPORTED.value,
+                revision_of_document_id=None,
+                revision_number=1,
+                is_current=True,
+                conflict_resolution_action=None,
+            )
+            try:
+                db.add(document)
+                db.commit()
+                db.refresh(document)
+            except Exception:
+                db.rollback()
+                file_path = get_licitia_data_root() / stored_relative_path
+                if file_path.exists():
+                    file_path.unlink(missing_ok=True)
+                    parent = file_path.parent
+                    while parent != get_licitia_data_root() and not any(parent.iterdir()):
+                        parent.rmdir()
+                        parent = parent.parent
+                raise
+
+            results.append(
+                CompanyDocumentImportResult(
+                    filename=filename,
+                    source_relative_path=source_relative_path,
+                    status=document.status,
+                    message="Imported successfully.",
+                    document_id=document.id,
+                    stored_relative_path=document.stored_relative_path,
+                    sha256=document.sha256,
+                    revision_of_document_id=document.revision_of_document_id,
+                    conflict_resolution_action=document.conflict_resolution_action,
+                    revision_number=document.revision_number,
+                    is_current=document.is_current,
+                )
+            )
+        except HTTPException:
+            raise
+        except Exception as exc:
+            db.rollback()
+            results.append(
+                CompanyDocumentImportResult(
+                    filename=filename,
+                    source_relative_path=source_relative_path,
+                    status=CompanyDocumentStatus.FAILED.value,
+                    message=f"Import failed: {exc}",
+                    sha256=None,
+                )
+            )
+
+    return results
+
+
+@app.get("/companies/{company_id}/documents", response_model=list[CompanyDocumentRead])
+def list_company_documents(company_id: str, include_archived: bool = False, db: Session = Depends(get_db)) -> list[CompanyDocument]:
+    company = db.get(Company, company_id)
+    if company is None:
+        raise HTTPException(status_code=404, detail="Company not found")
+
+    statement = select(CompanyDocument).where(CompanyDocument.company_id == company_id)
+    if not include_archived:
+        statement = statement.where(CompanyDocument.archived_at.is_(None))
+    statement = statement.order_by(CompanyDocument.imported_at.desc())
+    return db.execute(statement).scalars().all()
+
+
+@app.get("/companies/{company_id}/documents/{document_id}", response_model=CompanyDocumentRead)
+def get_company_document(company_id: str, document_id: str, db: Session = Depends(get_db)) -> CompanyDocument:
+    company = db.get(Company, company_id)
+    if company is None:
+        raise HTTPException(status_code=404, detail="Company not found")
+
+    document = db.get(CompanyDocument, document_id)
+    if document is None or document.company_id != company_id:
+        raise HTTPException(status_code=404, detail="Company document not found")
+    return document
+
+
+@app.patch("/companies/{company_id}/documents/{document_id}", response_model=CompanyDocumentRead)
+def update_company_document(
+    company_id: str,
+    document_id: str,
+    payload: CompanyDocumentUpdate,
+    db: Session = Depends(get_db),
+) -> CompanyDocument:
+    company = db.get(Company, company_id)
+    if company is None:
+        raise HTTPException(status_code=404, detail="Company not found")
+
+    document = db.get(CompanyDocument, document_id)
+    if document is None or document.company_id != company_id:
+        raise HTTPException(status_code=404, detail="Company document not found")
+
+    if payload.document_type is not None:
+        document.document_type = payload.document_type.strip() or None
+    if payload.label is not None:
+        document.label = payload.label.strip() or None
+    if payload.issuer is not None:
+        document.issuer = payload.issuer.strip() or None
+    if payload.metadata_note is not None:
+        document.metadata_note = payload.metadata_note.strip() or None
+    if payload.issue_date is not None:
+        document.issue_date = payload.issue_date
+    if payload.expiration_date is not None:
+        document.expiration_date = payload.expiration_date
+
+    db.commit()
+    db.refresh(document)
+    return document
+
+
+@app.patch("/companies/{company_id}/documents/{document_id}/archive", response_model=CompanyDocumentRead)
+def archive_company_document(
+    company_id: str,
+    document_id: str,
+    payload: CompanyDocumentArchiveWrite,
+    db: Session = Depends(get_db),
+) -> CompanyDocument:
+    company = db.get(Company, company_id)
+    if company is None:
+        raise HTTPException(status_code=404, detail="Company not found")
+
+    document = db.get(CompanyDocument, document_id)
+    if document is None or document.company_id != company_id:
+        raise HTTPException(status_code=404, detail="Company document not found")
+
+    if payload.archived:
+        document.status = CompanyDocumentStatus.ARCHIVED.value
+        document.archived_at = datetime.now(timezone.utc)
+    else:
+        document.status = CompanyDocumentStatus.IMPORTED.value
+        document.archived_at = None
+
+    db.commit()
+    db.refresh(document)
+    return document
+
+
+@app.get("/companies/{company_id}/documents/{document_id}/content")
+def get_company_document_content(company_id: str, document_id: str, db: Session = Depends(get_db)) -> FileResponse:
+    company = db.get(Company, company_id)
+    if company is None:
+        raise HTTPException(status_code=404, detail="Company not found")
+
+    document = db.get(CompanyDocument, document_id)
+    if document is None or document.company_id != company_id:
+        raise HTTPException(status_code=404, detail="Company document not found")
+
+    file_path = _resolve_document_file_path(document.stored_relative_path)
+    if not file_path.exists() or not file_path.is_file():
+        raise HTTPException(status_code=404, detail="Stored document file not found")
+
+    upper_mime = (document.mime_type or "").lower()
+    file_extension = file_path.suffix.lower()
+    if "pdf" not in upper_mime and file_extension != ".pdf":
+        raise HTTPException(status_code=400, detail="Only PDF files can be displayed in the local viewer")
+
+    return FileResponse(
+        path=str(file_path),
+        media_type="application/pdf",
+        filename=document.original_filename,
+        content_disposition_type="inline",
+    )
 
 
 @app.get("/tenders/{tender_id}/documents", response_model=list[TenderDocumentRead])

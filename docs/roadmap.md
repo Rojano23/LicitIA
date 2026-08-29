@@ -233,6 +233,16 @@ Los requisitos principales del Golden Tender pueden rastrearse a documento, pág
 
 ## MVP-05 — Evidence & Compliance
 
+### Estado actual
+
+- MVP-05.1 (Company Evidence Library): CLOSED
+- MVP-05.2 (Company Evidence Intelligence):  IN_IMPLEMENTATION
+- MVP-05.3 (Requirement ↔ Evidence Candidate Matching): PLANNED
+- MVP-05.4 (Deterministic Compliance Evaluation): PLANNED
+- MVP-05.5 (Human Compliance Review): PLANNED
+- MVP-05.6 (Compliance Matrix & Missing Evidence Audit): PLANNED
+- MVP-05.7 (Golden Company + Golden Tender Integrated Acceptance): PLANNED
+
 ### Objetivo
 
 Comparar requisitos contra evidencia empresarial.

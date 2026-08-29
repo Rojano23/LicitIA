@@ -1,5 +1,6 @@
 import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { CompanyEvidenceLibrary } from "./components/CompanyEvidenceLibrary";
 
 type Tender = {
   id: string;
@@ -2429,6 +2430,8 @@ function App() {
         }
       `}</style>
       <h1>LicitIA — Tender Workspace</h1>
+
+      <CompanyEvidenceLibrary apiUrl={API_URL} />
 
       <div style={{ display: "grid", gridTemplateColumns: "370px 1fr", gap: 24 }}>
         <section style={{ border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>

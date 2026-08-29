@@ -16,6 +16,19 @@ class TenderStatus(str, Enum):
     ARCHIVED = "ARCHIVED"
 
 
+class CompanyStatus(str, Enum):
+    ACTIVE = "ACTIVE"
+    ARCHIVED = "ARCHIVED"
+
+
+class CompanyDocumentStatus(str, Enum):
+    IMPORTED = "IMPORTED"
+    DUPLICATE = "DUPLICATE"
+    NAME_CONFLICT = "NAME_CONFLICT"
+    ARCHIVED = "ARCHIVED"
+    FAILED = "FAILED"
+
+
 class TenderDocumentStatus(str, Enum):
     IMPORTED = "IMPORTED"
     DUPLICATE = "DUPLICATE"
@@ -34,6 +47,84 @@ class TenderDocumentProcessingStatus(str, Enum):
 class DocumentPageStatus(str, Enum):
     TEXT_EXTRACTED = "TEXT_EXTRACTED"
     NO_TEXT = "NO_TEXT"
+
+
+class Company(Base):
+    __tablename__ = "companies"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    legal_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    tax_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    status: Mapped[str] = mapped_column(String(32), default=CompanyStatus.ACTIVE.value, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    documents: Mapped[list["CompanyDocument"]] = relationship(back_populates="company", cascade="all, delete-orphan")
+
+
+class CompanyDocument(Base):
+    __tablename__ = "company_documents"
+
+    __table_args__ = (
+        UniqueConstraint("company_id", "sha256", name="uq_company_document_sha256"),
+        Index("ix_company_documents_company_id", "company_id"),
+        Index("ix_company_documents_revision_of_document_id", "revision_of_document_id"),
+        Index("ix_company_documents_status", "status"),
+        Index("ix_company_documents_conflict_resolution_action", "conflict_resolution_action"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    company_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("companies.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    original_filename: Mapped[str] = mapped_column(String(255), nullable=False)
+    source_relative_path: Mapped[str | None] = mapped_column(String(512), nullable=True)
+    stored_relative_path: Mapped[str] = mapped_column(String(512), nullable=False)
+    mime_type: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    file_size_bytes: Mapped[int] = mapped_column(Integer, nullable=False)
+    sha256: Mapped[str] = mapped_column(String(64), nullable=False)
+    status: Mapped[str] = mapped_column(String(32), default=CompanyDocumentStatus.IMPORTED.value, nullable=False)
+    document_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    label: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    issuer: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    issue_date: Mapped[date | None] = mapped_column(Date, nullable=True)
+    expiration_date: Mapped[date | None] = mapped_column(Date, nullable=True)
+    metadata_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    archived_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    revision_of_document_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("company_documents.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+    conflict_resolution_action: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    revision_number: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    is_current: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    imported_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    company: Mapped[Company] = relationship(back_populates="documents")
 
 
 class Tender(Base):
