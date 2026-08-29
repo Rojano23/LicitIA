@@ -47,6 +47,7 @@ from app.tender_evaluation import (
 from app.requirement_extraction import analyze_tender_requirements, get_tender_requirement_candidates
 from app.requirement_normalization import get_tender_requirements, normalize_tender_requirements
 from app.requirement_semantics import analyze_tender_requirement_semantics, get_tender_requirement_semantics
+from app.requirement_versioning import analyze_tender_requirement_versions, get_tender_requirement_effective_state
 from app.models import (
     DocumentPage,
     DocumentPageRegion,
@@ -88,6 +89,7 @@ from app.schemas import (
     TenderRequirementCandidatesRead,
     TenderRequirementsRead,
     TenderRequirementSemanticsRead,
+    TenderRequirementEffectiveStateRead,
 )
 
 settings = get_settings()
@@ -1327,6 +1329,38 @@ def get_tender_requirement_semantics_endpoint(
 
     try:
         return get_tender_requirement_semantics(db, tender_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.post("/tenders/{tender_id}/analyze-requirement-versions", response_model=TenderRequirementEffectiveStateRead)
+def analyze_tender_requirement_versions_endpoint(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        payload = analyze_tender_requirement_versions(db, tender_id)
+        db.commit()
+        return payload
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/tenders/{tender_id}/requirement-effective-state", response_model=TenderRequirementEffectiveStateRead)
+def get_tender_requirement_effective_state_endpoint(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        return get_tender_requirement_effective_state(db, tender_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 

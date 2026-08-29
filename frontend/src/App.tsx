@@ -804,6 +804,56 @@ type TenderRequirementSemantics = {
   requirements: RequirementSemanticItem[];
 };
 
+type RequirementVersionLink = {
+  id: string;
+  change_id: string;
+  link_kind: string;
+  matching_basis: string;
+  target_locator_text: string | null;
+  before_text: string | null;
+  after_text: string | null;
+  predecessor_requirement_id: string | null;
+  predecessor_canonical_text: string | null;
+  successor_requirement_id: string | null;
+  successor_canonical_text: string | null;
+  analyzer_version: string;
+  created_at: string;
+  updated_at: string;
+};
+
+type RequirementEffectiveItem = {
+  requirement_id: string;
+  canonical_text: string;
+  category: string;
+  normalization_status: string;
+  effective_status: string;
+  effective_source_document_id: string | null;
+  effective_source_filename: string | null;
+  source_occurrence_count: number;
+  primary_source: RequirementSourceOccurrence | null;
+  applicability: string;
+  interpretation_status: string;
+  evidence_mode: string;
+  evidence_reasons: string[];
+};
+
+type TenderRequirementEffectiveState = {
+  tender_id: string;
+  analyzer_version: string;
+  generated_at: string;
+  scope_note: string;
+  summary: {
+    requirement_count: number;
+    effective_count: number;
+    superseded_count: number;
+    ambiguous_count: number;
+    unresolved_count: number;
+    version_link_count: number;
+  };
+  requirements: RequirementEffectiveItem[];
+  version_links: RequirementVersionLink[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -854,6 +904,8 @@ function App() {
   const [requirementsLoading, setRequirementsLoading] = useState(false);
   const [requirementSemantics, setRequirementSemantics] = useState<TenderRequirementSemantics | null>(null);
   const [requirementSemanticsLoading, setRequirementSemanticsLoading] = useState(false);
+  const [requirementEffectiveState, setRequirementEffectiveState] = useState<TenderRequirementEffectiveState | null>(null);
+  const [requirementEffectiveStateLoading, setRequirementEffectiveStateLoading] = useState(false);
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
   const [editEventType, setEditEventType] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -980,6 +1032,7 @@ function App() {
       setRequirementCandidates(null);
       setRequirements(null);
       setRequirementSemantics(null);
+      setRequirementEffectiveState(null);
       return;
     }
 
@@ -996,6 +1049,7 @@ function App() {
     void loadTenderRequirementCandidates(selectedTenderId);
     void loadTenderRequirements(selectedTenderId);
     void loadTenderRequirementSemantics(selectedTenderId);
+    void loadTenderRequirementEffectiveState(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -1399,6 +1453,18 @@ function App() {
     }
   };
 
+  const loadTenderRequirementEffectiveState = async (tenderId: string) => {
+    setRequirementEffectiveStateLoading(true);
+    try {
+      const response = await axios.get<TenderRequirementEffectiveState>(`${API_URL}/tenders/${tenderId}/requirement-effective-state`);
+      setRequirementEffectiveState(response.data);
+    } catch (err) {
+      setRequirementEffectiveState(null);
+    } finally {
+      setRequirementEffectiveStateLoading(false);
+    }
+  };
+
   const handleAnalyzeEvaluation = async () => {
     if (!selectedTenderId) {
       return;
@@ -1463,6 +1529,22 @@ function App() {
     }
   };
 
+  const handleAnalyzeRequirementVersions = async () => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    setRequirementEffectiveStateLoading(true);
+    try {
+      const response = await axios.post<TenderRequirementEffectiveState>(`${API_URL}/tenders/${selectedTenderId}/analyze-requirement-versions`);
+      setRequirementEffectiveState(response.data);
+    } catch (err) {
+      setError("No se pudo analizar el versionado de requisitos.");
+    } finally {
+      setRequirementEffectiveStateLoading(false);
+    }
+  };
+
   const applicabilityLabel = (value: string) => {
     if (value === "MANDATORY") {
       return "Obligatorio";
@@ -1498,6 +1580,22 @@ function App() {
     }
     if (value === "REVIEW_REQUIRED") {
       return "Revisar fuente";
+    }
+    return value;
+  };
+
+  const requirementEffectiveStatusLabel = (value: string) => {
+    if (value === "EFFECTIVE") {
+      return "Vigente";
+    }
+    if (value === "SUPERSEDED") {
+      return "Sustituido";
+    }
+    if (value === "AMBIGUOUS") {
+      return "Ambiguo";
+    }
+    if (value === "UNRESOLVED") {
+      return "No resuelto";
     }
     return value;
   };
@@ -2579,6 +2677,9 @@ function App() {
                 <button type="button" onClick={() => void handleAnalyzeRequirementSemantics()} style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
                   {requirementSemanticsLoading ? "Interpretando..." : "Interpretar aplicabilidad y evidencia"}
                 </button>
+                <button type="button" onClick={() => void handleAnalyzeRequirementVersions()} style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                  {requirementEffectiveStateLoading ? "Versionando..." : "Analizar vigencia por cambios"}
+                </button>
               </div>
             </div>
 
@@ -2609,6 +2710,18 @@ function App() {
                   </>
                 )}
 
+                {requirementEffectiveState && (
+                  <>
+                    <div style={{ marginTop: 6, fontSize: 12, color: "#52607a" }}>{requirementEffectiveState.scope_note}</div>
+                    <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                      Vigencia: EFFECTIVE {requirementEffectiveState.summary.effective_count} • SUPERSEDED {requirementEffectiveState.summary.superseded_count} • AMBIGUOUS {requirementEffectiveState.summary.ambiguous_count} • UNRESOLVED {requirementEffectiveState.summary.unresolved_count}
+                    </div>
+                    <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                      Enlaces de versión: {requirementEffectiveState.summary.version_link_count} • Motor {requirementEffectiveState.analyzer_version}
+                    </div>
+                  </>
+                )}
+
                 {Object.keys(requirements.summary.category_counts).length > 0 && (
                   <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
                     Categorías: {Object.entries(requirements.summary.category_counts)
@@ -2620,6 +2733,7 @@ function App() {
                 <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
                   {requirements.requirements.map((requirement) => {
                     const semantics = requirementSemantics?.requirements.find((item) => item.requirement_id === requirement.id) ?? null;
+                    const requirementEffective = requirementEffectiveState?.requirements.find((item) => item.requirement_id === requirement.id) ?? null;
                     return (
                     <details key={requirement.id} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: 10, background: "#fff" }}>
                       <summary style={{ cursor: "pointer" }}>
@@ -2630,6 +2744,11 @@ function App() {
                         {semantics && (
                           <div style={{ fontSize: 12, color: "#334155", marginTop: 4 }}>
                             {applicabilityLabel(semantics.applicability)} • {evidenceModeLabel(semantics.evidence_mode)} • {interpretationStatusLabel(semantics.interpretation_status)}
+                          </div>
+                        )}
+                        {requirementEffective && (
+                          <div style={{ fontSize: 12, color: "#334155", marginTop: 4 }}>
+                            {requirementEffectiveStatusLabel(requirementEffective.effective_status)} • Fuente vigente {requirementEffective.effective_source_filename ?? requirementEffective.effective_source_document_id ?? "-"}
                           </div>
                         )}
                       </summary>
@@ -2686,6 +2805,22 @@ function App() {
                         </>
                       )}
 
+                      {requirementEffective && (
+                        <>
+                          <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
+                            Vigencia: <strong>{requirementEffectiveStatusLabel(requirementEffective.effective_status)}</strong>
+                          </div>
+                          <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                            Fuente vigente: <strong>{requirementEffective.effective_source_filename ?? requirementEffective.effective_source_document_id ?? "-"}</strong>
+                          </div>
+                          {requirementEffective.evidence_reasons.length > 0 && (
+                            <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                              Base: {requirementEffective.evidence_reasons.join(" • ")}
+                            </div>
+                          )}
+                        </>
+                      )}
+
                       {requirement.primary_source && (
                         <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
                           Fuente primaria: {requirement.primary_source.source_filename ?? requirement.primary_source.source_document_id} p{requirement.primary_source.source_page ?? "-"}
@@ -2709,6 +2844,30 @@ function App() {
                     );
                   })}
                 </div>
+
+                {requirementEffectiveState && requirementEffectiveState.version_links.length > 0 && (
+                  <div style={{ marginTop: 12, borderTop: "1px solid #e2e8f0", paddingTop: 10 }}>
+                    <div style={{ fontSize: 12, color: "#334155", fontWeight: 700 }}>Enlaces de versión trazables</div>
+                    <div style={{ marginTop: 6, display: "grid", gap: 6 }}>
+                      {requirementEffectiveState.version_links.slice(0, 20).map((link) => (
+                        <div key={link.id} style={{ fontSize: 12, color: "#334155", border: "1px solid #e2e8f0", borderRadius: 8, padding: 8, background: "#fff" }}>
+                          <div>
+                            <strong>{link.link_kind}</strong> • cambio {link.change_id}
+                          </div>
+                          <div style={{ marginTop: 3 }}>
+                            Antes: {link.predecessor_canonical_text ?? "-"}
+                          </div>
+                          <div style={{ marginTop: 3 }}>
+                            Después: {link.successor_canonical_text ?? "-"}
+                          </div>
+                          <div style={{ marginTop: 3, color: "#52607a" }}>
+                            Base {link.matching_basis} • Localizador {link.target_locator_text ?? "-"}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </>
             )}
           </div>

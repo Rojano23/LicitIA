@@ -61,6 +61,7 @@ class Tender(Base):
     changes: Mapped[list["TenderChange"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
     requirement_candidates: Mapped[list["RequirementCandidate"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
     requirements: Mapped[list["Requirement"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
+    requirement_version_links: Mapped[list["RequirementVersionLink"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
 
 
 class TenderDocument(Base):
@@ -875,6 +876,7 @@ class TenderChange(Base):
     target_document: Mapped[TenderDocument | None] = relationship(back_populates="targeted_changes", foreign_keys=[target_document_id])
     human_target_document: Mapped[TenderDocument | None] = relationship(foreign_keys=[human_target_document_id])
     evidence: Mapped[list["TenderChangeEvidence"]] = relationship(back_populates="change", cascade="all, delete-orphan")
+    requirement_version_links: Mapped[list["RequirementVersionLink"]] = relationship(back_populates="change")
 
 
 class TenderChangeEvidence(Base):
@@ -1219,6 +1221,88 @@ class Requirement(Base):
     primary_candidate: Mapped[RequirementCandidate | None] = relationship(foreign_keys=[primary_candidate_id])
     candidate_links: Mapped[list["RequirementCandidateLink"]] = relationship(back_populates="requirement", cascade="all, delete-orphan")
     semantics: Mapped["RequirementSemantics | None"] = relationship(back_populates="requirement", cascade="all, delete-orphan", uselist=False)
+    predecessor_links: Mapped[list["RequirementVersionLink"]] = relationship(
+        back_populates="predecessor_requirement",
+        foreign_keys="RequirementVersionLink.predecessor_requirement_id",
+    )
+    successor_links: Mapped[list["RequirementVersionLink"]] = relationship(
+        back_populates="successor_requirement",
+        foreign_keys="RequirementVersionLink.successor_requirement_id",
+    )
+
+
+class RequirementVersionLink(Base):
+    __tablename__ = "requirement_version_links"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "tender_id",
+            "change_id",
+            "predecessor_requirement_id",
+            "successor_requirement_id",
+            "link_kind",
+            name="uq_requirement_version_link_item",
+        ),
+        Index("ix_requirement_version_links_tender_id", "tender_id"),
+        Index("ix_requirement_version_links_change_id", "change_id"),
+        Index("ix_requirement_version_links_predecessor_id", "predecessor_requirement_id"),
+        Index("ix_requirement_version_links_successor_id", "successor_requirement_id"),
+        Index("ix_requirement_version_links_link_kind", "link_kind"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    change_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_changes.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    predecessor_requirement_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("requirements.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    successor_requirement_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("requirements.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    link_kind: Mapped[str] = mapped_column(String(32), nullable=False, default="SUPERSEDES")
+    matching_basis: Mapped[str] = mapped_column(String(64), nullable=False, default="EXPLICIT_CHANGE_EVIDENCE")
+    target_locator_text: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    before_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    after_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    analyzer_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-04.5")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship(back_populates="requirement_version_links")
+    change: Mapped[TenderChange] = relationship(back_populates="requirement_version_links")
+    predecessor_requirement: Mapped[Requirement | None] = relationship(
+        back_populates="predecessor_links",
+        foreign_keys=[predecessor_requirement_id],
+    )
+    successor_requirement: Mapped[Requirement | None] = relationship(
+        back_populates="successor_links",
+        foreign_keys=[successor_requirement_id],
+    )
 
 
 class RequirementCandidateLink(Base):

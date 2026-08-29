@@ -1140,6 +1140,58 @@ class TenderRequirementSemanticsRead(BaseModel):
     requirements: list[RequirementSemanticsRead] = Field(default_factory=list)
 
 
+class RequirementVersionLinkRead(BaseModel):
+    id: str
+    change_id: str
+    link_kind: str
+    matching_basis: str
+    target_locator_text: str | None = None
+    before_text: str | None = None
+    after_text: str | None = None
+    predecessor_requirement_id: str | None = None
+    predecessor_canonical_text: str | None = None
+    successor_requirement_id: str | None = None
+    successor_canonical_text: str | None = None
+    analyzer_version: str
+    created_at: datetime
+    updated_at: datetime
+
+
+class RequirementEffectiveItemRead(BaseModel):
+    requirement_id: str
+    canonical_text: str
+    category: str
+    normalization_status: str
+    effective_status: str
+    effective_source_document_id: str | None = None
+    effective_source_filename: str | None = None
+    source_occurrence_count: int
+    primary_source: RequirementSourceOccurrenceRead | None = None
+    applicability: str
+    interpretation_status: str
+    evidence_mode: str
+    evidence_reasons: list[str] = Field(default_factory=list)
+
+
+class RequirementEffectiveSummaryRead(BaseModel):
+    requirement_count: int
+    effective_count: int
+    superseded_count: int
+    ambiguous_count: int
+    unresolved_count: int
+    version_link_count: int
+
+
+class TenderRequirementEffectiveStateRead(BaseModel):
+    tender_id: str
+    analyzer_version: str
+    generated_at: datetime
+    scope_note: str
+    summary: RequirementEffectiveSummaryRead
+    requirements: list[RequirementEffectiveItemRead] = Field(default_factory=list)
+    version_links: list[RequirementVersionLinkRead] = Field(default_factory=list)
+
+
 class EvaluationModelEvidenceRead(BaseModel):
     id: str
     source_document_id: str
