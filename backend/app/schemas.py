@@ -984,6 +984,56 @@ class TenderStateSnapshotRead(BaseModel):
     top_pending_actions: list[SnapshotPendingActionRead] = Field(default_factory=list)
 
 
+class RequirementCandidateEvidenceRead(BaseModel):
+    id: str
+    source_document_id: str
+    source_filename: str | None = None
+    source_page: int | None = None
+    source_excerpt: str
+    document_page_id: str | None = None
+    normalized_content_id: str | None = None
+
+
+class RequirementCandidateRead(BaseModel):
+    id: str
+    tender_id: str
+    semantic_key: str
+    requirement_text: str
+    actor_text: str | None = None
+    modality_text: str | None = None
+    review_status: str
+    detection_origin: str
+    detector_version: str
+    source_document_id: str
+    source_filename: str | None = None
+    source_page: int | None = None
+    source_excerpt: str
+    document_page_id: str | None = None
+    normalized_content_id: str | None = None
+    created_at: datetime
+    updated_at: datetime
+    evidence: list[RequirementCandidateEvidenceRead] = Field(default_factory=list)
+
+
+class RequirementCandidatesSummaryRead(BaseModel):
+    total: int
+    suggested: int
+    confirmed: int
+    rejected: int
+    documents_with_candidates: int
+    pages_with_candidates: int
+    explicit_actor_count: int
+    by_modality: dict[str, int] = Field(default_factory=dict)
+
+
+class TenderRequirementCandidatesRead(BaseModel):
+    tender_id: str
+    requirements_version: str
+    generated_at: datetime
+    summary: RequirementCandidatesSummaryRead
+    candidates: list[RequirementCandidateRead] = Field(default_factory=list)
+
+
 class EvaluationModelEvidenceRead(BaseModel):
     id: str
     source_document_id: str

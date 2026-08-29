@@ -202,7 +202,8 @@ El usuario puede ver qué documentos definen, complementan o modifican otros y q
 ### Estado actual
 
 - MVP-03 (Tender Understanding): CLOSED
-- MVP-04.1 (Evaluation Model Detection): IN IMPLEMENTATION
+- MVP-04.1 (Evaluation Model Detection): CLOSED
+- MVP-04.2 (Requirement Extraction): IN IMPLEMENTATION
 
 ### Objetivo
 

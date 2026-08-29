@@ -59,6 +59,7 @@ class Tender(Base):
     documents: Mapped[list["TenderDocument"]] = relationship(back_populates="tender")
     events: Mapped[list["TenderEvent"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
     changes: Mapped[list["TenderChange"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
+    requirement_candidates: Mapped[list["RequirementCandidate"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
 
 
 class TenderDocument(Base):
@@ -151,6 +152,16 @@ class TenderDocument(Base):
     change_evidence: Mapped[list["TenderChangeEvidence"]] = relationship(
         back_populates="source_document",
         foreign_keys="TenderChangeEvidence.source_document_id",
+    )
+    requirement_candidates: Mapped[list["RequirementCandidate"]] = relationship(
+        back_populates="source_document",
+        foreign_keys="RequirementCandidate.source_document_id",
+        cascade="all, delete-orphan",
+    )
+    requirement_candidate_evidence: Mapped[list["RequirementCandidateEvidence"]] = relationship(
+        back_populates="source_document",
+        foreign_keys="RequirementCandidateEvidence.source_document_id",
+        cascade="all, delete-orphan",
     )
 
 
@@ -249,6 +260,8 @@ class NormalizedContent(Base):
     region: Mapped[DocumentPageRegion | None] = relationship(back_populates="normalized_content")
     chunks: Mapped[list["DocumentChunk"]] = relationship(back_populates="normalized_content", cascade="all, delete-orphan")
     classification_evidence: Mapped[list["DocumentClassificationEvidence"]] = relationship(back_populates="normalized_content", cascade="all, delete-orphan")
+    requirement_candidates: Mapped[list["RequirementCandidate"]] = relationship(back_populates="normalized_content")
+    requirement_candidate_evidence: Mapped[list["RequirementCandidateEvidence"]] = relationship(back_populates="normalized_content")
 
 
 class DocumentPage(Base):
@@ -282,6 +295,8 @@ class DocumentPage(Base):
     ocr_results: Mapped[list["PageOcrResult"]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
     normalized_content: Mapped[list[NormalizedContent]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
     classification_evidence: Mapped[list["DocumentClassificationEvidence"]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
+    requirement_candidates: Mapped[list["RequirementCandidate"]] = relationship(back_populates="document_page")
+    requirement_candidate_evidence: Mapped[list["RequirementCandidateEvidence"]] = relationship(back_populates="document_page")
 
     @property
     def content_profile(self) -> str:
@@ -1091,3 +1106,121 @@ class EvaluationCriterionEvidence(Base):
 
     criterion: Mapped[EvaluationCriterion] = relationship(back_populates="evidence")
     source_document: Mapped[TenderDocument] = relationship(foreign_keys=[source_document_id])
+
+
+class RequirementCandidate(Base):
+    __tablename__ = "requirement_candidates"
+
+    __table_args__ = (
+        UniqueConstraint("tender_id", "semantic_key", name="uq_requirement_candidates_semantic_key"),
+        Index("ix_requirement_candidates_tender_id", "tender_id"),
+        Index("ix_requirement_candidates_source_document_id", "source_document_id"),
+        Index("ix_requirement_candidates_review_status", "review_status"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    semantic_key: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    requirement_text: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    actor_text: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    modality_text: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    document_page_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    normalized_content_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("normalized_content.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    detection_origin: Mapped[str] = mapped_column(String(32), nullable=False, default="DETERMINISTIC")
+    review_status: Mapped[str] = mapped_column(String(32), nullable=False, default="SUGGESTED")
+    detector_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-04.2")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship(back_populates="requirement_candidates")
+    source_document: Mapped[TenderDocument] = relationship(back_populates="requirement_candidates", foreign_keys=[source_document_id])
+    document_page: Mapped[DocumentPage | None] = relationship(back_populates="requirement_candidates", foreign_keys=[document_page_id])
+    normalized_content: Mapped[NormalizedContent | None] = relationship(back_populates="requirement_candidates", foreign_keys=[normalized_content_id])
+    evidence: Mapped[list["RequirementCandidateEvidence"]] = relationship(back_populates="candidate", cascade="all, delete-orphan")
+
+
+class RequirementCandidateEvidence(Base):
+    __tablename__ = "requirement_candidate_evidence"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "candidate_id",
+            "source_document_id",
+            "source_page",
+            "excerpt_sha256",
+            name="uq_requirement_candidate_evidence_item",
+        ),
+        Index("ix_requirement_candidate_evidence_candidate_id", "candidate_id"),
+        Index("ix_requirement_candidate_evidence_source_document_id", "source_document_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    candidate_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("requirement_candidates.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    excerpt_sha256: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    document_page_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    normalized_content_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("normalized_content.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    candidate: Mapped[RequirementCandidate] = relationship(back_populates="evidence")
+    source_document: Mapped[TenderDocument] = relationship(back_populates="requirement_candidate_evidence", foreign_keys=[source_document_id])
+    document_page: Mapped[DocumentPage | None] = relationship(back_populates="requirement_candidate_evidence", foreign_keys=[document_page_id])
+    normalized_content: Mapped[NormalizedContent | None] = relationship(back_populates="requirement_candidate_evidence", foreign_keys=[normalized_content_id])

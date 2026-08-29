@@ -1,0 +1,1677 @@
+{
+  "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+  "requirements_version": "mvp-04.2",
+  "generated_at": "2026-08-28T22:50:26.357703Z",
+  "summary": {
+    "total": 55,
+    "suggested": 55,
+    "confirmed": 0,
+    "rejected": 0,
+    "documents_with_candidates": 2,
+    "pages_with_candidates": 27,
+    "explicit_actor_count": 55,
+    "by_modality": {
+      "DEBERÁ": 1,
+      "DEBERÁN": 2,
+      "Deberán": 1,
+      "deberá": 40,
+      "deberán": 6,
+      "incluirá": 1,
+      "incluirán": 1,
+      "no podrán": 1,
+      "presentará": 2
+    }
+  },
+  "candidates": [
+    {
+      "id": "5a1dd2b2-696d-4fb8-af1e-274f536f4aad",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "330e5dd2b3dd5359d29abdace1a832eaf8d40e9de2e8be370125ca499799c3b8",
+      "requirement_text": "(CUANDO APLIQUE) NOTA: Como parte del presente documento, se deberá adjuntar, para cada uno de los integrantes del consorcio: • Certificado de Registro en la HIIP vigente durante todo el PROCEDIMIENTO DE CONTRATACIÓN y hasta la formalización del contrato.",
+      "actor_text": "consorcio",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 6,
+      "source_excerpt": "(CUANDO APLIQUE) NOTA: Como parte del presente documento, se deberá adjuntar, para cada uno de los integrantes del consorcio: • Certificado de Registro en la HIIP vigente durante todo el PROCEDIMIENTO DE CONTRATACIÓN y hasta la formalización del contrato.",
+      "document_page_id": "5627459a-00e4-407b-9970-ec340fd288c6",
+      "normalized_content_id": "b43bf484-0d91-4531-b1c6-ed6619af5c15",
+      "created_at": "2026-08-28T16:40:29.252360-06:00",
+      "updated_at": "2026-08-28T16:40:29.252364-06:00",
+      "evidence": [
+        {
+          "id": "a83dd99f-520a-4789-a8c0-31b78faa83c1",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 6,
+          "source_excerpt": "(CUANDO APLIQUE) NOTA: Como parte del presente documento, se deberá adjuntar, para cada uno de los integrantes del consorcio: • Certificado de Registro en la HIIP vigente durante todo el PROCEDIMIENTO DE CONTRATACIÓN y hasta la formalización del contrato.",
+          "document_page_id": "5627459a-00e4-407b-9970-ec340fd288c6",
+          "normalized_content_id": "b43bf484-0d91-4531-b1c6-ed6619af5c15"
+        }
+      ]
+    },
+    {
+      "id": "782a542a-3485-4226-825f-ced2a041a20f",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "873310082e381fae37ad52a17ac6cf4da92f84a6a2b8ecbf25794fd9de9d0c11",
+      "requirement_text": "Si el PARTICIPANTE es persona física con representante legal, deberá incluir la siguiente manifestación:",
+      "actor_text": "el PARTICIPANTE",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 7,
+      "source_excerpt": "Si el PARTICIPANTE es persona física con representante legal, deberá incluir la siguiente manifestación:",
+      "document_page_id": "424f8bf7-0e4e-46ff-abec-b8acf2b16a4e",
+      "normalized_content_id": "1a93780d-7924-4d38-be44-bd2de72dacbe",
+      "created_at": "2026-08-28T16:40:29.262339-06:00",
+      "updated_at": "2026-08-28T16:40:29.262343-06:00",
+      "evidence": [
+        {
+          "id": "2f9f3c38-02bd-4f07-9fbe-bbca65685813",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 7,
+          "source_excerpt": "Si el PARTICIPANTE es persona física con representante legal, deberá incluir la siguiente manifestación:",
+          "document_page_id": "424f8bf7-0e4e-46ff-abec-b8acf2b16a4e",
+          "normalized_content_id": "1a93780d-7924-4d38-be44-bd2de72dacbe"
+        }
+      ]
+    },
+    {
+      "id": "5e5f01f9-36e3-4750-974c-16b840659f1c",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "028c38814a158d442f6a88a612a341ea381859537ea6d391f891e0b265b8b85f",
+      "requirement_text": "Si el PARTICIPANTE es persona física sin representante legal, deberá incluir la siguiente manifestación:",
+      "actor_text": "el PARTICIPANTE",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 7,
+      "source_excerpt": "Si el PARTICIPANTE es persona física sin representante legal, deberá incluir la siguiente manifestación:",
+      "document_page_id": "424f8bf7-0e4e-46ff-abec-b8acf2b16a4e",
+      "normalized_content_id": "1a93780d-7924-4d38-be44-bd2de72dacbe",
+      "created_at": "2026-08-28T16:40:29.265561-06:00",
+      "updated_at": "2026-08-28T16:40:29.265563-06:00",
+      "evidence": [
+        {
+          "id": "dde1ab7c-6bee-44dc-9cb6-859bf87acba7",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 7,
+          "source_excerpt": "Si el PARTICIPANTE es persona física sin representante legal, deberá incluir la siguiente manifestación:",
+          "document_page_id": "424f8bf7-0e4e-46ff-abec-b8acf2b16a4e",
+          "normalized_content_id": "1a93780d-7924-4d38-be44-bd2de72dacbe"
+        }
+      ]
+    },
+    {
+      "id": "436eea8d-a79d-4165-a7e4-7e46ecc62414",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "6bfdee09c45c3844293ca8db31251db780ccccd006486fbb72fbfa7965cd8d36",
+      "requirement_text": "Si el PARTICIPANTE es persona moral, deberá incluir la siguiente manifestación:",
+      "actor_text": "el PARTICIPANTE",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 7,
+      "source_excerpt": "Si el PARTICIPANTE es persona moral, deberá incluir la siguiente manifestación:",
+      "document_page_id": "424f8bf7-0e4e-46ff-abec-b8acf2b16a4e",
+      "normalized_content_id": "1a93780d-7924-4d38-be44-bd2de72dacbe",
+      "created_at": "2026-08-28T16:40:29.268969-06:00",
+      "updated_at": "2026-08-28T16:40:29.268971-06:00",
+      "evidence": [
+        {
+          "id": "511caac3-765c-47a0-9fa1-5a9b8dc90326",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 7,
+          "source_excerpt": "Si el PARTICIPANTE es persona moral, deberá incluir la siguiente manifestación:",
+          "document_page_id": "424f8bf7-0e4e-46ff-abec-b8acf2b16a4e",
+          "normalized_content_id": "1a93780d-7924-4d38-be44-bd2de72dacbe"
+        }
+      ]
+    },
+    {
+      "id": "b7698fbc-51a7-45ed-b086-a9bc4025e027",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "1a03020f8e983a416d604020f21e433644aa4f35de0a17a3ff213dbcf234642b",
+      "requirement_text": "La propuesta deberá ser firmada por el representante común que para ese acto haya sido designado por ambas partes.",
+      "actor_text": "La propuesta",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 9,
+      "source_excerpt": "La propuesta deberá ser firmada por el representante común que para ese acto haya sido designado por ambas partes.",
+      "document_page_id": "1376b354-cdb6-4110-a61c-8e2edd014252",
+      "normalized_content_id": "e47b6d49-610c-4117-862c-06eb5a99d737",
+      "created_at": "2026-08-28T16:40:29.287467-06:00",
+      "updated_at": "2026-08-28T16:40:29.287473-06:00",
+      "evidence": [
+        {
+          "id": "cdef5eae-b6d7-496c-8983-653bf3e070ac",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 9,
+          "source_excerpt": "La propuesta deberá ser firmada por el representante común que para ese acto haya sido designado por ambas partes.",
+          "document_page_id": "1376b354-cdb6-4110-a61c-8e2edd014252",
+          "normalized_content_id": "e47b6d49-610c-4117-862c-06eb5a99d737"
+        }
+      ]
+    },
+    {
+      "id": "e8c0bcdd-ca70-41d1-8c5b-01ccf2ab3742",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "1892dd21b2ee585fcec54d9f21ffa11b24b6872e5a441b9cd7b15b8c84a37d34",
+      "requirement_text": "Nota: En caso de propuesta conjunta este documento deberá ser firmado por el representante común elegido por el consorcio, y deberá anotarse en el proemio de este documento la denominación social de todas y cada una de las empresas del consorcio.",
+      "actor_text": "propuesta",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 14,
+      "source_excerpt": "Nota: En caso de propuesta conjunta este documento deberá ser firmado por el representante común elegido por el consorcio, y deberá anotarse en el proemio de este documento la denominación social de todas y cada una de las empresas del consorcio.",
+      "document_page_id": "54cc3773-03b0-4441-ae84-a0b84ceef933",
+      "normalized_content_id": "796ab0f1-0f13-4458-a909-e33465f20214",
+      "created_at": "2026-08-28T16:40:29.292224-06:00",
+      "updated_at": "2026-08-28T16:40:29.292225-06:00",
+      "evidence": [
+        {
+          "id": "3148cc42-3239-457b-b59f-646634e69a75",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 14,
+          "source_excerpt": "Nota: En caso de propuesta conjunta este documento deberá ser firmado por el representante común elegido por el consorcio, y deberá anotarse en el proemio de este documento la denominación social de todas y cada una de las empresas del consorcio.",
+          "document_page_id": "54cc3773-03b0-4441-ae84-a0b84ceef933",
+          "normalized_content_id": "796ab0f1-0f13-4458-a909-e33465f20214"
+        }
+      ]
+    },
+    {
+      "id": "ec865d21-bc21-4bd8-a8d0-ad272466e1ab",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "641db30017aac318565aefc313b02dbc398283ddf83aa08257c554d9486234a2",
+      "requirement_text": "El PARTICIPANTE deberá detallar los esquemas con que su representada cuenta.",
+      "actor_text": "El PARTICIPANTE",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 15,
+      "source_excerpt": "El PARTICIPANTE deberá detallar los esquemas con que su representada cuenta.",
+      "document_page_id": "de56cb8a-7d7d-4f03-b87e-8398e7549884",
+      "normalized_content_id": "435986a0-5e70-4e87-b06c-dea3bfc3b70f",
+      "created_at": "2026-08-28T16:40:29.293777-06:00",
+      "updated_at": "2026-08-28T16:40:29.293778-06:00",
+      "evidence": [
+        {
+          "id": "c0b7b671-ae05-4fa1-baf2-7557dd4bc57a",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 15,
+          "source_excerpt": "El PARTICIPANTE deberá detallar los esquemas con que su representada cuenta.",
+          "document_page_id": "de56cb8a-7d7d-4f03-b87e-8398e7549884",
+          "normalized_content_id": "435986a0-5e70-4e87-b06c-dea3bfc3b70f"
+        }
+      ]
+    },
+    {
+      "id": "fae69c7a-1142-4a4b-bfa9-1d07be715dbd",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "f05d863c7f5df1d2073d5b49b4ec7b7b43ff2e0d2b5c621e12b80a91c89fb466",
+      "requirement_text": "DEL SERVICIO DE ADMINISTRACIÓN TRIBUTARIA PARTICIPEN, DEBERÁN PRESENTAR EL PRESENTE DOCUMENTO COMO PARTE DE LA PROPUESTA.",
+      "actor_text": "LA PROPUESTA",
+      "modality_text": "DEBERÁN",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 19,
+      "source_excerpt": "DEL SERVICIO DE ADMINISTRACIÓN TRIBUTARIA PARTICIPEN, DEBERÁN PRESENTAR EL PRESENTE DOCUMENTO COMO PARTE DE LA PROPUESTA.",
+      "document_page_id": "3dd408a0-3237-4700-ae4f-abf014079415",
+      "normalized_content_id": "a2d0bdee-66ff-47c6-8689-7970b8849dd6",
+      "created_at": "2026-08-28T16:40:29.296241-06:00",
+      "updated_at": "2026-08-28T16:40:29.296244-06:00",
+      "evidence": [
+        {
+          "id": "74eb8b13-614c-45db-ba7e-28af3159ed77",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 19,
+          "source_excerpt": "DEL SERVICIO DE ADMINISTRACIÓN TRIBUTARIA PARTICIPEN, DEBERÁN PRESENTAR EL PRESENTE DOCUMENTO COMO PARTE DE LA PROPUESTA.",
+          "document_page_id": "3dd408a0-3237-4700-ae4f-abf014079415",
+          "normalized_content_id": "a2d0bdee-66ff-47c6-8689-7970b8849dd6"
+        }
+      ]
+    },
+    {
+      "id": "f3233f11-685c-4035-81b2-3b45ce445b06",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "c8fd41930006e16ce72a9e145a0f6518d29c58ae45b679498618020fe2819160",
+      "requirement_text": "NOTA: PARA EL CASO DE CONSORCIOS, CADA UNO DE LOS INTEGRANTES DEL CONSORCIO PARTICIPEN CONJUNTAMENTE, DEBERÁN ANEXAR EL CERTIFICADO VIGENTE EMITIDO POR EL A.C.",
+      "actor_text": "CONSORCIO",
+      "modality_text": "DEBERÁN",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 19,
+      "source_excerpt": "NOTA: PARA EL CASO DE CONSORCIOS, CADA UNO DE LOS INTEGRANTES DEL CONSORCIO PARTICIPEN CONJUNTAMENTE, DEBERÁN ANEXAR EL CERTIFICADO VIGENTE EMITIDO POR EL A.C.",
+      "document_page_id": "3dd408a0-3237-4700-ae4f-abf014079415",
+      "normalized_content_id": "a2d0bdee-66ff-47c6-8689-7970b8849dd6",
+      "created_at": "2026-08-28T16:40:29.298584-06:00",
+      "updated_at": "2026-08-28T16:40:29.298586-06:00",
+      "evidence": [
+        {
+          "id": "d06481c5-89bc-4463-9581-5ba0cf523126",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 19,
+          "source_excerpt": "NOTA: PARA EL CASO DE CONSORCIOS, CADA UNO DE LOS INTEGRANTES DEL CONSORCIO PARTICIPEN CONJUNTAMENTE, DEBERÁN ANEXAR EL CERTIFICADO VIGENTE EMITIDO POR EL A.C.",
+          "document_page_id": "3dd408a0-3237-4700-ae4f-abf014079415",
+          "normalized_content_id": "a2d0bdee-66ff-47c6-8689-7970b8849dd6"
+        }
+      ]
+    },
+    {
+      "id": "c505a7d2-031e-4f05-8dda-8d318bc395d1",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "1d33047a4a3f60b4def38a7bac4990baaa4b6b52c28ffeef5586913b6efe7a4f",
+      "requirement_text": "NOTA: EN CASO DE PROPUESTA CONJUNTA (CONSORCIO) EL PRESENTE DOCUMENTO DEBERÁ ENTREGARSE DEBIDAMENTE REQUISITADO POR CADA UNA DE LAS PERSONAS QUE FORMAN EL CONSORCIO.",
+      "actor_text": "PROPUESTA",
+      "modality_text": "DEBERÁ",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 20,
+      "source_excerpt": "NOTA: EN CASO DE PROPUESTA CONJUNTA (CONSORCIO) EL PRESENTE DOCUMENTO DEBERÁ ENTREGARSE DEBIDAMENTE REQUISITADO POR CADA UNA DE LAS PERSONAS QUE FORMAN EL CONSORCIO.",
+      "document_page_id": "25d285f9-ae5f-45e7-a1e2-038658b5214f",
+      "normalized_content_id": "dd266365-48c1-44f1-9ab3-0f1f92ab3f89",
+      "created_at": "2026-08-28T16:40:29.301427-06:00",
+      "updated_at": "2026-08-28T16:40:29.301430-06:00",
+      "evidence": [
+        {
+          "id": "0fe76c73-0136-411e-a66c-201ae04ab695",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 20,
+          "source_excerpt": "NOTA: EN CASO DE PROPUESTA CONJUNTA (CONSORCIO) EL PRESENTE DOCUMENTO DEBERÁ ENTREGARSE DEBIDAMENTE REQUISITADO POR CADA UNA DE LAS PERSONAS QUE FORMAN EL CONSORCIO.",
+          "document_page_id": "25d285f9-ae5f-45e7-a1e2-038658b5214f",
+          "normalized_content_id": "dd266365-48c1-44f1-9ab3-0f1f92ab3f89"
+        }
+      ]
+    },
+    {
+      "id": "c649691a-8e8d-468b-b75e-e69cdaed2768",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "b9446cb66917482e654e011f476f469c361c6e32162cbf74bb5a324c657c7f46",
+      "requirement_text": "A).- El participante deberá acreditar contar con el suficiente personal profesional y técnico especialista altamente capacitado, experimentado y calificado para proporcionar adecuada y oportunamente el servicio necesario requerido: personal técnico responsable de ejecutar la rehabilitación de los sistemas | El participante deberá de incluir Curriculum Vitae, copia simple de titulo y cédula profesional del personal clave identificandolos | profesionales técnicos a servicio del PARTICIPANTE, que | | serán responsables de la dirección y superisién de los | servicios con caracteristicas técnicas y magnitud similares, | como parte de su propuesta lécnica, deberá presentar la | | documentación que acredite la experiencia de personal | asignado a la ejecución de los servicios, mediante constancias | de experiencia (expedidas por el participante u otra empresa), | cartas laborales u otros documentos equivalentes que | demuestren su participación en al menos 2 (dos) servicios en el mantenimiento a estos sistemas de control distribuido (SCD) de la famila (Centum VP) ylo Sistemas Instrumentados de Seguridad (SIS, ESD, F&G, BMS) de la familia Prosafe RS, de | no más de 5 años ala fecha .",
+      "actor_text": "El participante",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 24,
+      "source_excerpt": "A).- El participante deberá acreditar contar con el suficiente personal profesional y técnico especialista altamente capacitado, experimentado y calificado para proporcionar adecuada y oportunamente el servicio necesario requerido: personal técnico responsable de ejecutar la rehabilitación de los sistemas | El participante deberá de incluir Curriculum Vitae, copia simple de titulo y cédula profesional del personal clave identificandolos | profesionales técnicos a servicio del PARTICIPANTE, que | | serán responsables de la dirección y superisién de los | servicios con caracteristicas técnicas y magnitud similares, | como parte de su propuesta lécnica, deberá presentar la | | documentación que acredite la experiencia de personal | asignado a la ejecución de los servicios, mediante constancias | de experiencia (expedidas por el participante u otra empresa), | cartas laborales u otros documentos equivalentes que | demuestren su participación en al menos 2 (dos) servicios en el mantenimiento a estos sistemas de control distribuido (SCD) de la famila (Centum VP) ylo Sistemas Instrumentados de Seguridad (SIS, ESD, F&G, BMS) de la familia Prosafe RS, de | no más de 5 años ala fecha .",
+      "document_page_id": "1ecd6f9f-a674-4f3f-94d8-c053bb927f5b",
+      "normalized_content_id": "c8398c3e-9351-4ea3-850d-581e534cb1d7",
+      "created_at": "2026-08-28T16:40:29.304700-06:00",
+      "updated_at": "2026-08-28T16:40:29.304706-06:00",
+      "evidence": [
+        {
+          "id": "6839fac5-d165-4612-9dfd-4dff61b34e08",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 24,
+          "source_excerpt": "A).- El participante deberá acreditar contar con el suficiente personal profesional y técnico especialista altamente capacitado, experimentado y calificado para proporcionar adecuada y oportunamente el servicio necesario requerido: personal técnico responsable de ejecutar la rehabilitación de los sistemas | El participante deberá de incluir Curriculum Vitae, copia simple de titulo y cédula profesional del personal clave identificandolos | profesionales técnicos a servicio del PARTICIPANTE, que | | serán responsables de la dirección y superisién de los | servicios con caracteristicas técnicas y magnitud similares, | como parte de su propuesta lécnica, deberá presentar la | | documentación que acredite la experiencia de personal | asignado a la ejecución de los servicios, mediante constancias | de experiencia (expedidas por el participante u otra empresa), | cartas laborales u otros documentos equivalentes que | demuestren su participación en al menos 2 (dos) servicios en el mantenimiento a estos sistemas de control distribuido (SCD) de la famila (Centum VP) ylo Sistemas Instrumentados de Seguridad (SIS, ESD, F&G, BMS) de la familia Prosafe RS, de | no más de 5 años ala fecha .",
+          "document_page_id": "1ecd6f9f-a674-4f3f-94d8-c053bb927f5b",
+          "normalized_content_id": "c8398c3e-9351-4ea3-850d-581e534cb1d7"
+        }
+      ]
+    },
+    {
+      "id": "30ce705b-8e9a-4bf1-b38b-c5df4812be13",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "4314c3ccd783a7dd98ace2fb88fbdb5e85942667e681a2f888f7d54d27b43238",
+      "requirement_text": "El personal del participante propuesto para el desarrollo de los servicios deberà contar con certificación del fabricante y/o distribuidor para servicio y refacciones para los sistemas instalados, asi como también deberá anexar el Curriculum Vitae de su personal especialista, lo anterior para avalar su",
+      "actor_text": "participante",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 24,
+      "source_excerpt": "El personal del participante propuesto para el desarrollo de los servicios deberà contar con certificación del fabricante y/o distribuidor para servicio y refacciones para los sistemas instalados, asi como también deberá anexar el Curriculum Vitae de su personal especialista, lo anterior para avalar su",
+      "document_page_id": "1ecd6f9f-a674-4f3f-94d8-c053bb927f5b",
+      "normalized_content_id": "1cbc4c23-f09a-42be-9e64-92c246f8305e",
+      "created_at": "2026-08-28T16:40:29.306755-06:00",
+      "updated_at": "2026-08-28T16:40:29.306756-06:00",
+      "evidence": [
+        {
+          "id": "e680a840-c14b-49c0-885f-7008e130755a",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 24,
+          "source_excerpt": "El personal del participante propuesto para el desarrollo de los servicios deberà contar con certificación del fabricante y/o distribuidor para servicio y refacciones para los sistemas instalados, asi como también deberá anexar el Curriculum Vitae de su personal especialista, lo anterior para avalar su",
+          "document_page_id": "1ecd6f9f-a674-4f3f-94d8-c053bb927f5b",
+          "normalized_content_id": "1cbc4c23-f09a-42be-9e64-92c246f8305e"
+        }
+      ]
+    },
+    {
+      "id": "bc68db65-929c-4a97-9675-22182189f2ce",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "0919e316b8b6fc902c6eabc8782a0988c0281d20b2cf14d105bccac4a523dd7b",
+      "requirement_text": "El personal del participante propuesto para el desarrollo de los servicios deberá contar con certificación del fabricante y/o distribuidor para servicio y refacciones para los sistemas instalados, asi como también deberá anexar el Curriculum Vitae | de su personal especialista, lo anterior para avalar su | capacitación y experiencia en los servicios que va a realizar.",
+      "actor_text": "participante",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 24,
+      "source_excerpt": "El personal del participante propuesto para el desarrollo de los servicios deberá contar con certificación del fabricante y/o distribuidor para servicio y refacciones para los sistemas instalados, asi como también deberá anexar el Curriculum Vitae | de su personal especialista, lo anterior para avalar su | capacitación y experiencia en los servicios que va a realizar.",
+      "document_page_id": "1ecd6f9f-a674-4f3f-94d8-c053bb927f5b",
+      "normalized_content_id": "c8398c3e-9351-4ea3-850d-581e534cb1d7",
+      "created_at": "2026-08-28T16:40:29.307783-06:00",
+      "updated_at": "2026-08-28T16:40:29.307783-06:00",
+      "evidence": [
+        {
+          "id": "019c09d7-a0bc-4295-8126-96f371166b07",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 24,
+          "source_excerpt": "El personal del participante propuesto para el desarrollo de los servicios deberá contar con certificación del fabricante y/o distribuidor para servicio y refacciones para los sistemas instalados, asi como también deberá anexar el Curriculum Vitae | de su personal especialista, lo anterior para avalar su | capacitación y experiencia en los servicios que va a realizar.",
+          "document_page_id": "1ecd6f9f-a674-4f3f-94d8-c053bb927f5b",
+          "normalized_content_id": "c8398c3e-9351-4ea3-850d-581e534cb1d7"
+        }
+      ]
+    },
+    {
+      "id": "8f0b37a5-7a63-4aaf-b537-de7fb8e7e8c3",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "fc74e72dcc32ccb948731a9b1c59f83b3f9a0eb64485c50d63daa53c1621e7f4",
+      "requirement_text": "a nte r ne ap na Dde id personal técnico responsable de ejecutar la rehabilitación de los sistemas El participante deberà de incluir Curriculum Vitae, copia simple de titulo ycédula profesional del personal clave identificandolos profesionales técnicos al servicio del PARTICIPANTE, que serán responsables de la dirección y supervisión de los servicios con caracteristicas técnicas y magnitud similares, como parte de su propuesta técnica, deberá presentar la documentación que acredite la experiencia del personal asignado a la ejecución de los servicios, mediante constancias de experiencia (expedidas por el participante u otra empresa), cartas laborales u otros documentos equivalentes que demuestren su participación en al menos 2 (dos) servicios en el mantenimiento a estos sistemas de control distribuido (SCD) de la familia (Centum VP) y/o Sistemas Instrumentados de Seguridad (SIS, ESD, F&G, BMS) de la familia Prosafe RS, de no más de 5 años a la fecha.",
+      "actor_text": "El participante",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 24,
+      "source_excerpt": "a nte r ne ap na Dde id personal técnico responsable de ejecutar la rehabilitación de los sistemas El participante deberà de incluir Curriculum Vitae, copia simple de titulo ycédula profesional del personal clave identificandolos profesionales técnicos al servicio del PARTICIPANTE, que serán responsables de la dirección y supervisión de los servicios con caracteristicas técnicas y magnitud similares, como parte de su propuesta técnica, deberá presentar la documentación que acredite la experiencia del personal asignado a la ejecución de los servicios, mediante constancias de experiencia (expedidas por el participante u otra empresa), cartas laborales u otros documentos equivalentes que demuestren su participación en al menos 2 (dos) servicios en el mantenimiento a estos sistemas de control distribuido (SCD) de la familia (Centum VP) y/o Sistemas Instrumentados de Seguridad (SIS, ESD, F&G, BMS) de la familia Prosafe RS, de no más de 5 años a la fecha.",
+      "document_page_id": "1ecd6f9f-a674-4f3f-94d8-c053bb927f5b",
+      "normalized_content_id": "1cbc4c23-f09a-42be-9e64-92c246f8305e",
+      "created_at": "2026-08-28T16:40:29.309097-06:00",
+      "updated_at": "2026-08-28T16:40:29.309098-06:00",
+      "evidence": [
+        {
+          "id": "da62a896-80c7-45e1-99fc-21f3963d2a22",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 24,
+          "source_excerpt": "a nte r ne ap na Dde id personal técnico responsable de ejecutar la rehabilitación de los sistemas El participante deberà de incluir Curriculum Vitae, copia simple de titulo ycédula profesional del personal clave identificandolos profesionales técnicos al servicio del PARTICIPANTE, que serán responsables de la dirección y supervisión de los servicios con caracteristicas técnicas y magnitud similares, como parte de su propuesta técnica, deberá presentar la documentación que acredite la experiencia del personal asignado a la ejecución de los servicios, mediante constancias de experiencia (expedidas por el participante u otra empresa), cartas laborales u otros documentos equivalentes que demuestren su participación en al menos 2 (dos) servicios en el mantenimiento a estos sistemas de control distribuido (SCD) de la familia (Centum VP) y/o Sistemas Instrumentados de Seguridad (SIS, ESD, F&G, BMS) de la familia Prosafe RS, de no más de 5 años a la fecha.",
+          "document_page_id": "1ecd6f9f-a674-4f3f-94d8-c053bb927f5b",
+          "normalized_content_id": "1cbc4c23-f09a-42be-9e64-92c246f8305e"
+        }
+      ]
+    },
+    {
+      "id": "527ecfe3-a629-4637-87b7-fded75d1122f",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "84ce3851aa479999525d214369f3b8540c1efd949ef2f0ea8065c95e6abb5267",
+      "requirement_text": "En el caso de que el personal propuesto haya participado en la ejecución de un Contrato que contemple la construcción de varios trabajos, el PARTICIPANTE deberá relacionar cada uno de los trabajos ejecutados en ese Contrato.",
+      "actor_text": "el personal propuesto",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 25,
+      "source_excerpt": "En el caso de que el personal propuesto haya participado en la ejecución de un Contrato que contemple la construcción de varios trabajos, el PARTICIPANTE deberá relacionar cada uno de los trabajos ejecutados en ese Contrato.",
+      "document_page_id": "d9a77e79-a88b-4632-a3cd-f9e37bfafb58",
+      "normalized_content_id": "5e822eb0-7e33-4f0c-8021-7a6925afaaf1",
+      "created_at": "2026-08-28T16:40:29.310173-06:00",
+      "updated_at": "2026-08-28T16:40:29.310174-06:00",
+      "evidence": [
+        {
+          "id": "7e56919b-56c7-43b8-81ea-b9835f1d7fbe",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 25,
+          "source_excerpt": "En el caso de que el personal propuesto haya participado en la ejecución de un Contrato que contemple la construcción de varios trabajos, el PARTICIPANTE deberá relacionar cada uno de los trabajos ejecutados en ese Contrato.",
+          "document_page_id": "d9a77e79-a88b-4632-a3cd-f9e37bfafb58",
+          "normalized_content_id": "5e822eb0-7e33-4f0c-8021-7a6925afaaf1"
+        }
+      ]
+    },
+    {
+      "id": "92256ff1-352f-4d6a-92ed-8fde61821acf",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "568f02924f14f1384df803ec5ebec6a58416d2b7de1dc498311425c718854798",
+      "requirement_text": "1 El participante deberá presentar en sù propuesta técnica carta de respaldo del año en curso emitida por el fabricante donde manifieste el apoyo técnico sobre el sistema de control, haciendo referencia al concurso y al participante.",
+      "actor_text": "El participante",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 26,
+      "source_excerpt": "1 El participante deberá presentar en sù propuesta técnica carta de respaldo del año en curso emitida por el fabricante donde manifieste el apoyo técnico sobre el sistema de control, haciendo referencia al concurso y al participante.",
+      "document_page_id": "f4e655a7-9867-445a-b373-b0cf7b3da7df",
+      "normalized_content_id": "392e1f1b-2f91-4ed3-8f94-af16b32032bc",
+      "created_at": "2026-08-28T16:40:29.311552-06:00",
+      "updated_at": "2026-08-28T16:40:29.311553-06:00",
+      "evidence": [
+        {
+          "id": "d012bf33-08f7-481f-948c-9ba92ede6a88",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 26,
+          "source_excerpt": "1 El participante deberá presentar en sù propuesta técnica carta de respaldo del año en curso emitida por el fabricante donde manifieste el apoyo técnico sobre el sistema de control, haciendo referencia al concurso y al participante.",
+          "document_page_id": "f4e655a7-9867-445a-b373-b0cf7b3da7df",
+          "normalized_content_id": "392e1f1b-2f91-4ed3-8f94-af16b32032bc"
+        }
+      ]
+    },
+    {
+      "id": "99ee14da-7a96-4314-8bfe-d35fb15e9946",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "a5e080148bd4a3147a92c4e79b39cec94536e65c7e4ba7d24cb98162f3f72cf7",
+      "requirement_text": "El participante deberá presentar en su propuesta técnica copia de su Certificado de calidad ISO 9001:2015 el cual deberá describir la entidad certificadora, fecha de emisión, fecha de caducidad, numero de certificado, numero de aprobación y alcance aplicable de la aprobación, este certificado deberá ser vigente durante la duración del contrato.",
+      "actor_text": "El participante",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 26,
+      "source_excerpt": "El participante deberá presentar en su propuesta técnica copia de su Certificado de calidad ISO 9001:2015 el cual deberá describir la entidad certificadora, fecha de emisión, fecha de caducidad, numero de certificado, numero de aprobación y alcance aplicable de la aprobación, este certificado deberá ser vigente durante la duración del contrato.",
+      "document_page_id": "f4e655a7-9867-445a-b373-b0cf7b3da7df",
+      "normalized_content_id": "392e1f1b-2f91-4ed3-8f94-af16b32032bc",
+      "created_at": "2026-08-28T16:40:29.313268-06:00",
+      "updated_at": "2026-08-28T16:40:29.313270-06:00",
+      "evidence": [
+        {
+          "id": "7c7e912f-8396-467f-ac23-adbe87162f99",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 26,
+          "source_excerpt": "El participante deberá presentar en su propuesta técnica copia de su Certificado de calidad ISO 9001:2015 el cual deberá describir la entidad certificadora, fecha de emisión, fecha de caducidad, numero de certificado, numero de aprobación y alcance aplicable de la aprobación, este certificado deberá ser vigente durante la duración del contrato.",
+          "document_page_id": "f4e655a7-9867-445a-b373-b0cf7b3da7df",
+          "normalized_content_id": "392e1f1b-2f91-4ed3-8f94-af16b32032bc"
+        }
+      ]
+    },
+    {
+      "id": "eb4349f8-99dc-4210-b850-d9150b16dbbd",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "cfb053364f154b4ed61407725b2cfc144150014531637d9945acb1374ecca3cd",
+      "requirement_text": "Y El participante deberá presentar en su propuesta técnica carta de ¡respaldo del año en curso emitida por el fabricante donde manifieste el apoyo técnico sobre el sistema de control, haciendo referencia al concurso y al participante (Deberán de presentar el documento de coffofmidad con lo | solicitado en el Anexo B) -",
+      "actor_text": "El participante",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 26,
+      "source_excerpt": "Y El participante deberá presentar en su propuesta técnica carta de ¡respaldo del año en curso emitida por el fabricante donde manifieste el apoyo técnico sobre el sistema de control, haciendo referencia al concurso y al participante (Deberán de presentar el documento de coffofmidad con lo | solicitado en el Anexo B) -",
+      "document_page_id": "f4e655a7-9867-445a-b373-b0cf7b3da7df",
+      "normalized_content_id": "755e78eb-0686-42c4-8fa1-4892cdaeddad",
+      "created_at": "2026-08-28T16:40:29.314614-06:00",
+      "updated_at": "2026-08-28T16:40:29.314615-06:00",
+      "evidence": [
+        {
+          "id": "8ea619dd-b8e6-499c-8e8b-38cc8d852d7d",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 26,
+          "source_excerpt": "Y El participante deberá presentar en su propuesta técnica carta de ¡respaldo del año en curso emitida por el fabricante donde manifieste el apoyo técnico sobre el sistema de control, haciendo referencia al concurso y al participante (Deberán de presentar el documento de coffofmidad con lo | solicitado en el Anexo B) -",
+          "document_page_id": "f4e655a7-9867-445a-b373-b0cf7b3da7df",
+          "normalized_content_id": "755e78eb-0686-42c4-8fa1-4892cdaeddad"
+        }
+      ]
+    },
+    {
+      "id": "94860484-61ab-405a-9fec-2f64f6a5f612",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "d36495b9d49d3f6e7f0cd519b03770cbd3cc5acde01a74a8aff5208926b69c27",
+      "requirement_text": "we El participante deberá presentar en su propuesta técnica copia de sls Certificado de calidad ISO 9001:2015 el cual deberá describir [la entidad certificadora, fecha de emisión, fecha de caducidad, numero de certificado, numero de | aprobación y alcance aplicable de la aprobación, este | | certificado deberá ser vigente durante la duración del contrato |v El parti¢ ipante debera presentar en su propuesta técnica una carta en la que se comprometa a entregar refaccionamiento | nuevo y original, haciendo referencia al concurso y al participante",
+      "actor_text": "El participante",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 26,
+      "source_excerpt": "we El participante deberá presentar en su propuesta técnica copia de sls Certificado de calidad ISO 9001:2015 el cual deberá describir [la entidad certificadora, fecha de emisión, fecha de caducidad, numero de certificado, numero de | aprobación y alcance aplicable de la aprobación, este | | certificado deberá ser vigente durante la duración del contrato |v El parti¢ ipante debera presentar en su propuesta técnica una carta en la que se comprometa a entregar refaccionamiento | nuevo y original, haciendo referencia al concurso y al participante",
+      "document_page_id": "f4e655a7-9867-445a-b373-b0cf7b3da7df",
+      "normalized_content_id": "755e78eb-0686-42c4-8fa1-4892cdaeddad",
+      "created_at": "2026-08-28T16:40:29.315755-06:00",
+      "updated_at": "2026-08-28T16:40:29.315756-06:00",
+      "evidence": [
+        {
+          "id": "e1342cba-1a1c-411f-829c-73932fe64276",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 26,
+          "source_excerpt": "we El participante deberá presentar en su propuesta técnica copia de sls Certificado de calidad ISO 9001:2015 el cual deberá describir [la entidad certificadora, fecha de emisión, fecha de caducidad, numero de certificado, numero de | aprobación y alcance aplicable de la aprobación, este | | certificado deberá ser vigente durante la duración del contrato |v El parti¢ ipante debera presentar en su propuesta técnica una carta en la que se comprometa a entregar refaccionamiento | nuevo y original, haciendo referencia al concurso y al participante",
+          "document_page_id": "f4e655a7-9867-445a-b373-b0cf7b3da7df",
+          "normalized_content_id": "755e78eb-0686-42c4-8fa1-4892cdaeddad"
+        }
+      ]
+    },
+    {
+      "id": "ddec62e8-22af-4566-be9a-a3ce185e5155",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "272cf2e8eca8cac25e0fcd0d677166dc87a7a3188ba582813bd71bca376abc43",
+      "requirement_text": "✓ El participante deberá presentar en su propuesta técnica una carta en la que se comprometa a entregar refaccionamiento nuevo y original, haciendo referencia al concurso y al partcipante.",
+      "actor_text": "El participante",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 26,
+      "source_excerpt": "✓ El participante deberá presentar en su propuesta técnica una carta en la que se comprometa a entregar refaccionamiento nuevo y original, haciendo referencia al concurso y al partcipante.",
+      "document_page_id": "f4e655a7-9867-445a-b373-b0cf7b3da7df",
+      "normalized_content_id": "392e1f1b-2f91-4ed3-8f94-af16b32032bc",
+      "created_at": "2026-08-28T16:40:29.316870-06:00",
+      "updated_at": "2026-08-28T16:40:29.316871-06:00",
+      "evidence": [
+        {
+          "id": "f8e2d13d-b412-4183-951b-8f739f31016c",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 26,
+          "source_excerpt": "✓ El participante deberá presentar en su propuesta técnica una carta en la que se comprometa a entregar refaccionamiento nuevo y original, haciendo referencia al concurso y al partcipante.",
+          "document_page_id": "f4e655a7-9867-445a-b373-b0cf7b3da7df",
+          "normalized_content_id": "392e1f1b-2f91-4ed3-8f94-af16b32032bc"
+        }
+      ]
+    },
+    {
+      "id": "6d79591d-9100-4d9b-9bd9-54d3d495c23b",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "de153c857e018d8b2e6410335115e93d11bc6d881cc04ad6dc33a1596054aded",
+      "requirement_text": "Los precios que oferte el PARTICIPANTE deberán ser sin I.V.A.",
+      "actor_text": "el PARTICIPANTE",
+      "modality_text": "deberán",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 35,
+      "source_excerpt": "Los precios que oferte el PARTICIPANTE deberán ser sin I.V.A.",
+      "document_page_id": "e1b0d0a8-e2c9-4d0d-a3ad-a66377d91ed0",
+      "normalized_content_id": "fd32351c-2afd-49ef-84c3-c06e0dec41c8",
+      "created_at": "2026-08-28T16:40:29.317922-06:00",
+      "updated_at": "2026-08-28T16:40:29.317922-06:00",
+      "evidence": [
+        {
+          "id": "d583d433-5475-49cc-93e8-1f9d5e48fcd3",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 35,
+          "source_excerpt": "Los precios que oferte el PARTICIPANTE deberán ser sin I.V.A.",
+          "document_page_id": "e1b0d0a8-e2c9-4d0d-a3ad-a66377d91ed0",
+          "normalized_content_id": "fd32351c-2afd-49ef-84c3-c06e0dec41c8"
+        }
+      ]
+    },
+    {
+      "id": "fc170966-852c-48a0-98d6-0dddac2fb09b",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "141e915ddc3f4f07c6c4f3f3a84af0845a0f96d89249afecd2c15b29838cee13",
+      "requirement_text": "Para el llenado del presente formato DE-1 Propuesta Economica, el PARTICIPANTE deberá considerar las cantidades del Anexo C.",
+      "actor_text": "Propuesta",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 35,
+      "source_excerpt": "Para el llenado del presente formato DE-1 Propuesta Economica, el PARTICIPANTE deberá considerar las cantidades del Anexo C.",
+      "document_page_id": "e1b0d0a8-e2c9-4d0d-a3ad-a66377d91ed0",
+      "normalized_content_id": "fd32351c-2afd-49ef-84c3-c06e0dec41c8",
+      "created_at": "2026-08-28T16:40:29.319163-06:00",
+      "updated_at": "2026-08-28T16:40:29.319164-06:00",
+      "evidence": [
+        {
+          "id": "625911ee-ce5f-4149-bacd-29a2de9c3f63",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 35,
+          "source_excerpt": "Para el llenado del presente formato DE-1 Propuesta Economica, el PARTICIPANTE deberá considerar las cantidades del Anexo C.",
+          "document_page_id": "e1b0d0a8-e2c9-4d0d-a3ad-a66377d91ed0",
+          "normalized_content_id": "fd32351c-2afd-49ef-84c3-c06e0dec41c8"
+        }
+      ]
+    },
+    {
+      "id": "fec4eb37-65fe-4707-b058-c82aea594707",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "6eac49d20dce5cee4f0fb01bc8ea0ef2723d71469e3cd839eb22d797c492c717",
+      "requirement_text": "Se verificará que: • Se presente en papel membretado del PARTICIPANTE firmado por el representante legal, en caso de propuesta conjunta este documento deberá ser firmado por el representante común elegido por el consorcio, y deberá anotarse en el proemio de este documento la denominación social de todas y cada una de las empresas del consorcio.",
+      "actor_text": "PARTICIPANTE",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 73,
+      "source_excerpt": "Se verificará que: • Se presente en papel membretado del PARTICIPANTE firmado por el representante legal, en caso de propuesta conjunta este documento deberá ser firmado por el representante común elegido por el consorcio, y deberá anotarse en el proemio de este documento la denominación social de todas y cada una de las empresas del consorcio.",
+      "document_page_id": "ae8b4bc4-72bd-42a5-aa26-8ac90f1217ff",
+      "normalized_content_id": "8b22d454-99c5-4f3f-b51a-42d0896a4c4f",
+      "created_at": "2026-08-28T16:40:29.323421-06:00",
+      "updated_at": "2026-08-28T16:40:29.323422-06:00",
+      "evidence": [
+        {
+          "id": "d1c82997-81d3-4ae5-ae27-f7ff2d79b1e2",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 73,
+          "source_excerpt": "Se verificará que: • Se presente en papel membretado del PARTICIPANTE firmado por el representante legal, en caso de propuesta conjunta este documento deberá ser firmado por el representante común elegido por el consorcio, y deberá anotarse en el proemio de este documento la denominación social de todas y cada una de las empresas del consorcio.",
+          "document_page_id": "ae8b4bc4-72bd-42a5-aa26-8ac90f1217ff",
+          "normalized_content_id": "8b22d454-99c5-4f3f-b51a-42d0896a4c4f"
+        }
+      ]
+    },
+    {
+      "id": "e405c0fb-230d-4423-b063-55936bcc61c0",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "9a02928cbdcf5d88fc69539d2a7d72676db73fab104adfbab47ae1d4e8a5ba14",
+      "requirement_text": "Los PARTICIPANTES en su propuesta económica incluirán los documentos que se enlistan a continuación:",
+      "actor_text": "propuesta",
+      "modality_text": "incluirán",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 79,
+      "source_excerpt": "Los PARTICIPANTES en su propuesta económica incluirán los documentos que se enlistan a continuación:",
+      "document_page_id": "06dab099-138e-4178-8ae4-6165004335eb",
+      "normalized_content_id": "cd6a40b9-b4a5-4cc6-a4d1-1cc30ce26757",
+      "created_at": "2026-08-28T16:40:29.325757-06:00",
+      "updated_at": "2026-08-28T16:41:17.860935-06:00",
+      "evidence": [
+        {
+          "id": "16d00ac4-bbc7-4165-b7a1-6d2f6f59fd28",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 79,
+          "source_excerpt": "Los PARTICIPANTES en su propuesta económica incluirán los documentos que se enlistan a continuación:",
+          "document_page_id": "06dab099-138e-4178-8ae4-6165004335eb",
+          "normalized_content_id": "cd6a40b9-b4a5-4cc6-a4d1-1cc30ce26757"
+        }
+      ]
+    },
+    {
+      "id": "1c4b9ec0-30f5-4297-9c8b-c1e8adf8a373",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "e865d003efa4a068414085f66b5d390d2ba40dfd88d797ddd9f3167bc2177cb8",
+      "requirement_text": "En caso de que su participación sea en consorcio se deberá integrar la documentación antes mencionada por cada uno de los integrantes del mismo.",
+      "actor_text": "consorcio",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 85,
+      "source_excerpt": "En caso de que su participación sea en consorcio se deberá integrar la documentación antes mencionada por cada uno de los integrantes del mismo.",
+      "document_page_id": "b06a3a22-4b7e-4ea3-94d1-13a240f01b8d",
+      "normalized_content_id": "da7d90b1-ca70-4146-8076-472d0a5340c1",
+      "created_at": "2026-08-28T16:40:29.327727-06:00",
+      "updated_at": "2026-08-28T16:40:29.327728-06:00",
+      "evidence": [
+        {
+          "id": "254b130a-08fa-44c6-be14-6b56e469743a",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 85,
+          "source_excerpt": "En caso de que su participación sea en consorcio se deberá integrar la documentación antes mencionada por cada uno de los integrantes del mismo.",
+          "document_page_id": "b06a3a22-4b7e-4ea3-94d1-13a240f01b8d",
+          "normalized_content_id": "da7d90b1-ca70-4146-8076-472d0a5340c1"
+        }
+      ]
+    },
+    {
+      "id": "a85d1b8d-deda-4029-a3fb-aff7cb01ea93",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "46397533ef02cd3ef1217d7071a661c2e8be9352af787a9aa248c06b437d6ceb",
+      "requirement_text": "En caso de consorcio (Propuesta Conjunta) deberá de entregar la manifestación por cada una de las personas que formen parte de este.",
+      "actor_text": "consorcio",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 89,
+      "source_excerpt": "En caso de consorcio (Propuesta Conjunta) deberá de entregar la manifestación por cada una de las personas que formen parte de este.",
+      "document_page_id": "ca3e8d23-2ee1-48d1-b882-526ed98a86b6",
+      "normalized_content_id": "71a2aeb2-54bd-4909-80cd-a36fca20e655",
+      "created_at": "2026-08-28T16:40:29.329318-06:00",
+      "updated_at": "2026-08-28T16:40:29.329320-06:00",
+      "evidence": [
+        {
+          "id": "5aa141f9-2b17-45ca-8f4f-b72859afea84",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 89,
+          "source_excerpt": "En caso de consorcio (Propuesta Conjunta) deberá de entregar la manifestación por cada una de las personas que formen parte de este.",
+          "document_page_id": "ca3e8d23-2ee1-48d1-b882-526ed98a86b6",
+          "normalized_content_id": "71a2aeb2-54bd-4909-80cd-a36fca20e655"
+        }
+      ]
+    },
+    {
+      "id": "9aeb51ed-43fc-45ea-85ca-f11907b1059f",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "111961bf6cad1931467e8dc0764978f5592b74bff27643cbd6a0f818cd0f6a08",
+      "requirement_text": "En caso de consorcio (Propuesta Conjunta) deberá de entregar la manifestación por cada una de las personas que formen parte de este.",
+      "actor_text": "consorcio",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 90,
+      "source_excerpt": "En caso de consorcio (Propuesta Conjunta) deberá de entregar la manifestación por cada una de las personas que formen parte de este.",
+      "document_page_id": "b2d4fd16-e9f7-46b9-89ed-09ff9aa53abc",
+      "normalized_content_id": "0f9fd318-0bff-48ae-9607-633213ea00e5",
+      "created_at": "2026-08-28T16:40:29.330952-06:00",
+      "updated_at": "2026-08-28T16:40:29.330954-06:00",
+      "evidence": [
+        {
+          "id": "4c48a477-706b-4cd4-a354-850c7bc5f351",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 90,
+          "source_excerpt": "En caso de consorcio (Propuesta Conjunta) deberá de entregar la manifestación por cada una de las personas que formen parte de este.",
+          "document_page_id": "b2d4fd16-e9f7-46b9-89ed-09ff9aa53abc",
+          "normalized_content_id": "0f9fd318-0bff-48ae-9607-633213ea00e5"
+        }
+      ]
+    },
+    {
+      "id": "e70b36f8-d36d-4864-b052-827ff6685015",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "f251ebaa43a303eff70a4947074e737b4fcd60cc619f0098a0c5e0615ec451ed",
+      "requirement_text": "En caso de consorcio (Propuesta Conjunta) deberá de entregar la manifestación por cada una de las personas que formen parte de este.",
+      "actor_text": "consorcio",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 91,
+      "source_excerpt": "En caso de consorcio (Propuesta Conjunta) deberá de entregar la manifestación por cada una de las personas que formen parte de este.",
+      "document_page_id": "b3bebfaf-4e61-483f-bf39-ad70eb054ff7",
+      "normalized_content_id": "50ae7966-7d7d-4da3-bb64-74983c072b23",
+      "created_at": "2026-08-28T16:40:29.332119-06:00",
+      "updated_at": "2026-08-28T16:40:29.332120-06:00",
+      "evidence": [
+        {
+          "id": "0ad43604-8250-4795-8032-3f01ef35541a",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 91,
+          "source_excerpt": "En caso de consorcio (Propuesta Conjunta) deberá de entregar la manifestación por cada una de las personas que formen parte de este.",
+          "document_page_id": "b3bebfaf-4e61-483f-bf39-ad70eb054ff7",
+          "normalized_content_id": "50ae7966-7d7d-4da3-bb64-74983c072b23"
+        }
+      ]
+    },
+    {
+      "id": "7bcb22fc-63d2-4d87-89af-137429d1668d",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "2722b44df0b7a85b3009f55958b5b1bd58fcb780301c89672d13fbf0adcc62e6",
+      "requirement_text": "Para el caso de consorcios deberá ser presentado por cada una de las empresas que participen conjuntamente, así como de sus Subcontratistas en caso de haberlo considerado en su propuesta, acorde a la normatividad aplicable.",
+      "actor_text": "propuesta",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 92,
+      "source_excerpt": "Para el caso de consorcios deberá ser presentado por cada una de las empresas que participen conjuntamente, así como de sus Subcontratistas en caso de haberlo considerado en su propuesta, acorde a la normatividad aplicable.",
+      "document_page_id": "70506a3d-f799-425c-9820-9bf7cf1da86b",
+      "normalized_content_id": "1ff824d0-8839-4da5-8d53-37763654583a",
+      "created_at": "2026-08-28T16:40:29.334213-06:00",
+      "updated_at": "2026-08-28T16:40:29.334214-06:00",
+      "evidence": [
+        {
+          "id": "58f5e636-071c-4cc0-a0ac-cdff175bd424",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 92,
+          "source_excerpt": "Para el caso de consorcios deberá ser presentado por cada una de las empresas que participen conjuntamente, así como de sus Subcontratistas en caso de haberlo considerado en su propuesta, acorde a la normatividad aplicable.",
+          "document_page_id": "70506a3d-f799-425c-9820-9bf7cf1da86b",
+          "normalized_content_id": "1ff824d0-8839-4da5-8d53-37763654583a"
+        }
+      ]
+    },
+    {
+      "id": "969159ea-a617-4586-b1e7-a282cbf3d1c7",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "c3669d74649be20756058bf60e803e56b747cae1bc646c3b2d31f6792b3a086f",
+      "requirement_text": "• Original o copia certificada del poder notarial del representante para actos de administración o para suscribir contratos, el cual deberá estar inscrito en el Registro Público de Comercio correspondiente (salvo que el PARTICIPANTE sea persona física y vaya a ser formalizado por la misma).",
+      "actor_text": "el PARTICIPANTE",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "source_page": 92,
+      "source_excerpt": "• Original o copia certificada del poder notarial del representante para actos de administración o para suscribir contratos, el cual deberá estar inscrito en el Registro Público de Comercio correspondiente (salvo que el PARTICIPANTE sea persona física y vaya a ser formalizado por la misma).",
+      "document_page_id": "70506a3d-f799-425c-9820-9bf7cf1da86b",
+      "normalized_content_id": "1ff824d0-8839-4da5-8d53-37763654583a",
+      "created_at": "2026-08-28T16:40:29.335599-06:00",
+      "updated_at": "2026-08-28T16:40:29.335600-06:00",
+      "evidence": [
+        {
+          "id": "68f4ee12-fbb8-46ab-b54e-85086bc8ae26",
+          "source_document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+          "source_filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+          "source_page": 92,
+          "source_excerpt": "• Original o copia certificada del poder notarial del representante para actos de administración o para suscribir contratos, el cual deberá estar inscrito en el Registro Público de Comercio correspondiente (salvo que el PARTICIPANTE sea persona física y vaya a ser formalizado por la misma).",
+          "document_page_id": "70506a3d-f799-425c-9820-9bf7cf1da86b",
+          "normalized_content_id": "1ff824d0-8839-4da5-8d53-37763654583a"
+        }
+      ]
+    },
+    {
+      "id": "e99ae106-fd33-4858-b6ba-1f2d6f6fa7fb",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "03cbcb02f60b43eca14ca9a5d1c48a92909ed105a57ee7e42c5eda91f096f5c1",
+      "requirement_text": "2.2 Los INTERESADOS, deberán entregar al ÁREA CONTRATANTE vía correo electrónico a través del SISCEP y previo a los plazos establecidos en la SECCIÓN II, el documento DA-1 de la SECCIÓN X de las Bases de Contratación donde manifiesten su interés en participar en el PROCEDIMIENTO DE CONTRATACIÓN, para el caso de Consorcios el documento DA-1 preferentemente corresponderá al líder, acompañada de la documentación de la SECCIÓN VIII.1 de las Bases de Contratación, misma que será revisada de manera cuantitativa por el ÁREA CONTRATANTE, así como el Certificado de Registro Vigente en la HIIP, el registro en tiempo y forma es responsabilidad del INTERESADO, en caso de no presentar la documentación completa no se le podrá registrar al PROCEDIMIENTO DE CONTRATACIÓN.",
+      "actor_text": "INTERESADO",
+      "modality_text": "deberán",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 6,
+      "source_excerpt": "2.2 Los INTERESADOS, deberán entregar al ÁREA CONTRATANTE vía correo electrónico a través del SISCEP y previo a los plazos establecidos en la SECCIÓN II, el documento DA-1 de la SECCIÓN X de las Bases de Contratación donde manifiesten su interés en participar en el PROCEDIMIENTO DE CONTRATACIÓN, para el caso de Consorcios el documento DA-1 preferentemente corresponderá al líder, acompañada de la documentación de la SECCIÓN VIII.1 de las Bases de Contratación, misma que será revisada de manera cuantitativa por el ÁREA CONTRATANTE, así como el Certificado de Registro Vigente en la HIIP, el registro en tiempo y forma es responsabilidad del INTERESADO, en caso de no presentar la documentación completa no se le podrá registrar al PROCEDIMIENTO DE CONTRATACIÓN.",
+      "document_page_id": "b620342a-dc93-4361-ab41-acb2eed7fa1d",
+      "normalized_content_id": "5f94cb74-faec-4a65-ab86-917f421bd662",
+      "created_at": "2026-08-28T16:40:29.337949-06:00",
+      "updated_at": "2026-08-28T16:40:29.337958-06:00",
+      "evidence": [
+        {
+          "id": "f9b042d0-ddf0-4f17-b93e-fab1e69b5490",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 6,
+          "source_excerpt": "2.2 Los INTERESADOS, deberán entregar al ÁREA CONTRATANTE vía correo electrónico a través del SISCEP y previo a los plazos establecidos en la SECCIÓN II, el documento DA-1 de la SECCIÓN X de las Bases de Contratación donde manifiesten su interés en participar en el PROCEDIMIENTO DE CONTRATACIÓN, para el caso de Consorcios el documento DA-1 preferentemente corresponderá al líder, acompañada de la documentación de la SECCIÓN VIII.1 de las Bases de Contratación, misma que será revisada de manera cuantitativa por el ÁREA CONTRATANTE, así como el Certificado de Registro Vigente en la HIIP, el registro en tiempo y forma es responsabilidad del INTERESADO, en caso de no presentar la documentación completa no se le podrá registrar al PROCEDIMIENTO DE CONTRATACIÓN.",
+          "document_page_id": "b620342a-dc93-4361-ab41-acb2eed7fa1d",
+          "normalized_content_id": "5f94cb74-faec-4a65-ab86-917f421bd662"
+        }
+      ]
+    },
+    {
+      "id": "f040efbe-4045-4cc9-81bc-f95de46ea4f2",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "63a6d7612aa7351f3222108889242798ce9887e0279dc766127f628a03c9b9e6",
+      "requirement_text": "El INTERESADO en participar en el presente procedimiento electrónico, deberá contar con el Certificado de Registro en la HIIP vigente durante todo el PROCEDIMIENTO DE CONTRATACIÓN y hasta la formalización del contrato.",
+      "actor_text": "El INTERESADO",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 6,
+      "source_excerpt": "El INTERESADO en participar en el presente procedimiento electrónico, deberá contar con el Certificado de Registro en la HIIP vigente durante todo el PROCEDIMIENTO DE CONTRATACIÓN y hasta la formalización del contrato.",
+      "document_page_id": "b620342a-dc93-4361-ab41-acb2eed7fa1d",
+      "normalized_content_id": "5f94cb74-faec-4a65-ab86-917f421bd662",
+      "created_at": "2026-08-28T16:40:29.339678-06:00",
+      "updated_at": "2026-08-28T16:40:29.339684-06:00",
+      "evidence": [
+        {
+          "id": "8a2256b1-3e36-4eeb-b362-09aab024ec00",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 6,
+          "source_excerpt": "El INTERESADO en participar en el presente procedimiento electrónico, deberá contar con el Certificado de Registro en la HIIP vigente durante todo el PROCEDIMIENTO DE CONTRATACIÓN y hasta la formalización del contrato.",
+          "document_page_id": "b620342a-dc93-4361-ab41-acb2eed7fa1d",
+          "normalized_content_id": "5f94cb74-faec-4a65-ab86-917f421bd662"
+        }
+      ]
+    },
+    {
+      "id": "6cc3706d-e5a3-4f34-a36a-8c085f63bd47",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "da66dc908a3e91c2c0e74bdaf566fe20436639782870c6b7f9e2ca42e6c2affc",
+      "requirement_text": "Al ingresar a la liga que se le hará llegar mediante la Comunicación de Incorporación, deberá manifestar su voluntad al seleccionar la opción “Acuerdo de Participante”, lo que permitirá al INTERESADO reconocer como propia y auténtica la información y documentación que envíe a través de SISCEP, por lo que la información y documentación relacionada con los actos del PROCEDIMIENTO DE CONTRATACIÓN registrados en el SISCEP se considerarán como originales.",
+      "actor_text": "Participante",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 7,
+      "source_excerpt": "Al ingresar a la liga que se le hará llegar mediante la Comunicación de Incorporación, deberá manifestar su voluntad al seleccionar la opción “Acuerdo de Participante”, lo que permitirá al INTERESADO reconocer como propia y auténtica la información y documentación que envíe a través de SISCEP, por lo que la información y documentación relacionada con los actos del PROCEDIMIENTO DE CONTRATACIÓN registrados en el SISCEP se considerarán como originales.",
+      "document_page_id": "485b3ec0-2bdb-4359-b7c8-313a741a3434",
+      "normalized_content_id": "c549b2b8-e3d7-482d-81a3-d1a17c663c30",
+      "created_at": "2026-08-28T16:40:29.340702-06:00",
+      "updated_at": "2026-08-28T16:40:29.340703-06:00",
+      "evidence": [
+        {
+          "id": "e040c12b-77ec-4bad-b803-a74b91d70aa2",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 7,
+          "source_excerpt": "Al ingresar a la liga que se le hará llegar mediante la Comunicación de Incorporación, deberá manifestar su voluntad al seleccionar la opción “Acuerdo de Participante”, lo que permitirá al INTERESADO reconocer como propia y auténtica la información y documentación que envíe a través de SISCEP, por lo que la información y documentación relacionada con los actos del PROCEDIMIENTO DE CONTRATACIÓN registrados en el SISCEP se considerarán como originales.",
+          "document_page_id": "485b3ec0-2bdb-4359-b7c8-313a741a3434",
+          "normalized_content_id": "c549b2b8-e3d7-482d-81a3-d1a17c663c30"
+        }
+      ]
+    },
+    {
+      "id": "b05371ad-c601-4d35-9320-b28bf9e21435",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "1bb55e752bd299b68a51327a97f26fcd040346ef483573657f08f47b0fdde24c",
+      "requirement_text": "Las modificaciones a las Bases de Contratación serán de observancia obligatoria, se plasmarán en la Versión Final de las Bases de Contratación y deberán ser consideradas por el PARTICIPANTE para la elaboración de su PROPUESTA.",
+      "actor_text": "el PARTICIPANTE",
+      "modality_text": "deberán",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 14,
+      "source_excerpt": "Las modificaciones a las Bases de Contratación serán de observancia obligatoria, se plasmarán en la Versión Final de las Bases de Contratación y deberán ser consideradas por el PARTICIPANTE para la elaboración de su PROPUESTA.",
+      "document_page_id": "26297e3d-5c3c-466c-9f04-205c02e383e1",
+      "normalized_content_id": "5f523e71-b7bb-4e02-a64f-29e21f278956",
+      "created_at": "2026-08-28T16:40:29.341757-06:00",
+      "updated_at": "2026-08-28T16:40:29.341758-06:00",
+      "evidence": [
+        {
+          "id": "2ed7b4a8-5b37-43ea-9c4a-93c2a8398f8a",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 14,
+          "source_excerpt": "Las modificaciones a las Bases de Contratación serán de observancia obligatoria, se plasmarán en la Versión Final de las Bases de Contratación y deberán ser consideradas por el PARTICIPANTE para la elaboración de su PROPUESTA.",
+          "document_page_id": "26297e3d-5c3c-466c-9f04-205c02e383e1",
+          "normalized_content_id": "5f523e71-b7bb-4e02-a64f-29e21f278956"
+        }
+      ]
+    },
+    {
+      "id": "19916293-5d24-42d6-9d6f-323434c1f4d2",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "c498d079551ad36e7eab997c53b3e42ec00fc3e6758baaef018b7cd02ea15fb9",
+      "requirement_text": "Los INTERESADOS deberán realizar y entregar las solicitudes de aclaración utilizando el formato DA-2 de la SECCIÓN X de las Bases de Contratación debidamente firmado por el representante del INTERESADO, en formato PDF y editable.",
+      "actor_text": "INTERESADO",
+      "modality_text": "deberán",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 14,
+      "source_excerpt": "Los INTERESADOS deberán realizar y entregar las solicitudes de aclaración utilizando el formato DA-2 de la SECCIÓN X de las Bases de Contratación debidamente firmado por el representante del INTERESADO, en formato PDF y editable.",
+      "document_page_id": "26297e3d-5c3c-466c-9f04-205c02e383e1",
+      "normalized_content_id": "5f523e71-b7bb-4e02-a64f-29e21f278956",
+      "created_at": "2026-08-28T16:40:29.342902-06:00",
+      "updated_at": "2026-08-28T16:40:29.342902-06:00",
+      "evidence": [
+        {
+          "id": "729207ae-92a9-4169-9820-bf1ab4bd0e59",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 14,
+          "source_excerpt": "Los INTERESADOS deberán realizar y entregar las solicitudes de aclaración utilizando el formato DA-2 de la SECCIÓN X de las Bases de Contratación debidamente firmado por el representante del INTERESADO, en formato PDF y editable.",
+          "document_page_id": "26297e3d-5c3c-466c-9f04-205c02e383e1",
+          "normalized_content_id": "5f523e71-b7bb-4e02-a64f-29e21f278956"
+        }
+      ]
+    },
+    {
+      "id": "b88b1cdf-fe08-4a5a-8a9b-91262eafdf47",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "afabf3f8fda5e97c59d1d662dd67206937e5c081293abd020c7133cef93524c7",
+      "requirement_text": "Cada integrante de la propuesta conjunta presentará su constancia de situación fiscal y de seguridad social actualizada.",
+      "actor_text": "la propuesta",
+      "modality_text": "presentará",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 15,
+      "source_excerpt": "Cada integrante de la propuesta conjunta presentará su constancia de situación fiscal y de seguridad social actualizada.",
+      "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+      "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3",
+      "created_at": "2026-08-28T16:40:29.343887-06:00",
+      "updated_at": "2026-08-28T16:41:17.860934-06:00",
+      "evidence": [
+        {
+          "id": "a2cabf7e-3647-45c5-9b0c-7d3efd537d18",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 15,
+          "source_excerpt": "Cada integrante de la propuesta conjunta presentará su constancia de situación fiscal y de seguridad social actualizada.",
+          "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+          "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3"
+        }
+      ]
+    },
+    {
+      "id": "718ae94b-2ebb-4bf5-acf5-abb39563971b",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "bcb5b4bfbb6e69142bdeac2a9c55b999b46d6b86a4c1ef169191828c7cca1630",
+      "requirement_text": "Deberán celebrar entre todas las personas que integran el consorcio, un convenio privado de participación conjunta de acuerdo con lo establecido en el Documento DC-3.",
+      "actor_text": "el consorcio",
+      "modality_text": "Deberán",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 15,
+      "source_excerpt": "Deberán celebrar entre todas las personas que integran el consorcio, un convenio privado de participación conjunta de acuerdo con lo establecido en el Documento DC-3.",
+      "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+      "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3",
+      "created_at": "2026-08-28T16:40:29.346265-06:00",
+      "updated_at": "2026-08-28T16:40:29.346267-06:00",
+      "evidence": [
+        {
+          "id": "b375f0b7-b724-435f-8af4-e4de9785901b",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 15,
+          "source_excerpt": "Deberán celebrar entre todas las personas que integran el consorcio, un convenio privado de participación conjunta de acuerdo con lo establecido en el Documento DC-3.",
+          "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+          "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3"
+        }
+      ]
+    },
+    {
+      "id": "b612e97e-7536-42e4-979e-2899bd7b4a64",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "06db2fca930b618e9591b9be51d5d27676c88aa59b5f26d893f66fd2289b22d6",
+      "requirement_text": "En caso de que el PARTICIPANTE decida presentar su PROPUESTA en consorcio, deberá informarlo por escrito al ÁREA CONTRATANTE de conformidad con la Regla 7.4 de la Versión Final de Bases de Contratación.",
+      "actor_text": "el PARTICIPANTE",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 15,
+      "source_excerpt": "En caso de que el PARTICIPANTE decida presentar su PROPUESTA en consorcio, deberá informarlo por escrito al ÁREA CONTRATANTE de conformidad con la Regla 7.4 de la Versión Final de Bases de Contratación.",
+      "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+      "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3",
+      "created_at": "2026-08-28T16:40:29.347330-06:00",
+      "updated_at": "2026-08-28T16:40:29.347331-06:00",
+      "evidence": [
+        {
+          "id": "33dfef65-ed08-4b53-8dad-f63a15ff77ac",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 15,
+          "source_excerpt": "En caso de que el PARTICIPANTE decida presentar su PROPUESTA en consorcio, deberá informarlo por escrito al ÁREA CONTRATANTE de conformidad con la Regla 7.4 de la Versión Final de Bases de Contratación.",
+          "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+          "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3"
+        }
+      ]
+    },
+    {
+      "id": "74d9a9f7-7b52-4d59-8235-4c6154665a0a",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "2f8e0b04320e0b3088731a6c55cff204e9bfdaef7724b374aba080da1e0a3452",
+      "requirement_text": "En el caso de no haberse entregado previo a la Presentación y Apertura de Propuestas Comercial, Técnica y Económica, la documentación indicada en la SECCIÓN VIII.1, deberá integrarse como parte de la Propuesta.",
+      "actor_text": "la Propuesta",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 15,
+      "source_excerpt": "En el caso de no haberse entregado previo a la Presentación y Apertura de Propuestas Comercial, Técnica y Económica, la documentación indicada en la SECCIÓN VIII.1, deberá integrarse como parte de la Propuesta.",
+      "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+      "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3",
+      "created_at": "2026-08-28T16:40:29.348422-06:00",
+      "updated_at": "2026-08-28T16:40:29.348423-06:00",
+      "evidence": [
+        {
+          "id": "f6b59a74-b518-4f4f-9913-a2f5f9f3881a",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 15,
+          "source_excerpt": "En el caso de no haberse entregado previo a la Presentación y Apertura de Propuestas Comercial, Técnica y Económica, la documentación indicada en la SECCIÓN VIII.1, deberá integrarse como parte de la Propuesta.",
+          "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+          "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3"
+        }
+      ]
+    },
+    {
+      "id": "c02a5cf5-e5fc-4224-ad53-2ea9ecf1a592",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "7fbb5b771d737204c0f0e892a22360cab1a5c93176786860b01c87cbd16cc57b",
+      "requirement_text": "La documentación que se genere derivado del PROCEDIMIENTO DE CONTRATACIÓN, así como la PROPUESTA, se presentará en idioma español.",
+      "actor_text": "la PROPUESTA",
+      "modality_text": "presentará",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 15,
+      "source_excerpt": "La documentación que se genere derivado del PROCEDIMIENTO DE CONTRATACIÓN, así como la PROPUESTA, se presentará en idioma español.",
+      "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+      "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3",
+      "created_at": "2026-08-28T16:40:29.349451-06:00",
+      "updated_at": "2026-08-28T16:41:17.860935-06:00",
+      "evidence": [
+        {
+          "id": "0dd647de-52fc-48b7-910f-481ffc467fb7",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 15,
+          "source_excerpt": "La documentación que se genere derivado del PROCEDIMIENTO DE CONTRATACIÓN, así como la PROPUESTA, se presentará en idioma español.",
+          "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+          "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3"
+        }
+      ]
+    },
+    {
+      "id": "ba99295b-0799-47bf-8124-74c80863b4ea",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "931443eec78d9bfde2f9b891d8358b497877cd19e6a35f23cd7d4dbd65a38ee5",
+      "requirement_text": "No obstante, previo al límite para manifestar su interés en participar podrá entregar la documentación de la SECCIÓN VIII.1 y obligadamente en la Presentación y Apertura de Propuestas Comercial, Técnica y Económica, deberá entregar la documentación requerida en la SECCIÓN VIII.1 de la Versión Final de las Bases de Contratación, de cada uno de los integrantes del consorcio;",
+      "actor_text": "consorcio",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 15,
+      "source_excerpt": "No obstante, previo al límite para manifestar su interés en participar podrá entregar la documentación de la SECCIÓN VIII.1 y obligadamente en la Presentación y Apertura de Propuestas Comercial, Técnica y Económica, deberá entregar la documentación requerida en la SECCIÓN VIII.1 de la Versión Final de las Bases de Contratación, de cada uno de los integrantes del consorcio;",
+      "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+      "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3",
+      "created_at": "2026-08-28T16:40:29.350509-06:00",
+      "updated_at": "2026-08-28T16:40:29.350510-06:00",
+      "evidence": [
+        {
+          "id": "80e7b9a1-650b-41de-91d1-4c6d5c8d1fb6",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 15,
+          "source_excerpt": "No obstante, previo al límite para manifestar su interés en participar podrá entregar la documentación de la SECCIÓN VIII.1 y obligadamente en la Presentación y Apertura de Propuestas Comercial, Técnica y Económica, deberá entregar la documentación requerida en la SECCIÓN VIII.1 de la Versión Final de las Bases de Contratación, de cada uno de los integrantes del consorcio;",
+          "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+          "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3"
+        }
+      ]
+    },
+    {
+      "id": "ebf92f62-f7a4-489c-9595-756ec528231f",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "fd8be7f951015c3bb4ab96a299dc7c50c4d9aa5bf3b27f1e5fe8c2e3ff98ae82",
+      "requirement_text": "Tratándose de una propuesta conjunta, los escritos solicitados en los documentos DC-1, DC-2, DC-5, DC- 6, DC-8 y DC-9 de la SECCIÓN V, así como los documentos DD-1, DD-2, DD-3, DD-4, DD-5, DD-6, DD-7, DD-8, DD-9 y DD-10 de la SECCIÓN VIII.1 de la Versión Final de las Bases de Contratación, deberán ser presentados por cada uno de los integrantes que presentan la propuesta conjunta.",
+      "actor_text": "propuesta",
+      "modality_text": "deberán",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 15,
+      "source_excerpt": "Tratándose de una propuesta conjunta, los escritos solicitados en los documentos DC-1, DC-2, DC-5, DC- 6, DC-8 y DC-9 de la SECCIÓN V, así como los documentos DD-1, DD-2, DD-3, DD-4, DD-5, DD-6, DD-7, DD-8, DD-9 y DD-10 de la SECCIÓN VIII.1 de la Versión Final de las Bases de Contratación, deberán ser presentados por cada uno de los integrantes que presentan la propuesta conjunta.",
+      "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+      "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3",
+      "created_at": "2026-08-28T16:40:29.351476-06:00",
+      "updated_at": "2026-08-28T16:40:29.351477-06:00",
+      "evidence": [
+        {
+          "id": "820db6f7-99ea-4320-8dab-8526cbb3698c",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 15,
+          "source_excerpt": "Tratándose de una propuesta conjunta, los escritos solicitados en los documentos DC-1, DC-2, DC-5, DC- 6, DC-8 y DC-9 de la SECCIÓN V, así como los documentos DD-1, DD-2, DD-3, DD-4, DD-5, DD-6, DD-7, DD-8, DD-9 y DD-10 de la SECCIÓN VIII.1 de la Versión Final de las Bases de Contratación, deberán ser presentados por cada uno de los integrantes que presentan la propuesta conjunta.",
+          "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+          "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3"
+        }
+      ]
+    },
+    {
+      "id": "2fccc5d2-a353-4124-92d7-140f3616ab24",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "a4af2a954c00d6d9641beb78465f626d58dfe83370bd0fce5b2632b39e822d85",
+      "requirement_text": "c. La PROPUESTA deberá ser firmada por el representante común que haya sido designado por los integrantes del grupo en el convenio.",
+      "actor_text": "La PROPUESTA",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 15,
+      "source_excerpt": "c. La PROPUESTA deberá ser firmada por el representante común que haya sido designado por los integrantes del grupo en el convenio.",
+      "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+      "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3",
+      "created_at": "2026-08-28T16:40:29.352425-06:00",
+      "updated_at": "2026-08-28T16:40:29.352426-06:00",
+      "evidence": [
+        {
+          "id": "9b8cab46-74ee-4e61-ba68-dc273eb65c96",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 15,
+          "source_excerpt": "c. La PROPUESTA deberá ser firmada por el representante común que haya sido designado por los integrantes del grupo en el convenio.",
+          "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+          "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3"
+        }
+      ]
+    },
+    {
+      "id": "782c583e-ee1c-42dc-ab35-933c43d856d9",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "c5c60d2ae80eb6a89e3d2fc8ea03f1caa43037e9f61c622d7a9b3d0cb77e8ada",
+      "requirement_text": "dicha documentación deberá integrarse como parte de la Propuesta, en el caso de no haberse entregado previo a la Presentación y Apertura de Propuestas Comercial, Técnica y Económica.",
+      "actor_text": "la Propuesta",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 15,
+      "source_excerpt": "dicha documentación deberá integrarse como parte de la Propuesta, en el caso de no haberse entregado previo a la Presentación y Apertura de Propuestas Comercial, Técnica y Económica.",
+      "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+      "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3",
+      "created_at": "2026-08-28T16:40:29.353632-06:00",
+      "updated_at": "2026-08-28T16:40:29.353633-06:00",
+      "evidence": [
+        {
+          "id": "922fd2db-efa3-4094-875b-adb2309c3419",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 15,
+          "source_excerpt": "dicha documentación deberá integrarse como parte de la Propuesta, en el caso de no haberse entregado previo a la Presentación y Apertura de Propuestas Comercial, Técnica y Económica.",
+          "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+          "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3"
+        }
+      ]
+    },
+    {
+      "id": "5bbebe66-5dca-49b1-bda9-dbbe989450ae",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "7ddf0f5e4e8ab1eb3198a2e1e8cac57f5e4df0119f4003e6a6b89eebc8a41b4b",
+      "requirement_text": "g. El representante común del consorcio, deberá integrar la información solicitada en la SECCIÓN VIII de la Versión Final de las Bases de Contratación para cada uno de los integrantes del consorcio, que cumpla con los supuestos señalados en el numeral 3.1.5 de las PLDD, ya que en caso de que al menos un integrante del consorcio no presente dicha documentación, la PROPUESTA se tendrá por no recibida y se asentará en el Acta correspondiente.",
+      "actor_text": "consorcio",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 15,
+      "source_excerpt": "g. El representante común del consorcio, deberá integrar la información solicitada en la SECCIÓN VIII de la Versión Final de las Bases de Contratación para cada uno de los integrantes del consorcio, que cumpla con los supuestos señalados en el numeral 3.1.5 de las PLDD, ya que en caso de que al menos un integrante del consorcio no presente dicha documentación, la PROPUESTA se tendrá por no recibida y se asentará en el Acta correspondiente.",
+      "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+      "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3",
+      "created_at": "2026-08-28T16:40:29.355852-06:00",
+      "updated_at": "2026-08-28T16:40:29.355854-06:00",
+      "evidence": [
+        {
+          "id": "704fa8af-5d1c-4143-8a5e-c30b9ecdb909",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 15,
+          "source_excerpt": "g. El representante común del consorcio, deberá integrar la información solicitada en la SECCIÓN VIII de la Versión Final de las Bases de Contratación para cada uno de los integrantes del consorcio, que cumpla con los supuestos señalados en el numeral 3.1.5 de las PLDD, ya que en caso de que al menos un integrante del consorcio no presente dicha documentación, la PROPUESTA se tendrá por no recibida y se asentará en el Acta correspondiente.",
+          "document_page_id": "07ec54da-f948-4fa8-bb2b-c04e11a10dec",
+          "normalized_content_id": "b1f75d77-003a-4833-b9a1-057e5a8b66b3"
+        }
+      ]
+    },
+    {
+      "id": "5149e387-cc3e-4395-a24e-dc3a282a375b",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "3c91aabbb07cc6e99c5a4e9fdfa400fc46c94d5f9c8e90383a0e9c37d6df1dbf",
+      "requirement_text": "Propuesta Comercial El PARTICIPANTE deberá integrar su propuesta con los documentos solicitados en el apartado D-1 Requisitos y criterios de evaluación comercial (aspecto legal/administrativo) en archivos debidamente identificados (formato .pdf y/o .zip).",
+      "actor_text": "Propuesta",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 16,
+      "source_excerpt": "Propuesta Comercial El PARTICIPANTE deberá integrar su propuesta con los documentos solicitados en el apartado D-1 Requisitos y criterios de evaluación comercial (aspecto legal/administrativo) en archivos debidamente identificados (formato .pdf y/o .zip).",
+      "document_page_id": "32ee4d45-0f1d-4d2a-ae45-8fb60048c6bf",
+      "normalized_content_id": "a294fa95-eff6-488f-8e4a-91c55e2842be",
+      "created_at": "2026-08-28T16:40:29.357070-06:00",
+      "updated_at": "2026-08-28T16:40:29.357071-06:00",
+      "evidence": [
+        {
+          "id": "dc85fe44-8f4a-4ac6-9935-51f248799170",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 16,
+          "source_excerpt": "Propuesta Comercial El PARTICIPANTE deberá integrar su propuesta con los documentos solicitados en el apartado D-1 Requisitos y criterios de evaluación comercial (aspecto legal/administrativo) en archivos debidamente identificados (formato .pdf y/o .zip).",
+          "document_page_id": "32ee4d45-0f1d-4d2a-ae45-8fb60048c6bf",
+          "normalized_content_id": "a294fa95-eff6-488f-8e4a-91c55e2842be"
+        }
+      ]
+    },
+    {
+      "id": "1da77dc0-c51b-4187-8691-dac0df0fa152",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "eb6e3d253a6a2dbb514307caff7883a2d1ca4375d563461524f86ceb9ea28128",
+      "requirement_text": "Propuesta Económica El PARTICIPANTE deberá integrar su propuesta con los documentos solicitados en el apartado D-4 Requisitos y criterios de evaluación económica en archivos debidamente identificados (formato pdf y/o .zip).",
+      "actor_text": "Propuesta",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 16,
+      "source_excerpt": "Propuesta Económica El PARTICIPANTE deberá integrar su propuesta con los documentos solicitados en el apartado D-4 Requisitos y criterios de evaluación económica en archivos debidamente identificados (formato pdf y/o .zip).",
+      "document_page_id": "32ee4d45-0f1d-4d2a-ae45-8fb60048c6bf",
+      "normalized_content_id": "a294fa95-eff6-488f-8e4a-91c55e2842be",
+      "created_at": "2026-08-28T16:40:29.358067-06:00",
+      "updated_at": "2026-08-28T16:40:29.358068-06:00",
+      "evidence": [
+        {
+          "id": "43413346-0cca-4386-83cc-87715042275a",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 16,
+          "source_excerpt": "Propuesta Económica El PARTICIPANTE deberá integrar su propuesta con los documentos solicitados en el apartado D-4 Requisitos y criterios de evaluación económica en archivos debidamente identificados (formato pdf y/o .zip).",
+          "document_page_id": "32ee4d45-0f1d-4d2a-ae45-8fb60048c6bf",
+          "normalized_content_id": "a294fa95-eff6-488f-8e4a-91c55e2842be"
+        }
+      ]
+    },
+    {
+      "id": "2b7ee53f-b2d9-495e-81ea-f83c2fca5ead",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "34b24f65f65e4a3762a42cf065f2ba90cf5a35505bf210a03f0e6b5ff30df8a8",
+      "requirement_text": "Propuesta Técnica El PARTICIPANTE deberá integrar su propuesta con los documentos solicitados en el apartado D-3 Requisitos y criterios de evaluación técnica en archivos debidamente identificados (formato .pdf y/o .zip).",
+      "actor_text": "Propuesta",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 16,
+      "source_excerpt": "Propuesta Técnica El PARTICIPANTE deberá integrar su propuesta con los documentos solicitados en el apartado D-3 Requisitos y criterios de evaluación técnica en archivos debidamente identificados (formato .pdf y/o .zip).",
+      "document_page_id": "32ee4d45-0f1d-4d2a-ae45-8fb60048c6bf",
+      "normalized_content_id": "a294fa95-eff6-488f-8e4a-91c55e2842be",
+      "created_at": "2026-08-28T16:40:29.359073-06:00",
+      "updated_at": "2026-08-28T16:40:29.359073-06:00",
+      "evidence": [
+        {
+          "id": "2e58c690-8bb9-4a99-a496-fdfa59696a15",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 16,
+          "source_excerpt": "Propuesta Técnica El PARTICIPANTE deberá integrar su propuesta con los documentos solicitados en el apartado D-3 Requisitos y criterios de evaluación técnica en archivos debidamente identificados (formato .pdf y/o .zip).",
+          "document_page_id": "32ee4d45-0f1d-4d2a-ae45-8fb60048c6bf",
+          "normalized_content_id": "a294fa95-eff6-488f-8e4a-91c55e2842be"
+        }
+      ]
+    },
+    {
+      "id": "5fa94b76-f52a-44f0-b3e6-ff42ceb520b4",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "59b766df69f3ef293f83ef8e6f0f4bd8b345a43920f6fe0a6c1259d08fe4e828",
+      "requirement_text": "Como parte de la Propuesta Económica a la baja, el PARTICIPANTE deberá manifestar que la misma no implica modificación alguna en la parte comercial y técnica, conservándose los mismos términos y condiciones de su PROPUESTA original.",
+      "actor_text": "la Propuesta",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 19,
+      "source_excerpt": "Como parte de la Propuesta Económica a la baja, el PARTICIPANTE deberá manifestar que la misma no implica modificación alguna en la parte comercial y técnica, conservándose los mismos términos y condiciones de su PROPUESTA original.",
+      "document_page_id": "46e6611b-6994-4353-bb8f-7a56647e3615",
+      "normalized_content_id": "c4ebdd27-6214-45d6-bf2e-42fd91174047",
+      "created_at": "2026-08-28T16:40:29.360040-06:00",
+      "updated_at": "2026-08-28T16:40:29.360041-06:00",
+      "evidence": [
+        {
+          "id": "3cb2e078-6b3f-45ed-ad79-c84d2953bf2e",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 19,
+          "source_excerpt": "Como parte de la Propuesta Económica a la baja, el PARTICIPANTE deberá manifestar que la misma no implica modificación alguna en la parte comercial y técnica, conservándose los mismos términos y condiciones de su PROPUESTA original.",
+          "document_page_id": "46e6611b-6994-4353-bb8f-7a56647e3615",
+          "normalized_content_id": "c4ebdd27-6214-45d6-bf2e-42fd91174047"
+        }
+      ]
+    },
+    {
+      "id": "b9e74677-f3e0-43ed-920d-ace327c83cd2",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "84dd670ad578e612a92f0bb839cb6efef07dd8c8ec90f2accfb3d37e0dbb3c79",
+      "requirement_text": "Los precios unitarios ofertados en su Propuesta Económica a la baja no podrán ser mayores a los originalmente presentados, en su caso:",
+      "actor_text": "Propuesta",
+      "modality_text": "no podrán",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 19,
+      "source_excerpt": "Los precios unitarios ofertados en su Propuesta Económica a la baja no podrán ser mayores a los originalmente presentados, en su caso:",
+      "document_page_id": "46e6611b-6994-4353-bb8f-7a56647e3615",
+      "normalized_content_id": "c4ebdd27-6214-45d6-bf2e-42fd91174047",
+      "created_at": "2026-08-28T16:40:29.362484-06:00",
+      "updated_at": "2026-08-28T16:40:29.362486-06:00",
+      "evidence": [
+        {
+          "id": "5166bfe9-fcbe-41af-b659-8ec6d49431ea",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 19,
+          "source_excerpt": "Los precios unitarios ofertados en su Propuesta Económica a la baja no podrán ser mayores a los originalmente presentados, en su caso:",
+          "document_page_id": "46e6611b-6994-4353-bb8f-7a56647e3615",
+          "normalized_content_id": "c4ebdd27-6214-45d6-bf2e-42fd91174047"
+        }
+      ]
+    },
+    {
+      "id": "13388f0a-92af-4356-a9c8-f24a606b1013",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "e3d7d381ca629b3cf9b3c2b3a53cf2d80e5740e8fc2aefc7d573b4638e9c890b",
+      "requirement_text": "No obstante, los PARTICIPANTES deberán integrar en su PROPUESTA el porcentaje ofertado.",
+      "actor_text": "PROPUESTA",
+      "modality_text": "deberán",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 20,
+      "source_excerpt": "No obstante, los PARTICIPANTES deberán integrar en su PROPUESTA el porcentaje ofertado.",
+      "document_page_id": "06504bc8-0439-4560-bfad-49f2d1bdcc8c",
+      "normalized_content_id": "966a0255-4e5b-4607-a0f6-2dd799210e21",
+      "created_at": "2026-08-28T16:40:29.363745-06:00",
+      "updated_at": "2026-08-28T16:40:29.363746-06:00",
+      "evidence": [
+        {
+          "id": "aa85317c-ce18-459f-92ae-641552a6fd2e",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 20,
+          "source_excerpt": "No obstante, los PARTICIPANTES deberán integrar en su PROPUESTA el porcentaje ofertado.",
+          "document_page_id": "06504bc8-0439-4560-bfad-49f2d1bdcc8c",
+          "normalized_content_id": "966a0255-4e5b-4607-a0f6-2dd799210e21"
+        }
+      ]
+    },
+    {
+      "id": "96c09b0e-e8a1-41d5-81f7-e057408b2b48",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "10525d6ea5d009ebce3ce8f40732ef07bf13e800e83a113424df9e2e89102f54",
+      "requirement_text": "El(los) representante(s) legal(es) del PARTICIPANTE ADJUDICADO deberá(n) de contar con la e.firma vigente que emite el SAT (Sistema Administración Tributaria), así como haber creado como usuario de contacto de empresa para eventos electrónicos en el SISCEP en la liga siguiente: (https://www.pemex.com/procura/relacion- con-proveedores/Paginas/creacion-usuarios-siscep.aspx).",
+      "actor_text": "PARTICIPANTE",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 22,
+      "source_excerpt": "El(los) representante(s) legal(es) del PARTICIPANTE ADJUDICADO deberá(n) de contar con la e.firma vigente que emite el SAT (Sistema Administración Tributaria), así como haber creado como usuario de contacto de empresa para eventos electrónicos en el SISCEP en la liga siguiente: (https://www.pemex.com/procura/relacion- con-proveedores/Paginas/creacion-usuarios-siscep.aspx).",
+      "document_page_id": "d5f5c6c4-a6a0-412a-a0c3-ae09ff071b5d",
+      "normalized_content_id": "04152fb5-7453-4ff8-bf2d-06e61e7ca9af",
+      "created_at": "2026-08-28T16:40:29.366133-06:00",
+      "updated_at": "2026-08-28T16:40:29.366134-06:00",
+      "evidence": [
+        {
+          "id": "977b2856-8718-4ddd-b7de-e0a2848568a7",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 22,
+          "source_excerpt": "El(los) representante(s) legal(es) del PARTICIPANTE ADJUDICADO deberá(n) de contar con la e.firma vigente que emite el SAT (Sistema Administración Tributaria), así como haber creado como usuario de contacto de empresa para eventos electrónicos en el SISCEP en la liga siguiente: (https://www.pemex.com/procura/relacion- con-proveedores/Paginas/creacion-usuarios-siscep.aspx).",
+          "document_page_id": "d5f5c6c4-a6a0-412a-a0c3-ae09ff071b5d",
+          "normalized_content_id": "04152fb5-7453-4ff8-bf2d-06e61e7ca9af"
+        }
+      ]
+    },
+    {
+      "id": "a9562299-bfc6-404b-9471-cbf20d7e9b8f",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "7a1158d79d21790fabe07a54a0475408d9b8d7fdeae087a2548a8ebb1354a778",
+      "requirement_text": "Cuando el Contrato no se formalice por una causa imputable al PARTICIPANTE ADJUDICADO, la SOCIEDAD incluirá al mismo en la Base de Proveedores y Contratistas con incumplimientos, a fin de evitar considerarlos en futuros Procedimientos de Contratación.",
+      "actor_text": "PARTICIPANTE",
+      "modality_text": "incluirá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 23,
+      "source_excerpt": "Cuando el Contrato no se formalice por una causa imputable al PARTICIPANTE ADJUDICADO, la SOCIEDAD incluirá al mismo en la Base de Proveedores y Contratistas con incumplimientos, a fin de evitar considerarlos en futuros Procedimientos de Contratación.",
+      "document_page_id": "ee6abb7c-5d5c-4fef-8fc7-e15164cb9851",
+      "normalized_content_id": "f90b0184-536c-4eec-b68b-4eefa29619fa",
+      "created_at": "2026-08-28T16:40:29.367640-06:00",
+      "updated_at": "2026-08-28T16:41:17.860929-06:00",
+      "evidence": [
+        {
+          "id": "9da621c1-df26-4eff-a13f-b4e0c26ce92f",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 23,
+          "source_excerpt": "Cuando el Contrato no se formalice por una causa imputable al PARTICIPANTE ADJUDICADO, la SOCIEDAD incluirá al mismo en la Base de Proveedores y Contratistas con incumplimientos, a fin de evitar considerarlos en futuros Procedimientos de Contratación.",
+          "document_page_id": "ee6abb7c-5d5c-4fef-8fc7-e15164cb9851",
+          "normalized_content_id": "f90b0184-536c-4eec-b68b-4eefa29619fa"
+        }
+      ]
+    },
+    {
+      "id": "6b48f942-0cac-418e-945e-090369d5af7e",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "d64d4537705ab89e5a4e40ef370c33895183b8234d147f3c4b6c52c02eba214e",
+      "requirement_text": "El PARTICIPANTE ADJUDICADO, deberá entregar dentro de los 3 DÍAS HÁBILES posteriores a la fecha de notificación del Fallo del PROCEDIMIENTO DE CONTRATACIÓN e invariablemente previo a la fecha de formalización del Contrato, la documentación que se indica en la SECCIÓN X Documento DI-1 de la Versión Final de las Bases de Contratación.",
+      "actor_text": "El PARTICIPANTE",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 23,
+      "source_excerpt": "El PARTICIPANTE ADJUDICADO, deberá entregar dentro de los 3 DÍAS HÁBILES posteriores a la fecha de notificación del Fallo del PROCEDIMIENTO DE CONTRATACIÓN e invariablemente previo a la fecha de formalización del Contrato, la documentación que se indica en la SECCIÓN X Documento DI-1 de la Versión Final de las Bases de Contratación.",
+      "document_page_id": "ee6abb7c-5d5c-4fef-8fc7-e15164cb9851",
+      "normalized_content_id": "f90b0184-536c-4eec-b68b-4eefa29619fa",
+      "created_at": "2026-08-28T16:40:29.369032-06:00",
+      "updated_at": "2026-08-28T16:40:29.369033-06:00",
+      "evidence": [
+        {
+          "id": "c48a6578-fe95-4376-a55a-77738f27395c",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 23,
+          "source_excerpt": "El PARTICIPANTE ADJUDICADO, deberá entregar dentro de los 3 DÍAS HÁBILES posteriores a la fecha de notificación del Fallo del PROCEDIMIENTO DE CONTRATACIÓN e invariablemente previo a la fecha de formalización del Contrato, la documentación que se indica en la SECCIÓN X Documento DI-1 de la Versión Final de las Bases de Contratación.",
+          "document_page_id": "ee6abb7c-5d5c-4fef-8fc7-e15164cb9851",
+          "normalized_content_id": "f90b0184-536c-4eec-b68b-4eefa29619fa"
+        }
+      ]
+    },
+    {
+      "id": "007737e1-3503-4061-b248-03323c3df586",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "semantic_key": "f4145fcfcb28091d58e432d2932b187e12c85a84cfa820e3eb3034bcd332877a",
+      "requirement_text": "En el caso de que un consorcio constituya una sociedad de propósito específico para la celebración y ejecución del Contrato, éste deberá ser suscrito por dicha sociedad, en su carácter de Proveedor, y por los integrantes del consorcio como obligados solidarios.",
+      "actor_text": "consorcio",
+      "modality_text": "deberá",
+      "review_status": "SUGGESTED",
+      "detection_origin": "DETERMINISTIC",
+      "detector_version": "mvp-04.2",
+      "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+      "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+      "source_page": 23,
+      "source_excerpt": "En el caso de que un consorcio constituya una sociedad de propósito específico para la celebración y ejecución del Contrato, éste deberá ser suscrito por dicha sociedad, en su carácter de Proveedor, y por los integrantes del consorcio como obligados solidarios.",
+      "document_page_id": "ee6abb7c-5d5c-4fef-8fc7-e15164cb9851",
+      "normalized_content_id": "f90b0184-536c-4eec-b68b-4eefa29619fa",
+      "created_at": "2026-08-28T16:40:29.370480-06:00",
+      "updated_at": "2026-08-28T16:40:29.370481-06:00",
+      "evidence": [
+        {
+          "id": "de47380a-2b67-4365-beff-531ba736bcaf",
+          "source_document_id": "f25aecd6-bdcf-4006-a9be-3c5cafeed2e3",
+          "source_filename": "2. Bases - SNR-CAD-265-CAD-S-2026.pdf",
+          "source_page": 23,
+          "source_excerpt": "En el caso de que un consorcio constituya una sociedad de propósito específico para la celebración y ejecución del Contrato, éste deberá ser suscrito por dicha sociedad, en su carácter de Proveedor, y por los integrantes del consorcio como obligados solidarios.",
+          "document_page_id": "ee6abb7c-5d5c-4fef-8fc7-e15164cb9851",
+          "normalized_content_id": "f90b0184-536c-4eec-b68b-4eefa29619fa"
+        }
+      ]
+    }
+  ]
+}

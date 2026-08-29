@@ -654,6 +654,54 @@ type TenderEvaluation = {
   criteria: EvaluationCriterion[];
 };
 
+type RequirementCandidateEvidence = {
+  id: string;
+  source_document_id: string;
+  source_filename: string | null;
+  source_page: number | null;
+  source_excerpt: string;
+  document_page_id: string | null;
+  normalized_content_id: string | null;
+};
+
+type RequirementCandidate = {
+  id: string;
+  tender_id: string;
+  semantic_key: string;
+  requirement_text: string;
+  actor_text: string | null;
+  modality_text: string | null;
+  review_status: string;
+  detection_origin: string;
+  detector_version: string;
+  source_document_id: string;
+  source_filename: string | null;
+  source_page: number | null;
+  source_excerpt: string;
+  document_page_id: string | null;
+  normalized_content_id: string | null;
+  created_at: string;
+  updated_at: string;
+  evidence: RequirementCandidateEvidence[];
+};
+
+type TenderRequirementCandidates = {
+  tender_id: string;
+  requirements_version: string;
+  generated_at: string;
+  summary: {
+    total: number;
+    suggested: number;
+    confirmed: number;
+    rejected: number;
+    documents_with_candidates: number;
+    pages_with_candidates: number;
+    explicit_actor_count: number;
+    by_modality: Record<string, number>;
+  };
+  candidates: RequirementCandidate[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -698,6 +746,8 @@ function App() {
   const [stateSnapshotLoading, setStateSnapshotLoading] = useState(false);
   const [evaluation, setEvaluation] = useState<TenderEvaluation | null>(null);
   const [evaluationLoading, setEvaluationLoading] = useState(false);
+  const [requirementCandidates, setRequirementCandidates] = useState<TenderRequirementCandidates | null>(null);
+  const [requirementCandidatesLoading, setRequirementCandidatesLoading] = useState(false);
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
   const [editEventType, setEditEventType] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -821,6 +871,7 @@ function App() {
       setEffectiveState(null);
       setStateSnapshot(null);
       setEvaluation(null);
+      setRequirementCandidates(null);
       return;
     }
 
@@ -834,6 +885,7 @@ function App() {
     void loadEffectiveState(selectedTenderId);
     void loadTenderStateSnapshot(selectedTenderId);
     void loadTenderEvaluation(selectedTenderId);
+    void loadTenderRequirementCandidates(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -1201,6 +1253,18 @@ function App() {
     }
   };
 
+  const loadTenderRequirementCandidates = async (tenderId: string) => {
+    setRequirementCandidatesLoading(true);
+    try {
+      const response = await axios.get<TenderRequirementCandidates>(`${API_URL}/tenders/${tenderId}/requirement-candidates`);
+      setRequirementCandidates(response.data);
+    } catch (err) {
+      setRequirementCandidates(null);
+    } finally {
+      setRequirementCandidatesLoading(false);
+    }
+  };
+
   const handleAnalyzeEvaluation = async () => {
     if (!selectedTenderId) {
       return;
@@ -1214,6 +1278,22 @@ function App() {
       setError("No se pudo analizar el modelo de evaluacion.");
     } finally {
       setEvaluationLoading(false);
+    }
+  };
+
+  const handleAnalyzeRequirements = async () => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    setRequirementCandidatesLoading(true);
+    try {
+      const response = await axios.post<TenderRequirementCandidates>(`${API_URL}/tenders/${selectedTenderId}/analyze-requirements`);
+      setRequirementCandidates(response.data);
+    } catch (err) {
+      setError("No se pudieron extraer los requisitos detectados.");
+    } finally {
+      setRequirementCandidatesLoading(false);
     }
   };
 
@@ -2224,6 +2304,61 @@ function App() {
                       ))}
                     </tbody>
                   </table>
+                </div>
+              </>
+            )}
+          </div>
+
+          <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#f8fafc" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <h3 style={{ margin: 0 }}>Requisitos detectados</h3>
+              <button type="button" onClick={() => void handleAnalyzeRequirements()} style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                {requirementCandidatesLoading ? "Analizando..." : "Extraer requisitos"}
+              </button>
+            </div>
+
+            {requirementCandidatesLoading && <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>Extrayendo candidatos verificables desde contenido normalizado...</div>}
+            {!requirementCandidatesLoading && !requirementCandidates && <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>Sin analisis de requisitos disponible.</div>}
+
+            {requirementCandidates && (
+              <>
+                <div style={{ marginTop: 8, fontSize: 13, color: "#334155" }}>
+                  Candidatos: <strong>{requirementCandidates.summary.total}</strong> • Documentos {requirementCandidates.summary.documents_with_candidates} • Páginas {requirementCandidates.summary.pages_with_candidates} • Actor explícito {requirementCandidates.summary.explicit_actor_count}
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                  Sugeridos {requirementCandidates.summary.suggested} • Confirmados {requirementCandidates.summary.confirmed} • Rechazados {requirementCandidates.summary.rejected} • Motor {requirementCandidates.requirements_version}
+                </div>
+
+                {Object.keys(requirementCandidates.summary.by_modality).length > 0 && (
+                  <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
+                    Modalidades: {Object.entries(requirementCandidates.summary.by_modality)
+                      .map(([modality, count]) => `${modality} (${count})`)
+                      .join(" • ")}
+                  </div>
+                )}
+
+                <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
+                  {requirementCandidates.candidates.map((candidate) => (
+                    <div key={candidate.id} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: 10, background: "#fff" }}>
+                      <div style={{ fontSize: 12, color: "#52607a" }}>
+                        {candidate.source_filename ?? candidate.source_document_id} p{candidate.source_page ?? "-"} • {candidate.review_status} • {candidate.detection_origin}
+                      </div>
+                      <div style={{ marginTop: 6, fontSize: 14, color: "#0f172a" }}>{candidate.requirement_text}</div>
+                      <div style={{ marginTop: 6, fontSize: 12, color: "#334155" }}>
+                        Actor: <strong>{candidate.actor_text ?? "-"}</strong> • Modalidad: <strong>{candidate.modality_text ?? "-"}</strong>
+                      </div>
+                      <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                        Evidencia: {candidate.evidence.length}
+                      </div>
+                      <div style={{ display: "grid", gap: 6, marginTop: 6 }}>
+                        {candidate.evidence.slice(0, 3).map((evidence) => (
+                          <div key={evidence.id} style={{ fontSize: 12, color: "#334155" }}>
+                            {evidence.source_filename ?? evidence.source_document_id} p{evidence.source_page ?? "-"} • {evidence.source_excerpt}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </>
             )}

@@ -44,6 +44,7 @@ from app.tender_evaluation import (
     update_evaluation_criterion_human_decision,
     update_tender_evaluation_model_human_decision,
 )
+from app.requirement_extraction import analyze_tender_requirements, get_tender_requirement_candidates
 from app.models import (
     DocumentPage,
     DocumentPageRegion,
@@ -82,6 +83,7 @@ from app.schemas import (
     TenderEvaluationRead,
     TenderEvaluationModelDecisionWrite,
     EvaluationCriterionDecisionWrite,
+    TenderRequirementCandidatesRead,
 )
 
 settings = get_settings()
@@ -1225,6 +1227,38 @@ def get_tender_evaluation_endpoint(
 
     try:
         return get_tender_evaluation(db, tender_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.post("/tenders/{tender_id}/analyze-requirements", response_model=TenderRequirementCandidatesRead)
+def analyze_tender_requirements_endpoint(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        payload = analyze_tender_requirements(db, tender_id)
+        db.commit()
+        return payload
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/tenders/{tender_id}/requirement-candidates", response_model=TenderRequirementCandidatesRead)
+def get_tender_requirement_candidates_endpoint(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        return get_tender_requirement_candidates(db, tender_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
