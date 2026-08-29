@@ -1192,6 +1192,60 @@ class TenderRequirementEffectiveStateRead(BaseModel):
     version_links: list[RequirementVersionLinkRead] = Field(default_factory=list)
 
 
+class RequirementMatrixItemRead(BaseModel):
+    requirement_id: str
+    canonical_text: str
+    category: str
+    normalization_status: str
+    source_occurrence_count: int
+    primary_source: RequirementSourceOccurrenceRead | None = None
+    applicability: str
+    condition_text: str | None = None
+    interpretation_status: str
+    interpretation_reason: str | None = None
+    evidence_mode: str
+    expected_evidence: list[RequirementEvidenceExpectationRead] = Field(default_factory=list)
+    effective_status: str
+    effective_source_document_id: str | None = None
+    effective_source_filename: str | None = None
+    effective_reasons: list[str] = Field(default_factory=list)
+    system_warnings: list[str] = Field(default_factory=list)
+    representation_fingerprint: str
+    review_status: str
+    review_note: str | None = None
+    reviewed_fingerprint: str | None = None
+    review_freshness: str
+    reviewed_at: datetime | None = None
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
+
+
+class RequirementMatrixSummaryRead(BaseModel):
+    total_requirements: int
+    effective_requirements: int
+    pending_review_count: int
+    approved_count: int
+    needs_review_count: int
+    rejected_count: int
+    current_review_count: int
+    stale_review_count: int
+    not_reviewed_count: int
+
+
+class TenderRequirementMatrixRead(BaseModel):
+    tender_id: str
+    matrix_version: str
+    generated_at: datetime
+    scope_note: str
+    summary: RequirementMatrixSummaryRead
+    requirements: list[RequirementMatrixItemRead] = Field(default_factory=list)
+
+
+class RequirementReviewWrite(BaseModel):
+    action: str = Field(..., min_length=1, max_length=64)
+    review_note: str | None = Field(default=None, max_length=2000)
+
+
 class EvaluationModelEvidenceRead(BaseModel):
     id: str
     source_document_id: str

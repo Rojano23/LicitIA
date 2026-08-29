@@ -183,91 +183,17 @@ def _candidate_owner_index(requirements: list[Requirement]) -> dict[str, str]:
     return owners
 
 
-def _serialize_version_link(link: RequirementVersionLink, requirement_index: dict[str, Requirement]) -> dict[str, Any]:
-    predecessor = requirement_index.get(link.predecessor_requirement_id) if link.predecessor_requirement_id else None
-    successor = requirement_index.get(link.successor_requirement_id) if link.successor_requirement_id else None
-    return {
-        "id": link.id,
-        "change_id": link.change_id,
-        "link_kind": link.link_kind,
-        "matching_basis": link.matching_basis,
-        "target_locator_text": link.target_locator_text,
-        "before_text": link.before_text,
-        "after_text": link.after_text,
-        "predecessor_requirement_id": link.predecessor_requirement_id,
-        "predecessor_canonical_text": predecessor.canonical_text if predecessor else None,
-        "successor_requirement_id": link.successor_requirement_id,
-        "successor_canonical_text": successor.canonical_text if successor else None,
-        "analyzer_version": link.analyzer_version,
-        "created_at": link.created_at,
-        "updated_at": link.updated_at,
-    }
-
-
-def _serialize_requirement_effective(
-    requirement: Requirement,
-    effective_status: str,
-    effective_source_document_id: str | None,
-    effective_source_filename: str | None,
-    evidence_reasons: list[str],
-) -> dict[str, Any]:
-    semantics = requirement.semantics
-    return {
-        "requirement_id": requirement.id,
-        "canonical_text": requirement.canonical_text,
-        "category": requirement.category,
-        "normalization_status": requirement.normalization_status,
-        "effective_status": effective_status,
-        "effective_source_document_id": effective_source_document_id,
-        "effective_source_filename": effective_source_filename,
-        "source_occurrence_count": len(requirement.candidate_links),
-        "primary_source": _serialize_primary_source(requirement),
-        "applicability": semantics.applicability if semantics is not None else "UNKNOWN",
-        "interpretation_status": semantics.interpretation_status if semantics is not None else "REVIEW_REQUIRED",
-        "evidence_mode": semantics.evidence_mode if semantics is not None else "REVIEW_REQUIRED",
-        "evidence_reasons": evidence_reasons,
-    }
-
-
-def analyze_tender_requirement_versions(db: Session, tender_id: str) -> dict[str, Any]:
-    tender = db.get(Tender, tender_id)
-    if tender is None:
-        raise ValueError("Tender not found")
-
-    requirements = db.execute(
-        select(Requirement)
-        .options(
-            selectinload(Requirement.candidate_links)
-            .selectinload(RequirementCandidateLink.candidate)
-            .selectinload(RequirementCandidate.source_document),
-            selectinload(Requirement.semantics)
-            .selectinload(RequirementSemantics.expected_evidence)
-            .selectinload(RequirementEvidenceExpectation.source_document),
-        )
-        .where(Requirement.tender_id == tender_id)
-        .order_by(Requirement.created_at.asc(), Requirement.id.asc())
-    ).scalars().all()
-
-    changes_by_id = {
-        row.id: row
-        for row in db.execute(
-            select(TenderChange).where(TenderChange.tender_id == tender_id)
-        ).scalars().all()
-    }
-
-    existing_links = db.execute(
-        select(RequirementVersionLink)
-        .where(RequirementVersionLink.tender_id == tender_id)
-        .order_by(RequirementVersionLink.created_at.asc(), RequirementVersionLink.id.asc())
-    ).scalars().all()
-
-    effective_state = get_tender_effective_state(db, tender_id)
+def _compute_versioning_matches(
+    *,
+    requirements: list[Requirement],
+    changes_by_id: dict[str, TenderChange],
+    scopes: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], dict[str, set[str]]]:
     candidate_owner = _candidate_owner_index(requirements)
-
     desired_links: list[dict[str, Any]] = []
     non_deterministic_reasons: dict[str, set[str]] = {req.id: set() for req in requirements}
 
-    for scope in effective_state["scopes"]:
+    for scope in scopes:
         effective_mutation = scope.get("effective_mutation")
         if not effective_mutation:
             continue
@@ -377,6 +303,94 @@ def analyze_tender_requirement_versions(db: Session, tender_id: str) -> dict[str
                     if req_id:
                         non_deterministic_reasons[req_id].add(reason_code)
 
+    return desired_links, non_deterministic_reasons
+
+
+def _serialize_version_link(link: RequirementVersionLink, requirement_index: dict[str, Requirement]) -> dict[str, Any]:
+    predecessor = requirement_index.get(link.predecessor_requirement_id) if link.predecessor_requirement_id else None
+    successor = requirement_index.get(link.successor_requirement_id) if link.successor_requirement_id else None
+    return {
+        "id": link.id,
+        "change_id": link.change_id,
+        "link_kind": link.link_kind,
+        "matching_basis": link.matching_basis,
+        "target_locator_text": link.target_locator_text,
+        "before_text": link.before_text,
+        "after_text": link.after_text,
+        "predecessor_requirement_id": link.predecessor_requirement_id,
+        "predecessor_canonical_text": predecessor.canonical_text if predecessor else None,
+        "successor_requirement_id": link.successor_requirement_id,
+        "successor_canonical_text": successor.canonical_text if successor else None,
+        "analyzer_version": link.analyzer_version,
+        "created_at": link.created_at,
+        "updated_at": link.updated_at,
+    }
+
+
+def _serialize_requirement_effective(
+    requirement: Requirement,
+    effective_status: str,
+    effective_source_document_id: str | None,
+    effective_source_filename: str | None,
+    evidence_reasons: list[str],
+) -> dict[str, Any]:
+    semantics = requirement.semantics
+    return {
+        "requirement_id": requirement.id,
+        "canonical_text": requirement.canonical_text,
+        "category": requirement.category,
+        "normalization_status": requirement.normalization_status,
+        "effective_status": effective_status,
+        "effective_source_document_id": effective_source_document_id,
+        "effective_source_filename": effective_source_filename,
+        "source_occurrence_count": len(requirement.candidate_links),
+        "primary_source": _serialize_primary_source(requirement),
+        "applicability": semantics.applicability if semantics is not None else "UNKNOWN",
+        "interpretation_status": semantics.interpretation_status if semantics is not None else "REVIEW_REQUIRED",
+        "evidence_mode": semantics.evidence_mode if semantics is not None else "REVIEW_REQUIRED",
+        "evidence_reasons": evidence_reasons,
+    }
+
+
+def analyze_tender_requirement_versions(db: Session, tender_id: str) -> dict[str, Any]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise ValueError("Tender not found")
+
+    requirements = db.execute(
+        select(Requirement)
+        .options(
+            selectinload(Requirement.candidate_links)
+            .selectinload(RequirementCandidateLink.candidate)
+            .selectinload(RequirementCandidate.source_document),
+            selectinload(Requirement.semantics)
+            .selectinload(RequirementSemantics.expected_evidence)
+            .selectinload(RequirementEvidenceExpectation.source_document),
+        )
+        .where(Requirement.tender_id == tender_id)
+        .order_by(Requirement.created_at.asc(), Requirement.id.asc())
+    ).scalars().all()
+
+    changes_by_id = {
+        row.id: row
+        for row in db.execute(
+            select(TenderChange).where(TenderChange.tender_id == tender_id)
+        ).scalars().all()
+    }
+
+    existing_links = db.execute(
+        select(RequirementVersionLink)
+        .where(RequirementVersionLink.tender_id == tender_id)
+        .order_by(RequirementVersionLink.created_at.asc(), RequirementVersionLink.id.asc())
+    ).scalars().all()
+
+    effective_state = get_tender_effective_state(db, tender_id)
+    desired_links, non_deterministic_reasons = _compute_versioning_matches(
+        requirements=requirements,
+        changes_by_id=changes_by_id,
+        scopes=effective_state["scopes"],
+    )
+
     desired_signature = {
         (
             item["change_id"],
@@ -483,7 +497,12 @@ def get_tender_requirement_effective_state(
             successor_source_by_req[link.successor_requirement_id] = (change.source_document_id, doc_name)
 
     if non_deterministic_reasons is None:
-        non_deterministic_reasons = {req.id: set() for req in requirements}
+        effective_state = get_tender_effective_state(db, tender_id)
+        _desired_links, non_deterministic_reasons = _compute_versioning_matches(
+            requirements=requirements,
+            changes_by_id=change_by_id,
+            scopes=effective_state["scopes"],
+        )
 
     effective_requirements: list[dict[str, Any]] = []
 

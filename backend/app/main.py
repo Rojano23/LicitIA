@@ -48,6 +48,7 @@ from app.requirement_extraction import analyze_tender_requirements, get_tender_r
 from app.requirement_normalization import get_tender_requirements, normalize_tender_requirements
 from app.requirement_semantics import analyze_tender_requirement_semantics, get_tender_requirement_semantics
 from app.requirement_versioning import analyze_tender_requirement_versions, get_tender_requirement_effective_state
+from app.requirement_matrix import get_tender_requirement_matrix, update_requirement_review
 from app.models import (
     DocumentPage,
     DocumentPageRegion,
@@ -90,6 +91,8 @@ from app.schemas import (
     TenderRequirementsRead,
     TenderRequirementSemanticsRead,
     TenderRequirementEffectiveStateRead,
+    TenderRequirementMatrixRead,
+    RequirementReviewWrite,
 )
 
 settings = get_settings()
@@ -1361,6 +1364,48 @@ def get_tender_requirement_effective_state_endpoint(
 
     try:
         return get_tender_requirement_effective_state(db, tender_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/tenders/{tender_id}/requirement-matrix", response_model=TenderRequirementMatrixRead)
+def get_tender_requirement_matrix_endpoint(
+    tender_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        return get_tender_requirement_matrix(db, tender_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.patch("/tenders/{tender_id}/requirements/{requirement_id}/review", response_model=TenderRequirementMatrixRead)
+def update_requirement_review_endpoint(
+    tender_id: str,
+    requirement_id: str,
+    payload: RequirementReviewWrite,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        response = update_requirement_review(
+            db,
+            tender_id=tender_id,
+            requirement_id=requirement_id,
+            action=payload.action,
+            review_note=payload.review_note,
+        )
+        db.commit()
+        return response
+    except LookupError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 

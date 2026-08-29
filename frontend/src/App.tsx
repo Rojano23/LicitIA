@@ -854,6 +854,53 @@ type TenderRequirementEffectiveState = {
   version_links: RequirementVersionLink[];
 };
 
+type RequirementMatrixItem = {
+  requirement_id: string;
+  canonical_text: string;
+  category: string;
+  normalization_status: string;
+  source_occurrence_count: number;
+  primary_source: RequirementSourceOccurrence | null;
+  applicability: string;
+  condition_text: string | null;
+  interpretation_status: string;
+  interpretation_reason: string | null;
+  evidence_mode: string;
+  expected_evidence: RequirementEvidenceExpectation[];
+  effective_status: string;
+  effective_source_document_id: string | null;
+  effective_source_filename: string | null;
+  effective_reasons: string[];
+  system_warnings: string[];
+  representation_fingerprint: string;
+  review_status: string;
+  review_note: string | null;
+  reviewed_fingerprint: string | null;
+  review_freshness: string;
+  reviewed_at: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+};
+
+type TenderRequirementMatrix = {
+  tender_id: string;
+  matrix_version: string;
+  generated_at: string;
+  scope_note: string;
+  summary: {
+    total_requirements: number;
+    effective_requirements: number;
+    pending_review_count: number;
+    approved_count: number;
+    needs_review_count: number;
+    rejected_count: number;
+    current_review_count: number;
+    stale_review_count: number;
+    not_reviewed_count: number;
+  };
+  requirements: RequirementMatrixItem[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -906,6 +953,8 @@ function App() {
   const [requirementSemanticsLoading, setRequirementSemanticsLoading] = useState(false);
   const [requirementEffectiveState, setRequirementEffectiveState] = useState<TenderRequirementEffectiveState | null>(null);
   const [requirementEffectiveStateLoading, setRequirementEffectiveStateLoading] = useState(false);
+  const [requirementMatrix, setRequirementMatrix] = useState<TenderRequirementMatrix | null>(null);
+  const [requirementMatrixLoading, setRequirementMatrixLoading] = useState(false);
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
   const [editEventType, setEditEventType] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -1033,6 +1082,7 @@ function App() {
       setRequirements(null);
       setRequirementSemantics(null);
       setRequirementEffectiveState(null);
+      setRequirementMatrix(null);
       return;
     }
 
@@ -1050,6 +1100,7 @@ function App() {
     void loadTenderRequirements(selectedTenderId);
     void loadTenderRequirementSemantics(selectedTenderId);
     void loadTenderRequirementEffectiveState(selectedTenderId);
+    void loadTenderRequirementMatrix(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -1465,6 +1516,18 @@ function App() {
     }
   };
 
+  const loadTenderRequirementMatrix = async (tenderId: string) => {
+    setRequirementMatrixLoading(true);
+    try {
+      const response = await axios.get<TenderRequirementMatrix>(`${API_URL}/tenders/${tenderId}/requirement-matrix`);
+      setRequirementMatrix(response.data);
+    } catch (err) {
+      setRequirementMatrix(null);
+    } finally {
+      setRequirementMatrixLoading(false);
+    }
+  };
+
   const handleAnalyzeEvaluation = async () => {
     if (!selectedTenderId) {
       return;
@@ -1506,6 +1569,7 @@ function App() {
     try {
       const response = await axios.post<TenderRequirements>(`${API_URL}/tenders/${selectedTenderId}/normalize-requirements`);
       setRequirements(response.data);
+      await loadTenderRequirementMatrix(selectedTenderId);
     } catch (err) {
       setError("No se pudieron normalizar los requisitos detectados.");
     } finally {
@@ -1522,6 +1586,7 @@ function App() {
     try {
       const response = await axios.post<TenderRequirementSemantics>(`${API_URL}/tenders/${selectedTenderId}/analyze-requirement-semantics`);
       setRequirementSemantics(response.data);
+      await loadTenderRequirementMatrix(selectedTenderId);
     } catch (err) {
       setError("No se pudo interpretar aplicabilidad y evidencia esperada de los requisitos.");
     } finally {
@@ -1538,10 +1603,99 @@ function App() {
     try {
       const response = await axios.post<TenderRequirementEffectiveState>(`${API_URL}/tenders/${selectedTenderId}/analyze-requirement-versions`);
       setRequirementEffectiveState(response.data);
+      await loadTenderRequirementMatrix(selectedTenderId);
     } catch (err) {
       setError("No se pudo analizar el versionado de requisitos.");
     } finally {
       setRequirementEffectiveStateLoading(false);
+    }
+  };
+
+  const requirementReviewStatusLabel = (value: string) => {
+    if (value === "PENDING") {
+      return "Pendiente";
+    }
+    if (value === "APPROVED") {
+      return "Validado";
+    }
+    if (value === "NEEDS_REVIEW") {
+      return "Revisar";
+    }
+    if (value === "REJECTED") {
+      return "Descartado como requisito";
+    }
+    return value;
+  };
+
+  const requirementReviewFreshnessLabel = (value: string) => {
+    if (value === "CURRENT") {
+      return "Vigente";
+    }
+    if (value === "STALE") {
+      return "Desactualizada";
+    }
+    if (value === "NOT_REVIEWED") {
+      return "Sin revisión";
+    }
+    return value;
+  };
+
+  const updateRequirementReview = async (requirementId: string, action: string, reviewNote: string | null = null) => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    try {
+      const payload: Record<string, string> = { action };
+      if (reviewNote !== null) {
+        payload.review_note = reviewNote;
+      }
+      const response = await axios.patch<TenderRequirementMatrix>(
+        `${API_URL}/tenders/${selectedTenderId}/requirements/${requirementId}/review`,
+        payload,
+      );
+      setRequirementMatrix(response.data);
+    } catch (err) {
+      setError("No se pudo guardar la revisión del requisito.");
+    }
+  };
+
+  const handleRequirementReviewAction = async (item: RequirementMatrixItem, action: "APPROVE" | "MARK_NEEDS_REVIEW" | "REJECT" | "RESET") => {
+    if (action === "REJECT") {
+      const note = window.prompt("Justificación para descartar como requisito", item.review_note ?? "");
+      if (note === null) {
+        return;
+      }
+      if (!note.trim()) {
+        setError("La nota es obligatoria para descartar un requisito.");
+        return;
+      }
+      await updateRequirementReview(item.requirement_id, action, note.trim());
+      return;
+    }
+
+    if (action === "MARK_NEEDS_REVIEW") {
+      const note = window.prompt("Nota de revisión (opcional)", item.review_note ?? "");
+      if (note === null) {
+        return;
+      }
+      await updateRequirementReview(item.requirement_id, action, note.trim() || null);
+      return;
+    }
+
+    await updateRequirementReview(item.requirement_id, action, null);
+  };
+
+  const openRequirementMatrixSource = async (item: RequirementMatrixItem) => {
+    if (!selectedTenderId || !item.primary_source?.source_document_id) {
+      return;
+    }
+    setSelectedDocumentId(item.primary_source.source_document_id);
+    await loadDocumentPages(selectedTenderId, item.primary_source.source_document_id);
+    await loadDocumentClassification(selectedTenderId, item.primary_source.source_document_id);
+    await loadDocumentReferences(selectedTenderId, item.primary_source.source_document_id);
+    if (item.primary_source.source_page !== null) {
+      setSelectedPageNumber(item.primary_source.source_page);
     }
   };
 
@@ -2868,6 +3022,96 @@ function App() {
                     </div>
                   </div>
                 )}
+
+                <div style={{ marginTop: 14, borderTop: "1px solid #e2e8f0", paddingTop: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                    <div style={{ fontSize: 14, color: "#0f172a", fontWeight: 700 }}>Matriz de requisitos</div>
+                    <button
+                      type="button"
+                      onClick={() => selectedTenderId && void loadTenderRequirementMatrix(selectedTenderId)}
+                      style={{ padding: "6px 10px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}
+                    >
+                      {requirementMatrixLoading ? "Actualizando..." : "Actualizar matriz"}
+                    </button>
+                  </div>
+
+                  {requirementMatrixLoading && <div style={{ marginTop: 6, fontSize: 12, color: "#52607a" }}>Consolidando revisión humana de requisitos...</div>}
+                  {!requirementMatrixLoading && !requirementMatrix && <div style={{ marginTop: 6, fontSize: 12, color: "#52607a" }}>Sin matriz de requisitos disponible.</div>}
+
+                  {requirementMatrix && (
+                    <>
+                      <div style={{ marginTop: 6, fontSize: 12, color: "#52607a" }}>{requirementMatrix.scope_note}</div>
+                      <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                        Total {requirementMatrix.summary.total_requirements} • Efectivos {requirementMatrix.summary.effective_requirements} • Pendientes {requirementMatrix.summary.pending_review_count} • Validados {requirementMatrix.summary.approved_count} • Revisar {requirementMatrix.summary.needs_review_count} • Descartados {requirementMatrix.summary.rejected_count}
+                      </div>
+                      <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                        Revisión vigente {requirementMatrix.summary.current_review_count} • Desactualizada {requirementMatrix.summary.stale_review_count} • Sin revisión {requirementMatrix.summary.not_reviewed_count}
+                      </div>
+
+                      <div style={{ marginTop: 8, overflowX: "auto" }}>
+                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                          <thead>
+                            <tr style={{ background: "#eef2f7" }}>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Requisito</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Representación automática</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Revisión humana</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {requirementMatrix.requirements.map((item) => (
+                              <tr key={item.requirement_id}>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                                  <div style={{ fontWeight: 700 }}>{item.canonical_text}</div>
+                                  <div style={{ marginTop: 3, color: "#52607a" }}>{item.category} • Fuentes {item.source_occurrence_count} • {requirementEffectiveStatusLabel(item.effective_status)}</div>
+                                  {item.primary_source && (
+                                    <div style={{ marginTop: 3, color: "#52607a" }}>
+                                      Fuente {item.primary_source.source_filename ?? item.primary_source.source_document_id} p{item.primary_source.source_page ?? "-"}
+                                    </div>
+                                  )}
+                                </td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                                  <div>{applicabilityLabel(item.applicability)} • {evidenceModeLabel(item.evidence_mode)} • {interpretationStatusLabel(item.interpretation_status)}</div>
+                                  {item.effective_source_filename && (
+                                    <div style={{ marginTop: 3, color: "#52607a" }}>Fuente vigente: {item.effective_source_filename}</div>
+                                  )}
+                                  {item.system_warnings.length > 0 && (
+                                    <div style={{ marginTop: 3, color: "#7a4b00" }}>Advertencias: {item.system_warnings.join(" • ")}</div>
+                                  )}
+                                </td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                                  <div><strong>{requirementReviewStatusLabel(item.review_status)}</strong></div>
+                                  <div style={{ marginTop: 3, color: "#52607a" }}>Estado revisión: {requirementReviewFreshnessLabel(item.review_freshness)}</div>
+                                  {item.review_note && <div style={{ marginTop: 3, color: "#52607a" }}>{item.review_note}</div>}
+                                  {item.reviewed_at && <div style={{ marginTop: 3, color: "#52607a" }}>Revisado: {new Date(item.reviewed_at).toLocaleString()}</div>}
+                                </td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                                    <button type="button" onClick={() => void handleRequirementReviewAction(item, "APPROVE")} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#0f766e", color: "#fff", fontWeight: 700 }}>
+                                      Validar
+                                    </button>
+                                    <button type="button" onClick={() => void handleRequirementReviewAction(item, "MARK_NEEDS_REVIEW")} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700 }}>
+                                      Revisar
+                                    </button>
+                                    <button type="button" onClick={() => void handleRequirementReviewAction(item, "REJECT")} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#b91c1c", color: "#fff", fontWeight: 700 }}>
+                                      Descartar como requisito
+                                    </button>
+                                    <button type="button" onClick={() => void handleRequirementReviewAction(item, "RESET")} style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                      Restablecer pendiente
+                                    </button>
+                                    <button type="button" onClick={() => void openRequirementMatrixSource(item)} style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                      Ver fuente
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  )}
+                </div>
               </>
             )}
           </div>

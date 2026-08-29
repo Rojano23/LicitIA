@@ -62,6 +62,7 @@ class Tender(Base):
     requirement_candidates: Mapped[list["RequirementCandidate"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
     requirements: Mapped[list["Requirement"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
     requirement_version_links: Mapped[list["RequirementVersionLink"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
+    requirement_reviews: Mapped[list["RequirementReview"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
 
 
 class TenderDocument(Base):
@@ -1229,6 +1230,51 @@ class Requirement(Base):
         back_populates="successor_requirement",
         foreign_keys="RequirementVersionLink.successor_requirement_id",
     )
+    review: Mapped["RequirementReview | None"] = relationship(back_populates="requirement", uselist=False, cascade="all, delete-orphan")
+
+
+class RequirementReview(Base):
+    __tablename__ = "requirement_reviews"
+
+    __table_args__ = (
+        UniqueConstraint("requirement_id", name="uq_requirement_reviews_requirement_id"),
+        Index("ix_requirement_reviews_tender_id", "tender_id"),
+        Index("ix_requirement_reviews_requirement_id", "requirement_id"),
+        Index("ix_requirement_reviews_review_status", "review_status"),
+        Index("ix_requirement_reviews_reviewed_at", "reviewed_at"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    requirement_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("requirements.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    review_status: Mapped[str] = mapped_column(String(32), nullable=False, default="PENDING")
+    review_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    reviewed_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship(back_populates="requirement_reviews")
+    requirement: Mapped[Requirement] = relationship(back_populates="review")
 
 
 class RequirementVersionLink(Base):

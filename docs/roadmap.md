@@ -206,7 +206,8 @@ El usuario puede ver qué documentos definen, complementan o modifican otros y q
 - MVP-04.2 (Requirement Extraction): CLOSED
 - MVP-04.3 (Requirement Normalization & Taxonomy): CLOSED
 - MVP-04.4 (Mandatory, Conditional & Expected Evidence): CLOSED
-- MVP-04.5 (Requirement Versioning & Effective Source): IN IMPLEMENTATION
+- MVP-04.5 (Requirement Versioning & Effective Source): CLOSED
+- MVP-04.6 (Human Review + Requirement Matrix): IN IMPLEMENTATION
 
 ### Objetivo
 
