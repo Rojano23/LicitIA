@@ -53,6 +53,13 @@ from app.tender_evaluation import (
     update_tender_evaluation_model_human_decision,
 )
 from app.requirement_extraction import analyze_tender_requirements, get_tender_requirement_candidates
+from app.evidence_matching import (
+    analyze_tender_company_evidence_matches,
+    create_manual_requirement_evidence_candidate_match,
+    get_requirement_evidence_match_candidates,
+    list_tender_company_evidence_match_candidates,
+    review_requirement_evidence_candidate_match,
+)
 from app.requirement_normalization import get_tender_requirements, normalize_tender_requirements
 from app.requirement_semantics import analyze_tender_requirement_semantics, get_tender_requirement_semantics
 from app.requirement_versioning import analyze_tender_requirement_versions, get_tender_requirement_effective_state
@@ -117,6 +124,9 @@ from app.schemas import (
     TenderRequirementEffectiveStateRead,
     TenderRequirementMatrixRead,
     RequirementReviewWrite,
+    TenderRequirementEvidenceCandidateMatchesRead,
+    RequirementEvidenceCandidateReviewWrite,
+    RequirementEvidenceCandidateManualWrite,
 )
 
 settings = get_settings()
@@ -2010,6 +2020,124 @@ def update_requirement_review_endpoint(
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.post(
+    "/tenders/{tender_id}/companies/{company_id}/analyze-evidence-matches",
+    response_model=TenderRequirementEvidenceCandidateMatchesRead,
+)
+def analyze_tender_company_evidence_matches_endpoint(
+    tender_id: str,
+    company_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    try:
+        payload = analyze_tender_company_evidence_matches(db, tender_id, company_id)
+        db.commit()
+        return payload
+    except HTTPException:
+        db.rollback()
+        raise
+
+
+@app.get(
+    "/tenders/{tender_id}/companies/{company_id}/evidence-match-candidates",
+    response_model=TenderRequirementEvidenceCandidateMatchesRead,
+)
+def list_tender_company_evidence_match_candidates_endpoint(
+    tender_id: str,
+    company_id: str,
+    requirement_id: str | None = None,
+    match_strength: str | None = None,
+    review_status: str | None = None,
+    evidence_type: str | None = None,
+    include_historical: bool = False,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    return list_tender_company_evidence_match_candidates(
+        db,
+        tender_id,
+        company_id,
+        requirement_id=requirement_id,
+        match_strength=match_strength,
+        review_status=review_status,
+        evidence_type=evidence_type,
+        include_historical=include_historical,
+    )
+
+
+@app.get(
+    "/tenders/{tender_id}/companies/{company_id}/requirements/{requirement_id}/evidence-match-candidates",
+    response_model=TenderRequirementEvidenceCandidateMatchesRead,
+)
+def get_requirement_evidence_match_candidates_endpoint(
+    tender_id: str,
+    company_id: str,
+    requirement_id: str,
+    include_historical: bool = False,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    return get_requirement_evidence_match_candidates(
+        db,
+        tender_id,
+        company_id,
+        requirement_id,
+        include_historical=include_historical,
+    )
+
+
+@app.patch(
+    "/tenders/{tender_id}/companies/{company_id}/evidence-match-candidates/{match_id}/review",
+    response_model=TenderRequirementEvidenceCandidateMatchesRead,
+)
+def review_requirement_evidence_candidate_match_endpoint(
+    tender_id: str,
+    company_id: str,
+    match_id: str,
+    payload: RequirementEvidenceCandidateReviewWrite,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    try:
+        response = review_requirement_evidence_candidate_match(
+            db,
+            tender_id,
+            company_id,
+            match_id,
+            review_status=payload.review_status,
+            review_note=payload.review_note,
+        )
+        db.commit()
+        return response
+    except HTTPException:
+        db.rollback()
+        raise
+
+
+@app.post(
+    "/tenders/{tender_id}/companies/{company_id}/requirements/{requirement_id}/evidence-match-candidates/manual",
+    response_model=TenderRequirementEvidenceCandidateMatchesRead,
+)
+def create_manual_requirement_evidence_candidate_match_endpoint(
+    tender_id: str,
+    company_id: str,
+    requirement_id: str,
+    payload: RequirementEvidenceCandidateManualWrite,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    try:
+        response = create_manual_requirement_evidence_candidate_match(
+            db,
+            tender_id,
+            company_id,
+            requirement_id,
+            company_evidence_id=payload.company_evidence_id,
+            rationale=payload.rationale,
+        )
+        db.commit()
+        return response
+    except HTTPException:
+        db.rollback()
+        raise
 
 
 @app.patch("/tenders/{tender_id}/evaluation", response_model=TenderEvaluationRead)

@@ -69,6 +69,24 @@ class CompanyEvidenceReviewStatus(str, Enum):
     REJECTED = "REJECTED"
 
 
+class RequirementEvidenceCandidateMatchStrength(str, Enum):
+    STRONG = "STRONG"
+    POSSIBLE = "POSSIBLE"
+    REVIEW_REQUIRED = "REVIEW_REQUIRED"
+
+
+class RequirementEvidenceCandidateMatchOrigin(str, Enum):
+    DETERMINISTIC = "DETERMINISTIC"
+    HUMAN = "HUMAN"
+
+
+class RequirementEvidenceCandidateReviewStatus(str, Enum):
+    PENDING = "PENDING"
+    CONFIRMED = "CONFIRMED"
+    NEEDS_REVIEW = "NEEDS_REVIEW"
+    REJECTED = "REJECTED"
+
+
 class TenderDocumentStatus(str, Enum):
     IMPORTED = "IMPORTED"
     DUPLICATE = "DUPLICATE"
@@ -112,6 +130,14 @@ class Company(Base):
     documents: Mapped[list["CompanyDocument"]] = relationship(back_populates="company", cascade="all, delete-orphan")
     evidence: Mapped[list["CompanyEvidence"]] = relationship(back_populates="company", cascade="all, delete-orphan")
     evidence_reviews: Mapped[list["CompanyEvidenceReview"]] = relationship(
+        back_populates="company",
+        cascade="all, delete-orphan",
+    )
+    evidence_match_candidates: Mapped[list["RequirementEvidenceCandidateMatch"]] = relationship(
+        back_populates="company",
+        cascade="all, delete-orphan",
+    )
+    evidence_match_reviews: Mapped[list["RequirementEvidenceCandidateReview"]] = relationship(
         back_populates="company",
         cascade="all, delete-orphan",
     )
@@ -234,6 +260,10 @@ class CompanyEvidence(Base):
         cascade="all, delete-orphan",
         uselist=False,
     )
+    candidate_matches: Mapped[list["RequirementEvidenceCandidateMatch"]] = relationship(
+        back_populates="company_evidence",
+        cascade="all, delete-orphan",
+    )
 
 
 class CompanyEvidenceReview(Base):
@@ -277,6 +307,138 @@ class CompanyEvidenceReview(Base):
     company_evidence: Mapped[CompanyEvidence] = relationship(back_populates="review")
 
 
+class RequirementEvidenceCandidateMatch(Base):
+    __tablename__ = "requirement_evidence_candidate_matches"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "tender_id",
+            "requirement_id",
+            "company_id",
+            "company_evidence_id",
+            "origin",
+            name="uq_requirement_evidence_candidate_match_pair_origin",
+        ),
+        Index("ix_req_ev_match_tender_id", "tender_id"),
+        Index("ix_req_ev_match_company_id", "company_id"),
+        Index("ix_req_ev_match_requirement_id", "requirement_id"),
+        Index("ix_req_ev_match_company_evidence_id", "company_evidence_id"),
+        Index("ix_req_ev_match_strength", "match_strength"),
+        Index("ix_req_ev_match_active", "is_active"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    requirement_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("requirements.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    company_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("companies.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    company_evidence_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("company_evidence.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    match_strength: Mapped[str] = mapped_column(String(32), nullable=False)
+    match_basis_json: Mapped[str] = mapped_column(Text, nullable=False, default="[]")
+    match_rationale: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    system_warnings_json: Mapped[str] = mapped_column(Text, nullable=False, default="[]")
+    origin: Mapped[str] = mapped_column(String(32), nullable=False)
+    matcher_version: Mapped[str] = mapped_column(String(64), nullable=False)
+    requirement_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    evidence_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    match_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped["Tender"] = relationship(back_populates="evidence_match_candidates")
+    requirement: Mapped["Requirement"] = relationship(back_populates="evidence_match_candidates")
+    company: Mapped[Company] = relationship(back_populates="evidence_match_candidates")
+    company_evidence: Mapped[CompanyEvidence] = relationship(back_populates="candidate_matches")
+    review: Mapped["RequirementEvidenceCandidateReview | None"] = relationship(
+        back_populates="match",
+        cascade="all, delete-orphan",
+        uselist=False,
+    )
+
+
+class RequirementEvidenceCandidateReview(Base):
+    __tablename__ = "requirement_evidence_candidate_reviews"
+
+    __table_args__ = (
+        UniqueConstraint("match_id", name="uq_requirement_evidence_candidate_review_match_id"),
+        Index("ix_req_ev_match_review_tender_id", "tender_id"),
+        Index("ix_req_ev_match_review_company_id", "company_id"),
+        Index("ix_req_ev_match_review_status", "review_status"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    match_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("requirement_evidence_candidate_matches.id", ondelete="CASCADE"),
+        nullable=False,
+        unique=True,
+    )
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    company_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("companies.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    review_status: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False,
+        default=RequirementEvidenceCandidateReviewStatus.PENDING.value,
+    )
+    review_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    reviewed_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    match: Mapped[RequirementEvidenceCandidateMatch] = relationship(back_populates="review")
+    tender: Mapped["Tender"] = relationship(back_populates="evidence_match_reviews")
+    company: Mapped[Company] = relationship(back_populates="evidence_match_reviews")
+
+
 class Tender(Base):
     __tablename__ = "tenders"
 
@@ -304,6 +466,14 @@ class Tender(Base):
     requirements: Mapped[list["Requirement"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
     requirement_version_links: Mapped[list["RequirementVersionLink"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
     requirement_reviews: Mapped[list["RequirementReview"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
+    evidence_match_candidates: Mapped[list["RequirementEvidenceCandidateMatch"]] = relationship(
+        back_populates="tender",
+        cascade="all, delete-orphan",
+    )
+    evidence_match_reviews: Mapped[list["RequirementEvidenceCandidateReview"]] = relationship(
+        back_populates="tender",
+        cascade="all, delete-orphan",
+    )
 
 
 class TenderDocument(Base):
@@ -1472,6 +1642,10 @@ class Requirement(Base):
         foreign_keys="RequirementVersionLink.successor_requirement_id",
     )
     review: Mapped["RequirementReview | None"] = relationship(back_populates="requirement", uselist=False, cascade="all, delete-orphan")
+    evidence_match_candidates: Mapped[list["RequirementEvidenceCandidateMatch"]] = relationship(
+        back_populates="requirement",
+        cascade="all, delete-orphan",
+    )
 
 
 class RequirementReview(Base):

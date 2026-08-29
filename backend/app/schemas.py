@@ -1433,6 +1433,100 @@ class RequirementReviewWrite(BaseModel):
     review_note: str | None = Field(default=None, max_length=2000)
 
 
+class RequirementEvidenceCandidateReviewRead(BaseModel):
+    id: str
+    match_id: str
+    tender_id: str
+    company_id: str
+    review_status: str
+    review_note: str | None = None
+    reviewed_fingerprint: str | None = None
+    reviewed_at: datetime | None = None
+    created_at: datetime
+    updated_at: datetime
+
+
+class RequirementEvidenceCandidateMatchRead(BaseModel):
+    id: str
+    tender_id: str
+    requirement_id: str
+    company_id: str
+    company_evidence_id: str
+    match_strength: str
+    match_basis: list[str] = Field(default_factory=list)
+    match_rationale: str
+    system_warnings: list[str] = Field(default_factory=list)
+    origin: str
+    matcher_version: str
+    requirement_fingerprint: str
+    evidence_fingerprint: str
+    match_fingerprint: str
+    is_active: bool
+    review_freshness: str
+    created_at: datetime
+    updated_at: datetime
+    company_evidence: CompanyEvidenceRead
+    review: RequirementEvidenceCandidateReviewRead | None = None
+
+
+class RequirementEvidenceCandidateRequirementRead(BaseModel):
+    requirement_id: str
+    canonical_text: str
+    category: str
+    normalization_status: str
+    source_occurrence_count: int
+    primary_source: RequirementSourceOccurrenceRead | None = None
+    applicability: str
+    condition_text: str | None = None
+    interpretation_status: str
+    interpretation_reason: str | None = None
+    evidence_mode: str
+    expected_evidence: list[RequirementEvidenceExpectationRead] = Field(default_factory=list)
+    effective_status: str
+    effective_source_document_id: str | None = None
+    effective_source_filename: str | None = None
+    effective_reasons: list[str] = Field(default_factory=list)
+    requirement_system_warnings: list[str] = Field(default_factory=list)
+    requirement_review_status: str
+    requirement_review_note: str | None = None
+    requirement_review_freshness: str
+    representation_fingerprint: str
+    matching_warnings: list[str] = Field(default_factory=list)
+    candidate_count: int
+    matches: list[RequirementEvidenceCandidateMatchRead] = Field(default_factory=list)
+
+
+class RequirementEvidenceCandidateSummaryRead(BaseModel):
+    requirements_evaluated: int
+    requirements_with_candidate_evidence: int
+    candidate_associations: int
+    strong_candidates: int
+    possible_candidates: int
+    review_required_candidates: int
+    human_confirmed_associations: int
+    rejected_associations: int
+
+
+class TenderRequirementEvidenceCandidateMatchesRead(BaseModel):
+    tender_id: str
+    company_id: str
+    matcher_version: str
+    generated_at: datetime
+    scope_note: str
+    summary: RequirementEvidenceCandidateSummaryRead
+    requirements: list[RequirementEvidenceCandidateRequirementRead] = Field(default_factory=list)
+
+
+class RequirementEvidenceCandidateReviewWrite(BaseModel):
+    review_status: str = Field(..., min_length=1, max_length=64)
+    review_note: str | None = Field(default=None, max_length=2000)
+
+
+class RequirementEvidenceCandidateManualWrite(BaseModel):
+    company_evidence_id: str = Field(..., min_length=1, max_length=64)
+    rationale: str | None = Field(default=None, max_length=2000)
+
+
 class EvaluationModelEvidenceRead(BaseModel):
     id: str
     source_document_id: str

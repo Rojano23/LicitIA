@@ -902,6 +902,150 @@ type TenderRequirementMatrix = {
   requirements: RequirementMatrixItem[];
 };
 
+type CompanyOption = {
+  id: string;
+  name: string;
+  legal_name: string | null;
+  tax_id: string | null;
+  status: string;
+};
+
+type MatchEvidenceSourceDocument = {
+  id: string;
+  company_id: string;
+  original_filename: string;
+  document_type: string | null;
+  label: string | null;
+  status: string;
+  archived_at: string | null;
+  revision_number: number;
+  is_current: boolean;
+};
+
+type MatchEvidenceReview = {
+  id: string;
+  company_id: string;
+  company_evidence_id: string;
+  review_status: string;
+  review_note: string | null;
+  reviewed_fingerprint: string | null;
+  reviewed_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type MatchCompanyEvidence = {
+  id: string;
+  company_id: string;
+  company_document_id: string;
+  evidence_type: string;
+  subject_kind: string;
+  subject_name: string | null;
+  canonical_statement: string;
+  issuer: string | null;
+  reference_number: string | null;
+  issued_on: string | null;
+  valid_from: string | null;
+  valid_until: string | null;
+  period_start: string | null;
+  period_end: string | null;
+  analysis_status: string;
+  origin: string;
+  extractor_version: string;
+  source_page: number | null;
+  source_locator: string | null;
+  source_excerpt: string;
+  semantic_fingerprint: string;
+  system_warnings: string[];
+  review_freshness: string;
+  created_at: string;
+  updated_at: string;
+  source_document: MatchEvidenceSourceDocument;
+  review: MatchEvidenceReview | null;
+};
+
+type EvidenceMatchReview = {
+  id: string;
+  match_id: string;
+  tender_id: string;
+  company_id: string;
+  review_status: string;
+  review_note: string | null;
+  reviewed_fingerprint: string | null;
+  reviewed_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type RequirementEvidenceMatch = {
+  id: string;
+  tender_id: string;
+  requirement_id: string;
+  company_id: string;
+  company_evidence_id: string;
+  match_strength: string;
+  match_basis: string[];
+  match_rationale: string;
+  system_warnings: string[];
+  origin: string;
+  matcher_version: string;
+  requirement_fingerprint: string;
+  evidence_fingerprint: string;
+  match_fingerprint: string;
+  is_active: boolean;
+  review_freshness: string;
+  created_at: string;
+  updated_at: string;
+  company_evidence: MatchCompanyEvidence;
+  review: EvidenceMatchReview | null;
+};
+
+type RequirementEvidenceMatchRequirement = {
+  requirement_id: string;
+  canonical_text: string;
+  category: string;
+  normalization_status: string;
+  source_occurrence_count: number;
+  primary_source: RequirementSourceOccurrence | null;
+  applicability: string;
+  condition_text: string | null;
+  interpretation_status: string;
+  interpretation_reason: string | null;
+  evidence_mode: string;
+  expected_evidence: RequirementEvidenceExpectation[];
+  effective_status: string;
+  effective_source_document_id: string | null;
+  effective_source_filename: string | null;
+  effective_reasons: string[];
+  requirement_system_warnings: string[];
+  requirement_review_status: string;
+  requirement_review_note: string | null;
+  requirement_review_freshness: string;
+  representation_fingerprint: string;
+  matching_warnings: string[];
+  candidate_count: number;
+  matches: RequirementEvidenceMatch[];
+};
+
+type TenderRequirementEvidenceMatches = {
+  tender_id: string;
+  company_id: string;
+  matcher_version: string;
+  generated_at: string;
+  scope_note: string;
+  summary: {
+    requirements_evaluated: number;
+    requirements_with_candidate_evidence: number;
+    candidate_associations: number;
+    strong_candidates: number;
+    possible_candidates: number;
+    review_required_candidates: number;
+    human_confirmed_associations: number;
+    rejected_associations: number;
+  };
+  requirements: RequirementEvidenceMatchRequirement[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -956,6 +1100,12 @@ function App() {
   const [requirementEffectiveStateLoading, setRequirementEffectiveStateLoading] = useState(false);
   const [requirementMatrix, setRequirementMatrix] = useState<TenderRequirementMatrix | null>(null);
   const [requirementMatrixLoading, setRequirementMatrixLoading] = useState(false);
+  const [companies, setCompanies] = useState<CompanyOption[]>([]);
+  const [selectedMatchCompanyId, setSelectedMatchCompanyId] = useState<string>("");
+  const [companyEvidenceOptions, setCompanyEvidenceOptions] = useState<MatchCompanyEvidence[]>([]);
+  const [companyEvidenceOptionsLoading, setCompanyEvidenceOptionsLoading] = useState(false);
+  const [requirementEvidenceMatches, setRequirementEvidenceMatches] = useState<TenderRequirementEvidenceMatches | null>(null);
+  const [requirementEvidenceMatchesLoading, setRequirementEvidenceMatchesLoading] = useState(false);
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
   const [editEventType, setEditEventType] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -1063,6 +1213,7 @@ function App() {
 
   useEffect(() => {
     void loadTenders();
+    void loadCompanies();
   }, []);
 
   useEffect(() => {
@@ -1084,6 +1235,7 @@ function App() {
       setRequirementSemantics(null);
       setRequirementEffectiveState(null);
       setRequirementMatrix(null);
+      setRequirementEvidenceMatches(null);
       return;
     }
 
@@ -1103,6 +1255,20 @@ function App() {
     void loadTenderRequirementEffectiveState(selectedTenderId);
     void loadTenderRequirementMatrix(selectedTenderId);
   }, [selectedTenderId]);
+
+  useEffect(() => {
+    if (!selectedMatchCompanyId) {
+      setCompanyEvidenceOptions([]);
+      setRequirementEvidenceMatches(null);
+      return;
+    }
+
+    void loadCompanyEvidenceOptions(selectedMatchCompanyId);
+
+    if (selectedTenderId) {
+      void loadRequirementEvidenceMatches(selectedTenderId, selectedMatchCompanyId);
+    }
+  }, [selectedTenderId, selectedMatchCompanyId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -1529,6 +1695,65 @@ function App() {
     }
   };
 
+  const loadCompanies = async () => {
+    try {
+      const response = await axios.get<CompanyOption[]>(`${API_URL}/companies`);
+      setCompanies(response.data);
+      if (response.data.length === 0) {
+        setSelectedMatchCompanyId("");
+        return;
+      }
+      if (!response.data.some((company) => company.id === selectedMatchCompanyId)) {
+        setSelectedMatchCompanyId(response.data[0].id);
+      }
+    } catch (err) {
+      setError("No se pudieron cargar las empresas para el matching de evidencia.");
+    }
+  };
+
+  const loadCompanyEvidenceOptions = async (companyId: string) => {
+    setCompanyEvidenceOptionsLoading(true);
+    try {
+      const response = await axios.get<{ evidence: MatchCompanyEvidence[] }>(`${API_URL}/companies/${companyId}/evidence?current_source_only=true`);
+      setCompanyEvidenceOptions(response.data.evidence);
+    } catch (err) {
+      setCompanyEvidenceOptions([]);
+    } finally {
+      setCompanyEvidenceOptionsLoading(false);
+    }
+  };
+
+  const loadRequirementEvidenceMatches = async (tenderId: string, companyId: string) => {
+    setRequirementEvidenceMatchesLoading(true);
+    try {
+      const response = await axios.get<TenderRequirementEvidenceMatches>(`${API_URL}/tenders/${tenderId}/companies/${companyId}/evidence-match-candidates`);
+      setRequirementEvidenceMatches(response.data);
+    } catch (err) {
+      setRequirementEvidenceMatches(null);
+    } finally {
+      setRequirementEvidenceMatchesLoading(false);
+    }
+  };
+
+  const handleAnalyzeRequirementEvidenceMatches = async () => {
+    if (!selectedTenderId || !selectedMatchCompanyId) {
+      return;
+    }
+
+    setRequirementEvidenceMatchesLoading(true);
+    try {
+      const response = await axios.post<TenderRequirementEvidenceMatches>(
+        `${API_URL}/tenders/${selectedTenderId}/companies/${selectedMatchCompanyId}/analyze-evidence-matches`,
+      );
+      setRequirementEvidenceMatches(response.data);
+      await loadCompanyEvidenceOptions(selectedMatchCompanyId);
+    } catch (err) {
+      setError("No se pudieron calcular las evidencias candidatas para la empresa seleccionada.");
+    } finally {
+      setRequirementEvidenceMatchesLoading(false);
+    }
+  };
+
   const handleAnalyzeEvaluation = async () => {
     if (!selectedTenderId) {
       return;
@@ -1687,17 +1912,157 @@ function App() {
     await updateRequirementReview(item.requirement_id, action, null);
   };
 
-  const openRequirementMatrixSource = async (item: RequirementMatrixItem) => {
-    if (!selectedTenderId || !item.primary_source?.source_document_id) {
+  const openRequirementSource = async (source: RequirementSourceOccurrence | null) => {
+    if (!selectedTenderId || !source?.source_document_id) {
       return;
     }
-    setSelectedDocumentId(item.primary_source.source_document_id);
-    await loadDocumentPages(selectedTenderId, item.primary_source.source_document_id);
-    await loadDocumentClassification(selectedTenderId, item.primary_source.source_document_id);
-    await loadDocumentReferences(selectedTenderId, item.primary_source.source_document_id);
-    if (item.primary_source.source_page !== null) {
-      setSelectedPageNumber(item.primary_source.source_page);
+    setSelectedDocumentId(source.source_document_id);
+    await loadDocumentPages(selectedTenderId, source.source_document_id);
+    await loadDocumentClassification(selectedTenderId, source.source_document_id);
+    await loadDocumentReferences(selectedTenderId, source.source_document_id);
+    if (source.source_page !== null) {
+      setSelectedPageNumber(source.source_page);
     }
+  };
+
+  const handleRequirementEvidenceMatchReviewAction = async (
+    matchId: string,
+    nextStatus: "CONFIRMED" | "NEEDS_REVIEW" | "REJECTED",
+    currentNote: string | null,
+  ) => {
+    if (!selectedTenderId || !selectedMatchCompanyId) {
+      return;
+    }
+
+    let reviewNote: string | null = null;
+    if (nextStatus === "REJECTED") {
+      const note = window.prompt("Justificación para descartar la asociación", currentNote ?? "");
+      if (note === null) {
+        return;
+      }
+      if (!note.trim()) {
+        setError("La nota es obligatoria para descartar una asociación.");
+        return;
+      }
+      reviewNote = note.trim();
+    } else if (nextStatus === "NEEDS_REVIEW") {
+      const note = window.prompt("Nota de revisión (opcional)", currentNote ?? "");
+      if (note === null) {
+        return;
+      }
+      reviewNote = note.trim() || null;
+    }
+
+    try {
+      const response = await axios.patch<TenderRequirementEvidenceMatches>(
+        `${API_URL}/tenders/${selectedTenderId}/companies/${selectedMatchCompanyId}/evidence-match-candidates/${matchId}/review`,
+        {
+          review_status: nextStatus,
+          review_note: reviewNote,
+        },
+      );
+      setRequirementEvidenceMatches(response.data);
+    } catch (err) {
+      setError("No se pudo guardar la revisión de la asociación requisito-evidencia.");
+    }
+  };
+
+  const handleCreateManualRequirementEvidenceMatch = async (requirementId: string) => {
+    if (!selectedTenderId || !selectedMatchCompanyId) {
+      return;
+    }
+
+    const evidenceId = window.prompt(
+      "Ingresa el ID completo de la evidencia a asociar manualmente.",
+      companyEvidenceOptions[0]?.id ?? "",
+    );
+    if (evidenceId === null) {
+      return;
+    }
+    if (!evidenceId.trim()) {
+      setError("Debes indicar un ID de evidencia para crear una asociación manual.");
+      return;
+    }
+
+    const rationale = window.prompt(
+      "Justificación de la asociación manual",
+      "Asociación manual confirmada por revisión humana.",
+    );
+    if (rationale === null) {
+      return;
+    }
+    if (!rationale.trim()) {
+      setError("La justificación es obligatoria para una asociación manual.");
+      return;
+    }
+
+    try {
+      const response = await axios.post<TenderRequirementEvidenceMatches>(
+        `${API_URL}/tenders/${selectedTenderId}/companies/${selectedMatchCompanyId}/requirements/${requirementId}/evidence-match-candidates/manual`,
+        {
+          company_evidence_id: evidenceId.trim(),
+          rationale: rationale.trim(),
+        },
+      );
+      setRequirementEvidenceMatches(response.data);
+    } catch (err) {
+      setError("No se pudo crear la asociación manual entre requisito y evidencia.");
+    }
+  };
+
+  const openRequirementEvidenceSource = (match: RequirementEvidenceMatch) => {
+    const source = [
+      `Documento: ${match.company_evidence.source_document.original_filename}`,
+      `Tipo: ${match.company_evidence.evidence_type}`,
+      `Página: ${match.company_evidence.source_page ?? "n/d"}`,
+      `Locator: ${match.company_evidence.source_locator ?? "n/d"}`,
+      "",
+      match.company_evidence.source_excerpt,
+    ].join("\n");
+
+    window.alert(source);
+  };
+
+  const matchStrengthLabel = (value: string) => {
+    if (value === "STRONG") {
+      return "Fuerte";
+    }
+    if (value === "POSSIBLE") {
+      return "Posible";
+    }
+    if (value === "REVIEW_REQUIRED") {
+      return "Revisión requerida";
+    }
+    return value;
+  };
+
+  const matchReviewStatusLabel = (value: string | null) => {
+    if (value === "PENDING") {
+      return "Pendiente";
+    }
+    if (value === "CONFIRMED") {
+      return "Confirmada";
+    }
+    if (value === "NEEDS_REVIEW") {
+      return "Revisión requerida";
+    }
+    if (value === "REJECTED") {
+      return "Descartada";
+    }
+    return "Sin revisión";
+  };
+
+  const matchReviewFreshnessLabel = (value: string) => {
+    if (value === "FRESH") {
+      return "Vigente";
+    }
+    if (value === "STALE") {
+      return "Desactualizada";
+    }
+    if (value === "NOT_REVIEWED") {
+      return "No revisada";
+    }
+    return value;
   };
 
   const applicabilityLabel = (value: string) => {
@@ -3102,13 +3467,190 @@ function App() {
                                     <button type="button" onClick={() => void handleRequirementReviewAction(item, "RESET")} style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
                                       Restablecer pendiente
                                     </button>
-                                    <button type="button" onClick={() => void openRequirementMatrixSource(item)} style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                    <button type="button" onClick={() => void openRequirementSource(item.primary_source)} style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
                                       Ver fuente
                                     </button>
                                   </div>
                                 </td>
                               </tr>
                             ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <div style={{ marginTop: 14, borderTop: "1px solid #e2e8f0", paddingTop: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                    <div>
+                      <div style={{ fontSize: 14, color: "#0f172a", fontWeight: 700 }}>Evidencia candidata por requisito</div>
+                      <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                        LicitIA propone evidencias que podrían ser relevantes para cada requisito. Una asociación confirmada indica que la evidencia es pertinente para evaluar el requisito; no significa que el requisito esté cumplido.
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                      <select
+                        value={selectedMatchCompanyId}
+                        onChange={(event) => setSelectedMatchCompanyId(event.target.value)}
+                        style={{ padding: "8px 10px", borderRadius: 8, border: "1px solid #cfd8e3", minWidth: 220 }}
+                      >
+                        <option value="">Selecciona una empresa</option>
+                        {companies.map((company) => (
+                          <option key={company.id} value={company.id}>
+                            {company.name}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        type="button"
+                        onClick={() => void loadCompanies()}
+                        style={{ padding: "8px 10px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}
+                      >
+                        Actualizar empresas
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => void handleAnalyzeRequirementEvidenceMatches()}
+                        disabled={!selectedMatchCompanyId || requirementEvidenceMatchesLoading}
+                        style={{ padding: "8px 10px", borderRadius: 8, border: "none", background: "#0f766e", color: "#fff", fontWeight: 700, opacity: !selectedMatchCompanyId || requirementEvidenceMatchesLoading ? 0.6 : 1 }}
+                      >
+                        {requirementEvidenceMatchesLoading ? "Buscando..." : "Buscar evidencias candidatas"}
+                      </button>
+                    </div>
+                  </div>
+
+                  {selectedMatchCompanyId && (
+                    <div style={{ marginTop: 8, display: "grid", gap: 8 }}>
+                      <div style={{ fontSize: 12, color: "#334155" }}>
+                        Evidencias disponibles de la empresa: {companyEvidenceOptionsLoading ? "cargando..." : companyEvidenceOptions.length}
+                      </div>
+                      {!companyEvidenceOptionsLoading && companyEvidenceOptions.length > 0 && (
+                        <div style={{ display: "grid", gap: 6, gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+                          {companyEvidenceOptions.slice(0, 8).map((evidence) => (
+                            <div key={evidence.id} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: 8, background: "#fff", fontSize: 12 }}>
+                              <div style={{ fontWeight: 700 }}>{evidence.evidence_type} • {evidence.id.slice(0, 8)}</div>
+                              <div style={{ marginTop: 3, color: "#52607a" }}>{evidence.source_document.original_filename}</div>
+                              <div style={{ marginTop: 3, color: "#334155" }}>{evidence.canonical_statement}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {selectedMatchCompanyId && !requirementEvidenceMatchesLoading && !requirementEvidenceMatches && (
+                    <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                      Ejecuta el análisis para cargar asociaciones requisito ↔ evidencia para la empresa seleccionada.
+                    </div>
+                  )}
+
+                  {requirementEvidenceMatches && (
+                    <>
+                      <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>{requirementEvidenceMatches.scope_note}</div>
+                      <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                        Requisitos evaluados {requirementEvidenceMatches.summary.requirements_evaluated} • Con evidencia candidata {requirementEvidenceMatches.summary.requirements_with_candidate_evidence} • Asociaciones {requirementEvidenceMatches.summary.candidate_associations}
+                      </div>
+                      <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                        Fuertes {requirementEvidenceMatches.summary.strong_candidates} • Posibles {requirementEvidenceMatches.summary.possible_candidates} • Revisión requerida {requirementEvidenceMatches.summary.review_required_candidates} • Confirmadas por humano {requirementEvidenceMatches.summary.human_confirmed_associations}
+                      </div>
+
+                      <div style={{ marginTop: 8, overflowX: "auto" }}>
+                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                          <thead>
+                            <tr style={{ background: "#eef2f7" }}>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Requisito</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Aplicabilidad</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Evidencia candidata</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Fuerza</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Revisión</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {requirementEvidenceMatches.requirements.flatMap((item) => {
+                              const renderRows = item.matches.length > 0 ? item.matches : [null];
+                              return renderRows.map((match, index) => (
+                                <tr key={match ? match.id : `${item.requirement_id}-empty`}>
+                                  <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9", verticalAlign: "top" }}>
+                                    <div style={{ fontWeight: 700 }}>{item.canonical_text}</div>
+                                    <div style={{ marginTop: 3, color: "#52607a" }}>{item.category} • {item.evidence_mode} • Estado {item.effective_status}</div>
+                                    {item.condition_text && <div style={{ marginTop: 3, color: "#7a4b00" }}>Condición: {item.condition_text}</div>}
+                                    {item.matching_warnings.length > 0 && <div style={{ marginTop: 3, color: "#7a4b00" }}>Advertencias: {item.matching_warnings.join(" • ")}</div>}
+                                    {item.primary_source && <div style={{ marginTop: 3, color: "#52607a" }}>Fuente {item.primary_source.source_filename ?? item.primary_source.source_document_id} p{item.primary_source.source_page ?? "-"}</div>}
+                                  </td>
+                                  <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9", verticalAlign: "top" }}>
+                                    <div>{applicabilityLabel(item.applicability)}</div>
+                                    <div style={{ marginTop: 3, color: "#52607a" }}>{interpretationStatusLabel(item.interpretation_status)}</div>
+                                    <div style={{ marginTop: 3, color: "#52607a" }}>Revisión requisito: {requirementReviewStatusLabel(item.requirement_review_status)}</div>
+                                  </td>
+                                  <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9", verticalAlign: "top" }}>
+                                    {match ? (
+                                      <>
+                                        <div style={{ fontWeight: 700 }}>{match.company_evidence.evidence_type} • {match.company_evidence.id.slice(0, 8)}</div>
+                                        <div style={{ marginTop: 3, color: "#334155" }}>{match.company_evidence.canonical_statement}</div>
+                                        <div style={{ marginTop: 3, color: "#52607a" }}>{match.company_evidence.source_document.original_filename}</div>
+                                        {match.system_warnings.length > 0 && <div style={{ marginTop: 3, color: "#7a4b00" }}>Advertencias: {match.system_warnings.join(" • ")}</div>}
+                                      </>
+                                    ) : (
+                                      <div style={{ color: "#52607a" }}>Sin evidencia candidata activa.</div>
+                                    )}
+                                  </td>
+                                  <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9", verticalAlign: "top" }}>
+                                    {match ? (
+                                      <>
+                                        <div><strong>{matchStrengthLabel(match.match_strength)}</strong></div>
+                                        <div style={{ marginTop: 3, color: "#52607a" }}>{match.match_basis.join(" • ")}</div>
+                                        <div style={{ marginTop: 3, color: "#52607a" }}>{match.match_rationale}</div>
+                                      </>
+                                    ) : (
+                                      <div style={{ color: "#52607a" }}>Sin asociación.</div>
+                                    )}
+                                  </td>
+                                  <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9", verticalAlign: "top" }}>
+                                    {match ? (
+                                      <>
+                                        <div><strong>{matchReviewStatusLabel(match.review?.review_status ?? null)}</strong></div>
+                                        <div style={{ marginTop: 3, color: "#52607a" }}>Vigencia: {matchReviewFreshnessLabel(match.review_freshness)}</div>
+                                        {match.review?.review_note && <div style={{ marginTop: 3, color: "#52607a" }}>{match.review.review_note}</div>}
+                                      </>
+                                    ) : (
+                                      <div style={{ color: "#52607a" }}>Sin revisión.</div>
+                                    )}
+                                  </td>
+                                  <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9", verticalAlign: "top" }}>
+                                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                                      {match && (
+                                        <>
+                                          <button type="button" onClick={() => void handleRequirementEvidenceMatchReviewAction(match.id, "CONFIRMED", match.review?.review_note ?? null)} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#0f766e", color: "#fff", fontWeight: 700 }}>
+                                            Confirmar asociación
+                                          </button>
+                                          <button type="button" onClick={() => void handleRequirementEvidenceMatchReviewAction(match.id, "NEEDS_REVIEW", match.review?.review_note ?? null)} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700 }}>
+                                            Marcar revisión
+                                          </button>
+                                          <button type="button" onClick={() => void handleRequirementEvidenceMatchReviewAction(match.id, "REJECTED", match.review?.review_note ?? null)} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#b91c1c", color: "#fff", fontWeight: 700 }}>
+                                            Descartar asociación
+                                          </button>
+                                          <button type="button" onClick={() => openRequirementEvidenceSource(match)} style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                            Ver evidencia / fuente
+                                          </button>
+                                        </>
+                                      )}
+                                      {index === 0 && (
+                                        <>
+                                          <button type="button" onClick={() => void handleCreateManualRequirementEvidenceMatch(item.requirement_id)} style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                            Asociar evidencia manualmente
+                                          </button>
+                                          <button type="button" onClick={() => void openRequirementSource(item.primary_source)} style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                            Ver requisito / fuente
+                                          </button>
+                                        </>
+                                      )}
+                                    </div>
+                                  </td>
+                                </tr>
+                              ));
+                            })}
                           </tbody>
                         </table>
                       </div>

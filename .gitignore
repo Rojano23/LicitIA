@@ -27,6 +27,8 @@
 **/.env
 **/.env.*
 !**/.env.example
+.tmp/
+backend/.tmp/
 
 # OS
 **/.DS_Store
