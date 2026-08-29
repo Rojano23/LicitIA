@@ -203,7 +203,8 @@ El usuario puede ver qué documentos definen, complementan o modifican otros y q
 
 - MVP-03 (Tender Understanding): CLOSED
 - MVP-04.1 (Evaluation Model Detection): CLOSED
-- MVP-04.2 (Requirement Extraction): IN IMPLEMENTATION
+- MVP-04.2 (Requirement Extraction): CLOSED
+- MVP-04.3 (Requirement Normalization & Taxonomy): IN IMPLEMENTATION
 
 ### Objetivo
 

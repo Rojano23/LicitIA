@@ -1034,6 +1034,58 @@ class TenderRequirementCandidatesRead(BaseModel):
     candidates: list[RequirementCandidateRead] = Field(default_factory=list)
 
 
+class RequirementSourceOccurrenceRead(BaseModel):
+    candidate_id: str
+    source_document_id: str
+    source_filename: str | None = None
+    source_page: int | None = None
+    requirement_text: str
+    source_excerpt: str
+    actor_text: str | None = None
+    modality_text: str | None = None
+    document_page_id: str | None = None
+    normalized_content_id: str | None = None
+    is_primary_source: bool = False
+    link_origin: str
+
+
+class RequirementRead(BaseModel):
+    id: str
+    tender_id: str
+    canonical_key: str
+    canonical_text: str
+    category: str
+    normalization_status: str
+    normalizer_version: str
+    normalization_confidence: float | None = None
+    normalization_reason: str | None = None
+    source_occurrence_count: int
+    primary_source: RequirementSourceOccurrenceRead | None = None
+    candidates: list[RequirementSourceOccurrenceRead] = Field(default_factory=list)
+    created_at: datetime
+    updated_at: datetime
+
+
+class RequirementsSummaryRead(BaseModel):
+    candidate_count: int
+    requirement_count: int
+    normalized_count: int
+    review_required_count: int
+    merged_requirement_count: int
+    single_source_requirement_count: int
+    category_counts: dict[str, int] = Field(default_factory=dict)
+    unknown_count: int
+
+
+class TenderRequirementsRead(BaseModel):
+    tender_id: str
+    normalizer_version: str
+    generated_at: datetime
+    scope_note: str
+    summary: RequirementsSummaryRead
+    requirements: list[RequirementRead] = Field(default_factory=list)
+
+
 class EvaluationModelEvidenceRead(BaseModel):
     id: str
     source_document_id: str

@@ -702,6 +702,56 @@ type TenderRequirementCandidates = {
   candidates: RequirementCandidate[];
 };
 
+type RequirementSourceOccurrence = {
+  candidate_id: string;
+  source_document_id: string;
+  source_filename: string | null;
+  source_page: number | null;
+  requirement_text: string;
+  source_excerpt: string;
+  actor_text: string | null;
+  modality_text: string | null;
+  document_page_id: string | null;
+  normalized_content_id: string | null;
+  is_primary_source: boolean;
+  link_origin: string;
+};
+
+type NormalizedRequirement = {
+  id: string;
+  tender_id: string;
+  canonical_key: string;
+  canonical_text: string;
+  category: string;
+  normalization_status: string;
+  normalizer_version: string;
+  normalization_confidence: number | null;
+  normalization_reason: string | null;
+  source_occurrence_count: number;
+  primary_source: RequirementSourceOccurrence | null;
+  candidates: RequirementSourceOccurrence[];
+  created_at: string;
+  updated_at: string;
+};
+
+type TenderRequirements = {
+  tender_id: string;
+  normalizer_version: string;
+  generated_at: string;
+  scope_note: string;
+  summary: {
+    candidate_count: number;
+    requirement_count: number;
+    normalized_count: number;
+    review_required_count: number;
+    merged_requirement_count: number;
+    single_source_requirement_count: number;
+    category_counts: Record<string, number>;
+    unknown_count: number;
+  };
+  requirements: NormalizedRequirement[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -748,6 +798,8 @@ function App() {
   const [evaluationLoading, setEvaluationLoading] = useState(false);
   const [requirementCandidates, setRequirementCandidates] = useState<TenderRequirementCandidates | null>(null);
   const [requirementCandidatesLoading, setRequirementCandidatesLoading] = useState(false);
+  const [requirements, setRequirements] = useState<TenderRequirements | null>(null);
+  const [requirementsLoading, setRequirementsLoading] = useState(false);
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
   const [editEventType, setEditEventType] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -872,6 +924,7 @@ function App() {
       setStateSnapshot(null);
       setEvaluation(null);
       setRequirementCandidates(null);
+      setRequirements(null);
       return;
     }
 
@@ -886,6 +939,7 @@ function App() {
     void loadTenderStateSnapshot(selectedTenderId);
     void loadTenderEvaluation(selectedTenderId);
     void loadTenderRequirementCandidates(selectedTenderId);
+    void loadTenderRequirements(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -1265,6 +1319,18 @@ function App() {
     }
   };
 
+  const loadTenderRequirements = async (tenderId: string) => {
+    setRequirementsLoading(true);
+    try {
+      const response = await axios.get<TenderRequirements>(`${API_URL}/tenders/${tenderId}/requirements`);
+      setRequirements(response.data);
+    } catch (err) {
+      setRequirements(null);
+    } finally {
+      setRequirementsLoading(false);
+    }
+  };
+
   const handleAnalyzeEvaluation = async () => {
     if (!selectedTenderId) {
       return;
@@ -1294,6 +1360,22 @@ function App() {
       setError("No se pudieron extraer los requisitos detectados.");
     } finally {
       setRequirementCandidatesLoading(false);
+    }
+  };
+
+  const handleNormalizeRequirements = async () => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    setRequirementsLoading(true);
+    try {
+      const response = await axios.post<TenderRequirements>(`${API_URL}/tenders/${selectedTenderId}/normalize-requirements`);
+      setRequirements(response.data);
+    } catch (err) {
+      setError("No se pudieron normalizar los requisitos detectados.");
+    } finally {
+      setRequirementsLoading(false);
     }
   };
 
@@ -2358,6 +2440,75 @@ function App() {
                         ))}
                       </div>
                     </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#f8fafc" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <h3 style={{ margin: 0 }}>Requisitos normalizados</h3>
+              <button type="button" onClick={() => void handleNormalizeRequirements()} style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                {requirementsLoading ? "Normalizando..." : "Normalizar requisitos"}
+              </button>
+            </div>
+
+            {requirementsLoading && <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>Consolidando ocurrencias detectadas en requisitos canónicos...</div>}
+            {!requirementsLoading && !requirements && <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>Sin normalización de requisitos disponible.</div>}
+
+            {requirements && (
+              <>
+                <div style={{ marginTop: 8, fontSize: 13, color: "#334155" }}>
+                  Requisitos detectados: <strong>{requirements.summary.candidate_count}</strong> • Requisitos normalizados: <strong>{requirements.summary.requirement_count}</strong> • Merges {requirements.summary.merged_requirement_count}
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                  NORMALIZED {requirements.summary.normalized_count} • REVIEW_REQUIRED {requirements.summary.review_required_count} • Fuentes únicas {requirements.summary.single_source_requirement_count} • Motor {requirements.normalizer_version}
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>{requirements.scope_note}</div>
+
+                {Object.keys(requirements.summary.category_counts).length > 0 && (
+                  <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
+                    Categorías: {Object.entries(requirements.summary.category_counts)
+                      .map(([category, count]) => `${category} (${count})`)
+                      .join(" • ")}
+                  </div>
+                )}
+
+                <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
+                  {requirements.requirements.map((requirement) => (
+                    <details key={requirement.id} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: 10, background: "#fff" }}>
+                      <summary style={{ cursor: "pointer" }}>
+                        <strong>{requirement.canonical_text}</strong>
+                        <div style={{ fontSize: 12, color: "#52607a", marginTop: 4 }}>
+                          {requirement.category} • Fuentes {requirement.source_occurrence_count} • {requirement.normalization_status}
+                        </div>
+                      </summary>
+
+                      <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
+                        Confianza: {requirement.normalization_confidence ?? "-"} • Razón: {requirement.normalization_reason ?? "-"}
+                      </div>
+
+                      {requirement.primary_source && (
+                        <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
+                          Fuente primaria: {requirement.primary_source.source_filename ?? requirement.primary_source.source_document_id} p{requirement.primary_source.source_page ?? "-"}
+                        </div>
+                      )}
+
+                      <div style={{ marginTop: 8, display: "grid", gap: 6 }}>
+                        {requirement.candidates.map((candidate) => (
+                          <div key={candidate.candidate_id} style={{ fontSize: 12, color: "#334155", borderTop: "1px solid #f1f5f9", paddingTop: 6 }}>
+                            <div>
+                              {candidate.source_filename ?? candidate.source_document_id} p{candidate.source_page ?? "-"} • {candidate.is_primary_source ? "PRIMARY" : "SECONDARY"}
+                            </div>
+                            <div style={{ marginTop: 3 }}>{candidate.requirement_text}</div>
+                            <div style={{ marginTop: 3, color: "#52607a" }}>
+                              Actor {candidate.actor_text ?? "-"} • Modalidad {candidate.modality_text ?? "-"}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </details>
                   ))}
                 </div>
               </>

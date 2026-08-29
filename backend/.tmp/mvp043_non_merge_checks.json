@@ -1,0 +1,32 @@
+[
+  {
+    "pair": "personnel_certification_vs_cv",
+    "a_id": null,
+    "b_id": "04a59481-458f-4528-aebf-78db23d5e7de",
+    "separate": false
+  },
+  {
+    "pair": "personnel_experience_vs_qualifications",
+    "a_id": "4fad14d5-88ee-4ed0-8efe-7f5e332f9aba",
+    "b_id": "60187b50-afa0-479a-9f6b-81685a304eb2",
+    "separate": true
+  },
+  {
+    "pair": "commercial_proposal_vs_economic_proposal",
+    "a_id": "a5fd8e49-8a29-43ca-8414-e1f1a6d8b866",
+    "b_id": "0491b265-3e19-44f4-a3ca-8694fb5eec12",
+    "separate": true
+  },
+  {
+    "pair": "consortium_per_member_vs_single_participant",
+    "a_id": "997c975e-5e34-4197-b1df-987d2326abb9",
+    "b_id": "ef6f3fb5-db9a-4207-90d4-bab45c9c3f11",
+    "separate": true
+  },
+  {
+    "pair": "price_rule_vs_percentage_offered",
+    "a_id": "370ddd68-76f0-4263-beda-524eda39f47f",
+    "b_id": "98314e55-a33f-486f-aeff-a94a14cd83bd",
+    "separate": true
+  }
+]

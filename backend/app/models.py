@@ -60,6 +60,7 @@ class Tender(Base):
     events: Mapped[list["TenderEvent"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
     changes: Mapped[list["TenderChange"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
     requirement_candidates: Mapped[list["RequirementCandidate"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
+    requirements: Mapped[list["Requirement"]] = relationship(back_populates="tender", cascade="all, delete-orphan")
 
 
 class TenderDocument(Base):
@@ -1169,6 +1170,88 @@ class RequirementCandidate(Base):
     document_page: Mapped[DocumentPage | None] = relationship(back_populates="requirement_candidates", foreign_keys=[document_page_id])
     normalized_content: Mapped[NormalizedContent | None] = relationship(back_populates="requirement_candidates", foreign_keys=[normalized_content_id])
     evidence: Mapped[list["RequirementCandidateEvidence"]] = relationship(back_populates="candidate", cascade="all, delete-orphan")
+    requirement_links: Mapped[list["RequirementCandidateLink"]] = relationship(back_populates="candidate", cascade="all, delete-orphan")
+
+
+class Requirement(Base):
+    __tablename__ = "requirements"
+
+    __table_args__ = (
+        UniqueConstraint("tender_id", "canonical_key", name="uq_requirements_canonical_key"),
+        Index("ix_requirements_tender_id", "tender_id"),
+        Index("ix_requirements_category", "category"),
+        Index("ix_requirements_status", "normalization_status"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    canonical_key: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    canonical_text: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    category: Mapped[str] = mapped_column(String(64), nullable=False, default="UNKNOWN")
+    normalization_status: Mapped[str] = mapped_column(String(32), nullable=False, default="REVIEW_REQUIRED")
+    normalizer_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-04.3")
+    normalization_confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+    normalization_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+    primary_candidate_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("requirement_candidates.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship(back_populates="requirements")
+    primary_candidate: Mapped[RequirementCandidate | None] = relationship(foreign_keys=[primary_candidate_id])
+    candidate_links: Mapped[list["RequirementCandidateLink"]] = relationship(back_populates="requirement", cascade="all, delete-orphan")
+
+
+class RequirementCandidateLink(Base):
+    __tablename__ = "requirement_candidate_links"
+
+    __table_args__ = (
+        UniqueConstraint("requirement_id", "requirement_candidate_id", name="uq_requirement_candidate_link"),
+        Index("ix_requirement_candidate_links_requirement_id", "requirement_id"),
+        Index("ix_requirement_candidate_links_candidate_id", "requirement_candidate_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    requirement_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("requirements.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    requirement_candidate_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("requirement_candidates.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    is_primary_source: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    link_origin: Mapped[str] = mapped_column(String(32), nullable=False, default="DETERMINISTIC")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    requirement: Mapped[Requirement] = relationship(back_populates="candidate_links")
+    candidate: Mapped[RequirementCandidate] = relationship(back_populates="requirement_links")
 
 
 class RequirementCandidateEvidence(Base):
