@@ -1218,6 +1218,7 @@ class Requirement(Base):
     tender: Mapped[Tender] = relationship(back_populates="requirements")
     primary_candidate: Mapped[RequirementCandidate | None] = relationship(foreign_keys=[primary_candidate_id])
     candidate_links: Mapped[list["RequirementCandidateLink"]] = relationship(back_populates="requirement", cascade="all, delete-orphan")
+    semantics: Mapped["RequirementSemantics | None"] = relationship(back_populates="requirement", cascade="all, delete-orphan", uselist=False)
 
 
 class RequirementCandidateLink(Base):
@@ -1307,3 +1308,111 @@ class RequirementCandidateEvidence(Base):
     source_document: Mapped[TenderDocument] = relationship(back_populates="requirement_candidate_evidence", foreign_keys=[source_document_id])
     document_page: Mapped[DocumentPage | None] = relationship(back_populates="requirement_candidate_evidence", foreign_keys=[document_page_id])
     normalized_content: Mapped[NormalizedContent | None] = relationship(back_populates="requirement_candidate_evidence", foreign_keys=[normalized_content_id])
+
+
+class RequirementSemantics(Base):
+    __tablename__ = "requirement_semantics"
+
+    __table_args__ = (
+        UniqueConstraint("requirement_id", name="uq_requirement_semantics_requirement"),
+        Index("ix_requirement_semantics_requirement_id", "requirement_id"),
+        Index("ix_requirement_semantics_applicability", "applicability"),
+        Index("ix_requirement_semantics_interpretation_status", "interpretation_status"),
+        Index("ix_requirement_semantics_evidence_mode", "evidence_mode"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    requirement_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("requirements.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    applicability: Mapped[str] = mapped_column(String(32), nullable=False, default="UNKNOWN")
+    condition_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    interpretation_status: Mapped[str] = mapped_column(String(32), nullable=False, default="REVIEW_REQUIRED")
+    evidence_mode: Mapped[str] = mapped_column(String(32), nullable=False, default="REVIEW_REQUIRED")
+    analyzer_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-04.4")
+    interpretation_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    requirement: Mapped[Requirement] = relationship(back_populates="semantics")
+    expected_evidence: Mapped[list["RequirementEvidenceExpectation"]] = relationship(
+        back_populates="requirement_semantics",
+        cascade="all, delete-orphan",
+    )
+
+
+class RequirementEvidenceExpectation(Base):
+    __tablename__ = "requirement_evidence_expectations"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "requirement_semantics_id",
+            "source_candidate_id",
+            "evidence_type",
+            "excerpt_sha256",
+            name="uq_requirement_evidence_expectation_item",
+        ),
+        Index("ix_requirement_evidence_expectations_semantics_id", "requirement_semantics_id"),
+        Index("ix_requirement_evidence_expectations_requirement_id", "requirement_id"),
+        Index("ix_requirement_evidence_expectations_candidate_id", "source_candidate_id"),
+        Index("ix_requirement_evidence_expectations_type", "evidence_type"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    requirement_semantics_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("requirement_semantics.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    requirement_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("requirements.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    evidence_type: Mapped[str] = mapped_column(String(64), nullable=False, default="UNKNOWN")
+    evidence_description: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    source_candidate_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("requirement_candidates.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    source_document_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+    source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    excerpt_sha256: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    analyzer_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-04.4")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    requirement_semantics: Mapped[RequirementSemantics] = relationship(back_populates="expected_evidence")
+    requirement: Mapped[Requirement] = relationship()
+    source_candidate: Mapped[RequirementCandidate | None] = relationship(foreign_keys=[source_candidate_id])
+    source_document: Mapped[TenderDocument | None] = relationship(foreign_keys=[source_document_id])

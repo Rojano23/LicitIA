@@ -1086,6 +1086,60 @@ class TenderRequirementsRead(BaseModel):
     requirements: list[RequirementRead] = Field(default_factory=list)
 
 
+class RequirementEvidenceExpectationRead(BaseModel):
+    id: str
+    requirement_semantics_id: str
+    requirement_id: str
+    evidence_type: str
+    evidence_description: str
+    source_candidate_id: str | None = None
+    source_document_id: str | None = None
+    source_filename: str | None = None
+    source_page: int | None = None
+    source_excerpt: str
+    analyzer_version: str
+    created_at: datetime
+    updated_at: datetime
+
+
+class RequirementSemanticsRead(BaseModel):
+    requirement_id: str
+    canonical_text: str
+    category: str
+    normalization_status: str
+    applicability: str
+    condition_text: str | None = None
+    interpretation_status: str
+    interpretation_reason: str | None = None
+    evidence_mode: str
+    expected_evidence: list[RequirementEvidenceExpectationRead] = Field(default_factory=list)
+    primary_source: RequirementSourceOccurrenceRead | None = None
+
+
+class RequirementSemanticsSummaryRead(BaseModel):
+    requirement_count: int
+    mandatory_count: int
+    conditional_count: int
+    unknown_applicability_count: int
+    determined_count: int
+    review_required_count: int
+    explicit_artifact_count: int
+    direct_verification_count: int
+    unspecified_evidence_count: int
+    evidence_review_required_count: int
+    evidence_expectation_count: int
+    evidence_type_counts: dict[str, int] = Field(default_factory=dict)
+
+
+class TenderRequirementSemanticsRead(BaseModel):
+    tender_id: str
+    analyzer_version: str
+    generated_at: datetime
+    scope_note: str
+    summary: RequirementSemanticsSummaryRead
+    requirements: list[RequirementSemanticsRead] = Field(default_factory=list)
+
+
 class EvaluationModelEvidenceRead(BaseModel):
     id: str
     source_document_id: str

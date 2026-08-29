@@ -752,6 +752,58 @@ type TenderRequirements = {
   requirements: NormalizedRequirement[];
 };
 
+type RequirementEvidenceExpectation = {
+  id: string;
+  requirement_semantics_id: string;
+  requirement_id: string;
+  evidence_type: string;
+  evidence_description: string;
+  source_candidate_id: string | null;
+  source_document_id: string | null;
+  source_filename: string | null;
+  source_page: number | null;
+  source_excerpt: string;
+  analyzer_version: string;
+  created_at: string;
+  updated_at: string;
+};
+
+type RequirementSemanticItem = {
+  requirement_id: string;
+  canonical_text: string;
+  category: string;
+  normalization_status: string;
+  applicability: string;
+  condition_text: string | null;
+  interpretation_status: string;
+  interpretation_reason: string | null;
+  evidence_mode: string;
+  expected_evidence: RequirementEvidenceExpectation[];
+  primary_source: RequirementSourceOccurrence | null;
+};
+
+type TenderRequirementSemantics = {
+  tender_id: string;
+  analyzer_version: string;
+  generated_at: string;
+  scope_note: string;
+  summary: {
+    requirement_count: number;
+    mandatory_count: number;
+    conditional_count: number;
+    unknown_applicability_count: number;
+    determined_count: number;
+    review_required_count: number;
+    explicit_artifact_count: number;
+    direct_verification_count: number;
+    unspecified_evidence_count: number;
+    evidence_review_required_count: number;
+    evidence_expectation_count: number;
+    evidence_type_counts: Record<string, number>;
+  };
+  requirements: RequirementSemanticItem[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -800,6 +852,8 @@ function App() {
   const [requirementCandidatesLoading, setRequirementCandidatesLoading] = useState(false);
   const [requirements, setRequirements] = useState<TenderRequirements | null>(null);
   const [requirementsLoading, setRequirementsLoading] = useState(false);
+  const [requirementSemantics, setRequirementSemantics] = useState<TenderRequirementSemantics | null>(null);
+  const [requirementSemanticsLoading, setRequirementSemanticsLoading] = useState(false);
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
   const [editEventType, setEditEventType] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -925,6 +979,7 @@ function App() {
       setEvaluation(null);
       setRequirementCandidates(null);
       setRequirements(null);
+      setRequirementSemantics(null);
       return;
     }
 
@@ -940,6 +995,7 @@ function App() {
     void loadTenderEvaluation(selectedTenderId);
     void loadTenderRequirementCandidates(selectedTenderId);
     void loadTenderRequirements(selectedTenderId);
+    void loadTenderRequirementSemantics(selectedTenderId);
   }, [selectedTenderId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -1331,6 +1387,18 @@ function App() {
     }
   };
 
+  const loadTenderRequirementSemantics = async (tenderId: string) => {
+    setRequirementSemanticsLoading(true);
+    try {
+      const response = await axios.get<TenderRequirementSemantics>(`${API_URL}/tenders/${tenderId}/requirement-semantics`);
+      setRequirementSemantics(response.data);
+    } catch (err) {
+      setRequirementSemantics(null);
+    } finally {
+      setRequirementSemanticsLoading(false);
+    }
+  };
+
   const handleAnalyzeEvaluation = async () => {
     if (!selectedTenderId) {
       return;
@@ -1377,6 +1445,61 @@ function App() {
     } finally {
       setRequirementsLoading(false);
     }
+  };
+
+  const handleAnalyzeRequirementSemantics = async () => {
+    if (!selectedTenderId) {
+      return;
+    }
+
+    setRequirementSemanticsLoading(true);
+    try {
+      const response = await axios.post<TenderRequirementSemantics>(`${API_URL}/tenders/${selectedTenderId}/analyze-requirement-semantics`);
+      setRequirementSemantics(response.data);
+    } catch (err) {
+      setError("No se pudo interpretar aplicabilidad y evidencia esperada de los requisitos.");
+    } finally {
+      setRequirementSemanticsLoading(false);
+    }
+  };
+
+  const applicabilityLabel = (value: string) => {
+    if (value === "MANDATORY") {
+      return "Obligatorio";
+    }
+    if (value === "CONDITIONAL") {
+      return "Condicional";
+    }
+    if (value === "UNKNOWN") {
+      return "Por determinar";
+    }
+    return value;
+  };
+
+  const interpretationStatusLabel = (value: string) => {
+    if (value === "DETERMINED") {
+      return "Determinado";
+    }
+    if (value === "REVIEW_REQUIRED") {
+      return "Revisión requerida";
+    }
+    return value;
+  };
+
+  const evidenceModeLabel = (value: string) => {
+    if (value === "EXPLICIT_ARTIFACT") {
+      return "Evidencia documental";
+    }
+    if (value === "DIRECT_VERIFICATION") {
+      return "Verificación directa";
+    }
+    if (value === "UNSPECIFIED") {
+      return "Evidencia no especificada";
+    }
+    if (value === "REVIEW_REQUIRED") {
+      return "Revisar fuente";
+    }
+    return value;
   };
 
   const handleEvaluationModelDecision = async (action: "CONFIRM" | "REJECT" | "RESET_TO_SUGGESTED") => {
@@ -2449,9 +2572,14 @@ function App() {
           <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#f8fafc" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
               <h3 style={{ margin: 0 }}>Requisitos normalizados</h3>
-              <button type="button" onClick={() => void handleNormalizeRequirements()} style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
-                {requirementsLoading ? "Normalizando..." : "Normalizar requisitos"}
-              </button>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <button type="button" onClick={() => void handleNormalizeRequirements()} style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                  {requirementsLoading ? "Normalizando..." : "Normalizar requisitos"}
+                </button>
+                <button type="button" onClick={() => void handleAnalyzeRequirementSemantics()} style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                  {requirementSemanticsLoading ? "Interpretando..." : "Interpretar aplicabilidad y evidencia"}
+                </button>
+              </div>
             </div>
 
             {requirementsLoading && <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>Consolidando ocurrencias detectadas en requisitos canónicos...</div>}
@@ -2466,6 +2594,20 @@ function App() {
                   NORMALIZED {requirements.summary.normalized_count} • REVIEW_REQUIRED {requirements.summary.review_required_count} • Fuentes únicas {requirements.summary.single_source_requirement_count} • Motor {requirements.normalizer_version}
                 </div>
                 <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>{requirements.scope_note}</div>
+                {requirementSemantics && (
+                  <>
+                    <div style={{ marginTop: 6, fontSize: 12, color: "#52607a" }}>{requirementSemantics.scope_note}</div>
+                    <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                      Aplicabilidad: MANDATORY {requirementSemantics.summary.mandatory_count} • CONDITIONAL {requirementSemantics.summary.conditional_count} • UNKNOWN {requirementSemantics.summary.unknown_applicability_count}
+                    </div>
+                    <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                      Interpretación: DETERMINED {requirementSemantics.summary.determined_count} • REVIEW_REQUIRED {requirementSemantics.summary.review_required_count}
+                    </div>
+                    <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                      Evidencia: EXPLICIT_ARTIFACT {requirementSemantics.summary.explicit_artifact_count} • DIRECT_VERIFICATION {requirementSemantics.summary.direct_verification_count} • UNSPECIFIED {requirementSemantics.summary.unspecified_evidence_count} • REVIEW_REQUIRED {requirementSemantics.summary.evidence_review_required_count}
+                    </div>
+                  </>
+                )}
 
                 {Object.keys(requirements.summary.category_counts).length > 0 && (
                   <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
@@ -2476,18 +2618,73 @@ function App() {
                 )}
 
                 <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
-                  {requirements.requirements.map((requirement) => (
+                  {requirements.requirements.map((requirement) => {
+                    const semantics = requirementSemantics?.requirements.find((item) => item.requirement_id === requirement.id) ?? null;
+                    return (
                     <details key={requirement.id} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: 10, background: "#fff" }}>
                       <summary style={{ cursor: "pointer" }}>
                         <strong>{requirement.canonical_text}</strong>
                         <div style={{ fontSize: 12, color: "#52607a", marginTop: 4 }}>
                           {requirement.category} • Fuentes {requirement.source_occurrence_count} • {requirement.normalization_status}
                         </div>
+                        {semantics && (
+                          <div style={{ fontSize: 12, color: "#334155", marginTop: 4 }}>
+                            {applicabilityLabel(semantics.applicability)} • {evidenceModeLabel(semantics.evidence_mode)} • {interpretationStatusLabel(semantics.interpretation_status)}
+                          </div>
+                        )}
                       </summary>
 
                       <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
                         Confianza: {requirement.normalization_confidence ?? "-"} • Razón: {requirement.normalization_reason ?? "-"}
                       </div>
+
+                      {semantics && (
+                        <>
+                          <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
+                            Aplicabilidad: <strong>{applicabilityLabel(semantics.applicability)}</strong>
+                            {semantics.condition_text && <span> • Condición: {semantics.condition_text}</span>}
+                          </div>
+                          <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                            Evidencia esperada: <strong>{evidenceModeLabel(semantics.evidence_mode)}</strong> • Estado: <strong>{interpretationStatusLabel(semantics.interpretation_status)}</strong>
+                          </div>
+                          {semantics.interpretation_reason && (
+                            <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                              Razón de interpretación: {semantics.interpretation_reason}
+                            </div>
+                          )}
+
+                          {semantics.evidence_mode === "DIRECT_VERIFICATION" && (
+                            <div style={{ marginTop: 6, fontSize: 12, color: "#334155" }}>
+                              Se verifica directamente en la propuesta.
+                            </div>
+                          )}
+                          {semantics.evidence_mode === "UNSPECIFIED" && (
+                            <div style={{ marginTop: 6, fontSize: 12, color: "#334155" }}>
+                              La fuente establece el requisito pero no especifica cómo acreditarlo.
+                            </div>
+                          )}
+                          {semantics.evidence_mode === "REVIEW_REQUIRED" && (
+                            <div style={{ marginTop: 6, fontSize: 12, color: "#334155" }}>
+                              Revisar fuente.
+                            </div>
+                          )}
+
+                          {semantics.expected_evidence.length > 0 && (
+                            <div style={{ marginTop: 8, display: "grid", gap: 6 }}>
+                              {semantics.expected_evidence.map((item) => (
+                                <div key={item.id} style={{ fontSize: 12, color: "#334155", borderTop: "1px solid #f1f5f9", paddingTop: 6 }}>
+                                  <div>
+                                    <strong>{item.evidence_type}</strong> • {item.evidence_description}
+                                  </div>
+                                  <div style={{ color: "#52607a", marginTop: 3 }}>
+                                    {item.source_filename ?? item.source_document_id} p{item.source_page ?? "-"}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      )}
 
                       {requirement.primary_source && (
                         <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
@@ -2509,7 +2706,8 @@ function App() {
                         ))}
                       </div>
                     </details>
-                  ))}
+                    );
+                  })}
                 </div>
               </>
             )}
