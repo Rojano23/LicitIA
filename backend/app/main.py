@@ -25,6 +25,13 @@ ALLOWED_COMPANY_CONFLICT_ACTIONS = {"NONE", "NEW_DOCUMENT", "NEW_REVISION"}
 from app.config import get_settings
 from app.database import get_db
 from app.content_normalization import list_normalized_sources, process_document_normalization
+from app.company_evidence import (
+    analyze_company_document_evidence,
+    create_manual_company_evidence,
+    get_company_document_evidence,
+    list_company_evidence,
+    review_company_evidence,
+)
 from app.document_classification import apply_human_classification_decision, get_document_classification, process_document_classification
 from app.document_intelligence_audit import generate_document_intelligence_audit
 from app.document_references import (
@@ -68,9 +75,14 @@ from app.ocr import build_default_ocr_provider_registry
 from app.schemas import (
     CompanyCreate,
     CompanyDocumentArchiveWrite,
+    CompanyDocumentEvidenceAnalysisRead,
     CompanyDocumentImportResult,
     CompanyDocumentRead,
     CompanyDocumentUpdate,
+    CompanyEvidenceCollectionRead,
+    CompanyEvidenceManualWrite,
+    CompanyEvidenceRead,
+    CompanyEvidenceReviewWrite,
     CompanyRead,
     CompanyUpdate,
     DocumentClassificationRead,
@@ -1151,6 +1163,108 @@ def get_company_document_content(company_id: str, document_id: str, db: Session 
         media_type="application/pdf",
         filename=document.original_filename,
         content_disposition_type="inline",
+    )
+
+
+@app.post(
+    "/companies/{company_id}/documents/{document_id}/analyze-evidence",
+    response_model=CompanyDocumentEvidenceAnalysisRead,
+)
+def analyze_company_document_evidence_endpoint(
+    company_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    return analyze_company_document_evidence(db, company_id, document_id)
+
+
+@app.get("/companies/{company_id}/evidence", response_model=CompanyEvidenceCollectionRead)
+def list_company_evidence_endpoint(
+    company_id: str,
+    document_id: str | None = None,
+    evidence_type: str | None = None,
+    subject_kind: str | None = None,
+    review_status: str | None = None,
+    current_source_only: bool = False,
+    include_archived_sources: bool = False,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    return list_company_evidence(
+        db,
+        company_id,
+        document_id=document_id,
+        evidence_type=evidence_type,
+        subject_kind=subject_kind,
+        review_status=review_status,
+        current_source_only=current_source_only,
+        include_archived_sources=include_archived_sources,
+    )
+
+
+@app.get(
+    "/companies/{company_id}/documents/{document_id}/evidence",
+    response_model=CompanyEvidenceCollectionRead,
+)
+def list_company_document_evidence_endpoint(
+    company_id: str,
+    document_id: str,
+    include_archived_sources: bool = True,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    return get_company_document_evidence(
+        db,
+        company_id,
+        document_id,
+        include_archived_sources=include_archived_sources,
+    )
+
+
+@app.patch("/companies/{company_id}/evidence/{evidence_id}/review", response_model=CompanyEvidenceRead)
+def review_company_evidence_endpoint(
+    company_id: str,
+    evidence_id: str,
+    payload: CompanyEvidenceReviewWrite,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    return review_company_evidence(
+        db,
+        company_id,
+        evidence_id,
+        review_status=payload.review_status.strip().upper(),
+        review_note=payload.review_note,
+    )
+
+
+@app.post(
+    "/companies/{company_id}/documents/{document_id}/evidence/manual",
+    response_model=CompanyEvidenceRead,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_manual_company_evidence_endpoint(
+    company_id: str,
+    document_id: str,
+    payload: CompanyEvidenceManualWrite,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    return create_manual_company_evidence(
+        db,
+        company_id,
+        document_id,
+        evidence_type=payload.evidence_type.strip().upper(),
+        subject_kind=payload.subject_kind.strip().upper(),
+        subject_name=payload.subject_name,
+        canonical_statement=payload.canonical_statement,
+        issuer=payload.issuer,
+        reference_number=payload.reference_number,
+        issued_on=payload.issued_on,
+        valid_from=payload.valid_from,
+        valid_until=payload.valid_until,
+        period_start=payload.period_start,
+        period_end=payload.period_end,
+        source_page=payload.source_page,
+        source_locator=payload.source_locator,
+        source_excerpt=payload.source_excerpt,
+        review_note=payload.review_note,
     )
 
 

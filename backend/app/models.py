@@ -29,6 +29,46 @@ class CompanyDocumentStatus(str, Enum):
     FAILED = "FAILED"
 
 
+class CompanyEvidenceType(str, Enum):
+    CORPORATE_EXISTENCE = "CORPORATE_EXISTENCE"
+    LEGAL_AUTHORITY = "LEGAL_AUTHORITY"
+    TAX_REGISTRATION = "TAX_REGISTRATION"
+    TAX_COMPLIANCE = "TAX_COMPLIANCE"
+    SOCIAL_SECURITY_COMPLIANCE = "SOCIAL_SECURITY_COMPLIANCE"
+    REGISTRATION = "REGISTRATION"
+    CERTIFICATION = "CERTIFICATION"
+    PERSONNEL_QUALIFICATION = "PERSONNEL_QUALIFICATION"
+    EXPERIENCE = "EXPERIENCE"
+    SAFETY_CREDENTIAL = "SAFETY_CREDENTIAL"
+    GUARANTEE = "GUARANTEE"
+    COMMERCIAL_DOCUMENT = "COMMERCIAL_DOCUMENT"
+    OTHER = "OTHER"
+    UNKNOWN = "UNKNOWN"
+
+
+class CompanyEvidenceSubjectKind(str, Enum):
+    COMPANY = "COMPANY"
+    PERSON = "PERSON"
+    OTHER = "OTHER"
+
+
+class CompanyEvidenceAnalysisStatus(str, Enum):
+    DETERMINED = "DETERMINED"
+    REVIEW_REQUIRED = "REVIEW_REQUIRED"
+
+
+class CompanyEvidenceOrigin(str, Enum):
+    DETERMINISTIC = "DETERMINISTIC"
+    HUMAN = "HUMAN"
+
+
+class CompanyEvidenceReviewStatus(str, Enum):
+    PENDING = "PENDING"
+    APPROVED = "APPROVED"
+    NEEDS_REVIEW = "NEEDS_REVIEW"
+    REJECTED = "REJECTED"
+
+
 class TenderDocumentStatus(str, Enum):
     IMPORTED = "IMPORTED"
     DUPLICATE = "DUPLICATE"
@@ -70,6 +110,11 @@ class Company(Base):
     )
 
     documents: Mapped[list["CompanyDocument"]] = relationship(back_populates="company", cascade="all, delete-orphan")
+    evidence: Mapped[list["CompanyEvidence"]] = relationship(back_populates="company", cascade="all, delete-orphan")
+    evidence_reviews: Mapped[list["CompanyEvidenceReview"]] = relationship(
+        back_populates="company",
+        cascade="all, delete-orphan",
+    )
 
 
 class CompanyDocument(Base):
@@ -125,6 +170,111 @@ class CompanyDocument(Base):
     )
 
     company: Mapped[Company] = relationship(back_populates="documents")
+    evidence: Mapped[list["CompanyEvidence"]] = relationship(back_populates="source_document", cascade="all, delete-orphan")
+
+
+class CompanyEvidence(Base):
+    __tablename__ = "company_evidence"
+
+    __table_args__ = (
+        Index("ix_company_evidence_company_id", "company_id"),
+        Index("ix_company_evidence_company_document_id", "company_document_id"),
+        Index("ix_company_evidence_evidence_type", "evidence_type"),
+        Index("ix_company_evidence_subject_kind", "subject_kind"),
+        Index("ix_company_evidence_analysis_status", "analysis_status"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    company_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("companies.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    company_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("company_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    evidence_type: Mapped[str] = mapped_column(String(64), nullable=False)
+    subject_kind: Mapped[str] = mapped_column(String(32), nullable=False)
+    subject_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    canonical_statement: Mapped[str] = mapped_column(Text, nullable=False)
+    issuer: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    reference_number: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    issued_on: Mapped[date | None] = mapped_column(Date, nullable=True)
+    valid_from: Mapped[date | None] = mapped_column(Date, nullable=True)
+    valid_until: Mapped[date | None] = mapped_column(Date, nullable=True)
+    period_start: Mapped[date | None] = mapped_column(Date, nullable=True)
+    period_end: Mapped[date | None] = mapped_column(Date, nullable=True)
+    analysis_status: Mapped[str] = mapped_column(String(32), nullable=False)
+    origin: Mapped[str] = mapped_column(String(32), nullable=False)
+    extractor_version: Mapped[str] = mapped_column(String(64), nullable=False)
+    source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    source_locator: Mapped[str | None] = mapped_column(String(512), nullable=True)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False)
+    semantic_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    company: Mapped[Company] = relationship(back_populates="evidence")
+    source_document: Mapped[CompanyDocument] = relationship(back_populates="evidence")
+    review: Mapped["CompanyEvidenceReview | None"] = relationship(
+        back_populates="company_evidence",
+        cascade="all, delete-orphan",
+        uselist=False,
+    )
+
+
+class CompanyEvidenceReview(Base):
+    __tablename__ = "company_evidence_reviews"
+
+    __table_args__ = (
+        UniqueConstraint("company_evidence_id", name="uq_company_evidence_review_evidence_id"),
+        Index("ix_company_evidence_reviews_company_id", "company_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    company_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("companies.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    company_evidence_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("company_evidence.id", ondelete="CASCADE"),
+        nullable=False,
+        unique=True,
+    )
+    review_status: Mapped[str] = mapped_column(String(32), nullable=False, default=CompanyEvidenceReviewStatus.PENDING.value)
+    review_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    reviewed_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    company: Mapped[Company] = relationship(back_populates="evidence_reviews")
+    company_evidence: Mapped[CompanyEvidence] = relationship(back_populates="review")
 
 
 class Tender(Base):

@@ -100,6 +100,114 @@ class CompanyDocumentArchiveWrite(BaseModel):
     archived: bool = True
 
 
+class CompanyEvidenceSourceDocumentRead(BaseModel):
+    id: str
+    company_id: str
+    original_filename: str
+    document_type: str | None = None
+    label: str | None = None
+    status: str
+    archived_at: datetime | None = None
+    revision_number: int
+    is_current: bool
+
+
+class CompanyEvidenceReviewRead(BaseModel):
+    id: str
+    company_id: str
+    company_evidence_id: str
+    review_status: str
+    review_note: str | None = None
+    reviewed_fingerprint: str | None = None
+    reviewed_at: datetime | None = None
+    created_at: datetime
+    updated_at: datetime
+
+
+class CompanyEvidenceRead(BaseModel):
+    id: str
+    company_id: str
+    company_document_id: str
+    evidence_type: str
+    subject_kind: str
+    subject_name: str | None = None
+    canonical_statement: str
+    issuer: str | None = None
+    reference_number: str | None = None
+    issued_on: date | None = None
+    valid_from: date | None = None
+    valid_until: date | None = None
+    period_start: date | None = None
+    period_end: date | None = None
+    analysis_status: str
+    origin: str
+    extractor_version: str
+    source_page: int | None = None
+    source_locator: str | None = None
+    source_excerpt: str
+    semantic_fingerprint: str
+    system_warnings: list[str] = Field(default_factory=list)
+    review_freshness: str
+    created_at: datetime
+    updated_at: datetime
+    source_document: CompanyEvidenceSourceDocumentRead
+    review: CompanyEvidenceReviewRead | None = None
+
+
+class CompanyEvidenceSummaryRead(BaseModel):
+    evidence_count: int
+    determined_count: int
+    review_required_count: int
+    validated_count: int
+    pending_review_count: int
+    rejected_count: int
+    historical_source_count: int
+    current_review_count: int
+    stale_review_count: int
+    not_reviewed_count: int
+
+
+class CompanyEvidenceCollectionRead(BaseModel):
+    summary: CompanyEvidenceSummaryRead
+    evidence: list[CompanyEvidenceRead] = Field(default_factory=list)
+
+
+class CompanyDocumentEvidenceAnalysisSummaryRead(CompanyEvidenceSummaryRead):
+    document_id: str
+    company_id: str
+    text_extraction_status: str
+    extractor_version: str
+    warnings: list[str] = Field(default_factory=list)
+
+
+class CompanyDocumentEvidenceAnalysisRead(BaseModel):
+    summary: CompanyDocumentEvidenceAnalysisSummaryRead
+    evidence: list[CompanyEvidenceRead] = Field(default_factory=list)
+
+
+class CompanyEvidenceReviewWrite(BaseModel):
+    review_status: str = Field(..., min_length=1, max_length=32)
+    review_note: str | None = Field(default=None, max_length=2000)
+
+
+class CompanyEvidenceManualWrite(BaseModel):
+    evidence_type: str = Field(..., min_length=1, max_length=64)
+    subject_kind: str = Field(..., min_length=1, max_length=32)
+    subject_name: str | None = Field(default=None, max_length=255)
+    canonical_statement: str = Field(..., min_length=1, max_length=2000)
+    issuer: str | None = Field(default=None, max_length=255)
+    reference_number: str | None = Field(default=None, max_length=255)
+    issued_on: date | None = None
+    valid_from: date | None = None
+    valid_until: date | None = None
+    period_start: date | None = None
+    period_end: date | None = None
+    source_page: int | None = Field(default=None, ge=1)
+    source_locator: str | None = Field(default=None, max_length=512)
+    source_excerpt: str = Field(..., min_length=1, max_length=4000)
+    review_note: str | None = Field(default=None, max_length=2000)
+
+
 class TenderDocumentRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
