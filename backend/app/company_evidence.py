@@ -133,7 +133,7 @@ def _extract_date_from_label(text: str, labels: tuple[str, ...]) -> date | None:
 
 def _extract_reference(text: str) -> str | None:
     patterns = (
-        r"(?:folio|referencia|certificado no\.?|constancia no\.?|registro no\.?|n[úu]mero de certificado|numero de certificado)\s*[:#-]?\s*([A-Z0-9\-/]+)",
+        r"(?:folio|referencia|certificado no\.?|constancia no\.?|registro no\.?|n[úu]mero de certificado|numero de certificado|n[úu]mero de registro|numero de registro)\s*[:#-]?\s*([A-Z0-9\-/]+)",
         r"(?:c[eé]dula profesional|licencia)\s*[:#-]?\s*([A-Z0-9\-/]+)",
     )
     for pattern in patterns:
@@ -519,6 +519,98 @@ def _detect_tax_registration(segment: SourceSegment) -> list[EvidenceCandidate]:
     ]
 
 
+def _extract_registration_identity(text: str) -> str | None:
+    patterns = (
+        r"(?:certificado\s+de\s+registro|registro\s+vigente|consta\s+su\s+registro|se\s+encuentra\s+registrad[oa]|inscrit[oa])\s+(?:en|del?)\s+(?:la\s+|el\s+)?([^\n\.;:,]{3,120})",
+        r"(?:registro\s+en)\s+(?:la\s+|el\s+)?([^\n\.;:,]{3,120})",
+        r"(?:plataforma|padr[oó]n|registro)\s+([A-Z][A-Z0-9\-]{2,30})",
+    )
+    for pattern in patterns:
+        match = re.search(pattern, text, flags=re.IGNORECASE)
+        if not match:
+            continue
+        candidate = _canonical_subject(match.group(1))
+        if candidate and _normalize_space(candidate).lower() not in {"procedimiento", "contratacion", "propuesta"}:
+            return candidate
+    if re.search(r"\bhiip\b", text, flags=re.IGNORECASE):
+        return "HIIP"
+    return None
+
+
+def _detect_generic_registration(segment: SourceSegment) -> list[EvidenceCandidate]:
+    text = segment.text
+    folded = _fold_for_matching(text)
+    if not re.search(r"\b(registrad[oa]|registro|inscrit[oa]|padron)\b", folded, flags=re.IGNORECASE):
+        return []
+
+    non_tax_markers = (
+        "hiip",
+        "plataforma",
+        "padron",
+        "proveedores",
+        "contratistas",
+        "vendor",
+        "autorizacion",
+        "registro industrial",
+    )
+    has_non_tax_registry_context = any(marker in folded for marker in non_tax_markers)
+    if not has_non_tax_registry_context:
+        return []
+
+    has_registration_fact = any(
+        phrase in folded
+        for phrase in (
+            "consta su registro",
+            "registro vigente",
+            "certificado de registro",
+            "se encuentra registrada",
+            "se encuentra registrado",
+            "inscrita en",
+            "inscrito en",
+        )
+    )
+
+    registry_name = _extract_registration_identity(text)
+    if registry_name is None:
+        return []
+
+    subject = _extract_subject(text, ("raz[oó]n social", "titular", "empresa", "contribuyente", "nombre"))
+    if subject is None:
+        subject = _extract_company_subject_from_phrase(
+            text,
+            (
+                r"la\s+empresa\s+(.+?)\s+(?:cuenta con|se encuentra)",
+                r"(.+?)\s+se\s+encuentra\s+registrad[oa]",
+            ),
+        )
+
+    reference_number = _extract_reference(text)
+    valid_until = _extract_date_from_label(text, ("vigente hasta", "v[aá]lido hasta", "validez hasta", "vigencia hasta"))
+    if not has_registration_fact and not reference_number and valid_until is None:
+        return []
+
+    statement_subject = subject or "La entidad"
+    statement = f"{statement_subject} cuenta con registro vigente en {registry_name}"
+    if reference_number:
+        statement = f"{statement}, número {reference_number}"
+    if valid_until:
+        statement = f"{statement}, vigente hasta {valid_until.isoformat()}"
+    statement = f"{statement}."
+
+    return [
+        _candidate_from_segment(
+            evidence_type=CompanyEvidenceType.REGISTRATION.value,
+            subject_kind=CompanyEvidenceSubjectKind.COMPANY.value,
+            subject_name=subject,
+            canonical_statement=statement,
+            segment=segment,
+            locator_suffix="registration-1",
+            reference_number=reference_number,
+            valid_until=valid_until,
+        )
+    ]
+
+
 def _detect_tax_compliance(segment: SourceSegment) -> list[EvidenceCandidate]:
     text = segment.text
     lowered = text.lower()
@@ -723,6 +815,7 @@ def _derive_candidates(document: CompanyDocument, segments: list[SourceSegment])
     per_segment_detectors = (
         _detect_corporate_existence,
         _detect_tax_registration,
+        _detect_generic_registration,
         _detect_tax_compliance,
         _detect_personnel_qualification,
         _detect_experience,

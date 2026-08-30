@@ -217,6 +217,77 @@ def test_no_evidence_and_filename_trap_do_not_invent_claims() -> None:
     assert analyzed["evidence"] == []
 
 
+def test_non_tax_registry_extraction_creates_generic_registration_and_preserves_tax_registration() -> None:
+    company_id = _create_company("Registro No Fiscal")
+    imported = _import_document(
+        company_id,
+        "hiip-registro.txt",
+        (
+            "Razon social: GOLDEN INDUSTRIAL SERVICES, S.A. DE C.V.\n"
+            "RFC: GIS260101AB1\n"
+            "Consta su registro vigente en la plataforma HIIP para participar en procedimientos electronicos.\n"
+            "Numero de registro: HIIP-GC001-2026\n"
+            "Vigente hasta: 2027-12-31\n"
+        ).encode("utf-8"),
+    )
+
+    analyzed = _analyze(company_id, imported["document_id"])
+    evidence_types = [row["evidence_type"] for row in analyzed["evidence"]]
+    assert "TAX_REGISTRATION" in evidence_types
+    assert "REGISTRATION" in evidence_types
+
+    registry = next(row for row in analyzed["evidence"] if row["evidence_type"] == "REGISTRATION")
+    assert "hiip" in registry["canonical_statement"].lower()
+    assert registry["reference_number"] == "HIIP-GC001-2026"
+    assert registry["valid_until"] == "2027-12-31"
+    assert registry["source_locator"].startswith("lines:")
+    assert registry["source_excerpt"]
+    assert registry["review"] is None
+    assert registry["review_freshness"] == "NOT_REVIEWED"
+
+
+def test_registry_name_preservation_supports_non_hiip_registry() -> None:
+    company_id = _create_company("Registro Proveedores Industriales")
+    imported = _import_document(
+        company_id,
+        "padron-proveedores.txt",
+        (
+            "Empresa: SUMINISTROS INDUSTRIALES DEL CENTRO, S.A. DE C.V.\n"
+            "Se encuentra inscrita en el Registro de Proveedores Industriales.\n"
+            "Numero de registro: RPI-77881\n"
+        ).encode("utf-8"),
+    )
+
+    analyzed = _analyze(company_id, imported["document_id"])
+    registry = _find_evidence(analyzed["evidence"], "REGISTRATION")
+    assert "registro de proveedores industriales" in registry["canonical_statement"].lower()
+    assert registry["reference_number"] == "RPI-77881"
+
+
+def test_registration_not_inferred_from_filename_or_metadata_only() -> None:
+    company_id = _create_company("Trap Registro Nombre")
+    imported = _import_document(
+        company_id,
+        "HIIP_CERTIFICATE.txt",
+        b"hello world\ntexto sin hechos de registro\n",
+    )
+    analyzed = _analyze(company_id, imported["document_id"])
+    assert all(row["evidence_type"] != "REGISTRATION" for row in analyzed["evidence"])
+
+    patched = client.patch(
+        f"/companies/{company_id}/documents/{imported['document_id']}",
+        json={
+            "document_type": "REGISTRATION",
+            "label": "HIIP",
+            "metadata_note": "Registro HIIP",
+        },
+    )
+    assert patched.status_code == 200, patched.text
+
+    analyzed_again = _analyze(company_id, imported["document_id"])
+    assert all(row["evidence_type"] != "REGISTRATION" for row in analyzed_again["evidence"])
+
+
 def test_analysis_is_idempotent_and_get_routes_are_read_only() -> None:
     company_id = _create_company("Idempotencia")
     imported = _import_document(

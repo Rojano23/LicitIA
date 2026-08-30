@@ -1269,6 +1269,7 @@ function App() {
   const [complianceReviewLoading, setComplianceReviewLoading] = useState(false);
   const [complianceMatrix, setComplianceMatrix] = useState<ComplianceMatrix | null>(null);
   const [complianceMatrixLoading, setComplianceMatrixLoading] = useState(false);
+  const [complianceMatrixView, setComplianceMatrixView] = useState<"ACTION_REQUIRED" | "FINALIZED" | "ALL">("ACTION_REQUIRED");
   const [decisionSavingRequirementId, setDecisionSavingRequirementId] = useState<string | null>(null);
   const [decisionNotesByRequirement, setDecisionNotesByRequirement] = useState<Record<string, string>>({});
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
@@ -1404,6 +1405,7 @@ function App() {
       setComplianceAssessments(null);
       setComplianceReview(null);
       setComplianceMatrix(null);
+      setComplianceMatrixView("ACTION_REQUIRED");
       setDecisionNotesByRequirement({});
       return;
     }
@@ -1432,6 +1434,7 @@ function App() {
       setComplianceAssessments(null);
       setComplianceReview(null);
       setComplianceMatrix(null);
+      setComplianceMatrixView("ACTION_REQUIRED");
       setDecisionNotesByRequirement({});
       return;
     }
@@ -1442,7 +1445,7 @@ function App() {
       void loadRequirementEvidenceMatches(selectedTenderId, selectedMatchCompanyId);
       void loadComplianceAssessments(selectedTenderId, selectedMatchCompanyId);
       void loadComplianceReview(selectedTenderId, selectedMatchCompanyId);
-      void loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId);
+      void loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId, "ACTION_REQUIRED");
     }
   }, [selectedTenderId, selectedMatchCompanyId]);
 
@@ -1939,11 +1942,13 @@ function App() {
     }
   };
 
-  const loadComplianceMatrix = async (tenderId: string, companyId: string) => {
+  const loadComplianceMatrix = async (tenderId: string, companyId: string, operationalState: "ACTION_REQUIRED" | "FINALIZED" | "ALL" = complianceMatrixView) => {
     setComplianceMatrixLoading(true);
     try {
+      const params = operationalState === "ALL" ? undefined : { operational_state: operationalState };
       const response = await axios.get<ComplianceMatrix>(
         `${API_URL}/tenders/${tenderId}/companies/${companyId}/compliance-matrix`,
+        params ? { params } : undefined,
       );
       setComplianceMatrix(response.data);
     } catch (err) {
@@ -1965,7 +1970,7 @@ function App() {
       );
       setComplianceAssessments(response.data);
       await loadComplianceReview(selectedTenderId, selectedMatchCompanyId);
-      await loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId);
+      await loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId, complianceMatrixView);
     } catch (err) {
       setError("No se pudo ejecutar la evaluación automática de soporte documental.");
     } finally {
@@ -2137,7 +2142,7 @@ function App() {
         };
       });
       await loadComplianceAssessments(selectedTenderId, selectedMatchCompanyId);
-      await loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId);
+      await loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId, complianceMatrixView);
       setError("");
     } catch (err) {
       setError("No se pudo registrar la decisión humana de cumplimiento.");
@@ -2158,7 +2163,7 @@ function App() {
       );
       setRequirementEvidenceMatches(response.data);
       await loadCompanyEvidenceOptions(selectedMatchCompanyId);
-      await loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId);
+      await loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId, complianceMatrixView);
     } catch (err) {
       setError("No se pudieron calcular las evidencias candidatas para la empresa seleccionada.");
     } finally {
@@ -4352,6 +4357,48 @@ function App() {
             {complianceMatrix && (
               <>
                 <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>{complianceMatrix.scope_note}</div>
+                <div style={{ marginTop: 8, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                  <span style={{ fontSize: 12, color: "#52607a", fontWeight: 700 }}>Vista</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setComplianceMatrixView("ACTION_REQUIRED");
+                      if (selectedTenderId && selectedMatchCompanyId) {
+                        void loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId, "ACTION_REQUIRED");
+                      }
+                    }}
+                    disabled={!selectedMatchCompanyId || complianceMatrixLoading}
+                    style={{ padding: "6px 10px", borderRadius: 999, border: "1px solid " + (complianceMatrixView === "ACTION_REQUIRED" ? "#1b5bd8" : "#cfd8e3"), background: complianceMatrixView === "ACTION_REQUIRED" ? "#dbeafe" : "#fff", fontWeight: 700 }}
+                  >
+                    Pendientes
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setComplianceMatrixView("FINALIZED");
+                      if (selectedTenderId && selectedMatchCompanyId) {
+                        void loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId, "FINALIZED");
+                      }
+                    }}
+                    disabled={!selectedMatchCompanyId || complianceMatrixLoading}
+                    style={{ padding: "6px 10px", borderRadius: 999, border: "1px solid " + (complianceMatrixView === "FINALIZED" ? "#1b5bd8" : "#cfd8e3"), background: complianceMatrixView === "FINALIZED" ? "#dbeafe" : "#fff", fontWeight: 700 }}
+                  >
+                    Finalizados
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setComplianceMatrixView("ALL");
+                      if (selectedTenderId && selectedMatchCompanyId) {
+                        void loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId, "ALL");
+                      }
+                    }}
+                    disabled={!selectedMatchCompanyId || complianceMatrixLoading}
+                    style={{ padding: "6px 10px", borderRadius: 999, border: "1px solid " + (complianceMatrixView === "ALL" ? "#1b5bd8" : "#cfd8e3"), background: complianceMatrixView === "ALL" ? "#dbeafe" : "#fff", fontWeight: 700 }}
+                  >
+                    Todos
+                  </button>
+                </div>
                 <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
                   Activos {complianceMatrix.summary.active_requirements} • Finalizados {complianceMatrix.summary.finalized_count} • Acción requerida {complianceMatrix.summary.action_required_count} • Revisión requerida {complianceMatrix.summary.review_required_count}
                 </div>
@@ -4377,7 +4424,7 @@ function App() {
                       </tr>
                     </thead>
                     <tbody>
-                      {complianceMatrix.rows.slice(0, 12).map((row) => (
+                      {complianceMatrix.rows.map((row) => (
                         <tr key={row.requirement.requirement_id}>
                           <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
                             <div style={{ fontWeight: 700 }}>{row.requirement.canonical_text}</div>

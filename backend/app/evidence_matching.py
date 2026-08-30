@@ -291,6 +291,34 @@ def _extract_iso_standard_code(text: str) -> str | None:
     return match.group(1)
 
 
+def _extract_registry_identity(text: str) -> str | None:
+    normalized = _normalize_for_match(text)
+    if "hiip" in normalized:
+        return "hiip"
+    patterns = (
+        r"(?:certificado\s+de\s+registro|registro\s+vigente|registro\s+en|inscri(?:to|ta)\s+en|padron\s+de)\s+(?:la\s+|el\s+)?([a-z0-9\-\s]{3,120})",
+        r"(?:plataforma|padron|registro\s+de)\s+([a-z0-9\-\s]{3,120})",
+    )
+    for pattern in patterns:
+        match = re.search(pattern, normalized, flags=re.IGNORECASE)
+        if not match:
+            continue
+        candidate = _normalize_space(match.group(1)).strip(" .,;:")
+        if candidate and candidate not in {"contratacion", "procedimiento", "propuesta"}:
+            return candidate
+    return None
+
+
+def _registry_identity_matches(requirement_identity: str, evidence_identity: str) -> bool:
+    if requirement_identity == evidence_identity:
+        return True
+    if requirement_identity in evidence_identity:
+        return True
+    if evidence_identity in requirement_identity:
+        return True
+    return False
+
+
 def _contains_any(text: str, tokens: tuple[str, ...]) -> bool:
     return any(token in text for token in tokens)
 
@@ -507,6 +535,40 @@ def _draft_for_pair(requirement_row: dict[str, Any], evidence: CompanyEvidence) 
         if evidence.evidence_type != "REGISTRATION":
             return None
         basis = [BASIS_EVIDENCE_TYPE, BASIS_REQUIREMENT_FACT]
+        required_registry = _extract_registry_identity(requirement_text)
+        evidence_registry = _extract_registry_identity(evidence_text)
+        if required_registry and evidence_registry:
+            if _registry_identity_matches(required_registry, evidence_registry):
+                return _build_draft(
+                    requirement_row=requirement_row,
+                    evidence=evidence,
+                    match_strength=MATCH_STRONG,
+                    match_basis=basis + [BASIS_EXPECTED_EVIDENCE_TEXT],
+                    match_rationale="La evidencia de registro coincide con la identidad de padrón/plataforma solicitada por el requisito.",
+                    system_warnings=warnings,
+                    origin=ORIGIN_DETERMINISTIC,
+                )
+            mismatch_warnings = warnings + ["REGISTRY_IDENTITY_MISMATCH"]
+            return _build_draft(
+                requirement_row=requirement_row,
+                evidence=evidence,
+                match_strength=MATCH_POSSIBLE,
+                match_basis=basis,
+                match_rationale="La evidencia pertenece a la familia de registro, pero la identidad del padrón/plataforma no coincide de forma explícita.",
+                system_warnings=mismatch_warnings,
+                origin=ORIGIN_DETERMINISTIC,
+            )
+        if required_registry and not evidence_registry:
+            identity_warnings = warnings + ["REGISTRY_IDENTITY_NOT_EXPLICIT_IN_EVIDENCE"]
+            return _build_draft(
+                requirement_row=requirement_row,
+                evidence=evidence,
+                match_strength=MATCH_REVIEW_REQUIRED,
+                match_basis=basis,
+                match_rationale="La evidencia indica registro, pero no explicita claramente el padrón/plataforma requerido.",
+                system_warnings=identity_warnings,
+                origin=ORIGIN_DETERMINISTIC,
+            )
         return _build_draft(
             requirement_row=requirement_row,
             evidence=evidence,

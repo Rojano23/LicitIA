@@ -380,6 +380,85 @@ def test_company_iso_does_not_become_strong_for_personnel_manufacturer_certifica
     assert match["match_strength"] != "STRONG"
 
 
+def test_hiip_requirement_strongly_matches_generic_registration_with_same_registry_identity() -> None:
+    tender_id = _create_tender("MATCH registration hiip strong")
+    company_id = _create_company("Match HIIP Strong")
+    requirement_id = _seed_requirement(
+        tender_id,
+        "hiip.pdf",
+        "El interesado debera contar con certificado de registro en la HIIP vigente durante todo el procedimiento.",
+    )
+    document_id = _import_company_document(company_id, "hiip.txt", b"Documento base\n")
+    evidence = _manual_company_evidence(
+        company_id,
+        document_id,
+        evidence_type="REGISTRATION",
+        subject_kind="COMPANY",
+        subject_name="Match HIIP Strong SA de CV",
+        canonical_statement="La empresa cuenta con registro vigente en la plataforma HIIP, numero HIIP-7788.",
+        source_excerpt="Registro vigente en la plataforma HIIP, numero HIIP-7788.",
+        reference_number="HIIP-7788",
+    )
+
+    payload = _analyze_matches(tender_id, company_id)
+    row = _find_requirement_row(payload, requirement_id)
+    match = _find_match(row, "REGISTRATION")
+    assert match["company_evidence"]["id"] == evidence["id"]
+    assert match["match_strength"] in {"STRONG", "POSSIBLE"}
+    assert "REGISTRY_IDENTITY_MISMATCH" not in match["system_warnings"]
+
+
+def test_wrong_registry_identity_is_not_strong_for_hiip_requirement() -> None:
+    tender_id = _create_tender("MATCH registration wrong registry")
+    company_id = _create_company("Match HIIP Wrong Registry")
+    requirement_id = _seed_requirement(
+        tender_id,
+        "hiip.pdf",
+        "El interesado debera contar con certificado de registro en la HIIP vigente durante todo el procedimiento.",
+    )
+    document_id = _import_company_document(company_id, "registro-otro.txt", b"Documento base\n")
+    _manual_company_evidence(
+        company_id,
+        document_id,
+        evidence_type="REGISTRATION",
+        subject_kind="COMPANY",
+        subject_name="Match HIIP Wrong Registry SA de CV",
+        canonical_statement="La empresa se encuentra inscrita en el Registro de Proveedores XYZ.",
+        source_excerpt="Inscrita en el Registro de Proveedores XYZ.",
+        reference_number="RXYZ-1122",
+    )
+
+    payload = _analyze_matches(tender_id, company_id)
+    row = _find_requirement_row(payload, requirement_id)
+    match = _find_match(row, "REGISTRATION")
+    assert match["match_strength"] != "STRONG"
+
+
+def test_tax_registration_does_not_become_strong_for_hiip_requirement() -> None:
+    tender_id = _create_tender("MATCH registration tax false positive")
+    company_id = _create_company("Match HIIP Tax False")
+    requirement_id = _seed_requirement(
+        tender_id,
+        "hiip.pdf",
+        "El interesado debera contar con certificado de registro en la HIIP vigente durante todo el procedimiento.",
+    )
+    document_id = _import_company_document(company_id, "rfc.txt", b"Documento base\n")
+    _manual_company_evidence(
+        company_id,
+        document_id,
+        evidence_type="TAX_REGISTRATION",
+        subject_kind="COMPANY",
+        subject_name="Match HIIP Tax False SA de CV",
+        canonical_statement="La empresa esta registrada con RFC MHF260101AB1.",
+        source_excerpt="RFC MHF260101AB1.",
+        reference_number="MHF260101AB1",
+    )
+
+    payload = _analyze_matches(tender_id, company_id)
+    row = _find_requirement_row(payload, requirement_id)
+    assert row["candidate_count"] == 0
+
+
 def test_tax_registration_does_not_substitute_tax_compliance() -> None:
     tender_id = _create_tender("MATCH tax separation")
     company_id = _create_company("Match Tax Separation")
