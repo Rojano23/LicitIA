@@ -240,7 +240,7 @@ Los requisitos principales del Golden Tender pueden rastrearse a documento, pág
 - MVP-05.3 (Requirement ↔ Evidence Candidate Matching): CLOSED
 - MVP-05.4 (Deterministic Compliance Evaluation): CLOSED
 - MVP-05.5 (Human Compliance Review): CLOSED
-- MVP-05.6 (Compliance Matrix & Missing Evidence Audit): NEXT
+- MVP-05.6 (Compliance Matrix & Missing Evidence Audit): IN IMPLEMENTATION
 - MVP-05.7 (Golden Company + Golden Tender Integrated Acceptance): PLANNED
 
 ### Objetivo

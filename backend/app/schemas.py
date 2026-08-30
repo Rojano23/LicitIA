@@ -1653,6 +1653,53 @@ class TenderRequirementComplianceReviewRead(BaseModel):
     rows: list[RequirementComplianceReviewRowRead] = Field(default_factory=list)
 
 
+class ComplianceMatrixFindingRead(BaseModel):
+    code: str
+    severity: str
+    message: str
+    action: str
+
+
+class ComplianceMatrixRowRead(BaseModel):
+    requirement: RequirementMatrixItemRead
+    system_assessment: RequirementComplianceAssessmentRead | None = None
+    human_decision: RequirementComplianceDecisionRead | None = None
+    decision_relation: str | None = None
+    operational_state: str
+    findings: list[ComplianceMatrixFindingRead] = Field(default_factory=list)
+    matches: list[RequirementEvidenceCandidateMatchRead] = Field(default_factory=list)
+
+
+class ComplianceMatrixSummaryRead(BaseModel):
+    total_requirements: int
+    active_requirements: int
+    excluded_rejected_count: int
+    excluded_superseded_count: int
+    company_evidence_count: int
+    current_company_evidence_count: int
+    matched_evidence_count: int
+    confirmed_match_count: int
+    finalized_count: int
+    action_required_count: int
+    review_required_count: int
+    direct_verification_pending_count: int
+    condition_unresolved_count: int
+    not_applicable_count: int
+    human_review_completion_percent: float
+    finding_counts: dict[str, int] = Field(default_factory=dict)
+    operational_state_counts: dict[str, int] = Field(default_factory=dict)
+
+
+class TenderCompanyComplianceMatrixRead(BaseModel):
+    tender_id: str
+    company_id: str
+    matrix_version: str
+    generated_at: datetime
+    scope_note: str
+    summary: ComplianceMatrixSummaryRead
+    rows: list[ComplianceMatrixRowRead] = Field(default_factory=list)
+
+
 class EvaluationModelEvidenceRead(BaseModel):
     id: str
     source_document_id: str

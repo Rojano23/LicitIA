@@ -69,6 +69,10 @@ from app.compliance_review import (
     list_tender_company_compliance_review,
     upsert_requirement_compliance_decision,
 )
+from app.compliance_matrix import (
+    get_tender_company_compliance_matrix,
+    get_tender_company_missing_evidence_audit,
+)
 from app.requirement_normalization import get_tender_requirements, normalize_tender_requirements
 from app.requirement_semantics import analyze_tender_requirement_semantics, get_tender_requirement_semantics
 from app.requirement_versioning import analyze_tender_requirement_versions, get_tender_requirement_effective_state
@@ -140,6 +144,7 @@ from app.schemas import (
     RequirementComplianceDecisionWrite,
     RequirementComplianceReviewRowRead,
     TenderRequirementComplianceReviewRead,
+    TenderCompanyComplianceMatrixRead,
 )
 
 settings = get_settings()
@@ -2227,6 +2232,76 @@ def list_tender_company_compliance_review_endpoint(
         system_status=system_status,
         decision_status=decision_status,
         category=category,
+    )
+
+
+@app.get(
+    "/tenders/{tender_id}/companies/{company_id}/compliance-matrix",
+    response_model=TenderCompanyComplianceMatrixRead,
+)
+def get_tender_company_compliance_matrix_endpoint(
+    tender_id: str,
+    company_id: str,
+    category: str | None = None,
+    system_status: str | None = None,
+    decision_status: str | None = None,
+    operational_state: str | None = None,
+    action_code: str | None = None,
+    include_historical: bool = False,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+    company = db.get(Company, company_id)
+    if company is None:
+        raise HTTPException(status_code=404, detail="Company not found")
+
+    return get_tender_company_compliance_matrix(
+        db,
+        tender_id,
+        company_id,
+        category=category,
+        system_status=system_status,
+        decision_status=decision_status,
+        operational_state=operational_state,
+        action_code=action_code,
+        include_historical=include_historical,
+    )
+
+
+@app.get(
+    "/tenders/{tender_id}/companies/{company_id}/missing-evidence-audit",
+    response_model=TenderCompanyComplianceMatrixRead,
+)
+def get_tender_company_missing_evidence_audit_endpoint(
+    tender_id: str,
+    company_id: str,
+    category: str | None = None,
+    system_status: str | None = None,
+    decision_status: str | None = None,
+    operational_state: str | None = None,
+    action_code: str | None = None,
+    include_historical: bool = False,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+    company = db.get(Company, company_id)
+    if company is None:
+        raise HTTPException(status_code=404, detail="Company not found")
+
+    return get_tender_company_missing_evidence_audit(
+        db,
+        tender_id,
+        company_id,
+        category=category,
+        system_status=system_status,
+        decision_status=decision_status,
+        operational_state=operational_state,
+        action_code=action_code,
+        include_historical=include_historical,
     )
 
 

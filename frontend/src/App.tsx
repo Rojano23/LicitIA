@@ -902,6 +902,51 @@ type TenderRequirementMatrix = {
   requirements: RequirementMatrixItem[];
 };
 
+type ComplianceMatrixFinding = {
+  code: string;
+  severity: string;
+  message: string;
+  action: string;
+};
+
+type ComplianceMatrixRow = {
+  requirement: RequirementMatrixItem;
+  system_assessment: ComplianceAssessment | null;
+  human_decision: ComplianceDecision | null;
+  decision_relation: string | null;
+  operational_state: string;
+  findings: ComplianceMatrixFinding[];
+  matches: RequirementEvidenceMatch[];
+};
+
+type ComplianceMatrix = {
+  tender_id: string;
+  company_id: string;
+  matrix_version: string;
+  generated_at: string;
+  scope_note: string;
+  summary: {
+    total_requirements: number;
+    active_requirements: number;
+    excluded_rejected_count: number;
+    excluded_superseded_count: number;
+    company_evidence_count: number;
+    current_company_evidence_count: number;
+    matched_evidence_count: number;
+    confirmed_match_count: number;
+    finalized_count: number;
+    action_required_count: number;
+    review_required_count: number;
+    direct_verification_pending_count: number;
+    condition_unresolved_count: number;
+    not_applicable_count: number;
+    human_review_completion_percent: number;
+    finding_counts: Record<string, number>;
+    operational_state_counts: Record<string, number>;
+  };
+  rows: ComplianceMatrixRow[];
+};
+
 type CompanyOption = {
   id: string;
   name: string;
@@ -1222,6 +1267,8 @@ function App() {
   const [complianceAssessmentsLoading, setComplianceAssessmentsLoading] = useState(false);
   const [complianceReview, setComplianceReview] = useState<TenderComplianceReview | null>(null);
   const [complianceReviewLoading, setComplianceReviewLoading] = useState(false);
+  const [complianceMatrix, setComplianceMatrix] = useState<ComplianceMatrix | null>(null);
+  const [complianceMatrixLoading, setComplianceMatrixLoading] = useState(false);
   const [decisionSavingRequirementId, setDecisionSavingRequirementId] = useState<string | null>(null);
   const [decisionNotesByRequirement, setDecisionNotesByRequirement] = useState<Record<string, string>>({});
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
@@ -1356,6 +1403,7 @@ function App() {
       setRequirementEvidenceMatches(null);
       setComplianceAssessments(null);
       setComplianceReview(null);
+      setComplianceMatrix(null);
       setDecisionNotesByRequirement({});
       return;
     }
@@ -1383,6 +1431,7 @@ function App() {
       setRequirementEvidenceMatches(null);
       setComplianceAssessments(null);
       setComplianceReview(null);
+      setComplianceMatrix(null);
       setDecisionNotesByRequirement({});
       return;
     }
@@ -1393,6 +1442,7 @@ function App() {
       void loadRequirementEvidenceMatches(selectedTenderId, selectedMatchCompanyId);
       void loadComplianceAssessments(selectedTenderId, selectedMatchCompanyId);
       void loadComplianceReview(selectedTenderId, selectedMatchCompanyId);
+      void loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId);
     }
   }, [selectedTenderId, selectedMatchCompanyId]);
 
@@ -1889,6 +1939,20 @@ function App() {
     }
   };
 
+  const loadComplianceMatrix = async (tenderId: string, companyId: string) => {
+    setComplianceMatrixLoading(true);
+    try {
+      const response = await axios.get<ComplianceMatrix>(
+        `${API_URL}/tenders/${tenderId}/companies/${companyId}/compliance-matrix`,
+      );
+      setComplianceMatrix(response.data);
+    } catch (err) {
+      setComplianceMatrix(null);
+    } finally {
+      setComplianceMatrixLoading(false);
+    }
+  };
+
   const handleAnalyzeCompliance = async () => {
     if (!selectedTenderId || !selectedMatchCompanyId) {
       return;
@@ -1901,6 +1965,7 @@ function App() {
       );
       setComplianceAssessments(response.data);
       await loadComplianceReview(selectedTenderId, selectedMatchCompanyId);
+      await loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId);
     } catch (err) {
       setError("No se pudo ejecutar la evaluación automática de soporte documental.");
     } finally {
@@ -1952,6 +2017,28 @@ function App() {
     }
     if (value === "PENDING") {
       return "Pendiente";
+    }
+    return value;
+  };
+
+  const complianceMatrixStateLabel = (value: string) => {
+    if (value === "FINALIZED") {
+      return "Finalizado";
+    }
+    if (value === "ACTION_REQUIRED") {
+      return "Acción requerida";
+    }
+    if (value === "REVIEW_REQUIRED") {
+      return "Revisión requerida";
+    }
+    if (value === "DIRECT_VERIFICATION_PENDING") {
+      return "Verificación directa pendiente";
+    }
+    if (value === "CONDITION_UNRESOLVED") {
+      return "Condición no resuelta";
+    }
+    if (value === "NOT_APPLICABLE") {
+      return "No aplicable";
     }
     return value;
   };
@@ -2050,6 +2137,7 @@ function App() {
         };
       });
       await loadComplianceAssessments(selectedTenderId, selectedMatchCompanyId);
+      await loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId);
       setError("");
     } catch (err) {
       setError("No se pudo registrar la decisión humana de cumplimiento.");
@@ -2070,6 +2158,7 @@ function App() {
       );
       setRequirementEvidenceMatches(response.data);
       await loadCompanyEvidenceOptions(selectedMatchCompanyId);
+      await loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId);
     } catch (err) {
       setError("No se pudieron calcular las evidencias candidatas para la empresa seleccionada.");
     } finally {
@@ -4231,6 +4320,101 @@ function App() {
                       )}
                     </div>
                   </div>
+                </div>
+              </>
+            )}
+          </div>
+
+          <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#f8fafc" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <div>
+                <div style={{ fontSize: 14, color: "#0f172a", fontWeight: 700 }}>Matriz de cumplimiento y pendientes</div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                  Composición read-only de requisito, evidencia, asociación, evaluación automática y decisión humana.
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => selectedTenderId && selectedMatchCompanyId && void loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId)}
+                disabled={!selectedMatchCompanyId || complianceMatrixLoading}
+                style={{ padding: "8px 10px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700, opacity: !selectedMatchCompanyId || complianceMatrixLoading ? 0.6 : 1 }}
+              >
+                {complianceMatrixLoading ? "Cargando..." : "Actualizar matriz"}
+              </button>
+            </div>
+
+            {selectedMatchCompanyId && !complianceMatrixLoading && !complianceMatrix && (
+              <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                Ejecuta la evaluación automática o selecciona una empresa para construir la matriz compuesta.
+              </div>
+            )}
+
+            {complianceMatrix && (
+              <>
+                <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>{complianceMatrix.scope_note}</div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                  Activos {complianceMatrix.summary.active_requirements} • Finalizados {complianceMatrix.summary.finalized_count} • Acción requerida {complianceMatrix.summary.action_required_count} • Revisión requerida {complianceMatrix.summary.review_required_count}
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                  Verificación directa {complianceMatrix.summary.direct_verification_pending_count} • Condición no resuelta {complianceMatrix.summary.condition_unresolved_count} • Sin aplicabilidad {complianceMatrix.summary.not_applicable_count}
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                  Evidencia empresa {complianceMatrix.summary.company_evidence_count} • Vigente {complianceMatrix.summary.current_company_evidence_count} • Coincidencias confirmadas {complianceMatrix.summary.confirmed_match_count} • Compleción humana {complianceMatrix.summary.human_review_completion_percent}%
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                  Hallazgos: {Object.entries(complianceMatrix.summary.finding_counts).slice(0, 6).map(([code, count]) => `${code} ${count}`).join(" • ") || "Sin hallazgos"}
+                </div>
+
+                <div style={{ marginTop: 10, overflowX: "auto" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                    <thead>
+                      <tr style={{ background: "#eef2f7" }}>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Requisito</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Estado operativo</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Sistema / Humano</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Evidencia / Match</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Hallazgos</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {complianceMatrix.rows.slice(0, 12).map((row) => (
+                        <tr key={row.requirement.requirement_id}>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            <div style={{ fontWeight: 700 }}>{row.requirement.canonical_text}</div>
+                            <div style={{ marginTop: 3, color: "#52607a" }}>{row.requirement.category} • {applicabilityLabel(row.requirement.applicability)} • {evidenceModeLabel(row.requirement.evidence_mode)}</div>
+                          </td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            <strong>{complianceMatrixStateLabel(row.operational_state)}</strong>
+                            {row.decision_relation && <div style={{ marginTop: 3, color: "#52607a" }}>{complianceDecisionRelationLabel(row.decision_relation)}</div>}
+                          </td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            <div style={{ color: "#334155" }}>
+                              Sistema: {row.system_assessment ? complianceStatusLabel(row.system_assessment.system_status) : "Sin evaluación"}
+                            </div>
+                            <div style={{ marginTop: 3, color: "#334155" }}>
+                              Humano: {row.human_decision ? complianceDecisionStatusLabel(row.human_decision.decision_status) : "Sin decisión"}
+                            </div>
+                            {row.human_decision?.freshness && (
+                              <div style={{ marginTop: 3, color: "#52607a" }}>Vigencia: {complianceDecisionFreshnessLabel(row.human_decision.freshness)}</div>
+                            )}
+                          </td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            <div style={{ color: "#334155" }}>Matches {row.matches.length}</div>
+                            <div style={{ marginTop: 3, color: "#52607a" }}>{row.matches[0] ? row.matches[0].company_evidence.source_document.original_filename : "Sin matches activos"}</div>
+                          </td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                              {row.findings.slice(0, 4).map((finding) => (
+                                <span key={finding.code} style={{ padding: "2px 6px", borderRadius: 999, background: finding.severity === "ACTION" ? "#fee2e2" : finding.severity === "WARNING" ? "#fef3c7" : "#e2e8f0", color: "#0f172a", fontSize: 11, fontWeight: 700 }}>
+                                  {finding.code}
+                                </span>
+                              ))}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </>
             )}
