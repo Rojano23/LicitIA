@@ -108,6 +108,14 @@ class RequirementComplianceCheckStatus(str, Enum):
     NOT_APPLICABLE = "NOT_APPLICABLE"
 
 
+class RequirementComplianceDecisionStatus(str, Enum):
+    PENDING = "PENDING"
+    COMPLIES = "COMPLIES"
+    DOES_NOT_COMPLY = "DOES_NOT_COMPLY"
+    NEEDS_REVIEW = "NEEDS_REVIEW"
+    NOT_APPLICABLE = "NOT_APPLICABLE"
+
+
 class TenderDocumentStatus(str, Enum):
     IMPORTED = "IMPORTED"
     DUPLICATE = "DUPLICATE"
@@ -167,6 +175,10 @@ class Company(Base):
         cascade="all, delete-orphan",
     )
     compliance_checks: Mapped[list["RequirementComplianceCheck"]] = relationship(
+        back_populates="company",
+        cascade="all, delete-orphan",
+    )
+    compliance_decisions: Mapped[list["RequirementComplianceDecision"]] = relationship(
         back_populates="company",
         cascade="all, delete-orphan",
     )
@@ -599,6 +611,66 @@ class RequirementComplianceCheck(Base):
     match: Mapped[RequirementEvidenceCandidateMatch | None] = relationship()
 
 
+class RequirementComplianceDecision(Base):
+    __tablename__ = "requirement_compliance_decisions"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "tender_id",
+            "company_id",
+            "requirement_id",
+            name="uq_requirement_compliance_decision_scope",
+        ),
+        Index("ix_req_compliance_decision_tender_id", "tender_id"),
+        Index("ix_req_compliance_decision_company_id", "company_id"),
+        Index("ix_req_compliance_decision_requirement_id", "requirement_id"),
+        Index("ix_req_compliance_decision_status", "decision_status"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    company_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("companies.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    requirement_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("requirements.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    decision_status: Mapped[str] = mapped_column(
+        String(32),
+        nullable=False,
+        default=RequirementComplianceDecisionStatus.PENDING.value,
+    )
+    decision_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    reviewed_assessment_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    decided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped["Tender"] = relationship(back_populates="compliance_decisions")
+    company: Mapped[Company] = relationship(back_populates="compliance_decisions")
+    requirement: Mapped["Requirement"] = relationship(back_populates="compliance_decisions")
+
+
 class Tender(Base):
     __tablename__ = "tenders"
 
@@ -639,6 +711,10 @@ class Tender(Base):
         cascade="all, delete-orphan",
     )
     compliance_checks: Mapped[list["RequirementComplianceCheck"]] = relationship(
+        back_populates="tender",
+        cascade="all, delete-orphan",
+    )
+    compliance_decisions: Mapped[list["RequirementComplianceDecision"]] = relationship(
         back_populates="tender",
         cascade="all, delete-orphan",
     )
@@ -1819,6 +1895,10 @@ class Requirement(Base):
         cascade="all, delete-orphan",
     )
     compliance_checks: Mapped[list["RequirementComplianceCheck"]] = relationship(
+        back_populates="requirement",
+        cascade="all, delete-orphan",
+    )
+    compliance_decisions: Mapped[list["RequirementComplianceDecision"]] = relationship(
         back_populates="requirement",
         cascade="all, delete-orphan",
     )

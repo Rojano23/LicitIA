@@ -1602,6 +1602,57 @@ class TenderRequirementComplianceAssessmentsRead(BaseModel):
     assessments: list[RequirementComplianceAssessmentRead] = Field(default_factory=list)
 
 
+class RequirementComplianceDecisionWrite(BaseModel):
+    decision_status: str = Field(..., min_length=1, max_length=64)
+    decision_note: str | None = Field(default=None, max_length=2000)
+
+
+class RequirementComplianceDecisionRead(BaseModel):
+    id: str | None = None
+    tender_id: str
+    company_id: str
+    requirement_id: str
+    decision_status: str
+    decision_note: str | None = None
+    reviewed_assessment_fingerprint: str | None = None
+    decided_at: datetime | None = None
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
+    freshness: str
+
+
+class RequirementComplianceReviewRowRead(BaseModel):
+    requirement_id: str
+    requirement: RequirementComplianceRequirementRead
+    system_assessment: RequirementComplianceAssessmentRead
+    human_decision: RequirementComplianceDecisionRead
+    decision_relation: str
+
+
+class RequirementComplianceReviewSummaryRead(BaseModel):
+    requirements_reviewable: int
+    pending_count: int
+    complies_count: int
+    does_not_comply_count: int
+    needs_review_count: int
+    not_applicable_count: int
+    aligned_count: int
+    human_override_count: int
+    system_undecided_count: int
+    stale_count: int
+    current_count: int
+    not_reviewed_count: int
+
+
+class TenderRequirementComplianceReviewRead(BaseModel):
+    tender_id: str
+    company_id: str
+    generated_at: datetime
+    scope_note: str
+    summary: RequirementComplianceReviewSummaryRead
+    rows: list[RequirementComplianceReviewRowRead] = Field(default_factory=list)
+
+
 class EvaluationModelEvidenceRead(BaseModel):
     id: str
     source_document_id: str

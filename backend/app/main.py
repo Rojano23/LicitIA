@@ -65,6 +65,10 @@ from app.compliance_evaluation import (
     get_requirement_compliance_assessment,
     list_tender_company_compliance_assessments,
 )
+from app.compliance_review import (
+    list_tender_company_compliance_review,
+    upsert_requirement_compliance_decision,
+)
 from app.requirement_normalization import get_tender_requirements, normalize_tender_requirements
 from app.requirement_semantics import analyze_tender_requirement_semantics, get_tender_requirement_semantics
 from app.requirement_versioning import analyze_tender_requirement_versions, get_tender_requirement_effective_state
@@ -133,6 +137,9 @@ from app.schemas import (
     RequirementEvidenceCandidateReviewWrite,
     RequirementEvidenceCandidateManualWrite,
     TenderRequirementComplianceAssessmentsRead,
+    RequirementComplianceDecisionWrite,
+    RequirementComplianceReviewRowRead,
+    TenderRequirementComplianceReviewRead,
 )
 
 settings = get_settings()
@@ -2199,6 +2206,55 @@ def get_requirement_compliance_assessment_endpoint(
     db: Session = Depends(get_db),
 ) -> dict[str, object]:
     return get_requirement_compliance_assessment(db, tender_id, company_id, requirement_id)
+
+
+@app.get(
+    "/tenders/{tender_id}/companies/{company_id}/compliance-review",
+    response_model=TenderRequirementComplianceReviewRead,
+)
+def list_tender_company_compliance_review_endpoint(
+    tender_id: str,
+    company_id: str,
+    system_status: str | None = None,
+    decision_status: str | None = None,
+    category: str | None = None,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    return list_tender_company_compliance_review(
+        db,
+        tender_id,
+        company_id,
+        system_status=system_status,
+        decision_status=decision_status,
+        category=category,
+    )
+
+
+@app.patch(
+    "/tenders/{tender_id}/companies/{company_id}/requirements/{requirement_id}/compliance-decision",
+    response_model=RequirementComplianceReviewRowRead,
+)
+def upsert_requirement_compliance_decision_endpoint(
+    tender_id: str,
+    company_id: str,
+    requirement_id: str,
+    payload: RequirementComplianceDecisionWrite,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    try:
+        response = upsert_requirement_compliance_decision(
+            db,
+            tender_id,
+            company_id,
+            requirement_id,
+            decision_status=payload.decision_status,
+            decision_note=payload.decision_note,
+        )
+        db.commit()
+        return response
+    except HTTPException:
+        db.rollback()
+        raise
 
 
 @app.patch("/tenders/{tender_id}/evaluation", response_model=TenderEvaluationRead)

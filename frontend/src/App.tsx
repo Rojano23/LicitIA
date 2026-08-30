@@ -1114,6 +1114,50 @@ type TenderComplianceAssessments = {
   assessments: ComplianceAssessment[];
 };
 
+type ComplianceDecision = {
+  id: string | null;
+  tender_id: string;
+  company_id: string;
+  requirement_id: string;
+  decision_status: string;
+  decision_note: string | null;
+  reviewed_assessment_fingerprint: string | null;
+  decided_at: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+  freshness: string;
+};
+
+type ComplianceReviewRow = {
+  requirement_id: string;
+  requirement: ComplianceRequirementContext;
+  system_assessment: ComplianceAssessment;
+  human_decision: ComplianceDecision;
+  decision_relation: string;
+};
+
+type TenderComplianceReview = {
+  tender_id: string;
+  company_id: string;
+  generated_at: string;
+  scope_note: string;
+  summary: {
+    requirements_reviewable: number;
+    pending_count: number;
+    complies_count: number;
+    does_not_comply_count: number;
+    needs_review_count: number;
+    not_applicable_count: number;
+    aligned_count: number;
+    human_override_count: number;
+    system_undecided_count: number;
+    stale_count: number;
+    current_count: number;
+    not_reviewed_count: number;
+  };
+  rows: ComplianceReviewRow[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -1176,6 +1220,10 @@ function App() {
   const [requirementEvidenceMatchesLoading, setRequirementEvidenceMatchesLoading] = useState(false);
   const [complianceAssessments, setComplianceAssessments] = useState<TenderComplianceAssessments | null>(null);
   const [complianceAssessmentsLoading, setComplianceAssessmentsLoading] = useState(false);
+  const [complianceReview, setComplianceReview] = useState<TenderComplianceReview | null>(null);
+  const [complianceReviewLoading, setComplianceReviewLoading] = useState(false);
+  const [decisionSavingRequirementId, setDecisionSavingRequirementId] = useState<string | null>(null);
+  const [decisionNotesByRequirement, setDecisionNotesByRequirement] = useState<Record<string, string>>({});
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
   const [editEventType, setEditEventType] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -1307,6 +1355,8 @@ function App() {
       setRequirementMatrix(null);
       setRequirementEvidenceMatches(null);
       setComplianceAssessments(null);
+      setComplianceReview(null);
+      setDecisionNotesByRequirement({});
       return;
     }
 
@@ -1332,6 +1382,8 @@ function App() {
       setCompanyEvidenceOptions([]);
       setRequirementEvidenceMatches(null);
       setComplianceAssessments(null);
+      setComplianceReview(null);
+      setDecisionNotesByRequirement({});
       return;
     }
 
@@ -1340,6 +1392,7 @@ function App() {
     if (selectedTenderId) {
       void loadRequirementEvidenceMatches(selectedTenderId, selectedMatchCompanyId);
       void loadComplianceAssessments(selectedTenderId, selectedMatchCompanyId);
+      void loadComplianceReview(selectedTenderId, selectedMatchCompanyId);
     }
   }, [selectedTenderId, selectedMatchCompanyId]);
 
@@ -1822,6 +1875,20 @@ function App() {
     }
   };
 
+  const loadComplianceReview = async (tenderId: string, companyId: string) => {
+    setComplianceReviewLoading(true);
+    try {
+      const response = await axios.get<TenderComplianceReview>(
+        `${API_URL}/tenders/${tenderId}/companies/${companyId}/compliance-review`,
+      );
+      setComplianceReview(response.data);
+    } catch (err) {
+      setComplianceReview(null);
+    } finally {
+      setComplianceReviewLoading(false);
+    }
+  };
+
   const handleAnalyzeCompliance = async () => {
     if (!selectedTenderId || !selectedMatchCompanyId) {
       return;
@@ -1833,10 +1900,161 @@ function App() {
         `${API_URL}/tenders/${selectedTenderId}/companies/${selectedMatchCompanyId}/analyze-compliance`,
       );
       setComplianceAssessments(response.data);
+      await loadComplianceReview(selectedTenderId, selectedMatchCompanyId);
     } catch (err) {
       setError("No se pudo ejecutar la evaluación automática de soporte documental.");
     } finally {
       setComplianceAssessmentsLoading(false);
+    }
+  };
+
+  const complianceDecisionStatusLabel = (value: string) => {
+    if (value === "PENDING") {
+      return "Pendiente";
+    }
+    if (value === "COMPLIES") {
+      return "Cumple";
+    }
+    if (value === "DOES_NOT_COMPLY") {
+      return "No cumple";
+    }
+    if (value === "NEEDS_REVIEW") {
+      return "Revisar";
+    }
+    if (value === "NOT_APPLICABLE") {
+      return "No aplica";
+    }
+    return value;
+  };
+
+  const complianceDecisionFreshnessLabel = (value: string) => {
+    if (value === "CURRENT") {
+      return "Actual";
+    }
+    if (value === "STALE") {
+      return "Desactualizada";
+    }
+    if (value === "NOT_REVIEWED") {
+      return "No revisada";
+    }
+    return value;
+  };
+
+  const complianceDecisionRelationLabel = (value: string) => {
+    if (value === "ALIGNED") {
+      return "Alineada al sistema";
+    }
+    if (value === "HUMAN_OVERRIDE") {
+      return "Override humano";
+    }
+    if (value === "SYSTEM_UNDECIDED") {
+      return "Sistema no concluyente";
+    }
+    if (value === "PENDING") {
+      return "Pendiente";
+    }
+    return value;
+  };
+
+  const isDecisionNoteRequired = (row: ComplianceReviewRow, targetStatus: string) => {
+    const systemStatus = row.system_assessment.system_status;
+    const effectiveStatus = row.requirement.effective_status;
+    const applicabilityContext = row.system_assessment.applicability_context;
+
+    if (targetStatus === "DOES_NOT_COMPLY" || targetStatus === "NOT_APPLICABLE") {
+      return true;
+    }
+
+    if (targetStatus !== "COMPLIES" && targetStatus !== "DOES_NOT_COMPLY") {
+      return false;
+    }
+
+    if (["PARTIALLY_SUPPORTED", "REVIEW_REQUIRED", "NOT_EVALUATED"].includes(systemStatus)) {
+      return true;
+    }
+
+    if (["AMBIGUOUS", "UNRESOLVED"].includes(effectiveStatus)) {
+      return true;
+    }
+
+    if (applicabilityContext === "CONDITION_UNRESOLVED") {
+      return true;
+    }
+
+    if (targetStatus === "COMPLIES" && systemStatus === "NOT_SUPPORTED") {
+      return true;
+    }
+
+    if (targetStatus === "DOES_NOT_COMPLY" && systemStatus === "SUPPORTED") {
+      return true;
+    }
+
+    return false;
+  };
+
+  const handleComplianceDecisionAction = async (row: ComplianceReviewRow, decisionStatus: string) => {
+    if (!selectedTenderId || !selectedMatchCompanyId) {
+      return;
+    }
+
+    const noteDraft = (decisionNotesByRequirement[row.requirement_id] ?? row.human_decision.decision_note ?? "").trim();
+    if (isDecisionNoteRequired(row, decisionStatus) && !noteDraft) {
+      setError("La justificación es obligatoria para esta decisión humana en el contexto actual.");
+      return;
+    }
+
+    setDecisionSavingRequirementId(row.requirement_id);
+    try {
+      const response = await axios.patch<ComplianceReviewRow>(
+        `${API_URL}/tenders/${selectedTenderId}/companies/${selectedMatchCompanyId}/requirements/${row.requirement_id}/compliance-decision`,
+        {
+          decision_status: decisionStatus,
+          decision_note: noteDraft || null,
+        },
+      );
+
+      setComplianceReview((current) => {
+        if (!current) {
+          return current;
+        }
+        const updatedRows = current.rows.map((item) => (item.requirement_id === row.requirement_id ? response.data : item));
+        const pendingCount = updatedRows.filter((item) => item.human_decision.decision_status === "PENDING").length;
+        const compliesCount = updatedRows.filter((item) => item.human_decision.decision_status === "COMPLIES").length;
+        const doesNotComplyCount = updatedRows.filter((item) => item.human_decision.decision_status === "DOES_NOT_COMPLY").length;
+        const needsReviewCount = updatedRows.filter((item) => item.human_decision.decision_status === "NEEDS_REVIEW").length;
+        const notApplicableCount = updatedRows.filter((item) => item.human_decision.decision_status === "NOT_APPLICABLE").length;
+        const alignedCount = updatedRows.filter((item) => item.decision_relation === "ALIGNED").length;
+        const humanOverrideCount = updatedRows.filter((item) => item.decision_relation === "HUMAN_OVERRIDE").length;
+        const systemUndecidedCount = updatedRows.filter((item) => item.decision_relation === "SYSTEM_UNDECIDED").length;
+        const staleCount = updatedRows.filter((item) => item.human_decision.freshness === "STALE").length;
+        const currentCount = updatedRows.filter((item) => item.human_decision.freshness === "CURRENT").length;
+        const notReviewedCount = updatedRows.filter((item) => item.human_decision.freshness === "NOT_REVIEWED").length;
+
+        return {
+          ...current,
+          rows: updatedRows,
+          summary: {
+            requirements_reviewable: updatedRows.length,
+            pending_count: pendingCount,
+            complies_count: compliesCount,
+            does_not_comply_count: doesNotComplyCount,
+            needs_review_count: needsReviewCount,
+            not_applicable_count: notApplicableCount,
+            aligned_count: alignedCount,
+            human_override_count: humanOverrideCount,
+            system_undecided_count: systemUndecidedCount,
+            stale_count: staleCount,
+            current_count: currentCount,
+            not_reviewed_count: notReviewedCount,
+          },
+        };
+      });
+      await loadComplianceAssessments(selectedTenderId, selectedMatchCompanyId);
+      setError("");
+    } catch (err) {
+      setError("No se pudo registrar la decisión humana de cumplimiento.");
+    } finally {
+      setDecisionSavingRequirementId(null);
     }
   };
 
@@ -3910,6 +4128,108 @@ function App() {
                         </div>
                       </>
                     )}
+
+                    <div style={{ marginTop: 14, borderTop: "1px solid #e2e8f0", paddingTop: 10 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                        <div>
+                          <div style={{ fontSize: 14, color: "#0f172a", fontWeight: 700 }}>Decisión humana de cumplimiento</div>
+                          <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                            La IA propone; el usuario decide.
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => selectedTenderId && selectedMatchCompanyId && void loadComplianceReview(selectedTenderId, selectedMatchCompanyId)}
+                          disabled={!selectedMatchCompanyId || complianceReviewLoading}
+                          style={{ padding: "8px 10px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700, opacity: !selectedMatchCompanyId || complianceReviewLoading ? 0.6 : 1 }}
+                        >
+                          {complianceReviewLoading ? "Cargando..." : "Actualizar revisión humana"}
+                        </button>
+                      </div>
+
+                      {selectedMatchCompanyId && !complianceReviewLoading && !complianceReview && (
+                        <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                          Ejecuta primero la evaluación automática para habilitar la revisión humana por requisito.
+                        </div>
+                      )}
+
+                      {complianceReview && (
+                        <>
+                          <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>{complianceReview.scope_note}</div>
+                          <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                            Requisitos {complianceReview.summary.requirements_reviewable} • Pendientes {complianceReview.summary.pending_count} • Cumple {complianceReview.summary.complies_count} • No cumple {complianceReview.summary.does_not_comply_count}
+                          </div>
+                          <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                            Revisar {complianceReview.summary.needs_review_count} • No aplica {complianceReview.summary.not_applicable_count} • Override humano {complianceReview.summary.human_override_count} • Decisiones desactualizadas {complianceReview.summary.stale_count}
+                          </div>
+
+                          <div style={{ marginTop: 8, display: "grid", gap: 8 }}>
+                            {complianceReview.rows.map((row) => {
+                              const noteRequired = isDecisionNoteRequired(row, row.human_decision.decision_status);
+                              return (
+                                <details key={`review-${row.requirement_id}`} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: 10, background: "#fff" }}>
+                                  <summary style={{ cursor: "pointer" }}>
+                                    <div style={{ fontWeight: 700 }}>{row.requirement.canonical_text}</div>
+                                    <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                                      Sistema: <strong>{complianceStatusLabel(row.system_assessment.system_status)}</strong> • Humano: <strong>{complianceDecisionStatusLabel(row.human_decision.decision_status)}</strong>
+                                    </div>
+                                    <div style={{ marginTop: 3, fontSize: 12, color: "#52607a" }}>
+                                      Relación: {complianceDecisionRelationLabel(row.decision_relation)} • Vigencia: {complianceDecisionFreshnessLabel(row.human_decision.freshness)}
+                                    </div>
+                                    {row.human_decision.freshness === "STALE" && (
+                                      <div style={{ marginTop: 3, fontSize: 12, color: "#7a4b00" }}>
+                                        La decisión humana quedó desactualizada tras cambios en la evaluación automática. Requiere confirmación del operador.
+                                      </div>
+                                    )}
+                                  </summary>
+
+                                  <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
+                                    Estado automático: {row.system_assessment.system_status} • Contexto: {row.system_assessment.applicability_context} • Requisito: {row.requirement.effective_status}
+                                  </div>
+
+                                  <div style={{ marginTop: 8 }}>
+                                    <label style={{ fontSize: 12, color: "#52607a", fontWeight: 700 }} htmlFor={`decision-note-${row.requirement_id}`}>
+                                      Justificación de decisión humana {noteRequired ? "(obligatoria en el estado actual)" : "(opcional)"}
+                                    </label>
+                                    <textarea
+                                      id={`decision-note-${row.requirement_id}`}
+                                      value={decisionNotesByRequirement[row.requirement_id] ?? row.human_decision.decision_note ?? ""}
+                                      onChange={(event) =>
+                                        setDecisionNotesByRequirement((current) => ({
+                                          ...current,
+                                          [row.requirement_id]: event.target.value,
+                                        }))
+                                      }
+                                      rows={3}
+                                      style={{ width: "100%", marginTop: 6, borderRadius: 8, border: "1px solid #cfd8e3", padding: 8, fontSize: 12 }}
+                                      placeholder="Documenta la razón de la decisión humana cuando aplique"
+                                    />
+                                  </div>
+
+                                  <div style={{ marginTop: 8, display: "flex", gap: 6, flexWrap: "wrap" }}>
+                                    <button type="button" onClick={() => void handleComplianceDecisionAction(row, "COMPLIES")} disabled={decisionSavingRequirementId === row.requirement_id} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#0f766e", color: "#fff", fontWeight: 700 }}>
+                                      Marcar Cumple
+                                    </button>
+                                    <button type="button" onClick={() => void handleComplianceDecisionAction(row, "DOES_NOT_COMPLY")} disabled={decisionSavingRequirementId === row.requirement_id} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#b91c1c", color: "#fff", fontWeight: 700 }}>
+                                      Marcar No cumple
+                                    </button>
+                                    <button type="button" onClick={() => void handleComplianceDecisionAction(row, "NEEDS_REVIEW")} disabled={decisionSavingRequirementId === row.requirement_id} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700 }}>
+                                      Revisar
+                                    </button>
+                                    <button type="button" onClick={() => void handleComplianceDecisionAction(row, "NOT_APPLICABLE")} disabled={decisionSavingRequirementId === row.requirement_id} style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: "#92400e", color: "#fff", fontWeight: 700 }}>
+                                      Marcar No aplica
+                                    </button>
+                                    <button type="button" onClick={() => void handleComplianceDecisionAction(row, "PENDING")} disabled={decisionSavingRequirementId === row.requirement_id} style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
+                                      Volver a Pendiente
+                                    </button>
+                                  </div>
+                                </details>
+                              );
+                            })}
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </>
