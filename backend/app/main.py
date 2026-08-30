@@ -60,6 +60,11 @@ from app.evidence_matching import (
     list_tender_company_evidence_match_candidates,
     review_requirement_evidence_candidate_match,
 )
+from app.compliance_evaluation import (
+    analyze_tender_company_compliance,
+    get_requirement_compliance_assessment,
+    list_tender_company_compliance_assessments,
+)
 from app.requirement_normalization import get_tender_requirements, normalize_tender_requirements
 from app.requirement_semantics import analyze_tender_requirement_semantics, get_tender_requirement_semantics
 from app.requirement_versioning import analyze_tender_requirement_versions, get_tender_requirement_effective_state
@@ -127,6 +132,7 @@ from app.schemas import (
     TenderRequirementEvidenceCandidateMatchesRead,
     RequirementEvidenceCandidateReviewWrite,
     RequirementEvidenceCandidateManualWrite,
+    TenderRequirementComplianceAssessmentsRead,
 )
 
 settings = get_settings()
@@ -2138,6 +2144,61 @@ def create_manual_requirement_evidence_candidate_match_endpoint(
     except HTTPException:
         db.rollback()
         raise
+
+
+@app.post(
+    "/tenders/{tender_id}/companies/{company_id}/analyze-compliance",
+    response_model=TenderRequirementComplianceAssessmentsRead,
+)
+def analyze_tender_company_compliance_endpoint(
+    tender_id: str,
+    company_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    try:
+        payload = analyze_tender_company_compliance(db, tender_id, company_id)
+        db.commit()
+        return payload
+    except HTTPException:
+        db.rollback()
+        raise
+
+
+@app.get(
+    "/tenders/{tender_id}/companies/{company_id}/compliance-assessments",
+    response_model=TenderRequirementComplianceAssessmentsRead,
+)
+def list_tender_company_compliance_assessments_endpoint(
+    tender_id: str,
+    company_id: str,
+    system_status: str | None = None,
+    requirement_id: str | None = None,
+    category: str | None = None,
+    applicability_context: str | None = None,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    return list_tender_company_compliance_assessments(
+        db,
+        tender_id,
+        company_id,
+        system_status=system_status,
+        requirement_id=requirement_id,
+        category=category,
+        applicability_context=applicability_context,
+    )
+
+
+@app.get(
+    "/tenders/{tender_id}/companies/{company_id}/requirements/{requirement_id}/compliance-assessment",
+    response_model=TenderRequirementComplianceAssessmentsRead,
+)
+def get_requirement_compliance_assessment_endpoint(
+    tender_id: str,
+    company_id: str,
+    requirement_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    return get_requirement_compliance_assessment(db, tender_id, company_id, requirement_id)
 
 
 @app.patch("/tenders/{tender_id}/evaluation", response_model=TenderEvaluationRead)

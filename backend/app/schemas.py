@@ -1527,6 +1527,81 @@ class RequirementEvidenceCandidateManualWrite(BaseModel):
     rationale: str | None = Field(default=None, max_length=2000)
 
 
+class RequirementComplianceCheckRead(BaseModel):
+    id: str
+    assessment_id: str
+    check_type: str
+    check_status: str
+    expected_value: str | None = None
+    observed_value: str | None = None
+    rationale: str
+    company_evidence_id: str | None = None
+    match_id: str | None = None
+    created_at: datetime
+    company_evidence: CompanyEvidenceRead | None = None
+    match: RequirementEvidenceCandidateMatchRead | None = None
+
+
+class RequirementComplianceRequirementRead(BaseModel):
+    requirement_id: str
+    canonical_text: str
+    category: str
+    applicability: str
+    condition_text: str | None = None
+    effective_status: str
+    interpretation_status: str
+    evidence_mode: str
+    expected_evidence: list[RequirementEvidenceExpectationRead] = Field(default_factory=list)
+    review_status: str
+    review_freshness: str
+    primary_source: RequirementSourceOccurrenceRead | None = None
+    representation_fingerprint: str
+
+
+class RequirementComplianceCompanyRead(BaseModel):
+    id: str
+    name: str
+
+
+class RequirementComplianceAssessmentRead(BaseModel):
+    id: str
+    tender_id: str
+    company_id: str
+    requirement_id: str
+    system_status: str
+    applicability_context: str
+    assessment_summary: str
+    warning_codes: list[str] = Field(default_factory=list)
+    evaluator_version: str
+    assessment_fingerprint: str
+    evaluated_at: datetime
+    created_at: datetime
+    updated_at: datetime
+    requirement: RequirementComplianceRequirementRead
+    company: RequirementComplianceCompanyRead
+    checks: list[RequirementComplianceCheckRead] = Field(default_factory=list)
+
+
+class RequirementComplianceAssessmentSummaryRead(BaseModel):
+    requirements_considered: int
+    supported_count: int
+    partially_supported_count: int
+    not_supported_count: int
+    review_required_count: int
+    not_evaluated_count: int
+    condition_unresolved_count: int
+
+
+class TenderRequirementComplianceAssessmentsRead(BaseModel):
+    tender_id: str
+    company_id: str
+    evaluator_version: str
+    generated_at: datetime
+    scope_note: str
+    summary: RequirementComplianceAssessmentSummaryRead
+    assessments: list[RequirementComplianceAssessmentRead] = Field(default_factory=list)
+
+
 class EvaluationModelEvidenceRead(BaseModel):
     id: str
     source_document_id: str

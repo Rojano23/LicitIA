@@ -1046,6 +1046,74 @@ type TenderRequirementEvidenceMatches = {
   requirements: RequirementEvidenceMatchRequirement[];
 };
 
+type ComplianceCheck = {
+  id: string;
+  assessment_id: string;
+  check_type: string;
+  check_status: string;
+  expected_value: string | null;
+  observed_value: string | null;
+  rationale: string;
+  company_evidence_id: string | null;
+  match_id: string | null;
+  created_at: string;
+  company_evidence: MatchCompanyEvidence | null;
+  match: RequirementEvidenceMatch | null;
+};
+
+type ComplianceRequirementContext = {
+  requirement_id: string;
+  canonical_text: string;
+  category: string;
+  applicability: string;
+  condition_text: string | null;
+  effective_status: string;
+  interpretation_status: string;
+  evidence_mode: string;
+  expected_evidence: RequirementEvidenceExpectation[];
+  review_status: string;
+  review_freshness: string;
+  primary_source: RequirementSourceOccurrence | null;
+  representation_fingerprint: string;
+};
+
+type ComplianceAssessment = {
+  id: string;
+  tender_id: string;
+  company_id: string;
+  requirement_id: string;
+  system_status: string;
+  applicability_context: string;
+  assessment_summary: string;
+  warning_codes: string[];
+  evaluator_version: string;
+  assessment_fingerprint: string;
+  evaluated_at: string;
+  created_at: string;
+  updated_at: string;
+  requirement: ComplianceRequirementContext;
+  company: { id: string; name: string };
+  checks: ComplianceCheck[];
+};
+
+type TenderComplianceAssessments = {
+  tender_id: string;
+  company_id: string;
+  evaluator_version: string;
+  generated_at: string;
+  scope_note: string;
+  summary: {
+    requirements_considered: number;
+    supported_count: number;
+    partially_supported_count: number;
+    not_supported_count: number;
+    review_required_count: number;
+    not_evaluated_count: number;
+    condition_unresolved_count: number;
+  };
+  assessments: ComplianceAssessment[];
+};
+
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
@@ -1106,6 +1174,8 @@ function App() {
   const [companyEvidenceOptionsLoading, setCompanyEvidenceOptionsLoading] = useState(false);
   const [requirementEvidenceMatches, setRequirementEvidenceMatches] = useState<TenderRequirementEvidenceMatches | null>(null);
   const [requirementEvidenceMatchesLoading, setRequirementEvidenceMatchesLoading] = useState(false);
+  const [complianceAssessments, setComplianceAssessments] = useState<TenderComplianceAssessments | null>(null);
+  const [complianceAssessmentsLoading, setComplianceAssessmentsLoading] = useState(false);
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
   const [editEventType, setEditEventType] = useState("");
   const [editTitle, setEditTitle] = useState("");
@@ -1236,6 +1306,7 @@ function App() {
       setRequirementEffectiveState(null);
       setRequirementMatrix(null);
       setRequirementEvidenceMatches(null);
+      setComplianceAssessments(null);
       return;
     }
 
@@ -1260,6 +1331,7 @@ function App() {
     if (!selectedMatchCompanyId) {
       setCompanyEvidenceOptions([]);
       setRequirementEvidenceMatches(null);
+      setComplianceAssessments(null);
       return;
     }
 
@@ -1267,6 +1339,7 @@ function App() {
 
     if (selectedTenderId) {
       void loadRequirementEvidenceMatches(selectedTenderId, selectedMatchCompanyId);
+      void loadComplianceAssessments(selectedTenderId, selectedMatchCompanyId);
     }
   }, [selectedTenderId, selectedMatchCompanyId]);
 
@@ -1735,6 +1808,38 @@ function App() {
     }
   };
 
+  const loadComplianceAssessments = async (tenderId: string, companyId: string) => {
+    setComplianceAssessmentsLoading(true);
+    try {
+      const response = await axios.get<TenderComplianceAssessments>(
+        `${API_URL}/tenders/${tenderId}/companies/${companyId}/compliance-assessments`,
+      );
+      setComplianceAssessments(response.data);
+    } catch (err) {
+      setComplianceAssessments(null);
+    } finally {
+      setComplianceAssessmentsLoading(false);
+    }
+  };
+
+  const handleAnalyzeCompliance = async () => {
+    if (!selectedTenderId || !selectedMatchCompanyId) {
+      return;
+    }
+
+    setComplianceAssessmentsLoading(true);
+    try {
+      const response = await axios.post<TenderComplianceAssessments>(
+        `${API_URL}/tenders/${selectedTenderId}/companies/${selectedMatchCompanyId}/analyze-compliance`,
+      );
+      setComplianceAssessments(response.data);
+    } catch (err) {
+      setError("No se pudo ejecutar la evaluación automática de soporte documental.");
+    } finally {
+      setComplianceAssessmentsLoading(false);
+    }
+  };
+
   const handleAnalyzeRequirementEvidenceMatches = async () => {
     if (!selectedTenderId || !selectedMatchCompanyId) {
       return;
@@ -2061,6 +2166,54 @@ function App() {
     }
     if (value === "NOT_REVIEWED") {
       return "No revisada";
+    }
+    return value;
+  };
+
+  const complianceStatusLabel = (value: string) => {
+    if (value === "SUPPORTED") {
+      return "Evidencia suficiente";
+    }
+    if (value === "PARTIALLY_SUPPORTED") {
+      return "Evidencia parcial";
+    }
+    if (value === "NOT_SUPPORTED") {
+      return "Evidencia insuficiente";
+    }
+    if (value === "REVIEW_REQUIRED") {
+      return "Requiere revisión";
+    }
+    if (value === "NOT_EVALUATED") {
+      return "No evaluado";
+    }
+    return value;
+  };
+
+  const complianceApplicabilityContextLabel = (value: string) => {
+    if (value === "APPLIES") {
+      return "Aplica";
+    }
+    if (value === "CONDITION_UNRESOLVED") {
+      return "Condición aún no resuelta";
+    }
+    if (value === "UNKNOWN") {
+      return "Aplicabilidad por determinar";
+    }
+    return value;
+  };
+
+  const complianceCheckStatusLabel = (value: string) => {
+    if (value === "PASS") {
+      return "PASS";
+    }
+    if (value === "FAIL") {
+      return "FAIL";
+    }
+    if (value === "UNKNOWN") {
+      return "UNKNOWN";
+    }
+    if (value === "NOT_APPLICABLE") {
+      return "N/A";
     }
     return value;
   };
@@ -3656,6 +3809,108 @@ function App() {
                       </div>
                     </>
                   )}
+
+                  <div style={{ marginTop: 14, borderTop: "1px solid #e2e8f0", paddingTop: 10 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                      <div>
+                        <div style={{ fontSize: 14, color: "#0f172a", fontWeight: 700 }}>Evaluación automática de soporte documental</div>
+                        <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                          La evaluación automática indica qué tan bien la evidencia disponible soporta cada requisito según reglas determinísticas de LicitIA. No constituye la decisión final de cumplimiento. La decisión final corresponde al operador.
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => void handleAnalyzeCompliance()}
+                        disabled={!selectedMatchCompanyId || complianceAssessmentsLoading}
+                        style={{ padding: "8px 10px", borderRadius: 8, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700, opacity: !selectedMatchCompanyId || complianceAssessmentsLoading ? 0.6 : 1 }}
+                      >
+                        {complianceAssessmentsLoading ? "Evaluando..." : "Evaluar soporte documental"}
+                      </button>
+                    </div>
+
+                    {selectedMatchCompanyId && !complianceAssessmentsLoading && !complianceAssessments && (
+                      <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                        Ejecuta la evaluación para obtener el estado de soporte documental por requisito.
+                      </div>
+                    )}
+
+                    {complianceAssessments && (
+                      <>
+                        <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>{complianceAssessments.scope_note}</div>
+                        <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                          Requisitos {complianceAssessments.summary.requirements_considered} • Evidencia suficiente {complianceAssessments.summary.supported_count} • Evidencia parcial {complianceAssessments.summary.partially_supported_count}
+                        </div>
+                        <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                          Evidencia insuficiente {complianceAssessments.summary.not_supported_count} • Requiere revisión {complianceAssessments.summary.review_required_count} • No evaluado {complianceAssessments.summary.not_evaluated_count} • Condición no resuelta {complianceAssessments.summary.condition_unresolved_count}
+                        </div>
+
+                        <div style={{ marginTop: 8, display: "grid", gap: 8 }}>
+                          {complianceAssessments.assessments.map((assessment) => (
+                            <details key={assessment.id} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: 10, background: "#fff" }}>
+                              <summary style={{ cursor: "pointer" }}>
+                                <div style={{ fontWeight: 700 }}>{assessment.requirement.canonical_text}</div>
+                                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                                  Estado: <strong>{complianceStatusLabel(assessment.system_status)}</strong> ({assessment.system_status})
+                                </div>
+                                <div style={{ marginTop: 3, fontSize: 12, color: "#52607a" }}>
+                                  Aplicabilidad: {applicabilityLabel(assessment.requirement.applicability)} • Contexto: {complianceApplicabilityContextLabel(assessment.applicability_context)}
+                                </div>
+                                {assessment.requirement.condition_text && (
+                                  <div style={{ marginTop: 3, fontSize: 12, color: "#7a4b00" }}>
+                                    Condición: {assessment.requirement.condition_text}
+                                  </div>
+                                )}
+                              </summary>
+
+                              <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>{assessment.assessment_summary}</div>
+                              {assessment.warning_codes.length > 0 && (
+                                <div style={{ marginTop: 6, fontSize: 12, color: "#7a4b00" }}>
+                                  Advertencias: {assessment.warning_codes.join(" • ")}
+                                </div>
+                              )}
+
+                              <div style={{ marginTop: 8, overflowX: "auto" }}>
+                                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                                  <thead>
+                                    <tr style={{ background: "#eef2f7" }}>
+                                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Qué se verificó</th>
+                                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Esperado</th>
+                                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Observado</th>
+                                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Resultado</th>
+                                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Motivo</th>
+                                      <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Evidencia / fuente</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {assessment.checks.map((check) => (
+                                      <tr key={check.id}>
+                                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{check.check_type}</td>
+                                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{check.expected_value ?? "-"}</td>
+                                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{check.observed_value ?? "-"}</td>
+                                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}><strong>{complianceCheckStatusLabel(check.check_status)}</strong></td>
+                                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{check.rationale}</td>
+                                        <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                                          {check.company_evidence ? (
+                                            <>
+                                              <div style={{ fontWeight: 700 }}>{check.company_evidence.evidence_type} • {check.company_evidence.id.slice(0, 8)}</div>
+                                              <div style={{ color: "#52607a", marginTop: 3 }}>{check.company_evidence.source_document.original_filename}</div>
+                                              <div style={{ color: "#334155", marginTop: 3 }}>{check.company_evidence.canonical_statement}</div>
+                                            </>
+                                          ) : (
+                                            <span style={{ color: "#52607a" }}>Sin evidencia vinculada</span>
+                                          )}
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </details>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
               </>
             )}
