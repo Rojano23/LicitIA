@@ -5,7 +5,7 @@ from decimal import Decimal
 from enum import Enum
 from uuid import uuid4
 
-from sqlalchemy import Boolean, Date, DateTime, Float, ForeignKey, Index, Integer, JSON, Numeric, String, Text, Time, UniqueConstraint
+from sqlalchemy import Boolean, CheckConstraint, Date, DateTime, Float, ForeignKey, Index, Integer, JSON, Numeric, String, Text, Time, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -741,6 +741,10 @@ class Tender(Base):
         back_populates="tender",
         cascade="all, delete-orphan",
     )
+    scope_segments: Mapped[list["TenderScopeSegment"]] = relationship(
+        back_populates="tender",
+        cascade="all, delete-orphan",
+    )
     vision_analyses: Mapped[list["DocumentVisionAnalysis"]] = relationship(
         back_populates="tender",
         cascade="all, delete-orphan",
@@ -931,6 +935,110 @@ class TenderItem(Base):
     source_document: Mapped[TenderDocument] = relationship(back_populates="tender_items")
     document_page: Mapped[DocumentPage | None] = relationship(foreign_keys=[document_page_id])
     normalized_content: Mapped[NormalizedContent | None] = relationship(foreign_keys=[normalized_content_id])
+
+
+class TenderScopeSegment(Base):
+    __tablename__ = "tender_scope_segments"
+
+    __table_args__ = (
+        CheckConstraint(
+            "tender_item_id IS NOT NULL OR candidate_item_key IS NOT NULL",
+            name="ck_tender_scope_segments_has_owner",
+        ),
+        UniqueConstraint(
+            "tender_id",
+            "source_document_id",
+            "semantic_fingerprint",
+            name="uq_tender_scope_segments_doc_fingerprint",
+        ),
+        Index("ix_tender_scope_segments_tender_id", "tender_id"),
+        Index("ix_tender_scope_segments_source_document_id", "source_document_id"),
+        Index("ix_tender_scope_segments_document_page_id", "document_page_id"),
+        Index("ix_tender_scope_segments_tender_item_id", "tender_item_id"),
+        Index("ix_tender_scope_segments_candidate_item_key", "candidate_item_key"),
+        Index("ix_tender_scope_segments_review_required", "review_required"),
+        Index("ix_tender_scope_segments_scope_domain", "scope_domain"),
+        Index(
+            "ix_tender_scope_segments_page_sequence",
+            "source_document_id",
+            "page_number",
+            "sequence_index",
+        ),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    document_page_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    page_number: Mapped[int] = mapped_column(Integer, nullable=False)
+    tender_item_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("tender_items.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    candidate_item_key: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    candidate_item_raw_label: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    sequence_index: Mapped[int] = mapped_column(Integer, nullable=False)
+    scope_domain: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    source_method: Mapped[str] = mapped_column(String(32), nullable=False)
+    link_reason: Mapped[str] = mapped_column(String(32), nullable=False)
+    source_locator: Mapped[str] = mapped_column(String(512), nullable=False)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False)
+    source_analysis_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_vision_analyses.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    source_page_result_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_vision_page_results.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+    review_required: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    semantic_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship(back_populates="scope_segments")
+    source_document: Mapped[TenderDocument] = relationship("TenderDocument", foreign_keys=[source_document_id])
+    document_page: Mapped[DocumentPage] = relationship("DocumentPage", foreign_keys=[document_page_id])
+    tender_item: Mapped[TenderItem | None] = relationship("TenderItem", foreign_keys=[tender_item_id])
+    source_analysis: Mapped[DocumentVisionAnalysis | None] = relationship(
+        "DocumentVisionAnalysis",
+        foreign_keys=[source_analysis_id],
+    )
+    source_page_result: Mapped[DocumentVisionPageResult | None] = relationship(
+        "DocumentVisionPageResult",
+        foreign_keys=[source_page_result_id],
+    )
 
 
 class DocumentVisionAnalysis(Base):
