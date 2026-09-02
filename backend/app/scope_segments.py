@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 import hashlib
+from collections import defaultdict
 from dataclasses import dataclass
 
-from sqlalchemy import select
+from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
-from app.item_identity import NormalizedItemIdentity
 from app.models import TenderScopeSegment
-from app.page_structure import PageStructuralSegment, PageStructuralState
+from app.page_structure import PageStructuralProvenance, PageStructuralState, build_page_structural_state
+from app.scope_linking import CanonicalTenderItemReference, ScopeLinkingPageInput, ScopeOwnershipDecision, link_scope_ownership_decisions
 
 
 @dataclass(frozen=True, slots=True)
@@ -18,11 +19,6 @@ class TenderScopeSegmentInput:
     document_page_id: str
     source_analysis_id: str | None = None
     source_page_result_id: str | None = None
-
-
-def _segment_owner_key(segment: PageStructuralSegment) -> str | None:
-    identity: NormalizedItemIdentity = segment.item_identity
-    return identity.normalized_key
 
 
 def _build_semantic_fingerprint(
@@ -53,16 +49,148 @@ def _build_semantic_fingerprint(
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
-def _segment_link_reason(segment: PageStructuralSegment) -> str:
-    if segment.starts_on_this_page:
-        return "EXPLICIT_ITEM_START"
-    if not segment.starts_on_this_page:
-        return "CONTINUATION"
-    return "UNKNOWN"
+def _delete_active_scope_segments_for_page(
+    db: Session,
+    *,
+    tender_id: str,
+    source_document_id: str,
+    document_page_id: str,
+) -> None:
+    db.execute(
+        delete(TenderScopeSegment).where(
+            TenderScopeSegment.tender_id == tender_id,
+            TenderScopeSegment.source_document_id == source_document_id,
+            TenderScopeSegment.document_page_id == document_page_id,
+        )
+    )
 
 
-def _segment_source_method(page_state: PageStructuralState) -> str:
-    return page_state.provenance.source_method
+def _persist_decisions(
+    db: Session,
+    *,
+    decisions: list[ScopeOwnershipDecision],
+) -> list[TenderScopeSegment]:
+    persisted: list[TenderScopeSegment] = []
+    for decision in decisions:
+        row = TenderScopeSegment(
+            tender_id=decision.tender_id,
+            source_document_id=decision.source_document_id,
+            document_page_id=decision.document_page_id,
+            page_number=decision.page_number,
+            tender_item_id=decision.tender_item_id,
+            candidate_item_key=decision.candidate_item_key,
+            candidate_item_raw_label=decision.candidate_item_raw_label,
+            sequence_index=decision.sequence_index,
+            scope_domain=None,
+            source_method=decision.source_method,
+            link_reason=decision.link_reason,
+            source_locator=decision.source_locator,
+            source_excerpt=decision.source_excerpt,
+            source_analysis_id=decision.source_analysis_id,
+            source_page_result_id=decision.source_page_result_id,
+            confidence=None,
+            review_required=decision.review_required,
+            semantic_fingerprint=_build_semantic_fingerprint(
+                tender_id=decision.tender_id,
+                source_document_id=decision.source_document_id,
+                page_number=decision.page_number,
+                sequence_index=decision.sequence_index,
+                owner_key=decision.candidate_item_key,
+                source_method=decision.source_method,
+                link_reason=decision.link_reason,
+                source_locator=decision.source_locator,
+                source_excerpt=decision.source_excerpt,
+            ),
+        )
+        db.add(row)
+        persisted.append(row)
+    return persisted
+
+
+def _canonical_references_from_candidate_map(
+    tender_item_id_by_candidate_key: dict[str, str] | None,
+) -> list[CanonicalTenderItemReference]:
+    if not tender_item_id_by_candidate_key:
+        return []
+    return [
+        CanonicalTenderItemReference(tender_item_id=tender_item_id, item_number=candidate_key)
+        for candidate_key, tender_item_id in tender_item_id_by_candidate_key.items()
+    ]
+
+
+def replace_tender_scope_segments_for_page_inputs(
+    db: Session,
+    *,
+    tender_id: str,
+    page_inputs: list[TenderScopeSegmentInput],
+    canonical_items: list[CanonicalTenderItemReference] | None = None,
+) -> list[TenderScopeSegment]:
+    if not page_inputs:
+        return []
+
+    linking_inputs: list[ScopeLinkingPageInput] = []
+    for page_input in page_inputs:
+        effective_provenance = PageStructuralProvenance(
+            source_method=page_input.page_state.provenance.source_method,
+            source_analysis_id=page_input.source_analysis_id
+            if page_input.source_analysis_id is not None
+            else page_input.page_state.provenance.source_analysis_id,
+            source_page_result_id=page_input.source_page_result_id
+            if page_input.source_page_result_id is not None
+            else page_input.page_state.provenance.source_page_result_id,
+            source_contract_version=page_input.page_state.provenance.source_contract_version,
+        )
+        effective_page_state = build_page_structural_state(
+            page_number=page_input.page_state.page_number,
+            segments=page_input.page_state.segments,
+            state_quality=page_input.page_state.state_quality,
+            review_required=page_input.page_state.review_required,
+            provenance=effective_provenance,
+            incoming_item_key=page_input.page_state.incoming_item_key,
+            outgoing_item_key=page_input.page_state.outgoing_item_key,
+            warnings=page_input.page_state.warnings,
+        )
+
+        _delete_active_scope_segments_for_page(
+            db,
+            tender_id=tender_id,
+            source_document_id=page_input.source_document_id,
+            document_page_id=page_input.document_page_id,
+        )
+        linking_inputs.append(
+            ScopeLinkingPageInput(
+                source_document_id=page_input.source_document_id,
+                document_page_id=page_input.document_page_id,
+                page_state=effective_page_state,
+            )
+        )
+    decisions = link_scope_ownership_decisions(
+        tender_id=tender_id,
+        page_inputs=linking_inputs,
+        canonical_items=canonical_items or (),
+    )
+
+    expected_page_keys = {
+        (page_input.source_document_id, page_input.document_page_id)
+        for page_input in page_inputs
+    }
+    decisions_by_page_key: dict[tuple[str, str], list[ScopeOwnershipDecision]] = defaultdict(list)
+    for decision in decisions:
+        page_key = (decision.source_document_id, decision.document_page_id)
+        if page_key in expected_page_keys:
+            decisions_by_page_key[page_key].append(decision)
+
+    ordered_keys = [
+        (page_input.source_document_id, page_input.document_page_id)
+        for page_input in page_inputs
+    ]
+    ordered_decisions: list[ScopeOwnershipDecision] = []
+    for page_key in ordered_keys:
+        ordered_decisions.extend(
+            sorted(decisions_by_page_key.get(page_key, []), key=lambda decision: decision.sequence_index)
+        )
+
+    return _persist_decisions(db, decisions=ordered_decisions)
 
 
 def persist_tender_scope_segments(
@@ -76,82 +204,17 @@ def persist_tender_scope_segments(
     source_page_result_id: str | None = None,
     tender_item_id_by_candidate_key: dict[str, str] | None = None,
 ) -> list[TenderScopeSegment]:
-    if page_state.state_quality != "VALID":
-        return []
-
-    persisted: list[TenderScopeSegment] = []
-    for segment in page_state.segments:
-        owner_key = _segment_owner_key(segment)
-        if owner_key is None and segment.item_identity.normalized_key is None:
-            continue
-
-        tender_item_id = None
-        if owner_key is not None and tender_item_id_by_candidate_key is not None:
-            tender_item_id = tender_item_id_by_candidate_key.get(owner_key)
-
-        source_method = _segment_source_method(page_state)
-        link_reason = _segment_link_reason(segment)
-        source_locator = f"page:{page_state.page_number}|segment:{segment.sequence}"
-        source_excerpt = segment.anchor_raw_text or ""
-        semantic_fingerprint = _build_semantic_fingerprint(
-            tender_id=tender_id,
-            source_document_id=source_document_id,
-            page_number=page_state.page_number,
-            sequence_index=segment.sequence,
-            owner_key=owner_key,
-            source_method=source_method,
-            link_reason=link_reason,
-            source_locator=source_locator,
-            source_excerpt=source_excerpt,
-        )
-
-        existing = db.scalar(
-            select(TenderScopeSegment).where(
-                TenderScopeSegment.tender_id == tender_id,
-                TenderScopeSegment.source_document_id == source_document_id,
-                TenderScopeSegment.semantic_fingerprint == semantic_fingerprint,
-            )
-        )
-        if existing is not None:
-            existing.document_page_id = document_page_id
-            existing.page_number = page_state.page_number
-            existing.tender_item_id = tender_item_id
-            existing.candidate_item_key = owner_key
-            existing.candidate_item_raw_label = segment.item_identity.raw_label if owner_key is not None else None
-            existing.sequence_index = segment.sequence
-            existing.scope_domain = None
-            existing.source_method = source_method
-            existing.link_reason = link_reason
-            existing.source_locator = source_locator
-            existing.source_excerpt = source_excerpt
-            existing.source_analysis_id = source_analysis_id
-            existing.source_page_result_id = source_page_result_id
-            existing.confidence = None
-            existing.review_required = bool(segment.review_required or page_state.review_required or page_state.state_quality != "VALID")
-            persisted.append(existing)
-            continue
-
-        row = TenderScopeSegment(
-            tender_id=tender_id,
-            source_document_id=source_document_id,
-            document_page_id=document_page_id,
-            page_number=page_state.page_number,
-            tender_item_id=tender_item_id,
-            candidate_item_key=owner_key,
-            candidate_item_raw_label=segment.item_identity.raw_label if owner_key is not None else None,
-            sequence_index=segment.sequence,
-            scope_domain=None,
-            source_method=source_method,
-            link_reason=link_reason,
-            source_locator=source_locator,
-            source_excerpt=source_excerpt,
-            source_analysis_id=source_analysis_id,
-            source_page_result_id=source_page_result_id,
-            confidence=None,
-            review_required=bool(segment.review_required or page_state.review_required or page_state.state_quality != "VALID"),
-            semantic_fingerprint=semantic_fingerprint,
-        )
-        db.add(row)
-        persisted.append(row)
-
-    return persisted
+    input_row = TenderScopeSegmentInput(
+        page_state=page_state,
+        source_document_id=source_document_id,
+        document_page_id=document_page_id,
+        source_analysis_id=source_analysis_id,
+        source_page_result_id=source_page_result_id,
+    )
+    canonical_items = _canonical_references_from_candidate_map(tender_item_id_by_candidate_key)
+    return replace_tender_scope_segments_for_page_inputs(
+        db,
+        tender_id=tender_id,
+        page_inputs=[input_row],
+        canonical_items=canonical_items,
+    )

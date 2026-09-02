@@ -21,12 +21,14 @@ from app.models import (
 )
 from app.page_structure import (
     PAGE_STRUCTURE_SOURCE_METHOD_VISION,
+    PAGE_STRUCTURE_UNKNOWN,
     PAGE_STRUCTURE_VALID,
     PageStructuralProvenance,
     PageStructuralSegment,
     build_page_structural_state,
 )
-from app.scope_segments import persist_tender_scope_segments
+from app.scope_segments import TenderScopeSegmentInput, persist_tender_scope_segments, replace_tender_scope_segments_for_page_inputs
+from app.scope_linking import CanonicalTenderItemReference
 
 from fastapi.testclient import TestClient
 
@@ -553,5 +555,371 @@ def test_deleting_canonical_tender_item_does_not_erase_underlying_scope_segment(
         assert persisted is not None
         assert persisted.tender_item_id is None
         assert persisted.candidate_item_key == "1"
+    finally:
+        db.close()
+
+
+def test_changed_page_rerun_replaces_old_active_scope_set() -> None:
+    tender_id = _create_tender("scope replace changed", "SCOPE-008")
+    document_id = _import_pdf(tender_id, "scope-replace-changed.pdf")
+    document_page_id, _ = _seed_page_and_normalized(document_id, 1, "PARTIDA 1\nContenido")
+
+    first_state = _page_state(
+        1,
+        [
+            PageStructuralSegment(
+                item_identity=normalize_item_identity("1"),
+                starts_on_this_page=True,
+                sequence=0,
+                anchor_raw_text="PARTIDA 1",
+                has_service=True,
+                has_supply=False,
+                has_deliverable=False,
+                review_required=False,
+            )
+        ],
+        incoming_item_key=None,
+        outgoing_item_key="1",
+    )
+    second_state = _page_state(
+        1,
+        [
+            PageStructuralSegment(
+                item_identity=normalize_item_identity("2"),
+                starts_on_this_page=True,
+                sequence=0,
+                anchor_raw_text="PARTIDA 2",
+                has_service=True,
+                has_supply=False,
+                has_deliverable=False,
+                review_required=False,
+            )
+        ],
+        incoming_item_key=None,
+        outgoing_item_key="2",
+    )
+
+    _persist_for_document(tender_id, document_id, 1, first_state)
+    _persist_for_document(tender_id, document_id, 1, second_state)
+
+    db = SessionLocal()
+    try:
+        rows = db.execute(
+            select(TenderScopeSegment)
+            .where(
+                TenderScopeSegment.tender_id == tender_id,
+                TenderScopeSegment.source_document_id == document_id,
+                TenderScopeSegment.document_page_id == document_page_id,
+            )
+            .order_by(TenderScopeSegment.sequence_index)
+        ).scalars().all()
+        assert len(rows) == 1
+        assert rows[0].candidate_item_key == "2"
+        assert rows[0].source_excerpt == "PARTIDA 2"
+    finally:
+        db.close()
+
+
+def test_valid_to_unknown_rerun_clears_previous_active_scope_for_page() -> None:
+    tender_id = _create_tender("scope unknown clears", "SCOPE-009")
+    document_id = _import_pdf(tender_id, "scope-valid-unknown.pdf")
+    document_page_id, _ = _seed_page_and_normalized(document_id, 1, "PARTIDA 1\nContenido")
+
+    valid_state = _page_state(
+        1,
+        [
+            PageStructuralSegment(
+                item_identity=normalize_item_identity("1"),
+                starts_on_this_page=True,
+                sequence=0,
+                anchor_raw_text="PARTIDA 1",
+                has_service=True,
+                has_supply=False,
+                has_deliverable=False,
+                review_required=False,
+            )
+        ],
+        incoming_item_key=None,
+        outgoing_item_key="1",
+    )
+    _persist_for_document(tender_id, document_id, 1, valid_state)
+
+    unknown_state = build_page_structural_state(
+        page_number=1,
+        segments=[],
+        state_quality=PAGE_STRUCTURE_UNKNOWN,
+        review_required=True,
+        provenance=PageStructuralProvenance(
+            source_method=PAGE_STRUCTURE_SOURCE_METHOD_VISION,
+            source_analysis_id="analysis-unknown",
+            source_page_result_id="page-result-unknown",
+            source_contract_version="VISION_STRUCTURE_SCOPE_005",
+        ),
+        incoming_item_key=None,
+        outgoing_item_key=None,
+        warnings=("STRUCTURAL_STATE_UNRESOLVED",),
+    )
+
+    db = SessionLocal()
+    try:
+        replace_tender_scope_segments_for_page_inputs(
+            db,
+            tender_id=tender_id,
+            page_inputs=[
+                TenderScopeSegmentInput(
+                    page_state=unknown_state,
+                    source_document_id=document_id,
+                    document_page_id=document_page_id,
+                    source_analysis_id="analysis-unknown",
+                    source_page_result_id="page-result-unknown",
+                )
+            ],
+        )
+        db.commit()
+
+        rows = db.execute(
+            select(TenderScopeSegment).where(
+                TenderScopeSegment.tender_id == tender_id,
+                TenderScopeSegment.source_document_id == document_id,
+                TenderScopeSegment.document_page_id == document_page_id,
+            )
+        ).scalars().all()
+        assert rows == []
+    finally:
+        db.close()
+
+
+def test_replacement_affects_only_target_physical_page() -> None:
+    tender_id = _create_tender("scope page isolation", "SCOPE-010")
+    document_id = _import_pdf(tender_id, "scope-page-isolation.pdf")
+    _seed_page_and_normalized(document_id, 1, "PARTIDA 1")
+    _seed_page_and_normalized(document_id, 2, "PARTIDA 2")
+
+    state_page_1 = _page_state(
+        1,
+        [
+            PageStructuralSegment(
+                item_identity=normalize_item_identity("1"),
+                starts_on_this_page=True,
+                sequence=0,
+                anchor_raw_text="PARTIDA 1",
+                has_service=True,
+                has_supply=False,
+                has_deliverable=False,
+                review_required=False,
+            )
+        ],
+        incoming_item_key=None,
+        outgoing_item_key="1",
+    )
+    state_page_2 = _page_state(
+        2,
+        [
+            PageStructuralSegment(
+                item_identity=normalize_item_identity("2"),
+                starts_on_this_page=True,
+                sequence=0,
+                anchor_raw_text="PARTIDA 2",
+                has_service=True,
+                has_supply=False,
+                has_deliverable=False,
+                review_required=False,
+            )
+        ],
+        incoming_item_key=None,
+        outgoing_item_key="2",
+    )
+
+    _persist_for_document(tender_id, document_id, 1, state_page_1)
+    _persist_for_document(tender_id, document_id, 2, state_page_2)
+
+    state_page_1_changed = _page_state(
+        1,
+        [
+            PageStructuralSegment(
+                item_identity=normalize_item_identity("3"),
+                starts_on_this_page=True,
+                sequence=0,
+                anchor_raw_text="PARTIDA 3",
+                has_service=True,
+                has_supply=False,
+                has_deliverable=False,
+                review_required=False,
+            )
+        ],
+        incoming_item_key=None,
+        outgoing_item_key="3",
+    )
+    _persist_for_document(tender_id, document_id, 1, state_page_1_changed)
+
+    db = SessionLocal()
+    try:
+        page_one_rows = db.execute(
+            select(TenderScopeSegment).where(
+                TenderScopeSegment.tender_id == tender_id,
+                TenderScopeSegment.source_document_id == document_id,
+                TenderScopeSegment.page_number == 1,
+            )
+        ).scalars().all()
+        page_two_rows = db.execute(
+            select(TenderScopeSegment).where(
+                TenderScopeSegment.tender_id == tender_id,
+                TenderScopeSegment.source_document_id == document_id,
+                TenderScopeSegment.page_number == 2,
+            )
+        ).scalars().all()
+
+        assert len(page_one_rows) == 1
+        assert page_one_rows[0].candidate_item_key == "3"
+        assert len(page_two_rows) == 1
+        assert page_two_rows[0].candidate_item_key == "2"
+    finally:
+        db.close()
+
+
+def test_replacement_for_one_document_does_not_delete_other_document_scope() -> None:
+    tender_id = _create_tender("scope doc isolation", "SCOPE-011")
+    doc_a = _import_pdf(tender_id, "scope-doc-a.pdf")
+    doc_b = _import_pdf(tender_id, "scope-doc-b.pdf")
+    _seed_page_and_normalized(doc_a, 1, "PARTIDA 1")
+    _seed_page_and_normalized(doc_b, 1, "PARTIDA 1")
+
+    state = _page_state(
+        1,
+        [
+            PageStructuralSegment(
+                item_identity=normalize_item_identity("1"),
+                starts_on_this_page=True,
+                sequence=0,
+                anchor_raw_text="PARTIDA 1",
+                has_service=True,
+                has_supply=False,
+                has_deliverable=False,
+                review_required=False,
+            )
+        ],
+        incoming_item_key=None,
+        outgoing_item_key="1",
+    )
+
+    _persist_for_document(tender_id, doc_a, 1, state)
+    _persist_for_document(tender_id, doc_b, 1, state)
+
+    updated_doc_a_state = _page_state(
+        1,
+        [
+            PageStructuralSegment(
+                item_identity=normalize_item_identity("2"),
+                starts_on_this_page=True,
+                sequence=0,
+                anchor_raw_text="PARTIDA 2",
+                has_service=True,
+                has_supply=False,
+                has_deliverable=False,
+                review_required=False,
+            )
+        ],
+        incoming_item_key=None,
+        outgoing_item_key="2",
+    )
+    _persist_for_document(tender_id, doc_a, 1, updated_doc_a_state)
+
+    db = SessionLocal()
+    try:
+        rows_a = db.execute(
+            select(TenderScopeSegment).where(
+                TenderScopeSegment.tender_id == tender_id,
+                TenderScopeSegment.source_document_id == doc_a,
+            )
+        ).scalars().all()
+        rows_b = db.execute(
+            select(TenderScopeSegment).where(
+                TenderScopeSegment.tender_id == tender_id,
+                TenderScopeSegment.source_document_id == doc_b,
+            )
+        ).scalars().all()
+
+        assert len(rows_a) == 1
+        assert rows_a[0].candidate_item_key == "2"
+        assert len(rows_b) == 1
+        assert rows_b[0].candidate_item_key == "1"
+    finally:
+        db.close()
+
+
+def test_candidate_raw_label_preserved_with_unique_canonical_match_and_scope_domain_null() -> None:
+    tender_id = _create_tender("scope canonical raw", "SCOPE-012")
+    document_id = _import_pdf(tender_id, "scope-canonical-raw.pdf")
+    document_page_id, _ = _seed_page_and_normalized(document_id, 1, "PARTIDA 01")
+
+    db = SessionLocal()
+    try:
+        canonical_item = TenderItem(
+            tender_id=tender_id,
+            source_document_id=document_id,
+            source_page=1,
+            document_page_id=document_page_id,
+            normalized_content_id=None,
+            item_number="1",
+            parent_item_number=None,
+            raw_description="Canonical item",
+            quantity=None,
+            unit=None,
+            source_excerpt="PARTIDA 1",
+            source_locator="page:1|segment:0",
+            extraction_confidence=1.0,
+            extraction_status="DETERMINED",
+            detection_origin="DETERMINISTIC",
+            detector_version="mvp-06.1",
+            semantic_fingerprint="fingerprint-canonical-raw",
+        )
+        db.add(canonical_item)
+        db.commit()
+        canonical_item_id = canonical_item.id
+    finally:
+        db.close()
+
+    state = _page_state(
+        1,
+        [
+            PageStructuralSegment(
+                item_identity=normalize_item_identity("01."),
+                starts_on_this_page=True,
+                sequence=0,
+                anchor_raw_text="PARTIDA 01",
+                has_service=True,
+                has_supply=False,
+                has_deliverable=False,
+                review_required=False,
+            )
+        ],
+        incoming_item_key=None,
+        outgoing_item_key="1",
+    )
+    source_analysis_id, source_page_result_id = _seed_scope_vision_provenance(document_id, document_page_id, 1)
+
+    db = SessionLocal()
+    try:
+        rows = replace_tender_scope_segments_for_page_inputs(
+            db,
+            tender_id=tender_id,
+            page_inputs=[
+                TenderScopeSegmentInput(
+                    page_state=state,
+                    source_document_id=document_id,
+                    document_page_id=document_page_id,
+                    source_analysis_id=source_analysis_id,
+                    source_page_result_id=source_page_result_id,
+                )
+            ],
+            canonical_items=[CanonicalTenderItemReference(tender_item_id=canonical_item_id, item_number="1")],
+        )
+        db.commit()
+        db.refresh(rows[0])
+
+        assert rows[0].candidate_item_key == "1"
+        assert rows[0].candidate_item_raw_label == "01."
+        assert rows[0].tender_item_id == canonical_item_id
+        assert rows[0].scope_domain is None
     finally:
         db.close()
