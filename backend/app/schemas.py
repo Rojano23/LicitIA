@@ -1,6 +1,10 @@
 from datetime import date, datetime, time
+from decimal import Decimal
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
+
+from app.local_vision import VisionAnalysisRead
 
 
 class TenderCreate(BaseModel):
@@ -1219,6 +1223,219 @@ class TenderRequirementCandidatesRead(BaseModel):
     generated_at: datetime
     summary: RequirementCandidatesSummaryRead
     candidates: list[RequirementCandidateRead] = Field(default_factory=list)
+
+
+class TenderItemRead(BaseModel):
+    id: str
+    tender_id: str
+    source_document_id: str
+    source_filename: str | None = None
+    source_page: int | None = None
+    item_number: str | None = None
+    parent_item_number: str | None = None
+    raw_description: str
+    quantity: Decimal | None = None
+    unit: str | None = None
+    source_excerpt: str
+    source_locator: str
+    extraction_confidence: float | None = None
+    extraction_status: str
+    detection_origin: str
+    detector_version: str
+    semantic_fingerprint: str
+    document_page_id: str | None = None
+    normalized_content_id: str | None = None
+    created_at: datetime
+    updated_at: datetime
+
+
+class TenderItemsSummaryRead(BaseModel):
+    total_items: int
+    documents_with_items: int
+    items_with_number: int
+    items_with_quantity: int
+    items_with_unit: int
+    items_without_locator: int
+
+
+class TenderItemsRead(BaseModel):
+    tender_id: str
+    items_version: str
+    generated_at: datetime
+    summary: TenderItemsSummaryRead
+    items: list[TenderItemRead] = Field(default_factory=list)
+    vision_analysis: VisionAnalysisRead | None = None
+
+
+class TenderDocumentItemAnalysisSummaryRead(TenderItemsSummaryRead):
+    scanned_pages: int
+    items_detected: int
+    items_created: int
+    items_updated: int
+    items_unchanged: int
+    items_deleted: int
+    warnings_count: int
+
+
+class TenderDocumentItemAnalysisRead(BaseModel):
+    tender_id: str
+    document_id: str
+    source_filename: str | None = None
+    items_version: str
+    generated_at: datetime
+    summary: TenderDocumentItemAnalysisSummaryRead
+    warnings: list[str] = Field(default_factory=list)
+    items: list[TenderItemRead] = Field(default_factory=list)
+    vision_analysis: VisionAnalysisRead | None = None
+
+
+class VisionProviderStatusRead(BaseModel):
+    provider_id: str
+    provider_name: str
+    provider_status: str
+    provider_status_reason: str
+    runtime_available: bool
+    configured_model: str
+    selected_model: str | None = None
+    model_available: bool
+    models_available: list[str] = Field(default_factory=list)
+    base_url: str
+
+
+class VisionAssistAnalyzeRequest(BaseModel):
+    page_numbers: list[int] = Field(..., min_length=1)
+    mode: str = Field(default="ASSISTIVE_EXTRACTION", max_length=64)
+
+
+class VisionAssistDocumentObservationsRead(BaseModel):
+    contains_table: bool
+    contains_items: bool
+    contains_service_scope: bool
+    contains_supply_scope: bool
+    contains_requirements: bool
+    reading_quality: str
+    notes: list[str] = Field(default_factory=list)
+
+
+class VisionAssistDetectedSectionRead(BaseModel):
+    title: str
+    kind: str
+    text: str
+
+
+class VisionAssistCandidateItemRead(BaseModel):
+    item_label: str | None = None
+    description: str
+    unit: str | None = None
+    quantity: str | None = None
+    scope_type: str
+    evidence_text: str
+    confidence_note: str
+
+
+class VisionAssistCandidateRequirementRead(BaseModel):
+    requirement_text: str
+    category_hint: str
+    evidence_text: str
+    confidence_note: str
+
+
+class VisionAssistUncertainZoneRead(BaseModel):
+    reason: str
+    excerpt: str
+
+
+class VisionAssistPageResultRead(BaseModel):
+    id: str
+    analysis_id: str
+    document_page_id: str
+    page_number: int
+    image_sha256: str
+    status: str
+    raw_response_text: str | None = None
+    structured_json: dict[str, Any] | None = None
+    extracted_markdown: str | None = None
+    extracted_plain_text: str | None = None
+    warnings: list[str] = Field(default_factory=list)
+    processing_time_ms: int | None = None
+    created_at: datetime
+    updated_at: datetime
+
+
+class VisionAssistAnalysisRead(BaseModel):
+    id: str
+    tender_id: str
+    document_id: str
+    status: str
+    mode: str
+    model_name: str
+    prompt_version: str
+    input_fingerprint_sha256: str
+    analyzed_at: datetime | None = None
+    created_at: datetime
+    updated_at: datetime
+    provider: VisionProviderStatusRead
+    summary: "VisionAssistAnalysisSummaryRead | None" = None
+    page_results: list[VisionAssistPageResultRead] = Field(default_factory=list)
+
+
+class VisionAssistAnalysisSummaryRead(BaseModel):
+    analysis_count: int
+    page_count: int
+    completed_page_count: int
+    failed_page_count: int
+    invalid_json_page_count: int
+    warning_count: int
+
+
+class VisionAssistResultsRead(BaseModel):
+    tender_id: str
+    document_id: str
+    source_filename: str | None = None
+    summary: VisionAssistAnalysisSummaryRead
+    analyses: list[VisionAssistAnalysisRead] = Field(default_factory=list)
+
+
+class VisionAssistLatestStructureSummaryRead(BaseModel):
+    page_count: int
+    valid_structure_pages: int
+    structure_continuity_valid: bool
+    detail_partial_pages: list[int] = Field(default_factory=list)
+
+
+class VisionAssistLatestAnalysisRead(BaseModel):
+    analysis_id: str
+    status: str
+    model_name: str
+    prompt_version: str
+    analyzed_at: datetime | None = None
+    structure_summary: VisionAssistLatestStructureSummaryRead
+
+
+class VisionAssistLatestItemCandidateRead(BaseModel):
+    item_number: str
+    concept_raw_text: str | None = None
+    first_detected_page: int
+    observed_pages: list[int] = Field(default_factory=list)
+    review_required: bool = True
+
+
+class VisionAssistLatestPageSummaryRead(BaseModel):
+    page_number: int
+    structure_status: str
+    previous_item_number: str | None = None
+    open_item_at_page_end: str | None = None
+    new_item_numbers: list[str] = Field(default_factory=list)
+    detail_status: str | None = None
+
+
+class VisionAssistLatestSummaryRead(BaseModel):
+    tender_id: str
+    document_id: str
+    source_filename: str | None = None
+    latest_analysis: VisionAssistLatestAnalysisRead | None = None
+    item_candidates: list[VisionAssistLatestItemCandidateRead] = Field(default_factory=list)
+    page_summaries: list[VisionAssistLatestPageSummaryRead] = Field(default_factory=list)
 
 
 class RequirementSourceOccurrenceRead(BaseModel):

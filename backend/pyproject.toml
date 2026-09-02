@@ -10,3 +10,6 @@ dependencies = [
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+markers = [
+  "local_ollama: opt-in real local Ollama integration tests (never run by default)",
+]

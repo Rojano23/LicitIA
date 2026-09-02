@@ -268,6 +268,12 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
 
 ## MVP-06 — Tender Items & Technical Scope
 
+### Estado actual
+
+- MVP-06 (Tender Items & Technical Scope): CURRENT
+- MVP-06.1 (Tender Item Detection & Extraction): IN HUMAN ACCEPTANCE
+- MVP-06.2 (Item ↔ Distributed Scope Linking): NEXT
+
 ### Objetivo
 
 Entender qué se está cotizando realmente.

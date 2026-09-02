@@ -128,6 +128,7 @@ Human Review / Proposal Builder
 - Ollama como proveedor local inicial
 - interfaz de proveedor desacoplada del dominio
 - embeddings locales
+- fallback de vision local acotado para documentos ambiguos cuando la extraccion determinista no es suficiente
 
 ### Jobs
 

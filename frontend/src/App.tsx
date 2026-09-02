@@ -947,6 +947,226 @@ type ComplianceMatrix = {
   rows: ComplianceMatrixRow[];
 };
 
+type TenderItem = {
+  id: string;
+  tender_id: string;
+  source_document_id: string;
+  source_filename: string | null;
+  source_page: number | null;
+  item_number: string | null;
+  parent_item_number: string | null;
+  raw_description: string;
+  quantity: string | null;
+  unit: string | null;
+  source_excerpt: string;
+  source_locator: string;
+  extraction_confidence: number | null;
+  extraction_status: string;
+  detection_origin: string;
+  detector_version: string;
+  semantic_fingerprint: string;
+  document_page_id: string | null;
+  normalized_content_id: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type TenderItems = {
+  tender_id: string;
+  items_version: string;
+  generated_at: string;
+  summary: {
+    total_items: number;
+    documents_with_items: number;
+    items_with_number: number;
+    items_with_quantity: number;
+    items_with_unit: number;
+    items_without_locator: number;
+  };
+  items: TenderItem[];
+  vision_analysis?: VisionAnalysis | null;
+};
+
+type TenderDocumentItemAnalysis = TenderItems & {
+  document_id: string;
+  source_filename: string | null;
+  summary: TenderItems["summary"] & {
+    scanned_pages: number;
+    items_detected: number;
+    items_created: number;
+    items_updated: number;
+    items_unchanged: number;
+    items_deleted: number;
+    warnings_count: number;
+  };
+  warnings: string[];
+};
+
+type VisionProviderStatus = {
+  provider_id: string;
+  provider_name: string;
+  provider_status: string;
+  provider_status_reason: string;
+  runtime_available: boolean;
+  configured_model: string;
+  selected_model: string | null;
+  model_available: boolean;
+  models_available: string[];
+  base_url: string;
+};
+
+type VisionAssistPageResult = {
+  id: string;
+  analysis_id: string;
+  document_page_id: string;
+  page_number: number;
+  image_sha256: string;
+  status: string;
+  raw_response_text: string | null;
+  structured_json: {
+    page_number: number;
+    document_observations: {
+      contains_table: boolean;
+      contains_items: boolean;
+      contains_service_scope: boolean;
+      contains_supply_scope: boolean;
+      contains_requirements: boolean;
+      reading_quality: string;
+      notes: string[];
+    };
+    detected_sections: Array<{ title: string; kind: string; text: string }>;
+    candidate_items: Array<{ item_label: string | null; description: string; unit: string | null; quantity: string | null; scope_type: string; evidence_text: string; confidence_note: string }>;
+    candidate_requirements: Array<{ requirement_text: string; category_hint: string; evidence_text: string; confidence_note: string }>;
+    uncertain_zones: Array<{ reason: string; excerpt: string }>;
+    plain_text: string;
+    markdown_reconstruction: string;
+  } | null;
+  extracted_markdown: string | null;
+  extracted_plain_text: string | null;
+  warnings: string[];
+  processing_time_ms: number | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type VisionAssistAnalysis = {
+  id: string;
+  tender_id: string;
+  document_id: string;
+  status: string;
+  mode: string;
+  model_name: string;
+  prompt_version: string;
+  input_fingerprint_sha256: string;
+  analyzed_at: string | null;
+  created_at: string;
+  updated_at: string;
+  provider: VisionProviderStatus;
+  summary: {
+    analysis_count: number;
+    page_count: number;
+    completed_page_count: number;
+    failed_page_count: number;
+    invalid_json_page_count: number;
+    warning_count: number;
+  } | null;
+  page_results: VisionAssistPageResult[];
+};
+
+type VisionAssistResults = {
+  tender_id: string;
+  document_id: string;
+  source_filename: string | null;
+  summary: VisionAssistAnalysis["summary"];
+  analyses: VisionAssistAnalysis[];
+};
+
+type VisionAssistAnalyzeRequest = {
+  page_numbers: number[];
+  mode: string;
+};
+
+type VisionAssistLatestStructureSummary = {
+  page_count: number;
+  valid_structure_pages: number;
+  structure_continuity_valid: boolean;
+  detail_partial_pages: number[];
+};
+
+type VisionAssistLatestAnalysis = {
+  analysis_id: string;
+  status: string;
+  model_name: string;
+  prompt_version: string;
+  analyzed_at: string | null;
+  structure_summary: VisionAssistLatestStructureSummary;
+};
+
+type VisionAssistLatestItemCandidate = {
+  item_number: string;
+  concept_raw_text: string | null;
+  first_detected_page: number;
+  observed_pages: number[];
+  review_required: boolean;
+};
+
+type VisionAssistLatestPageSummary = {
+  page_number: number;
+  structure_status: string;
+  previous_item_number: string | null;
+  open_item_at_page_end: string | null;
+  new_item_numbers: string[];
+  detail_status: string | null;
+};
+
+type VisionAssistLatestSummary = {
+  tender_id: string;
+  document_id: string;
+  source_filename: string | null;
+  latest_analysis: VisionAssistLatestAnalysis | null;
+  item_candidates: VisionAssistLatestItemCandidate[];
+  page_summaries: VisionAssistLatestPageSummary[];
+};
+
+type VisionPartidaProposal = {
+  item_number: string | null;
+  description: string;
+  quantity: string | null;
+  unit: string | null;
+  source_pages: number[];
+  evidence_excerpt: string;
+  confidence: number | null;
+  warnings: string[];
+};
+
+type VisionAnalysis = {
+  tender_id: string;
+  document_id: string;
+  source_filename: string | null;
+  document_type: string | null;
+  vision_mode: string;
+  status: string;
+  prompt_version: string;
+  pages_analyzed: number[];
+  has_procurement_scope: boolean;
+  confidence: number | null;
+  summary: string | null;
+  warnings: string[];
+  review_status: string;
+  partidas: VisionPartidaProposal[];
+  runtime: {
+    runtime_available: boolean;
+    models_available: string[];
+    selected_model: string | null;
+    provider_id: string;
+    provider_name: string;
+    provider_status: string;
+    provider_status_reason: string;
+    base_url: string;
+  };
+  generated_at: string;
+};
+
 type CompanyOption = {
   id: string;
   name: string;
@@ -1228,6 +1448,14 @@ function App() {
   const [ocrProviders, setOcrProviders] = useState<OcrProvider[]>([]);
   const [ocrMode, setOcrMode] = useState("AUTO");
   const [ocrRunning, setOcrRunning] = useState(false);
+  const [visionProviderStatus, setVisionProviderStatus] = useState<VisionProviderStatus | null>(null);
+  const [visionPageNumbers, setVisionPageNumbers] = useState("");
+  const [visionAssistAnalysis, setVisionAssistAnalysis] = useState<VisionAssistAnalysis | null>(null);
+  const [visionAssistLoading, setVisionAssistLoading] = useState(false);
+  const [visionAssistError, setVisionAssistError] = useState<string | null>(null);
+  const [visionLatestSummary, setVisionLatestSummary] = useState<VisionAssistLatestSummary | null>(null);
+  const [visionLatestLoading, setVisionLatestLoading] = useState(false);
+  const [visionLatestError, setVisionLatestError] = useState<string | null>(null);
   const [classificationResult, setClassificationResult] = useState<ClassificationResult | null>(null);
   const [classificationLoading, setClassificationLoading] = useState(false);
   const [referenceAnalysis, setReferenceAnalysis] = useState<ReferenceAnalysis | null>(null);
@@ -1270,6 +1498,11 @@ function App() {
   const [complianceMatrix, setComplianceMatrix] = useState<ComplianceMatrix | null>(null);
   const [complianceMatrixLoading, setComplianceMatrixLoading] = useState(false);
   const [complianceMatrixView, setComplianceMatrixView] = useState<"ACTION_REQUIRED" | "FINALIZED" | "ALL">("ACTION_REQUIRED");
+  const [selectedItemDocumentId, setSelectedItemDocumentId] = useState<string>("");
+  const [tenderItems, setTenderItems] = useState<TenderItems | null>(null);
+  const [tenderItemsLoading, setTenderItemsLoading] = useState(false);
+  const [tenderItemsAnalyzing, setTenderItemsAnalyzing] = useState(false);
+  const [tenderItemsWarnings, setTenderItemsWarnings] = useState<string[]>([]);
   const [decisionSavingRequirementId, setDecisionSavingRequirementId] = useState<string | null>(null);
   const [decisionNotesByRequirement, setDecisionNotesByRequirement] = useState<Record<string, string>>({});
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
@@ -1380,6 +1613,7 @@ function App() {
   useEffect(() => {
     void loadTenders();
     void loadCompanies();
+    void loadVisionProviderStatus();
   }, []);
 
   useEffect(() => {
@@ -1406,12 +1640,19 @@ function App() {
       setComplianceReview(null);
       setComplianceMatrix(null);
       setComplianceMatrixView("ACTION_REQUIRED");
+      setSelectedItemDocumentId("");
+      setTenderItems(null);
+      setTenderItemsWarnings([]);
+      setVisionLatestSummary(null);
+      setVisionLatestError(null);
+      setVisionLatestLoading(false);
       setDecisionNotesByRequirement({});
       return;
     }
 
     setSelectedDocumentId(null);
     void loadDocuments(selectedTenderId);
+    void loadVisionProviderStatus();
     void loadOcrProviders();
     void loadDocumentIntelligenceAudit(selectedTenderId);
     void loadRelationshipBaseline(selectedTenderId);
@@ -1448,6 +1689,29 @@ function App() {
       void loadComplianceMatrix(selectedTenderId, selectedMatchCompanyId, "ACTION_REQUIRED");
     }
   }, [selectedTenderId, selectedMatchCompanyId]);
+
+  useEffect(() => {
+    const currentDocuments = documents.filter((document) => document.is_current);
+    if (currentDocuments.length === 0) {
+      setSelectedItemDocumentId("");
+      return;
+    }
+
+    if (!currentDocuments.some((document) => document.id === selectedItemDocumentId)) {
+      setSelectedItemDocumentId(currentDocuments[0].id);
+    }
+  }, [documents, selectedItemDocumentId]);
+
+  useEffect(() => {
+    if (!selectedTenderId || !selectedItemDocumentId) {
+      setVisionLatestSummary(null);
+      setVisionLatestError(null);
+      setVisionLatestLoading(false);
+      return;
+    }
+
+    void loadVisionLatestSummary(selectedTenderId, selectedItemDocumentId);
+  }, [selectedTenderId, selectedItemDocumentId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -1617,6 +1881,31 @@ function App() {
       setOcrProviders(response.data);
     } catch (err) {
       setOcrProviders([]);
+    }
+  };
+
+  const loadVisionProviderStatus = async () => {
+    try {
+      const response = await axios.get<VisionProviderStatus>(`${API_URL}/vision/providers`);
+      setVisionProviderStatus(response.data);
+    } catch (err) {
+      setVisionProviderStatus(null);
+    }
+  };
+
+  const loadVisionLatestSummary = async (tenderId: string, documentId: string) => {
+    setVisionLatestLoading(true);
+    setVisionLatestError(null);
+    try {
+      const response = await axios.get<VisionAssistLatestSummary>(
+        `${API_URL}/tenders/${tenderId}/documents/${documentId}/vision-results/latest-summary`,
+      );
+      setVisionLatestSummary(response.data);
+    } catch (err) {
+      setVisionLatestSummary(null);
+      setVisionLatestError("No se pudo cargar el último análisis guardado de Vision Assist.");
+    } finally {
+      setVisionLatestLoading(false);
     }
   };
 
@@ -1955,6 +2244,80 @@ function App() {
       setComplianceMatrix(null);
     } finally {
       setComplianceMatrixLoading(false);
+    }
+  };
+
+  const loadTenderItems = async (tenderId: string, documentId: string | null = null) => {
+    setTenderItemsLoading(true);
+    try {
+      const response = await axios.get<TenderItems>(
+        `${API_URL}/tenders/${tenderId}/items`,
+        documentId ? { params: { document_id: documentId } } : undefined,
+      );
+      setTenderItems(response.data);
+    } catch (err) {
+      setTenderItems(null);
+    } finally {
+      setTenderItemsLoading(false);
+    }
+  };
+
+  const handleAnalyzeTenderItems = async () => {
+    if (!selectedTenderId || !selectedItemDocumentId) {
+      return;
+    }
+
+    setTenderItemsAnalyzing(true);
+    try {
+      const response = await axios.post<TenderDocumentItemAnalysis>(
+        `${API_URL}/tenders/${selectedTenderId}/documents/${selectedItemDocumentId}/analyze-items`,
+        undefined,
+        { params: { vision_mode: "AUTO" } },
+      );
+      setTenderItemsWarnings(response.data.warnings);
+      setTenderItems(response.data);
+      setError("");
+    } catch (err) {
+      setError("No se pudieron analizar las partidas del documento seleccionado.");
+    } finally {
+      setTenderItemsAnalyzing(false);
+    }
+  };
+
+  const handleAnalyzeVisionAssist = async () => {
+    if (!selectedTenderId || !selectedItemDocumentId) {
+      return;
+    }
+
+    const parsedPages = visionPageNumbers
+      .split(",")
+      .map((value) => Number(value.trim()))
+      .filter((value) => Number.isInteger(value) && value > 0);
+    const normalizedPages = Array.from(new Set(parsedPages)).sort((left, right) => left - right);
+
+    if (normalizedPages.length === 0) {
+      setVisionAssistError("Ingresa al menos un número de página válido.");
+      return;
+    }
+
+    setVisionAssistLoading(true);
+    setVisionAssistError(null);
+    try {
+      const response = await axios.post<VisionAssistAnalysis>(
+        `${API_URL}/tenders/${selectedTenderId}/documents/${selectedItemDocumentId}/vision-analyze`,
+        {
+          page_numbers: normalizedPages,
+          mode: "ASSISTIVE_EXTRACTION",
+        } satisfies VisionAssistAnalyzeRequest,
+      );
+      setVisionAssistAnalysis(response.data);
+      await loadVisionLatestSummary(selectedTenderId, selectedItemDocumentId);
+      setError("");
+    } catch (err) {
+      setVisionAssistAnalysis(null);
+      setVisionAssistError("No se pudo ejecutar Vision Assist sobre las páginas seleccionadas.");
+    } finally {
+      setVisionAssistLoading(false);
     }
   };
 
@@ -2339,6 +2702,19 @@ function App() {
     await loadDocumentReferences(selectedTenderId, source.source_document_id);
     if (source.source_page !== null) {
       setSelectedPageNumber(source.source_page);
+    }
+  };
+
+  const openTenderItemSource = async (item: TenderItem) => {
+    if (!selectedTenderId) {
+      return;
+    }
+    setSelectedDocumentId(item.source_document_id);
+    await loadDocumentPages(selectedTenderId, item.source_document_id);
+    await loadDocumentClassification(selectedTenderId, item.source_document_id);
+    await loadDocumentReferences(selectedTenderId, item.source_document_id);
+    if (item.source_page !== null) {
+      setSelectedPageNumber(item.source_page);
     }
   };
 
@@ -3652,6 +4028,443 @@ function App() {
                 </div>
               </>
             )}
+          </div>
+
+          <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#f8fafc" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <div>
+                <h3 style={{ margin: 0 }}>Partidas canónicas</h3>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                  Extracción determinista de partidas desde texto normalizado con trazabilidad a documento, ubicación y extracto fuente.
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                <select
+                  value={selectedItemDocumentId}
+                  onChange={(event) => setSelectedItemDocumentId(event.target.value)}
+                  style={{ padding: "8px 10px", borderRadius: 8, border: "1px solid #cfd8e3", minWidth: 260 }}
+                >
+                  <option value="">Selecciona documento fuente</option>
+                  {documents.filter((document) => document.is_current).map((document) => (
+                    <option key={document.id} value={document.id}>
+                      {document.original_filename}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  onClick={() => selectedTenderId && void loadTenderItems(selectedTenderId, null)}
+                  disabled={!selectedTenderId || tenderItemsLoading}
+                  style={{ padding: "8px 10px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700, opacity: !selectedTenderId || tenderItemsLoading ? 0.6 : 1 }}
+                >
+                  {tenderItemsLoading ? "Cargando..." : "Cargar partidas"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void handleAnalyzeTenderItems()}
+                  disabled={!selectedItemDocumentId || tenderItemsAnalyzing}
+                  style={{ padding: "8px 10px", borderRadius: 8, border: "none", background: "#0f766e", color: "#fff", fontWeight: 700, opacity: !selectedItemDocumentId || tenderItemsAnalyzing ? 0.6 : 1 }}
+                >
+                  {tenderItemsAnalyzing ? "Analizando..." : "Analizar partidas"}
+                </button>
+              </div>
+            </div>
+
+            {!tenderItemsLoading && !tenderItems && (
+              <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                Selecciona un documento técnico y ejecuta el análisis para detectar partidas.
+              </div>
+            )}
+
+            {tenderItems && (
+              <>
+                <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                  Motor {tenderItems.items_version} • Actualizado {new Date(tenderItems.generated_at).toLocaleString()}
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                  Total {tenderItems.summary.total_items} • Documentos {tenderItems.summary.documents_with_items} • Con número {tenderItems.summary.items_with_number} • Con cantidad {tenderItems.summary.items_with_quantity} • Con unidad {tenderItems.summary.items_with_unit}
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                  Partidas canónicas: {tenderItems.summary.total_items} • Vision Assist: {visionLatestSummary?.item_candidates.length ?? 0} candidatos detectados
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                  Sin localizador {tenderItems.summary.items_without_locator}
+                </div>
+
+                {tenderItemsWarnings.length > 0 && (
+                  <div style={{ marginTop: 6, fontSize: 12, color: "#7a4b00" }}>
+                    Advertencias: {tenderItemsWarnings.slice(0, 5).join(" • ")}
+                  </div>
+                )}
+
+                {tenderItems.vision_analysis && (
+                  <div style={{ marginTop: 10, padding: 12, borderRadius: 10, border: "1px solid #d2e8e3", background: "#ecfdf5" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "baseline" }}>
+                      <div>
+                        <strong>Interpretacion asistida por IA local</strong>
+                        <div style={{ marginTop: 4, fontSize: 12, color: "#0f5132" }}>
+                          Estado {tenderItems.vision_analysis.status} • Modo {tenderItems.vision_analysis.vision_mode} • Requiere revision humana {tenderItems.vision_analysis.review_status}
+                        </div>
+                      </div>
+                      <div style={{ fontSize: 12, color: "#0f5132" }}>
+                        {tenderItems.vision_analysis.runtime.runtime_available
+                          ? `Modelo ${tenderItems.vision_analysis.runtime.selected_model ?? "sin seleccionar"}`
+                          : `Sin runtime local: ${tenderItems.vision_analysis.runtime.provider_status_reason}`}
+                      </div>
+                    </div>
+
+                    <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
+                      {tenderItems.vision_analysis.summary ?? "Sin resumen adicional."}
+                    </div>
+                    <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                      Páginas analizadas {tenderItems.vision_analysis.pages_analyzed.join(", ") || "-"} • Confianza {tenderItems.vision_analysis.confidence ?? "-"}
+                    </div>
+                    {tenderItems.vision_analysis.warnings.length > 0 && (
+                      <div style={{ marginTop: 4, fontSize: 12, color: "#9a3412" }}>
+                        Avisos IA: {tenderItems.vision_analysis.warnings.slice(0, 4).join(" • ")}
+                      </div>
+                    )}
+
+                    {tenderItems.vision_analysis.partidas.length > 0 && (
+                      <div style={{ marginTop: 10, overflowX: "auto" }}>
+                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                          <thead>
+                            <tr style={{ background: "#dcfce7" }}>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #cdebd9" }}>Propuesta</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #cdebd9" }}>Descripcion</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #cdebd9" }}>Cantidad</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #cdebd9" }}>Unidad</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #cdebd9" }}>Paginas</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #cdebd9" }}>Extracto</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {tenderItems.vision_analysis.partidas.map((partida, index) => (
+                              <tr key={`${partida.item_number ?? "proposal"}-${index}`}>
+                                <td style={{ padding: 8, borderBottom: "1px solid #e5f3ea", fontWeight: 700 }}>
+                                  {partida.item_number ?? "-"}
+                                </td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #e5f3ea" }}>{partida.description}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #e5f3ea" }}>{partida.quantity ?? "-"}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #e5f3ea" }}>{partida.unit ?? "-"}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #e5f3ea" }}>{partida.source_pages.join(", ")}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #e5f3ea" }}>
+                                  <div style={{ color: "#334155" }}>{partida.evidence_excerpt}</div>
+                                  <div style={{ marginTop: 6, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                                    <span style={{ color: "#52607a" }}>Confianza {partida.confidence ?? "-"}</span>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        if (selectedTenderId && selectedItemDocumentId && partida.source_pages[0]) {
+                                          void loadDocumentPages(selectedTenderId, selectedItemDocumentId).then(() => {
+                                            setSelectedPageNumber(partida.source_pages[0]);
+                                          });
+                                        }
+                                      }}
+                                      style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}
+                                    >
+                                      Abrir pagina
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+
+                    {tenderItems.vision_analysis.partidas.length === 0 && (
+                      <div style={{ marginTop: 8, fontSize: 12, color: "#0f5132" }}>
+                        No se propusieron partidas nuevas. La salida local queda como apoyo de revision, no como verdad canonica.
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div style={{ marginTop: 10, overflowX: "auto" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                    <thead>
+                      <tr style={{ background: "#eef2f7" }}>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Partida</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Descripción</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Cantidad</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Unidad</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Documento fuente</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Ubicación</th>
+                        <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Extracto</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tenderItems.items.map((item) => (
+                        <tr key={item.id}>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9", fontWeight: 700 }}>{item.item_number ?? "-"}</td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{item.raw_description}</td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{item.quantity ?? "-"}</td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{item.unit ?? "-"}</td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            <button
+                              type="button"
+                              onClick={() => void openTenderItemSource(item)}
+                              style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}
+                            >
+                              {item.source_filename ?? item.source_document_id}
+                            </button>
+                          </td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>
+                            pág. {item.source_page ?? "-"} • {item.source_locator}
+                          </td>
+                          <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9", color: "#334155" }}>{item.source_excerpt}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+          </div>
+
+          <div style={{ marginTop: 16, border: "1px solid #d7dee9", borderRadius: 10, padding: 12, background: "#fffdf7" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, flexWrap: "wrap" }}>
+              <div>
+                <h3 style={{ margin: 0 }}>Vision Assist</h3>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#6b5b27", maxWidth: 760 }}>
+                  Vision Assist es un apoyo local para páginas complejas. No reemplaza la extracción nativa/OCR ni confirma automáticamente requisitos o alcances. El usuario humano decide.
+                </div>
+              </div>
+              <div style={{ fontSize: 12, color: "#6b5b27", textAlign: "right" }}>
+                {visionProviderStatus ? (
+                  <>
+                    <div>
+                      Proveedor {visionProviderStatus.provider_status} • {visionProviderStatus.provider_name}
+                    </div>
+                    <div>Modelo {visionProviderStatus.configured_model} {visionProviderStatus.model_available ? "disponible" : "no disponible"}</div>
+                  </>
+                ) : (
+                  <div>Consultando proveedor local...</div>
+                )}
+              </div>
+            </div>
+
+            <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                <input
+                  type="text"
+                  value={visionPageNumbers}
+                  onChange={(event) => setVisionPageNumbers(event.target.value)}
+                  placeholder="24, 25, 26, 27"
+                  style={{ minWidth: 260, padding: "8px 10px", borderRadius: 8, border: "1px solid #d0c7a7" }}
+                />
+                <button
+                  type="button"
+                  onClick={() => void handleAnalyzeVisionAssist()}
+                  disabled={!selectedTenderId || !selectedItemDocumentId || visionAssistLoading}
+                  style={{ padding: "8px 12px", borderRadius: 8, border: "none", background: "#b45309", color: "#fff", fontWeight: 700, opacity: !selectedTenderId || !selectedItemDocumentId || visionAssistLoading ? 0.6 : 1 }}
+                >
+                  {visionAssistLoading ? "Analizando..." : "Analizar con Vision"}
+                </button>
+                <div style={{ fontSize: 12, color: "#6b5b27" }}>Ingresa páginas separadas por coma para el documento seleccionado.</div>
+              </div>
+
+              {visionAssistError && <div style={{ fontSize: 12, color: "#b42318" }}>{visionAssistError}</div>}
+
+              {visionLatestLoading && <div style={{ fontSize: 12, color: "#6b5b27" }}>Cargando último análisis guardado...</div>}
+              {visionLatestError && <div style={{ fontSize: 12, color: "#b42318" }}>{visionLatestError}</div>}
+
+              {visionLatestSummary?.latest_analysis && (() => {
+                const latestAnalysis = visionLatestSummary.latest_analysis;
+                const structureSummary = latestAnalysis.structure_summary;
+                const structureValid = structureSummary.page_count > 0
+                  && structureSummary.valid_structure_pages === structureSummary.page_count
+                  && structureSummary.structure_continuity_valid;
+                const detailStatusText = structureSummary.detail_partial_pages.length === 0
+                  ? "Completo"
+                  : `Incompleto en página${structureSummary.detail_partial_pages.length > 1 ? "s" : ""} ${structureSummary.detail_partial_pages.join(", ")}`;
+
+                return (
+                  <div style={{ border: "1px solid #d8c787", borderRadius: 10, padding: 12, background: "#fff" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+                      <div>
+                        <strong>Último análisis guardado</strong>
+                        <div style={{ marginTop: 4, fontSize: 12, color: "#6b5b27" }}>
+                          Estado general: {latestAnalysis.status} • Modelo: {latestAnalysis.model_name}
+                        </div>
+                        <div style={{ marginTop: 4, fontSize: 12, color: "#6b5b27" }}>
+                          Estructura: {structureValid ? "Válida" : "Revisar"} • Detalle: {detailStatusText}
+                        </div>
+                        <div style={{ marginTop: 4, fontSize: 12, color: "#6b5b27" }}>
+                          Fecha: {latestAnalysis.analyzed_at ? new Date(latestAnalysis.analyzed_at).toLocaleString() : "sin fecha"}
+                        </div>
+                      </div>
+                      <div style={{ fontSize: 12, color: "#7a6a39", textAlign: "right" }}>
+                        Versión técnica {latestAnalysis.prompt_version}
+                      </div>
+                    </div>
+
+                    <div style={{ marginTop: 10, fontSize: 12, color: "#52607a" }}>
+                      Candidatos detectados por Vision Assist: {visionLatestSummary.item_candidates.length}
+                    </div>
+                    <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                      Los candidatos de Vision Assist son apoyo para revisión humana y no modifican las partidas canónicas.
+                    </div>
+
+                    {visionLatestSummary.item_candidates.length > 0 ? (
+                      <div style={{ marginTop: 10, overflowX: "auto" }}>
+                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                          <thead>
+                            <tr style={{ background: "#f9f4e2" }}>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #eadfb7" }}>Partida</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #eadfb7" }}>Concepto</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #eadfb7" }}>Primera página</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #eadfb7" }}>Páginas observadas</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #eadfb7" }}>Revisión requerida</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {visionLatestSummary.item_candidates.map((candidate) => (
+                              <tr key={`vision-candidate-${candidate.item_number}`}>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f5edd3", fontWeight: 700 }}>{candidate.item_number}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f5edd3" }}>{candidate.concept_raw_text ?? "-"}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f5edd3" }}>{candidate.first_detected_page}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f5edd3" }}>{candidate.observed_pages.join(", ") || "-"}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f5edd3" }}>{candidate.review_required ? "Sí" : "No"}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : (
+                      <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                        Sin candidatos detectados en el último análisis guardado.
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {visionAssistAnalysis && (
+                <div style={{ border: "1px solid #eadfb7", borderRadius: 10, padding: 12, background: "#fff" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+                    <div>
+                      <strong>Resultado</strong>
+                      <div style={{ marginTop: 4, fontSize: 12, color: "#6b5b27" }}>
+                        Estado {visionAssistAnalysis.status} • Modo {visionAssistAnalysis.mode} • Modelo {visionAssistAnalysis.model_name}
+                      </div>
+                      <div style={{ marginTop: 4, fontSize: 12, color: "#6b5b27" }}>
+                        Proveedor {visionAssistAnalysis.provider.provider_status} • {visionAssistAnalysis.provider.provider_status_reason}
+                      </div>
+                    </div>
+                    <div style={{ fontSize: 12, color: "#6b5b27" }}>
+                      Páginas {visionAssistAnalysis.summary?.page_count ?? visionAssistAnalysis.page_results.length} •
+                      Completadas {visionAssistAnalysis.summary?.completed_page_count ?? 0} •
+                      Fallidas {visionAssistAnalysis.summary?.failed_page_count ?? 0} •
+                      JSON inválido {visionAssistAnalysis.summary?.invalid_json_page_count ?? 0}
+                    </div>
+                  </div>
+
+                  {visionAssistAnalysis.page_results.map((pageResult) => {
+                    const structuredJson = pageResult.structured_json as Record<string, unknown> | null;
+                    const observations = structuredJson?.document_observations as {
+                      contains_table: boolean;
+                      contains_items: boolean;
+                      reading_quality: string;
+                      notes: string[];
+                    } | undefined;
+                    const candidateItems = Array.isArray(structuredJson?.candidate_items) ? structuredJson?.candidate_items as Array<Record<string, unknown>> : [];
+                    const candidateRequirements = Array.isArray(structuredJson?.candidate_requirements) ? structuredJson?.candidate_requirements as Array<Record<string, unknown>> : [];
+                    const uncertainZones = Array.isArray(structuredJson?.uncertain_zones) ? structuredJson?.uncertain_zones as Array<Record<string, unknown>> : [];
+                    const markdownReconstruction = typeof structuredJson?.markdown_reconstruction === "string" ? structuredJson.markdown_reconstruction : "";
+                    const plainText = typeof structuredJson?.plain_text === "string" ? structuredJson.plain_text : "";
+                    return (
+                      <div key={pageResult.id} style={{ marginTop: 12, border: "1px solid #eee2b8", borderRadius: 8, padding: 10, background: "#fffdf8" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+                          <div>
+                            <strong>Página {pageResult.page_number}</strong> • Estado {pageResult.status}
+                            {observations && (
+                              <div style={{ marginTop: 4, fontSize: 12, color: "#6b5b27" }}>
+                                Calidad {observations.reading_quality} • Tabla {observations.contains_table ? "sí" : "no"} • Partidas {observations.contains_items ? "sí" : "no"}
+                              </div>
+                            )}
+                          </div>
+                          <div style={{ fontSize: 12, color: "#6b5b27" }}>
+                            Hash {pageResult.image_sha256.slice(0, 12)} • {pageResult.processing_time_ms ?? 0} ms
+                          </div>
+                        </div>
+
+                        {observations && observations.notes.length > 0 && <div style={{ marginTop: 6, fontSize: 12, color: "#7a5f1b" }}>Notas: {observations.notes.join(" • ")}</div>}
+
+                        {pageResult.structured_json && (
+                          <>
+                            <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
+                              {markdownReconstruction || "Sin reconstrucción markdown."}
+                            </div>
+                            <pre style={{ marginTop: 8, padding: 10, borderRadius: 8, background: "#f8fafc", overflowX: "auto", whiteSpace: "pre-wrap", fontSize: 12, color: "#0f172a" }}>
+                              {plainText || "Sin texto plano."}
+                            </pre>
+
+                            <div style={{ marginTop: 10, display: "grid", gap: 8 }}>
+                              <div>
+                                <strong style={{ fontSize: 12 }}>Candidate Items</strong>
+                                {candidateItems.length === 0 ? (
+                                  <div style={{ fontSize: 12, color: "#6b7280" }}>Sin candidatos.</div>
+                                ) : (
+                                  candidateItems.map((item, index) => (
+                                    <div key={`${pageResult.id}-item-${index}`} style={{ marginTop: 6, fontSize: 12, color: "#334155" }}>
+                                      {String(item.item_label ?? "-")} • {String(item.description ?? "-")} • {String(item.quantity ?? "-")} {String(item.unit ?? "")} • {String(item.scope_type ?? "-")}
+                                    </div>
+                                  ))
+                                )}
+                              </div>
+
+                              <div>
+                                <strong style={{ fontSize: 12 }}>Candidate Requirements</strong>
+                                {candidateRequirements.length === 0 ? (
+                                  <div style={{ fontSize: 12, color: "#6b7280" }}>Sin candidatos.</div>
+                                ) : (
+                                  candidateRequirements.map((requirement, index) => (
+                                    <div key={`${pageResult.id}-requirement-${index}`} style={{ marginTop: 6, fontSize: 12, color: "#334155" }}>
+                                      {String(requirement.category_hint ?? "-")} • {String(requirement.requirement_text ?? "-")}
+                                    </div>
+                                  ))
+                                )}
+                              </div>
+
+                              <div>
+                                <strong style={{ fontSize: 12 }}>Uncertain Zones</strong>
+                                {uncertainZones.length === 0 ? (
+                                  <div style={{ fontSize: 12, color: "#6b7280" }}>Sin zonas inciertas reportadas.</div>
+                                ) : (
+                                  uncertainZones.map((zone, index) => (
+                                    <div key={`${pageResult.id}-zone-${index}`} style={{ marginTop: 6, fontSize: 12, color: "#7c2d12" }}>
+                                      {String(zone.reason ?? "-")} • {String(zone.excerpt ?? "-")}
+                                    </div>
+                                  ))
+                                )}
+                              </div>
+                            </div>
+                          </>
+                        )}
+
+                        {pageResult.raw_response_text && (
+                          <details style={{ marginTop: 10 }}>
+                            <summary style={{ cursor: "pointer", fontSize: 12, color: "#6b5b27" }}>Respuesta cruda</summary>
+                            <pre style={{ marginTop: 8, padding: 10, borderRadius: 8, background: "#f8fafc", overflowX: "auto", whiteSpace: "pre-wrap", fontSize: 12 }}>
+                              {pageResult.raw_response_text}
+                            </pre>
+                          </details>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {!visionAssistAnalysis && !visionLatestSummary?.latest_analysis && (
+                <div style={{ fontSize: 12, color: "#6b5b27" }}>
+                  Analiza páginas específicas del documento seleccionado para revisar reconstrucciones visuales y evidencias candidatas.
+                </div>
+              )}
+            </div>
           </div>
 
           <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#f8fafc" }}>

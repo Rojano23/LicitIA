@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 from datetime import date, datetime, time, timezone
+from decimal import Decimal
 from enum import Enum
 from uuid import uuid4
 
-from sqlalchemy import Boolean, Date, DateTime, Float, ForeignKey, Index, Integer, String, Text, Time, UniqueConstraint
+from sqlalchemy import Boolean, Date, DateTime, Float, ForeignKey, Index, Integer, JSON, Numeric, String, Text, Time, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -129,6 +130,24 @@ class TenderDocumentProcessingStatus(str, Enum):
     TEXT_EXTRACTION_PARTIAL = "TEXT_EXTRACTION_PARTIAL"
     TEXT_EXTRACTION_FAILED = "TEXT_EXTRACTION_FAILED"
     NO_NATIVE_TEXT = "NO_NATIVE_TEXT"
+
+
+class DocumentVisionAnalysisStatus(str, Enum):
+    PENDING = "PENDING"
+    RUNNING = "RUNNING"
+    COMPLETED = "COMPLETED"
+    PARTIAL = "PARTIAL"
+    FAILED = "FAILED"
+    UNAVAILABLE = "UNAVAILABLE"
+
+
+class DocumentVisionPageResultStatus(str, Enum):
+    PENDING = "PENDING"
+    COMPLETED = "COMPLETED"
+    PARTIAL = "PARTIAL"
+    INVALID_JSON = "INVALID_JSON"
+    FAILED = "FAILED"
+    UNAVAILABLE = "UNAVAILABLE"
 
 
 class DocumentPageStatus(str, Enum):
@@ -718,6 +737,14 @@ class Tender(Base):
         back_populates="tender",
         cascade="all, delete-orphan",
     )
+    tender_items: Mapped[list["TenderItem"]] = relationship(
+        back_populates="tender",
+        cascade="all, delete-orphan",
+    )
+    vision_analyses: Mapped[list["DocumentVisionAnalysis"]] = relationship(
+        back_populates="tender",
+        cascade="all, delete-orphan",
+    )
 
 
 class TenderDocument(Base):
@@ -821,6 +848,196 @@ class TenderDocument(Base):
         foreign_keys="RequirementCandidateEvidence.source_document_id",
         cascade="all, delete-orphan",
     )
+    tender_items: Mapped[list["TenderItem"]] = relationship(
+        back_populates="source_document",
+        cascade="all, delete-orphan",
+    )
+    vision_analyses: Mapped[list["DocumentVisionAnalysis"]] = relationship(
+        back_populates="document",
+        cascade="all, delete-orphan",
+    )
+    vision_analyses: Mapped[list["DocumentVisionAnalysis"]] = relationship(
+        back_populates="document",
+        cascade="all, delete-orphan",
+    )
+
+
+class TenderItem(Base):
+    __tablename__ = "tender_items"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "tender_id",
+            "source_document_id",
+            "semantic_fingerprint",
+            name="uq_tender_items_doc_fingerprint",
+        ),
+        Index("ix_tender_items_tender_id", "tender_id"),
+        Index("ix_tender_items_source_document_id", "source_document_id"),
+        Index("ix_tender_items_item_number", "item_number"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_page: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    document_page_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    normalized_content_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("normalized_content.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    item_number: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    parent_item_number: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    raw_description: Mapped[str] = mapped_column(Text, nullable=False)
+    quantity: Mapped[Decimal | None] = mapped_column(Numeric(18, 4), nullable=True)
+    unit: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False)
+    source_locator: Mapped[str] = mapped_column(String(512), nullable=False)
+    extraction_confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+    extraction_status: Mapped[str] = mapped_column(String(32), nullable=False, default="DETERMINED")
+    detection_origin: Mapped[str] = mapped_column(String(32), nullable=False, default="DETERMINISTIC")
+    detector_version: Mapped[str] = mapped_column(String(32), nullable=False, default="mvp-06.1")
+    semantic_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship(back_populates="tender_items")
+    source_document: Mapped[TenderDocument] = relationship(back_populates="tender_items")
+    document_page: Mapped[DocumentPage | None] = relationship(foreign_keys=[document_page_id])
+    normalized_content: Mapped[NormalizedContent | None] = relationship(foreign_keys=[normalized_content_id])
+
+
+class DocumentVisionAnalysis(Base):
+    __tablename__ = "document_vision_analyses"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "document_id",
+            "model_name",
+            "prompt_version",
+            "input_fingerprint_sha256",
+            name="uq_document_vision_analyses_input_fingerprint",
+        ),
+        Index("ix_document_vision_analyses_tender_id", "tender_id"),
+        Index("ix_document_vision_analyses_document_id", "document_id"),
+        Index("ix_document_vision_analyses_input_fingerprint_sha256", "input_fingerprint_sha256"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    status: Mapped[str] = mapped_column(String(32), nullable=False, default=DocumentVisionAnalysisStatus.PENDING.value)
+    mode: Mapped[str] = mapped_column(String(32), nullable=False, default="ASSISTIVE_EXTRACTION")
+    model_name: Mapped[str] = mapped_column(String(64), nullable=False, default="qwen3-vl:4b")
+    prompt_version: Mapped[str] = mapped_column(String(64), nullable=False)
+    input_fingerprint_sha256: Mapped[str] = mapped_column(String(64), nullable=False)
+    analyzed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship(back_populates="vision_analyses")
+    document: Mapped[TenderDocument] = relationship(back_populates="vision_analyses")
+    page_results: Mapped[list["DocumentVisionPageResult"]] = relationship(
+        back_populates="analysis",
+        cascade="all, delete-orphan",
+    )
+
+
+class DocumentVisionPageResult(Base):
+    __tablename__ = "document_vision_page_results"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "analysis_id",
+            "document_page_id",
+            "image_sha256",
+            name="uq_document_vision_page_result_analysis_page_image",
+        ),
+        Index("ix_document_vision_page_results_analysis_id", "analysis_id"),
+        Index("ix_document_vision_page_results_document_page_id", "document_page_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    analysis_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_vision_analyses.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    document_page_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    page_number: Mapped[int] = mapped_column(Integer, nullable=False)
+    image_sha256: Mapped[str] = mapped_column(String(64), nullable=False)
+    status: Mapped[str] = mapped_column(String(32), nullable=False, default=DocumentVisionPageResultStatus.PENDING.value)
+    raw_response_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    structured_json: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    extracted_markdown: Mapped[str | None] = mapped_column(Text, nullable=True)
+    extracted_plain_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    warnings: Mapped[list | None] = mapped_column(JSON, nullable=True)
+    processing_time_ms: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    analysis: Mapped[DocumentVisionAnalysis] = relationship(back_populates="page_results")
+    document_page: Mapped[DocumentPage] = relationship(back_populates="vision_page_results", foreign_keys=[document_page_id])
 
 
 class DocumentPageRegion(Base):
@@ -955,6 +1172,7 @@ class DocumentPage(Base):
     classification_evidence: Mapped[list["DocumentClassificationEvidence"]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
     requirement_candidates: Mapped[list["RequirementCandidate"]] = relationship(back_populates="document_page")
     requirement_candidate_evidence: Mapped[list["RequirementCandidateEvidence"]] = relationship(back_populates="document_page")
+    vision_page_results: Mapped[list["DocumentVisionPageResult"]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
 
     @property
     def content_profile(self) -> str:

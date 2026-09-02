@@ -1,11 +1,18 @@
+import os
 import hashlib
 import importlib.util
+import json
+import re
+from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi.testclient import TestClient
+import pytest
+from sqlalchemy import func, select
 
 from app.database import SessionLocal
 from app.main import app
+import app.ollama_vision as ollama_vision_module
 from app.models import (
     DocumentClassification,
     DocumentClassificationCandidate,
@@ -14,6 +21,8 @@ from app.models import (
     DocumentRelationship,
     DocumentClassificationTag,
     DocumentPage,
+    DocumentVisionAnalysis,
+    DocumentVisionPageResult,
     NormalizedContent,
     PageOcrResult,
     TenderDocument,
@@ -58,6 +67,25 @@ def _import_classification_pdf(tender_id: str, filename: str = "classification.p
     response = client.post(
         f"/tenders/{tender_id}/documents/import",
         files=[("files", (filename, unique_payload, "application/pdf"))],
+        data={"source_relative_paths": f"folder/{filename}"},
+    )
+    assert response.status_code == 200, response.text
+    return response.json()[0]["document_id"]
+
+
+def _import_vision_pdf(tender_id: str, filename: str, pages: list[str]) -> str:
+    import fitz
+
+    pdf_document = fitz.open()
+    for text in pages:
+        page = pdf_document.new_page()
+        page.insert_text((72, 72), text)
+    pdf_bytes = pdf_document.write()
+    pdf_document.close()
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", (filename, pdf_bytes, "application/pdf"))],
         data={"source_relative_paths": f"folder/{filename}"},
     )
     assert response.status_code == 200, response.text
@@ -2523,3 +2551,2024 @@ def test_reference_get_endpoint_returns_detected_references() -> None:
     payload = _get_references(tender_id, source_id)
     assert payload["counts"]["total_reference_mentions"] == 1
     assert payload["references"][0]["raw_reference_text"].lower().startswith("anexo")
+
+
+class _FakeOllamaResponse:
+    def __init__(self, payload: dict[str, object]) -> None:
+        self._payload = payload
+
+    def read(self) -> bytes:
+        return json.dumps(self._payload).encode("utf-8")
+
+    def __enter__(self) -> "_FakeOllamaResponse":
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> None:
+        return None
+
+
+def _import_vision_pdf(tender_id: str, filename: str, pages: list[str]) -> str:
+    import fitz
+
+    pdf_document = fitz.open()
+    for text in pages:
+        page = pdf_document.new_page()
+        page.insert_text((72, 72), text)
+    pdf_bytes = pdf_document.write()
+    pdf_document.close()
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/import",
+        files=[("files", (filename, pdf_bytes, "application/pdf"))],
+        data={"source_relative_paths": f"folder/{filename}"},
+    )
+    assert response.status_code == 200, response.text
+    return response.json()[0]["document_id"]
+
+
+def _patch_ollama_available(monkeypatch: pytest.MonkeyPatch, *, invalid_json: bool = False) -> None:
+    def fake_urlopen(request, timeout):
+        if request.full_url.endswith("/api/tags"):
+            return _FakeOllamaResponse({"models": [{"name": "qwen3-vl:4b-instruct"}, {"name": "qwen3-vl:4b"}, {"name": "llava:latest"}]})
+        if request.full_url.endswith("/api/chat"):
+            if invalid_json:
+                return _FakeOllamaResponse({"message": {"content": "not valid json"}})
+            payload = json.loads(request.data.decode("utf-8"))
+            prompt = payload["messages"][0]["content"]
+            if "Task type: DETAIL_TRANSCRIPTION" in prompt:
+                return _FakeOllamaResponse(
+                    {
+                        "message": {
+                            "content": json.dumps(
+                                {
+                                    "source_page": 1,
+                                    "raw_lines": [
+                                        {
+                                            "raw_visible_text": "MODULO DE PRUEBA, MARCA: YOKOGAWA, MODELO: MTBE-1 (1 PIEZA)",
+                                            "uncertain": False,
+                                            "uncertain_characters": [],
+                                        }
+                                    ],
+                                    "uncertainties": [],
+                                }
+                            )
+                        },
+                        "done_reason": "stop",
+                        "prompt_eval_count": 123,
+                        "eval_count": 89,
+                    }
+                )
+            match = re.search(r"Page number: (\d+)", prompt)
+            page_number = int(match.group(1)) if match else 1
+            return _FakeOllamaResponse(
+                {
+                    "message": {
+                        "content": json.dumps(
+                            {
+                                "page_number": page_number,
+                                "continues_previous_item": False,
+                                "previous_item_number": None,
+                                "item_segments": [
+                                    {
+                                        "item_number": str(page_number),
+                                        "starts_on_this_page": True,
+                                        "has_service": True,
+                                        "has_supply": False,
+                                        "has_deliverable": False,
+                                        "anchor_raw_text": f"Servicio de mantenimiento pagina {page_number}",
+                                        "review_required": False,
+                                    }
+                                ],
+                                "new_items": [
+                                    {
+                                        "item_number": str(page_number),
+                                        "concept_raw_text": f"Servicio de mantenimiento pagina {page_number}",
+                                        "review_required": False,
+                                    }
+                                ],
+                                "open_item_at_page_end": str(page_number),
+                                "uncertainties": [],
+                            }
+                        )
+                    },
+                    "done_reason": "stop",
+                    "prompt_eval_count": 201,
+                    "eval_count": 180,
+                }
+            )
+        raise AssertionError(f"Unexpected Ollama URL: {request.full_url}")
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+
+def test_vision_provider_availability_contract(monkeypatch: pytest.MonkeyPatch) -> None:
+    _patch_ollama_available(monkeypatch)
+
+    response = client.get("/vision/providers")
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    assert payload["provider_id"] == "OLLAMA_VISION"
+    assert payload["provider_status"] == "AVAILABLE"
+    assert payload["runtime_available"] is True
+    assert payload["configured_model"] == "qwen3-vl:4b-instruct"
+    assert payload["model_available"] is True
+    assert payload["selected_model"] == "qwen3-vl:4b-instruct"
+
+
+def test_vision_assist_reports_offline_provider_as_controlled_error(monkeypatch: pytest.MonkeyPatch) -> None:
+    def fake_down(request, timeout):
+        raise OSError("ollama unavailable")
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_down)
+
+    tender_id = _create_tender("Vision offline")
+    document_id = _import_vision_pdf(tender_id, "offline.pdf", ["ANEXO B-4", "PARTIDA 1"])
+    _seed_normalized_lines(document_id, ["ANEXO B-4", "PARTIDA 1"])
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert response.status_code == 503, response.text
+
+    db = SessionLocal()
+    try:
+        assert (
+            db.execute(
+                select(func.count(DocumentVisionAnalysis.id)).where(DocumentVisionAnalysis.document_id == document_id)
+            ).scalar_one()
+            == 0
+        )
+        assert (
+            db.execute(
+                select(func.count(DocumentVisionPageResult.id))
+                .join(DocumentVisionAnalysis, DocumentVisionAnalysis.id == DocumentVisionPageResult.analysis_id)
+                .where(DocumentVisionAnalysis.document_id == document_id)
+            ).scalar_one()
+            == 0
+        )
+    finally:
+        db.close()
+
+
+def test_vision_assist_persists_successful_structured_result(monkeypatch: pytest.MonkeyPatch) -> None:
+    _patch_ollama_available(monkeypatch)
+
+    tender_id = _create_tender("Vision success")
+    document_id = _import_vision_pdf(tender_id, "vision-success.pdf", ["ANEXO B-4", "PARTIDA 1"])
+    _seed_normalized_lines(document_id, ["ANEXO B-4", "PARTIDA 1"])
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    assert payload["status"] == "COMPLETED"
+    assert payload["page_results"][0]["status"] == "COMPLETED"
+    assert payload["page_results"][0]["structured_json"]["page_number"] == 1
+    structured = payload["page_results"][0]["structured_json"]
+    assert structured["item_segments"][0]["has_service"] is True
+    assert structured["new_items"][0]["item_number"] == "1"
+    assert structured["open_item_at_page_end"] == "1"
+    assert "scope_blocks" not in structured
+
+    db = SessionLocal()
+    try:
+        analyses = db.execute(select(DocumentVisionAnalysis).where(DocumentVisionAnalysis.document_id == document_id)).scalars().all()
+        assert len(analyses) == 1
+        page_results = db.execute(select(DocumentVisionPageResult).where(DocumentVisionPageResult.analysis_id == analyses[0].id)).scalars().all()
+        assert len(page_results) == 1
+        assert page_results[0].status == "COMPLETED"
+        assert page_results[0].structured_json is not None
+        assert page_results[0].raw_response_text is not None
+    finally:
+        db.close()
+
+
+def test_vision_assist_is_idempotent_for_same_exact_input(monkeypatch: pytest.MonkeyPatch) -> None:
+    call_counts = {"chat": 0}
+
+    def fake_urlopen(request, timeout):
+        if request.full_url.endswith("/api/tags"):
+            return _FakeOllamaResponse({"models": [{"name": "qwen3-vl:4b-instruct"}]})
+        if request.full_url.endswith("/api/chat"):
+            call_counts["chat"] += 1
+            payload = json.loads(request.data.decode("utf-8"))
+            prompt = payload["messages"][0]["content"]
+            match = re.search(r"Page number: (\d+)", prompt)
+            page_number = int(match.group(1)) if match else 1
+            return _FakeOllamaResponse(
+                {
+                    "message": {
+                        "content": json.dumps(
+                            {
+                                "page_number": page_number,
+                                "continues_previous_item": False,
+                                "previous_item_number": None,
+                                "item_segments": [],
+                                "new_items": [{"item_number": str(page_number), "concept_raw_text": None, "review_required": True}],
+                                "open_item_at_page_end": str(page_number),
+                                "uncertainties": [],
+                            }
+                        )
+                    }
+                }
+            )
+        raise AssertionError(f"Unexpected Ollama URL: {request.full_url}")
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    tender_id = _create_tender("Vision idempotent")
+    document_id = _import_vision_pdf(tender_id, "vision-idempotent.pdf", ["ANEXO B-4", "PARTIDA 1"])
+    _seed_normalized_lines(document_id, ["ANEXO B-4", "PARTIDA 1"])
+
+    first_response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert first_response.status_code == 200, first_response.text
+    first_payload = first_response.json()
+
+    second_response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert second_response.status_code == 200, second_response.text
+    second_payload = second_response.json()
+
+    assert first_payload["id"] == second_payload["id"]
+    assert first_payload["input_fingerprint_sha256"] == second_payload["input_fingerprint_sha256"]
+    assert first_payload["prompt_version"] == ollama_vision_module.VISION_STRUCTURE_SCOPE_PROMPT_VERSION
+    assert second_payload["prompt_version"] == ollama_vision_module.VISION_STRUCTURE_SCOPE_PROMPT_VERSION
+    assert call_counts["chat"] == 1
+
+    db = SessionLocal()
+    try:
+        assert db.execute(select(func.count(DocumentVisionAnalysis.id)).where(DocumentVisionAnalysis.document_id == document_id)).scalar_one() == 1
+        assert (
+            db.execute(
+                select(func.count(DocumentVisionPageResult.id))
+                .join(DocumentVisionAnalysis, DocumentVisionAnalysis.id == DocumentVisionPageResult.analysis_id)
+                .where(DocumentVisionAnalysis.document_id == document_id)
+            ).scalar_one()
+            == 1
+        )
+    finally:
+        db.close()
+
+
+def test_vision_assist_scopes_analysis_to_requested_pages(monkeypatch: pytest.MonkeyPatch) -> None:
+    _patch_ollama_available(monkeypatch)
+
+    tender_id = _create_tender("Vision scoped pages")
+    document_id = _import_vision_pdf(tender_id, "anexo-b-4.pdf", ["ANEXO B-4 PAGE 1", "ANEXO B-4 PAGE 2"])
+    _seed_normalized_lines(document_id, ["ANEXO B-4 PAGE 1", "ANEXO B-4 PAGE 2"])
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [2], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    assert [item["page_number"] for item in payload["page_results"]] == [2]
+    assert payload["page_results"][0]["structured_json"]["page_number"] == 2
+
+
+def test_vision_assist_safely_handles_invalid_json(monkeypatch: pytest.MonkeyPatch) -> None:
+    _patch_ollama_available(monkeypatch, invalid_json=True)
+
+    tender_id = _create_tender("Vision invalid json")
+    document_id = _import_vision_pdf(tender_id, "vision-invalid-json.pdf", ["ANEXO B-4"])
+    _seed_normalized_lines(document_id, ["ANEXO B-4"])
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    assert payload["status"] == "FAILED"
+    assert payload["page_results"][0]["status"] == "INVALID_JSON"
+    assert payload["page_results"][0]["structured_json"] is None
+    assert payload["page_results"][0]["raw_response_text"] == "not valid json"
+
+
+def test_vision_assist_rejects_cross_tender_document_ownership() -> None:
+    tender_a = _create_tender("Vision owner A")
+    tender_b = _create_tender("Vision owner B")
+    document_id = _import_vision_pdf(tender_a, "ownership.pdf", ["ANEXO B-4"])
+    _seed_normalized_lines(document_id, ["ANEXO B-4"])
+
+    response = client.post(
+        f"/tenders/{tender_b}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert response.status_code == 404, response.text
+
+
+def test_vision_assist_calls_ollama_once_per_page_in_sequence_and_passes_continuity_context(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    chat_calls: list[dict[str, object]] = []
+
+    def fake_urlopen(request, timeout):
+        if request.full_url.endswith("/api/tags"):
+            return _FakeOllamaResponse({"models": [{"name": "qwen3-vl:4b-instruct"}]})
+        if request.full_url.endswith("/api/chat"):
+            payload = json.loads(request.data.decode("utf-8"))
+            prompt = payload["messages"][0]["content"]
+            match = re.search(r"Page number: (\d+)", prompt)
+            page_number = int(match.group(1)) if match else 1
+            chat_calls.append(
+                {
+                    "page_number": page_number,
+                    "images": len(payload["messages"][0].get("images", [])),
+                    "prompt": prompt,
+                }
+            )
+
+            if page_number == 1:
+                content = {
+                    "page_number": 1,
+                    "continues_previous_item": False,
+                    "new_items": [
+                        {
+                            "item_number": "1",
+                            "concept_raw_text": "Servicio CENTUM MTBE 1",
+                            "review_required": False,
+                        }
+                    ],
+                    "item_segments": [
+                        {
+                            "item_number": "1",
+                            "starts_on_this_page": True,
+                            "has_service": True,
+                            "has_supply": False,
+                            "has_deliverable": False,
+                            "anchor_raw_text": "PARTIDA 1 SERVICIO CENTUM MTBE 1",
+                            "review_required": False,
+                        }
+                    ],
+                    "open_item_at_page_end": "1",
+                    "uncertainties": [],
+                }
+            elif page_number == 2:
+                content = {
+                    "page_number": 2,
+                    "continues_previous_item": True,
+                    "previous_item_number": "1",
+                    "new_items": [
+                        {
+                            "item_number": "2",
+                            "concept_raw_text": "Mantenimiento CENTUM Asfaltos",
+                            "review_required": False,
+                        }
+                    ],
+                    "item_segments": [
+                        {
+                            "item_number": "1",
+                            "starts_on_this_page": False,
+                            "has_service": True,
+                            "has_supply": False,
+                            "has_deliverable": False,
+                            "anchor_raw_text": "CONTINUA PARTIDA 1 ACTIVIDADES EN SITIO",
+                            "review_required": False,
+                        },
+                        {
+                            "item_number": "2",
+                            "starts_on_this_page": True,
+                            "has_service": True,
+                            "has_supply": False,
+                            "has_deliverable": False,
+                            "anchor_raw_text": "PARTIDA 2 MANTENIMIENTO CENTUM ASFALTOS",
+                            "review_required": False,
+                        },
+                    ],
+                    "open_item_at_page_end": "2",
+                    "uncertainties": [],
+                }
+            else:
+                content = {
+                    "page_number": 3,
+                    "continues_previous_item": True,
+                    "previous_item_number": "2",
+                    "new_items": [],
+                    "item_segments": [
+                        {
+                            "item_number": "2",
+                            "starts_on_this_page": False,
+                            "has_service": True,
+                            "has_supply": False,
+                            "has_deliverable": False,
+                            "anchor_raw_text": "CONTINUA PARTIDA 2",
+                            "review_required": False,
+                        }
+                    ],
+                    "open_item_at_page_end": "2",
+                    "uncertainties": [],
+                }
+
+            return _FakeOllamaResponse({"message": {"content": json.dumps(content)}})
+        raise AssertionError(f"Unexpected Ollama URL: {request.full_url}")
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    tender_id = _create_tender("Vision continuity")
+    document_id = _import_vision_pdf(tender_id, "vision-continuity.pdf", ["P1", "P2", "P3"])
+    _seed_normalized_lines(document_id, ["P1", "P2", "P3"])
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1, 2, 3], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert response.status_code == 200, response.text
+    payload = response.json()
+
+    assert len(chat_calls) == 3
+    assert [call["page_number"] for call in chat_calls] == [1, 2, 3]
+    assert all(call["images"] == 1 for call in chat_calls)
+    assert '"open_item_number":"1"' in str(chat_calls[1]["prompt"])
+
+    page_two = payload["page_results"][1]["structured_json"]
+    assert page_two["continues_previous_item"] is True
+    assert page_two["previous_item_number"] == "1"
+    assert page_two["new_items"][0]["item_number"] == "2"
+    assert page_two["_continuity_context_used"]["open_item_number"] == "1"
+    assert any(
+        item_segment["item_number"] == "1" for item_segment in page_two["item_segments"]
+    )
+    assert any(
+        item_segment["item_number"] == "2" for item_segment in page_two["item_segments"]
+    )
+
+
+def test_vision_assist_derives_open_item_from_single_first_page_segment() -> None:
+    structured = ollama_vision_module.OllamaVisionAssistClient._normalize_structured_json(
+        page_number=1,
+        parsed_json={
+            "page_number": 1,
+            "continues_previous_item": False,
+            "previous_item_number": None,
+            "item_segments": [
+                {
+                    "item_number": " 1. ",
+                    "starts_on_this_page": True,
+                    "has_service": True,
+                    "has_supply": False,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "PARTIDA 1 SERVICIO CENTUM MTBE 1",
+                    "review_required": False,
+                }
+            ],
+            "new_items": [],
+            "open_item_at_page_end": None,
+            "uncertainties": [],
+        },
+        previous_page_context=None,
+    )
+
+    assert structured["item_segments"][0]["item_number"] == "1"
+    assert structured["open_item_at_page_end"] == "1"
+    assert "NEW_ITEM_DERIVED_FROM_ITEM_START" in structured["_normalization_warnings"]
+    assert "OPEN_ITEM_DERIVED_FROM_LAST_NEW_ITEM" in structured["_normalization_warnings"]
+
+
+def test_vision_assist_fills_previous_item_from_context_and_derives_new_item_from_started_segment() -> None:
+    structured = ollama_vision_module.OllamaVisionAssistClient._normalize_structured_json(
+        page_number=2,
+        parsed_json={
+            "page_number": 2,
+            "continues_previous_item": True,
+            "previous_item_number": None,
+            "item_segments": [
+                {
+                    "item_number": None,
+                    "starts_on_this_page": False,
+                    "has_service": True,
+                    "has_supply": True,
+                    "has_deliverable": True,
+                    "anchor_raw_text": "CONTINUA SERVICIO EN SITIO",
+                    "review_required": False,
+                },
+                {
+                    "item_number": "2.",
+                    "starts_on_this_page": True,
+                    "has_service": True,
+                    "has_supply": False,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "PARTIDA 2 MANTENIMIENTO CENTUM ASFALTOS",
+                    "review_required": False,
+                },
+            ],
+            "new_items": [],
+            "open_item_at_page_end": None,
+            "uncertainties": [],
+        },
+        previous_page_context={
+            "open_item_number": "1.",
+            "open_item_concept": "Servicio CENTUM MTBE 1",
+            "open_section": "ALCANCES",
+        },
+    )
+
+    assert structured["previous_item_number"] == "1"
+    assert structured["item_segments"][0]["item_number"] == "1"
+    assert structured["item_segments"][1]["item_number"] == "2"
+    assert structured["new_items"][0]["item_number"] == "2"
+    assert structured["open_item_at_page_end"] == "2"
+    assert structured["_continuity_context_used"]["open_item_number"] == "1"
+    assert "PREVIOUS_ITEM_FILLED_FROM_CONTEXT" in structured["_normalization_warnings"]
+    assert "NEW_ITEM_DERIVED_FROM_ITEM_START" in structured["_normalization_warnings"]
+    assert "OPEN_ITEM_DERIVED_FROM_LAST_NEW_ITEM" in structured["_normalization_warnings"]
+
+
+def test_vision_assist_suppresses_started_segment_for_continuation_item() -> None:
+    structured = ollama_vision_module.OllamaVisionAssistClient._normalize_structured_json(
+        page_number=2,
+        parsed_json={
+            "page_number": 2,
+            "continues_previous_item": True,
+            "previous_item_number": "1",
+            "item_segments": [
+                {
+                    "item_number": "1",
+                    "starts_on_this_page": True,
+                    "has_service": True,
+                    "has_supply": False,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "CONTINUA PARTIDA 1",
+                    "review_required": False,
+                }
+            ],
+            "new_items": [],
+            "open_item_at_page_end": None,
+            "uncertainties": [],
+        },
+        previous_page_context={
+            "open_item_number": "1",
+            "open_item_concept": "Servicio CENTUM MTBE 1",
+            "open_section": "ALCANCES",
+        },
+    )
+
+    assert structured["item_segments"][0]["starts_on_this_page"] is False
+    assert structured["new_items"] == []
+    assert ollama_vision_module.WARNING_SEGMENT_START_SUPPRESSED_BY_CONTINUITY in structured["_normalization_warnings"]
+
+
+def test_vision_assist_derives_new_item_when_started_segment_changes_from_previous() -> None:
+    structured = ollama_vision_module.OllamaVisionAssistClient._normalize_structured_json(
+        page_number=2,
+        parsed_json={
+            "page_number": 2,
+            "continues_previous_item": True,
+            "previous_item_number": "1",
+            "item_segments": [
+                {
+                    "item_number": "2",
+                    "starts_on_this_page": True,
+                    "has_service": True,
+                    "has_supply": False,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "PARTIDA 2 MANTENIMIENTO",
+                    "review_required": False,
+                }
+            ],
+            "new_items": [],
+            "open_item_at_page_end": None,
+            "uncertainties": [],
+        },
+        previous_page_context={
+            "open_item_number": "1",
+            "open_item_concept": "Servicio CENTUM MTBE 1",
+            "open_section": "ALCANCES",
+        },
+    )
+
+    assert [item["item_number"] for item in structured["new_items"]] == ["2"]
+
+
+def test_vision_assist_treats_same_item_started_segment_as_continuation() -> None:
+    structured = ollama_vision_module.OllamaVisionAssistClient._normalize_structured_json(
+        page_number=3,
+        parsed_json={
+            "page_number": 3,
+            "continues_previous_item": True,
+            "previous_item_number": "2",
+            "item_segments": [
+                {
+                    "item_number": "2",
+                    "starts_on_this_page": True,
+                    "has_service": True,
+                    "has_supply": False,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "CONTINUA PARTIDA 2",
+                    "review_required": False,
+                }
+            ],
+            "new_items": [],
+            "open_item_at_page_end": None,
+            "uncertainties": [],
+        },
+        previous_page_context={
+            "open_item_number": "2",
+            "open_item_concept": "Mantenimiento CENTUM Asfaltos",
+            "open_section": "ALCANCES",
+        },
+    )
+
+    assert structured["item_segments"][0]["starts_on_this_page"] is False
+    assert structured["new_items"] == []
+
+
+def test_vision_assist_deduplicates_explicit_and_derived_new_items_for_same_item() -> None:
+    structured = ollama_vision_module.OllamaVisionAssistClient._normalize_structured_json(
+        page_number=2,
+        parsed_json={
+            "page_number": 2,
+            "continues_previous_item": True,
+            "previous_item_number": "1",
+            "item_segments": [
+                {
+                    "item_number": "2",
+                    "starts_on_this_page": True,
+                    "has_service": True,
+                    "has_supply": False,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "PARTIDA 2 MANTENIMIENTO",
+                    "review_required": False,
+                }
+            ],
+            "new_items": [
+                {
+                    "item_number": "2",
+                    "concept_raw_text": "PARTIDA 2 MANTENIMIENTO",
+                    "review_required": False,
+                }
+            ],
+            "open_item_at_page_end": None,
+            "uncertainties": [],
+        },
+        previous_page_context={
+            "open_item_number": "1",
+            "open_item_concept": "Servicio CENTUM MTBE 1",
+            "open_section": "ALCANCES",
+        },
+    )
+
+    assert [item["item_number"] for item in structured["new_items"]] == ["2"]
+
+
+def test_vision_assist_deduplicates_new_items_by_normalized_item_number() -> None:
+    structured = ollama_vision_module.OllamaVisionAssistClient._normalize_structured_json(
+        page_number=2,
+        parsed_json={
+            "page_number": 2,
+            "continues_previous_item": True,
+            "previous_item_number": "1",
+            "item_segments": [],
+            "new_items": [
+                {
+                    "item_number": "2.",
+                    "concept_raw_text": "PARTIDA 2 MANTENIMIENTO",
+                    "review_required": False,
+                },
+                {
+                    "item_number": "2",
+                    "concept_raw_text": "PARTIDA 2 MANTENIMIENTO",
+                    "review_required": True,
+                },
+            ],
+            "open_item_at_page_end": None,
+            "uncertainties": [],
+        },
+        previous_page_context={
+            "open_item_number": "1",
+            "open_item_concept": "Servicio CENTUM MTBE 1",
+            "open_section": "ALCANCES",
+        },
+    )
+
+    assert [item["item_number"] for item in structured["new_items"]] == ["2"]
+
+
+def test_vision_assist_marks_structure_inconsistent_when_segment_changes_without_boundary() -> None:
+    structured = ollama_vision_module.OllamaVisionAssistClient._normalize_structured_json(
+        page_number=2,
+        parsed_json={
+            "page_number": 2,
+            "continues_previous_item": True,
+            "previous_item_number": None,
+            "item_segments": [
+                {
+                    "item_number": "2.",
+                    "starts_on_this_page": False,
+                    "has_service": True,
+                    "has_supply": False,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "ACTIVIDADES EN SITIO",
+                    "review_required": False,
+                }
+            ],
+            "new_items": [],
+            "open_item_at_page_end": None,
+            "uncertainties": [],
+        },
+        previous_page_context={
+            "open_item_number": "1",
+            "open_item_concept": "Servicio CENTUM MTBE 1",
+            "open_section": "ALCANCES",
+        },
+    )
+
+    assert structured["previous_item_number"] == "1"
+    assert structured["item_segments"][0]["item_number"] == "2"
+    assert structured["open_item_at_page_end"] is None
+    assert structured["item_segments"][0]["review_required"] is True
+    assert "STRUCTURE_INCONSISTENT" in structured["_normalization_warnings"]
+    assert "STRUCTURE_CONTINUATION_UNRESOLVED" in structured["_normalization_warnings"]
+
+
+def test_vision_assist_service_uses_structure_scope_method(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls = {"structure": 0, "legacy": 0}
+
+    def fake_structure_scope(self, *, page_number, image_bytes, mode, previous_page_context):
+        calls["structure"] += 1
+        return (
+            "COMPLETED",
+            {
+                "page_number": page_number,
+                "continues_previous_item": False,
+                "previous_item_number": None,
+                "item_segments": [],
+                "new_items": [],
+                "open_item_at_page_end": None,
+                "uncertainties": [],
+            },
+            1,
+            200,
+            [],
+            None,
+            None,
+            "{}",
+        )
+
+    def fail_legacy_alias(self, *, page_number, image_bytes, mode, previous_page_context):
+        calls["legacy"] += 1
+        pytest.fail("legacy analyze_page alias should not be called on live service path")
+
+    monkeypatch.setattr(
+        ollama_vision_module.OllamaVisionAssistClient,
+        "analyze_structure_scope_page",
+        fake_structure_scope,
+    )
+    monkeypatch.setattr(
+        ollama_vision_module.OllamaVisionAssistClient,
+        "analyze_page",
+        fail_legacy_alias,
+    )
+
+    tender_id = _create_tender("Vision wiring")
+    document_id = _import_vision_pdf(tender_id, "vision-wiring.pdf", ["P1"])
+    _seed_normalized_lines(document_id, ["P1"])
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+
+    assert response.status_code == 200, response.text
+    assert calls["structure"] == 1
+    assert calls["legacy"] == 0
+
+
+def test_vision_assist_sends_think_false_stream_false_and_uses_configured_timeout(monkeypatch: pytest.MonkeyPatch) -> None:
+    observed: dict[str, object] = {"timeout": None, "payload": None, "calls": 0}
+
+    def fake_urlopen(request, timeout):
+        observed["calls"] = int(observed["calls"]) + 1
+        observed["timeout"] = timeout
+        observed["payload"] = json.loads(request.data.decode("utf-8"))
+        content = {
+            "page_number": 1,
+            "continues_previous_item": False,
+            "previous_item_number": None,
+            "item_segments": [],
+            "new_items": [],
+            "open_item_at_page_end": None,
+            "uncertainties": [],
+        }
+        return _FakeOllamaResponse({"message": {"content": json.dumps(content)}})
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    settings = ollama_vision_module.Settings(
+        licitia_ollama_base_url="http://127.0.0.1:11434",
+        licitia_ollama_vision_model="qwen3-vl:4b-instruct",
+        licitia_ollama_timeout_seconds=123.0,
+        licitia_vision_retry_malformed_json=0,
+    )
+    client_under_test = ollama_vision_module.OllamaVisionAssistClient(settings)
+    status, structured_json, processing_time_ms, http_status, warnings, *_ = client_under_test.analyze_structure_scope_page(
+        page_number=1,
+        image_bytes=b"fake-page",
+        mode="ASSISTIVE_EXTRACTION",
+        previous_page_context=None,
+    )
+
+    assert status == "COMPLETED"
+    assert structured_json is not None
+    assert processing_time_ms >= 0
+    assert http_status == 200
+    assert any(str(item).startswith("HTTP_STATUS:") for item in warnings)
+    assert observed["calls"] == 1
+    assert observed["timeout"] == 123.0
+    request_payload = observed["payload"]
+    assert isinstance(request_payload, dict)
+    assert request_payload["think"] is False
+    assert request_payload["stream"] is False
+    assert isinstance(request_payload["format"], dict)
+    format_schema = request_payload["format"]
+    assert isinstance(format_schema.get("properties"), dict)
+    format_properties = set(format_schema["properties"].keys())
+    assert {"page_number", "continues_previous_item", "previous_item_number", "item_segments", "new_items", "open_item_at_page_end", "uncertainties"}.issubset(
+        format_properties
+    )
+    assert "regions" not in format_properties
+    assert "candidate_requirements" not in format_properties
+    assert "plain_text" not in format_properties
+    assert "markdown_reconstruction" not in format_properties
+    item_segments_schema = format_schema["properties"]["item_segments"]
+    assert item_segments_schema.get("maxItems") == 4
+    prompt = request_payload["messages"][0]["content"]
+    assert "candidate_requirements" not in prompt
+    assert "markdown_reconstruction" not in prompt
+    assert '"plain_text"' not in prompt
+    assert "scope_blocks" not in prompt
+    assert "supply_rows" not in prompt
+    assert "regions" not in prompt
+    assert "anchor_raw_text" in prompt
+    assert "8 to 15 visible words" in prompt
+    assert "Return item ownership segments" in prompt
+    assert "An item segment is not an equipment row" in prompt
+    assert "both item segments must be represented in the same response" in prompt
+    assert "return one item segment for that contiguous area" in prompt
+    assert "has_supply=true" in prompt
+    assert "do not infer values from neighboring columns" in prompt.lower()
+    assert request_payload["options"]["num_predict"] == 600
+
+
+def test_vision_assist_does_not_retry_on_http_500(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls = {"count": 0}
+
+    def fake_urlopen(request, timeout):
+        calls["count"] += 1
+        raise ollama_vision_module.urllib.error.HTTPError(
+            url=request.full_url,
+            code=500,
+            msg="Internal Server Error",
+            hdrs=None,
+            fp=None,
+        )
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    settings = ollama_vision_module.Settings(licitia_vision_retry_malformed_json=1)
+    client_under_test = ollama_vision_module.OllamaVisionAssistClient(settings)
+    status, structured_json, _, http_status, _, _, _, _ = client_under_test.analyze_structure_scope_page(
+        page_number=1,
+        image_bytes=b"fake-page",
+        mode="ASSISTIVE_EXTRACTION",
+        previous_page_context=None,
+    )
+
+    assert status == "FAILED"
+    assert structured_json is None
+    assert http_status == 500
+    assert calls["count"] == 1
+
+
+def test_vision_assist_does_not_cascade_retry_on_timeout(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls = {"count": 0}
+
+    def fake_urlopen(request, timeout):
+        calls["count"] += 1
+        raise TimeoutError("vision timeout")
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    settings = ollama_vision_module.Settings(licitia_vision_retry_malformed_json=1)
+    client_under_test = ollama_vision_module.OllamaVisionAssistClient(settings)
+    status, structured_json, _, http_status, warnings, _, _, _ = client_under_test.analyze_structure_scope_page(
+        page_number=1,
+        image_bytes=b"fake-page",
+        mode="ASSISTIVE_EXTRACTION",
+        previous_page_context=None,
+    )
+
+    assert status == "FAILED"
+    assert structured_json is None
+    assert http_status is None
+    assert any("timeout" in str(warning).lower() for warning in warnings)
+    assert calls["count"] == 1
+
+
+def test_vision_assist_regions_over_schema_bound_returns_controlled_invalid_json(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def fake_urlopen(request, timeout):
+        if request.full_url.endswith("/api/chat"):
+            content = {
+                "page_number": 1,
+                "continues_previous_item": False,
+                "previous_item_number": None,
+                "item_segments": [
+                    {
+                        "item_number": "1",
+                        "starts_on_this_page": idx == 1,
+                        "has_service": True,
+                        "has_supply": False,
+                        "has_deliverable": False,
+                        "anchor_raw_text": f"REGION {idx}",
+                        "review_required": False,
+                    }
+                    for idx in range(1, 10)
+                ],
+                "new_items": [],
+                "open_item_at_page_end": "1",
+                "uncertainties": [],
+            }
+            return _FakeOllamaResponse({"message": {"content": json.dumps(content)}, "done_reason": "stop"})
+        raise AssertionError(f"Unexpected Ollama URL: {request.full_url}")
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    client_under_test = ollama_vision_module.OllamaVisionAssistClient(
+        ollama_vision_module.Settings(licitia_vision_retry_malformed_json=0)
+    )
+    status, structured_json, _, http_status, warnings, _, _, _ = client_under_test.analyze_structure_scope_page(
+        page_number=1,
+        image_bytes=b"fake-page",
+        mode="ASSISTIVE_EXTRACTION",
+        previous_page_context=None,
+    )
+
+    assert status == "INVALID_JSON"
+    assert structured_json is None
+    assert http_status == 200
+    assert "INVALID_JSON" in warnings
+
+
+def test_vision_assist_preserves_raw_visible_text_and_null_uncertainty_fields(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def fake_urlopen(request, timeout):
+        if request.full_url.endswith("/api/tags"):
+            return _FakeOllamaResponse({"models": [{"name": "qwen3-vl:4b-instruct"}]})
+        if request.full_url.endswith("/api/chat"):
+            content = {
+                "page_number": 1,
+                "continues_previous_item": False,
+                "previous_item_number": None,
+                "new_items": [{"item_number": "1", "concept_raw_text": "MODULO DE SALIDAS ANALOGICAS", "review_required": False}],
+                "item_segments": [
+                    {
+                        "item_number": "1",
+                        "starts_on_this_page": True,
+                        "has_service": False,
+                        "has_supply": True,
+                        "has_deliverable": False,
+                        "anchor_raw_text": "MODULO SALIDAS ANALOGICAS YOKOGAWA AAI543",
+                        "review_required": False,
+                    }
+                ],
+                "open_item_at_page_end": "1",
+                "uncertainties": ["Modelo no legible con certeza; se mantiene null."],
+            }
+            return _FakeOllamaResponse({"message": {"content": json.dumps(content)}})
+        raise AssertionError(f"Unexpected Ollama URL: {request.full_url}")
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    tender_id = _create_tender("Vision model mismatch")
+    document_id = _import_vision_pdf(tender_id, "vision-model-mismatch.pdf", ["P1"])
+    _seed_normalized_lines(document_id, ["P1"])
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert response.status_code == 200, response.text
+    payload = response.json()
+
+    structured = payload["page_results"][0]["structured_json"]
+    assert structured["item_segments"][0]["has_supply"] is True
+    assert structured["item_segments"][0]["anchor_raw_text"]
+    assert "scope_blocks" not in structured
+    assert structured["uncertainties"]
+
+
+def test_vision_assist_failed_same_fingerprint_is_retryable_without_duplicate_analysis(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    state = {"chat_calls": 0}
+
+    def fake_urlopen(request, timeout):
+        if request.full_url.endswith("/api/tags"):
+            return _FakeOllamaResponse({"models": [{"name": "qwen3-vl:4b-instruct"}]})
+        if request.full_url.endswith("/api/chat"):
+            state["chat_calls"] += 1
+            if state["chat_calls"] == 1:
+                raise ollama_vision_module.urllib.error.HTTPError(
+                    url=request.full_url,
+                    code=500,
+                    msg="Internal Server Error",
+                    hdrs=None,
+                    fp=None,
+                )
+            content = {
+                "page_number": 1,
+                "continues_previous_item": False,
+                "previous_item_number": None,
+                "new_items": [{"item_number": "1", "concept_raw_text": "Servicio MTBE 1", "review_required": False}],
+                "item_segments": [
+                    {
+                        "item_number": "1",
+                        "starts_on_this_page": True,
+                        "has_service": True,
+                        "has_supply": False,
+                        "has_deliverable": False,
+                        "anchor_raw_text": "PARTIDA 1 SERVICIO MTBE 1",
+                        "review_required": False,
+                    }
+                ],
+                "open_item_at_page_end": "1",
+                "uncertainties": [],
+            }
+            return _FakeOllamaResponse({"message": {"content": json.dumps(content)}})
+        raise AssertionError(f"Unexpected Ollama URL: {request.full_url}")
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    tender_id = _create_tender("Vision failed retryable")
+    document_id = _import_vision_pdf(tender_id, "vision-failed-retryable.pdf", ["ANEXO B-4", "PARTIDA 1"])
+    _seed_normalized_lines(document_id, ["ANEXO B-4", "PARTIDA 1"])
+
+    first = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert first.status_code == 200, first.text
+    assert first.json()["status"] == "FAILED"
+
+    second = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert second.status_code == 200, second.text
+    second_payload = second.json()
+    assert second_payload["status"] == "COMPLETED"
+    assert state["chat_calls"] == 2
+
+    db = SessionLocal()
+    try:
+        analysis_rows = db.execute(
+            select(DocumentVisionAnalysis)
+            .where(DocumentVisionAnalysis.document_id == document_id)
+            .order_by(DocumentVisionAnalysis.created_at.asc())
+        ).scalars().all()
+        assert len(analysis_rows) == 1
+        assert analysis_rows[0].status == "COMPLETED"
+
+        page_rows = db.execute(
+            select(DocumentVisionPageResult).where(DocumentVisionPageResult.analysis_id == analysis_rows[0].id)
+        ).scalars().all()
+        assert len(page_rows) == 1
+        assert page_rows[0].status == "COMPLETED"
+    finally:
+        db.close()
+
+
+def test_vision_assist_failed_page_does_not_fabricate_structured_result(monkeypatch: pytest.MonkeyPatch) -> None:
+    def fake_urlopen(request, timeout):
+        if request.full_url.endswith("/api/tags"):
+            return _FakeOllamaResponse({"models": [{"name": "qwen3-vl:4b-instruct"}]})
+        if request.full_url.endswith("/api/chat"):
+            payload = json.loads(request.data.decode("utf-8"))
+            prompt = payload["messages"][0]["content"]
+            match = re.search(r"Page number: (\d+)", prompt)
+            page_number = int(match.group(1)) if match else 1
+            if page_number == 2:
+                raise ollama_vision_module.urllib.error.HTTPError(
+                    url=request.full_url,
+                    code=500,
+                    msg="Internal Server Error",
+                    hdrs=None,
+                    fp=None,
+                )
+            content = {
+                "page_number": page_number,
+                "continues_previous_item": page_number > 1,
+                "previous_item_number": "1" if page_number > 1 else None,
+                "new_items": [],
+                "item_segments": [
+                    {
+                        "item_number": "1",
+                        "starts_on_this_page": False,
+                        "has_service": True,
+                        "has_supply": False,
+                        "has_deliverable": False,
+                        "anchor_raw_text": "SERVICIO",
+                        "review_required": False,
+                    }
+                ],
+                "open_item_at_page_end": "1",
+                "uncertainties": [],
+            }
+            return _FakeOllamaResponse({"message": {"content": json.dumps(content)}})
+        raise AssertionError(f"Unexpected Ollama URL: {request.full_url}")
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    tender_id = _create_tender("Vision controlled failure")
+    document_id = _import_vision_pdf(tender_id, "vision-controlled-failure.pdf", ["P1", "P2", "P3"])
+    _seed_normalized_lines(document_id, ["P1", "P2", "P3"])
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1, 2, 3], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert response.status_code == 200, response.text
+    payload = response.json()
+
+    assert payload["status"] == "PARTIAL"
+    statuses = [page["status"] for page in payload["page_results"]]
+    assert statuses == ["COMPLETED", "FAILED", "COMPLETED"]
+    assert payload["page_results"][1]["structured_json"] is None
+    page_three = payload["page_results"][2]
+    assert page_three["structured_json"]["_continuity_context_used"] is None
+    assert page_three["structured_json"]["_continuity_state_quality"] == "UNKNOWN"
+    assert all(segment["review_required"] is True for segment in page_three["structured_json"]["item_segments"])
+    assert ollama_vision_module.WARNING_CONTINUITY_CONTEXT_LOST_AFTER_PAGE_FAILURE in page_three["warnings"]
+
+
+def test_vision_default_model_is_instruct_and_model_is_configurable() -> None:
+    default_settings = ollama_vision_module.Settings()
+    assert default_settings.licitia_ollama_vision_model == "qwen3-vl:4b-instruct"
+
+    custom_settings = ollama_vision_module.Settings(licitia_ollama_vision_model="llava:latest")
+    client_under_test = ollama_vision_module.OllamaVisionAssistClient(custom_settings)
+    assert client_under_test.model_name == "llava:latest"
+
+
+def test_vision_model_unavailable_does_not_silently_fallback_to_thinking_variant(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def fake_urlopen(request, timeout):
+        if request.full_url.endswith("/api/tags"):
+            return _FakeOllamaResponse({"models": [{"name": "qwen3-vl:4b"}]})
+        raise AssertionError(f"Unexpected Ollama URL: {request.full_url}")
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    response = client.get("/vision/providers")
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    assert payload["configured_model"] == "qwen3-vl:4b-instruct"
+    assert payload["model_available"] is False
+    assert payload["selected_model"] is None
+
+    tender_id = _create_tender("Vision model unavailable")
+    document_id = _import_vision_pdf(tender_id, "vision-model-unavailable.pdf", ["ANEXO B-4", "PARTIDA 1"])
+    _seed_normalized_lines(document_id, ["ANEXO B-4", "PARTIDA 1"])
+
+    analyze = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert analyze.status_code == 503, analyze.text
+    assert "MODEL_UNAVAILABLE" in analyze.text
+
+
+def test_structure_scope_request_uses_bounded_output_tokens(monkeypatch: pytest.MonkeyPatch) -> None:
+    observed: dict[str, object] = {"request": None}
+
+    def fake_urlopen(request, timeout):
+        observed["request"] = json.loads(request.data.decode("utf-8"))
+        content = {
+            "page_number": 1,
+            "continues_previous_partida": False,
+            "previous_partida_number": None,
+            "new_partidas": [],
+            "scope_blocks": [],
+            "supply_rows": [],
+            "open_partida_at_page_end": {"item_number": None, "concept_raw_text": None},
+            "uncertainties": [],
+        }
+        return _FakeOllamaResponse(
+            {
+                "message": {"content": json.dumps(content)},
+                "done_reason": "stop",
+                "prompt_eval_count": 111,
+                "eval_count": 120,
+            }
+        )
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    settings = ollama_vision_module.Settings(
+        licitia_vision_structure_scope_max_output_tokens=550,
+        licitia_vision_retry_malformed_json=0,
+    )
+    client_under_test = ollama_vision_module.OllamaVisionAssistClient(settings)
+    status, structured_json, *_ = client_under_test.analyze_structure_scope_page(
+        page_number=1,
+        image_bytes=b"fake-page",
+        mode="ASSISTIVE_EXTRACTION",
+        previous_page_context=None,
+    )
+    assert status == "COMPLETED"
+    assert structured_json is not None
+
+    payload = observed["request"]
+    assert isinstance(payload, dict)
+    assert payload["options"]["num_predict"] == 550
+    assert "Task type: STRUCTURE_SCOPE" in payload["messages"][0]["content"]
+
+
+def test_detail_transcription_is_conditional_and_task_typed(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls: list[str] = []
+
+    def fake_urlopen(request, timeout):
+        if request.full_url.endswith("/api/tags"):
+            return _FakeOllamaResponse({"models": [{"name": "qwen3-vl:4b-instruct"}]})
+
+        payload = json.loads(request.data.decode("utf-8"))
+        prompt = payload["messages"][0]["content"]
+        calls.append(prompt)
+
+        if "Task type: DETAIL_TRANSCRIPTION" in prompt:
+            content = {
+                "source_page": 1,
+                "raw_lines": [
+                    {
+                        "raw_visible_text": "MODULO DE SALIDAS ANALOGICAS, MARCA: YOKOGAWA, MODELO: AAI543-H50/K4A00 (1 PIEZA)",
+                        "uncertain": False,
+                        "uncertain_characters": [],
+                    }
+                ],
+                "uncertainties": [],
+            }
+            return _FakeOllamaResponse({"message": {"content": json.dumps(content)}, "done_reason": "stop"})
+
+        content = {
+            "page_number": 1,
+            "continues_previous_partida": False,
+            "previous_partida_number": None,
+            "new_partidas": [{"item_number": "1", "concept_raw_text": "Servicio", "starts_on_this_page": True}],
+            "item_segments": [
+                {
+                    "item_number": "1",
+                    "starts_on_this_page": True,
+                    "has_service": False,
+                    "has_supply": True,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "LISTA DE SUMINISTRO",
+                    "review_required": True,
+                }
+            ],
+            "open_partida_at_page_end": {"item_number": "1", "concept_raw_text": "Servicio"},
+            "uncertainties": [],
+        }
+        return _FakeOllamaResponse({"message": {"content": json.dumps(content)}, "done_reason": "stop"})
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    tender_id = _create_tender("Vision detail conditional")
+    document_id = _import_vision_pdf(tender_id, "vision-detail-conditional.pdf", ["P1"])
+    _seed_normalized_lines(document_id, ["P1"])
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    assert payload["page_results"][0]["status"] == "COMPLETED"
+    assert any("Task type: STRUCTURE_SCOPE" in call for call in calls)
+    assert any("Task type: DETAIL_TRANSCRIPTION" in call for call in calls)
+
+    calls.clear()
+
+    def fake_urlopen_no_detail(request, timeout):
+        if request.full_url.endswith("/api/tags"):
+            return _FakeOllamaResponse({"models": [{"name": "qwen3-vl:4b-instruct"}]})
+        payload = json.loads(request.data.decode("utf-8"))
+        prompt = payload["messages"][0]["content"]
+        calls.append(prompt)
+        content = {
+            "page_number": 1,
+            "continues_previous_partida": False,
+            "previous_partida_number": None,
+            "new_partidas": [],
+            "item_segments": [{"item_number": "1", "starts_on_this_page": True, "has_service": True, "has_supply": False, "has_deliverable": False, "anchor_raw_text": "SERVICIO", "review_required": False}],
+            "open_partida_at_page_end": {"item_number": "1", "concept_raw_text": "SERVICIO"},
+            "uncertainties": [],
+        }
+        return _FakeOllamaResponse({"message": {"content": json.dumps(content)}, "done_reason": "stop"})
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen_no_detail)
+
+    document_id_no_detail = _import_vision_pdf(tender_id, "vision-detail-conditional-no-detail.pdf", ["P1 no detail"])
+    _seed_normalized_lines(document_id_no_detail, ["P1 no detail"])
+
+    response_no_detail = client.post(
+        f"/tenders/{tender_id}/documents/{document_id_no_detail}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert response_no_detail.status_code == 200, response_no_detail.text
+    assert any("Task type: STRUCTURE_SCOPE" in call for call in calls)
+    assert all("Task type: DETAIL_TRANSCRIPTION" not in call for call in calls)
+
+
+def test_detail_failure_after_successful_structure_keeps_next_page_context(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls: list[dict[str, str]] = []
+
+    def fake_urlopen(request, timeout):
+        if request.full_url.endswith("/api/tags"):
+            return _FakeOllamaResponse({"models": [{"name": "qwen3-vl:4b-instruct"}]})
+
+        payload = json.loads(request.data.decode("utf-8"))
+        prompt = payload["messages"][0]["content"]
+        if "Task type: DETAIL_TRANSCRIPTION" in prompt:
+            return _FakeOllamaResponse({"message": {"content": ""}, "done_reason": "length"})
+
+        match = re.search(r"Page number: (\d+)", prompt)
+        page_number = int(match.group(1)) if match else 1
+        calls.append({"page_number": str(page_number), "prompt": prompt})
+        content = {
+            "page_number": page_number,
+            "continues_previous_item": page_number > 1,
+            "previous_item_number": "2" if page_number > 1 else None,
+            "item_segments": [
+                {
+                    "item_number": "2",
+                    "starts_on_this_page": page_number == 1,
+                    "has_service": page_number > 1,
+                    "has_supply": True if page_number == 1 else False,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "PARTIDA 2 SUMINISTRO" if page_number == 1 else "CONTINUA PARTIDA 2",
+                    "review_required": False,
+                }
+            ],
+            "new_items": [
+                {"item_number": "2", "concept_raw_text": "Partida 2", "review_required": False}
+            ] if page_number == 1 else [],
+            "open_item_at_page_end": "2",
+            "uncertainties": [],
+        }
+        return _FakeOllamaResponse({"message": {"content": json.dumps(content)}, "done_reason": "stop"})
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    tender_id = _create_tender("Vision detail failure keeps context")
+    document_id = _import_vision_pdf(tender_id, "vision-detail-failure-context.pdf", ["P1", "P2"])
+    _seed_normalized_lines(document_id, ["P1", "P2"])
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1, 2], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    assert payload["page_results"][0]["status"] == "PARTIAL"
+    assert '"open_item_number":"2"' in calls[1]["prompt"]
+    assert payload["page_results"][1]["structured_json"]["_continuity_context_used"]["open_item_number"] == "2"
+
+
+def test_done_reason_length_with_incomplete_json_returns_output_truncated(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def fake_urlopen(request, timeout):
+        return _FakeOllamaResponse({
+            "message": {"content": "{\"page_number\":1,\"new_partidas\":["},
+            "done_reason": "length",
+            "eval_count": 600,
+        })
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    client_under_test = ollama_vision_module.OllamaVisionAssistClient(ollama_vision_module.Settings())
+    status, structured_json, _, _, warnings, _, _, _ = client_under_test.analyze_page(
+        page_number=1,
+        image_bytes=b"fake-page",
+        mode="ASSISTIVE_EXTRACTION",
+        previous_page_context=None,
+    )
+    assert status == "FAILED"
+    assert structured_json is None
+    assert any("OUTPUT_TRUNCATED" in str(warning) for warning in warnings)
+
+
+def test_empty_content_and_thinking_only_are_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
+    def fake_urlopen(request, timeout):
+        return _FakeOllamaResponse(
+            {
+                "message": {"content": "", "thinking": "hidden chain"},
+                "done_reason": "length",
+            }
+        )
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    client_under_test = ollama_vision_module.OllamaVisionAssistClient(ollama_vision_module.Settings())
+    status, structured_json, _, _, warnings, _, _, _ = client_under_test.analyze_page(
+        page_number=1,
+        image_bytes=b"fake-page",
+        mode="ASSISTIVE_EXTRACTION",
+        previous_page_context=None,
+    )
+    assert status == "FAILED"
+    assert structured_json is None
+    assert "EMPTY_CONTENT" in warnings
+    assert "THINKING_CONTENT_IGNORED" in warnings
+
+
+def test_detail_parser_extracts_fields_and_preserves_raw_text() -> None:
+    parsed = ollama_vision_module._parse_supply_line(
+        "MODULO DE SALIDAS ANALOGICAS, MARCA: YOKOGAWA, MODELO: AAI543-H50/K4A00 (1 PIEZA)"
+    )
+    assert parsed["raw_visible_text"].startswith("MODULO DE SALIDAS ANALOGICAS")
+    assert parsed["brand"] == "YOKOGAWA"
+    assert parsed["model"] == "AAI543-H50/K4A00"
+    assert parsed["quantity"] == "1"
+    assert parsed["unit"] == "PIEZA"
+
+
+def test_detail_parser_failure_preserves_raw_text_and_marks_review() -> None:
+    parsed = ollama_vision_module._parse_supply_line("CODIGO TECNICO I/1 O/0 Z/2 S/5")
+    assert parsed["raw_visible_text"] == "CODIGO TECNICO I/1 O/0 Z/2 S/5"
+    assert parsed["brand"] is None
+    assert parsed["model"] is None
+    assert parsed["review_required"] is True
+
+
+def test_task_fingerprint_differs_by_task_type_and_region() -> None:
+    base = {
+        "model_name": "qwen3-vl:4b-instruct",
+        "prompt_version": "v1",
+        "page_number": 2,
+        "image_sha256": "abc123",
+    }
+    structure = ollama_vision_module._build_task_fingerprint(
+        task_type="STRUCTURE_SCOPE",
+        task_region_id=None,
+        **base,
+    )
+    detail_a = ollama_vision_module._build_task_fingerprint(
+        task_type="DETAIL_TRANSCRIPTION",
+        task_region_id="SUPPLY:TOP",
+        **base,
+    )
+    detail_b = ollama_vision_module._build_task_fingerprint(
+        task_type="DETAIL_TRANSCRIPTION",
+        task_region_id="SUPPLY:BOTTOM",
+        **base,
+    )
+    assert structure != detail_a
+    assert detail_a != detail_b
+
+
+def test_structure_scope_prompt_version_bumped_for_normalization_semantics() -> None:
+    assert ollama_vision_module.VISION_STRUCTURE_SCOPE_PROMPT_VERSION == "vision-structure-scope-2026-09-01-005"
+
+
+def test_structure_scope_input_fingerprint_differs_by_prompt_version() -> None:
+    rendered_pages = [
+        ollama_vision_module.RenderedVisionPage(
+            page_number=1,
+            document_page_id="page-1",
+            image_bytes=b"",
+            image_sha256="sha-page-1",
+            width_px=100,
+            height_px=100,
+            image_bytes_size=0,
+            render_time_ms=1,
+            render_zoom=2.0,
+            warnings=[],
+        )
+    ]
+
+    fingerprint_004 = ollama_vision_module._build_input_fingerprint(
+        tender_id="tender-1",
+        document_id="document-1",
+        model_name="qwen3-vl:4b-instruct",
+        prompt_version="vision-structure-scope-2026-09-01-004",
+        mode="ASSISTIVE_EXTRACTION",
+        rendered_pages=rendered_pages,
+        task_type="STRUCTURE_SCOPE",
+        task_region_id=None,
+    )
+    fingerprint_005 = ollama_vision_module._build_input_fingerprint(
+        tender_id="tender-1",
+        document_id="document-1",
+        model_name="qwen3-vl:4b-instruct",
+        prompt_version=ollama_vision_module.VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+        mode="ASSISTIVE_EXTRACTION",
+        rendered_pages=rendered_pages,
+        task_type="STRUCTURE_SCOPE",
+        task_region_id=None,
+    )
+
+    assert fingerprint_004 != fingerprint_005
+
+
+def test_completed_old_structure_scope_analysis_is_not_reused_after_version_bump(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    call_counts = {"chat": 0}
+
+    def fake_urlopen(request, timeout):
+        if request.full_url.endswith("/api/tags"):
+            return _FakeOllamaResponse({"models": [{"name": "qwen3-vl:4b-instruct"}]})
+        if request.full_url.endswith("/api/chat"):
+            call_counts["chat"] += 1
+            content = {
+                "page_number": 1,
+                "continues_previous_item": False,
+                "previous_item_number": None,
+                "item_segments": [
+                    {
+                        "item_number": "1",
+                        "starts_on_this_page": True,
+                        "has_service": True,
+                        "has_supply": False,
+                        "has_deliverable": False,
+                        "anchor_raw_text": "PARTIDA 1 SERVICIO",
+                        "review_required": False,
+                    }
+                ],
+                "new_items": [
+                    {
+                        "item_number": "1",
+                        "concept_raw_text": "PARTIDA 1 SERVICIO",
+                        "review_required": False,
+                    }
+                ],
+                "open_item_at_page_end": "1",
+                "uncertainties": [],
+            }
+            return _FakeOllamaResponse({"message": {"content": json.dumps(content)}})
+        raise AssertionError(f"Unexpected Ollama URL: {request.full_url}")
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    tender_id = _create_tender("Vision version bump")
+    document_id = _import_vision_pdf(tender_id, "vision-version-bump.pdf", ["ANEXO B-4", "PARTIDA 1"])
+    _seed_normalized_lines(document_id, ["ANEXO B-4", "PARTIDA 1"])
+
+    db = SessionLocal()
+    try:
+        document = db.get(TenderDocument, document_id)
+        assert document is not None
+        service = ollama_vision_module.VisionAssistService(db)
+        rendered_pages = service._render_requested_pages(document, [1])
+        old_fingerprint = ollama_vision_module._build_input_fingerprint(
+            tender_id=tender_id,
+            document_id=document_id,
+            model_name="qwen3-vl:4b-instruct",
+            prompt_version="vision-structure-scope-2026-09-01-004",
+            mode="ASSISTIVE_EXTRACTION",
+            rendered_pages=rendered_pages,
+            task_type="STRUCTURE_SCOPE",
+            task_region_id=None,
+        )
+        historical = DocumentVisionAnalysis(
+            tender_id=tender_id,
+            document_id=document_id,
+            status="COMPLETED",
+            mode="ASSISTIVE_EXTRACTION",
+            model_name="qwen3-vl:4b-instruct",
+            prompt_version="vision-structure-scope-2026-09-01-004",
+            input_fingerprint_sha256=old_fingerprint,
+            analyzed_at=datetime.now(timezone.utc),
+        )
+        db.add(historical)
+        db.flush()
+        db.add(
+            DocumentVisionPageResult(
+                analysis_id=historical.id,
+                document_page_id=rendered_pages[0].document_page_id,
+                page_number=1,
+                image_sha256=rendered_pages[0].image_sha256,
+                status="COMPLETED",
+                raw_response_text='{"page_number":1}',
+                structured_json={"page_number": 1},
+                warnings=[],
+                processing_time_ms=1,
+            )
+        )
+        db.commit()
+    finally:
+        db.close()
+
+    response = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert response.status_code == 200, response.text
+    payload = response.json()
+
+    assert payload["prompt_version"] == ollama_vision_module.VISION_STRUCTURE_SCOPE_PROMPT_VERSION
+    assert payload["prompt_version"] != "vision-structure-scope-2026-09-01-004"
+    assert call_counts["chat"] == 1
+
+    db = SessionLocal()
+    try:
+        analyses = db.execute(
+            select(DocumentVisionAnalysis)
+            .where(DocumentVisionAnalysis.document_id == document_id)
+            .order_by(DocumentVisionAnalysis.created_at.asc())
+        ).scalars().all()
+        assert len(analyses) == 2
+        assert {analysis.prompt_version for analysis in analyses} == {
+            "vision-structure-scope-2026-09-01-004",
+            "vision-structure-scope-2026-09-01-005",
+        }
+        assert any(analysis.status == "COMPLETED" and analysis.prompt_version == "vision-structure-scope-2026-09-01-004" for analysis in analyses)
+        assert any(analysis.id == payload["id"] and analysis.prompt_version == ollama_vision_module.VISION_STRUCTURE_SCOPE_PROMPT_VERSION for analysis in analyses)
+    finally:
+        db.close()
+
+
+def test_structure_scope_aggregated_supply_block_fixture_is_accepted_and_triggers_detail() -> None:
+    structured = ollama_vision_module.OllamaVisionAssistClient._normalize_structured_json(
+        page_number=4,
+        parsed_json={
+            "page_number": 4,
+            "continues_previous_item": True,
+            "previous_item_number": "2",
+            "item_segments": [
+                {
+                    "item_number": "2",
+                    "starts_on_this_page": False,
+                    "has_service": False,
+                    "has_supply": True,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "YOKOGAWA MODULE LIST MARCA MODELO PIEZAS",
+                    "review_required": False,
+                }
+            ],
+            "new_items": [],
+            "open_item_at_page_end": "2",
+            "uncertainties": [],
+        },
+        previous_page_context={
+            "open_item_number": "2",
+            "open_item_concept": "Mantenimiento CENTUM Asfaltos",
+            "open_section": "ALCANCES",
+        },
+    )
+
+    assert len(structured["item_segments"]) == 1
+    assert structured["item_segments"][0]["has_supply"] is True
+    assert structured["item_segments"][0]["item_number"] == "2"
+    assert structured["open_item_at_page_end"] == "2"
+    assert ollama_vision_module._should_run_detail_transcription(structured) is True
+
+
+def test_detail_transcription_version_remains_unchanged() -> None:
+    assert ollama_vision_module.VISION_DETAIL_TRANSCRIPTION_PROMPT_VERSION == "vision-detail-transcription-2026-08-31-001"
+
+
+def test_output_truncated_same_fingerprint_is_retryable_without_duplicate_analysis(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    state = {"chat_calls": 0}
+
+    def fake_urlopen(request, timeout):
+        if request.full_url.endswith("/api/tags"):
+            return _FakeOllamaResponse({"models": [{"name": "qwen3-vl:4b-instruct"}]})
+        if request.full_url.endswith("/api/chat"):
+            state["chat_calls"] += 1
+            if state["chat_calls"] == 1:
+                return _FakeOllamaResponse(
+                    {
+                        "message": {"content": "{\"page_number\":1,\"new_partidas\":["},
+                        "done_reason": "length",
+                    }
+                )
+            content = {
+                "page_number": 1,
+                "continues_previous_partida": False,
+                "previous_partida_number": None,
+                "new_partidas": [{"item_number": "1", "concept_raw_text": "Servicio", "starts_on_this_page": True}],
+                "scope_blocks": [],
+                "supply_rows": [],
+                "open_partida_at_page_end": {"item_number": "1", "concept_raw_text": "Servicio"},
+                "uncertainties": [],
+            }
+            return _FakeOllamaResponse({"message": {"content": json.dumps(content)}, "done_reason": "stop"})
+        raise AssertionError(f"Unexpected Ollama URL: {request.full_url}")
+
+    monkeypatch.setattr(ollama_vision_module.urllib.request, "urlopen", fake_urlopen)
+
+    tender_id = _create_tender("Vision truncated retryable")
+    document_id = _import_vision_pdf(tender_id, "vision-truncated-retryable.pdf", ["ANEXO B-4"])
+    _seed_normalized_lines(document_id, ["ANEXO B-4"])
+
+    first = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert first.status_code == 200, first.text
+    assert first.json()["status"] == "FAILED"
+
+    second = client.post(
+        f"/tenders/{tender_id}/documents/{document_id}/vision-analyze",
+        json={"page_numbers": [1], "mode": "ASSISTIVE_EXTRACTION"},
+    )
+    assert second.status_code == 200, second.text
+    assert second.json()["status"] == "COMPLETED"
+
+    db = SessionLocal()
+    try:
+        analyses = db.execute(
+            select(DocumentVisionAnalysis).where(DocumentVisionAnalysis.document_id == document_id)
+        ).scalars().all()
+        assert len(analyses) == 1
+    finally:
+        db.close()
+
+
+def _seed_vision_analysis_with_pages(
+    *,
+    tender_id: str,
+    document_id: str,
+    prompt_version: str,
+    status: str,
+    model_name: str = "qwen3-vl:4b-instruct",
+    page_rows: list[dict[str, object]],
+) -> str:
+    db = SessionLocal()
+    try:
+        analysis = DocumentVisionAnalysis(
+            tender_id=tender_id,
+            document_id=document_id,
+            status=status,
+            mode="ASSISTIVE_EXTRACTION",
+            model_name=model_name,
+            prompt_version=prompt_version,
+            input_fingerprint_sha256=hashlib.sha256(f"{prompt_version}-{status}-{len(page_rows)}".encode("utf-8")).hexdigest(),
+            analyzed_at=datetime.now(timezone.utc),
+        )
+        db.add(analysis)
+        db.flush()
+
+        pages = {
+            page.page_number: page
+            for page in db.execute(
+                select(DocumentPage).where(DocumentPage.document_id == document_id)
+            ).scalars().all()
+        }
+
+        for row in page_rows:
+            page_number = int(row["page_number"])
+            page = pages[page_number]
+            db.add(
+                DocumentVisionPageResult(
+                    analysis_id=analysis.id,
+                    document_page_id=page.id,
+                    page_number=page_number,
+                    image_sha256=f"sha-{analysis.id}-{page_number}",
+                    status=str(row.get("status") or "COMPLETED"),
+                    raw_response_text=str(row.get("raw_response_text") or "{\"raw\":true}"),
+                    structured_json=row.get("structured_json"),
+                    warnings=list(row.get("warnings") or []),
+                    processing_time_ms=1,
+                )
+            )
+        db.commit()
+        return analysis.id
+    finally:
+        db.close()
+
+
+def test_vision_latest_summary_prefers_current_005_over_legacy() -> None:
+    tender_id = _create_tender("Vision latest summary preferred version")
+    document_id = _import_vision_pdf(tender_id, "vision-latest-summary-preferred.pdf", ["P1", "P2"])
+    _seed_normalized_lines(document_id, ["P1", "P2"])
+
+    analysis_005_id = _seed_vision_analysis_with_pages(
+        tender_id=tender_id,
+        document_id=document_id,
+        prompt_version="vision-structure-scope-2026-09-01-005",
+        status="PARTIAL",
+        page_rows=[
+            {
+                "page_number": 1,
+                "status": "COMPLETED",
+                "structured_json": {
+                    "page_number": 1,
+                    "continues_previous_item": False,
+                    "previous_item_number": None,
+                    "item_segments": [{"item_number": "1", "starts_on_this_page": True, "has_service": True, "has_supply": False, "has_deliverable": False, "anchor_raw_text": "PARTIDA 1", "review_required": False}],
+                    "new_items": [{"item_number": "1", "concept_raw_text": "PARTIDA 1 SERVICIO", "review_required": True}],
+                    "open_item_at_page_end": "1",
+                    "uncertainties": [],
+                    "_continuity_state_quality": "VALID",
+                },
+            }
+        ],
+    )
+
+    _seed_vision_analysis_with_pages(
+        tender_id=tender_id,
+        document_id=document_id,
+        prompt_version="vision-structure-scope-2026-09-01-004",
+        status="COMPLETED",
+        page_rows=[
+            {
+                "page_number": 1,
+                "status": "COMPLETED",
+                "structured_json": {
+                    "page_number": 1,
+                    "continues_previous_item": False,
+                    "previous_item_number": None,
+                    "item_segments": [],
+                    "new_items": [{"item_number": "9", "concept_raw_text": "LEGACY", "review_required": True}],
+                    "open_item_at_page_end": "9",
+                    "uncertainties": [],
+                    "_continuity_state_quality": "VALID",
+                },
+            }
+        ],
+    )
+
+    response = client.get(f"/tenders/{tender_id}/documents/{document_id}/vision-results/latest-summary")
+    assert response.status_code == 200, response.text
+    payload = response.json()
+
+    assert payload["latest_analysis"] is not None
+    assert payload["latest_analysis"]["analysis_id"] == analysis_005_id
+    assert payload["latest_analysis"]["prompt_version"] == "vision-structure-scope-2026-09-01-005"
+
+
+def test_vision_latest_summary_derives_candidates_and_status_without_heavy_payload() -> None:
+    tender_id = _create_tender("Vision latest summary candidates")
+    document_id = _import_vision_pdf(tender_id, "vision-latest-summary-candidates.pdf", ["P1", "P2", "P3", "P4"])
+    _seed_normalized_lines(document_id, ["P1", "P2", "P3", "P4"])
+
+    _seed_vision_analysis_with_pages(
+        tender_id=tender_id,
+        document_id=document_id,
+        prompt_version="vision-structure-scope-2026-09-01-005",
+        status="PARTIAL",
+        page_rows=[
+            {
+                "page_number": 1,
+                "status": "COMPLETED",
+                "structured_json": {
+                    "page_number": 1,
+                    "continues_previous_item": False,
+                    "previous_item_number": None,
+                    "item_segments": [{"item_number": "1", "starts_on_this_page": True, "has_service": True, "has_supply": False, "has_deliverable": False, "anchor_raw_text": "PARTIDA 1", "review_required": False}],
+                    "new_items": [{"item_number": "1", "concept_raw_text": "PARTIDA 1 SERVICIO", "review_required": False}],
+                    "open_item_at_page_end": "1",
+                    "uncertainties": [],
+                    "_continuity_state_quality": "VALID",
+                },
+            },
+            {
+                "page_number": 2,
+                "status": "PARTIAL",
+                "structured_json": {
+                    "page_number": 2,
+                    "continues_previous_item": True,
+                    "previous_item_number": "1",
+                    "item_segments": [
+                        {"item_number": "1", "starts_on_this_page": False, "has_service": True, "has_supply": False, "has_deliverable": False, "anchor_raw_text": "CONTINUA 1", "review_required": False},
+                        {"item_number": "2", "starts_on_this_page": True, "has_service": True, "has_supply": False, "has_deliverable": False, "anchor_raw_text": "PARTIDA 2", "review_required": True},
+                    ],
+                    "new_items": [
+                        {"item_number": "2.", "concept_raw_text": "PARTIDA 2 MANTENIMIENTO", "review_required": True},
+                        {"item_number": "2", "concept_raw_text": None, "review_required": True},
+                    ],
+                    "open_item_at_page_end": "2",
+                    "uncertainties": [],
+                    "detail_transcription": {"raw_lines": [{"raw_visible_text": "NO DEBE EXPONERSE"}]},
+                    "_detail_runtime": {"status": "FAILED", "task_type": "DETAIL_TRANSCRIPTION"},
+                    "_continuity_state_quality": "VALID",
+                },
+            },
+            {
+                "page_number": 3,
+                "status": "COMPLETED",
+                "structured_json": {
+                    "page_number": 3,
+                    "continues_previous_item": True,
+                    "previous_item_number": "2",
+                    "item_segments": [{"item_number": "2", "starts_on_this_page": False, "has_service": True, "has_supply": False, "has_deliverable": False, "anchor_raw_text": "CONTINUA 2", "review_required": True}],
+                    "new_items": [],
+                    "open_item_at_page_end": "2",
+                    "uncertainties": [],
+                    "_continuity_state_quality": "VALID",
+                },
+            },
+            {
+                "page_number": 4,
+                "status": "COMPLETED",
+                "structured_json": {
+                    "page_number": 4,
+                    "continues_previous_item": True,
+                    "previous_item_number": "2",
+                    "item_segments": [{"item_number": "2", "starts_on_this_page": False, "has_service": False, "has_supply": True, "has_deliverable": False, "anchor_raw_text": "LISTADO", "review_required": True}],
+                    "new_items": [],
+                    "open_item_at_page_end": "2",
+                    "uncertainties": [],
+                    "_detail_runtime": {"status": "COMPLETED", "task_type": "DETAIL_TRANSCRIPTION"},
+                    "_continuity_state_quality": "VALID",
+                },
+            },
+        ],
+    )
+
+    before_items_response = client.get(f"/tenders/{tender_id}/items", params={"document_id": document_id})
+    assert before_items_response.status_code == 200, before_items_response.text
+    before_items_total = before_items_response.json()["summary"]["total_items"]
+
+    response = client.get(f"/tenders/{tender_id}/documents/{document_id}/vision-results/latest-summary")
+    assert response.status_code == 200, response.text
+    payload = response.json()
+
+    assert payload["latest_analysis"]["status"] == "PARTIAL"
+    structure_summary = payload["latest_analysis"]["structure_summary"]
+    assert structure_summary["page_count"] == 4
+    assert structure_summary["valid_structure_pages"] == 4
+    assert structure_summary["structure_continuity_valid"] is True
+    assert structure_summary["detail_partial_pages"] == [2]
+
+    candidates = payload["item_candidates"]
+    assert [candidate["item_number"] for candidate in candidates] == ["1", "2"]
+    candidate_one = next(candidate for candidate in candidates if candidate["item_number"] == "1")
+    candidate_two = next(candidate for candidate in candidates if candidate["item_number"] == "2")
+    assert candidate_one["observed_pages"] == [1, 2]
+    assert candidate_two["observed_pages"] == [2, 3, 4]
+
+    page_summaries = payload["page_summaries"]
+    assert len(page_summaries) == 4
+    assert all(page_summary["structure_status"] == "VALID" for page_summary in page_summaries)
+    assert page_summaries[1]["detail_status"] == "FAILED"
+    assert page_summaries[3]["detail_status"] == "COMPLETED"
+
+    assert "analyses" not in payload
+    assert "raw_response_text" not in json.dumps(payload)
+    assert "detail_transcription" not in json.dumps(payload)
+
+    after_items_response = client.get(f"/tenders/{tender_id}/items", params={"document_id": document_id})
+    assert after_items_response.status_code == 200, after_items_response.text
+    after_items_total = after_items_response.json()["summary"]["total_items"]
+    assert before_items_total == 0
+    assert after_items_total == before_items_total
+
+
+def test_vision_latest_summary_returns_clean_empty_response_when_no_analysis() -> None:
+    tender_id = _create_tender("Vision latest summary empty")
+    document_id = _import_vision_pdf(tender_id, "vision-latest-summary-empty.pdf", ["P1"])
+    _seed_normalized_lines(document_id, ["P1"])
+
+    response = client.get(f"/tenders/{tender_id}/documents/{document_id}/vision-results/latest-summary")
+    assert response.status_code == 200, response.text
+    payload = response.json()
+
+    assert payload["document_id"] == document_id
+    assert payload["latest_analysis"] is None
+    assert payload["item_candidates"] == []
+    assert payload["page_summaries"] == []
+
+
+@pytest.mark.local_ollama
+def test_local_ollama_live_structure_scope_opt_in() -> None:
+    if os.getenv("RUN_LOCAL_OLLAMA_TESTS") != "1":
+        pytest.skip("opt-in only: set RUN_LOCAL_OLLAMA_TESTS=1")
+    image_path = os.getenv("LOCAL_OLLAMA_TEST_IMAGE")
+    if not image_path:
+        pytest.skip("set LOCAL_OLLAMA_TEST_IMAGE to a real page PNG path")
+
+    image_bytes = Path(image_path).read_bytes()
+    settings = ollama_vision_module.Settings(
+        licitia_ollama_vision_model="qwen3-vl:4b-instruct",
+        licitia_vision_structure_scope_max_output_tokens=600,
+    )
+    client_under_test = ollama_vision_module.OllamaVisionAssistClient(settings)
+    status, structured_json, _, _, warnings, _, _, _ = client_under_test.analyze_structure_scope_page(
+        page_number=1,
+        image_bytes=image_bytes,
+        mode="ASSISTIVE_EXTRACTION",
+        previous_page_context=None,
+    )
+    assert status in {"COMPLETED", "FAILED", "INVALID_JSON"}
+    assert isinstance(warnings, list)
+    if status == "COMPLETED":
+        assert structured_json is not None

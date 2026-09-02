@@ -53,6 +53,7 @@ from app.tender_evaluation import (
     update_tender_evaluation_model_human_decision,
 )
 from app.requirement_extraction import analyze_tender_requirements, get_tender_requirement_candidates
+from app.tender_items import analyze_tender_document_items, get_tender_item, list_tender_items
 from app.evidence_matching import (
     analyze_tender_company_evidence_matches,
     create_manual_requirement_evidence_candidate_match,
@@ -77,6 +78,14 @@ from app.requirement_normalization import get_tender_requirements, normalize_ten
 from app.requirement_semantics import analyze_tender_requirement_semantics, get_tender_requirement_semantics
 from app.requirement_versioning import analyze_tender_requirement_versions, get_tender_requirement_effective_state
 from app.requirement_matrix import get_tender_requirement_matrix, update_requirement_review
+from app.ollama_vision import (
+    OllamaProviderProbeError,
+    analyze_vision_document,
+    get_vision_document_page_result,
+    get_vision_document_latest_summary,
+    get_vision_provider_status,
+    list_vision_document_results,
+)
 from app.models import (
     Company,
     CompanyDocument,
@@ -132,6 +141,15 @@ from app.schemas import (
     TenderEvaluationModelDecisionWrite,
     EvaluationCriterionDecisionWrite,
     TenderRequirementCandidatesRead,
+    TenderDocumentItemAnalysisRead,
+    VisionAssistAnalyzeRequest,
+    VisionAssistAnalysisRead,
+    VisionAssistLatestSummaryRead,
+    VisionAssistPageResultRead,
+    VisionAssistResultsRead,
+    VisionProviderStatusRead,
+    TenderItemsRead,
+    TenderItemRead,
     TenderRequirementsRead,
     TenderRequirementSemanticsRead,
     TenderRequirementEffectiveStateRead,
@@ -1900,6 +1918,174 @@ def get_tender_requirement_candidates_endpoint(
         return get_tender_requirement_candidates(db, tender_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/vision/providers", response_model=VisionProviderStatusRead)
+def get_vision_providers_endpoint() -> dict[str, object]:
+    return get_vision_provider_status().model_dump(mode="json")
+
+
+@app.post("/tenders/{tender_id}/documents/{document_id}/vision-analyze", response_model=VisionAssistAnalysisRead)
+def analyze_tender_document_vision_endpoint(
+    tender_id: str,
+    document_id: str,
+    request: VisionAssistAnalyzeRequest,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        payload = analyze_vision_document(db, tender_id, document_id, request)
+        db.commit()
+        return payload.model_dump(mode="json")
+    except OllamaProviderProbeError as exc:
+        db.rollback()
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except LookupError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/tenders/{tender_id}/documents/{document_id}/vision-results", response_model=VisionAssistResultsRead)
+def get_tender_document_vision_results_endpoint(
+    tender_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        payload = list_vision_document_results(db, tender_id, document_id)
+        return payload.model_dump(mode="json")
+    except LookupError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/tenders/{tender_id}/documents/{document_id}/vision-results/latest-summary", response_model=VisionAssistLatestSummaryRead)
+def get_tender_document_vision_latest_summary_endpoint(
+    tender_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        payload = get_vision_document_latest_summary(db, tender_id, document_id)
+        return payload.model_dump(mode="json")
+    except LookupError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/tenders/{tender_id}/documents/{document_id}/vision-results/{page_number}", response_model=VisionAssistPageResultRead)
+def get_tender_document_vision_page_result_endpoint(
+    tender_id: str,
+    document_id: str,
+    page_number: int,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        payload = get_vision_document_page_result(db, tender_id, document_id, page_number)
+        return payload.model_dump(mode="json")
+    except LookupError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.post(
+    "/tenders/{tender_id}/documents/{document_id}/analyze-items",
+    response_model=TenderDocumentItemAnalysisRead,
+)
+def analyze_tender_document_items_endpoint(
+    tender_id: str,
+    document_id: str,
+    vision_mode: str = "AUTO",
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        payload = analyze_tender_document_items(db, tender_id, document_id, vision_mode=vision_mode)
+        db.commit()
+        return payload
+    except LookupError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/tenders/{tender_id}/items", response_model=TenderItemsRead)
+def list_tender_items_endpoint(
+    tender_id: str,
+    document_id: str | None = None,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        return list_tender_items(db, tender_id, document_id=document_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/tenders/{tender_id}/documents/{document_id}/items", response_model=TenderItemsRead)
+def list_tender_document_items_endpoint(
+    tender_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    document = db.get(TenderDocument, document_id)
+    if document is None or document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Tender document not found")
+
+    try:
+        return list_tender_items(db, tender_id, document_id=document_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/tenders/{tender_id}/items/{item_id}", response_model=TenderItemRead)
+def get_tender_item_endpoint(
+    tender_id: str,
+    item_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    try:
+        return get_tender_item(db, tender_id, item_id)
+    except LookupError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
 @app.post("/tenders/{tender_id}/normalize-requirements", response_model=TenderRequirementsRead)
