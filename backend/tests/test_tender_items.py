@@ -10,6 +10,12 @@ import pytest
 from app.config import Settings
 from app.database import SessionLocal
 from app.main import app
+from app.item_identity import (
+    ITEM_IDENTITY_DETERMINED,
+    ITEM_IDENTITY_UNKNOWN,
+    detect_item_identity_collisions,
+    normalize_item_identity,
+)
 import app.local_vision as local_vision_module
 from app.local_vision import OllamaVisionProvider, VisionAnalysisRead, VisionPageImage, VisionPartidaProposalRead, VisionRuntimeRead
 from app.models import DocumentPage, NormalizedContent, TenderDocument, TenderItem
@@ -111,6 +117,69 @@ def _db_item_count(*, tender_id: str, document_id: str | None = None) -> int:
         return int(db.execute(statement).scalar_one())
     finally:
         db.close()
+
+
+def test_normalized_item_identity_supports_safe_numeric_forms_and_preserves_raw_label() -> None:
+    cases = [
+        ("1", "1", ("1",), 1, None),
+        ("1.", "1", ("1",), 1, None),
+        ("01", "1", ("1",), 1, None),
+        ("001", "1", ("1",), 1, None),
+        ("2", "2", ("2",), 1, None),
+        ("2.", "2", ("2",), 1, None),
+        ("02", "2", ("2",), 1, None),
+        ("01.02", "1.2", ("1", "2"), 2, "1"),
+        ("1.02.", "1.2", ("1", "2"), 2, "1"),
+        ("001.002.003", "1.2.3", ("1", "2", "3"), 3, "1.2"),
+    ]
+
+    for raw_label, normalized_key, components, depth, parent_key in cases:
+        identity = normalize_item_identity(raw_label)
+        assert identity.raw_label == raw_label
+        assert identity.normalized_key == normalized_key
+        assert identity.components == components
+        assert identity.depth == depth
+        assert identity.parent_key == parent_key
+        assert identity.state == ITEM_IDENTITY_DETERMINED
+
+
+def test_normalized_item_identity_keeps_distinct_keys_separate() -> None:
+    one = normalize_item_identity("1")
+    two = normalize_item_identity("2")
+
+    assert one.normalized_key == "1"
+    assert two.normalized_key == "2"
+    assert one.normalized_key != two.normalized_key
+
+
+def test_normalized_item_identity_fails_closed_for_unsupported_inputs() -> None:
+    for raw_label in ["", " ", ".", "1..2", "A-1", "1-A", "I.B", "arbitrary prose"]:
+        identity = normalize_item_identity(raw_label)
+        assert identity.raw_label == raw_label
+        assert identity.normalized_key is None
+        assert identity.components == ()
+        assert identity.depth == 0
+        assert identity.parent_key is None
+        assert identity.state == ITEM_IDENTITY_UNKNOWN
+
+
+def test_item_identity_collision_detection_surfaces_normalized_key_collisions() -> None:
+    identities = [normalize_item_identity("01"), normalize_item_identity("1"), normalize_item_identity("2")]
+
+    collisions = detect_item_identity_collisions(identities)
+
+    assert len(collisions) == 1
+    collision = collisions[0]
+    assert collision.normalized_key == "1"
+    assert collision.raw_labels == ("01", "1")
+    assert [identity.normalized_key for identity in collision.identities] == ["1", "1"]
+    assert collision.state == "REVIEW_REQUIRED"
+
+
+def test_item_identity_collision_detection_ignores_distinct_normalized_keys() -> None:
+    identities = [normalize_item_identity("1"), normalize_item_identity("2")]
+
+    assert detect_item_identity_collisions(identities) == []
 
 
 def test_extracts_numbered_multiline_item_with_quantity_and_unit() -> None:
