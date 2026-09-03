@@ -860,8 +860,8 @@ class TenderDocument(Base):
         back_populates="document",
         cascade="all, delete-orphan",
     )
-    vision_analyses: Mapped[list["DocumentVisionAnalysis"]] = relationship(
-        back_populates="document",
+    page_structure_resolutions: Mapped[list["DocumentPageStructureResolution"]] = relationship(
+        back_populates="source_document",
         cascade="all, delete-orphan",
     )
 
@@ -1281,6 +1281,11 @@ class DocumentPage(Base):
     requirement_candidates: Mapped[list["RequirementCandidate"]] = relationship(back_populates="document_page")
     requirement_candidate_evidence: Mapped[list["RequirementCandidateEvidence"]] = relationship(back_populates="document_page")
     vision_page_results: Mapped[list["DocumentVisionPageResult"]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
+    structure_resolution: Mapped["DocumentPageStructureResolution | None"] = relationship(
+        back_populates="document_page",
+        cascade="all, delete-orphan",
+        uselist=False,
+    )
 
     @property
     def content_profile(self) -> str:
@@ -1293,6 +1298,52 @@ class DocumentPage(Base):
         if has_eligible_image:
             return "IMAGE_ONLY"
         return "TEXT_ONLY"
+
+
+class DocumentPageStructureResolution(Base):
+    __tablename__ = "document_page_structure_resolutions"
+
+    __table_args__ = (
+        UniqueConstraint("document_page_id", name="uq_doc_page_structure_resolution_page"),
+        Index("ix_doc_page_structure_resolution_document_id", "source_document_id"),
+        Index("ix_doc_page_structure_resolution_status", "status"),
+        Index("ix_doc_page_structure_resolution_review_required", "review_required"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    document_page_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    page_number: Mapped[int] = mapped_column(Integer, nullable=False)
+    status: Mapped[str] = mapped_column(String(32), nullable=False)
+    selected_source_method: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    review_required: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+    resolver_version: Mapped[str] = mapped_column(String(64), nullable=False, default="page-structure-resolver-005")
+    input_fingerprint_sha256: Mapped[str] = mapped_column(String(64), nullable=False, default="")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    source_document: Mapped[TenderDocument] = relationship(back_populates="page_structure_resolutions")
+    document_page: Mapped[DocumentPage] = relationship(back_populates="structure_resolution")
 
 
 class PageOcrResult(Base):
