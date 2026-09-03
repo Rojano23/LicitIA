@@ -91,6 +91,7 @@ from app.models import (
     CompanyDocument,
     CompanyDocumentStatus,
     CompanyStatus,
+    DocumentPageStructureResolution,
     DocumentPage,
     DocumentPageRegion,
     DocumentPageStatus,
@@ -99,6 +100,8 @@ from app.models import (
     TenderDocument,
     TenderDocumentProcessingStatus,
     TenderDocumentStatus,
+    TenderItem,
+    TenderScopeSegment,
 )
 from app.ocr import build_default_ocr_provider_registry
 from app.schemas import (
@@ -150,6 +153,7 @@ from app.schemas import (
     VisionProviderStatusRead,
     TenderItemsRead,
     TenderItemRead,
+    TenderDocumentScopeSummaryRead,
     TenderRequirementsRead,
     TenderRequirementSemanticsRead,
     TenderRequirementEffectiveStateRead,
@@ -170,6 +174,7 @@ settings = get_settings()
 MIN_IMAGE_REGION_AREA_RATIO = 0.03
 MIN_IMAGE_REGION_PIXEL_DIMENSION = 120
 AUTO_OCR_PROVIDER_ORDER = ["TESSERACT", "PADDLEOCR"]
+SCOPE_SUMMARY_VERSION = "mvp-06.2.6"
 
 # MVP-02.2 policy: AUTO acquisition is dual-provider for OCR-dependent pages.
 # Native text remains authoritative for TEXT_ONLY pages; image-only and mixed-content pages
@@ -1990,6 +1995,225 @@ def get_tender_document_vision_latest_summary_endpoint(
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+def _build_scope_group_key(segment: TenderScopeSegment) -> str:
+    candidate_key = (segment.candidate_item_key or "").strip()
+    if candidate_key:
+        return f"candidate:{candidate_key}"
+    if segment.tender_item_id:
+        return f"canonical:{segment.tender_item_id}"
+    # Keep orphan segments isolated when no semantic owner key is available.
+    return f"orphan:{segment.id}"
+
+
+@app.get("/tenders/{tender_id}/documents/{document_id}/scope-summary", response_model=TenderDocumentScopeSummaryRead)
+def get_tender_document_scope_summary_endpoint(
+    tender_id: str,
+    document_id: str,
+    db: Session = Depends(get_db),
+) -> dict[str, object]:
+    tender = db.get(Tender, tender_id)
+    if tender is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+    document = db.get(TenderDocument, document_id)
+    if document is None or document.tender_id != tender_id:
+        raise HTTPException(status_code=404, detail="Tender document not found")
+
+    document_pages = db.execute(
+        select(DocumentPage)
+        .where(DocumentPage.document_id == document_id)
+        .order_by(DocumentPage.page_number.asc(), DocumentPage.id.asc())
+    ).scalars().all()
+
+    resolutions = db.execute(
+        select(DocumentPageStructureResolution)
+        .where(
+            DocumentPageStructureResolution.source_document_id == document_id,
+        )
+        .order_by(DocumentPageStructureResolution.page_number.asc())
+    ).scalars().all()
+    resolutions_by_page_id = {resolution.document_page_id: resolution for resolution in resolutions}
+
+    scope_rows = db.execute(
+        select(TenderScopeSegment, TenderItem)
+        .outerjoin(TenderItem, TenderItem.id == TenderScopeSegment.tender_item_id)
+        .where(
+            TenderScopeSegment.tender_id == tender_id,
+            TenderScopeSegment.source_document_id == document_id,
+        )
+        .order_by(
+            TenderScopeSegment.page_number.asc(),
+            TenderScopeSegment.sequence_index.asc(),
+            TenderScopeSegment.id.asc(),
+        )
+    ).all()
+
+    segments_by_page_id: dict[str, int] = {}
+    ownership_groups: dict[str, dict[str, object]] = {}
+    for row, canonical_item in scope_rows:
+        segments_by_page_id[row.document_page_id] = segments_by_page_id.get(row.document_page_id, 0) + 1
+
+        group_key = _build_scope_group_key(row)
+        group = ownership_groups.get(group_key)
+        if group is None:
+            group = {
+                "group_key": group_key,
+                "candidate_item_key": row.candidate_item_key,
+                "candidate_item_raw_label": row.candidate_item_raw_label,
+                "review_required": bool(row.review_required),
+                "first_page_number": row.page_number,
+                "first_sequence_index": row.sequence_index,
+                "canonical_items": {},
+                "segments": [],
+            }
+            ownership_groups[group_key] = group
+        else:
+            group["review_required"] = bool(group["review_required"]) or bool(row.review_required)
+            existing_page_number = int(group["first_page_number"])
+            existing_sequence_index = int(group["first_sequence_index"])
+            if (row.page_number, row.sequence_index) < (existing_page_number, existing_sequence_index):
+                group["first_page_number"] = row.page_number
+                group["first_sequence_index"] = row.sequence_index
+
+        if canonical_item is not None:
+            canonical_map = group["canonical_items"]
+            canonical_map[canonical_item.id] = {
+                "tender_item_id": canonical_item.id,
+                "item_number": canonical_item.item_number,
+                "raw_description": canonical_item.raw_description,
+                "quantity": canonical_item.quantity,
+                "unit": canonical_item.unit,
+            }
+
+        segment_payload = {
+            "id": row.id,
+            "source_document_id": row.source_document_id,
+            "source_filename": document.original_filename,
+            "document_page_id": row.document_page_id,
+            "page_number": row.page_number,
+            "sequence_index": row.sequence_index,
+            "tender_item_id": row.tender_item_id,
+            "candidate_item_key": row.candidate_item_key,
+            "candidate_item_raw_label": row.candidate_item_raw_label,
+            "link_reason": row.link_reason,
+            "source_method": row.source_method,
+            "source_locator": row.source_locator,
+            "source_excerpt": row.source_excerpt,
+            "review_required": row.review_required,
+        }
+        group["segments"].append(segment_payload)
+
+    page_resolutions: list[dict[str, object]] = []
+    resolved_count = 0
+    needs_ocr_count = 0
+    needs_vision_count = 0
+    review_required_count = 0
+
+    for page in document_pages:
+        resolution = resolutions_by_page_id.get(page.id)
+        has_resolution = resolution is not None
+        status_value = resolution.status if resolution is not None else None
+        review_required_value = bool(resolution.review_required) if resolution is not None else False
+        scope_count = segments_by_page_id.get(page.id, 0)
+
+        if status_value == "RESOLVED":
+            resolved_count += 1
+        if status_value == "NEEDS_OCR":
+            needs_ocr_count += 1
+        if status_value == "NEEDS_VISION":
+            needs_vision_count += 1
+        if status_value == "REVIEW_REQUIRED" or review_required_value:
+            review_required_count += 1
+
+        page_resolutions.append(
+            {
+                "document_page_id": page.id,
+                "page_number": page.page_number,
+                "has_resolution": has_resolution,
+                "status": status_value,
+                "selected_source_method": resolution.selected_source_method if resolution is not None else None,
+                "review_required": review_required_value,
+                "reason": resolution.reason if resolution is not None else None,
+                "scope_segment_count": scope_count,
+            }
+        )
+
+    document_page_count = len(document_pages)
+    structurally_analyzed_count = len(resolutions)
+    not_analyzed_count = max(document_page_count - structurally_analyzed_count, 0)
+
+    sorted_groups = sorted(
+        ownership_groups.values(),
+        key=lambda group: (
+            group["first_page_number"] if group["segments"] else 10**9,
+            group["first_sequence_index"] if group["segments"] else 10**9,
+            group["group_key"],
+        ),
+    )
+
+    ownership_groups_payload: list[dict[str, object]] = []
+    for group in sorted_groups:
+        canonical_items = sorted(group["canonical_items"].values(), key=lambda item: item["tender_item_id"])
+        segments = sorted(
+            group["segments"],
+            key=lambda segment: (segment["page_number"], segment["sequence_index"], segment["id"]),
+        )
+        ownership_groups_payload.append(
+            {
+                "group_key": group["group_key"],
+                "candidate_item_key": group["candidate_item_key"],
+                "candidate_item_raw_label": group["candidate_item_raw_label"],
+                "review_required": group["review_required"],
+                "canonical_items": canonical_items,
+                "segments": segments,
+            }
+        )
+
+    summary_state = "NO_ORCHESTRATION"
+    if structurally_analyzed_count == 0:
+        summary_state = "NO_ORCHESTRATION"
+    elif (
+        review_required_count > 0
+        or needs_ocr_count > 0
+        or needs_vision_count > 0
+        or not_analyzed_count > 0
+    ):
+        summary_state = "REVIEW_REQUIRED"
+    elif (
+        document_page_count > 0
+        and structurally_analyzed_count == document_page_count
+        and resolved_count == document_page_count
+        and needs_ocr_count == 0
+        and needs_vision_count == 0
+        and review_required_count == 0
+    ):
+        summary_state = "READY"
+    else:
+        summary_state = "REVIEW_REQUIRED"
+
+    return {
+        "tender_id": tender_id,
+        "document_id": document_id,
+        "source_filename": document.original_filename,
+        "scope_summary_version": SCOPE_SUMMARY_VERSION,
+        "generated_at": datetime.now(timezone.utc),
+        "summary_state": summary_state,
+        "summary": {
+            "document_page_count": document_page_count,
+            "structurally_analyzed_count": structurally_analyzed_count,
+            "resolved_count": resolved_count,
+            "needs_ocr_count": needs_ocr_count,
+            "needs_vision_count": needs_vision_count,
+            "review_required_count": review_required_count,
+            "not_analyzed_count": not_analyzed_count,
+            "groups_count": len(ownership_groups_payload),
+            "segments_count": len(scope_rows),
+        },
+        "page_resolutions": page_resolutions,
+        "ownership_groups": ownership_groups_payload,
+    }
 
 
 @app.get("/tenders/{tender_id}/documents/{document_id}/vision-results/{page_number}", response_model=VisionAssistPageResultRead)

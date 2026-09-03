@@ -1128,6 +1128,73 @@ type VisionAssistLatestSummary = {
   page_summaries: VisionAssistLatestPageSummary[];
 };
 
+type ScopeSummaryPageResolution = {
+  document_page_id: string;
+  page_number: number;
+  has_resolution: boolean;
+  status: string | null;
+  selected_source_method: string | null;
+  review_required: boolean;
+  reason: string | null;
+  scope_segment_count: number;
+};
+
+type ScopeSummaryCanonicalItem = {
+  tender_item_id: string;
+  item_number: string | null;
+  raw_description: string;
+  quantity: string | null;
+  unit: string | null;
+};
+
+type ScopeSummarySegment = {
+  id: string;
+  source_document_id: string;
+  source_filename: string | null;
+  document_page_id: string;
+  page_number: number;
+  sequence_index: number;
+  tender_item_id: string | null;
+  candidate_item_key: string | null;
+  candidate_item_raw_label: string | null;
+  link_reason: string;
+  source_method: string;
+  source_locator: string;
+  source_excerpt: string;
+  review_required: boolean;
+};
+
+type ScopeSummaryOwnershipGroup = {
+  group_key: string;
+  candidate_item_key: string | null;
+  candidate_item_raw_label: string | null;
+  review_required: boolean;
+  canonical_items: ScopeSummaryCanonicalItem[];
+  segments: ScopeSummarySegment[];
+};
+
+type TenderDocumentScopeSummary = {
+  tender_id: string;
+  document_id: string;
+  source_filename: string | null;
+  scope_summary_version: string;
+  generated_at: string;
+  summary_state: string;
+  summary: {
+    document_page_count: number;
+    structurally_analyzed_count: number;
+    resolved_count: number;
+    needs_ocr_count: number;
+    needs_vision_count: number;
+    review_required_count: number;
+    not_analyzed_count: number;
+    groups_count: number;
+    segments_count: number;
+  };
+  page_resolutions: ScopeSummaryPageResolution[];
+  ownership_groups: ScopeSummaryOwnershipGroup[];
+};
+
 type VisionPartidaProposal = {
   item_number: string | null;
   description: string;
@@ -1456,6 +1523,9 @@ function App() {
   const [visionLatestSummary, setVisionLatestSummary] = useState<VisionAssistLatestSummary | null>(null);
   const [visionLatestLoading, setVisionLatestLoading] = useState(false);
   const [visionLatestError, setVisionLatestError] = useState<string | null>(null);
+  const [scopeSummary, setScopeSummary] = useState<TenderDocumentScopeSummary | null>(null);
+  const [scopeSummaryLoading, setScopeSummaryLoading] = useState(false);
+  const [scopeSummaryError, setScopeSummaryError] = useState<string | null>(null);
   const [classificationResult, setClassificationResult] = useState<ClassificationResult | null>(null);
   const [classificationLoading, setClassificationLoading] = useState(false);
   const [referenceAnalysis, setReferenceAnalysis] = useState<ReferenceAnalysis | null>(null);
@@ -1646,6 +1716,9 @@ function App() {
       setVisionLatestSummary(null);
       setVisionLatestError(null);
       setVisionLatestLoading(false);
+      setScopeSummary(null);
+      setScopeSummaryError(null);
+      setScopeSummaryLoading(false);
       setDecisionNotesByRequirement({});
       return;
     }
@@ -1707,10 +1780,14 @@ function App() {
       setVisionLatestSummary(null);
       setVisionLatestError(null);
       setVisionLatestLoading(false);
+      setScopeSummary(null);
+      setScopeSummaryError(null);
+      setScopeSummaryLoading(false);
       return;
     }
 
     void loadVisionLatestSummary(selectedTenderId, selectedItemDocumentId);
+    void loadScopeSummary(selectedTenderId, selectedItemDocumentId);
   }, [selectedTenderId, selectedItemDocumentId]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -1906,6 +1983,23 @@ function App() {
       setVisionLatestError("No se pudo cargar el último análisis guardado de Vision Assist.");
     } finally {
       setVisionLatestLoading(false);
+    }
+  };
+
+  const loadScopeSummary = async (tenderId: string, documentId: string) => {
+    setScopeSummaryLoading(true);
+    setScopeSummaryError(null);
+    setScopeSummary(null);
+    try {
+      const response = await axios.get<TenderDocumentScopeSummary>(
+        `${API_URL}/tenders/${tenderId}/documents/${documentId}/scope-summary`,
+      );
+      setScopeSummary(response.data);
+    } catch (err) {
+      setScopeSummary(null);
+      setScopeSummaryError("No se pudo cargar el resumen de alcance detectado del documento.");
+    } finally {
+      setScopeSummaryLoading(false);
     }
   };
 
@@ -3480,6 +3574,64 @@ function App() {
     return status;
   };
 
+  const scopeSourceMethodLabel = (value: string | null) => {
+    if (value === "NATIVE_TEXT") {
+      return "Texto del PDF";
+    }
+    if (value === "OCR") {
+      return "OCR";
+    }
+    if (value === "VISION") {
+      return "Visión local";
+    }
+    if (value === "HYBRID") {
+      return "Lectura combinada";
+    }
+    return "Fuente no identificada";
+  };
+
+  const scopeLinkReasonLabel = (value: string) => {
+    if (value === "EXPLICIT_ITEM_START") {
+      return "Inicio de partida";
+    }
+    if (value === "CONTINUATION") {
+      return "Continuación";
+    }
+    return "Asociación detectada";
+  };
+
+  const scopePageStatusLabel = (row: ScopeSummaryPageResolution) => {
+    if (!row.has_resolution) {
+      return "Aún no analizada";
+    }
+    if (row.status === "RESOLVED") {
+      return "Resuelta";
+    }
+    if (row.status === "NEEDS_OCR") {
+      return "Requiere OCR";
+    }
+    if (row.status === "NEEDS_VISION") {
+      return "Requiere visión local";
+    }
+    if (row.status === "REVIEW_REQUIRED") {
+      return "Revisión requerida";
+    }
+    return "Revisión requerida";
+  };
+
+  const scopeSummaryStateLabel = (value: string) => {
+    if (value === "NO_ORCHESTRATION") {
+      return "Pendiente de análisis estructural";
+    }
+    if (value === "READY") {
+      return "Resumen estructural listo";
+    }
+    if (value === "REVIEW_REQUIRED") {
+      return "Revisión requerida";
+    }
+    return "Revisión requerida";
+  };
+
   const shortId = (value: string | null) => (value ? value.slice(0, 8) : "");
 
   const candidateLabel = (candidate: ReferenceCandidate) => {
@@ -4085,7 +4237,7 @@ function App() {
                   Total {tenderItems.summary.total_items} • Documentos {tenderItems.summary.documents_with_items} • Con número {tenderItems.summary.items_with_number} • Con cantidad {tenderItems.summary.items_with_quantity} • Con unidad {tenderItems.summary.items_with_unit}
                 </div>
                 <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
-                  Partidas canónicas: {tenderItems.summary.total_items} • Vision Assist: {visionLatestSummary?.item_candidates.length ?? 0} candidatos detectados
+                  Partidas canónicas: {tenderItems.summary.total_items} • Alcance detectado: {scopeSummary?.summary.segments_count ?? 0} segmentos
                 </div>
                 <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
                   Sin localizador {tenderItems.summary.items_without_locator}
@@ -4097,76 +4249,80 @@ function App() {
                   </div>
                 )}
 
-                {tenderItems.vision_analysis && (
-                  <div style={{ marginTop: 10, padding: 12, borderRadius: 10, border: "1px solid #d2e8e3", background: "#ecfdf5" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "baseline" }}>
+                {scopeSummaryLoading && (
+                  <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                    Cargando resumen de alcance detectado...
+                  </div>
+                )}
+
+                {scopeSummaryError && (
+                  <div style={{ marginTop: 8, fontSize: 12, color: "#b42318" }}>
+                    {scopeSummaryError}
+                  </div>
+                )}
+
+                {scopeSummary && (
+                  <div style={{ marginTop: 10, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#fff" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
                       <div>
-                        <strong>Interpretacion asistida por IA local</strong>
-                        <div style={{ marginTop: 4, fontSize: 12, color: "#0f5132" }}>
-                          Estado {tenderItems.vision_analysis.status} • Modo {tenderItems.vision_analysis.vision_mode} • Requiere revision humana {tenderItems.vision_analysis.review_status}
+                        <strong>Alcance detectado por partida (fuente persistida)</strong>
+                        <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                          Estado {scopeSummaryStateLabel(scopeSummary.summary_state)} • Motor {scopeSummary.scope_summary_version} • Actualizado {new Date(scopeSummary.generated_at).toLocaleString()}
                         </div>
                       </div>
-                      <div style={{ fontSize: 12, color: "#0f5132" }}>
-                        {tenderItems.vision_analysis.runtime.runtime_available
-                          ? `Modelo ${tenderItems.vision_analysis.runtime.selected_model ?? "sin seleccionar"}`
-                          : `Sin runtime local: ${tenderItems.vision_analysis.runtime.provider_status_reason}`}
+                      <div style={{ fontSize: 12, color: "#334155" }}>
+                        Segmentos {scopeSummary.summary.segments_count} • Grupos {scopeSummary.summary.groups_count}
                       </div>
                     </div>
 
                     <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
-                      {tenderItems.vision_analysis.summary ?? "Sin resumen adicional."}
+                      {scopeSummary.summary.document_page_count} páginas del documento • {scopeSummary.summary.structurally_analyzed_count} analizadas • {scopeSummary.summary.resolved_count} resueltas • {scopeSummary.page_resolutions.filter((resolution) => !resolution.has_resolution || resolution.status === "NEEDS_OCR" || resolution.status === "NEEDS_VISION" || resolution.status === "REVIEW_REQUIRED" || resolution.review_required).length} requieren atención • {scopeSummary.summary.not_analyzed_count} aún no analizadas
                     </div>
-                    <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
-                      Páginas analizadas {tenderItems.vision_analysis.pages_analyzed.join(", ") || "-"} • Confianza {tenderItems.vision_analysis.confidence ?? "-"}
-                    </div>
-                    {tenderItems.vision_analysis.warnings.length > 0 && (
-                      <div style={{ marginTop: 4, fontSize: 12, color: "#9a3412" }}>
-                        Avisos IA: {tenderItems.vision_analysis.warnings.slice(0, 4).join(" • ")}
+
+                    {scopeSummary.summary_state === "NO_ORCHESTRATION" && (
+                      <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                        Sin resolución estructural persistida para este documento.
                       </div>
                     )}
 
-                    {tenderItems.vision_analysis.partidas.length > 0 && (
+                    {scopeSummary.page_resolutions.filter((resolution) => !resolution.has_resolution || resolution.status === "NEEDS_OCR" || resolution.status === "NEEDS_VISION" || resolution.status === "REVIEW_REQUIRED" || resolution.review_required).length > 0 && (
+                      <div style={{ marginTop: 10, border: "1px solid #fde68a", borderRadius: 8, padding: 10, background: "#fffbeb" }}>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: "#92400e" }}>Páginas que requieren revisión</div>
+                        <div style={{ marginTop: 6, display: "grid", gap: 4 }}>
+                          {scopeSummary.page_resolutions
+                            .filter((resolution) => !resolution.has_resolution || resolution.status === "NEEDS_OCR" || resolution.status === "NEEDS_VISION" || resolution.status === "REVIEW_REQUIRED" || resolution.review_required)
+                            .map((resolution) => (
+                              <div key={`scope-attention-${resolution.document_page_id}`} style={{ fontSize: 12, color: "#78350f" }}>
+                                Página {resolution.page_number}: {scopePageStatusLabel(resolution)}
+                                {resolution.reason ? ` • ${resolution.reason}` : ""}
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {scopeSummary.page_resolutions.length > 0 && (
                       <div style={{ marginTop: 10, overflowX: "auto" }}>
                         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
                           <thead>
-                            <tr style={{ background: "#dcfce7" }}>
-                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #cdebd9" }}>Propuesta</th>
-                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #cdebd9" }}>Descripcion</th>
-                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #cdebd9" }}>Cantidad</th>
-                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #cdebd9" }}>Unidad</th>
-                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #cdebd9" }}>Paginas</th>
-                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #cdebd9" }}>Extracto</th>
+                            <tr style={{ background: "#f8fafc" }}>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e2e8f0" }}>Página</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e2e8f0" }}>Estado estructural</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e2e8f0" }}>Fuente de lectura</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e2e8f0" }}>Segmentos</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e2e8f0" }}>Revisión requerida</th>
+                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #e2e8f0" }}>Motivo</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {tenderItems.vision_analysis.partidas.map((partida, index) => (
-                              <tr key={`${partida.item_number ?? "proposal"}-${index}`}>
-                                <td style={{ padding: 8, borderBottom: "1px solid #e5f3ea", fontWeight: 700 }}>
-                                  {partida.item_number ?? "-"}
-                                </td>
-                                <td style={{ padding: 8, borderBottom: "1px solid #e5f3ea" }}>{partida.description}</td>
-                                <td style={{ padding: 8, borderBottom: "1px solid #e5f3ea" }}>{partida.quantity ?? "-"}</td>
-                                <td style={{ padding: 8, borderBottom: "1px solid #e5f3ea" }}>{partida.unit ?? "-"}</td>
-                                <td style={{ padding: 8, borderBottom: "1px solid #e5f3ea" }}>{partida.source_pages.join(", ")}</td>
-                                <td style={{ padding: 8, borderBottom: "1px solid #e5f3ea" }}>
-                                  <div style={{ color: "#334155" }}>{partida.evidence_excerpt}</div>
-                                  <div style={{ marginTop: 6, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-                                    <span style={{ color: "#52607a" }}>Confianza {partida.confidence ?? "-"}</span>
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        if (selectedTenderId && selectedItemDocumentId && partida.source_pages[0]) {
-                                          void loadDocumentPages(selectedTenderId, selectedItemDocumentId).then(() => {
-                                            setSelectedPageNumber(partida.source_pages[0]);
-                                          });
-                                        }
-                                      }}
-                                      style={{ padding: "4px 8px", borderRadius: 6, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}
-                                    >
-                                      Abrir pagina
-                                    </button>
-                                  </div>
-                                </td>
+                            {scopeSummary.page_resolutions.map((resolution) => (
+                              <tr key={`scope-resolution-${resolution.document_page_id}`}>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9", fontWeight: 700 }}>{resolution.page_number}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{scopePageStatusLabel(resolution)}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{resolution.has_resolution ? scopeSourceMethodLabel(resolution.selected_source_method) : "-"}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{resolution.scope_segment_count}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{resolution.review_required ? "Sí" : "No"}</td>
+                                <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9", color: "#52607a" }}>{resolution.reason ?? "-"}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -4174,12 +4330,90 @@ function App() {
                       </div>
                     )}
 
-                    {tenderItems.vision_analysis.partidas.length === 0 && (
-                      <div style={{ marginTop: 8, fontSize: 12, color: "#0f5132" }}>
-                        No se propusieron partidas nuevas. La salida local queda como apoyo de revision, no como verdad canonica.
+                    {scopeSummary.ownership_groups.length > 0 ? (
+                      <div style={{ marginTop: 12, display: "grid", gap: 10 }}>
+                        {scopeSummary.ownership_groups.map((group) => (
+                          <div key={group.group_key} style={{ border: "1px solid #e2e8f0", borderRadius: 8, padding: 10, background: "#f8fafc" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap", alignItems: "baseline" }}>
+                              <div style={{ fontSize: 13, color: "#0f172a" }}>
+                                <strong>Partida</strong> {group.candidate_item_key ?? group.candidate_item_raw_label ?? "Sin identidad"}
+                              </div>
+                              <div style={{ fontSize: 12, color: group.review_required ? "#9a3412" : "#334155" }}>
+                                {group.review_required ? "Revisión requerida" : "Sin revisión pendiente"}
+                              </div>
+                            </div>
+
+                            {group.canonical_items.length > 0 && (
+                              <div style={{ marginTop: 6, fontSize: 12, color: "#334155" }}>
+                                Canonónica vinculada: {group.canonical_items.map((item) => `#${item.item_number ?? "-"} (${item.tender_item_id.slice(0, 8)})`).join(" • ")}
+                              </div>
+                            )}
+
+                            <div style={{ marginTop: 8, overflowX: "auto" }}>
+                              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                                <thead>
+                                  <tr style={{ background: "#eef2f7" }}>
+                                    <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Documento</th>
+                                    <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Página</th>
+                                    <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Segmento</th>
+                                    <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Fuente de lectura</th>
+                                    <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Motivo de vínculo</th>
+                                    <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #d9e1ec" }}>Evidencia</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {group.segments.map((segment) => (
+                                    <tr key={segment.id}>
+                                      <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{segment.source_filename ?? segment.source_document_id}</td>
+                                      <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{segment.page_number}</td>
+                                      <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{segment.sequence_index}</td>
+                                      <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{scopeSourceMethodLabel(segment.source_method)}</td>
+                                      <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9" }}>{scopeLinkReasonLabel(segment.link_reason)}</td>
+                                      <td style={{ padding: 8, borderBottom: "1px solid #f1f5f9", color: "#334155" }}>
+                                        <div>{segment.source_locator}</div>
+                                        <div style={{ marginTop: 4 }}>{segment.source_excerpt}</div>
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                        No hay segmentos de alcance detectados para el documento seleccionado.
                       </div>
                     )}
                   </div>
+                )}
+
+                {tenderItems.vision_analysis && (
+                  <details style={{ marginTop: 10, borderRadius: 10, border: "1px solid #d2e8e3", background: "#ecfdf5", padding: 12 }}>
+                    <summary style={{ cursor: "pointer", fontWeight: 700, color: "#0f5132" }}>Vision técnica (provenance opcional)</summary>
+                    <div style={{ marginTop: 8 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "baseline" }}>
+                        <div>
+                          <div style={{ marginTop: 4, fontSize: 12, color: "#0f5132" }}>
+                            Estado {tenderItems.vision_analysis.status} • Modo {tenderItems.vision_analysis.vision_mode} • Requiere revision humana {tenderItems.vision_analysis.review_status}
+                          </div>
+                        </div>
+                        <div style={{ fontSize: 12, color: "#0f5132" }}>
+                          {tenderItems.vision_analysis.runtime.runtime_available
+                            ? `Modelo ${tenderItems.vision_analysis.runtime.selected_model ?? "sin seleccionar"}`
+                            : `Sin runtime local: ${tenderItems.vision_analysis.runtime.provider_status_reason}`}
+                        </div>
+                      </div>
+
+                      <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
+                        {tenderItems.vision_analysis.summary ?? "Sin resumen adicional."}
+                      </div>
+                      <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                        Páginas analizadas {tenderItems.vision_analysis.pages_analyzed.join(", ") || "-"} • Confianza {tenderItems.vision_analysis.confidence ?? "-"}
+                      </div>
+                    </div>
+                  </details>
                 )}
 
                 <div style={{ marginTop: 10, overflowX: "auto" }}>
@@ -4308,36 +4542,14 @@ function App() {
                       Los candidatos de Vision Assist son apoyo para revisión humana y no modifican las partidas canónicas.
                     </div>
 
-                    {visionLatestSummary.item_candidates.length > 0 ? (
-                      <div style={{ marginTop: 10, overflowX: "auto" }}>
-                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
-                          <thead>
-                            <tr style={{ background: "#f9f4e2" }}>
-                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #eadfb7" }}>Partida</th>
-                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #eadfb7" }}>Concepto</th>
-                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #eadfb7" }}>Primera página</th>
-                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #eadfb7" }}>Páginas observadas</th>
-                              <th style={{ textAlign: "left", padding: 8, borderBottom: "1px solid #eadfb7" }}>Revisión requerida</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {visionLatestSummary.item_candidates.map((candidate) => (
-                              <tr key={`vision-candidate-${candidate.item_number}`}>
-                                <td style={{ padding: 8, borderBottom: "1px solid #f5edd3", fontWeight: 700 }}>{candidate.item_number}</td>
-                                <td style={{ padding: 8, borderBottom: "1px solid #f5edd3" }}>{candidate.concept_raw_text ?? "-"}</td>
-                                <td style={{ padding: 8, borderBottom: "1px solid #f5edd3" }}>{candidate.first_detected_page}</td>
-                                <td style={{ padding: 8, borderBottom: "1px solid #f5edd3" }}>{candidate.observed_pages.join(", ") || "-"}</td>
-                                <td style={{ padding: 8, borderBottom: "1px solid #f5edd3" }}>{candidate.review_required ? "Sí" : "No"}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    ) : (
+                    <details style={{ marginTop: 10 }}>
+                      <summary style={{ cursor: "pointer", fontSize: 12, color: "#6b5b27" }}>Detalle técnico de lectura</summary>
                       <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
-                        Sin candidatos detectados en el último análisis guardado.
+                        {visionLatestSummary.item_candidates.length > 0
+                          ? `Se registraron ${visionLatestSummary.item_candidates.length} candidatos en el análisis técnico.`
+                          : "Sin candidatos detectados en el último análisis guardado."}
                       </div>
-                    )}
+                    </details>
                   </div>
                 );
               })()}

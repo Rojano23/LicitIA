@@ -1267,6 +1267,75 @@ class TenderItemsRead(BaseModel):
     vision_analysis: VisionAnalysisRead | None = None
 
 
+class ScopeSummaryPageResolutionRead(BaseModel):
+    document_page_id: str
+    page_number: int
+    has_resolution: bool
+    status: str | None = None
+    selected_source_method: str | None = None
+    review_required: bool
+    reason: str | None = None
+    scope_segment_count: int = 0
+
+
+class ScopeSummaryCanonicalItemRead(BaseModel):
+    tender_item_id: str
+    item_number: str | None = None
+    raw_description: str
+    quantity: Decimal | None = None
+    unit: str | None = None
+
+
+class ScopeSummarySegmentRead(BaseModel):
+    id: str
+    source_document_id: str
+    source_filename: str | None = None
+    document_page_id: str
+    page_number: int
+    sequence_index: int
+    tender_item_id: str | None = None
+    candidate_item_key: str | None = None
+    candidate_item_raw_label: str | None = None
+    link_reason: str
+    source_method: str
+    source_locator: str
+    source_excerpt: str
+    review_required: bool
+
+
+class ScopeSummaryOwnershipGroupRead(BaseModel):
+    group_key: str
+    candidate_item_key: str | None = None
+    candidate_item_raw_label: str | None = None
+    review_required: bool
+    canonical_items: list[ScopeSummaryCanonicalItemRead] = Field(default_factory=list)
+    segments: list[ScopeSummarySegmentRead] = Field(default_factory=list)
+
+
+class ScopeSummaryStatsRead(BaseModel):
+    document_page_count: int
+    structurally_analyzed_count: int
+    resolved_count: int
+    needs_ocr_count: int
+    needs_vision_count: int
+    review_required_count: int
+    not_analyzed_count: int
+    groups_count: int
+    segments_count: int
+
+
+class TenderDocumentScopeSummaryRead(BaseModel):
+    tender_id: str
+    document_id: str
+    source_filename: str | None = None
+    scope_summary_version: str
+    generated_at: datetime
+    summary_state: str
+    summary: ScopeSummaryStatsRead
+    page_resolutions: list[ScopeSummaryPageResolutionRead] = Field(default_factory=list)
+    ownership_groups: list[ScopeSummaryOwnershipGroupRead] = Field(default_factory=list)
+
+
 class TenderDocumentItemAnalysisSummaryRead(TenderItemsSummaryRead):
     scanned_pages: int
     items_detected: int
