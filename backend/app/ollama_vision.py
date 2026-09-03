@@ -18,6 +18,7 @@ from sqlalchemy import and_, select
 from sqlalchemy.orm import Session
 
 from app.config import Settings, get_settings
+from app.database import SessionLocal
 from app.local_vision import OllamaVisionProvider
 from app.models import (
     DocumentPage,
@@ -28,6 +29,7 @@ from app.models import (
     Tender,
     TenderDocument,
 )
+from app.page_structure import PAGE_STRUCTURE_VALID, adapt_structure_scope_005_page
 from app.schemas import (
     VisionAssistAnalysisRead,
     VisionAssistAnalysisSummaryRead,
@@ -601,7 +603,14 @@ class VisionAssistService:
     def provider_status(self) -> VisionProviderStatusRead:
         return self.client.probe()
 
-    def analyze_document(self, tender_id: str, document_id: str, request: VisionAssistAnalyzeRequest) -> VisionAssistAnalysisRead:
+    def analyze_document(
+        self,
+        tender_id: str,
+        document_id: str,
+        request: VisionAssistAnalyzeRequest,
+        *,
+        allow_detail_transcription: bool = True,
+    ) -> VisionAssistAnalysisRead:
         tender = self.db.get(Tender, tender_id)
         if tender is None:
             raise ValueError("Tender not found")
@@ -676,7 +685,7 @@ class VisionAssistService:
 
             needs_detail_transcription = False
             if status == DocumentVisionPageResultStatus.COMPLETED.value and structured_json is not None:
-                needs_detail_transcription = _should_run_detail_transcription(structured_json)
+                needs_detail_transcription = allow_detail_transcription and _should_run_detail_transcription(structured_json)
                 if needs_detail_transcription:
                     detail_region_hint = _build_detail_region_hint(structured_json)
                     (
@@ -797,6 +806,22 @@ class VisionAssistService:
         analysis.analyzed_at = datetime.now(timezone.utc)
         self.db.flush()
         return self._serialize_analysis(analysis, provider)
+
+    def analyze_document_structure_only(
+        self,
+        tender_id: str,
+        document_id: str,
+        *,
+        page_numbers: list[int],
+        mode: str = "ASSISTIVE_EXTRACTION",
+    ) -> VisionAssistAnalysisRead:
+        request = VisionAssistAnalyzeRequest(page_numbers=page_numbers, mode=mode)
+        return self.analyze_document(
+            tender_id,
+            document_id,
+            request,
+            allow_detail_transcription=False,
+        )
 
     def list_document_results(self, tender_id: str, document_id: str) -> VisionAssistResultsRead:
         tender = self.db.get(Tender, tender_id)
@@ -1726,6 +1751,285 @@ def get_vision_provider_status() -> VisionProviderStatusRead:
 def analyze_vision_document(db: Session, tender_id: str, document_id: str, request: VisionAssistAnalyzeRequest) -> VisionAssistAnalysisRead:
     service = VisionAssistService(db)
     return service.analyze_document(tender_id, document_id, request)
+
+
+def analyze_vision_document_structure_only(
+    db: Session,
+    tender_id: str,
+    document_id: str,
+    *,
+    page_numbers: list[int],
+    mode: str = "ASSISTIVE_EXTRACTION",
+) -> VisionAssistAnalysisRead:
+    service = VisionAssistService(db)
+    return service.analyze_document_structure_only(
+        tender_id,
+        document_id,
+        page_numbers=page_numbers,
+        mode=mode,
+    )
+
+
+def _analysis_has_usable_structure_for_pages(
+    db: Session,
+    *,
+    analysis: DocumentVisionAnalysis,
+    page_numbers: list[int],
+) -> bool:
+    for page_number in page_numbers:
+        page_result = db.scalar(
+            select(DocumentVisionPageResult)
+            .where(
+                DocumentVisionPageResult.analysis_id == analysis.id,
+                DocumentVisionPageResult.page_number == page_number,
+                DocumentVisionPageResult.status.in_(
+                    (
+                        DocumentVisionPageResultStatus.COMPLETED.value,
+                        DocumentVisionPageResultStatus.PARTIAL.value,
+                    )
+                ),
+            )
+            .order_by(DocumentVisionPageResult.updated_at.desc(), DocumentVisionPageResult.created_at.desc())
+        )
+        if page_result is None or not isinstance(page_result.structured_json, dict):
+            return False
+
+        structural_state = adapt_structure_scope_005_page(
+            page_result.structured_json,
+            page_number=page_number,
+            source_analysis_id=analysis.id,
+            source_page_result_id=page_result.id,
+        )
+        if structural_state.state_quality != PAGE_STRUCTURE_VALID:
+            return False
+    return True
+
+
+def analyze_vision_document_structure_only_isolated(
+    *,
+    tender_id: str,
+    document_id: str,
+    page_numbers: list[int],
+    mode: str = "ASSISTIVE_EXTRACTION",
+    force_retry_on_unusable_structure: bool = True,
+) -> VisionAssistAnalysisRead:
+    settings = get_settings()
+    client = OllamaVisionAssistClient(settings)
+    normalized_page_numbers = normalize_page_numbers(page_numbers)
+    if len(normalized_page_numbers) > settings.licitia_vision_max_pages:
+        raise ValueError(f"At most {settings.licitia_vision_max_pages} pages can be analyzed in one request")
+
+    with SessionLocal() as read_db:
+        tender = read_db.get(Tender, tender_id)
+        if tender is None:
+            raise ValueError("Tender not found")
+
+        document = read_db.get(TenderDocument, document_id)
+        if document is None or document.tender_id != tender_id:
+            raise LookupError("Tender document not found")
+
+        page_rows = read_db.execute(
+            select(DocumentPage)
+            .where(
+                DocumentPage.document_id == document_id,
+                DocumentPage.page_number.in_(normalized_page_numbers),
+            )
+            .order_by(DocumentPage.page_number.asc())
+        ).scalars().all()
+        page_id_by_number = {row.page_number: row.id for row in page_rows}
+        missing_pages = [page for page in normalized_page_numbers if page not in page_id_by_number]
+        if missing_pages:
+            raise LookupError(f"Missing document pages: {', '.join(str(page) for page in missing_pages)}")
+
+        class _RenderDocumentReference:
+            def __init__(self, stored_relative_path: str) -> None:
+                self.stored_relative_path = stored_relative_path
+
+        document_stub = _RenderDocumentReference(document.stored_relative_path)
+
+    rendered_pages = client.render_document_pages(document_stub, normalized_page_numbers)
+    for rendered_page in rendered_pages:
+        rendered_page.document_page_id = page_id_by_number[rendered_page.page_number]
+
+    input_fingerprint = _build_input_fingerprint(
+        tender_id=tender_id,
+        document_id=document_id,
+        model_name=client.model_name,
+        prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+        mode=mode,
+        rendered_pages=rendered_pages,
+        task_type=VISION_TASK_STRUCTURE_SCOPE,
+        task_region_id=None,
+    )
+
+    with SessionLocal() as check_db:
+        existing = check_db.scalar(
+            select(DocumentVisionAnalysis).where(
+                DocumentVisionAnalysis.document_id == document_id,
+                DocumentVisionAnalysis.model_name == client.model_name,
+                DocumentVisionAnalysis.prompt_version == VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+                DocumentVisionAnalysis.input_fingerprint_sha256 == input_fingerprint,
+            )
+        )
+        if existing is not None and existing.status == DocumentVisionAnalysisStatus.COMPLETED.value:
+            reusable = _analysis_has_usable_structure_for_pages(
+                check_db,
+                analysis=existing,
+                page_numbers=normalized_page_numbers,
+            )
+            if reusable or not force_retry_on_unusable_structure:
+                return VisionAssistService(check_db, settings)._serialize_analysis(existing, client.probe())
+
+    provider = client.ensure_available()
+
+    rendered_outputs: list[dict[str, Any]] = []
+    completed_count = 0
+    failure_count = 0
+    previous_page_context: dict[str, Any] | None = None
+    continuity_context_quality = "VALID"
+
+    for rendered_page in rendered_pages:
+        effective_previous_page_context = previous_page_context if continuity_context_quality == "VALID" else None
+        status, structured_json, processing_time_ms, http_status, warnings, extracted_markdown, extracted_plain_text, raw_response_text = client.analyze_structure_scope_page(
+            page_number=rendered_page.page_number,
+            image_bytes=rendered_page.image_bytes,
+            mode=mode,
+            previous_page_context=effective_previous_page_context,
+        )
+
+        continuity_context_was_lost = continuity_context_quality != "VALID"
+
+        if status == DocumentVisionPageResultStatus.COMPLETED.value:
+            completed_count += 1
+        elif status in {
+            DocumentVisionPageResultStatus.INVALID_JSON.value,
+            DocumentVisionPageResultStatus.FAILED.value,
+            DocumentVisionPageResultStatus.PARTIAL.value,
+        }:
+            failure_count += 1
+
+        page_warnings = list(warnings)
+        if continuity_context_was_lost:
+            page_warnings.append(WARNING_CONTINUITY_CONTEXT_LOST_AFTER_PAGE_FAILURE)
+        page_warnings.append(f"RENDER_DIMENSIONS:{rendered_page.width_px}x{rendered_page.height_px}")
+        page_warnings.append(f"RENDER_IMAGE_BYTES:{rendered_page.image_bytes_size}")
+        page_warnings.append(f"RENDER_MS:{rendered_page.render_time_ms}")
+        page_warnings.append(f"RENDER_ZOOM:{rendered_page.render_zoom}")
+        if http_status is not None:
+            page_warnings.append(f"HTTP_STATUS:{http_status}")
+        page_warnings.extend(rendered_page.warnings)
+
+        if structured_json is not None:
+            structured_json["_vision_runtime"] = {
+                "task_type": VISION_TASK_STRUCTURE_SCOPE,
+                "page_number": rendered_page.page_number,
+                "render_ms": rendered_page.render_time_ms,
+                "image_dimensions": {
+                    "width": rendered_page.width_px,
+                    "height": rendered_page.height_px,
+                },
+                "image_bytes": rendered_page.image_bytes_size,
+                "render_zoom": rendered_page.render_zoom,
+                "ollama_inference_ms": processing_time_ms,
+                "http_status": http_status,
+                "schema_valid": status == DocumentVisionPageResultStatus.COMPLETED.value,
+            }
+            provider_meta = structured_json.get("_provider_response_meta")
+            if isinstance(provider_meta, dict):
+                structured_json["_vision_runtime"]["done_reason"] = provider_meta.get("done_reason")
+                structured_json["_vision_runtime"]["prompt_eval_count"] = provider_meta.get("prompt_eval_count")
+                structured_json["_vision_runtime"]["eval_count"] = provider_meta.get("eval_count")
+                structured_json["_vision_runtime"]["max_output_tokens"] = provider_meta.get("max_output_tokens")
+            if continuity_context_was_lost:
+                _mark_item_segments_for_review(structured_json)
+                structured_json["_continuity_state_quality"] = "UNKNOWN"
+            else:
+                structured_json["_continuity_state_quality"] = "VALID"
+            previous_page_context = _extract_previous_page_context(structured_json)
+            continuity_context_quality = "VALID"
+        else:
+            previous_page_context = None
+            continuity_context_quality = "UNKNOWN"
+
+        rendered_outputs.append(
+            {
+                "document_page_id": rendered_page.document_page_id,
+                "page_number": rendered_page.page_number,
+                "image_sha256": rendered_page.image_sha256,
+                "status": status,
+                "structured_json": structured_json,
+                "warnings": page_warnings,
+                "processing_time_ms": processing_time_ms,
+                "raw_response_text": raw_response_text,
+                "extracted_markdown": extracted_markdown,
+                "extracted_plain_text": extracted_plain_text,
+            }
+        )
+
+    with SessionLocal() as write_db:
+        analysis = write_db.scalar(
+            select(DocumentVisionAnalysis).where(
+                DocumentVisionAnalysis.document_id == document_id,
+                DocumentVisionAnalysis.model_name == client.model_name,
+                DocumentVisionAnalysis.prompt_version == VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+                DocumentVisionAnalysis.input_fingerprint_sha256 == input_fingerprint,
+            )
+        )
+
+        if analysis is not None and analysis.status == DocumentVisionAnalysisStatus.COMPLETED.value:
+            reusable = _analysis_has_usable_structure_for_pages(
+                write_db,
+                analysis=analysis,
+                page_numbers=normalized_page_numbers,
+            )
+            if reusable or not force_retry_on_unusable_structure:
+                return VisionAssistService(write_db, settings)._serialize_analysis(analysis, client.probe())
+
+        if analysis is None:
+            analysis = DocumentVisionAnalysis(
+                tender_id=tender_id,
+                document_id=document_id,
+                status=DocumentVisionAnalysisStatus.RUNNING.value,
+                mode=mode,
+                model_name=provider.configured_model,
+                prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+                input_fingerprint_sha256=input_fingerprint,
+                analyzed_at=datetime.now(timezone.utc),
+            )
+            write_db.add(analysis)
+            write_db.flush()
+        else:
+            analysis.status = DocumentVisionAnalysisStatus.RUNNING.value
+            analysis.mode = mode
+            analysis.model_name = provider.configured_model
+            analysis.analyzed_at = datetime.now(timezone.utc)
+            write_db.flush()
+
+        service = VisionAssistService(write_db, settings)
+        for item in rendered_outputs:
+            service._upsert_page_result(
+                analysis_id=analysis.id,
+                document_page_id=str(item["document_page_id"]),
+                page_number=int(item["page_number"]),
+                image_sha256=str(item["image_sha256"]),
+                status=str(item["status"]),
+                structured_json=item["structured_json"] if isinstance(item["structured_json"], dict) else None,
+                warnings=[str(warning) for warning in (item["warnings"] or [])],
+                processing_time_ms=int(item["processing_time_ms"]) if item["processing_time_ms"] is not None else None,
+                raw_response_text=str(item["raw_response_text"]) if item["raw_response_text"] is not None else None,
+                extracted_markdown=str(item["extracted_markdown"]) if item["extracted_markdown"] is not None else None,
+                extracted_plain_text=str(item["extracted_plain_text"]) if item["extracted_plain_text"] is not None else None,
+            )
+
+        if failure_count == 0:
+            analysis.status = DocumentVisionAnalysisStatus.COMPLETED.value
+        elif completed_count > 0:
+            analysis.status = DocumentVisionAnalysisStatus.PARTIAL.value
+        else:
+            analysis.status = DocumentVisionAnalysisStatus.FAILED.value
+        analysis.analyzed_at = datetime.now(timezone.utc)
+        write_db.commit()
+        return VisionAssistService(write_db, settings)._serialize_analysis(analysis, provider)
 
 
 def list_vision_document_results(db: Session, tender_id: str, document_id: str) -> VisionAssistResultsRead:
