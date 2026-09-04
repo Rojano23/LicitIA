@@ -83,6 +83,14 @@ def adapt_and_persist_scope_detail_artifact(
 
     candidates = list(selected_adapter.extract_candidates(db, artifact))
     if not candidates:
+        replace_scope_details_for_artifact(
+            db,
+            tender_id=artifact.tender_id,
+            source_document_id=artifact.source_document_id,
+            document_page_id=artifact.document_page_id,
+            source_artifact_key=artifact.source_artifact_key,
+            candidates=(),
+        )
         return ScopeDetailAdapterRunResult(
             source_artifact_key=artifact.source_artifact_key,
             adapter_name=selected_adapter.adapter_name,

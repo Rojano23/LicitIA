@@ -7,7 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.item_identity import normalize_item_identity
-from app.models import TenderScopeSegment
+from app.models import DocumentPageStructureResolution, TenderScopeSegment
 from app.scope_detail_adapters import ScopeDetailEvidenceArtifact
 from app.scope_details import (
     SCOPE_DETAIL_APPLICABILITY_ITEM,
@@ -40,7 +40,9 @@ class VisionScopeDetailAdapter:
         if payload is None:
             return False
         detail = payload.get("detail_transcription")
-        return isinstance(detail, dict)
+        if not isinstance(detail, dict):
+            return False
+        return str(detail.get("task_type") or "").upper() == VISION_DETAIL_TASK_TYPE
 
     def extract_candidates(self, db: Session, artifact: ScopeDetailEvidenceArtifact) -> Sequence[ScopeDetailCandidate]:
         payload = artifact.payload if isinstance(artifact.payload, dict) else None
@@ -81,16 +83,35 @@ class VisionScopeDetailAdapter:
             applicability = SCOPE_DETAIL_APPLICABILITY_ITEM
             review_required = bool(row.get("review_required"))
 
-            if owner.scope_segment_id is None and owner.tender_item_id is None and owner.candidate_item_key is None:
-                applicability = SCOPE_DETAIL_APPLICABILITY_UNRESOLVED
-                review_required = True
-
             source_locator = _resolve_source_locator(
                 artifact=artifact,
                 detail_meta=detail,
                 row=row,
                 row_index=row_index,
             )
+
+            if (
+                owner.scope_segment_id is None
+                and owner.tender_item_id is None
+                and owner.candidate_item_key is None
+                and not _has_explicit_ownership_anchor(row)
+                and _can_use_unique_structural_inheritance(
+                    context=ownership_context,
+                    source_locator=source_locator,
+                    artifact=artifact,
+                )
+            ):
+                inherited = ownership_context.unique_resolved_segment
+                if inherited is not None:
+                    owner = _OwnershipResolution(
+                        scope_segment_id=inherited.id,
+                        tender_item_id=inherited.tender_item_id,
+                        candidate_item_key=inherited.candidate_item_key,
+                    )
+
+            if owner.scope_segment_id is None and owner.tender_item_id is None and owner.candidate_item_key is None:
+                applicability = SCOPE_DETAIL_APPLICABILITY_UNRESOLVED
+                review_required = True
 
             candidates.append(
                 ScopeDetailCandidate(
@@ -127,10 +148,13 @@ class _OwnershipContext:
     by_segment_id: dict[str, TenderScopeSegment]
     by_tender_item_id: dict[str, TenderScopeSegment]
     by_candidate_key: dict[str, TenderScopeSegment]
+    page_resolution_status: str | None
+    page_resolution_review_required: bool | None
+    unique_resolved_segment: TenderScopeSegment | None
 
 
 def _load_ownership_context(db: Session, artifact: ScopeDetailEvidenceArtifact) -> _OwnershipContext:
-    rows = db.execute(
+    all_rows = db.execute(
         select(TenderScopeSegment)
         .where(
             TenderScopeSegment.tender_id == artifact.tender_id,
@@ -140,10 +164,22 @@ def _load_ownership_context(db: Session, artifact: ScopeDetailEvidenceArtifact) 
         .order_by(TenderScopeSegment.sequence_index.asc())
     ).scalars().all()
 
+    rows = all_rows
+
     if artifact.source_page_result_id is not None:
         exact = [row for row in rows if row.source_page_result_id == artifact.source_page_result_id]
         if exact:
             rows = exact
+
+    page_resolution = db.execute(
+        select(DocumentPageStructureResolution).where(
+            DocumentPageStructureResolution.document_page_id == artifact.document_page_id,
+            DocumentPageStructureResolution.source_document_id == artifact.source_document_id,
+        )
+    ).scalar_one_or_none()
+
+    non_review_segments = [segment for segment in all_rows if not bool(segment.review_required)]
+    unique_resolved_segment = non_review_segments[0] if len(non_review_segments) == 1 else None
 
     by_segment_id: dict[str, TenderScopeSegment] = {}
     by_tender_item_id: dict[str, TenderScopeSegment] = {}
@@ -160,6 +196,9 @@ def _load_ownership_context(db: Session, artifact: ScopeDetailEvidenceArtifact) 
         by_segment_id=by_segment_id,
         by_tender_item_id=by_tender_item_id,
         by_candidate_key=by_candidate_key,
+        page_resolution_status=page_resolution.status if page_resolution is not None else None,
+        page_resolution_review_required=page_resolution.review_required if page_resolution is not None else None,
+        unique_resolved_segment=unique_resolved_segment,
     )
 
 
@@ -259,6 +298,55 @@ def _resolve_ownership(context: _OwnershipContext, row: dict[str, Any]) -> _Owne
         tender_item_id=None,
         candidate_item_key=None,
     )
+
+
+def _has_explicit_ownership_anchor(row: dict[str, Any]) -> bool:
+    keys = (
+        "scope_segment_id",
+        "tender_item_id",
+        "candidate_item_key",
+        "item_number",
+        "partida",
+        "partida_numero",
+    )
+    return any(_optional_text(row.get(key)) is not None for key in keys)
+
+
+def _can_use_unique_structural_inheritance(
+    *,
+    context: _OwnershipContext,
+    source_locator: str,
+    artifact: ScopeDetailEvidenceArtifact,
+) -> bool:
+    if context.unique_resolved_segment is None:
+        return False
+    if context.page_resolution_status != "RESOLVED":
+        return False
+    if bool(context.page_resolution_review_required):
+        return False
+
+    segment = context.unique_resolved_segment
+    if bool(segment.review_required):
+        return False
+
+    row_page = _extract_page_from_locator(source_locator)
+    artifact_page = _extract_page_from_locator(artifact.source_locator or "")
+    if row_page is None or artifact_page is None:
+        return False
+
+    return row_page == artifact_page == segment.page_number
+
+
+def _extract_page_from_locator(locator: str) -> int | None:
+    for token in locator.split("|"):
+        candidate = token.strip()
+        if not candidate.startswith("page:"):
+            continue
+        raw_page = candidate.split(":", 1)[1].strip()
+        if raw_page.isdigit():
+            return int(raw_page)
+        return None
+    return None
 
 
 def _resolve_source_locator(
