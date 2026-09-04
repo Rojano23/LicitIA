@@ -741,6 +741,10 @@ class Tender(Base):
         back_populates="tender",
         cascade="all, delete-orphan",
     )
+    tender_scope_details: Mapped[list["TenderScopeDetail"]] = relationship(
+        back_populates="tender",
+        cascade="all, delete-orphan",
+    )
     scope_segments: Mapped[list["TenderScopeSegment"]] = relationship(
         back_populates="tender",
         cascade="all, delete-orphan",
@@ -935,6 +939,110 @@ class TenderItem(Base):
     source_document: Mapped[TenderDocument] = relationship(back_populates="tender_items")
     document_page: Mapped[DocumentPage | None] = relationship(foreign_keys=[document_page_id])
     normalized_content: Mapped[NormalizedContent | None] = relationship(foreign_keys=[normalized_content_id])
+    scope_details: Mapped[list["TenderScopeDetail"]] = relationship(
+        back_populates="tender_item",
+        cascade="all, delete-orphan",
+    )
+
+
+class TenderScopeDetail(Base):
+    __tablename__ = "tender_scope_details"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "source_document_id",
+            "source_artifact_key",
+            "semantic_fingerprint",
+            name="uq_tender_scope_details_artifact_fingerprint",
+        ),
+        Index("ix_tender_scope_details_tender_id", "tender_id"),
+        Index("ix_tender_scope_details_tender_item_id", "tender_item_id"),
+        Index("ix_tender_scope_details_source_document_id", "source_document_id"),
+        Index("ix_tender_scope_details_document_page_id", "document_page_id"),
+        Index("ix_tender_scope_details_scope_segment_id", "scope_segment_id"),
+        Index("ix_tender_scope_details_candidate_item_key", "candidate_item_key"),
+        Index("ix_tender_scope_details_domain", "domain"),
+        Index("ix_tender_scope_details_source_artifact_key", "source_artifact_key"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    tender_item_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("tender_items.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    scope_segment_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("tender_scope_segments.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    candidate_item_key: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    document_page_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_analysis_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_vision_analyses.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    source_page_result_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_vision_page_results.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    domain: Mapped[str] = mapped_column(String(32), nullable=False)
+    detail_type: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    normalized_label: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    applicability: Mapped[str] = mapped_column(String(32), nullable=False)
+    source_method: Mapped[str] = mapped_column(String(32), nullable=False)
+    source_artifact_key: Mapped[str] = mapped_column(String(255), nullable=False)
+    source_contract_version: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    source_locator: Mapped[str] = mapped_column(String(512), nullable=False)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False)
+    confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+    review_required: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    quantity_raw: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    unit_raw: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    semantic_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship(back_populates="tender_scope_details")
+    tender_item: Mapped[TenderItem | None] = relationship(back_populates="scope_details")
+    scope_segment: Mapped["TenderScopeSegment | None"] = relationship(back_populates="scope_details")
+    source_document: Mapped[TenderDocument] = relationship()
+    document_page: Mapped[DocumentPage] = relationship()
+    source_analysis: Mapped[DocumentVisionAnalysis | None] = relationship()
+    source_page_result: Mapped[DocumentVisionPageResult | None] = relationship()
 
 
 class TenderScopeSegment(Base):
@@ -1038,6 +1146,9 @@ class TenderScopeSegment(Base):
     source_page_result: Mapped[DocumentVisionPageResult | None] = relationship(
         "DocumentVisionPageResult",
         foreign_keys=[source_page_result_id],
+    )
+    scope_details: Mapped[list["TenderScopeDetail"]] = relationship(
+        back_populates="scope_segment",
     )
 
 
