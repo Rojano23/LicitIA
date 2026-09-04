@@ -118,13 +118,12 @@ def _canonical_references_from_candidate_map(
     ]
 
 
-def replace_tender_scope_segments_for_page_inputs(
-    db: Session,
+def resolve_scope_ownership_decisions_for_page_inputs(
     *,
     tender_id: str,
     page_inputs: list[TenderScopeSegmentInput],
     canonical_items: list[CanonicalTenderItemReference] | None = None,
-) -> list[TenderScopeSegment]:
+) -> list[ScopeOwnershipDecision]:
     if not page_inputs:
         return []
 
@@ -151,12 +150,6 @@ def replace_tender_scope_segments_for_page_inputs(
             warnings=page_input.page_state.warnings,
         )
 
-        _delete_active_scope_segments_for_page(
-            db,
-            tender_id=tender_id,
-            source_document_id=page_input.source_document_id,
-            document_page_id=page_input.document_page_id,
-        )
         linking_inputs.append(
             ScopeLinkingPageInput(
                 source_document_id=page_input.source_document_id,
@@ -164,6 +157,7 @@ def replace_tender_scope_segments_for_page_inputs(
                 page_state=effective_page_state,
             )
         )
+
     decisions = link_scope_ownership_decisions(
         tender_id=tender_id,
         page_inputs=linking_inputs,
@@ -189,6 +183,33 @@ def replace_tender_scope_segments_for_page_inputs(
         ordered_decisions.extend(
             sorted(decisions_by_page_key.get(page_key, []), key=lambda decision: decision.sequence_index)
         )
+
+    return ordered_decisions
+
+
+def replace_tender_scope_segments_for_page_inputs(
+    db: Session,
+    *,
+    tender_id: str,
+    page_inputs: list[TenderScopeSegmentInput],
+    canonical_items: list[CanonicalTenderItemReference] | None = None,
+) -> list[TenderScopeSegment]:
+    if not page_inputs:
+        return []
+
+    for page_input in page_inputs:
+        _delete_active_scope_segments_for_page(
+            db,
+            tender_id=tender_id,
+            source_document_id=page_input.source_document_id,
+            document_page_id=page_input.document_page_id,
+        )
+
+    ordered_decisions = resolve_scope_ownership_decisions_for_page_inputs(
+        tender_id=tender_id,
+        page_inputs=page_inputs,
+        canonical_items=canonical_items,
+    )
 
     return _persist_decisions(db, decisions=ordered_decisions)
 

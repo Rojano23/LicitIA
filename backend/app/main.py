@@ -2051,9 +2051,12 @@ def get_tender_document_scope_summary_endpoint(
     ).all()
 
     segments_by_page_id: dict[str, int] = {}
+    segment_review_pages: set[str] = set()
     ownership_groups: dict[str, dict[str, object]] = {}
     for row, canonical_item in scope_rows:
         segments_by_page_id[row.document_page_id] = segments_by_page_id.get(row.document_page_id, 0) + 1
+        if bool(row.review_required):
+            segment_review_pages.add(row.document_page_id)
 
         group_key = _build_scope_group_key(row)
         group = ownership_groups.get(group_key)
@@ -2109,13 +2112,14 @@ def get_tender_document_scope_summary_endpoint(
     resolved_count = 0
     needs_ocr_count = 0
     needs_vision_count = 0
-    review_required_count = 0
+    review_required_page_ids: set[str] = set()
 
     for page in document_pages:
         resolution = resolutions_by_page_id.get(page.id)
         has_resolution = resolution is not None
         status_value = resolution.status if resolution is not None else None
         review_required_value = bool(resolution.review_required) if resolution is not None else False
+        page_requires_review = status_value == "REVIEW_REQUIRED" or review_required_value or page.id in segment_review_pages
         scope_count = segments_by_page_id.get(page.id, 0)
 
         if status_value == "RESOLVED":
@@ -2124,8 +2128,8 @@ def get_tender_document_scope_summary_endpoint(
             needs_ocr_count += 1
         if status_value == "NEEDS_VISION":
             needs_vision_count += 1
-        if status_value == "REVIEW_REQUIRED" or review_required_value:
-            review_required_count += 1
+        if page_requires_review:
+            review_required_page_ids.add(page.id)
 
         page_resolutions.append(
             {
@@ -2134,7 +2138,7 @@ def get_tender_document_scope_summary_endpoint(
                 "has_resolution": has_resolution,
                 "status": status_value,
                 "selected_source_method": resolution.selected_source_method if resolution is not None else None,
-                "review_required": review_required_value,
+                "review_required": page_requires_review,
                 "reason": resolution.reason if resolution is not None else None,
                 "scope_segment_count": scope_count,
             }
@@ -2143,6 +2147,7 @@ def get_tender_document_scope_summary_endpoint(
     document_page_count = len(document_pages)
     structurally_analyzed_count = len(resolutions)
     not_analyzed_count = max(document_page_count - structurally_analyzed_count, 0)
+    review_required_count = len(review_required_page_ids)
 
     sorted_groups = sorted(
         ownership_groups.values(),

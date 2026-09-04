@@ -314,7 +314,7 @@ def test_scope_summary_raw_label_is_not_identity_for_canonical_groups() -> None:
     assert response.status_code == 200, response.text
     payload = response.json()
     keys = sorted(group["group_key"] for group in payload["ownership_groups"])
-    assert keys == [f"canonical:{item_a}", f"canonical:{item_b}"]
+    assert set(keys) == {f"canonical:{item_a}", f"canonical:{item_b}"}
 
 
 def test_scope_summary_all_physical_pages_are_returned_with_has_resolution() -> None:
@@ -704,3 +704,219 @@ def test_scope_summary_scoped_segment_count_matches_read_model() -> None:
     by_page = {row["page_number"]: row for row in rows}
     assert by_page[1]["scope_segment_count"] == 1
     assert by_page[2]["scope_segment_count"] == 1
+
+
+def test_scope_summary_segment_review_blocks_ready_and_marks_page_review() -> None:
+    tender_id = _create_tender("scope summary segment review safety", "SCOPE-SUM-014")
+    document_id = _import_pdf(tender_id, "scope-summary-segment-review-safety.pdf")
+
+    page_ids = [
+        _seed_page(document_id, 1, "P1"),
+        _seed_page(document_id, 2, "P2"),
+        _seed_page(document_id, 3, "P3"),
+        _seed_page(document_id, 4, "P4"),
+    ]
+
+    for page_number, page_id in enumerate(page_ids, start=1):
+        _insert_resolution(
+            document_id,
+            page_id,
+            page_number,
+            status="RESOLVED",
+            selected_source_method="VISION",
+            review_required=False,
+            reason="CONSISTENT_VALID_CANDIDATE",
+        )
+
+    _insert_scope_segment(
+        tender_id=tender_id,
+        document_id=document_id,
+        document_page_id=page_ids[0],
+        page_number=1,
+        sequence_index=0,
+        tender_item_id=None,
+        candidate_item_key="1",
+        candidate_item_raw_label="1",
+        link_reason="EXPLICIT_ITEM_START",
+        review_required=False,
+        source_locator="page:1|segment:0",
+        source_excerpt="P1 item1",
+    )
+    _insert_scope_segment(
+        tender_id=tender_id,
+        document_id=document_id,
+        document_page_id=page_ids[1],
+        page_number=2,
+        sequence_index=0,
+        tender_item_id=None,
+        candidate_item_key="1",
+        candidate_item_raw_label="1",
+        link_reason="CONTINUATION",
+        review_required=False,
+        source_locator="page:2|segment:0",
+        source_excerpt="P2 item1",
+    )
+    _insert_scope_segment(
+        tender_id=tender_id,
+        document_id=document_id,
+        document_page_id=page_ids[2],
+        page_number=3,
+        sequence_index=0,
+        tender_item_id=None,
+        candidate_item_key="2",
+        candidate_item_raw_label="2",
+        link_reason="CONTINUATION",
+        review_required=True,
+        source_locator="page:3|segment:0",
+        source_excerpt="P3 item2",
+    )
+    _insert_scope_segment(
+        tender_id=tender_id,
+        document_id=document_id,
+        document_page_id=page_ids[3],
+        page_number=4,
+        sequence_index=0,
+        tender_item_id=None,
+        candidate_item_key="2",
+        candidate_item_raw_label="2",
+        link_reason="CONTINUATION",
+        review_required=False,
+        source_locator="page:4|segment:0",
+        source_excerpt="P4 item2",
+    )
+
+    response = client.get(f"/tenders/{tender_id}/documents/{document_id}/scope-summary")
+
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    assert payload["summary_state"] == "REVIEW_REQUIRED"
+    assert payload["summary"]["review_required_count"] == 1
+    page_map = {row["page_number"]: row for row in payload["page_resolutions"]}
+    assert page_map[3]["review_required"] is True
+    assert page_map[1]["review_required"] is False
+    assert page_map[2]["review_required"] is False
+    assert page_map[4]["review_required"] is False
+
+
+def test_scope_summary_review_required_count_is_unique_per_page() -> None:
+    tender_id = _create_tender("scope summary review unique page", "SCOPE-SUM-015")
+    document_id = _import_pdf(tender_id, "scope-summary-review-unique-page.pdf")
+
+    page_ids = [
+        _seed_page(document_id, 1, "P1"),
+        _seed_page(document_id, 2, "P2"),
+        _seed_page(document_id, 3, "P3"),
+    ]
+
+    _insert_resolution(
+        document_id,
+        page_ids[0],
+        1,
+        status="RESOLVED",
+        selected_source_method="VISION",
+        review_required=False,
+        reason="CONSISTENT_VALID_CANDIDATE",
+    )
+    _insert_resolution(
+        document_id,
+        page_ids[1],
+        2,
+        status="RESOLVED",
+        selected_source_method="VISION",
+        review_required=True,
+        reason="DOCUMENT_CONTINUITY_CONFLICT",
+    )
+    _insert_resolution(
+        document_id,
+        page_ids[2],
+        3,
+        status="RESOLVED",
+        selected_source_method="VISION",
+        review_required=False,
+        reason="CONSISTENT_VALID_CANDIDATE",
+    )
+
+    _insert_scope_segment(
+        tender_id=tender_id,
+        document_id=document_id,
+        document_page_id=page_ids[1],
+        page_number=2,
+        sequence_index=0,
+        tender_item_id=None,
+        candidate_item_key="2",
+        candidate_item_raw_label="2",
+        link_reason="CONTINUATION",
+        review_required=True,
+        source_locator="page:2|segment:0",
+        source_excerpt="P2 item2",
+    )
+
+    response = client.get(f"/tenders/{tender_id}/documents/{document_id}/scope-summary")
+
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    assert payload["summary_state"] == "REVIEW_REQUIRED"
+    assert payload["summary"]["review_required_count"] == 1
+
+
+def test_scope_summary_ready_requires_no_page_or_segment_review() -> None:
+    tender_id = _create_tender("scope summary ready guard", "SCOPE-SUM-016")
+    document_id = _import_pdf(tender_id, "scope-summary-ready-guard.pdf")
+
+    page_one = _seed_page(document_id, 1, "P1")
+    page_two = _seed_page(document_id, 2, "P2")
+
+    _insert_resolution(
+        document_id,
+        page_one,
+        1,
+        status="RESOLVED",
+        selected_source_method="NATIVE_TEXT",
+        review_required=False,
+        reason="CONSISTENT_VALID_CANDIDATE",
+    )
+    _insert_resolution(
+        document_id,
+        page_two,
+        2,
+        status="RESOLVED",
+        selected_source_method="VISION",
+        review_required=False,
+        reason="CONSISTENT_VALID_CANDIDATE",
+    )
+
+    _insert_scope_segment(
+        tender_id=tender_id,
+        document_id=document_id,
+        document_page_id=page_one,
+        page_number=1,
+        sequence_index=0,
+        tender_item_id=None,
+        candidate_item_key="1",
+        candidate_item_raw_label="1",
+        link_reason="EXPLICIT_ITEM_START",
+        review_required=False,
+        source_locator="page:1|segment:0",
+        source_excerpt="P1",
+    )
+    _insert_scope_segment(
+        tender_id=tender_id,
+        document_id=document_id,
+        document_page_id=page_two,
+        page_number=2,
+        sequence_index=0,
+        tender_item_id=None,
+        candidate_item_key="1",
+        candidate_item_raw_label="1",
+        link_reason="CONTINUATION",
+        review_required=False,
+        source_locator="page:2|segment:0",
+        source_excerpt="P2",
+    )
+
+    response = client.get(f"/tenders/{tender_id}/documents/{document_id}/scope-summary")
+
+    assert response.status_code == 200, response.text
+    payload = response.json()
+    assert payload["summary_state"] == "READY"
+    assert payload["summary"]["review_required_count"] == 0

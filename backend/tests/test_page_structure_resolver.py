@@ -31,13 +31,14 @@ def _vision_payload(
     segments: list[dict[str, object]],
     open_item_at_page_end: str | None,
     continuity_quality: str = "VALID",
+    new_items: list[dict[str, object]] | None = None,
 ) -> dict[str, object]:
     return {
         "page_number": page_number,
         "continues_previous_item": continues_previous_item,
         "previous_item_number": previous_item_number,
         "item_segments": segments,
-        "new_items": [],
+        "new_items": new_items or [],
         "open_item_at_page_end": open_item_at_page_end,
         "uncertainties": [],
         "_continuity_state_quality": continuity_quality,
@@ -138,6 +139,43 @@ def test_vision_005_shared_page_candidate_is_valid() -> None:
     assert candidate.structural_quality == PAGE_STRUCTURE_VALID
     assert candidate.page_state is not None
     assert [segment.item_identity.normalized_key for segment in candidate.page_state.segments] == ["1", "2"]
+
+
+def test_vision_005_candidate_is_unknown_when_new_item_has_no_physical_segment() -> None:
+    candidate = structural_candidate_from_vision_005(
+        structured_json=_vision_payload(
+            page_number=2,
+            continues_previous_item=True,
+            previous_item_number="1",
+            segments=[
+                {
+                    "item_number": "1",
+                    "starts_on_this_page": False,
+                    "has_service": True,
+                    "has_supply": False,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "CONTINUA PARTIDA 1",
+                    "review_required": False,
+                }
+            ],
+            open_item_at_page_end="2",
+            new_items=[
+                {
+                    "item_number": "2",
+                    "concept_raw_text": "PARTIDA 2",
+                    "review_required": False,
+                }
+            ],
+        ),
+        page_number=2,
+        source_analysis_id="vision-analysis-1",
+        source_page_result_id="vision-page-2",
+    )
+
+    assert candidate.structural_quality == PAGE_STRUCTURE_UNKNOWN
+    assert candidate.page_state is not None
+    assert candidate.page_state.warnings.count("NEW_ITEM_WITHOUT_PHYSICAL_SEGMENT") == 1
+    assert [segment.item_identity.normalized_key for segment in candidate.page_state.segments] == ["1"]
 
 
 def test_resolver_uses_native_when_valid_and_no_conflict() -> None:

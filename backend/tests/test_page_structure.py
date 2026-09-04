@@ -14,13 +14,21 @@ from app.page_structure import (
 )
 
 
-def _vision_005_page(page_number: int, previous_item_number: str | None, item_segments: list[dict[str, object]], open_item_at_page_end: str | None, continuity_quality: str = "VALID", continues_previous_item: bool = False) -> dict[str, object]:
+def _vision_005_page(
+    page_number: int,
+    previous_item_number: str | None,
+    item_segments: list[dict[str, object]],
+    open_item_at_page_end: str | None,
+    continuity_quality: str = "VALID",
+    continues_previous_item: bool = False,
+    new_items: list[dict[str, object]] | None = None,
+) -> dict[str, object]:
     return {
         "page_number": page_number,
         "continues_previous_item": continues_previous_item,
         "previous_item_number": previous_item_number,
         "item_segments": item_segments,
-        "new_items": [],
+        "new_items": new_items or [],
         "open_item_at_page_end": open_item_at_page_end,
         "uncertainties": [],
         "_continuity_state_quality": continuity_quality,
@@ -155,6 +163,82 @@ def test_vision_005_shared_page_preserves_two_item_ownerships() -> None:
     assert [segment.item_identity.normalized_key for segment in state.segments] == ["1", "2"]
     assert [segment.starts_on_this_page for segment in state.segments] == [False, True]
     assert state.state_quality == PAGE_STRUCTURE_VALID
+
+
+def test_vision_005_new_item_without_physical_start_segment_fails_closed() -> None:
+    state = adapt_structure_scope_005_page(
+        _vision_005_page(
+            2,
+            "1",
+            [
+                {
+                    "item_number": "1",
+                    "starts_on_this_page": False,
+                    "has_service": True,
+                    "has_supply": False,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "CONTINUA PARTIDA 1 EN SITIO",
+                    "review_required": False,
+                }
+            ],
+            "2",
+            continues_previous_item=True,
+            new_items=[
+                {
+                    "item_number": "2",
+                    "concept_raw_text": "PARTIDA 2",
+                    "review_required": False,
+                }
+            ],
+        ),
+    )
+
+    assert state.state_quality == PAGE_STRUCTURE_UNKNOWN
+    assert state.review_required is True
+    assert state.warnings.count("NEW_ITEM_WITHOUT_PHYSICAL_SEGMENT") == 1
+    assert [segment.item_identity.normalized_key for segment in state.segments] == ["1"]
+
+
+def test_vision_005_new_item_with_physical_start_segment_is_valid() -> None:
+    state = adapt_structure_scope_005_page(
+        _vision_005_page(
+            2,
+            "1",
+            [
+                {
+                    "item_number": "1",
+                    "starts_on_this_page": False,
+                    "has_service": True,
+                    "has_supply": False,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "CONTINUA PARTIDA 1 EN SITIO",
+                    "review_required": False,
+                },
+                {
+                    "item_number": "2",
+                    "starts_on_this_page": True,
+                    "has_service": True,
+                    "has_supply": False,
+                    "has_deliverable": False,
+                    "anchor_raw_text": "PARTIDA 2 MANTENIMIENTO CENTUM ASFALTOS",
+                    "review_required": False,
+                },
+            ],
+            "2",
+            continues_previous_item=True,
+            new_items=[
+                {
+                    "item_number": "2",
+                    "concept_raw_text": "PARTIDA 2",
+                    "review_required": False,
+                }
+            ],
+        ),
+    )
+
+    assert state.state_quality == PAGE_STRUCTURE_VALID
+    assert state.warnings.count("NEW_ITEM_WITHOUT_PHYSICAL_SEGMENT") == 0
+    assert [segment.item_identity.normalized_key for segment in state.segments] == ["1", "2"]
 
 
 def test_vision_005_b4_progression_remains_consistent_across_pages() -> None:

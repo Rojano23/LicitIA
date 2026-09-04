@@ -3003,6 +3003,22 @@ def test_vision_assist_calls_ollama_once_per_page_in_sequence_and_passes_continu
     )
 
 
+def test_structure_scope_prompt_006_explicitly_requires_shared_page_physical_segments() -> None:
+    prompt = ollama_vision_module.OllamaVisionAssistClient._build_structure_scope_prompt(
+        page_number=2,
+        mode="ASSISTIVE_EXTRACTION",
+        previous_page_context={"open_item_number": "1"},
+    )
+
+    assert ollama_vision_module.VISION_STRUCTURE_SCOPE_PROMPT_VERSION.endswith("006")
+    assert "Every item declared in new_items must have a physical item_segments entry" in prompt
+    assert "same item_number and starts_on_this_page=true" in prompt
+    assert "both item segments must be represented in the same response" in prompt
+    assert "must use starts_on_this_page=false" in prompt
+    assert "Return item_segments in physical reading order from top to bottom" in prompt
+    assert "Inspect the complete page from top to bottom" in prompt
+
+
 def test_vision_assist_derives_open_item_from_single_first_page_segment() -> None:
     structured = ollama_vision_module.OllamaVisionAssistClient._normalize_structured_json(
         page_number=1,

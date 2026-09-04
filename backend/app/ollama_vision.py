@@ -45,7 +45,12 @@ from app.schemas import (
 )
 
 VISION_ASSIST_MODEL_NAME = "qwen3-vl:4b-instruct"
-VISION_STRUCTURE_SCOPE_PROMPT_VERSION = "vision-structure-scope-2026-09-01-005"
+VISION_STRUCTURE_SCOPE_PROMPT_VERSION = "vision-structure-scope-2026-09-03-006"
+VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS = "vision-structure-scope-2026-09-01-005"
+VISION_STRUCTURE_SCOPE_COMPATIBLE_PROMPT_VERSIONS = (
+    VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+    VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+)
 VISION_DETAIL_TRANSCRIPTION_PROMPT_VERSION = "vision-detail-transcription-2026-08-31-001"
 VISION_TASK_STRUCTURE_SCOPE = "STRUCTURE_SCOPE"
 VISION_TASK_DETAIL_TRANSCRIPTION = "DETAIL_TRANSCRIPTION"
@@ -220,11 +225,23 @@ class OllamaVisionAssistClient:
             "Never invent missing information. Use null when uncertain. "
             "Do not infer values from neighboring columns or nearby rows without visual support on this page. "
             "The page may begin as a continuation of a previous partida. "
+            "Previous continuity context is a hint, not a command to assign the full page to one item. "
+            "Inspect the complete page from top to bottom even after detecting continuation at the top. "
             "Return item ownership segments, not semantic rows. "
             "An item segment means a contiguous area of the page belonging to one Tender Item or PARTIDA. "
             "An item segment is not an equipment row, one activity, one bullet, or one table row. "
+            "A single page may contain multiple item ownership segments. "
             "If the page starts by continuing the previous item and later shows a new numbered PARTIDA, both item segments must be represented in the same response. "
+            "When continuation context says the open item is K and top content belongs to K, that segment must use starts_on_this_page=false. "
+            "Do not mark the continuation segment as a new start. "
+            "Every item declared in new_items must have a physical item_segments entry on the same page with the same item_number and starts_on_this_page=true. "
+            "The shape with continuation item segment only plus new_items for another item is invalid and must not be returned. "
+            "new_items is semantic discovery metadata; item_segments is physical ownership evidence. They must agree. "
+            "If a segment starts_on_this_page=true for a numbered new item, include that item in new_items. "
+            "Do not add a continuation-only item to new_items merely because it appears on the page. "
+            "open_item_at_page_end is the item owning final scope content at the bottom of the page and never substitutes for a missing physical segment. "
             "If several consecutive rows belong to the same item area, return one item segment for that contiguous area. "
+            "Return item_segments in physical reading order from top to bottom. "
             "Rows with supply signals such as MARCA, MODELO, PIEZA/PIEZAS, suministro, module or equipment descriptions should set has_supply=true on that item segment, not become separate entries. "
             "anchor_raw_text must contain at most approximately 8 to 15 visible words. Do not transcribe the section body. "
             "Return only valid JSON and no markdown fences. "
@@ -1812,6 +1829,7 @@ def analyze_vision_document_structure_only_isolated(
     page_numbers: list[int],
     mode: str = "ASSISTIVE_EXTRACTION",
     force_retry_on_unusable_structure: bool = True,
+    previous_open_item_key: str | None = None,
 ) -> VisionAssistAnalysisRead:
     settings = get_settings()
     client = OllamaVisionAssistClient(settings)
@@ -1859,7 +1877,7 @@ def analyze_vision_document_structure_only_isolated(
         mode=mode,
         rendered_pages=rendered_pages,
         task_type=VISION_TASK_STRUCTURE_SCOPE,
-        task_region_id=None,
+        task_region_id=(f"PREVIOUS_OPEN_ITEM_KEY:{previous_open_item_key}" if previous_open_item_key else None),
     )
 
     with SessionLocal() as check_db:
@@ -1885,7 +1903,9 @@ def analyze_vision_document_structure_only_isolated(
     rendered_outputs: list[dict[str, Any]] = []
     completed_count = 0
     failure_count = 0
-    previous_page_context: dict[str, Any] | None = None
+    previous_page_context: dict[str, Any] | None = (
+        {"open_item_number": str(previous_open_item_key)} if previous_open_item_key is not None else None
+    )
     continuity_context_quality = "VALID"
 
     for rendered_page in rendered_pages:

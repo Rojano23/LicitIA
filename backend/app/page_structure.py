@@ -73,6 +73,21 @@ def _normalized_key_or_none(raw_value: Any) -> str | None:
     return identity.normalized_key
 
 
+def _normalized_new_item_keys(structured_json: Mapping[str, Any]) -> set[str]:
+    raw_new_items = structured_json.get("new_items")
+    if not isinstance(raw_new_items, list):
+        return set()
+
+    new_item_keys: set[str] = set()
+    for raw_item in raw_new_items:
+        if not isinstance(raw_item, Mapping):
+            continue
+        normalized_key = _normalized_key_or_none(raw_item.get("item_number"))
+        if normalized_key is not None:
+            new_item_keys.add(normalized_key)
+    return new_item_keys
+
+
 def build_page_structural_state(
     *,
     page_number: int,
@@ -165,10 +180,27 @@ def adapt_structure_scope_005_page(
         )
         segments.append(segment)
 
+    # Structural completeness invariant: semantic new-items must have a physical
+    # segment proving where the item starts on this page.
+    new_item_keys = _normalized_new_item_keys(structured_json)
+    started_segment_keys = {
+        segment.item_identity.normalized_key
+        for segment in segments
+        if segment.item_identity.normalized_key is not None and bool(segment.starts_on_this_page)
+    }
+    missing_new_item_segment_keys = sorted(new_item_keys - started_segment_keys)
+    if missing_new_item_segment_keys:
+        warnings.append("NEW_ITEM_WITHOUT_PHYSICAL_SEGMENT")
+
     state_quality = PAGE_STRUCTURE_VALID
     incoming_item_key: str | None = None
 
-    if continuity_quality != PAGE_STRUCTURE_VALID or not segments or unknown_identity_count > 0:
+    if (
+        continuity_quality != PAGE_STRUCTURE_VALID
+        or not segments
+        or unknown_identity_count > 0
+        or bool(missing_new_item_segment_keys)
+    ):
         state_quality = PAGE_STRUCTURE_UNKNOWN
         warnings.append("STRUCTURAL_STATE_UNRESOLVED")
         outgoing_item_key = None

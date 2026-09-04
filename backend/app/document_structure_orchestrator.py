@@ -24,11 +24,16 @@ from app.models import (
 from app.content_normalization import process_document_normalization
 from app.database import SessionLocal
 from app.main import AUTO_OCR_PROVIDER_ORDER, _resolve_document_file_path, get_ocr_providers
-from app.ollama_vision import VISION_STRUCTURE_SCOPE_PROMPT_VERSION
+from app.ollama_vision import (
+    VISION_STRUCTURE_SCOPE_COMPATIBLE_PROMPT_VERSIONS,
+    VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+    VISION_TASK_STRUCTURE_SCOPE,
+)
 from app.ollama_vision import analyze_vision_document_structure_only_isolated
 from app.page_structure import (
     PAGE_STRUCTURE_SOURCE_METHOD_NATIVE_TEXT,
     PAGE_STRUCTURE_UNKNOWN,
+    PAGE_STRUCTURE_VALID,
     PAGE_STRUCTURE_SOURCE_METHOD_VISION,
     PageStructuralProvenance,
     build_page_structural_state,
@@ -45,12 +50,18 @@ from app.page_structure_resolver import (
     structural_candidate_from_vision_005,
 )
 from app.scope_linking import CanonicalTenderItemReference
-from app.scope_segments import TenderScopeSegmentInput, replace_tender_scope_segments_for_page_inputs
+from app.scope_linking import CONTINUITY_NOTE_MISMATCH_RESET
+from app.scope_segments import (
+    TenderScopeSegmentInput,
+    replace_tender_scope_segments_for_page_inputs,
+    resolve_scope_ownership_decisions_for_page_inputs,
+)
 
 EXECUTION_POLICY_AVAILABLE_ONLY = "AVAILABLE_ONLY"
 EXECUTION_POLICY_ALLOW_OCR = "ALLOW_OCR"
 EXECUTION_POLICY_AUTO = "AUTO"
 STRUCTURE_RESOLVER_VERSION = "mvp-06.2.5b1-available-only-v1"
+DOCUMENT_CONTINUITY_CONFLICT_REASON = "DOCUMENT_CONTINUITY_CONFLICT"
 
 
 @dataclass(frozen=True, slots=True)
@@ -69,6 +80,7 @@ class VisionStructureAcquisitionRequest:
     document_id: str
     document_page_id: str
     page_number: int
+    previous_open_item_key: str | None = None
 
 
 OcrExecutor = Callable[[OcrAcquisitionRequest], None]
@@ -266,12 +278,36 @@ def _materialize_ocr_candidates(page: DocumentPage) -> tuple[list[StructuralCand
 
 
 def _materialize_vision_candidate(db: Session, *, document_id: str, document_page_id: str, page_number: int) -> tuple[StructuralCandidate | None, tuple[str, ...]]:
+    def _is_reusable_structural_runtime(structured_json: dict) -> bool:
+        runtime = structured_json.get("_vision_runtime")
+        if not isinstance(runtime, dict):
+            return True
+
+        if str(runtime.get("task_type") or "") != VISION_TASK_STRUCTURE_SCOPE:
+            return False
+
+        if runtime.get("structure_schema_valid") is not None:
+            return bool(runtime.get("structure_schema_valid"))
+
+        schema_valid = runtime.get("schema_valid")
+        if schema_valid is not False:
+            return True
+
+        # Historical payloads used `schema_valid` as a page-level flag and can be
+        # false when only the detail-transcription task failed. Keep those reusable
+        # when detail runtime is explicitly present and non-completed.
+        detail_runtime = structured_json.get("_detail_runtime")
+        if isinstance(detail_runtime, dict) and str(detail_runtime.get("status") or "") != "COMPLETED":
+            return True
+
+        return False
+
     statement = (
         select(DocumentVisionAnalysis, DocumentVisionPageResult)
         .join(DocumentVisionPageResult, DocumentVisionPageResult.analysis_id == DocumentVisionAnalysis.id)
         .where(
             DocumentVisionAnalysis.document_id == document_id,
-            DocumentVisionAnalysis.prompt_version == VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+            DocumentVisionAnalysis.prompt_version.in_(VISION_STRUCTURE_SCOPE_COMPATIBLE_PROMPT_VERSIONS),
             DocumentVisionAnalysis.status.in_(("COMPLETED", "PARTIAL")),
             DocumentVisionPageResult.document_page_id == document_page_id,
             DocumentVisionPageResult.page_number == page_number,
@@ -281,9 +317,12 @@ def _materialize_vision_candidate(db: Session, *, document_id: str, document_pag
     )
 
     rows = db.execute(statement).all()
+    fallback: tuple[StructuralCandidate, tuple[str, ...]] | None = None
     for analysis, page_result in rows:
         structured_json = page_result.structured_json
         if not isinstance(structured_json, dict):
+            continue
+        if not _is_reusable_structural_runtime(structured_json):
             continue
         candidate = structural_candidate_from_vision_005(
             structured_json=structured_json,
@@ -304,7 +343,13 @@ def _materialize_vision_candidate(db: Session, *, document_id: str, document_pag
                 ]
             ),
         )
-        return candidate, fingerprint
+        if analysis.prompt_version == VISION_STRUCTURE_SCOPE_PROMPT_VERSION:
+            return candidate, fingerprint
+        if fallback is None:
+            fallback = (candidate, fingerprint)
+
+    if fallback is not None:
+        return fallback
 
     return None, ()
 
@@ -436,6 +481,45 @@ def _load_canonical_items(db: Session, tender_id: str) -> list[CanonicalTenderIt
     ]
 
 
+def _reconcile_continuity_conflicts_on_page_resolutions(
+    db: Session,
+    *,
+    tender_id: str,
+    document_id: str,
+    page_inputs: list[TenderScopeSegmentInput],
+    canonical_items: list[CanonicalTenderItemReference],
+) -> set[str]:
+    db.flush()
+
+    decisions = resolve_scope_ownership_decisions_for_page_inputs(
+        tender_id=tender_id,
+        page_inputs=page_inputs,
+        canonical_items=canonical_items,
+    )
+    conflicted_page_ids = {
+        decision.document_page_id
+        for decision in decisions
+        if decision.continuity_note == CONTINUITY_NOTE_MISMATCH_RESET
+    }
+
+    if not conflicted_page_ids:
+        return set()
+
+    rows = db.execute(
+        select(DocumentPageStructureResolution).where(
+            DocumentPageStructureResolution.source_document_id == document_id,
+            DocumentPageStructureResolution.document_page_id.in_(tuple(conflicted_page_ids)),
+        )
+    ).scalars().all()
+
+    for row in rows:
+        row.review_required = True
+        if row.status == "RESOLVED" or not row.reason:
+            row.reason = DOCUMENT_CONTINUITY_CONFLICT_REASON
+
+    return {row.document_page_id for row in rows}
+
+
 def _policy_allows_ocr(execution_policy: str) -> bool:
     return execution_policy in {EXECUTION_POLICY_ALLOW_OCR, EXECUTION_POLICY_AUTO}
 
@@ -539,7 +623,31 @@ def _default_vision_executor(request: VisionStructureAcquisitionRequest) -> None
         page_numbers=[request.page_number],
         mode="ASSISTIVE_EXTRACTION",
         force_retry_on_unusable_structure=True,
+        previous_open_item_key=request.previous_open_item_key,
     )
+
+
+def _previous_open_item_hint_for_page(
+    snapshots: list[_PageResolutionSnapshot],
+    *,
+    current_page_number: int,
+) -> str | None:
+    previous_page_number = current_page_number - 1
+    if previous_page_number < 1:
+        return None
+
+    previous_snapshot = next((snapshot for snapshot in snapshots if snapshot.page_number == previous_page_number), None)
+    if previous_snapshot is None:
+        return None
+
+    previous_resolution = previous_snapshot.resolution
+    previous_state = previous_resolution.resolved_state
+    if previous_resolution.status != "RESOLVED" or previous_state is None:
+        return None
+    if previous_state.state_quality != PAGE_STRUCTURE_VALID:
+        return None
+
+    return previous_state.outgoing_item_key
 
 
 def _build_ocr_execution_plan(request: OcrAcquisitionRequest) -> _OcrExecutionPlan:
@@ -812,6 +920,10 @@ def orchestrate_document_structure_available_only(
                 if not _policy_allows_vision(execution_policy) or attempted_vision:
                     break
                 attempted_vision = True
+                previous_open_item_key = _previous_open_item_hint_for_page(
+                    final_snapshots,
+                    current_page_number=final_page_number or 0,
+                )
                 try:
                     effective_vision_executor(
                         VisionStructureAcquisitionRequest(
@@ -819,6 +931,7 @@ def orchestrate_document_structure_available_only(
                             document_id=document_id,
                             document_page_id=page_id,
                             page_number=final_page_number or 0,
+                            previous_open_item_key=previous_open_item_key,
                         )
                     )
                 except Exception as exc:
@@ -929,6 +1042,37 @@ def orchestrate_document_structure_available_only(
             page_inputs=page_inputs,
             canonical_items=canonical_items,
         )
+
+        reconciled_page_ids = _reconcile_continuity_conflicts_on_page_resolutions(
+            write_db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page_inputs=page_inputs,
+            canonical_items=canonical_items,
+        )
+
+        if reconciled_page_ids:
+            updated_page_results: list[PageStructureOrchestrationResult] = []
+            for row in page_results:
+                if row.document_page_id not in reconciled_page_ids:
+                    updated_page_results.append(row)
+                    continue
+
+                updated_page_results.append(
+                    PageStructureOrchestrationResult(
+                        document_page_id=row.document_page_id,
+                        page_number=row.page_number,
+                        status=row.status,
+                        selected_source_method=row.selected_source_method,
+                        needs_provider=row.needs_provider,
+                        review_required=True,
+                        reason=DOCUMENT_CONTINUITY_CONFLICT_REASON if row.status == "RESOLVED" or not row.reason else row.reason,
+                        considered_methods=row.considered_methods,
+                        input_fingerprint_sha256=row.input_fingerprint_sha256,
+                    )
+                )
+            page_results = updated_page_results
+
         write_db.commit()
 
     return DocumentStructureOrchestrationResult(

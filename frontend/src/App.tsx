@@ -942,7 +942,6 @@ type ComplianceMatrix = {
     not_applicable_count: number;
     human_review_completion_percent: number;
     finding_counts: Record<string, number>;
-    operational_state_counts: Record<string, number>;
   };
   rows: ComplianceMatrixRow[];
 };
@@ -4222,32 +4221,20 @@ function App() {
               </div>
             </div>
 
-            {!tenderItemsLoading && !tenderItems && (
-              <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
-                Selecciona un documento técnico y ejecuta el análisis para detectar partidas.
-              </div>
-            )}
-
-            {tenderItems && (
-              <>
-                <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
-                  Motor {tenderItems.items_version} • Actualizado {new Date(tenderItems.generated_at).toLocaleString()}
-                </div>
-                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
-                  Total {tenderItems.summary.total_items} • Documentos {tenderItems.summary.documents_with_items} • Con número {tenderItems.summary.items_with_number} • Con cantidad {tenderItems.summary.items_with_quantity} • Con unidad {tenderItems.summary.items_with_unit}
-                </div>
-                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
-                  Partidas canónicas: {tenderItems.summary.total_items} • Alcance detectado: {scopeSummary?.summary.segments_count ?? 0} segmentos
-                </div>
-                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
-                  Sin localizador {tenderItems.summary.items_without_locator}
-                </div>
-
-                {tenderItemsWarnings.length > 0 && (
-                  <div style={{ marginTop: 6, fontSize: 12, color: "#7a4b00" }}>
-                    Advertencias: {tenderItemsWarnings.slice(0, 5).join(" • ")}
+            {selectedItemDocumentId && (
+              <div style={{ marginTop: 10, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#fff" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+                  <div>
+                    <strong>Alcance detectado por partida (fuente persistida)</strong>
+                    <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
+                      Estado {scopeSummary ? scopeSummaryStateLabel(scopeSummary.summary_state) : "Cargando resumen persistido..."}
+                      {scopeSummary ? ` • Motor ${scopeSummary.scope_summary_version} • Actualizado ${new Date(scopeSummary.generated_at).toLocaleString()}` : ""}
+                    </div>
                   </div>
-                )}
+                  <div style={{ fontSize: 12, color: "#334155" }}>
+                    Segmentos {scopeSummary?.summary.segments_count ?? 0} • Grupos {scopeSummary?.summary.groups_count ?? 0}
+                  </div>
+                </div>
 
                 {scopeSummaryLoading && (
                   <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
@@ -4262,19 +4249,7 @@ function App() {
                 )}
 
                 {scopeSummary && (
-                  <div style={{ marginTop: 10, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#fff" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
-                      <div>
-                        <strong>Alcance detectado por partida (fuente persistida)</strong>
-                        <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
-                          Estado {scopeSummaryStateLabel(scopeSummary.summary_state)} • Motor {scopeSummary.scope_summary_version} • Actualizado {new Date(scopeSummary.generated_at).toLocaleString()}
-                        </div>
-                      </div>
-                      <div style={{ fontSize: 12, color: "#334155" }}>
-                        Segmentos {scopeSummary.summary.segments_count} • Grupos {scopeSummary.summary.groups_count}
-                      </div>
-                    </div>
-
+                  <>
                     <div style={{ marginTop: 8, fontSize: 12, color: "#334155" }}>
                       {scopeSummary.summary.document_page_count} páginas del documento • {scopeSummary.summary.structurally_analyzed_count} analizadas • {scopeSummary.summary.resolved_count} resueltas • {scopeSummary.page_resolutions.filter((resolution) => !resolution.has_resolution || resolution.status === "NEEDS_OCR" || resolution.status === "NEEDS_VISION" || resolution.status === "REVIEW_REQUIRED" || resolution.review_required).length} requieren atención • {scopeSummary.summary.not_analyzed_count} aún no analizadas
                     </div>
@@ -4287,7 +4262,7 @@ function App() {
 
                     {scopeSummary.page_resolutions.filter((resolution) => !resolution.has_resolution || resolution.status === "NEEDS_OCR" || resolution.status === "NEEDS_VISION" || resolution.status === "REVIEW_REQUIRED" || resolution.review_required).length > 0 && (
                       <div style={{ marginTop: 10, border: "1px solid #fde68a", borderRadius: 8, padding: 10, background: "#fffbeb" }}>
-                        <div style={{ fontSize: 12, fontWeight: 700, color: "#92400e" }}>Páginas que requieren revisión</div>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: "#92400e" }}>Páginas que requieren atención</div>
                         <div style={{ marginTop: 6, display: "grid", gap: 4 }}>
                           {scopeSummary.page_resolutions
                             .filter((resolution) => !resolution.has_resolution || resolution.status === "NEEDS_OCR" || resolution.status === "NEEDS_VISION" || resolution.status === "REVIEW_REQUIRED" || resolution.review_required)
@@ -4382,10 +4357,39 @@ function App() {
                         ))}
                       </div>
                     ) : (
-                      <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
-                        No hay segmentos de alcance detectados para el documento seleccionado.
+                      <div style={{ marginTop: 12, fontSize: 12, color: "#52607a" }}>
+                        No hay partidas persistidas para este documento.
                       </div>
                     )}
+                  </>
+                )}
+              </div>
+            )}
+
+            {!tenderItemsLoading && !tenderItems && (
+              <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                Selecciona un documento técnico y ejecuta el análisis para detectar partidas.
+              </div>
+            )}
+
+            {tenderItems && (
+              <>
+                <div style={{ marginTop: 8, fontSize: 12, color: "#52607a" }}>
+                  Motor {tenderItems.items_version} • Actualizado {new Date(tenderItems.generated_at).toLocaleString()}
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                  Total {tenderItems.summary.total_items} • Documentos {tenderItems.summary.documents_with_items} • Con número {tenderItems.summary.items_with_number} • Con cantidad {tenderItems.summary.items_with_quantity} • Con unidad {tenderItems.summary.items_with_unit}
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                  Partidas canónicas: {tenderItems.summary.total_items} • Alcance detectado: {scopeSummary?.summary.segments_count ?? 0} segmentos
+                </div>
+                <div style={{ marginTop: 4, fontSize: 12, color: "#334155" }}>
+                  Sin localizador {tenderItems.summary.items_without_locator}
+                </div>
+
+                {tenderItemsWarnings.length > 0 && (
+                  <div style={{ marginTop: 6, fontSize: 12, color: "#7a4b00" }}>
+                    Advertencias: {tenderItemsWarnings.slice(0, 5).join(" • ")}
                   </div>
                 )}
 

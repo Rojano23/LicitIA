@@ -29,7 +29,10 @@ from app.models import (
     TenderItem,
     TenderScopeSegment,
 )
-from app.ollama_vision import VISION_STRUCTURE_SCOPE_PROMPT_VERSION
+from app.ollama_vision import (
+    VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+    VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+)
 from app.schemas import VisionProviderStatusRead
 from app.database import SessionLocal
 
@@ -233,6 +236,78 @@ def _vision_structured(page_number: int, item_number: str) -> dict:
         ],
         "_continuity_state_quality": "VALID",
     }
+
+
+def _vision_structured_continuation(page_number: int, *, previous_item_number: str, item_number: str) -> dict:
+    return {
+        "page_number": page_number,
+        "continues_previous_item": True,
+        "previous_item_number": previous_item_number,
+        "open_item_at_page_end": item_number,
+        "item_segments": [
+            {
+                "item_number": item_number,
+                "starts_on_this_page": False,
+                "anchor_raw_text": f"CONTINUA PARTIDA {item_number}",
+                "review_required": False,
+            }
+        ],
+        "new_items": [],
+        "_continuity_state_quality": "VALID",
+    }
+
+
+def _vision_structured_shared_page_complete(*, page_number: int = 2) -> dict:
+    return {
+        "page_number": page_number,
+        "continues_previous_item": True,
+        "previous_item_number": "1",
+        "open_item_at_page_end": "2",
+        "item_segments": [
+            {
+                "item_number": "1",
+                "starts_on_this_page": False,
+                "anchor_raw_text": "CONTINUA PARTIDA 1",
+                "review_required": False,
+            },
+            {
+                "item_number": "2",
+                "starts_on_this_page": True,
+                "anchor_raw_text": "PARTIDA 2",
+                "review_required": False,
+            },
+        ],
+        "new_items": [{"item_number": "2", "concept_raw_text": "PARTIDA 2", "review_required": False}],
+        "_continuity_state_quality": "VALID",
+    }
+
+
+def _vision_structured_shared_page_incomplete(*, page_number: int = 2) -> dict:
+    payload = {
+        "page_number": page_number,
+        "continues_previous_item": True,
+        "previous_item_number": "1",
+        "open_item_at_page_end": "2",
+        "item_segments": [
+            {
+                "item_number": "1",
+                "starts_on_this_page": False,
+                "anchor_raw_text": "CONTINUA PARTIDA 1",
+                "review_required": False,
+            }
+        ],
+        "new_items": [{"item_number": "2", "concept_raw_text": "PARTIDA 2", "review_required": False}],
+        "_continuity_state_quality": "VALID",
+    }
+    payload["_vision_runtime"] = {
+        "task_type": "STRUCTURE_SCOPE",
+        "schema_valid": False,
+    }
+    payload["_detail_runtime"] = {
+        "task_type": "DETAIL_TRANSCRIPTION",
+        "status": "FAILED",
+    }
+    return payload
 
 
 def test_native_resolved_persists_status_and_scope() -> None:
@@ -581,7 +656,7 @@ def test_allow_ocr_image_only_calls_ocr_once_and_never_vision() -> None:
 def test_text_only_unknown_auto_skips_ocr_and_requests_vision() -> None:
     tender_id = _create_tender("orchestrator auto text-only", "MVP-625B2-003")
     document_id = _import_pdf(tender_id, "orchestrator-auto-text-only.pdf")
-    calls: list[str] = []
+    calls: list[tuple[int, str | None]] = []
 
     db = SessionLocal()
 
@@ -589,7 +664,7 @@ def test_text_only_unknown_auto_skips_ocr_and_requests_vision() -> None:
         calls.append("ocr")
 
     def fake_vision(request) -> None:
-        calls.append(f"vision:{request.page_number}")
+        calls.append((request.page_number, request.previous_open_item_key))
         fake_db = SessionLocal()
         try:
             analysis = DocumentVisionAnalysis(
@@ -640,7 +715,7 @@ def test_text_only_unknown_auto_skips_ocr_and_requests_vision() -> None:
 
         assert result.page_results[0].status == "RESOLVED"
         assert result.page_results[0].selected_source_method == "VISION"
-        assert calls == ["vision:1"]
+        assert calls == [(1, None)]
     finally:
         db.close()
 
@@ -680,10 +755,10 @@ def test_persisted_ocr_valid_prevents_new_ocr_execution() -> None:
 def test_multipage_targets_only_unresolved_page_for_vision() -> None:
     tender_id = _create_tender("orchestrator multipage targeting", "MVP-625B2-005")
     document_id = _import_pdf(tender_id, "orchestrator-multipage-targeting.pdf")
-    calls: list[str] = []
+    calls: list[tuple[int, str | None]] = []
 
     def fake_vision(request) -> None:
-        calls.append(f"vision:{request.page_number}")
+        calls.append((request.page_number, request.previous_open_item_key))
         fake_db = SessionLocal()
         try:
             analysis = DocumentVisionAnalysis(
@@ -738,7 +813,538 @@ def test_multipage_targets_only_unresolved_page_for_vision() -> None:
         db.commit()
 
         assert len(result.page_results) == 2
-        assert calls == ["vision:2"]
+        assert calls == [(2, "1")]
+    finally:
+        db.close()
+
+
+def test_unknown_gap_breaks_continuity_hint_for_later_page_vision() -> None:
+    tender_id = _create_tender("orchestrator unknown gap hint", "MVP-627-002B")
+    document_id = _import_pdf(tender_id, "orchestrator-unknown-gap-hint.pdf")
+    calls: list[tuple[int, str | None]] = []
+
+    def fake_vision(request) -> None:
+        calls.append((request.page_number, request.previous_open_item_key))
+        fake_db = SessionLocal()
+        try:
+            analysis = DocumentVisionAnalysis(
+                tender_id=tender_id,
+                document_id=document_id,
+                status="COMPLETED",
+                mode="ASSISTIVE_EXTRACTION",
+                model_name="qwen-test",
+                prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+                input_fingerprint_sha256=hashlib.sha256(f"vision|{request.document_page_id}|gap".encode("utf-8")).hexdigest(),
+            )
+            fake_db.add(analysis)
+            fake_db.flush()
+            fake_db.add(
+                DocumentVisionPageResult(
+                    analysis_id=analysis.id,
+                    document_page_id=request.document_page_id,
+                    page_number=request.page_number,
+                    image_sha256=hashlib.sha256(f"img|{request.document_page_id}|gap".encode("utf-8")).hexdigest(),
+                    status="COMPLETED",
+                    raw_response_text=None,
+                    structured_json=_vision_structured(request.page_number, "2"),
+                    extracted_markdown=None,
+                    extracted_plain_text=None,
+                    warnings=[],
+                    processing_time_ms=5,
+                )
+            )
+            fake_db.commit()
+        finally:
+            fake_db.close()
+
+    db = SessionLocal()
+    try:
+        page1 = _create_page(db, document_id, 1, "PARTIDA 1\nServicio")
+        _add_native_normalized(db, page1, "PARTIDA 1\nServicio")
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page1, item_number="1")
+
+        page2 = _create_page(db, document_id, 2, "contenido ambiguo")
+        _add_native_normalized(db, page2, "contenido ambiguo")
+        _add_ocr_source(db, page2, engine="tesseract", text="PARTIDA 7\nServicio", scope="FULL_PAGE")
+        _add_ocr_source(db, page2, engine="paddleocr", text="PARTIDA 8\nServicio", scope="FULL_PAGE")
+
+        page3 = _create_page(db, document_id, 3, "contenido sin partida")
+        _add_native_normalized(db, page3, "contenido sin partida")
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page3, item_number="2")
+        db.commit()
+
+        result = orchestrate_document_structure_available_only(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            execution_policy=EXECUTION_POLICY_AUTO,
+            vision_executor=fake_vision,
+        )
+        db.commit()
+
+        page2_result = next(row for row in result.page_results if row.page_number == 2)
+        page3_result = next(row for row in result.page_results if row.page_number == 3)
+        assert page2_result.status == "REVIEW_REQUIRED"
+        assert page3_result.status == "RESOLVED"
+        assert calls == [(3, None)]
+    finally:
+        db.close()
+
+
+def test_available_only_incomplete_persisted_shared_page_vision_is_not_reused() -> None:
+    tender_id = _create_tender("orchestrator available-only incomplete shared", "MVP-627-001")
+    document_id = _import_pdf(tender_id, "orchestrator-available-only-incomplete-shared.pdf")
+
+    db = SessionLocal()
+    try:
+        page = _create_page(db, document_id, 2, "contenido ambiguo")
+        _add_native_normalized(db, page, "contenido ambiguo")
+        _add_ocr_source(db, page, engine="tesseract", text="CONTINUA PARTIDA 1", scope="FULL_PAGE")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page,
+            structured_json=_vision_structured_shared_page_incomplete(page_number=2),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+        )
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page, item_number="1")
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page, item_number="2")
+        db.commit()
+
+        result = orchestrate_document_structure_available_only(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            execution_policy=EXECUTION_POLICY_AVAILABLE_ONLY,
+        )
+        db.commit()
+
+        assert result.page_results[0].status == "NEEDS_VISION"
+        assert result.page_results[0].selected_source_method is None
+        assert result.scope_segments_persisted == 0
+    finally:
+        db.close()
+
+
+def test_auto_targets_only_page_2_when_persisted_shared_page_is_incomplete() -> None:
+    tender_id = _create_tender("orchestrator auto page2 only", "MVP-627-002")
+    document_id = _import_pdf(tender_id, "orchestrator-auto-page2-only.pdf")
+    calls: list[tuple[int, str | None]] = []
+
+    def fake_vision(request) -> None:
+        calls.append((request.page_number, request.previous_open_item_key))
+        fake_db = SessionLocal()
+        try:
+            analysis = DocumentVisionAnalysis(
+                tender_id=tender_id,
+                document_id=document_id,
+                status="COMPLETED",
+                mode="ASSISTIVE_EXTRACTION",
+                model_name="qwen-test",
+                prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+                input_fingerprint_sha256=hashlib.sha256(f"vision|{request.document_page_id}|{request.page_number}".encode("utf-8")).hexdigest(),
+            )
+            fake_db.add(analysis)
+            fake_db.flush()
+            structured = _vision_structured_shared_page_complete(page_number=request.page_number) if request.page_number == 2 else _vision_structured(request.page_number, "2")
+            fake_db.add(
+                DocumentVisionPageResult(
+                    analysis_id=analysis.id,
+                    document_page_id=request.document_page_id,
+                    page_number=request.page_number,
+                    image_sha256=hashlib.sha256(f"img|{request.document_page_id}|{request.page_number}".encode("utf-8")).hexdigest(),
+                    status="COMPLETED",
+                    raw_response_text=None,
+                    structured_json=structured,
+                    extracted_markdown=None,
+                    extracted_plain_text=None,
+                    warnings=[],
+                    processing_time_ms=5,
+                )
+            )
+            fake_db.commit()
+        finally:
+            fake_db.close()
+
+    db = SessionLocal()
+    try:
+        page1 = _create_page(db, document_id, 1, "PARTIDA 1\nServicio")
+        _add_native_normalized(db, page1, "PARTIDA 1\nServicio")
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page1, item_number="1")
+
+        page2 = _create_page(db, document_id, 2, "contenido ambiguo")
+        _add_native_normalized(db, page2, "contenido ambiguo")
+        _add_ocr_source(db, page2, engine="tesseract", text="CONTINUA PARTIDA 1", scope="FULL_PAGE")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page2,
+            structured_json=_vision_structured_shared_page_incomplete(page_number=2),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+
+        page3 = _create_page(db, document_id, 3, "texto ambiguo")
+        _add_native_normalized(db, page3, "texto ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page3,
+            structured_json=_vision_structured(3, "2"),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+
+        page4 = _create_page(db, document_id, 4, "texto ambiguo")
+        _add_native_normalized(db, page4, "texto ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page4,
+            structured_json=_vision_structured(4, "2"),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+
+        for page in (page2, page3, page4):
+            _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page, item_number="2")
+        db.commit()
+
+        result = orchestrate_document_structure_available_only(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            execution_policy=EXECUTION_POLICY_AUTO,
+            vision_executor=fake_vision,
+        )
+        db.commit()
+
+        assert len(result.page_results) == 4
+        assert calls == [(2, "1")]
+    finally:
+        db.close()
+
+
+def test_auto_recovery_from_page_2_incomplete_to_five_scope_segments() -> None:
+    tender_id = _create_tender("orchestrator auto recover b4", "MVP-627-003")
+    document_id = _import_pdf(tender_id, "orchestrator-auto-recover-b4.pdf")
+
+    def fake_vision(request) -> None:
+        assert request.page_number == 2
+        assert request.previous_open_item_key == "1"
+        fake_db = SessionLocal()
+        try:
+            analysis = DocumentVisionAnalysis(
+                tender_id=tender_id,
+                document_id=document_id,
+                status="COMPLETED",
+                mode="ASSISTIVE_EXTRACTION",
+                model_name="qwen-test",
+                prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+                input_fingerprint_sha256=hashlib.sha256(f"vision|recover|{request.document_page_id}".encode("utf-8")).hexdigest(),
+            )
+            fake_db.add(analysis)
+            fake_db.flush()
+            fake_db.add(
+                DocumentVisionPageResult(
+                    analysis_id=analysis.id,
+                    document_page_id=request.document_page_id,
+                    page_number=2,
+                    image_sha256=hashlib.sha256(f"img|recover|{request.document_page_id}".encode("utf-8")).hexdigest(),
+                    status="COMPLETED",
+                    raw_response_text=None,
+                    structured_json=_vision_structured_shared_page_complete(page_number=2),
+                    extracted_markdown=None,
+                    extracted_plain_text=None,
+                    warnings=[],
+                    processing_time_ms=5,
+                )
+            )
+            fake_db.commit()
+        finally:
+            fake_db.close()
+
+    db = SessionLocal()
+    try:
+        page1 = _create_page(db, document_id, 1, "contenido ambiguo")
+        _add_native_normalized(db, page1, "contenido ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page1,
+            structured_json=_vision_structured(1, "1"),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page1, item_number="1")
+
+        page2 = _create_page(db, document_id, 2, "contenido ambiguo")
+        _add_native_normalized(db, page2, "contenido ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page2,
+            structured_json=_vision_structured_shared_page_incomplete(page_number=2),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+
+        page3 = _create_page(db, document_id, 3, "contenido ambiguo")
+        _add_native_normalized(db, page3, "contenido ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page3,
+            structured_json={
+                "page_number": 3,
+                "continues_previous_item": True,
+                "previous_item_number": "2",
+                "open_item_at_page_end": "2",
+                "item_segments": [
+                    {
+                        "item_number": "2",
+                        "starts_on_this_page": False,
+                        "anchor_raw_text": "CONTINUA PARTIDA 2",
+                        "review_required": False,
+                    }
+                ],
+                "new_items": [],
+                "_continuity_state_quality": "VALID",
+            },
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+
+        page4 = _create_page(db, document_id, 4, "contenido ambiguo")
+        _add_native_normalized(db, page4, "contenido ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page4,
+            structured_json={
+                "page_number": 4,
+                "continues_previous_item": True,
+                "previous_item_number": "2",
+                "open_item_at_page_end": "2",
+                "item_segments": [
+                    {
+                        "item_number": "2",
+                        "starts_on_this_page": False,
+                        "anchor_raw_text": "CONTINUA PARTIDA 2",
+                        "review_required": False,
+                    }
+                ],
+                "new_items": [],
+                "_continuity_state_quality": "VALID",
+            },
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+
+        for page in (page2, page3, page4):
+            _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page, item_number="2")
+        db.commit()
+
+        result = orchestrate_document_structure_available_only(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            execution_policy=EXECUTION_POLICY_AUTO,
+            vision_executor=fake_vision,
+        )
+        db.commit()
+
+        assert len(result.page_results) == 4
+        assert all(row.status == "RESOLVED" for row in result.page_results)
+        assert result.scope_segments_persisted == 5
+
+        segments = db.execute(
+            select(TenderScopeSegment)
+            .where(TenderScopeSegment.source_document_id == document_id)
+            .order_by(TenderScopeSegment.page_number.asc(), TenderScopeSegment.sequence_index.asc())
+        ).scalars().all()
+
+        assert [(row.page_number, row.sequence_index, row.candidate_item_key, row.link_reason) for row in segments] == [
+            (1, 0, "1", "EXPLICIT_ITEM_START"),
+            (2, 0, "1", "CONTINUATION"),
+            (2, 1, "2", "EXPLICIT_ITEM_START"),
+            (3, 0, "2", "CONTINUATION"),
+            (4, 0, "2", "CONTINUATION"),
+        ]
+    finally:
+        db.close()
+
+
+def test_auto_fail_closed_when_page_2_remains_incomplete_after_retry() -> None:
+    tender_id = _create_tender("orchestrator auto fail closed b4", "MVP-627-004")
+    document_id = _import_pdf(tender_id, "orchestrator-auto-fail-closed-b4.pdf")
+
+    def fake_vision(request) -> None:
+        assert request.page_number == 2
+        assert request.previous_open_item_key == "1"
+        fake_db = SessionLocal()
+        try:
+            analysis = DocumentVisionAnalysis(
+                tender_id=tender_id,
+                document_id=document_id,
+                status="COMPLETED",
+                mode="ASSISTIVE_EXTRACTION",
+                model_name="qwen-test",
+                prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+                input_fingerprint_sha256=hashlib.sha256(f"vision|failclosed|{request.document_page_id}".encode("utf-8")).hexdigest(),
+            )
+            fake_db.add(analysis)
+            fake_db.flush()
+            fake_db.add(
+                DocumentVisionPageResult(
+                    analysis_id=analysis.id,
+                    document_page_id=request.document_page_id,
+                    page_number=2,
+                    image_sha256=hashlib.sha256(f"img|failclosed|{request.document_page_id}".encode("utf-8")).hexdigest(),
+                    status="PARTIAL",
+                    raw_response_text=None,
+                    structured_json=_vision_structured_shared_page_incomplete(page_number=2),
+                    extracted_markdown=None,
+                    extracted_plain_text=None,
+                    warnings=[],
+                    processing_time_ms=5,
+                )
+            )
+            fake_db.commit()
+        finally:
+            fake_db.close()
+
+    db = SessionLocal()
+    try:
+        page1 = _create_page(db, document_id, 1, "contenido ambiguo")
+        _add_native_normalized(db, page1, "contenido ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page1,
+            structured_json=_vision_structured(1, "1"),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page1, item_number="1")
+
+        page2 = _create_page(db, document_id, 2, "contenido ambiguo")
+        _add_native_normalized(db, page2, "contenido ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page2,
+            structured_json=_vision_structured_shared_page_incomplete(page_number=2),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+
+        page3 = _create_page(db, document_id, 3, "contenido ambiguo")
+        _add_native_normalized(db, page3, "contenido ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page3,
+            structured_json={
+                "page_number": 3,
+                "continues_previous_item": True,
+                "previous_item_number": "2",
+                "open_item_at_page_end": "2",
+                "item_segments": [
+                    {
+                        "item_number": "2",
+                        "starts_on_this_page": False,
+                        "anchor_raw_text": "CONTINUA PARTIDA 2",
+                        "review_required": False,
+                    }
+                ],
+                "new_items": [],
+                "_continuity_state_quality": "VALID",
+            },
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+
+        page4 = _create_page(db, document_id, 4, "contenido ambiguo")
+        _add_native_normalized(db, page4, "contenido ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page4,
+            structured_json={
+                "page_number": 4,
+                "continues_previous_item": True,
+                "previous_item_number": "2",
+                "open_item_at_page_end": "2",
+                "item_segments": [
+                    {
+                        "item_number": "2",
+                        "starts_on_this_page": False,
+                        "anchor_raw_text": "CONTINUA PARTIDA 2",
+                        "review_required": False,
+                    }
+                ],
+                "new_items": [],
+                "_continuity_state_quality": "VALID",
+            },
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+
+        for page in (page2, page3, page4):
+            _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page, item_number="2")
+        db.commit()
+
+        result = orchestrate_document_structure_available_only(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            execution_policy=EXECUTION_POLICY_AUTO,
+            vision_executor=fake_vision,
+        )
+        db.commit()
+
+        page2_result = next(row for row in result.page_results if row.page_number == 2)
+        assert page2_result.status == "REVIEW_REQUIRED"
+        assert page2_result.selected_source_method is None
+        assert page2_result.reason == "ALL_CANDIDATES_UNKNOWN_AFTER_VISION"
+
+        segments = db.execute(
+            select(TenderScopeSegment)
+            .where(TenderScopeSegment.source_document_id == document_id)
+            .order_by(TenderScopeSegment.page_number.asc(), TenderScopeSegment.sequence_index.asc())
+        ).scalars().all()
+
+        assert [(row.page_number, row.sequence_index, row.candidate_item_key) for row in segments] == [
+            (1, 0, "1"),
+            (3, 0, "2"),
+            (4, 0, "2"),
+        ]
+        assert result.scope_segments_persisted == 3
     finally:
         db.close()
 
@@ -780,6 +1386,156 @@ def test_auto_marks_review_required_when_vision_executor_fails() -> None:
             select(func.count(TenderScopeSegment.id)).where(TenderScopeSegment.source_document_id == document_id)
         ).scalar_one()
         assert scope_count == 0
+    finally:
+        db.close()
+
+
+def test_post_link_continuity_conflict_marks_resolved_page_review_required() -> None:
+    tender_id = _create_tender("orchestrator continuity reconcile", "MVP-627-RECON-001")
+    document_id = _import_pdf(tender_id, "orchestrator-continuity-reconcile.pdf")
+
+    db = SessionLocal()
+    try:
+        page1 = _create_page(db, document_id, 1, "texto ambiguo")
+        _add_native_normalized(db, page1, "texto ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page1,
+            structured_json=_vision_structured(1, "1"),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page1, item_number="1")
+
+        page2 = _create_page(db, document_id, 2, "texto ambiguo")
+        _add_native_normalized(db, page2, "texto ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page2,
+            structured_json=_vision_structured_continuation(2, previous_item_number="1", item_number="1"),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page2, item_number="1")
+
+        page3 = _create_page(db, document_id, 3, "texto ambiguo")
+        _add_native_normalized(db, page3, "texto ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page3,
+            structured_json=_vision_structured_continuation(3, previous_item_number="2", item_number="2"),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page3, item_number="2")
+        db.commit()
+
+        result = orchestrate_document_structure_available_only(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            execution_policy=EXECUTION_POLICY_AVAILABLE_ONLY,
+        )
+        db.commit()
+
+        page3_result = next(row for row in result.page_results if row.page_number == 3)
+        assert page3_result.status == "RESOLVED"
+        assert page3_result.selected_source_method == "VISION"
+        assert page3_result.review_required is True
+        assert page3_result.reason == "DOCUMENT_CONTINUITY_CONFLICT"
+
+        page3_resolution = db.scalar(
+            select(DocumentPageStructureResolution).where(DocumentPageStructureResolution.document_page_id == page3.id)
+        )
+        assert page3_resolution is not None
+        assert page3_resolution.status == "RESOLVED"
+        assert page3_resolution.review_required is True
+        assert page3_resolution.reason == "DOCUMENT_CONTINUITY_CONFLICT"
+
+        segments = db.execute(
+            select(TenderScopeSegment)
+            .where(TenderScopeSegment.source_document_id == document_id)
+            .order_by(TenderScopeSegment.page_number.asc(), TenderScopeSegment.sequence_index.asc())
+        ).scalars().all()
+        assert len(segments) == 3
+        assert [(row.page_number, row.sequence_index, row.candidate_item_key, row.link_reason) for row in segments] == [
+            (1, 0, "1", "EXPLICIT_ITEM_START"),
+            (2, 0, "1", "CONTINUATION"),
+            (3, 0, "2", "CONTINUATION"),
+        ]
+        page3_segment = [row for row in segments if row.page_number == 3 and row.sequence_index == 0][0]
+        assert page3_segment.review_required is True
+    finally:
+        db.close()
+
+
+def test_explicit_start_top_of_page_does_not_trigger_continuity_conflict() -> None:
+    tender_id = _create_tender("orchestrator continuity explicit start", "MVP-627-RECON-002")
+    document_id = _import_pdf(tender_id, "orchestrator-continuity-explicit-start.pdf")
+
+    db = SessionLocal()
+    try:
+        page1 = _create_page(db, document_id, 1, "texto ambiguo")
+        _add_native_normalized(db, page1, "texto ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page1,
+            structured_json=_vision_structured(1, "1"),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page1, item_number="1")
+
+        page2 = _create_page(db, document_id, 2, "texto ambiguo")
+        _add_native_normalized(db, page2, "texto ambiguo")
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page2,
+            structured_json=_vision_structured(2, "2"),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page2, item_number="2")
+        db.commit()
+
+        result = orchestrate_document_structure_available_only(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            execution_policy=EXECUTION_POLICY_AVAILABLE_ONLY,
+        )
+        db.commit()
+
+        page2_result = next(row for row in result.page_results if row.page_number == 2)
+        assert page2_result.status == "RESOLVED"
+        assert page2_result.review_required is False
+        assert page2_result.reason == "CONSISTENT_VALID_CANDIDATE"
+
+        page2_segment = db.scalar(
+            select(TenderScopeSegment).where(
+                TenderScopeSegment.source_document_id == document_id,
+                TenderScopeSegment.page_number == 2,
+                TenderScopeSegment.sequence_index == 0,
+            )
+        )
+        assert page2_segment is not None
+        assert page2_segment.link_reason == "EXPLICIT_ITEM_START"
+        assert page2_segment.review_required is False
     finally:
         db.close()
 
@@ -1222,6 +1978,57 @@ def test_completed_unusable_vision_result_is_retried_on_explicit_later_run(monke
         assert second.page_results[0].status == "RESOLVED"
         assert second.page_results[0].selected_source_method == "VISION"
         assert structure_call_count["count"] == 2
+    finally:
+        db.close()
+
+
+def test_current_prompt_version_is_preferred_when_both_legacy_and_current_are_valid() -> None:
+    tender_id = _create_tender("orchestrator prefer current prompt", "MVP-627-006")
+    document_id = _import_pdf(tender_id, "orchestrator-prefer-current-prompt.pdf")
+
+    db = SessionLocal()
+    try:
+        page = _create_page(db, document_id, 1, "contenido ambiguo")
+        _add_native_normalized(db, page, "contenido ambiguo")
+
+        # Legacy 005 row remains reusable.
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page,
+            structured_json=_vision_structured(1, "1"),
+            analysis_status="PARTIAL",
+            page_status="PARTIAL",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION_PREVIOUS,
+        )
+
+        # Current 006 row should be preferred when available.
+        _add_vision_result(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            page=page,
+            structured_json=_vision_structured(1, "1"),
+            analysis_status="COMPLETED",
+            page_status="COMPLETED",
+            prompt_version=VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
+        )
+
+        _seed_tender_item(db, tender_id=tender_id, document_id=document_id, page=page, item_number="1")
+        db.commit()
+
+        result = orchestrate_document_structure_available_only(
+            db,
+            tender_id=tender_id,
+            document_id=document_id,
+            execution_policy=EXECUTION_POLICY_AVAILABLE_ONLY,
+        )
+        db.commit()
+
+        assert result.page_results[0].status == "RESOLVED"
+        assert result.page_results[0].selected_source_method == "VISION"
+        assert result.scope_segments_persisted == 1
     finally:
         db.close()
 
