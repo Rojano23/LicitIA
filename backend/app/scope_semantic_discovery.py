@@ -98,7 +98,20 @@ def discover_scope_semantics(
             candidates=(),
         )
 
-    raw_candidates = tuple(selected_provider.discover(fragment))
+    try:
+        raw_candidates = tuple(selected_provider.discover(fragment))
+    except Exception as exc:
+        return ScopeSemanticDiscoveryResult(
+            provider_name=selected_provider.provider_name,
+            provider_version=selected_provider.provider_version,
+            contract_version=selected_provider.contract_version,
+            candidate_count=0,
+            review_required_count=0,
+            status=SCOPE_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT,
+            candidates=(),
+            errors=(str(exc),),
+        )
+
     deduped_candidates: list[DiscoveredScopeObligation] = []
     dedupe_keys: set[tuple[str, ...]] = set()
     errors: list[str] = []
