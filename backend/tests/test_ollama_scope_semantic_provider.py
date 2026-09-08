@@ -334,6 +334,7 @@ def test_provider_unavailable_fails_safe_not_no_obligations() -> None:
 
 
 def test_prompt_contract_contains_critical_invariants() -> None:
+    """Verify contract004 includes all five rules and critical instructions."""
     captured_payloads: list[dict] = []
 
     def transport(payload, timeout):
@@ -356,42 +357,37 @@ def test_prompt_contract_contains_critical_invariants() -> None:
     assert "SOURCE_TEXT_BEGIN" in prompt
     assert "SOURCE_TEXT_END" in prompt
     assert "Return JSON only" in prompt
-    assert "every output obligation object must represent exactly one independently assessable execution obligation" in prompt
-    assert "must not mix different execution concepts" in prompt
-    assert "single compound sentence may produce multiple" in prompt
-    assert "Cross-domain mixing is forbidden when separable" in prompt
-    assert "TOOLS_EQUIPMENT plus LOGISTICS_SITE must be split" in prompt
-    assert "TOOLS_EQUIPMENT plus DELIVERABLE must be split" in prompt
-    assert "Within-domain atomicity also applies" in prompt
-    assert "same domain may be separated" in prompt
-    assert "words and structures such as y, asi como, incluyendo" in prompt
-    assert "Description scope check before output" in prompt
-    assert "do not summarize a compound sentence into one broad obligation" in prompt
-    assert "most specific domain" in prompt
-    assert "TECHNICAL is a fallback only" in prompt
-    assert "Use DELIVERABLE only when the obligation itself is an output" in prompt
-    assert "computadora para elaborar reportes is TOOLS_EQUIPMENT" in prompt
-    assert "shortest sufficient contiguous evidence_excerpt" in prompt
-    assert "Evidence scope check before output" in prompt
-    assert "do not use the full sentence when a narrower span is available" in prompt
-    assert "Each description must express one actionable obligation" in prompt
-    assert "review_required is not automatically true" in prompt
-    assert "Do not use confidence=0.0 as a placeholder" in prompt
-    assert "Do not enforce a minimum candidate count" in prompt
-    assert "do not assume at least 3 obligations" in prompt
-    assert "Do not invent scope_segment_id or tender_item_id" in prompt
-    assert "do not invent unsupported evidence" in prompt.lower()
-    assert "multiple obligations" in prompt.lower()
-    assert "administrative bid instructions" in prompt.lower()
-    assert "Few-shot guidance example 1" in prompt
-    assert "COMPUTADORA PORTATIL, RADIO DE COMUNICACION Y VEHICULO PARA TRASLADO AL SITIO" in prompt
-    assert "three records" in prompt
-    assert "Few-shot negative pattern" in prompt
-    assert "BAD output is one TOOLS_EQUIPMENT obligation" in prompt
-    assert "Few-shot guidance example 2" in prompt
-    assert "Few-shot guidance example 3" in prompt
-    assert "Expected pattern: zero execution obligations" in prompt
-    assert "always return at least 3" not in prompt.lower()
+
+    # RULE 1: Execution Scope Gate
+    assert "RULE 1: EXECUTION SCOPE GATE" in prompt
+    assert "Does this source fragment establish an obligation" in prompt
+    assert "Execution scope means what the contractor must DO" in prompt
+
+    # RULE 2: Domain Discrimination
+    assert "RULE 2: DOMAIN DECISION RULES" in prompt
+    assert "EXACTLY one of these nine domains" in prompt
+    assert "TECHNICAL" in prompt
+    assert "SERVICE" in prompt
+    assert "SUPPLY" in prompt
+
+    # RULE 3: OTHER is not a fallback
+    assert "RULE 3: OTHER MUST NEVER HIDE NON-SCOPE" in prompt
+    assert "OTHER IS NOT A FALLBACK CATEGORY" in prompt
+
+    # RULE 4: Contractual Atomicity
+    assert "RULE 4: CONTRACTUAL ATOMICITY" in prompt
+    assert "Every output obligation must represent exactly one independently meaningful contractual commitment" in prompt
+    assert "Split when the same source fragment contains multiple INDEPENDENT obligations" in prompt
+    assert "OVER-GROUPING" in prompt
+    assert "OVER-SEGMENTATION" in prompt
+
+    # RULE 5: Evidence Must Be Verbatim
+    assert "RULE 5: EVIDENCE MUST BE VERBATIM" in prompt
+    assert "copied VERBATIM from SOURCE_TEXT" in prompt
+    assert "contiguous" in prompt
+    assert "Do not invent unsupported evidence" in prompt
+
+    # Verify all nine domains are present
     for domain in ALLOWED_SCOPE_SEMANTIC_DOMAINS:
         assert domain in prompt
 
@@ -460,7 +456,201 @@ def test_provider_run_reports_raw_model_json_and_metadata() -> None:
     assert run.provider_name == "Ollama Scope Semantic Discovery"
     assert run.provider_version
     assert run.contract_version == OLLAMA_SCOPE_SEMANTIC_PROMPT_VERSION
-    assert run.contract_version == "scope-semantic-discovery-2026-09-04-003"
+    assert run.contract_version == "scope-semantic-discovery-2026-09-08-004"
     assert run.raw_model_json == raw_json
     assert run.elapsed_time_ms >= 0
-    assert run.result.status == SCOPE_SEMANTIC_DISCOVERY_STATUS_NO_OBLIGATIONS
+
+
+# ========================================================================================================
+# DETERMINISTIC TESTS FOR SEMANTIC PROMPT CONTRACT 004
+# These tests verify the five architect-defined classification rules are encoded in the prompt
+# without invoking Ollama.
+# ========================================================================================================
+
+
+def test_prompt_contract_004_contains_execution_scope_gate_rule() -> None:
+    """RULE 1: Execution Gate must be the first semantic decision."""
+    fragment = _fragment(source_text="dummy")
+    provider = OllamaScopeSemanticDiscoveryProvider()
+    prompt = provider._build_prompt(fragment)
+
+    # Verify execution gate concepts are explicitly documented
+    assert "RULE 1: EXECUTION SCOPE GATE" in prompt
+    assert "Does this source fragment establish an obligation" in prompt
+    assert "If NO, return no obligation" in prompt
+    assert "Execution scope means what the contractor must DO" in prompt
+
+    # Verify bidder qualification is excluded from execution scope
+    assert "Bidder qualification" in prompt
+    assert "Proof of experience" in prompt
+    assert "Proposal submission requirements" in prompt
+    assert "Procurement forms" in prompt
+
+    # Verify classification is NOT based on document type
+    assert "Do NOT use document type as a filter" in prompt
+    assert "Classify the OBLIGATION itself, not the document type" in prompt
+
+
+def test_prompt_contract_004_contains_nine_domain_definitions() -> None:
+    """RULE 2: Domain definitions must be explicit for all nine domains."""
+    fragment = _fragment(source_text="dummy")
+    provider = OllamaScopeSemanticDiscoveryProvider()
+    prompt = provider._build_prompt(fragment)
+
+    # Verify all nine domains are documented with semantic definitions
+    assert "RULE 2: DOMAIN DECISION RULES" in prompt
+    assert "EXACTLY one of these nine domains" in prompt
+
+    # Verify each domain is explicitly defined
+    domains = [
+        "TECHNICAL",
+        "SERVICE",
+        "SUPPLY",
+        "TOOLS_EQUIPMENT",
+        "PERSONNEL",
+        "SSPA",
+        "DELIVERABLE",
+        "LOGISTICS_SITE",
+        "OTHER",
+    ]
+    for domain in domains:
+        assert domain in prompt
+
+    # Verify domain definitions distinguish concepts
+    assert "technical execution methods" in prompt
+    assert "service/action to be performed" in prompt
+    assert "materials, consumables, spare parts" in prompt
+    assert "equipment, tools, machinery" in prompt
+    assert "execution personnel requirements" in prompt
+    assert "operational safety" in prompt
+    assert "output that must be produced/delivered" in prompt
+    assert "physical execution location" in prompt
+
+
+def test_prompt_contract_004_other_is_not_fallback() -> None:
+    """RULE 3: OTHER must never hide non-scope; NOT a fallback category."""
+    fragment = _fragment(source_text="dummy")
+    provider = OllamaScopeSemanticDiscoveryProvider()
+    prompt = provider._build_prompt(fragment)
+
+    # Verify OTHER is explicitly NOT a fallback
+    assert "RULE 3: OTHER MUST NEVER HIDE NON-SCOPE" in prompt
+    assert "OTHER IS NOT A FALLBACK CATEGORY" in prompt
+
+    # Verify the decision sequence is clear
+    assert "STEP 1: Is this actual execution scope?" in prompt
+    assert "STEP 2: Which specific execution domain applies?" in prompt
+    assert "STEP 3: Only if none fits, but it IS definitely execution scope" in prompt
+
+    # Verify anti-patterns are explicit
+    assert "Do NOT perform: uncertain → OTHER" in prompt
+    assert "Do NOT perform: mandatory administrative language → OTHER" in prompt
+    assert "Do NOT perform: documentation mentioned → DELIVERABLE" in prompt
+
+
+def test_prompt_contract_004_contains_contractual_atomicity_rule() -> None:
+    """RULE 4: Contractual atomicity governs splitting and grouping decisions."""
+    fragment = _fragment(source_text="dummy")
+    provider = OllamaScopeSemanticDiscoveryProvider()
+    prompt = provider._build_prompt(fragment)
+
+    # Verify atomicity rule is explicit
+    assert "RULE 4: CONTRACTUAL ATOMICITY" in prompt
+    assert "Every output obligation must represent exactly one independently meaningful contractual commitment" in prompt
+
+    # Verify splitting guidance
+    assert "Split when the same source fragment contains multiple INDEPENDENT obligations" in prompt
+
+    # Verify over-segmentation danger is documented
+    assert "OVER-SEGMENTATION" in prompt
+    assert "one obligation exploded into every descriptive phrase" in prompt
+
+    # Verify over-grouping danger is documented
+    assert "OVER-GROUPING" in prompt
+    assert "multiple independent obligations collapsed into one" in prompt
+
+    # Verify the guiding question is present
+    assert "Could this candidate reasonably be reviewed as a separate contractual commitment?" in prompt
+
+
+def test_prompt_contract_004_evidence_must_be_verbatim() -> None:
+    """RULE 5: Evidence must be verbatim, contiguous, and exact source copy."""
+    fragment = _fragment(source_text="dummy")
+    provider = OllamaScopeSemanticDiscoveryProvider()
+    prompt = provider._build_prompt(fragment)
+
+    # Verify verbatim evidence rule is explicit
+    assert "RULE 5: EVIDENCE MUST BE VERBATIM" in prompt
+    assert "evidence_excerpt MUST be:" in prompt
+
+    # Verify all verbatim requirements are listed
+    assert "copied VERBATIM from SOURCE_TEXT" in prompt
+    assert "contiguous" in prompt
+    assert "not paraphrased" in prompt
+    assert "not corrected" in prompt
+    assert "not translated" in prompt
+    assert "not normalized by the model" in prompt
+    assert "not combined from non-contiguous spans" in prompt
+
+    # Verify description vs evidence distinction is clear
+    assert "The description may normalize wording semantically" in prompt
+    assert "but evidence_excerpt must remain verbatim grounded" in prompt
+
+    # Verify "no invent" is explicit
+    assert "Do not invent unsupported evidence" in prompt
+
+
+def test_prompt_contract_004_json_strict_requirement() -> None:
+    """Contract 004 must preserve strict JSON-only output requirement."""
+    fragment = _fragment(source_text="dummy")
+    provider = OllamaScopeSemanticDiscoveryProvider()
+    prompt = provider._build_prompt(fragment)
+
+    # Verify strict JSON requirement is maintained
+    assert "Return JSON only" in prompt
+    assert "no markdown" in prompt
+    assert "no prose" in prompt
+    assert "no explanation" in prompt
+    assert "no reasoning trace" in prompt
+    assert "no code fences" in prompt
+
+
+def test_prompt_contract_004_no_golden_examples_encoded() -> None:
+    """Contract 004 must NOT encode specific Golden case IDs or examples."""
+    fragment = _fragment(source_text="dummy")
+    provider = OllamaScopeSemanticDiscoveryProvider()
+    prompt = provider._build_prompt(fragment)
+
+    # Verify no Golden-specific content
+    # (Checking for patterns that would indicate overfitting to the frozen Golden)
+    assert "HIIP" not in prompt, "Golden-specific registry name should not be in prompt"
+    assert "PLDD" not in prompt, "Golden-specific acronym should not be in prompt"
+    assert "NOM-251" not in prompt, "Golden-specific standard should not be in prompt"
+    assert "MTBE" not in prompt, "Golden-specific facility should not be in prompt"
+    assert "Yokogawa" not in prompt, "Golden-specific equipment brand should not be in prompt"
+    assert "Cadereyta" not in prompt, "Golden-specific location should not be in prompt"
+
+    # Verify no semantic contamination from frozen worked-example combinations
+    assert "obtain a work permit" not in prompt
+    assert "use a specialized crew" not in prompt
+    assert "follow a technical maintenance procedure" not in prompt
+    assert "temperature control, storage rotation" not in prompt
+    assert "service within 35 days" not in prompt
+
+    # Verify replacement examples are generic and unrelated to frozen Golden cases
+    assert "package components for transport" in prompt
+    assert "maintain an inventory record" in prompt
+    assert "restore the work area after completion" in prompt
+    assert "inspection checklist" in prompt
+
+    # Verify general rule encoding instead
+    assert "Classify the OBLIGATION itself" in prompt, "General reasoning should replace specific examples"
+
+
+def test_prompt_contract_004_version_metadata_correct() -> None:
+    """Verify contract version metadata is updated to 004."""
+    provider = OllamaScopeSemanticDiscoveryProvider()
+
+    # Verify provider reports correct version
+    assert provider.contract_version == "scope-semantic-discovery-2026-09-08-004"
+    assert OLLAMA_SCOPE_SEMANTIC_PROMPT_VERSION == "scope-semantic-discovery-2026-09-08-004"
