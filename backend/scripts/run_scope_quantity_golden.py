@@ -9,6 +9,7 @@ from app.database import SessionLocal
 from app.ollama_scope_quantity_provider import OllamaScopeQuantitySemanticDiscoveryProvider, run_ollama_scope_quantity_discovery
 from app.scope_quantity_golden import (
     GOLDEN_EVAL_STATUS_PASS,
+    GOLDEN_EVAL_STATUS_UNLABELED,
     GOLDEN_MODE_NO_QUANTITIES,
     GOLDEN_MODE_REVIEW_REQUIRED,
     GoldenCaseEvaluation,
@@ -116,9 +117,10 @@ def run_golden(
             f"contract_validation_errors:{evaluation.contract_validation_error_count}"
         )
 
-        if evaluation.discovery_status == "INVALID_OUTPUT":
-            print("  RAW_MODEL_JSON:")
-            print(raw_model_json if raw_model_json is not None else "<unavailable>")
+        if evaluation.evaluation_status != GOLDEN_EVAL_STATUS_PASS:
+            if evaluation.evaluation_status != GOLDEN_EVAL_STATUS_UNLABELED or raw_model_json is not None:
+                print("  RAW_MODEL_JSON:")
+                print(raw_model_json if raw_model_json is not None else "<unavailable>")
 
         if evaluation.errors:
             print("  errors:")

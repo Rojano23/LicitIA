@@ -18,9 +18,16 @@ class _FakeProvider:
     provider_version = "fake-v1"
     contract_version = "fake-contract"
 
-    def __init__(self, *, responses: dict[str, list[dict]], raw_model_json_by_locator: dict[str, str] | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        responses: dict[str, list[dict]],
+        raw_model_json_by_locator: dict[str, str] | None = None,
+        status_by_locator: dict[str, str] | None = None,
+    ) -> None:
         self.responses = responses
         self.raw_model_json_by_locator = raw_model_json_by_locator or {}
+        self.status_by_locator = status_by_locator or {}
 
     def supports(self, fragment):
         return True
@@ -29,14 +36,14 @@ class _FakeProvider:
         from app.scope_quantity_semantic_discovery import DiscoveredScopeQuantity, ScopeQuantityProviderDiscoveryPayload
 
         payload = [DiscoveredScopeQuantity(**item) for item in self.responses.get(fragment.source_locator, [])]
-        status = "DISCOVERED" if payload else "NO_QUANTITIES"
+        status = self.status_by_locator.get(fragment.source_locator, "DISCOVERED" if payload else "NO_QUANTITIES")
         return ScopeQuantityProviderDiscoveryPayload(status=status, quantities=tuple(payload), errors=())
 
     def execute(self, fragment):
         from app.scope_quantity_semantic_discovery import DiscoveredScopeQuantity, ScopeQuantityProviderDiscoveryPayload
 
         payload = [DiscoveredScopeQuantity(**item) for item in self.responses.get(fragment.source_locator, [])]
-        status = "DISCOVERED" if payload else "NO_QUANTITIES"
+        status = self.status_by_locator.get(fragment.source_locator, "DISCOVERED" if payload else "NO_QUANTITIES")
         raw_model_json = self.raw_model_json_by_locator.get(
             fragment.source_locator,
             json.dumps({"status": status, "quantities": self.responses.get(fragment.source_locator, [])}, ensure_ascii=False),
@@ -273,6 +280,197 @@ def test_runner_prints_raw_model_json_for_invalid_output(monkeypatch, tmp_path: 
     assert "RAW_MODEL_JSON:" in captured.out
     assert '"quantity_raw":"3"' in captured.out
     assert "INVALID_OUTPUT" in captured.out
+
+
+def test_runner_hides_raw_model_json_for_pass(monkeypatch, tmp_path: Path, capsys) -> None:
+    path = _write_golden(
+        tmp_path,
+        mode="STRICT",
+        pending=False,
+        expected=[
+            {
+                "golden_quantity_id": "gq-001",
+                "quantity_raw": "1",
+                "unit_raw": "PIEZA",
+                "measure_kind": "COUNT",
+                "relation": "EXACT",
+                "quantity_value_raw": "1",
+                "quantity_min_raw": None,
+                "quantity_max_raw": None,
+                "evidence_excerpt": "(1 PIEZA)",
+            }
+        ],
+    )
+
+    monkeypatch.setattr(
+        runner,
+        "validate_scope_quantity_golden",
+        lambda dataset, parent_resolver=None: type(
+            "Validation", (), {"is_valid": True, "pending_count": 0, "approved_count": 1, "errors": ()}
+        )(),
+    )
+
+    fake = _FakeProvider(
+        responses={
+            "page:4|detail_row:0": [
+                {
+                    "quantity_raw": "1",
+                    "unit_raw": "PIEZA",
+                    "measure_kind": "COUNT",
+                    "relation": "EXACT",
+                    "quantity_value_raw": "1",
+                    "quantity_min_raw": None,
+                    "quantity_max_raw": None,
+                    "evidence_excerpt": "(1 PIEZA)",
+                    "confidence": 0.9,
+                }
+            ]
+        }
+    )
+
+    exit_code = runner.run_golden(golden_path=path, model_name="fake-model", provider_factory=lambda **_: fake)
+    captured = capsys.readouterr()
+
+    assert exit_code == 0
+    assert "RAW_MODEL_JSON:" not in captured.out
+
+
+def test_runner_prints_raw_model_json_for_fail_and_review_required(monkeypatch, tmp_path: Path, capsys) -> None:
+    path = _write_golden(
+        tmp_path,
+        mode="STRICT",
+        pending=False,
+        expected=[
+            {
+                "golden_quantity_id": "gq-001",
+                "quantity_raw": "1",
+                "unit_raw": "PIEZA",
+                "measure_kind": "COUNT",
+                "relation": "EXACT",
+                "quantity_value_raw": "1",
+                "quantity_min_raw": None,
+                "quantity_max_raw": None,
+                "evidence_excerpt": "(1 PIEZA)",
+            }
+        ],
+    )
+
+    monkeypatch.setattr(
+        runner,
+        "validate_scope_quantity_golden",
+        lambda dataset, parent_resolver=None: type(
+            "Validation", (), {"is_valid": True, "pending_count": 0, "approved_count": 1, "errors": ()}
+        )(),
+    )
+
+    fail_provider = _FakeProvider(
+        responses={
+            "page:4|detail_row:0": [
+                {
+                    "quantity_raw": "1",
+                    "unit_raw": "PIEZA",
+                    "measure_kind": "COUNT",
+                    "relation": "MINIMUM",
+                    "quantity_value_raw": None,
+                    "quantity_min_raw": "1",
+                    "quantity_max_raw": None,
+                    "evidence_excerpt": "(1 PIEZA)",
+                    "confidence": 0.9,
+                }
+            ]
+        },
+        raw_model_json_by_locator={
+            "page:4|detail_row:0": '{"status":"DISCOVERED","quantities":[{"quantity_raw":"1","unit_raw":"PIEZA","measure_kind":"COUNT","relation":"MINIMUM","quantity_value_raw":null,"quantity_min_raw":"1","quantity_max_raw":null,"evidence_excerpt":"(1 PIEZA)","confidence":0.9}]}'
+        },
+    )
+
+    fail_exit = runner.run_golden(golden_path=path, model_name="fake-model", provider_factory=lambda **_: fail_provider)
+    fail_output = capsys.readouterr().out
+    assert fail_exit == 5
+    assert "eval_status=FAIL" in fail_output
+    assert "RAW_MODEL_JSON:" in fail_output
+
+    review_provider = _FakeProvider(
+        responses={"page:4|detail_row:0": []},
+        raw_model_json_by_locator={"page:4|detail_row:0": '{"status":"REVIEW_REQUIRED","quantities":[]}'},
+        status_by_locator={"page:4|detail_row:0": "REVIEW_REQUIRED"},
+    )
+
+    review_exit = runner.run_golden(golden_path=path, model_name="fake-model", provider_factory=lambda **_: review_provider)
+    review_output = capsys.readouterr().out
+    assert review_exit == 5
+    assert "discovery_status=REVIEW_REQUIRED" in review_output
+    assert "RAW_MODEL_JSON:" in review_output
+
+
+class _ProviderWithoutExecute:
+    provider_name = "no-exec"
+    provider_version = "no-exec-v1"
+    contract_version = "no-exec-contract"
+
+    def supports(self, fragment):
+        return True
+
+    def discover(self, fragment):
+        from app.scope_quantity_semantic_discovery import DiscoveredScopeQuantity, ScopeQuantityProviderDiscoveryPayload
+
+        return ScopeQuantityProviderDiscoveryPayload(
+            status="DISCOVERED",
+            quantities=(
+                DiscoveredScopeQuantity(
+                    quantity_raw="1",
+                    unit_raw="PIEZA",
+                    measure_kind="COUNT",
+                    relation="MINIMUM",
+                    quantity_value_raw=None,
+                    quantity_min_raw="1",
+                    quantity_max_raw=None,
+                    evidence_excerpt="(1 PIEZA)",
+                    confidence=0.9,
+                ),
+            ),
+            errors=(),
+        )
+
+
+def test_runner_non_pass_without_raw_prints_unavailable(monkeypatch, tmp_path: Path, capsys) -> None:
+    path = _write_golden(
+        tmp_path,
+        mode="STRICT",
+        pending=False,
+        expected=[
+            {
+                "golden_quantity_id": "gq-001",
+                "quantity_raw": "1",
+                "unit_raw": "PIEZA",
+                "measure_kind": "COUNT",
+                "relation": "EXACT",
+                "quantity_value_raw": "1",
+                "quantity_min_raw": None,
+                "quantity_max_raw": None,
+                "evidence_excerpt": "(1 PIEZA)",
+            }
+        ],
+    )
+
+    monkeypatch.setattr(
+        runner,
+        "validate_scope_quantity_golden",
+        lambda dataset, parent_resolver=None: type(
+            "Validation", (), {"is_valid": True, "pending_count": 0, "approved_count": 1, "errors": ()}
+        )(),
+    )
+
+    exit_code = runner.run_golden(
+        golden_path=path,
+        model_name="fake-model",
+        provider_factory=lambda **_: _ProviderWithoutExecute(),
+    )
+    output = capsys.readouterr().out
+
+    assert exit_code == 5
+    assert "RAW_MODEL_JSON:" in output
+    assert "<unavailable>" in output
 
 
 def test_runner_help_via_module_execution() -> None:

@@ -4,6 +4,7 @@ import json
 
 from app.ollama_scope_quantity_provider import (
     OLLAMA_SCOPE_QUANTITY_PROMPT_VERSION,
+    _OllamaScopeQuantityResponseModel,
     OllamaScopeQuantitySemanticDiscoveryProvider,
     run_ollama_scope_quantity_discovery,
 )
@@ -365,14 +366,15 @@ def test_prompt_contains_barriers_and_text_only_invariants() -> None:
 
     prompt = payload["messages"][0]["content"]
     assert "Return strict JSON only" in prompt
+    assert "Do not omit keys" in prompt
     assert "Do not classify as execution quantities" in prompt
-    assert "For every DISCOVERED quantity always include quantity_value_raw, quantity_min_raw, and quantity_max_raw" in prompt
+    assert "For every DISCOVERED quantity always include quantity_raw, unit_raw, measure_kind, relation" in prompt
     assert "EXACT requires quantity_value_raw" in prompt
     assert "MINIMUM requires quantity_value_raw to be null" in prompt
     assert "MAXIMUM requires quantity_value_raw to be null" in prompt
     assert "RANGE requires quantity_value_raw to be null" in prompt
     assert "APPROXIMATE requires quantity_value_raw as a normalized numeric string" in prompt
-    assert "quantity_raw as the literal quantity expression from source evidence" in prompt
+    assert "quantity_raw must be the literal quantity expression from source evidence" in prompt
     assert "quantity_value_raw\":\"3\"" in prompt
     assert "24 VDC" in prompt
     assert "3/4 inch" in prompt
@@ -389,6 +391,238 @@ def test_prompt_contains_barriers_and_text_only_invariants() -> None:
     assert "sq_golden_case" not in prompt
     assert "AFV10D" not in prompt
     assert "S9129" not in prompt
+    assert "PIEZAS" not in prompt
+
+
+def _is_nullable_property(prop: dict) -> bool:
+    if prop.get("type") == ["string", "null"]:
+        return True
+    return any(item.get("type") == "null" for item in prop.get("anyOf", []) if isinstance(item, dict))
+
+
+def test_contract_003_schema_requires_complete_quantity_keys_and_nullable_behavior() -> None:
+    schema = _OllamaScopeQuantityResponseModel.model_json_schema()
+    defs = schema.get("$defs", {})
+
+    quantity_schema = None
+    for entry in defs.values():
+        if isinstance(entry, dict) and "properties" in entry and "quantity_raw" in entry["properties"]:
+            quantity_schema = entry
+            break
+
+    assert quantity_schema is not None
+    required = set(quantity_schema["required"])
+    assert required == {
+        "quantity_raw",
+        "unit_raw",
+        "measure_kind",
+        "relation",
+        "quantity_value_raw",
+        "quantity_min_raw",
+        "quantity_max_raw",
+        "evidence_excerpt",
+    }
+
+    props = quantity_schema["properties"]
+    assert _is_nullable_property(props["unit_raw"]) is True
+    assert _is_nullable_property(props["quantity_value_raw"]) is True
+    assert _is_nullable_property(props["quantity_min_raw"]) is True
+    assert _is_nullable_property(props["quantity_max_raw"]) is True
+    assert props["measure_kind"]["enum"] == ["COUNT", "LENGTH", "AREA", "VOLUME", "MASS", "DURATION", "PERSONNEL", "SERVICE", "LOT", "OTHER"]
+    assert props["relation"]["enum"] == ["EXACT", "MINIMUM", "MAXIMUM", "RANGE", "APPROXIMATE", "UNSPECIFIED"]
+
+
+def test_valid_complete_word_number_exact_object_is_accepted() -> None:
+    provider = OllamaScopeQuantitySemanticDiscoveryProvider(
+        model_name="qwen3:8b",
+        transport=lambda payload, timeout: _ollama_response(
+            json.dumps(
+                {
+                    "status": "DISCOVERED",
+                    "quantities": [
+                        {
+                            "quantity_raw": "tres",
+                            "unit_raw": "técnicos",
+                            "measure_kind": "PERSONNEL",
+                            "relation": "EXACT",
+                            "quantity_value_raw": "3",
+                            "quantity_min_raw": None,
+                            "quantity_max_raw": None,
+                            "evidence_excerpt": "tres técnicos",
+                            "confidence": 0.95,
+                        }
+                    ],
+                }
+            )
+        ),
+    )
+
+    result = discover_scope_quantities(_fragment(source_text="se requieren tres técnicos"), providers=(provider,))
+    assert result.status == SCOPE_QUANTITY_SEMANTIC_DISCOVERY_STATUS_DISCOVERED
+
+
+def test_missing_measure_kind_key_is_invalid_output() -> None:
+    provider = OllamaScopeQuantitySemanticDiscoveryProvider(
+        model_name="qwen3:8b",
+        transport=lambda payload, timeout: _ollama_response(
+            json.dumps(
+                {
+                    "status": "DISCOVERED",
+                    "quantities": [
+                        {
+                            "quantity_raw": "3",
+                            "unit_raw": "técnicos",
+                            "relation": "EXACT",
+                            "quantity_value_raw": "3",
+                            "quantity_min_raw": None,
+                            "quantity_max_raw": None,
+                            "evidence_excerpt": "3 técnicos",
+                            "confidence": 0.95,
+                        }
+                    ],
+                }
+            )
+        ),
+    )
+    result = discover_scope_quantities(_fragment(source_text="se requieren 3 técnicos"), providers=(provider,))
+    assert result.status == SCOPE_QUANTITY_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT
+
+
+def test_missing_relation_key_is_invalid_output() -> None:
+    provider = OllamaScopeQuantitySemanticDiscoveryProvider(
+        model_name="qwen3:8b",
+        transport=lambda payload, timeout: _ollama_response(
+            json.dumps(
+                {
+                    "status": "DISCOVERED",
+                    "quantities": [
+                        {
+                            "quantity_raw": "3",
+                            "unit_raw": "técnicos",
+                            "measure_kind": "PERSONNEL",
+                            "quantity_value_raw": "3",
+                            "quantity_min_raw": None,
+                            "quantity_max_raw": None,
+                            "evidence_excerpt": "3 técnicos",
+                            "confidence": 0.95,
+                        }
+                    ],
+                }
+            )
+        ),
+    )
+    result = discover_scope_quantities(_fragment(source_text="se requieren 3 técnicos"), providers=(provider,))
+    assert result.status == SCOPE_QUANTITY_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT
+
+
+def test_missing_unit_raw_key_is_invalid_output() -> None:
+    provider = OllamaScopeQuantitySemanticDiscoveryProvider(
+        model_name="qwen3:8b",
+        transport=lambda payload, timeout: _ollama_response(
+            json.dumps(
+                {
+                    "status": "DISCOVERED",
+                    "quantities": [
+                        {
+                            "quantity_raw": "3",
+                            "measure_kind": "COUNT",
+                            "relation": "EXACT",
+                            "quantity_value_raw": "3",
+                            "quantity_min_raw": None,
+                            "quantity_max_raw": None,
+                            "evidence_excerpt": "3",
+                            "confidence": 0.95,
+                        }
+                    ],
+                }
+            )
+        ),
+    )
+    result = discover_scope_quantities(_fragment(source_text="se requieren 3"), providers=(provider,))
+    assert result.status == SCOPE_QUANTITY_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT
+
+
+def test_unit_raw_null_is_structurally_allowed() -> None:
+    provider = OllamaScopeQuantitySemanticDiscoveryProvider(
+        model_name="qwen3:8b",
+        transport=lambda payload, timeout: _ollama_response(
+            json.dumps(
+                {
+                    "status": "DISCOVERED",
+                    "quantities": [
+                        {
+                            "quantity_raw": "3",
+                            "unit_raw": None,
+                            "measure_kind": "COUNT",
+                            "relation": "EXACT",
+                            "quantity_value_raw": "3",
+                            "quantity_min_raw": None,
+                            "quantity_max_raw": None,
+                            "evidence_excerpt": "3",
+                            "confidence": 0.95,
+                        }
+                    ],
+                }
+            )
+        ),
+    )
+    result = discover_scope_quantities(_fragment(source_text="se requieren 3"), providers=(provider,))
+    assert result.status == SCOPE_QUANTITY_SEMANTIC_DISCOVERY_STATUS_DISCOVERED
+
+
+def test_missing_quantity_value_raw_key_is_invalid_output() -> None:
+    provider = OllamaScopeQuantitySemanticDiscoveryProvider(
+        model_name="qwen3:8b",
+        transport=lambda payload, timeout: _ollama_response(
+            json.dumps(
+                {
+                    "status": "DISCOVERED",
+                    "quantities": [
+                        {
+                            "quantity_raw": "3",
+                            "unit_raw": "técnicos",
+                            "measure_kind": "PERSONNEL",
+                            "relation": "EXACT",
+                            "quantity_min_raw": None,
+                            "quantity_max_raw": None,
+                            "evidence_excerpt": "3 técnicos",
+                            "confidence": 0.95,
+                        }
+                    ],
+                }
+            )
+        ),
+    )
+    result = discover_scope_quantities(_fragment(source_text="se requieren 3 técnicos"), providers=(provider,))
+    assert result.status == SCOPE_QUANTITY_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT
+
+
+def test_quantity_value_raw_null_under_exact_is_invalid_output() -> None:
+    provider = OllamaScopeQuantitySemanticDiscoveryProvider(
+        model_name="qwen3:8b",
+        transport=lambda payload, timeout: _ollama_response(
+            json.dumps(
+                {
+                    "status": "DISCOVERED",
+                    "quantities": [
+                        {
+                            "quantity_raw": "3",
+                            "unit_raw": "técnicos",
+                            "measure_kind": "PERSONNEL",
+                            "relation": "EXACT",
+                            "quantity_value_raw": None,
+                            "quantity_min_raw": None,
+                            "quantity_max_raw": None,
+                            "evidence_excerpt": "3 técnicos",
+                            "confidence": 0.95,
+                        }
+                    ],
+                }
+            )
+        ),
+    )
+    result = discover_scope_quantities(_fragment(source_text="se requieren 3 técnicos"), providers=(provider,))
+    assert result.status == SCOPE_QUANTITY_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT
 
 
 def test_missing_exact_quantity_value_raw_is_invalid_output() -> None:
