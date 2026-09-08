@@ -4,6 +4,7 @@ import importlib.util
 import json
 import subprocess
 from pathlib import Path
+from types import SimpleNamespace
 
 _RUNNER_PATH = Path(__file__).resolve().parents[1] / "scripts" / "run_scope_quantity_golden.py"
 _RUNNER_SPEC = importlib.util.spec_from_file_location("run_scope_quantity_golden", _RUNNER_PATH)
@@ -17,8 +18,9 @@ class _FakeProvider:
     provider_version = "fake-v1"
     contract_version = "fake-contract"
 
-    def __init__(self, *, responses: dict[str, list[dict]]) -> None:
+    def __init__(self, *, responses: dict[str, list[dict]], raw_model_json_by_locator: dict[str, str] | None = None) -> None:
         self.responses = responses
+        self.raw_model_json_by_locator = raw_model_json_by_locator or {}
 
     def supports(self, fragment):
         return True
@@ -29,6 +31,25 @@ class _FakeProvider:
         payload = [DiscoveredScopeQuantity(**item) for item in self.responses.get(fragment.source_locator, [])]
         status = "DISCOVERED" if payload else "NO_QUANTITIES"
         return ScopeQuantityProviderDiscoveryPayload(status=status, quantities=tuple(payload), errors=())
+
+    def execute(self, fragment):
+        from app.scope_quantity_semantic_discovery import DiscoveredScopeQuantity, ScopeQuantityProviderDiscoveryPayload
+
+        payload = [DiscoveredScopeQuantity(**item) for item in self.responses.get(fragment.source_locator, [])]
+        status = "DISCOVERED" if payload else "NO_QUANTITIES"
+        raw_model_json = self.raw_model_json_by_locator.get(
+            fragment.source_locator,
+            json.dumps({"status": status, "quantities": self.responses.get(fragment.source_locator, [])}, ensure_ascii=False),
+        )
+        return SimpleNamespace(
+            provider_name=self.provider_name,
+            provider_version=self.provider_version,
+            contract_version=self.contract_version,
+            raw_model_json=raw_model_json,
+            payload=ScopeQuantityProviderDiscoveryPayload(status=status, quantities=tuple(payload), errors=()),
+            elapsed_time_ms=0,
+            errors=(),
+        )
 
 
 def _write_golden(tmp_path: Path, *, mode: str, pending: bool, expected: list[dict]) -> str:
@@ -195,6 +216,63 @@ def test_runner_fake_no_quantities_pass(monkeypatch, tmp_path: Path) -> None:
 
     exit_code = runner.run_golden(golden_path=path, model_name="fake-model", provider_factory=lambda **_: _FakeProvider(responses={}))
     assert exit_code == 0
+
+
+def test_runner_prints_raw_model_json_for_invalid_output(monkeypatch, tmp_path: Path, capsys) -> None:
+    path = _write_golden(
+        tmp_path,
+        mode="STRICT",
+        pending=False,
+        expected=[
+            {
+                "golden_quantity_id": "gq-001",
+                "quantity_raw": "1",
+                "unit_raw": "PIEZA",
+                "measure_kind": "COUNT",
+                "relation": "EXACT",
+                "quantity_value_raw": "1",
+                "quantity_min_raw": None,
+                "quantity_max_raw": None,
+                "evidence_excerpt": "(1 PIEZA)",
+            }
+        ],
+    )
+
+    monkeypatch.setattr(
+        runner,
+        "validate_scope_quantity_golden",
+        lambda dataset, parent_resolver=None: type(
+            "Validation", (), {"is_valid": True, "pending_count": 0, "approved_count": 1, "errors": ()}
+        )(),
+    )
+
+    fake = _FakeProvider(
+        responses={
+            "page:4|detail_row:0": [
+                {
+                    "quantity_raw": "3",
+                    "unit_raw": "técnicos",
+                    "measure_kind": "PERSONNEL",
+                    "relation": "EXACT",
+                    "quantity_min_raw": None,
+                    "quantity_max_raw": None,
+                    "evidence_excerpt": "3 técnicos",
+                    "confidence": 0.9,
+                }
+            ]
+        },
+        raw_model_json_by_locator={
+            "page:4|detail_row:0": '{"status":"DISCOVERED","quantities":[{"quantity_raw":"3","unit_raw":"técnicos","measure_kind":"PERSONNEL","relation":"EXACT","quantity_min_raw":null,"quantity_max_raw":null,"evidence_excerpt":"3 técnicos","confidence":0.9}]}',
+        },
+    )
+
+    exit_code = runner.run_golden(golden_path=path, model_name="fake-model", provider_factory=lambda **_: fake)
+    captured = capsys.readouterr()
+
+    assert exit_code == 4
+    assert "RAW_MODEL_JSON:" in captured.out
+    assert '"quantity_raw":"3"' in captured.out
+    assert "INVALID_OUTPUT" in captured.out
 
 
 def test_runner_help_via_module_execution() -> None:

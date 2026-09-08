@@ -511,6 +511,54 @@ def test_ungrounded_discovered_is_invalid() -> None:
     assert result.grounding_error_count > 0
 
 
+def test_structural_exact_missing_quantity_value_is_invalid_but_not_grounding() -> None:
+    case = _approved_strict_case()
+    result = evaluate_case(
+        case,
+        discovery_result=_discovery(
+            status="INVALID_OUTPUT",
+            candidates=(),
+            errors=("EXACT relation requires quantity_value_raw",),
+        ),
+        elapsed_time_ms=1,
+    )
+
+    assert result.evaluation_status == GOLDEN_EVAL_STATUS_INVALID
+    assert result.discovery_status == "INVALID_OUTPUT"
+    assert result.grounding_error_count == 0
+    assert result.contract_validation_error_count == 1
+
+
+def test_quantity_raw_grounding_failure_counts_as_grounding() -> None:
+    case = _approved_strict_case()
+    bad = replace(_candidate_from(case), source_excerpt="3 técnicos", quantity_raw="5")
+
+    result = evaluate_case(
+        case,
+        discovery_result=_discovery(status="DISCOVERED", candidates=(bad,)),
+        elapsed_time_ms=1,
+    )
+
+    assert result.evaluation_status == GOLDEN_EVAL_STATUS_INVALID
+    assert result.grounding_error_count > 0
+    assert result.contract_validation_error_count == 0
+
+
+def test_unit_raw_grounding_failure_counts_as_grounding() -> None:
+    case = _approved_strict_case()
+    bad = replace(_candidate_from(case), unit_raw="metros", source_excerpt="3 técnicos")
+
+    result = evaluate_case(
+        case,
+        discovery_result=_discovery(status="DISCOVERED", candidates=(bad,)),
+        elapsed_time_ms=1,
+    )
+
+    assert result.evaluation_status == GOLDEN_EVAL_STATUS_INVALID
+    assert result.grounding_error_count > 0
+    assert result.contract_validation_error_count == 0
+
+
 def test_aggregate_metrics_precision_recall_hard_negative_mixed_critical_invalid_and_timing() -> None:
     strict = _approved_strict_case()
     no_q = replace(
@@ -571,5 +619,7 @@ def test_aggregate_metrics_precision_recall_hard_negative_mixed_critical_invalid
     assert metrics.hard_negative_pass_count == 0
     assert metrics.critical_technical_leakage_count >= 1
     assert metrics.invalid_output_count == 1
+    assert metrics.contract_validation_error_count == 1
+    assert metrics.grounding_error_count == 0
     assert metrics.total_elapsed_time_ms == 60
     assert metrics.max_elapsed_time_ms == 30

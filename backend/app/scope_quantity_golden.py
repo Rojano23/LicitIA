@@ -143,6 +143,7 @@ class GoldenCaseEvaluation:
     coverage_tags: tuple[str, ...] = ()
     critical_leakage_count: int = 0
     grounding_error_count: int = 0
+    contract_validation_error_count: int = 0
     errors: tuple[str, ...] = ()
 
 
@@ -168,6 +169,7 @@ class GoldenAggregateMetrics:
     mixed_context_total_count: int
     critical_technical_leakage_count: int
     grounding_error_count: int
+    contract_validation_error_count: int
     invalid_output_count: int
     total_elapsed_time_ms: int
     average_elapsed_time_ms: float
@@ -403,14 +405,15 @@ def evaluate_case(
             errors=discovery_result.errors,
         )
 
-    grounding_errors = list(discovery_result.errors)
+    discovery_grounding_errors, discovery_contract_errors = _classify_discovery_errors(discovery_result.errors)
+    grounding_errors = list(discovery_grounding_errors)
     for item in discovered:
         if not _is_discovered_grounded(case.source_text, item):
             grounding_errors.append(
                 f"case:{case.case_id}:discovered quantity is not grounded: quantity_raw={item.quantity_raw}"
             )
 
-    if discovery_result.status == "INVALID_OUTPUT" or grounding_errors:
+    if discovery_result.status == "INVALID_OUTPUT" or grounding_errors or discovery_contract_errors:
         return GoldenCaseEvaluation(
             case_id=case.case_id,
             evaluation_mode=case.evaluation_mode,
@@ -427,8 +430,9 @@ def evaluate_case(
             unexpected_discovered=discovered,
             coverage_tags=case.coverage_tags,
             grounding_error_count=len(grounding_errors),
+            contract_validation_error_count=len(discovery_contract_errors),
             critical_leakage_count=_count_critical_leakage(case, discovered),
-            errors=tuple(grounding_errors),
+            errors=tuple(discovery_contract_errors) + tuple(grounding_errors),
         )
 
     matches, missing_expected, unexpected_discovered = _match_expected_to_discovered(
@@ -459,6 +463,7 @@ def evaluate_case(
         unexpected_discovered=tuple(unexpected_discovered),
         coverage_tags=case.coverage_tags,
         critical_leakage_count=_count_critical_leakage(case, discovered),
+        contract_validation_error_count=len(discovery_contract_errors),
         errors=discovery_result.errors,
     )
 
@@ -480,6 +485,7 @@ def aggregate_evaluations(evaluations: Sequence[GoldenCaseEvaluation]) -> Golden
 
     critical_leakage_count = 0
     grounding_error_count = 0
+    contract_validation_error_count = 0
     invalid_output_count = 0
 
     total_elapsed = 0
@@ -496,6 +502,7 @@ def aggregate_evaluations(evaluations: Sequence[GoldenCaseEvaluation]) -> Golden
         unexpected_discovered_count += len(evaluation.unexpected_discovered)
         critical_leakage_count += evaluation.critical_leakage_count
         grounding_error_count += evaluation.grounding_error_count
+        contract_validation_error_count += evaluation.contract_validation_error_count
 
         if evaluation.discovery_status == "INVALID_OUTPUT":
             invalid_output_count += 1
@@ -540,10 +547,37 @@ def aggregate_evaluations(evaluations: Sequence[GoldenCaseEvaluation]) -> Golden
         mixed_context_total_count=mixed_context_total,
         critical_technical_leakage_count=critical_leakage_count,
         grounding_error_count=grounding_error_count,
+        contract_validation_error_count=contract_validation_error_count,
         invalid_output_count=invalid_output_count,
         total_elapsed_time_ms=total_elapsed,
         average_elapsed_time_ms=average_elapsed,
         max_elapsed_time_ms=max_elapsed,
+    )
+
+
+def _classify_discovery_errors(errors: Sequence[str]) -> tuple[tuple[str, ...], tuple[str, ...]]:
+    grounding_errors: list[str] = []
+    contract_errors: list[str] = []
+
+    for error in errors:
+        normalized_error = _normalize(error)
+        if _is_grounding_error_message(normalized_error):
+            grounding_errors.append(error)
+        else:
+            contract_errors.append(error)
+
+    return tuple(grounding_errors), tuple(contract_errors)
+
+
+def _is_grounding_error_message(normalized_error: str) -> bool:
+    return any(
+        marker in normalized_error
+        for marker in (
+            "evidence_excerpt is not supported by source_text",
+            "quantity_raw is not grounded in evidence_excerpt",
+            "unit_raw is not grounded in evidence_excerpt",
+            "discovered quantity is not grounded",
+        )
     )
 
 

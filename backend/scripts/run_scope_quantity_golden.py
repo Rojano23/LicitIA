@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Optional
 
 from app.database import SessionLocal
-from app.ollama_scope_quantity_provider import OllamaScopeQuantitySemanticDiscoveryProvider
+from app.ollama_scope_quantity_provider import OllamaScopeQuantitySemanticDiscoveryProvider, run_ollama_scope_quantity_discovery
 from app.scope_quantity_golden import (
     GOLDEN_EVAL_STATUS_PASS,
     GOLDEN_MODE_NO_QUANTITIES,
@@ -90,7 +90,13 @@ def run_golden(
     for case in dataset.cases:
         fragment = build_fragment(case)
         started_case = time.perf_counter()
-        discovery_result = discover_scope_quantities(fragment, providers=(provider,))
+        raw_model_json: Optional[str] = None
+        if callable(getattr(provider, "execute", None)):
+            executed = run_ollama_scope_quantity_discovery(fragment, provider=provider)
+            discovery_result = executed.result
+            raw_model_json = executed.raw_model_json
+        else:
+            discovery_result = discover_scope_quantities(fragment, providers=(provider,))
         elapsed_ms = int((time.perf_counter() - started_case) * 1000)
 
         evaluation = evaluate_case(case, discovery_result=discovery_result, elapsed_time_ms=elapsed_ms)
@@ -104,7 +110,15 @@ def run_golden(
             f"expected:{evaluation.expected_count} discovered:{evaluation.discovered_count} matched:{evaluation.matched_count}"
         )
         print(f"  missing_expected={len(evaluation.missing_expected)} unexpected_discovered={len(evaluation.unexpected_discovered)}")
-        print(f"  critical_leakage={evaluation.critical_leakage_count} grounding_errors={evaluation.grounding_error_count}")
+        print(
+            "  critical_leakage="
+            f"{evaluation.critical_leakage_count} grounding_errors:{evaluation.grounding_error_count} "
+            f"contract_validation_errors:{evaluation.contract_validation_error_count}"
+        )
+
+        if evaluation.discovery_status == "INVALID_OUTPUT":
+            print("  RAW_MODEL_JSON:")
+            print(raw_model_json if raw_model_json is not None else "<unavailable>")
 
         if evaluation.errors:
             print("  errors:")
@@ -143,7 +157,8 @@ def run_golden(
     )
     print(
         "  critical="
-        f"technical_leakage:{aggregate.critical_technical_leakage_count} grounding_errors:{aggregate.grounding_error_count} invalid_output:{aggregate.invalid_output_count}"
+        f"technical_leakage:{aggregate.critical_technical_leakage_count} grounding_errors:{aggregate.grounding_error_count} "
+        f"contract_validation_errors:{aggregate.contract_validation_error_count} invalid_output:{aggregate.invalid_output_count}"
     )
     print(
         "  timing_ms="

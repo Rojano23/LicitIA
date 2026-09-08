@@ -20,8 +20,8 @@ No evalúa ni aprueba modelos todavía.
 
 ## Contrato semántico de producción
 
-- `scope-quantity-semantic-discovery-2026-09-08-001`
-- No modificado en este slice.
+- `scope-quantity-semantic-discovery-2026-09-08-002`
+- Actualizado en este slice como Contract 002.
 
 ## Modelo objetivo para calibración futura
 
@@ -78,6 +78,28 @@ Grounding sí es obligatorio.
 
 Estos gates no se degradan por resultados de corrida sin decisión explícita de arquitecto.
 
+## Historial real de baseline
+
+### Baseline 001
+
+- Fecha: 2026-09-08
+- Modelo: qwen3:8b
+- Contrato: `scope-quantity-semantic-discovery-2026-09-08-001`
+- Golden: `scope-quantity-golden-2026-09-08-001`
+- SHA Golden: `de2327ca868f8b72bf6dd80f50a568807b567f92c4106d65f913b7ce263339e7`
+- Resultados: `PASS=3`, `FAIL=0`, `REVIEW_REQUIRED=0`, `INVALID=8`
+- Discovery: `INVALID_OUTPUT=8`, `NO_QUANTITIES=3`
+- Cantidades: `expected=8`, `discovered=0`, `matched=0`, `missing=8`, `unexpected=0`
+- Precision / recall: `0.0000 / 0.0000`
+- Hard-negative: `3/3`
+- Mixed-context: `0/7`
+- Critical technical leakage: `0`
+- Reported grounding_errors: `8`
+- Timing: `total_ms=112680`, `avg_ms=10242.18`, `max_ms=35668`
+- Decisión: `DO NOT INTEGRATE`
+- Falla primaria: `EXACT relation requires quantity_value_raw`
+- Nota histórica: la auditoría posterior confirmó que los `grounding_errors=8` reportados en esta baseline eran errores estructurales de contrato clasificados incorrectamente como grounding.
+
 ## Cobertura y certificación
 
 Aprobación de métrica de modelo no equivale a certificación de cobertura de categoría.
@@ -104,3 +126,11 @@ En 06.4.4a no se ejecuta este procedimiento.
 - AREA: NOT CERTIFIED BY GOLDEN v1
 - VOLUME: NOT CERTIFIED BY GOLDEN v1
 - MASS: NOT CERTIFIED BY GOLDEN v1
+
+## Contrato 002
+
+`scope-quantity-semantic-discovery-2026-09-08-002` es una corrección pre-baseline-002 del prompt de producción.
+
+Su propósito es hacer explícito para el modelo el contrato numérico de `EXACT`, `MINIMUM`, `MAXIMUM`, `RANGE`, `APPROXIMATE` y el uso de `null` en los campos no aplicables.
+
+No cambia el Golden, no cambia las gates, no introduce fallback determinista, no relaja validación y no repara salidas del modelo.
