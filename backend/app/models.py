@@ -749,6 +749,10 @@ class Tender(Base):
         back_populates="tender",
         cascade="all, delete-orphan",
     )
+    tender_scope_quantities: Mapped[list["TenderScopeQuantity"]] = relationship(
+        back_populates="tender",
+        cascade="all, delete-orphan",
+    )
     scope_segments: Mapped[list["TenderScopeSegment"]] = relationship(
         back_populates="tender",
         cascade="all, delete-orphan",
@@ -1051,6 +1055,10 @@ class TenderScopeDetail(Base):
         back_populates="scope_detail",
         cascade="all, delete-orphan",
     )
+    scope_quantities: Mapped[list["TenderScopeQuantity"]] = relationship(
+        back_populates="scope_detail",
+        cascade="all, delete-orphan",
+    )
 
 
 class TenderScopeAttribute(Base):
@@ -1144,6 +1152,109 @@ class TenderScopeAttribute(Base):
 
     tender: Mapped[Tender] = relationship(back_populates="tender_scope_attributes")
     scope_detail: Mapped[TenderScopeDetail] = relationship(back_populates="scope_attributes")
+    source_document: Mapped[TenderDocument] = relationship()
+    document_page: Mapped[DocumentPage] = relationship()
+    source_analysis: Mapped[DocumentVisionAnalysis | None] = relationship()
+    source_page_result: Mapped[DocumentVisionPageResult | None] = relationship()
+
+
+class TenderScopeQuantity(Base):
+    __tablename__ = "tender_scope_quantities"
+
+    __table_args__ = (
+        CheckConstraint(
+            "confidence IS NULL OR (confidence >= 0.0 AND confidence <= 1.0)",
+            name="ck_tender_scope_quantities_confidence_range",
+        ),
+        CheckConstraint(
+            "relation IS NULL OR relation IN ('EXACT', 'MINIMUM', 'MAXIMUM', 'RANGE', 'APPROXIMATE', 'UNSPECIFIED')",
+            name="ck_tender_scope_quantities_relation_allowed",
+        ),
+        CheckConstraint(
+            "measure_kind IS NULL OR measure_kind IN ('COUNT', 'LENGTH', 'AREA', 'VOLUME', 'MASS', 'DURATION', 'PERSONNEL', 'SERVICE', 'LOT', 'OTHER')",
+            name="ck_tender_scope_quantities_measure_kind_allowed",
+        ),
+        UniqueConstraint(
+            "scope_detail_id",
+            "source_artifact_key",
+            "semantic_fingerprint",
+            name="uq_tender_scope_quantities_artifact_fingerprint",
+        ),
+        Index("ix_tender_scope_quantities_tender_id", "tender_id"),
+        Index("ix_tender_scope_quantities_scope_detail_id", "scope_detail_id"),
+        Index("ix_tender_scope_quantities_source_document_id", "source_document_id"),
+        Index("ix_tender_scope_quantities_document_page_id", "document_page_id"),
+        Index("ix_tender_scope_quantities_source_artifact_key", "source_artifact_key"),
+        Index("ix_tender_scope_quantities_measure_kind", "measure_kind"),
+        Index("ix_tender_scope_quantities_relation", "relation"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    scope_detail_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_scope_details.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    source_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    document_page_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    quantity_raw: Mapped[str] = mapped_column(String(128), nullable=False)
+    quantity_value: Mapped[Decimal | None] = mapped_column(Numeric(18, 4), nullable=True)
+    quantity_min: Mapped[Decimal | None] = mapped_column(Numeric(18, 4), nullable=True)
+    quantity_max: Mapped[Decimal | None] = mapped_column(Numeric(18, 4), nullable=True)
+    unit_raw: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    measure_kind: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    relation: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    source_method: Mapped[str] = mapped_column(String(32), nullable=False)
+    source_artifact_key: Mapped[str] = mapped_column(String(255), nullable=False)
+    source_locator: Mapped[str] = mapped_column(String(512), nullable=False)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False)
+    review_required: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    semantic_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+    source_contract_version: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    source_analysis_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_vision_analyses.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    source_page_result_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_vision_page_results.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship(back_populates="tender_scope_quantities")
+    scope_detail: Mapped[TenderScopeDetail] = relationship(back_populates="scope_quantities")
     source_document: Mapped[TenderDocument] = relationship()
     document_page: Mapped[DocumentPage] = relationship()
     source_analysis: Mapped[DocumentVisionAnalysis | None] = relationship()
