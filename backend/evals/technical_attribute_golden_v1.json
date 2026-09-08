@@ -1,0 +1,332 @@
+{
+  "golden_version": "technical-attribute-golden-2026-09-08-001",
+  "generated_at": "2026-09-08T00:00:00Z",
+  "notes": "Real persisted TenderScopeDetail evidence from licitia_dev. Deterministic 06.3.5b anchors used only as candidate seeds; expected attributes manually fixed in this file.",
+  "cases": [
+    {
+      "case_id": "ta_golden_case_001",
+      "golden_version": "technical-attribute-golden-2026-09-08-001",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "e4027852-f450-4090-a393-8ba3293019f1",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:0",
+      "source_text": "• MÓDULO DE ENTRADAS ANALÓGICAS, MARCA: YOKOGAWA, MODELO: AA143-H50/K4400 (1 PIEZA)",
+      "source_text_sha256": "2c6a62750bf1d7dbc548778dc277fff9f9dea737d22c59568e7dc067d6a19874",
+      "evaluation_mode": "STRICT",
+      "human_label_status": "APPROVED",
+      "expected_attributes": [
+        {
+          "golden_attribute_id": "ga-001-brand",
+          "attribute_name": "brand",
+          "value_raw": "YOKOGAWA",
+          "evidence_excerpt": "MARCA: YOKOGAWA",
+          "attribute_label_raw": "MARCA",
+          "relation": "UNSPECIFIED"
+        },
+        {
+          "golden_attribute_id": "ga-001-model",
+          "attribute_name": "model",
+          "value_raw": "AA143-H50/K4400",
+          "evidence_excerpt": "MODELO: AA143-H50/K4400",
+          "attribute_label_raw": "MODELO",
+          "relation": "UNSPECIFIED"
+        }
+      ],
+      "candidate_reason": "deterministic 06.3.5b anchor brand/model and explicit technical descriptors",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001"
+    },
+    {
+      "case_id": "ta_golden_case_002",
+      "golden_version": "technical-attribute-golden-2026-09-08-001",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "a813446f-e3d8-401c-ae5e-06abdcde3a23",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:1",
+      "source_text": "• MÓDULO DE ENTRADAS DIGITALES, MARCA: YOKOGAWA, MODELO: ADV159-P00 (1 PIEZA)",
+      "source_text_sha256": "5ed3e002b827efe978b1fcc9c515d6b909368d67391a535987cfe40413a4406f",
+      "evaluation_mode": "STRICT",
+      "human_label_status": "APPROVED",
+      "expected_attributes": [
+        {
+          "golden_attribute_id": "ga-002-brand",
+          "attribute_name": "brand",
+          "value_raw": "YOKOGAWA",
+          "evidence_excerpt": "MARCA: YOKOGAWA",
+          "attribute_label_raw": "MARCA",
+          "relation": "UNSPECIFIED"
+        },
+        {
+          "golden_attribute_id": "ga-002-model",
+          "attribute_name": "model",
+          "value_raw": "ADV159-P00",
+          "evidence_excerpt": "MODELO: ADV159-P00",
+          "attribute_label_raw": "MODELO",
+          "relation": "UNSPECIFIED"
+        }
+      ],
+      "candidate_reason": "deterministic 06.3.5b anchor brand/model and explicit technical descriptors",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001"
+    },
+    {
+      "case_id": "ta_golden_case_003",
+      "golden_version": "technical-attribute-golden-2026-09-08-001",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "17924c25-e4bd-456c-a567-26511cc0058c",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:2",
+      "source_text": "• MÓDULO DE SALIDAS DIGITALES, MARCA: YOKOGAWA, MODELO: ADV551-P60/D5A00 (1 PIEZA)",
+      "source_text_sha256": "c6da07b4a36213fa3b36636e18162180120c5f0e5da74157295a57274e038c9a",
+      "evaluation_mode": "STRICT",
+      "human_label_status": "APPROVED",
+      "expected_attributes": [
+        {
+          "golden_attribute_id": "ga-003-brand",
+          "attribute_name": "brand",
+          "value_raw": "YOKOGAWA",
+          "evidence_excerpt": "MARCA: YOKOGAWA",
+          "attribute_label_raw": "MARCA",
+          "relation": "UNSPECIFIED"
+        },
+        {
+          "golden_attribute_id": "ga-003-model",
+          "attribute_name": "model",
+          "value_raw": "ADV551-P60/D5A00",
+          "evidence_excerpt": "MODELO: ADV551-P60/D5A00",
+          "attribute_label_raw": "MODELO",
+          "relation": "UNSPECIFIED"
+        }
+      ],
+      "candidate_reason": "deterministic 06.3.5b anchor brand/model and explicit technical descriptors",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001"
+    },
+    {
+      "case_id": "ta_golden_case_004",
+      "golden_version": "technical-attribute-golden-2026-09-08-001",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "8c807e2d-2500-4c1b-a775-8654911294f1",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:3",
+      "source_text": "• MÓDULO DE ENTRADAS DE RTD, MARCA: YOKOGAWA, MODELO: AAR145-S50 (1 PIEZA)",
+      "source_text_sha256": "64c697c646e889d98c2e48edcdc9a10e87546787945cbfdc7ddca52163eb5ed0",
+      "evaluation_mode": "STRICT",
+      "human_label_status": "APPROVED",
+      "expected_attributes": [
+        {
+          "golden_attribute_id": "ga-004-brand",
+          "attribute_name": "brand",
+          "value_raw": "YOKOGAWA",
+          "evidence_excerpt": "MARCA: YOKOGAWA",
+          "attribute_label_raw": "MARCA",
+          "relation": "UNSPECIFIED"
+        },
+        {
+          "golden_attribute_id": "ga-004-model",
+          "attribute_name": "model",
+          "value_raw": "AAR145-S50",
+          "evidence_excerpt": "MODELO: AAR145-S50",
+          "attribute_label_raw": "MODELO",
+          "relation": "UNSPECIFIED"
+        }
+      ],
+      "candidate_reason": "deterministic 06.3.5b anchor brand/model and explicit technical descriptors",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001"
+    },
+    {
+      "case_id": "ta_golden_case_005",
+      "golden_version": "technical-attribute-golden-2026-09-08-001",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "5ae9875a-5cdd-4cf9-8892-dd735c377e9f",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:4",
+      "source_text": "• FUENTE DE ALIMENTACIÓN DE 100-120VCA, MARCA: YOKOGAWA, MODELO: PW481-50 (1 PIEZA)",
+      "source_text_sha256": "1e01ef6662bc8f4ba626eb08af04f6acfc23a6b51f742b44328e840034628412",
+      "evaluation_mode": "STRICT",
+      "human_label_status": "APPROVED",
+      "expected_attributes": [
+        {
+          "golden_attribute_id": "ga-005-brand",
+          "attribute_name": "brand",
+          "value_raw": "YOKOGAWA",
+          "evidence_excerpt": "MARCA: YOKOGAWA",
+          "attribute_label_raw": "MARCA",
+          "relation": "UNSPECIFIED"
+        },
+        {
+          "golden_attribute_id": "ga-005-model",
+          "attribute_name": "model",
+          "value_raw": "PW481-50",
+          "evidence_excerpt": "MODELO: PW481-50",
+          "attribute_label_raw": "MODELO",
+          "relation": "UNSPECIFIED"
+        },
+        {
+          "golden_attribute_id": "ga-005-power",
+          "attribute_name": "power_supply",
+          "value_raw": "100-120VCA",
+          "evidence_excerpt": "FUENTE DE ALIMENTACIÓN DE 100-120VCA",
+          "attribute_label_raw": "FUENTE DE ALIMENTACIÓN",
+          "unit_raw": "VCA",
+          "relation": "RANGE"
+        }
+      ],
+      "candidate_reason": "deterministic 06.3.5b anchor brand/model and explicit technical descriptors",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001"
+    },
+    {
+      "case_id": "ta_golden_case_006",
+      "golden_version": "technical-attribute-golden-2026-09-08-001",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "c90ba732-d1cc-40e3-9829-cc8fc71ec4ce",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:5",
+      "source_text": "• MÓDULO DE COMUNICACIÓN ESB BUS, MARCA: YOKOGAWA, MODELO: EC401-50 (2 PIEZAS)",
+      "source_text_sha256": "8721ce23e21c4b85b415aab20e9093c16e90c3e3f638b93b308099ff4160e29c",
+      "evaluation_mode": "STRICT",
+      "human_label_status": "APPROVED",
+      "expected_attributes": [
+        {
+          "golden_attribute_id": "ga-006-brand",
+          "attribute_name": "brand",
+          "value_raw": "YOKOGAWA",
+          "evidence_excerpt": "MARCA: YOKOGAWA",
+          "attribute_label_raw": "MARCA",
+          "relation": "UNSPECIFIED"
+        },
+        {
+          "golden_attribute_id": "ga-006-model",
+          "attribute_name": "model",
+          "value_raw": "EC401-50",
+          "evidence_excerpt": "MODELO: EC401-50",
+          "attribute_label_raw": "MODELO",
+          "relation": "UNSPECIFIED"
+        },
+        {
+          "golden_attribute_id": "ga-006-protocol",
+          "attribute_name": "protocol",
+          "value_raw": "ESB BUS",
+          "evidence_excerpt": "MÓDULO DE COMUNICACIÓN ESB BUS",
+          "relation": "UNSPECIFIED"
+        }
+      ],
+      "candidate_reason": "deterministic 06.3.5b anchor brand/model and explicit technical descriptors",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001"
+    },
+    {
+      "case_id": "ta_golden_case_007",
+      "golden_version": "technical-attribute-golden-2026-09-08-001",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "a8cf6d8f-320c-4f84-9db1-ac8b5dde8349",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:6",
+      "source_text": "• BATERÍAS PARA CONTROLADOR AFV10D, MARCA: YOKOGAWA, MODELO: S9129FA (4 PIEZAS).",
+      "source_text_sha256": "829da4ad572b0df86fdf692827247bd391d419026135c374b21abfe40175de4a",
+      "evaluation_mode": "STRICT",
+      "human_label_status": "APPROVED",
+      "expected_attributes": [
+        {
+          "golden_attribute_id": "ga-007-brand",
+          "attribute_name": "brand",
+          "value_raw": "YOKOGAWA",
+          "evidence_excerpt": "MARCA: YOKOGAWA",
+          "attribute_label_raw": "MARCA",
+          "relation": "UNSPECIFIED"
+        },
+        {
+          "golden_attribute_id": "ga-007-model",
+          "attribute_name": "model",
+          "value_raw": "S9129FA",
+          "evidence_excerpt": "MODELO: S9129FA",
+          "attribute_label_raw": "MODELO",
+          "relation": "UNSPECIFIED"
+        }
+      ],
+      "candidate_reason": "deterministic 06.3.5b anchor brand/model and explicit technical descriptors",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001"
+    },
+    {
+      "case_id": "ta_golden_case_009",
+      "golden_version": "technical-attribute-golden-2026-09-08-001",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "bbc26c97-b6b2-4bcb-9a99-887dfacf1ec0",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:8",
+      "source_text": "• LIMPIEZA DEL ÁREA DE SERVICIO UTILIZADA Y ENTREGAR EL EQUIPO OPERANDO SATISFACTORIAMENTE AL PERSONAL DEL ÁREA OPERATIVA.",
+      "source_text_sha256": "601b6ffe8c617e989fe4641dfec24e4bdfd52613246c11d15c925b8b9bc04d73",
+      "evaluation_mode": "NO_ATTRIBUTES",
+      "human_label_status": "APPROVED",
+      "expected_attributes": [],
+      "candidate_reason": "hard negative for technical-attribute semantics: obligation/deliverable text without explicit bounded technical attribute pair",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001"
+    },
+    {
+      "case_id": "ta_golden_case_010",
+      "golden_version": "technical-attribute-golden-2026-09-08-001",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "5693b28f-0b20-48ea-b5b0-c15231b5f3e1",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:9",
+      "source_text": "• ELABORACIÓN Y ENTREGA DE REPORTE PROFESIONAL CON UNA COPIA, EN MEDIO ELECTRÓNICO.",
+      "source_text_sha256": "7b49ca3bba54242eb98b31ab1ed3e81549c18fec5f500822356a3fa5169f3a3c",
+      "evaluation_mode": "NO_ATTRIBUTES",
+      "human_label_status": "APPROVED",
+      "expected_attributes": [],
+      "candidate_reason": "hard negative for technical-attribute semantics: obligation/deliverable text without explicit bounded technical attribute pair",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001"
+    },
+    {
+      "case_id": "ta_golden_case_011",
+      "golden_version": "technical-attribute-golden-2026-09-08-001",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "d17932e4-8b8d-4e21-9973-a8e9d723103b",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:10",
+      "source_text": "ENTREGABLE: LOS SISTEMAS OPERANDO A SATISFACCIÓN DE PEMEX. FIRMAS DE RECIBIDO EL SERVICIO POR PERSONAL OPERATIVO, COORDINADOR DE MANTENIMIENTO Y SUPERVISOR DE CONTRATO.",
+      "source_text_sha256": "66ef7ebc1e557c197772e65b0803d4a74f6fd28e252d044b40ac88e4da944361",
+      "evaluation_mode": "NO_ATTRIBUTES",
+      "human_label_status": "APPROVED",
+      "expected_attributes": [],
+      "candidate_reason": "hard negative for technical-attribute semantics: obligation/deliverable text without explicit bounded technical attribute pair",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001"
+    }
+  ]
+}
