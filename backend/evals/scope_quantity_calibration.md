@@ -3,7 +3,8 @@
 ## Estado
 
 HUMAN GOLDEN APPROVED AND FROZEN
-REAL MODEL CALIBRATION NOT YET EXECUTED
+REAL MODEL CALIBRATION BASELINE 003 EXECUTED
+CALIBRATION DECISION: ACCEPT BOUNDED
 
 ## Propósito
 
@@ -23,10 +24,10 @@ No evalúa ni aprueba modelos todavía.
 - `scope-quantity-semantic-discovery-2026-09-08-003`
 - Actualizado en este slice como Contract 003.
 
-## Modelo objetivo para calibración futura
+## Modelo calibrado
 
-- Baseline previsto para 06.4.4b: `qwen3:8b`
-- En 06.4.4a no se ejecuta modelo real.
+- Baseline calibrado en 06.4.4b: `qwen3:8b`
+- Resultado formal de calibración en Golden v1: `ACCEPT BOUNDED`
 
 ## Gate humano obligatorio
 
@@ -121,6 +122,28 @@ Estos gates no se degradan por resultados de corrida sin decisión explícita de
 - Falla primaria: objetos `DISCOVERED` parciales, especialmente ausencia de `measure_kind`.
 - Limitación diagnóstica: no se imprimió raw response para `sq_golden_case_007` con `REVIEW_REQUIRED` ni para `sq_golden_case_011` con `DISCOVERED/FAIL`, por lo que su salida exacta de modelo no pudo recuperarse de la corrida histórica.
 
+### Baseline 003
+
+- Fecha: 2026-09-08
+- Modelo: qwen3:8b
+- Contrato: `scope-quantity-semantic-discovery-2026-09-08-003`
+- Golden: `scope-quantity-golden-2026-09-08-001`
+- SHA Golden: `de2327ca868f8b72bf6dd80f50a568807b567f92c4106d65f913b7ce263339e7`
+- Casos: `cases_total=11`
+- Resultados: `PASS=11`, `FAIL=0`, `REVIEW_REQUIRED=0`, `UNLABELED=0`, `INVALID=0`
+- Discovery: `DISCOVERED=8`, `NO_QUANTITIES=3`
+- Cantidades: `expected=8`, `discovered=8`, `matched=8`, `missing=0`, `unexpected=0`
+- Precision / recall: `1.0000 / 1.0000`
+- Hard-negative: `3/3`
+- Mixed-context: `7/7`
+- Critical technical leakage: `0`
+- Grounding errors: `0`
+- Contract validation errors: `0`
+- Invalid output: `0`
+- Timing: `total_ms=179410`, `avg_ms=16303.82`, `max_ms=73075`
+- Decisión: `ACCEPT BOUNDED`
+- Interpretación: éxito de calibración sobre Golden v1, no generalización ciega out-of-sample.
+
 ## Cobertura y certificación
 
 Aprobación de métrica de modelo no equivale a certificación de cobertura de categoría.
@@ -138,7 +161,7 @@ En 06.4.4a no se ejecuta este procedimiento.
 
 ## Estado de cobertura de categoría
 
-- COUNT: covered by Golden v1
+- COUNT: CERTIFIED BY GOLDEN v1
 - PERSONNEL: NOT CERTIFIED BY GOLDEN v1
 - DURATION: NOT CERTIFIED BY GOLDEN v1
 - LENGTH: NOT CERTIFIED BY GOLDEN v1
@@ -161,3 +184,39 @@ No cambia el Golden, no cambia las gates, no introduce fallback determinista, no
 Contract 003 es la última iteración planificada de corrección schema/prompt antes de una decisión arquitectónica sobre qwen3:8b.
 
 Después de Baseline 003, no deben alterarse Golden ni gates ni continuar ajuste iterativo de prompt sin decisión explícita de arquitecto.
+
+## Decisión arquitectónica vigente
+
+qwen3:8b bajo Contract 003 se acepta como generador semántico acotado de candidatos de cantidad para ScopeDetail.
+
+No es autoridad contractual ni autoridad autónoma de persistencia.
+
+La arquitectura permanece: evidencia determinista persistida primero, suplementación semántica opcional y revisión humana para candidatos semánticos.
+
+## Límite de calibración y certificación
+
+Baseline 003 no demuestra exactitud general de producción.
+
+Razones explícitas:
+
+1. Golden v1 sólo certifica COUNT en datos reales aprobados.
+2. Contract 003 se endureció usando fallas observadas en Baseline 001/002 sobre el mismo Golden.
+3. Baseline 003 es éxito de calibración sobre ese Golden, no validación ciega out-of-sample.
+4. La validación ciega queda diferida a MVP-06.V con Tender #002.
+5. Los candidatos semánticos permanecen `review_required=True` y no se persisten automáticamente.
+
+## Límite de throughput
+
+La calibración funcional no certifica throughput de producción.
+
+Con Baseline 003: `total_ms=179410`, `avg_ms=16303.82`, `max_ms=73075`.
+
+La orquestación de invocación semántica debe seguir explícita e inyectada para evitar fan-out no controlado.
+
+## Freeze
+
+- Golden v1: FROZEN
+- Contract 003: FROZEN
+- Calibration gates: FROZEN
+
+No se planifica Contract 004 antes de la validación ciega MVP-06.V y decisión explícita de arquitectura.
