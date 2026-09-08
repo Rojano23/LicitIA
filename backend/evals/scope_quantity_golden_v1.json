@@ -1,0 +1,429 @@
+{
+  "golden_version": "scope-quantity-golden-2026-09-08-001",
+  "generated_at": "2026-09-08T21:25:10Z",
+  "notes": "DRAFT HUMAN GOLDEN. All labels are PENDING by design. Cases are real persisted TenderScopeDetail evidence from licitia_dev and require human domain approval.",
+  "external_reference": "SNR-CAD-265-CA-S-2026",
+  "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+  "summary": {
+    "cases_total": 11,
+    "pending": 0,
+    "approved": 11,
+    "strict_proposals": 8,
+    "no_quantities_proposals": 3,
+    "review_required_proposals": 0
+  },
+  "cases": [
+    {
+      "case_id": "sq_golden_case_001",
+      "golden_version": "scope-quantity-golden-2026-09-08-001",
+      "human_label_status": "APPROVED",
+      "evaluation_mode": "STRICT",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "e4027852-f450-4090-a393-8ba3293019f1",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:0",
+      "source_text": "• MÓDULO DE ENTRADAS ANALÓGICAS, MARCA: YOKOGAWA, MODELO: AA143-H50/K4400 (1 PIEZA)",
+      "source_text_sha256": "2c6a62750bf1d7dbc548778dc277fff9f9dea737d22c59568e7dc067d6a19874",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001",
+      "source_analysis_id": "62739431-0b75-4d49-b143-c03027249053",
+      "source_page_result_id": "2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "expected_quantities": [
+        {
+          "golden_quantity_id": "gq-001-001",
+          "quantity_raw": "1",
+          "unit_raw": "PIEZA",
+          "measure_kind": "COUNT",
+          "relation": "EXACT",
+          "quantity_value_raw": "1",
+          "quantity_min_raw": null,
+          "quantity_max_raw": null,
+          "evidence_excerpt": "(1 PIEZA)"
+        }
+      ],
+      "forbidden_quantity_literals": [
+        "AA143-H50/K4400",
+        "AA143"
+      ],
+      "coverage_tags": [
+        "COUNT",
+        "MIXED_TECHNICAL_NUMBER",
+        "IDENTIFIER_NEGATIVE"
+      ],
+      "candidate_reason": "Propuesta determinista: patrón terminal '(N UNIDAD)' detectado en evidencia real. Requiere aprobación humana."
+    },
+    {
+      "case_id": "sq_golden_case_002",
+      "golden_version": "scope-quantity-golden-2026-09-08-001",
+      "human_label_status": "APPROVED",
+      "evaluation_mode": "STRICT",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "a813446f-e3d8-401c-ae5e-06abdcde3a23",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:1",
+      "source_text": "• MÓDULO DE ENTRADAS DIGITALES, MARCA: YOKOGAWA, MODELO: ADV159-P00 (1 PIEZA)",
+      "source_text_sha256": "5ed3e002b827efe978b1fcc9c515d6b909368d67391a535987cfe40413a4406f",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001",
+      "source_analysis_id": "62739431-0b75-4d49-b143-c03027249053",
+      "source_page_result_id": "2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "expected_quantities": [
+        {
+          "golden_quantity_id": "gq-002-001",
+          "quantity_raw": "1",
+          "unit_raw": "PIEZA",
+          "measure_kind": "COUNT",
+          "relation": "EXACT",
+          "quantity_value_raw": "1",
+          "quantity_min_raw": null,
+          "quantity_max_raw": null,
+          "evidence_excerpt": "(1 PIEZA)"
+        }
+      ],
+      "forbidden_quantity_literals": [
+        "ADV159-P00",
+        "ADV159"
+      ],
+      "coverage_tags": [
+        "COUNT",
+        "MIXED_TECHNICAL_NUMBER",
+        "IDENTIFIER_NEGATIVE"
+      ],
+      "candidate_reason": "Propuesta determinista: patrón terminal '(N UNIDAD)' detectado en evidencia real. Requiere aprobación humana."
+    },
+    {
+      "case_id": "sq_golden_case_003",
+      "golden_version": "scope-quantity-golden-2026-09-08-001",
+      "human_label_status": "APPROVED",
+      "evaluation_mode": "NO_QUANTITIES",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "d17932e4-8b8d-4e21-9973-a8e9d723103b",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:10",
+      "source_text": "ENTREGABLE: LOS SISTEMAS OPERANDO A SATISFACCIÓN DE PEMEX. FIRMAS DE RECIBIDO EL SERVICIO POR PERSONAL OPERATIVO, COORDINADOR DE MANTENIMIENTO Y SUPERVISOR DE CONTRATO.",
+      "source_text_sha256": "66ef7ebc1e557c197772e65b0803d4a74f6fd28e252d044b40ac88e4da944361",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001",
+      "source_analysis_id": "62739431-0b75-4d49-b143-c03027249053",
+      "source_page_result_id": "2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "expected_quantities": [],
+      "forbidden_quantity_literals": [],
+      "coverage_tags": [
+        "DELIVERABLE",
+        "HARD_NEGATIVE"
+      ],
+      "candidate_reason": "Decisión humana: texto operativo con roles/firmas sin cantidad contractual explícita ni magnitud de ejecución medible; propuesta NO_QUANTITIES."
+    },
+    {
+      "case_id": "sq_golden_case_004",
+      "golden_version": "scope-quantity-golden-2026-09-08-001",
+      "human_label_status": "APPROVED",
+      "evaluation_mode": "STRICT",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "17924c25-e4bd-456c-a567-26511cc0058c",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:2",
+      "source_text": "• MÓDULO DE SALIDAS DIGITALES, MARCA: YOKOGAWA, MODELO: ADV551-P60/D5A00 (1 PIEZA)",
+      "source_text_sha256": "c6da07b4a36213fa3b36636e18162180120c5f0e5da74157295a57274e038c9a",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001",
+      "source_analysis_id": "62739431-0b75-4d49-b143-c03027249053",
+      "source_page_result_id": "2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "expected_quantities": [
+        {
+          "golden_quantity_id": "gq-004-001",
+          "quantity_raw": "1",
+          "unit_raw": "PIEZA",
+          "measure_kind": "COUNT",
+          "relation": "EXACT",
+          "quantity_value_raw": "1",
+          "quantity_min_raw": null,
+          "quantity_max_raw": null,
+          "evidence_excerpt": "(1 PIEZA)"
+        }
+      ],
+      "forbidden_quantity_literals": [
+        "ADV551-P60/D5A00",
+        "ADV551"
+      ],
+      "coverage_tags": [
+        "COUNT",
+        "MIXED_TECHNICAL_NUMBER",
+        "IDENTIFIER_NEGATIVE"
+      ],
+      "candidate_reason": "Propuesta determinista: patrón terminal '(N UNIDAD)' detectado en evidencia real. Requiere aprobación humana."
+    },
+    {
+      "case_id": "sq_golden_case_005",
+      "golden_version": "scope-quantity-golden-2026-09-08-001",
+      "human_label_status": "APPROVED",
+      "evaluation_mode": "STRICT",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "8c807e2d-2500-4c1b-a775-8654911294f1",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:3",
+      "source_text": "• MÓDULO DE ENTRADAS DE RTD, MARCA: YOKOGAWA, MODELO: AAR145-S50 (1 PIEZA)",
+      "source_text_sha256": "64c697c646e889d98c2e48edcdc9a10e87546787945cbfdc7ddca52163eb5ed0",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001",
+      "source_analysis_id": "62739431-0b75-4d49-b143-c03027249053",
+      "source_page_result_id": "2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "expected_quantities": [
+        {
+          "golden_quantity_id": "gq-005-001",
+          "quantity_raw": "1",
+          "unit_raw": "PIEZA",
+          "measure_kind": "COUNT",
+          "relation": "EXACT",
+          "quantity_value_raw": "1",
+          "quantity_min_raw": null,
+          "quantity_max_raw": null,
+          "evidence_excerpt": "(1 PIEZA)"
+        }
+      ],
+      "forbidden_quantity_literals": [
+        "AAR145-S50",
+        "AAR145"
+      ],
+      "coverage_tags": [
+        "COUNT",
+        "MIXED_TECHNICAL_NUMBER",
+        "IDENTIFIER_NEGATIVE"
+      ],
+      "candidate_reason": "Propuesta determinista: patrón terminal '(N UNIDAD)' detectado en evidencia real. Requiere aprobación humana."
+    },
+    {
+      "case_id": "sq_golden_case_006",
+      "golden_version": "scope-quantity-golden-2026-09-08-001",
+      "human_label_status": "APPROVED",
+      "evaluation_mode": "STRICT",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "5ae9875a-5cdd-4cf9-8892-dd735c377e9f",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:4",
+      "source_text": "• FUENTE DE ALIMENTACIÓN DE 100-120VCA, MARCA: YOKOGAWA, MODELO: PW481-50 (1 PIEZA)",
+      "source_text_sha256": "1e01ef6662bc8f4ba626eb08af04f6acfc23a6b51f742b44328e840034628412",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001",
+      "source_analysis_id": "62739431-0b75-4d49-b143-c03027249053",
+      "source_page_result_id": "2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "expected_quantities": [
+        {
+          "golden_quantity_id": "gq-006-001",
+          "quantity_raw": "1",
+          "unit_raw": "PIEZA",
+          "measure_kind": "COUNT",
+          "relation": "EXACT",
+          "quantity_value_raw": "1",
+          "quantity_min_raw": null,
+          "quantity_max_raw": null,
+          "evidence_excerpt": "(1 PIEZA)"
+        }
+      ],
+      "forbidden_quantity_literals": [
+        "100-120VCA",
+        "PW481-50",
+        "PW481"
+      ],
+      "coverage_tags": [
+        "COUNT",
+        "MIXED_TECHNICAL_NUMBER",
+        "IDENTIFIER_NEGATIVE"
+      ],
+      "candidate_reason": "Propuesta determinista: patrón terminal '(N UNIDAD)' detectado en evidencia real. Requiere aprobación humana."
+    },
+    {
+      "case_id": "sq_golden_case_007",
+      "golden_version": "scope-quantity-golden-2026-09-08-001",
+      "human_label_status": "APPROVED",
+      "evaluation_mode": "STRICT",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "c90ba732-d1cc-40e3-9829-cc8fc71ec4ce",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:5",
+      "source_text": "• MÓDULO DE COMUNICACIÓN ESB BUS, MARCA: YOKOGAWA, MODELO: EC401-50 (2 PIEZAS)",
+      "source_text_sha256": "8721ce23e21c4b85b415aab20e9093c16e90c3e3f638b93b308099ff4160e29c",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001",
+      "source_analysis_id": "62739431-0b75-4d49-b143-c03027249053",
+      "source_page_result_id": "2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "expected_quantities": [
+        {
+          "golden_quantity_id": "gq-007-001",
+          "quantity_raw": "2",
+          "unit_raw": "PIEZAS",
+          "measure_kind": "COUNT",
+          "relation": "EXACT",
+          "quantity_value_raw": "2",
+          "quantity_min_raw": null,
+          "quantity_max_raw": null,
+          "evidence_excerpt": "(2 PIEZAS)"
+        }
+      ],
+      "forbidden_quantity_literals": [
+        "EC401-50",
+        "EC401"
+      ],
+      "coverage_tags": [
+        "COUNT",
+        "MIXED_TECHNICAL_NUMBER",
+        "IDENTIFIER_NEGATIVE"
+      ],
+      "candidate_reason": "Propuesta determinista: patrón terminal '(N UNIDAD)' detectado en evidencia real. Requiere aprobación humana."
+    },
+    {
+      "case_id": "sq_golden_case_008",
+      "golden_version": "scope-quantity-golden-2026-09-08-001",
+      "human_label_status": "APPROVED",
+      "evaluation_mode": "STRICT",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "a8cf6d8f-320c-4f84-9db1-ac8b5dde8349",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:6",
+      "source_text": "• BATERÍAS PARA CONTROLADOR AFV10D, MARCA: YOKOGAWA, MODELO: S9129FA (4 PIEZAS).",
+      "source_text_sha256": "829da4ad572b0df86fdf692827247bd391d419026135c374b21abfe40175de4a",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001",
+      "source_analysis_id": "62739431-0b75-4d49-b143-c03027249053",
+      "source_page_result_id": "2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "expected_quantities": [
+        {
+          "golden_quantity_id": "gq-008-001",
+          "quantity_raw": "4",
+          "unit_raw": "PIEZAS",
+          "measure_kind": "COUNT",
+          "relation": "EXACT",
+          "quantity_value_raw": "4",
+          "quantity_min_raw": null,
+          "quantity_max_raw": null,
+          "evidence_excerpt": "(4 PIEZAS)."
+        }
+      ],
+      "forbidden_quantity_literals": [
+        "AFV10D",
+        "S9129FA",
+        "S9129"
+      ],
+      "coverage_tags": [
+        "COUNT",
+        "MIXED_TECHNICAL_NUMBER",
+        "IDENTIFIER_NEGATIVE"
+      ],
+      "candidate_reason": "Propuesta determinista: patrón terminal '(N UNIDAD)' detectado en evidencia real. Requiere aprobación humana."
+    },
+    {
+      "case_id": "sq_golden_case_009",
+      "golden_version": "scope-quantity-golden-2026-09-08-001",
+      "human_label_status": "APPROVED",
+      "evaluation_mode": "NO_QUANTITIES",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "67b4003c-a2e8-4810-a838-9454da5e3b33",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:7",
+      "source_text": "• EL PROVEEDOR DEBE CONTAR CON EL EQUIPO DE CÓMPUTO Y SOFTWARE NECESARIO PARA LA EJECUCIÓN DE LOS SERVICIOS DE MANTENIMIENTO, INCLUYENDO LOS MEDIOS DE TRANSPORTE Y COMUNICACIÓN CON RADIOS A PRUEBA DE EXPLOSION, ASÍ COMO EQUIPO DE CÓMPUTO PARA LA ELABORACIÓN E IMPRESIÓN DE REPORTES DE SERVICIOS.",
+      "source_text_sha256": "60573489ccb3d8691ad7568d0d5a705a74cca4b40b793b281a69454ff7977e67",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001",
+      "source_analysis_id": "62739431-0b75-4d49-b143-c03027249053",
+      "source_page_result_id": "2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "expected_quantities": [],
+      "forbidden_quantity_literals": [],
+      "coverage_tags": [
+        "DELIVERABLE",
+        "HARD_NEGATIVE"
+      ],
+      "candidate_reason": "Decisión humana: sustantivos operativos (equipo/medios/radios/servicios) no constituyen cantidad contractual explícita; propuesta NO_QUANTITIES."
+    },
+    {
+      "case_id": "sq_golden_case_010",
+      "golden_version": "scope-quantity-golden-2026-09-08-001",
+      "human_label_status": "APPROVED",
+      "evaluation_mode": "NO_QUANTITIES",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "bbc26c97-b6b2-4bcb-9a99-887dfacf1ec0",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:8",
+      "source_text": "• LIMPIEZA DEL ÁREA DE SERVICIO UTILIZADA Y ENTREGAR EL EQUIPO OPERANDO SATISFACTORIAMENTE AL PERSONAL DEL ÁREA OPERATIVA.",
+      "source_text_sha256": "601b6ffe8c617e989fe4641dfec24e4bdfd52613246c11d15c925b8b9bc04d73",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001",
+      "source_analysis_id": "62739431-0b75-4d49-b143-c03027249053",
+      "source_page_result_id": "2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "expected_quantities": [],
+      "forbidden_quantity_literals": [],
+      "coverage_tags": [
+        "DELIVERABLE",
+        "HARD_NEGATIVE"
+      ],
+      "candidate_reason": "Decisión humana: lenguaje operativo/entregable sin cantidad de ejecución explícita; 'EL EQUIPO' no implica COUNT=1; propuesta NO_QUANTITIES."
+    },
+    {
+      "case_id": "sq_golden_case_011",
+      "golden_version": "scope-quantity-golden-2026-09-08-001",
+      "human_label_status": "APPROVED",
+      "evaluation_mode": "STRICT",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "scope_detail_id": "5693b28f-0b20-48ea-b5b0-c15231b5f3e1",
+      "source_document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "page_number": 4,
+      "source_method": "VISION",
+      "source_artifact_key": "vision-page-result:2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "source_locator": "page:4|detail_row:9",
+      "source_text": "• ELABORACIÓN Y ENTREGA DE REPORTE PROFESIONAL CON UNA COPIA, EN MEDIO ELECTRÓNICO.",
+      "source_text_sha256": "7b49ca3bba54242eb98b31ab1ed3e81549c18fec5f500822356a3fa5169f3a3c",
+      "source_contract_version": "vision-detail-transcription-2026-08-31-001",
+      "source_analysis_id": "62739431-0b75-4d49-b143-c03027249053",
+      "source_page_result_id": "2755aca4-b1bf-4c47-b6c2-bb49ebd9cd98",
+      "expected_quantities": [
+        {
+          "golden_quantity_id": "gq-011-001",
+          "quantity_raw": "UNA",
+          "unit_raw": "COPIA",
+          "measure_kind": "COUNT",
+          "relation": "EXACT",
+          "quantity_value_raw": "1",
+          "quantity_min_raw": null,
+          "quantity_max_raw": null,
+          "evidence_excerpt": "UNA COPIA"
+        }
+      ],
+      "forbidden_quantity_literals": [],
+      "coverage_tags": [
+        "COUNT",
+        "DELIVERABLE"
+      ],
+      "candidate_reason": "Decisión humana: 'UNA COPIA' es cantidad semántica explícita de entregable (COUNT EXACT=1) aunque no sea detectable por el parser determinista terminal de 06.4.2."
+    }
+  ]
+}
