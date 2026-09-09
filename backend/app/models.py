@@ -753,6 +753,10 @@ class Tender(Base):
         back_populates="tender",
         cascade="all, delete-orphan",
     )
+    tender_source_effects: Mapped[list["TenderSourceEffect"]] = relationship(
+        back_populates="tender",
+        cascade="all, delete-orphan",
+    )
     scope_segments: Mapped[list["TenderScopeSegment"]] = relationship(
         back_populates="tender",
         cascade="all, delete-orphan",
@@ -875,6 +879,15 @@ class TenderDocument(Base):
     page_structure_resolutions: Mapped[list["DocumentPageStructureResolution"]] = relationship(
         back_populates="source_document",
         cascade="all, delete-orphan",
+    )
+    acting_source_effects: Mapped[list["TenderSourceEffect"]] = relationship(
+        back_populates="acting_document",
+        foreign_keys="TenderSourceEffect.acting_document_id",
+        cascade="all, delete-orphan",
+    )
+    affected_source_effects: Mapped[list["TenderSourceEffect"]] = relationship(
+        back_populates="affected_document",
+        foreign_keys="TenderSourceEffect.affected_document_id",
     )
 
 
@@ -1261,6 +1274,167 @@ class TenderScopeQuantity(Base):
     source_page_result: Mapped[DocumentVisionPageResult | None] = relationship()
 
 
+class TenderSourceEffect(Base):
+    __tablename__ = "tender_source_effects"
+
+    __table_args__ = (
+        CheckConstraint(
+            "confidence IS NULL OR (confidence >= 0.0 AND confidence <= 1.0)",
+            name="ck_tender_source_effects_confidence_range",
+        ),
+        CheckConstraint(
+            "effect_type IN ('SUPERSEDES', 'AMENDS', 'CORRECTS', 'CLARIFIES', 'SUPPLEMENTS', 'REVOKES', 'UNSPECIFIED')",
+            name="ck_tender_source_effects_effect_type_allowed",
+        ),
+        CheckConstraint(
+            "effect_scope IN ('DOCUMENT_WIDE', 'PARTIAL', 'UNRESOLVED')",
+            name="ck_tender_source_effects_effect_scope_allowed",
+        ),
+        CheckConstraint(
+            "source_method IN ('NATIVE', 'OCR', 'VISION')",
+            name="ck_tender_source_effects_source_method_allowed",
+        ),
+        CheckConstraint(
+            "length(trim(source_artifact_key)) > 0",
+            name="ck_tender_source_effects_source_artifact_key_not_blank",
+        ),
+        CheckConstraint(
+            "length(trim(source_locator)) > 0",
+            name="ck_tender_source_effects_source_locator_not_blank",
+        ),
+        CheckConstraint(
+            "length(trim(source_excerpt)) > 0",
+            name="ck_tender_source_effects_source_excerpt_not_blank",
+        ),
+        CheckConstraint(
+            "length(trim(semantic_fingerprint)) > 0",
+            name="ck_tender_source_effects_semantic_fingerprint_not_blank",
+        ),
+        CheckConstraint(
+            "effect_type != 'UNSPECIFIED' OR review_required = TRUE",
+            name="ck_tender_source_effects_unspecified_requires_review",
+        ),
+        CheckConstraint(
+            "effect_scope != 'UNRESOLVED' OR review_required = TRUE",
+            name="ck_tender_source_effects_unresolved_requires_review",
+        ),
+        CheckConstraint(
+            "effect_scope != 'PARTIAL' OR affected_document_page_id IS NOT NULL OR (affected_locator_raw IS NOT NULL AND length(trim(affected_locator_raw)) > 0)",
+            name="ck_tender_source_effects_partial_requires_target_detail",
+        ),
+        CheckConstraint(
+            "acting_document_id != affected_document_id",
+            name="ck_tender_source_effects_acting_not_affected",
+        ),
+        CheckConstraint(
+            "affected_document_id IS NOT NULL OR (affected_document_ref_raw IS NOT NULL AND length(trim(affected_document_ref_raw)) > 0) OR review_required = TRUE",
+            name="ck_tender_source_effects_target_or_review",
+        ),
+        UniqueConstraint(
+            "acting_document_id",
+            "source_artifact_key",
+            "semantic_fingerprint",
+            name="uq_tender_source_effects_acting_artifact_fingerprint",
+        ),
+        Index("ix_tender_source_effects_tender_id", "tender_id"),
+        Index("ix_tender_source_effects_acting_document_id", "acting_document_id"),
+        Index("ix_tender_source_effects_affected_document_id", "affected_document_id"),
+        Index("ix_tender_source_effects_document_page_id", "document_page_id"),
+        Index("ix_tender_source_effects_affected_document_page_id", "affected_document_page_id"),
+        Index("ix_tender_source_effects_effect_type", "effect_type"),
+        Index("ix_tender_source_effects_effect_scope", "effect_scope"),
+        Index("ix_tender_source_effects_source_artifact_key", "source_artifact_key"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tenders.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    acting_document_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    affected_document_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("tender_documents.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    document_page_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    affected_document_page_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_pages.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    effect_type: Mapped[str] = mapped_column(String(32), nullable=False)
+    effect_scope: Mapped[str] = mapped_column(String(32), nullable=False)
+    affected_document_ref_raw: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    affected_locator_raw: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    effective_date_raw: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    source_method: Mapped[str] = mapped_column(String(32), nullable=False)
+    source_artifact_key: Mapped[str] = mapped_column(String(255), nullable=False)
+    source_locator: Mapped[str] = mapped_column(String(512), nullable=False)
+    source_excerpt: Mapped[str] = mapped_column(Text, nullable=False)
+    review_required: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+    semantic_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    source_contract_version: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    source_analysis_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_vision_analyses.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    source_page_result_id: Mapped[str | None] = mapped_column(
+        String(36),
+        ForeignKey("document_vision_page_results.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+
+    tender: Mapped[Tender] = relationship(back_populates="tender_source_effects")
+    acting_document: Mapped[TenderDocument] = relationship(
+        back_populates="acting_source_effects",
+        foreign_keys=[acting_document_id],
+    )
+    affected_document: Mapped[TenderDocument | None] = relationship(
+        back_populates="affected_source_effects",
+        foreign_keys=[affected_document_id],
+    )
+    document_page: Mapped[DocumentPage] = relationship(
+        back_populates="acting_source_effects",
+        foreign_keys=[document_page_id],
+    )
+    affected_document_page: Mapped[DocumentPage | None] = relationship(
+        back_populates="affected_source_effects",
+        foreign_keys=[affected_document_page_id],
+    )
+    source_analysis: Mapped[DocumentVisionAnalysis | None] = relationship()
+    source_page_result: Mapped[DocumentVisionPageResult | None] = relationship()
+
+
 class TenderScopeSegment(Base):
     __tablename__ = "tender_scope_segments"
 
@@ -1608,6 +1782,15 @@ class DocumentPage(Base):
     requirement_candidates: Mapped[list["RequirementCandidate"]] = relationship(back_populates="document_page")
     requirement_candidate_evidence: Mapped[list["RequirementCandidateEvidence"]] = relationship(back_populates="document_page")
     vision_page_results: Mapped[list["DocumentVisionPageResult"]] = relationship(back_populates="document_page", cascade="all, delete-orphan")
+    acting_source_effects: Mapped[list["TenderSourceEffect"]] = relationship(
+        back_populates="document_page",
+        foreign_keys="TenderSourceEffect.document_page_id",
+        cascade="all, delete-orphan",
+    )
+    affected_source_effects: Mapped[list["TenderSourceEffect"]] = relationship(
+        back_populates="affected_document_page",
+        foreign_keys="TenderSourceEffect.affected_document_page_id",
+    )
     structure_resolution: Mapped["DocumentPageStructureResolution | None"] = relationship(
         back_populates="document_page",
         cascade="all, delete-orphan",
