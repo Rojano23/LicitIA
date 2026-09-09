@@ -1,0 +1,96 @@
+{
+  "contract_version": "source-effect-contract-matrix-2026-09-08-001",
+  "notes": "Matriz sintética para validar contratos de resolución/proyección. No representa evidencia empírica del tender real.",
+  "cases": [
+    {
+      "case_id": "cm_001_single_document_wide_supersedes",
+      "category": "document_resolution",
+      "description": "SUPERSEDES document-wide simple",
+      "expected_document_status": "RESOLVED"
+    },
+    {
+      "case_id": "cm_002_pure_supersession_chain",
+      "category": "document_resolution",
+      "description": "Cadena pura de supersedes",
+      "expected_document_status": "RESOLVED"
+    },
+    {
+      "case_id": "cm_003_single_revokes",
+      "category": "document_resolution",
+      "description": "REVOKES document-wide simple",
+      "expected_document_status": "RESOLVED"
+    },
+    {
+      "case_id": "cm_004_branching_supersedes",
+      "category": "document_resolution",
+      "description": "Branching supersedes",
+      "expected_document_status": "REVIEW_REQUIRED"
+    },
+    {
+      "case_id": "cm_005_supersedes_vs_revokes",
+      "category": "document_resolution",
+      "description": "Conflicto terminal document-wide",
+      "expected_document_status": "REVIEW_REQUIRED"
+    },
+    {
+      "case_id": "cm_006_cycle",
+      "category": "document_resolution",
+      "description": "Ciclo de supersesión",
+      "expected_document_status": "REVIEW_REQUIRED"
+    },
+    {
+      "case_id": "cm_007_review_required_dependency",
+      "category": "document_resolution",
+      "description": "Efecto review_required bloquea",
+      "expected_document_status": "REVIEW_REQUIRED"
+    },
+    {
+      "case_id": "cm_008_no_revival",
+      "category": "document_resolution",
+      "description": "No revival sobre fuente terminal",
+      "expected_document_status": "REVIEW_REQUIRED"
+    },
+    {
+      "case_id": "cm_009_single_partial_supersedes",
+      "category": "partial_resolution",
+      "description": "Partial supersedes básico",
+      "expected_partial_status": "RESOLVED"
+    },
+    {
+      "case_id": "cm_010_single_partial_revokes",
+      "category": "partial_resolution",
+      "description": "Partial revokes básico",
+      "expected_partial_status": "RESOLVED"
+    },
+    {
+      "case_id": "cm_011_partial_branching",
+      "category": "partial_resolution",
+      "description": "Branching partial supersedes",
+      "expected_partial_status": "REVIEW_REQUIRED"
+    },
+    {
+      "case_id": "cm_012_partial_terminal_conflict",
+      "category": "partial_resolution",
+      "description": "Partial supersedes vs revokes",
+      "expected_partial_status": "REVIEW_REQUIRED"
+    },
+    {
+      "case_id": "cm_013_superseded_acting_source",
+      "category": "partial_resolution",
+      "description": "Acting source superseded bloquea terminal parcial",
+      "expected_partial_status": "REVIEW_REQUIRED"
+    },
+    {
+      "case_id": "cm_014_parent_child_projection_terminal_conflict",
+      "category": "effective_projection",
+      "description": "Conflicto terminal parent/child en proyección",
+      "expected_projection_status": "REVIEW_REQUIRED"
+    },
+    {
+      "case_id": "cm_015_unresolved_and_overlay_propagation",
+      "category": "effective_projection",
+      "description": "UNRESOLVED_SOURCE y overlay propagation",
+      "expected_projection_status": "REVIEW_REQUIRED"
+    }
+  ]
+}

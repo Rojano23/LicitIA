@@ -1,0 +1,34 @@
+{
+  "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+  "document_resolution": {
+    "status": "RESOLVED",
+    "document_status_counts": {
+      "ACTIVE": 24
+    },
+    "unresolved_effects_count": 0,
+    "conflicts_count": 0,
+    "review_required_documents": 0
+  },
+  "partial_resolution": {
+    "status": "RESOLVED",
+    "locator_status_counts": {},
+    "unresolved_effects_count": 0,
+    "conflicts_count": 0,
+    "review_required_locators": 0
+  },
+  "effective_projection": {
+    "status": "REVIEW_REQUIRED",
+    "requirement_status_counts": {
+      "REVIEW_REQUIRED": 17,
+      "EFFECTIVE": 15
+    },
+    "scope_detail_status_counts": {
+      "EFFECTIVE": 7,
+      "REVIEW_REQUIRED": 4
+    },
+    "attribute_status_counts": {},
+    "quantity_status_counts": {},
+    "diagnostic_count": 0,
+    "review_required_entities": 21
+  }
+}

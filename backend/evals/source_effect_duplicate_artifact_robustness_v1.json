@@ -1,0 +1,115 @@
+{
+  "golden_version": "source-effect-duplicate-artifact-robustness-2026-09-09-001",
+  "generated_at": "2026-09-09T05:29:34.237623+00:00",
+  "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+  "notes": "Duplicate artifact robustness set; excluded from primary baseline metrics.",
+  "label_status": "HUMAN_APPROVED",
+  "dataset_status": "DUPLICATE_ARTIFACT_ROBUSTNESS",
+  "paired_with_primary_dataset": "evals/source_effect_golden_v1.json",
+  "duplicate_selection_policy": [
+    {
+      "canonical_case_id": "se_gc_013",
+      "alternate_case_id": "se_gc_014",
+      "reason": "Canonical kept due to cleaner section label and less OCR ambiguity."
+    },
+    {
+      "canonical_case_id": "se_gc_015",
+      "alternate_case_id": "se_gc_016",
+      "reason": "Canonical kept due to cleaner section and document wording consistency."
+    },
+    {
+      "canonical_case_id": "se_gc_017",
+      "alternate_case_id": "se_gc_018",
+      "reason": "Canonical kept due to cleaner wording and less punctuation noise."
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "se_gc_012",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "acting_document_id": "d48638e1-2b44-4b87-9a37-ccb17de5b413",
+      "document_page_id": "1d5c6d87-194a-4e6a-b569-dce3f3d22fb3",
+      "source_method": "OCR",
+      "source_artifact_key": "ocr-result:3ef67ec7-564f-4b31-8749-923be7feebd7",
+      "source_locator": "page_3_ocr|chars_58-466",
+      "source_excerpt": "ROLLO\nDE LA DEBIDA DILIGENCIA EN MATERIA DE ÉTICA E\nDía\nMes\nAño\nSNR\nINTEGRIDAD CORPORATIVA\n09\n2023\nSECCIÓN DE CONTROL DE CAMBIOS\nPágina(s)\nFecha de\nRevisión\nDescripción del Cambio\nModificada(s)\nEmisión\nApartado 3.1.5. Aplicación y Desarrollo de la Debida Diligencia a los\n1\n14 y 15\n21/07/2023\nparticipantes. Se modifica la redacción.\nDisposiciones Transitorias. Se precisa la entrada en vigor y se\n1\n18\ndelim",
+      "source_excerpt_sha256": "4542c09ccacd5a08e680fcacec2a5192b6bb79c7b0f6fb714d74479e2ebef970",
+      "candidate_label_status": "HUMAN_APPROVED",
+      "expected_discovery_status": "REVIEW_REQUIRED",
+      "expected_effects": [],
+      "expected_review_required": true,
+      "category": "REVIEW_REQUIRED",
+      "human_note": "Evidencia con lenguaje potencial de versionado sin contexto mínimo de objetivo. Mantener en revisión.",
+      "evidence_note": "MISSING_TARGET_CONTEXT",
+      "acting_document_filename": "05. PLDD.pdf"
+    },
+    {
+      "case_id": "se_gc_014",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "acting_document_id": "d48638e1-2b44-4b87-9a37-ccb17de5b413",
+      "document_page_id": "be9b7cbd-5139-400a-88fa-318d2f15bcda",
+      "source_method": "OCR",
+      "source_artifact_key": "ocr-result:41e30d09-498b-4852-828a-8bc69787aa93",
+      "source_locator": "page_41_ocr|chars_2031-2437",
+      "source_excerpt": "ciamiento al\nterrorismo y que proporcionará la asistencia necesaria?\n\nPor favor imprima, firme y envielo por el medio en que se le indico. Se le indicará si requiere información o aclaraciones\nadicionales.\n\nFin de cuestionario para Terceros de Nivel de Riesgo Inicial Bajo.\n\nSECCIÓN Il\nEsta sección será entregada de manera adicional a la anterior para respuesta de los Terceros con Nivel de Riesgo Inicial",
+      "source_excerpt_sha256": "c175e9e65f08d66878d44b55faa9e249ca85919951dfff13f750ad4947ea23ca",
+      "candidate_label_status": "HUMAN_APPROVED",
+      "expected_discovery_status": "NO_EFFECTS",
+      "expected_effects": [],
+      "expected_review_required": false,
+      "category": "DESCRIPTIVE_NEGATIVE",
+      "human_note": "Texto real del expediente con palabras potencialmente confusas pero sin efecto operativo de versionado.",
+      "evidence_note": "Negativo de seguridad para evitar falsos positivos.",
+      "acting_document_filename": "05. PLDD.pdf"
+    },
+    {
+      "case_id": "se_gc_016",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "acting_document_id": "d48638e1-2b44-4b87-9a37-ccb17de5b413",
+      "document_page_id": "8b24ead9-76e9-4a9f-bdd3-0d3a8dcae602",
+      "source_method": "OCR",
+      "source_artifact_key": "ocr-result:d8b85cb2-5ca8-4651-8a80-28037a345dad",
+      "source_locator": "page_44_ocr|chars_177-583",
+      "source_excerpt": "in de cuestionario para terceros de Nivel de Riesgo Inicial Medio\n\nPor favor imprima, firme y envielo por el medio en que se le indicó. Se le indicará si se requiere información o\naclaraciones adicionales.\n\nSECCIÓN II\n\nEsta sección será entregada de manera adicional a las anteriores secciones para respuesta delos Terceros con Nivel\nde Riesgo Inicial Alto o de Especial Relevancia.\n\nYe ¿Usted o cualquier",
+      "source_excerpt_sha256": "9de211d33b1c720920faa0fd84f7354c65ee7cbe43441a9331aa88bccf22d08f",
+      "candidate_label_status": "HUMAN_APPROVED",
+      "expected_discovery_status": "NO_EFFECTS",
+      "expected_effects": [],
+      "expected_review_required": false,
+      "category": "DESCRIPTIVE_NEGATIVE",
+      "human_note": "Texto real del expediente con palabras potencialmente confusas pero sin efecto operativo de versionado.",
+      "evidence_note": "Negativo de seguridad para evitar falsos positivos.",
+      "acting_document_filename": "05. PLDD.pdf"
+    },
+    {
+      "case_id": "se_gc_018",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "acting_document_id": "d48638e1-2b44-4b87-9a37-ccb17de5b413",
+      "document_page_id": "46c8f9bd-da21-48f1-ae96-c8c2e1ecb794",
+      "source_method": "OCR",
+      "source_artifact_key": "ocr-result:f8849381-9298-43b5-bcb8-0e499ebe60cb",
+      "source_locator": "page_46_ocr|chars_497-905",
+      "source_excerpt": "para Terceros de Nivel de Riesgo Inicial Alto o de Especial Relevancia tratandose de Terceros con\nNivel de Riesgo Inicial de Especial Relevancia con indicios de lavado de dinero, adicionalmente, el Tercero deberá\nresponder el cuestionario del Anexo 7.\n\nPor favor imprima, firme y envielo por el medio en que se le indico. se le indicará si requiere información o aclaraciones\nadicionales.\n\n+\n\n. Aprobado/Aut",
+      "source_excerpt_sha256": "02cc99929e0a7fa5e591203a6b96d6cb0cfdb88225a347cb088c004a7bee80a5",
+      "candidate_label_status": "HUMAN_APPROVED",
+      "expected_discovery_status": "NO_EFFECTS",
+      "expected_effects": [],
+      "expected_review_required": false,
+      "category": "DESCRIPTIVE_NEGATIVE",
+      "human_note": "Texto real del expediente con palabras potencialmente confusas pero sin efecto operativo de versionado.",
+      "evidence_note": "Negativo de seguridad para evitar falsos positivos.",
+      "acting_document_filename": "05. PLDD.pdf"
+    }
+  ],
+  "summary": {
+    "cases_total": 4,
+    "excluded_from_primary_metrics": true,
+    "alternate_case_ids": [
+      "se_gc_012",
+      "se_gc_014",
+      "se_gc_016",
+      "se_gc_018"
+    ]
+  },
+  "integrity_sha256": "978c25505ef79554de3cd8d6abfd89bb9b4bccc1965d3f600b6b377bf35c4949"
+}
