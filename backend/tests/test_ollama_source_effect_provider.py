@@ -332,10 +332,95 @@ def test_prompt_has_human_control_and_negative_safety_instructions() -> None:
 
         prompt = payload["messages"][0]["content"]
         assert "Do not decide legal precedence" in prompt
+        assert "A source effect exists only when the fragment asserts an operative documentary change" in prompt
+        assert "Status and effect consistency is mandatory" in prompt
+        assert "Never return DISCOVERED with empty effects" in prompt
+        assert "REVIEW_REQUIRED is for credible documentary source effects" in prompt
         assert "Technical or execution changes alone are not source effects" in prompt
-        assert "Descriptive labels alone are not source effects" in prompt
+        assert "Return NO_EFFECTS for non-operative mentions" in prompt
+        assert "headings/index entries" in prompt
+        assert "concept definitions" in prompt
+        assert "clarification schedules/events" in prompt
+        assert "technical equipment changes" in prompt
+        assert "commercial/price proposal changes" in prompt
+        assert "affected_document_ref_raw may be populated only when the affected document reference appears literally" in prompt
+        assert "Distinguish locator from document identity" in prompt
+        assert "evidence_excerpt must be copied as one contiguous verbatim substring" in prompt
+        assert "Do not paraphrase, summarize, OCR-correct" in prompt
+        assert "Synthetic examples for behavior guidance only" in prompt
         assert "SOURCE_TEXT_BEGIN" in prompt
         assert "SOURCE_TEXT_END" in prompt
+
+        # No leakage of frozen Golden identities or labels into production prompt.
+        assert "se_gc_001" not in prompt
+        assert "se_gc_011" not in prompt
+        assert "decd32ae-2c1f-4520-89bc-d845c986a7ba" not in prompt
+        assert "inciso i" not in prompt
+        assert "Apartado 3.1.5" not in prompt
+        assert "Disposiciones Transitorias" not in prompt
+    finally:
+        db.close()
+
+
+def test_prompt_requires_no_effects_when_effects_array_is_empty() -> None:
+    captured_payloads: list[dict] = []
+
+    def transport(payload, timeout):
+        captured_payloads.append(payload)
+        return _ollama_response('{"status":"NO_EFFECTS","effects":[],"diagnostics":[]}')
+
+    provider = OllamaSourceEffectDiscoveryProvider(model_name="qwen3:8b", transport=transport)
+
+    db = SessionLocal()
+    try:
+        fragment = SourceEffectSemanticFragment(
+            tender_id="t-1",
+            acting_document_id="d-1",
+            document_page_id="p-1",
+            page_number=1,
+            source_method="NATIVE",
+            source_artifact_key="native-page:p-1",
+            source_locator="page:1",
+            source_text="The supplier may request clarification of the bidding rules.",
+        )
+
+        run_ollama_source_effect_discovery(db, fragment, provider=provider)
+        prompt = captured_payloads[0]["messages"][0]["content"]
+
+        assert "if no source effect exists, return status NO_EFFECTS with effects=[]" in prompt
+        assert "Never return DISCOVERED with empty effects" in prompt
+    finally:
+        db.close()
+
+
+def test_prompt_enforces_no_target_invention_with_locator_only_cases() -> None:
+    captured_payloads: list[dict] = []
+
+    def transport(payload, timeout):
+        captured_payloads.append(payload)
+        return _ollama_response('{"status":"NO_EFFECTS","effects":[],"diagnostics":[]}')
+
+    provider = OllamaSourceEffectDiscoveryProvider(model_name="qwen3:8b", transport=transport)
+
+    db = SessionLocal()
+    try:
+        fragment = SourceEffectSemanticFragment(
+            tender_id="t-2",
+            acting_document_id="d-2",
+            document_page_id="p-2",
+            page_number=1,
+            source_method="NATIVE",
+            source_artifact_key="native-page:p-2",
+            source_locator="page:1",
+            source_text="Section 7 is modified as follows...",
+        )
+
+        run_ollama_source_effect_discovery(db, fragment, provider=provider)
+        prompt = captured_payloads[0]["messages"][0]["content"]
+
+        assert "affected_document_ref_raw may be populated only when the affected document reference appears literally" in prompt
+        assert "Distinguish locator from document identity" in prompt
+        assert "you may keep a literal locator while leaving affected_document_ref_raw null" in prompt
     finally:
         db.close()
 
