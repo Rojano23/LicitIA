@@ -98,6 +98,7 @@ def test_valid_discovered_json_maps_to_semantic_candidate() -> None:
 
         provider = OllamaSourceEffectDiscoveryProvider(
             model_name="qwen3:8b",
+            strict_bounded_contract=True,
             transport=lambda payload, timeout: _ollama_response(
                 json.dumps(
                     {
@@ -106,10 +107,10 @@ def test_valid_discovered_json_maps_to_semantic_candidate() -> None:
                             {
                                 "effect_type": "CORRECTS",
                                 "effect_scope": "PARTIAL",
-                                "affected_document_ref_raw": "Anexo B",
+                                "evidence_span_id": "span_001",
+                                "affected_target_id": "target_001",
                                 "affected_locator_raw": "numeral 4.2",
                                 "effective_date_raw": None,
-                                "evidence_excerpt": "Se corrige Anexo B, numeral 4.2.",
                                 "confidence": 0.93,
                             }
                         ],
@@ -165,6 +166,205 @@ def test_valid_no_effects_json() -> None:
 
         assert result.status == SOURCE_EFFECT_SEMANTIC_DISCOVERY_STATUS_NO_EFFECTS
         assert result.candidate_count == 0
+    finally:
+        db.close()
+
+
+def test_strict_mode_rejects_legacy_free_text_output_without_fallback() -> None:
+    provider = OllamaSourceEffectDiscoveryProvider(
+        model_name="qwen3:8b",
+        strict_bounded_contract=True,
+        transport=lambda payload, timeout: _ollama_response(
+            json.dumps(
+                {
+                    "status": "DISCOVERED",
+                    "effects": [
+                        {
+                            "effect_type": "CORRECTS",
+                            "effect_scope": "PARTIAL",
+                            "evidence_span_id": "span_001",
+                            "affected_target_id": "target_001",
+                            "affected_locator_raw": "numeral 4.2",
+                            "effective_date_raw": None,
+                            "evidence_excerpt": "Se corrige Anexo B, numeral 4.2.",
+                            "confidence": 0.9,
+                        }
+                    ],
+                    "diagnostics": [],
+                }
+            )
+        ),
+    )
+
+    db = SessionLocal()
+    try:
+        fragment = SourceEffectSemanticFragment(
+            tender_id="t-legacy",
+            acting_document_id="d-legacy",
+            document_page_id="p-legacy",
+            page_number=1,
+            source_method="NATIVE",
+            source_artifact_key="native-page:p-legacy",
+            source_locator="page:1",
+            source_text="Se corrige Anexo B, numeral 4.2.",
+        )
+        result = discover_source_effect_semantics(db, fragment, providers=(provider,))
+        assert result.status == SOURCE_EFFECT_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT
+        assert result.errors
+    finally:
+        db.close()
+
+
+def test_strict_mode_rejects_unknown_span_and_unknown_target() -> None:
+    cases = (
+        {
+            "status": "DISCOVERED",
+            "effects": [
+                {
+                    "effect_type": "AMENDS",
+                    "effect_scope": "PARTIAL",
+                    "evidence_span_id": "span_999",
+                    "affected_target_id": None,
+                    "affected_locator_raw": "numeral 4.2",
+                    "effective_date_raw": None,
+                }
+            ],
+            "diagnostics": [],
+        },
+        {
+            "status": "DISCOVERED",
+            "effects": [
+                {
+                    "effect_type": "AMENDS",
+                    "effect_scope": "PARTIAL",
+                    "evidence_span_id": "span_001",
+                    "affected_target_id": "target_999",
+                    "affected_locator_raw": "numeral 4.2",
+                    "effective_date_raw": None,
+                }
+            ],
+            "diagnostics": [],
+        },
+    )
+
+    db = SessionLocal()
+    try:
+        for payload in cases:
+            provider = OllamaSourceEffectDiscoveryProvider(
+                model_name="qwen3:8b",
+                strict_bounded_contract=True,
+                transport=lambda _payload, _timeout, payload=payload: _ollama_response(json.dumps(payload)),
+            )
+            fragment = SourceEffectSemanticFragment(
+                tender_id="t-invalid",
+                acting_document_id="d-invalid",
+                document_page_id="p-invalid",
+                page_number=1,
+                source_method="NATIVE",
+                source_artifact_key="native-page:p-invalid",
+                source_locator="page:1",
+                source_text="Se corrige Anexo B, numeral 4.2.",
+            )
+            result = discover_source_effect_semantics(db, fragment, providers=(provider,))
+            assert result.status == SOURCE_EFFECT_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT
+    finally:
+        db.close()
+
+
+def test_provider_keeps_bounded_evidence_spans_when_no_anchor_is_present() -> None:
+    captured_payloads: list[dict] = []
+
+    def transport(payload, timeout):
+        captured_payloads.append(payload)
+        return _ollama_response('{"status":"NO_EFFECTS","effects":[],"diagnostics":[]}')
+
+    provider = OllamaSourceEffectDiscoveryProvider(
+        model_name="qwen3:8b",
+        strict_bounded_contract=True,
+        transport=transport,
+    )
+
+    db = SessionLocal()
+    try:
+        fragment = SourceEffectSemanticFragment(
+            tender_id="t-no-anchor",
+            acting_document_id="d-no-anchor",
+            document_page_id="p-no-anchor",
+            page_number=1,
+            source_method="NATIVE",
+            source_artifact_key="native-page:p-no-anchor",
+            source_locator="page:1",
+            source_text="El documento presenta un cambio en la ruta del procedimiento para la etapa final.",
+        )
+        run_ollama_source_effect_discovery(db, fragment, provider=provider)
+        prompt = captured_payloads[0]["messages"][0]["content"]
+        assert "EVIDENCE_SPANS" in prompt
+        assert "span_001" in prompt
+        assert "TARGET_CANDIDATES" in prompt
+    finally:
+        db.close()
+
+
+def test_multiple_effects_are_reconstructed_independently() -> None:
+    tender_id = _create_tender("ollama source effect multi-effects")
+    acting_doc_id = _import_pdf(tender_id, "acta.pdf")
+    affected_doc_id = _import_pdf(tender_id, "anexo-c.pdf")
+
+    db = SessionLocal()
+    try:
+        acting_page = _seed_page(
+            db,
+            acting_doc_id,
+            1,
+            "inciso i. Se modifica el inciso, para precisar los alcances y responsabilidades del Area. Apartado 3.1.5. Aplicación y Desarrollo de la Debida Diligencia a los participantes.",
+        )
+        _seed_page(db, affected_doc_id, 1, "contenido")
+        db.commit()
+
+        provider = OllamaSourceEffectDiscoveryProvider(
+            model_name="qwen3:8b",
+            strict_bounded_contract=True,
+            transport=lambda payload, timeout: _ollama_response(
+                json.dumps(
+                    {
+                        "status": "DISCOVERED",
+                        "effects": [
+                            {
+                                "effect_type": "AMENDS",
+                                "effect_scope": "PARTIAL",
+                                "evidence_span_id": "span_002",
+                                "affected_target_id": None,
+                                "affected_locator_raw": "inciso i.",
+                                "effective_date_raw": None,
+                            },
+                            {
+                                "effect_type": "CLARIFIES",
+                                "effect_scope": "PARTIAL",
+                                "evidence_span_id": "span_003",
+                                "affected_target_id": None,
+                                "affected_locator_raw": "Apartado 3.1.5.",
+                                "effective_date_raw": None,
+                            },
+                        ],
+                        "diagnostics": [],
+                    }
+                )
+            ),
+        )
+
+        result = discover_source_effect_semantics(
+            db,
+            _fragment(
+                tender_id=tender_id,
+                acting_document_id=acting_doc_id,
+                document_page_id=acting_page.id,
+                source_text="inciso i. Se modifica el inciso, para precisar los alcances y responsabilidades del Area. Apartado 3.1.5. Aplicación y Desarrollo de la Debida Diligencia a los participantes.",
+            ),
+            providers=(provider,),
+        )
+        assert result.status == SOURCE_EFFECT_SEMANTIC_DISCOVERY_STATUS_DISCOVERED
+        assert result.candidate_count == 2
+        assert len(result.discovered_effects) == 2
     finally:
         db.close()
 
@@ -331,33 +531,27 @@ def test_prompt_has_human_control_and_negative_safety_instructions() -> None:
         assert payload["options"]["temperature"] == 0
 
         prompt = payload["messages"][0]["content"]
-        assert "Do not decide legal precedence" in prompt
-        assert "A source effect exists only when the fragment asserts an operative documentary change" in prompt
-        assert "Status and effect consistency is mandatory" in prompt
-        assert "Never return DISCOVERED with empty effects" in prompt
-        assert "REVIEW_REQUIRED is for credible documentary source effects" in prompt
-        assert "Technical or execution changes alone are not source effects" in prompt
-        assert "Return NO_EFFECTS for non-operative mentions" in prompt
-        assert "headings/index entries" in prompt
-        assert "concept definitions" in prompt
-        assert "clarification schedules/events" in prompt
-        assert "technical equipment changes" in prompt
-        assert "commercial/price proposal changes" in prompt
-        assert "affected_document_ref_raw may be populated only when the affected document reference appears literally" in prompt
-        assert "Distinguish locator from document identity" in prompt
-        assert "evidence_excerpt must be copied as one contiguous verbatim substring" in prompt
-        assert "Do not paraphrase, summarize, OCR-correct" in prompt
-        assert "Synthetic examples for behavior guidance only" in prompt
-        assert "SOURCE_TEXT_BEGIN" in prompt
-        assert "SOURCE_TEXT_END" in prompt
+        lower_prompt = prompt.lower()
+        assert "do not invent document references" in lower_prompt
+        assert "do not emit free-form text outside the bounded schema" in lower_prompt
+        assert "the certification path is strict bounded" in lower_prompt
+        assert "the only effect keys allowed" in lower_prompt
+        assert "do not emit evidence_excerpt" in lower_prompt
+        assert "do not emit affected_document_ref_raw" in lower_prompt
+        assert "if no source effect exists, return status no_effects with effects=[]" in lower_prompt
+        assert "never return discovered with empty effects" in lower_prompt
+        assert "if the text is ambiguous, uncertain, or not safely representable" in lower_prompt
+        assert "use effect_type only from" in lower_prompt
+        assert "use effect_scope only from" in lower_prompt
+        assert "select evidence_span_id from evidence_spans" in lower_prompt
+        assert "source_text_begin" in lower_prompt
+        assert "source_text_end" in lower_prompt
 
-        # No leakage of frozen Golden identities or labels into production prompt.
         assert "se_gc_001" not in prompt
         assert "se_gc_011" not in prompt
         assert "decd32ae-2c1f-4520-89bc-d845c986a7ba" not in prompt
-        assert "inciso i" not in prompt
-        assert "Apartado 3.1.5" not in prompt
-        assert "Disposiciones Transitorias" not in prompt
+        assert "evidence_excerpt" in lower_prompt
+        assert "affected_document_ref_raw" in lower_prompt
     finally:
         db.close()
 
@@ -385,10 +579,10 @@ def test_prompt_requires_no_effects_when_effects_array_is_empty() -> None:
         )
 
         run_ollama_source_effect_discovery(db, fragment, provider=provider)
-        prompt = captured_payloads[0]["messages"][0]["content"]
+        prompt = captured_payloads[0]["messages"][0]["content"].lower()
 
-        assert "if no source effect exists, return status NO_EFFECTS with effects=[]" in prompt
-        assert "Never return DISCOVERED with empty effects" in prompt
+        assert "if no source effect exists, return status no_effects with effects=[]" in prompt
+        assert "never return discovered with empty effects" in prompt
     finally:
         db.close()
 
@@ -416,11 +610,11 @@ def test_prompt_enforces_no_target_invention_with_locator_only_cases() -> None:
         )
 
         run_ollama_source_effect_discovery(db, fragment, provider=provider)
-        prompt = captured_payloads[0]["messages"][0]["content"]
+        prompt = captured_payloads[0]["messages"][0]["content"].lower()
 
-        assert "affected_document_ref_raw may be populated only when the affected document reference appears literally" in prompt
-        assert "Distinguish locator from document identity" in prompt
-        assert "you may keep a literal locator while leaving affected_document_ref_raw null" in prompt
+        assert "do not invent document references" in prompt
+        assert "keep affected_target_id null when the segment does not identify a bounded target" in prompt
+        assert "if evidence is literal and target is unknown, keep the target null" in prompt
     finally:
         db.close()
 

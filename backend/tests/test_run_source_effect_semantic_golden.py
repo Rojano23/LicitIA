@@ -27,8 +27,9 @@ class _FakeProvider:
     provider_version = "fake-source-effect-001"
     contract_version = "fake-source-effect-contract-001"
 
-    def __init__(self, *, model_name: str) -> None:
+    def __init__(self, *, model_name: str, strict_bounded_contract: bool = False) -> None:
         self.model_name = model_name
+        self.strict_bounded_contract = strict_bounded_contract
 
 
 def _backend_root() -> Path:
@@ -77,6 +78,11 @@ def _effect(
 
 def test_frozen_golden_is_accepted_for_certification_mode() -> None:
     backend_root = _backend_root()
+    strict_seen: list[bool] = []
+
+    def factory(*, model_name: str, strict_bounded_contract: bool = False):
+        strict_seen.append(strict_bounded_contract)
+        return _FakeProvider(model_name=model_name, strict_bounded_contract=strict_bounded_contract)
 
     def discovery_runner(db, fragment, *, provider):
         status = "REVIEW_REQUIRED" if "ciso i. Se modifica el inciso" in fragment.source_text else "NO_EFFECTS"
@@ -92,13 +98,14 @@ def test_frozen_golden_is_accepted_for_certification_mode() -> None:
     code, report = run_semantic_golden(
         golden_path=str(backend_root / "evals/source_effect_golden_v1.json"),
         model_name="qwen3:8b",
-        provider_factory=_FakeProvider,
+        provider_factory=factory,
         discovery_runner=discovery_runner,
         session_factory=lambda: nullcontext(object()),
     )
 
     assert code == 0
     assert report is not None
+    assert strict_seen == [True]
     assert report["dataset"]["dataset_status"] == "FROZEN_LIMITED_COVERAGE"
     assert report["dataset"]["label_status"] == "HUMAN_APPROVED"
 

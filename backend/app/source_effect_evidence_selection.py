@@ -112,16 +112,47 @@ def build_source_effect_evidence_spans(
 
 
 def _candidate_literal_segments(source_text: str) -> list[tuple[int, int, str]]:
+    text = source_text or ""
+    if not text.strip():
+        return []
+
     segments: list[tuple[int, int, str]] = []
-    for match in re.finditer(r"[^.!?]+(?:[.!?]+|$)", source_text):
-        chunk = source_text[match.start() : match.end()]
-        if chunk and chunk.strip():
-            segments.append((match.start(), match.end(), chunk))
+    buffer: list[str] = []
+    start_index = 0
+
+    for idx, char in enumerate(text):
+        if char in ".!?":
+            prev_char = text[idx - 1] if idx > 0 else ""
+            next_char = text[idx + 1] if idx + 1 < len(text) else ""
+            if prev_char.isdigit() and next_char.isdigit():
+                buffer.append(char)
+                continue
+
+            if buffer:
+                buffer.append(char)
+            else:
+                buffer = [char]
+                start_index = idx
+
+            chunk = "".join(buffer)
+            if chunk.strip():
+                segments.append((start_index, idx + 1, chunk))
+            buffer = []
+            start_index = idx + 1
+        else:
+            if not buffer:
+                start_index = idx
+            buffer.append(char)
+
+    if buffer:
+        chunk = "".join(buffer)
+        if chunk.strip():
+            segments.append((start_index, len(text), chunk))
 
     if segments:
         return segments
 
-    normalized = re.sub(r"\s+", " ", source_text).strip()
+    normalized = re.sub(r"\s+", " ", text).strip()
     if not normalized:
         return []
 
@@ -131,11 +162,11 @@ def _candidate_literal_segments(source_text: str) -> list[tuple[int, int, str]]:
         chunk = normalized[index : index + chunk_size]
         if not chunk.strip():
             continue
-        literal_start = source_text.find(chunk, start)
+        literal_start = text.find(chunk, start)
         if literal_start < 0:
             literal_start = start
         literal_end = literal_start + len(chunk)
-        segments.append((literal_start, literal_end, source_text[literal_start:literal_end]))
+        segments.append((literal_start, literal_end, text[literal_start:literal_end]))
         start = literal_end
 
     return segments

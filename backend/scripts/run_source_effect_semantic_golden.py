@@ -452,7 +452,7 @@ def run_semantic_golden(
                 print(f"- {error}")
             return 2, None
 
-    provider = provider_factory(model_name=model_name)
+    provider = provider_factory(model_name=model_name, strict_bounded_contract=True)
 
     use_session_factory = session_factory or SessionLocal
     evaluations: list[SourceEffectCaseEvaluation] = []
