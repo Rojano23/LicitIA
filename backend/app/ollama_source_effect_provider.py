@@ -14,6 +14,8 @@ from app.source_effect_evidence_selection import (
     SourceEffectSelectionEffect,
     SourceEffectSelectionModelOutput,
     build_source_effect_evidence_spans,
+    enumerate_source_effect_date_candidates,
+    enumerate_source_effect_locator_candidates,
     enumerate_source_effect_target_candidates,
     validate_and_materialize_selection,
 )
@@ -50,9 +52,9 @@ class _OllamaBoundedSourceEffectModel(BaseModel):
     effect_type: str
     effect_scope: str
     evidence_span_id: str
+    affected_locator_id: Optional[str] = None
     affected_target_id: Optional[str] = None
-    affected_locator_raw: Optional[str] = None
-    effective_date_raw: Optional[str] = None
+    effective_date_id: Optional[str] = None
     confidence: Optional[float] = Field(default=None, ge=0.0, le=1.0)
 
 
@@ -159,8 +161,16 @@ class OllamaSourceEffectDiscoveryProvider(SourceEffectSemanticDiscoveryProvider)
             )
 
         spans = self._build_evidence_spans(fragment)
-        target_candidates = self._build_target_candidates(fragment)
-        request_payload = self._build_chat_payload(fragment, spans=spans, target_candidates=target_candidates)
+        target_candidates = self._build_target_candidates(fragment, spans=spans)
+        locator_candidates = self._build_locator_candidates(fragment, spans=spans)
+        date_candidates = self._build_date_candidates(fragment, spans=spans)
+        request_payload = self._build_chat_payload(
+            fragment,
+            spans=spans,
+            target_candidates=target_candidates,
+            locator_candidates=locator_candidates,
+            date_candidates=date_candidates,
+        )
         started_at = time.perf_counter()
         try:
             response_payload = self.transport(request_payload, self.timeout_seconds)
@@ -196,16 +206,23 @@ class OllamaSourceEffectDiscoveryProvider(SourceEffectSemanticDiscoveryProvider)
                     "effect_type",
                     "effect_scope",
                     "evidence_span_id",
+                    "affected_locator_id",
                     "affected_target_id",
-                    "affected_locator_raw",
-                    "effective_date_raw",
+                    "effective_date_id",
                     "confidence",
                 }
                 effect_entries: list[dict[str, Any]] = []
                 for item in validated.effects:
                     if not isinstance(item, dict):
                         raise ValueError("Strict bounded mode requires effect objects to be JSON objects")
-                    prohibited = {"evidence_excerpt", "affected_document_ref_raw", "target_id", "span_id"}
+                    prohibited = {
+                        "evidence_excerpt",
+                        "affected_document_ref_raw",
+                        "target_id",
+                        "span_id",
+                        "affected_locator_raw",
+                        "effective_date_raw",
+                    }
                     unexpected = set(item) - allowed_effect_keys
                     if prohibited & set(item) or unexpected:
                         raise ValueError(
@@ -224,15 +241,21 @@ class OllamaSourceEffectDiscoveryProvider(SourceEffectSemanticDiscoveryProvider)
                             effect_type=item["effect_type"],
                             effect_scope=item["effect_scope"],
                             evidence_span_id=item["evidence_span_id"],
-                            affected_locator_raw=item.get("affected_locator_raw"),
+                            affected_locator_id=item.get("affected_locator_id"),
                             affected_target_id=item.get("affected_target_id"),
-                            effective_date_raw=item.get("effective_date_raw"),
+                            effective_date_id=item.get("effective_date_id"),
                         )
                         for item in effect_entries
                     ),
                     diagnostics=tuple(str(item).strip() for item in validated.diagnostics if str(item).strip()),
                 )
-                selection_result = validate_and_materialize_selection(model_output, spans, target_candidates=target_candidates)
+                selection_result = validate_and_materialize_selection(
+                    model_output,
+                    spans,
+                    target_candidates=target_candidates,
+                    locator_candidates=locator_candidates,
+                    date_candidates=date_candidates,
+                )
                 target_map = {candidate.target_id: candidate for candidate in target_candidates}
                 materialized_effects = tuple(
                     DiscoveredSourceEffect(
@@ -321,6 +344,8 @@ class OllamaSourceEffectDiscoveryProvider(SourceEffectSemanticDiscoveryProvider)
         *,
         spans: tuple[Any, ...],
         target_candidates: tuple[Any, ...],
+        locator_candidates: tuple[Any, ...],
+        date_candidates: tuple[Any, ...],
     ) -> dict[str, Any]:
         payload: dict[str, Any] = {
             "model": self.model_name,
@@ -330,7 +355,13 @@ class OllamaSourceEffectDiscoveryProvider(SourceEffectSemanticDiscoveryProvider)
             "messages": [
                 {
                     "role": "user",
-                    "content": self._build_prompt(fragment, spans=spans, target_candidates=target_candidates),
+                    "content": self._build_prompt(
+                        fragment,
+                        spans=spans,
+                        target_candidates=target_candidates,
+                        locator_candidates=locator_candidates,
+                        date_candidates=date_candidates,
+                    ),
                 }
             ],
             "options": {
@@ -352,8 +383,16 @@ class OllamaSourceEffectDiscoveryProvider(SourceEffectSemanticDiscoveryProvider)
         )
 
     @staticmethod
-    def _build_target_candidates(fragment: SourceEffectSemanticFragment) -> tuple[Any, ...]:
-        return enumerate_source_effect_target_candidates(fragment.source_text)
+    def _build_target_candidates(fragment: SourceEffectSemanticFragment, *, spans: tuple[Any, ...]) -> tuple[Any, ...]:
+        return enumerate_source_effect_target_candidates(fragment.source_text, spans=spans)
+
+    @staticmethod
+    def _build_locator_candidates(fragment: SourceEffectSemanticFragment, *, spans: tuple[Any, ...]) -> tuple[Any, ...]:
+        return enumerate_source_effect_locator_candidates(fragment.source_text, spans=spans)
+
+    @staticmethod
+    def _build_date_candidates(fragment: SourceEffectSemanticFragment, *, spans: tuple[Any, ...]) -> tuple[Any, ...]:
+        return enumerate_source_effect_date_candidates(fragment.source_text, spans=spans)
 
     @staticmethod
     def _build_prompt(
@@ -361,15 +400,9 @@ class OllamaSourceEffectDiscoveryProvider(SourceEffectSemanticDiscoveryProvider)
         *,
         spans: tuple[Any, ...],
         target_candidates: tuple[Any, ...],
+        locator_candidates: tuple[Any, ...],
+        date_candidates: tuple[Any, ...],
     ) -> str:
-        span_payload = [
-            {"span_id": span.span_id, "text": span.text}
-            for span in spans
-        ]
-        target_payload = [
-            {"target_id": candidate.target_id, "raw_text": candidate.raw_text}
-            for candidate in target_candidates
-        ]
         return (
             "You are a bounded source-effect selection assistant for a local procurement evaluation workflow. "
             "Return strict JSON only with no markdown, no code fences, no prose, no explanations. "
@@ -384,19 +417,23 @@ class OllamaSourceEffectDiscoveryProvider(SourceEffectSemanticDiscoveryProvider)
             "If the source fragment contains a credible source effect but a safe target or scope cannot be determined, use REVIEW_REQUIRED with effects present only when the evidence is still bounded and no free-form fields are emitted. "
             "If no source effect exists, return status NO_EFFECTS with effects=[]. Never return DISCOVERED with empty effects. "
             "If the text is ambiguous, uncertain, or not safely representable, return REVIEW_REQUIRED with effects=[] and diagnostics; do not guess. "
-            "The certification path is strict bounded. The only effect keys allowed are: effect_type, effect_scope, evidence_span_id, affected_target_id, affected_locator_raw, effective_date_raw, confidence. "
+            "The certification path is strict bounded. The only effect keys allowed are: effect_type, effect_scope, evidence_span_id, affected_target_id, affected_locator_id, effective_date_id, confidence. "
             "Do not emit evidence_excerpt. Do not emit affected_document_ref_raw. Do not emit target_id or any other free-form key. "
-            "Select evidence_span_id from EVIDENCE_SPANS and affected_target_id from TARGET_CANDIDATES when the target is explicitly represented in the literal evidence. Keep affected_target_id null when the segment does not identify a bounded target. "
-            "If evidence is literal and target is unknown, keep the target null and use a literal locator only when it appears inside the selected evidence span. "
-            "affected_locator_raw and effective_date_raw must be copied verbatim from the selected evidence span when present; otherwise keep them null. "
+            "Select evidence_span_id from EVIDENCE_SPANS and then select affected_target_id, affected_locator_id, and effective_date_id only from candidate lists that belong to that same span. Keep each selector null when the bounded candidate is not present. Keep affected_target_id null when the segment does not identify a bounded target. "
+            "If evidence is literal and target is unknown, keep the target null and use selector IDs only when the corresponding literal candidate appears inside the selected evidence span. "
+            "The model must not generate locator or date text. Deterministic code reconstructs literal values from the selected IDs. "
             "Do not paraphrase, summarize, OCR-correct, spelling-correct, translate, or rewrite the evidence. "
             "Do not fabricate defaults or repair unknown values. No extra keys. Keep null values as null. "
-            "Required response shape: {\"status\":\"DISCOVERED\",\"effects\":[{\"effect_type\":\"AMENDS\",\"effect_scope\":\"PARTIAL\",\"evidence_span_id\":\"span_001\",\"affected_target_id\":null,\"affected_locator_raw\":\"numeral 4.2\",\"effective_date_raw\":null,\"confidence\":null}],\"diagnostics\":[]} "
+            "Required response shape: {\"status\":\"DISCOVERED\",\"effects\":[{\"effect_type\":\"AMENDS\",\"effect_scope\":\"PARTIAL\",\"evidence_span_id\":\"span_001\",\"affected_target_id\":\"target_001\",\"affected_locator_id\":\"locator_001\",\"effective_date_id\":null,\"confidence\":null}],\"diagnostics\":[]} "
             "Bounded evidence selection contract: use the literal evidence spans and target candidates provided below. Select from the bounded schema only. "
             "EVIDENCE_SPANS:\n"
             f"{json.dumps([{'span_id': span.span_id, 'text': span.text} for span in spans], ensure_ascii=False)}\n"
             "TARGET_CANDIDATES:\n"
-            f"{json.dumps([{'target_id': candidate.target_id, 'raw_text': candidate.raw_text} for candidate in target_candidates], ensure_ascii=False)}\n"
+            f"{json.dumps([{'target_id': candidate.target_id, 'span_id': candidate.span_id, 'raw_text': candidate.raw_text} for candidate in target_candidates], ensure_ascii=False)}\n"
+            "LOCATOR_CANDIDATES:\n"
+            f"{json.dumps([{'locator_id': candidate.locator_id, 'span_id': candidate.span_id, 'raw_text': candidate.raw_text} for candidate in locator_candidates], ensure_ascii=False)}\n"
+            "DATE_CANDIDATES:\n"
+            f"{json.dumps([{'date_id': candidate.date_id, 'span_id': candidate.span_id, 'raw_text': candidate.raw_text} for candidate in date_candidates], ensure_ascii=False)}\n"
             "SOURCE_CONTEXT_BEGIN\n"
             f"SOURCE_METHOD: {fragment.source_method}\n"
             f"PAGE_NUMBER: {fragment.page_number}\n"

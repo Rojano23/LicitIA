@@ -109,8 +109,8 @@ def test_valid_discovered_json_maps_to_semantic_candidate() -> None:
                                 "effect_scope": "PARTIAL",
                                 "evidence_span_id": "span_001",
                                 "affected_target_id": "target_001",
-                                "affected_locator_raw": "numeral 4.2",
-                                "effective_date_raw": None,
+                                "affected_locator_id": "locator_001",
+                                "effective_date_id": None,
                                 "confidence": 0.93,
                             }
                         ],
@@ -184,8 +184,8 @@ def test_strict_mode_rejects_legacy_free_text_output_without_fallback() -> None:
                             "effect_scope": "PARTIAL",
                             "evidence_span_id": "span_001",
                             "affected_target_id": "target_001",
-                            "affected_locator_raw": "numeral 4.2",
-                            "effective_date_raw": None,
+                            "affected_locator_id": "locator_001",
+                            "effective_date_id": None,
                             "evidence_excerpt": "Se corrige Anexo B, numeral 4.2.",
                             "confidence": 0.9,
                         }
@@ -225,8 +225,8 @@ def test_strict_mode_rejects_unknown_span_and_unknown_target() -> None:
                     "effect_scope": "PARTIAL",
                     "evidence_span_id": "span_999",
                     "affected_target_id": None,
-                    "affected_locator_raw": "numeral 4.2",
-                    "effective_date_raw": None,
+                    "affected_locator_id": "locator_001",
+                    "effective_date_id": None,
                 }
             ],
             "diagnostics": [],
@@ -239,8 +239,8 @@ def test_strict_mode_rejects_unknown_span_and_unknown_target() -> None:
                     "effect_scope": "PARTIAL",
                     "evidence_span_id": "span_001",
                     "affected_target_id": "target_999",
-                    "affected_locator_raw": "numeral 4.2",
-                    "effective_date_raw": None,
+                    "affected_locator_id": "locator_001",
+                    "effective_date_id": None,
                 }
             ],
             "diagnostics": [],
@@ -334,16 +334,16 @@ def test_multiple_effects_are_reconstructed_independently() -> None:
                                 "effect_scope": "PARTIAL",
                                 "evidence_span_id": "span_002",
                                 "affected_target_id": None,
-                                "affected_locator_raw": "inciso i.",
-                                "effective_date_raw": None,
+                                "affected_locator_id": "locator_001",
+                                "effective_date_id": None,
                             },
                             {
                                 "effect_type": "CLARIFIES",
                                 "effect_scope": "PARTIAL",
                                 "evidence_span_id": "span_003",
                                 "affected_target_id": None,
-                                "affected_locator_raw": "Apartado 3.1.5.",
-                                "effective_date_raw": None,
+                                "affected_locator_id": "locator_002",
+                                "effective_date_id": None,
                             },
                         ],
                         "diagnostics": [],
@@ -544,6 +544,11 @@ def test_prompt_has_human_control_and_negative_safety_instructions() -> None:
         assert "use effect_type only from" in lower_prompt
         assert "use effect_scope only from" in lower_prompt
         assert "select evidence_span_id from evidence_spans" in lower_prompt
+        assert "affected_locator_id" in lower_prompt
+        assert "effective_date_id" in lower_prompt
+        assert "locator_candidates" in lower_prompt
+        assert "date_candidates" in lower_prompt
+        assert "must not generate locator or date text" in lower_prompt
         assert "source_text_begin" in lower_prompt
         assert "source_text_end" in lower_prompt
 
@@ -615,6 +620,7 @@ def test_prompt_enforces_no_target_invention_with_locator_only_cases() -> None:
         assert "do not invent document references" in prompt
         assert "keep affected_target_id null when the segment does not identify a bounded target" in prompt
         assert "if evidence is literal and target is unknown, keep the target null" in prompt
+        assert "use selector ids only" in prompt
     finally:
         db.close()
 

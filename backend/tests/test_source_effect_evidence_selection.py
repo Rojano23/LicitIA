@@ -4,11 +4,15 @@ import pytest
 
 from app.source_effect_evidence_selection import (
     MAX_SOURCE_EFFECT_EVIDENCE_SPANS,
+    SourceEffectDateCandidate,
     SourceEffectEvidenceSpan,
+    SourceEffectLocatorCandidate,
     SourceEffectSelectionEffect,
     SourceEffectSelectionModelOutput,
     SourceEffectTargetCandidate,
     build_source_effect_evidence_spans,
+    enumerate_source_effect_date_candidates,
+    enumerate_source_effect_locator_candidates,
     enumerate_source_effect_target_candidates,
     reconstruct_evidence_excerpt,
     validate_and_materialize_selection,
@@ -326,3 +330,86 @@ def test_ocr_whitespace_stays_grounded_in_literal_span() -> None:
     assert len(spans) >= 1
     assert spans[0].text in text
     assert "\n" in spans[0].text or "\t" in spans[0].text
+
+
+def test_bound_selection_uses_span_scoped_locator_and_date_ids() -> None:
+    text = "Se modifica Anexo B, numeral 4.2, con vigencia el 08/09/2026."
+    spans = build_source_effect_evidence_spans(
+        text,
+        source_method="NATIVE",
+        source_artifact_key="native-page:bounded",
+        document_page_id="page-001",
+        source_locator="page:1",
+    )
+    targets = enumerate_source_effect_target_candidates(text)
+    locators = enumerate_source_effect_locator_candidates(text, spans=spans)
+    dates = enumerate_source_effect_date_candidates(text, spans=spans)
+
+    assert any(isinstance(candidate, SourceEffectLocatorCandidate) for candidate in locators)
+    assert any(isinstance(candidate, SourceEffectDateCandidate) for candidate in dates)
+    assert all(candidate.span_id == spans[0].span_id for candidate in locators + dates)
+
+    model_output = SourceEffectSelectionModelOutput(
+        status="DISCOVERED",
+        effects=(
+            SourceEffectSelectionEffect(
+                effect_type="AMENDS",
+                effect_scope="PARTIAL",
+                evidence_span_id=spans[0].span_id,
+                affected_target_id=targets[0].target_id,
+                affected_locator_id=locators[0].locator_id,
+                effective_date_id=dates[0].date_id,
+            ),
+        ),
+        diagnostics=(),
+    )
+
+    result = validate_and_materialize_selection(
+        model_output,
+        spans,
+        target_candidates=targets,
+        locator_candidates=locators,
+        date_candidates=dates,
+    )
+
+    assert result.effects[0].affected_locator_raw == "numeral 4.2"
+    assert result.effects[0].effective_date_raw == "08/09/2026"
+    assert result.effects[0].affected_target_id == targets[0].target_id
+
+
+def test_span_scoped_candidates_reject_out_of_span_selection() -> None:
+    text = "Se modifica Anexo B, numeral 4.2. Se aclara el inciso i."
+    spans = build_source_effect_evidence_spans(
+        text,
+        source_method="NATIVE",
+        source_artifact_key="native-page:cross-span",
+        document_page_id="page-001",
+        source_locator="page:1",
+    )
+    targets = enumerate_source_effect_target_candidates(text)
+    locators = enumerate_source_effect_locator_candidates(text, spans=spans)
+    dates = enumerate_source_effect_date_candidates(text, spans=spans)
+
+    model_output = SourceEffectSelectionModelOutput(
+        status="DISCOVERED",
+        effects=(
+            SourceEffectSelectionEffect(
+                effect_type="AMENDS",
+                effect_scope="PARTIAL",
+                evidence_span_id=spans[0].span_id,
+                affected_target_id=targets[0].target_id,
+                affected_locator_id=locators[-1].locator_id,
+                effective_date_id=dates[0].date_id if dates else None,
+            ),
+        ),
+        diagnostics=(),
+    )
+
+    with pytest.raises(ValueError, match="same evidence span|same span"):
+        validate_and_materialize_selection(
+            model_output,
+            spans,
+            target_candidates=targets,
+            locator_candidates=locators,
+            date_candidates=dates,
+        )
