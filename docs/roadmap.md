@@ -274,6 +274,9 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
 - MVP-06.1 (Tender Item Detection & Extraction): IN HUMAN ACCEPTANCE
 - MVP-06.2 (Item ↔ Distributed Scope Linking): NEXT
 
+Nota de política MVP-06.5.5b:
+La calibración semántica de Source Effects queda cerrada como NO-GO para uso automático en MVP. El camino autoritativo permanece determinista con revisión humana: efectos ambiguos deben escalar a `REVIEW_REQUIRED`, la validación estricta permanece fail-closed y ningún candidato semántico puede pasar a confiable automáticamente. El proveedor bounded se conserva sólo como infraestructura experimental y reutilizable. Motivos: `qwen3:8b` mantuvo `0/3` positivos correctamente emparejados tras iteraciones calibradas y fully bounded; `qwen3:14b` resultó operacionalmente inviable en el hardware local objetivo.
+
 ### Objetivo
 
 Entender qué se está cotizando realmente.
