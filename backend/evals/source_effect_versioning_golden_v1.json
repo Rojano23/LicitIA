@@ -1,0 +1,51 @@
+{
+  "golden_version": "source-effect-versioning-golden-2026-09-25-001",
+  "dataset_kind": "CONTROLLED_SYNTHETIC_VERSIONING",
+  "dataset_status": "FROZEN_CONTRACT_VALIDATION",
+  "certifies": [
+    "document-level resolution semantics",
+    "partial-locator resolution semantics",
+    "conflict behavior",
+    "review propagation",
+    "effective-source projection behavior"
+  ],
+  "does_not_certify": [
+    "Source Effect discovery recall",
+    "OCR quality",
+    "Vision quality",
+    "LLM quality",
+    "automatic target extraction",
+    "Tender #001 completeness",
+    "Tender #002 behavior"
+  ],
+  "cases": [
+    {"case_id": "D01", "title": "Simple supersedes", "resolver_layers": ["DOCUMENT"], "effect_types": ["SUPERSEDES"], "effect_scopes": ["DOCUMENT_WIDE"], "tags": ["DOCUMENT", "TERMINAL"], "fixture_alias": "D01", "expected_alias": "D01"},
+    {"case_id": "D02", "title": "Supersession chain", "resolver_layers": ["DOCUMENT"], "effect_types": ["SUPERSEDES"], "effect_scopes": ["DOCUMENT_WIDE"], "tags": ["DOCUMENT", "CHAIN"], "fixture_alias": "D02", "expected_alias": "D02"},
+    {"case_id": "D03", "title": "Revokes", "resolver_layers": ["DOCUMENT"], "effect_types": ["REVOKES"], "effect_scopes": ["DOCUMENT_WIDE"], "tags": ["DOCUMENT", "TERMINAL"], "fixture_alias": "D03", "expected_alias": "D03"},
+    {"case_id": "D04", "title": "Non-terminal document effects", "resolver_layers": ["DOCUMENT"], "effect_types": ["AMENDS", "CORRECTS", "CLARIFIES", "SUPPLEMENTS"], "effect_scopes": ["DOCUMENT_WIDE"], "tags": ["DOCUMENT", "NON_TERMINAL"], "fixture_alias": "D04", "expected_alias": "D04"},
+    {"case_id": "D05", "title": "Multiple superseders", "resolver_layers": ["DOCUMENT"], "effect_types": ["SUPERSEDES"], "effect_scopes": ["DOCUMENT_WIDE"], "tags": ["DOCUMENT", "CONFLICT"], "fixture_alias": "D05", "expected_alias": "D05"},
+    {"case_id": "D06", "title": "Terminal conflict", "resolver_layers": ["DOCUMENT"], "effect_types": ["SUPERSEDES", "REVOKES"], "effect_scopes": ["DOCUMENT_WIDE"], "tags": ["DOCUMENT", "CONFLICT"], "fixture_alias": "D06", "expected_alias": "D06"},
+    {"case_id": "D07", "title": "Cycle", "resolver_layers": ["DOCUMENT"], "effect_types": ["SUPERSEDES"], "effect_scopes": ["DOCUMENT_WIDE"], "tags": ["DOCUMENT", "CYCLE", "CONFLICT"], "fixture_alias": "D07", "expected_alias": "D07"},
+    {"case_id": "D08", "title": "Superseded acting source", "resolver_layers": ["DOCUMENT"], "effect_types": ["AMENDS", "SUPERSEDES"], "effect_scopes": ["DOCUMENT_WIDE"], "tags": ["DOCUMENT", "REVIEW_PROPAGATION"], "fixture_alias": "D08", "expected_alias": "D08"},
+    {"case_id": "D09", "title": "No revival", "resolver_layers": ["DOCUMENT"], "effect_types": ["SUPERSEDES", "REVOKES"], "effect_scopes": ["DOCUMENT_WIDE"], "tags": ["DOCUMENT", "NO_REVIVAL"], "fixture_alias": "D09", "expected_alias": "D09"},
+    {"case_id": "D10", "title": "Review and unresolved target", "resolver_layers": ["DOCUMENT"], "effect_types": ["AMENDS"], "effect_scopes": ["DOCUMENT_WIDE", "UNRESOLVED"], "tags": ["DOCUMENT", "REVIEW_PROPAGATION"], "fixture_alias": "D10", "expected_alias": "D10"},
+
+    {"case_id": "P01", "title": "Non-terminal partial effects", "resolver_layers": ["PARTIAL"], "effect_types": ["AMENDS", "CORRECTS", "CLARIFIES", "SUPPLEMENTS"], "effect_scopes": ["PARTIAL"], "tags": ["PARTIAL", "NON_TERMINAL"], "fixture_alias": "P01", "expected_alias": "P01"},
+    {"case_id": "P02", "title": "Partial supersedes", "resolver_layers": ["PARTIAL"], "effect_types": ["SUPERSEDES"], "effect_scopes": ["PARTIAL"], "tags": ["PARTIAL", "TERMINAL"], "fixture_alias": "P02", "expected_alias": "P02"},
+    {"case_id": "P03", "title": "Partial revokes", "resolver_layers": ["PARTIAL"], "effect_types": ["REVOKES"], "effect_scopes": ["PARTIAL"], "tags": ["PARTIAL", "TERMINAL"], "fixture_alias": "P03", "expected_alias": "P03"},
+    {"case_id": "P04", "title": "Multiple partial superseders", "resolver_layers": ["PARTIAL"], "effect_types": ["SUPERSEDES"], "effect_scopes": ["PARTIAL"], "tags": ["PARTIAL", "CONFLICT"], "fixture_alias": "P04", "expected_alias": "P04"},
+    {"case_id": "P05", "title": "Partial terminal conflict", "resolver_layers": ["PARTIAL"], "effect_types": ["SUPERSEDES", "REVOKES"], "effect_scopes": ["PARTIAL"], "tags": ["PARTIAL", "CONFLICT"], "fixture_alias": "P05", "expected_alias": "P05"},
+    {"case_id": "P06", "title": "Superseded partial actor", "resolver_layers": ["PARTIAL"], "effect_types": ["AMENDS", "SUPERSEDES"], "effect_scopes": ["PARTIAL", "DOCUMENT_WIDE"], "tags": ["PARTIAL", "REVIEW_PROPAGATION"], "fixture_alias": "P06", "expected_alias": "P06"},
+
+    {"case_id": "G01", "title": "Duplicate logical terminal edge", "resolver_layers": ["DOCUMENT"], "effect_types": ["SUPERSEDES"], "effect_scopes": ["DOCUMENT_WIDE"], "tags": ["DETERMINISM", "DUPLICATE"], "fixture_alias": "G01", "expected_alias": "G01"},
+    {"case_id": "G02", "title": "Deterministic insertion order", "resolver_layers": ["DOCUMENT", "PARTIAL", "PROJECTION", "DETERMINISM"], "effect_types": ["SUPERSEDES", "AMENDS"], "effect_scopes": ["DOCUMENT_WIDE", "PARTIAL"], "tags": ["DETERMINISM", "ORDER", "READ_ONLY", "IDEMPOTENT"], "fixture_alias": "G02", "expected_alias": "G02"},
+
+    {"case_id": "X01", "title": "Projection superseded source", "resolver_layers": ["PROJECTION"], "effect_types": ["SUPERSEDES"], "effect_scopes": ["DOCUMENT_WIDE"], "tags": ["PROJECTION"], "fixture_alias": "X01", "expected_alias": "X01"},
+    {"case_id": "X02", "title": "Projection revoked source", "resolver_layers": ["PROJECTION"], "effect_types": ["REVOKES"], "effect_scopes": ["DOCUMENT_WIDE"], "tags": ["PROJECTION"], "fixture_alias": "X02", "expected_alias": "X02"},
+    {"case_id": "X03", "title": "Projection partial overlay", "resolver_layers": ["PROJECTION"], "effect_types": ["AMENDS"], "effect_scopes": ["PARTIAL"], "tags": ["PROJECTION"], "fixture_alias": "X03", "expected_alias": "X03"},
+    {"case_id": "X04", "title": "Projection partial terminal", "resolver_layers": ["PROJECTION"], "effect_types": ["SUPERSEDES", "REVOKES"], "effect_scopes": ["PARTIAL"], "tags": ["PROJECTION", "TERMINAL"], "fixture_alias": "X04", "expected_alias": "X04"},
+    {"case_id": "X05", "title": "Parent/child propagation", "resolver_layers": ["PROJECTION"], "effect_types": ["SUPERSEDES", "REVOKES", "AMENDS"], "effect_scopes": ["DOCUMENT_WIDE", "PARTIAL"], "tags": ["PROJECTION", "CONFLICT"], "fixture_alias": "X05", "expected_alias": "X05"},
+    {"case_id": "X06", "title": "Global unresolved non blanket block", "resolver_layers": ["PROJECTION"], "effect_types": ["AMENDS"], "effect_scopes": ["UNRESOLVED"], "tags": ["PROJECTION", "REVIEW_PROPAGATION"], "fixture_alias": "X06", "expected_alias": "X06"},
+    {"case_id": "X07", "title": "Missing source unresolved", "resolver_layers": ["PROJECTION"], "effect_types": [], "effect_scopes": [], "tags": ["PROJECTION", "UNRESOLVED_SOURCE"], "fixture_alias": "X07", "expected_alias": "X07"}
+  ]
+}
