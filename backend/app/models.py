@@ -1074,6 +1074,42 @@ class TenderScopeDetail(Base):
     )
 
 
+class TenderScopeReview(Base):
+    """Append-only human decisions; machine evidence is never updated by review."""
+
+    __tablename__ = "tender_scope_reviews"
+    __table_args__ = (
+        UniqueConstraint("scope_detail_id", "revision", name="uq_scope_review_revision"),
+        CheckConstraint("revision > 0", name="ck_scope_review_revision"),
+        CheckConstraint("decision IN ('CONFIRMED', 'CORRECTED', 'REJECTED')", name="ck_scope_review_decision"),
+        CheckConstraint(
+            "(decision = 'CORRECTED' AND correction IS NOT NULL AND "
+            "jsonb_typeof(correction::jsonb) = 'object' AND "
+            "correction::jsonb ? 'description' AND "
+            "jsonb_typeof(correction::jsonb -> 'description') = 'string' AND "
+            "length(trim(correction::jsonb ->> 'description')) > 0 AND "
+            "(correction::jsonb - 'description') = '{}'::jsonb) OR "
+            "(decision != 'CORRECTED' AND correction IS NULL)",
+            name="ck_scope_review_correction",
+        ),
+        Index("ix_scope_review_tender", "tender_id"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(String(36), ForeignKey("tenders.id", ondelete="RESTRICT"), nullable=False)
+    # Historical identity: regeneration may remove the original derived row.
+    scope_detail_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    revision: Mapped[int] = mapped_column(Integer, nullable=False)
+    decision: Mapped[str] = mapped_column(String(32), nullable=False)
+    note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    correction: Mapped[dict[str, str] | None] = mapped_column(JSON(none_as_null=True), nullable=True)
+    machine_snapshot: Mapped[dict[str, object]] = mapped_column(JSON, nullable=False)
+    reviewed_source_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    reviewed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False,
+    )
+
+
 class TenderScopeAttribute(Base):
     __tablename__ = "tender_scope_attributes"
 
