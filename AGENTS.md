@@ -4,7 +4,7 @@ Este archivo contiene instrucciones obligatorias para cualquier agente de IA que
 
 ## 1. Antes de escribir código
 
-Lee, en este orden:
+Antes de comenzar un NUEVO slice sustancial de implementación, lee, en este orden:
 
 1. `README.md`
 2. `docs/vision.md`
@@ -13,6 +13,12 @@ Lee, en este orden:
 5. `docs/roadmap.md`
 6. `docs/golden-tender-001.md`
 7. ADRs aplicables en `docs/adr/`
+
+Durante el seguimiento del MISMO slice/contexto, no releas mecánicamente todos los documentos; relee los relevantes cuando cambien supuestos o alcance. Para validaciones o seguimientos pequeños y acotados, inspecciona sólo documentos y código necesarios, salvo otra obligación explícita de esta constitución.
+
+Consulta `docs/architecture.md` para límites de servicios, runtime, proveedores, persistencia o despliegue; `docs/domain-model.md` para entidades, contratos o persistencia; `docs/roadmap.md` para estado MVP, límites de slices o política aceptada; y `docs/golden-tender-001.md` cuando se necesite contexto Golden de Tender #001.
+
+El working tree y código actuales son la fuente de verdad de implementación; no asumas que un reporte o conversación anterior describe el código vigente.
 
 Si una tarea contradice estos documentos, detente y señala la contradicción antes de implementar.
 
@@ -38,6 +44,16 @@ Si una tarea contradice estos documentos, detente y señala la contradicción an
 18. Los originales del expediente son inmutables.
 19. Los datos derivados deben ser regenerables/versionables.
 20. Toda decisión arquitectónica significativa requiere ADR.
+
+La visión de LicitIA abarca inteligencia de licitaciones industriales y contratación pública/privada mexicana; esto no amplía el alcance del MVP vigente.
+
+La confidencialidad incluye documentos licitatorios, embeddings, información confidencial y datos sensibles de clientes. Cualquier procesamiento externo/cloud requiere aprobación explícita arquitectónica y del usuario cuando corresponda; nunca se habilita por defecto.
+
+LicitIA automatiza sólo con evidencia suficiente. Si una ambigüedad estructural o semántica afecta alcance contractual, cumplimiento, versionado, cantidades, precios o entregables, expón la revisión humana en lugar de inferir hechos sin soporte. La revisión humana es autoritativa para decisiones contractuales.
+
+Nunca inventes requisitos, obligaciones contractuales, Source Effects, cantidades, precios, targets documentales, evidencia ni conclusiones de cumplimiento. Falla de forma cerrada (fail-closed): prefiere `REVIEW_REQUIRED` a una inferencia sin soporte.
+
+La clasificación describe el documento; no debe impedir que otros motores semánticos descubran requisitos u obligaciones de alcance de ejecución válidos dentro de él. Un fragmento puede producir registros en varios dominios semánticos cuando cada registro esté sustentado independientemente por evidencia y provenance.
 
 ## 3. Reglas comerciales
 
@@ -72,6 +88,8 @@ Las vistas económicas deben soportar:
 - venta total;
 - escenarios.
 
+No optimices silenciosamente un resultado comercialmente indeseable; los escenarios con pérdida y sus consecuencias deben seguir visibles para decisión humana. La estrategia comercial y de precios permanece bajo control humano.
+
 ## 4. Reglas técnicas
 
 El sistema puede identificar una posible desviación técnica, pero debe permitir:
@@ -84,17 +102,21 @@ El sistema puede identificar una posible desviación técnica, pero debe permiti
 
 Nunca borres automáticamente una alternativa técnica porque un Engine la considere no conforme.
 
+Conserva las alternativas y sus consecuencias para decisión humana. Sólo un contrato de dominio aceptado que lo exija explícitamente puede convertir una advertencia en bloqueo comercial.
+
 ## 5. Trazabilidad
 
 Todo objeto extraído automáticamente que represente una obligación, criterio o evidencia debe conservar `SourceLocator` con al menos:
 
 - documento;
-- versión;
+- versión documental;
 - página;
 - sección/bloque cuando sea posible;
 - fragmento fuente.
 
 Si no existe fuente confiable, el estado debe ser de revisión, no de certeza.
+
+No pierdas provenance de versión documental. Toda conclusión significativa extraída o resuelta debe conservar documento, página/locator, fragmento y confianza/estado de revisión cuando el contrato de dominio lo soporte.
 
 ## 6. Calidad de IA
 
@@ -123,6 +145,8 @@ Toda salida del modelo debe validarse con Pydantic/schema equivalente.
 - No almacenar PDFs completos como blobs en tablas salvo decisión ADR explícita.
 - Originals en filesystem; DB almacena metadata/rutas/identificadores/hash.
 
+Almacenar originales PDF u otros documentos como blobs en base de datos requiere un ADR explícito. La capacidad técnica del backend o una indicación arquitectónica sin ese ADR no debilita este requisito.
+
 ## 8. Frontend
 
 - React + TypeScript estricto.
@@ -142,6 +166,8 @@ Toda salida del modelo debe validarse con Pydantic/schema equivalente.
 - proveedor LLM intercambiable.
 - errores explícitos; no swallow exceptions.
 
+No acoples lógica de dominio/negocio al comportamiento de presentación.
+
 ## 10. Tests
 
 Toda nueva funcionalidad debe incluir la prueba adecuada.
@@ -159,6 +185,18 @@ Toda nueva funcionalidad debe incluir la prueba adecuada.
 Las pruebas relacionadas con `Golden Tender #001` deben comprobar estructura y trazabilidad, no texto generativo exacto.
 
 No añadas una excepción específica sólo para hacer pasar el Golden Tender.
+
+Toda implementación debe cerrar con validación reproducible apropiada a la superficie cambiada:
+
+```text
+focused tests → relevant regression → broader regression sólo cuando la superficie de producción cambiada lo requiera
+```
+
+No ejecutes suites costosas ajenas por hábito. Si la tarea proporciona comandos exactos, úsalos exactamente.
+
+Los mocks sólo prueban contratos y control de flujo; no prueban calidad semántica, visual, OCR ni comportamiento de modelos reales.
+
+Reporta evidencia exacta: comandos ejecutados, conteos pass/fail, warnings relevantes, migraciones/estado, compilación cuando corresponda, estado/diff de Git y blockers.
 
 ## 11. Observabilidad
 
@@ -187,6 +225,12 @@ Para tareas medianas/grandes:
 
 No implementar “todo LicitIA” en una sola tarea.
 
+Antes de editar, entiende la superficie mínima relevante. Prefiere el cambio seguro más pequeño. No hagas refactors amplios en un slice acotado sin necesidad explícita ni amplíes silenciosamente su alcance.
+
+Si implementar requiere tocar un módulo prohibido o fuera de alcance, DETENTE y reporta el blocker antes de editarlo.
+
+No alteres producción sólo para hacer pasar un Golden o test; determina primero si está mal la expectativa o el comportamiento. Para cambios complejos, multi-módulo, migraciones o arquitectura, prepara un plan breve antes de editar; en tareas pequeñas procede tras inspeccionar lo relevante.
+
 ## 13. Definition of Done
 
 Una tarea no está terminada si:
@@ -199,6 +243,8 @@ Una tarea no está terminada si:
 - dejó migraciones inconsistentes;
 - agregó infraestructura innecesaria.
 
+No basta con escribir código: demuestra los invariantes relevantes, conserva intactas las superficies prohibidas y no introduzcas fallbacks ocultos ni inferencias sin soporte. No declares COMPLETE con condiciones obligatorias pendientes; reporta blockers y verifica que `git diff --check` no tenga errores.
+
 ## 14. Protección del alcance
 
 MVP v1 soporta **PEMEX / SNR Concursos Abiertos**.
@@ -206,6 +252,46 @@ MVP v1 soporta **PEMEX / SNR Concursos Abiertos**.
 No implementar soporte CFE, estatal, municipal o privado salvo issue/milestone explícito.
 
 Diseñar interfaces extensibles, pero no construir funcionalidad futura “por si acaso”.
+
+La visión puede ser más amplia, pero el MVP ACTUAL permanece en PEMEX / SNR Concursos Abiertos. No amplíes ese alcance sin aprobación explícita del roadmap, además del issue/milestone correspondiente.
+
+### Política MVP de Source Effects
+
+El descubrimiento automático de Source Effects con Qwen/Ollama NO está certificado para el MVP. El camino autoritativo es:
+
+```text
+deterministic discovery
+→ strict validation
+→ REVIEW_REQUIRED when ambiguous
+→ human validation
+→ persisted Source Effect
+→ deterministic resolution/projection
+```
+
+Conserva la infraestructura LLM bounded como experimental y reutilizable, salvo cambio explícito de política. No conectes Qwen automáticamente al runtime MVP de Source Effects sin aprobación arquitectónica explícita.
+
+### Protección de Tender #002
+
+Tender #002 es material ciego out-of-sample reservado para MVP-06.V. No inspecciones, busques, abras, parses, extraigas, resumas ni uses ese corpus sin autorización explícita para la fase de validación ciega. No lo uses para tuning de prompts, calibración, creación de fixtures, construcción Golden ni ejemplos de desarrollo.
+
+### Seguridad de Git
+
+- Nunca uses `git add .`.
+- Usa staging explícito por archivo; no incluyas archivos ajenos.
+- No hagas stage, commit ni push sin instrucción explícita del usuario.
+- La aceptación humana normalmente precede al commit.
+- No borres, renombres ni hagas stage de reportes históricos/no rastreados salvo solicitud explícita.
+- Antes de entregar, inspecciona `git status --short`, `git diff --stat` y `git diff --check`.
+
+### Prioridad e instrucciones de backend
+
+El `AGENTS.md` raíz define la política global de producto, arquitectura y seguridad. Los `AGENTS.md` anidados pueden añadir instrucciones específicas de implementación; no pueden debilitar seguridad, confidencialidad, provenance, autoridad humana ni alcance MVP. Ante conflicto con estos principios, DETENTE y repórtalo.
+
+`backend/AGENTS.md` detalla el intérprete Python obligatorio, bases dev/test, autoridad de Alembic, restricciones de modelos reales, disciplina Golden y convenciones de tests/compilación. Estos detalles operativos complementan los principios autoritativos de la raíz.
+
+### Idioma
+
+La narración, avances y reportes finales al usuario deben estar en español (México), salvo solicitud explícita de otro idioma. Identificadores, schemas, constantes y terminología técnica existente pueden permanecer en inglés.
 
 ## 15. Regla final
 
