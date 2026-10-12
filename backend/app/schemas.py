@@ -5,6 +5,7 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.local_vision import VisionAnalysisRead
+from app.scope_review import ScopeReviewDecisionWrite, ScopeReviewItemRead  # noqa: F401
 
 
 class TenderCreate(BaseModel):

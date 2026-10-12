@@ -1,17 +1,17 @@
 """Human ScopeDetail decisions, separate from machine and source-version evidence.
 
 Writes participate in the caller's transaction. Reads never flush or mutate.
-No API adapter or attribute/quantity editing is introduced here.
+HTTP adapters remain separate; attribute/quantity editing is not supported.
 """
 from __future__ import annotations
 
 import hashlib
 import json
 from dataclasses import asdict
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, StringConstraints, model_validator
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints, model_validator
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from typing_extensions import Annotated
@@ -35,6 +35,12 @@ class ScopeReviewSourceBlocked(ValueError):
     """Human scope review cannot resolve source-version uncertainty."""
 
 
+class ScopeReviewConflict(ValueError):
+    def __init__(self, code: str):
+        self.code = code
+        super().__init__(code)
+
+
 class ScopeDescriptionCorrection(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
     description: Description
@@ -51,6 +57,12 @@ class ScopeReviewDecisionInput(BaseModel):
         if (self.decision == "CORRECTED") != (self.correction is not None):
             raise ValueError("Only CORRECTED requires a description correction")
         return self
+
+
+class ScopeReviewDecisionWrite(ScopeReviewDecisionInput):
+    model_config = ConfigDict(extra="forbid", frozen=True, strict=True)
+    expected_projection_fingerprint: Annotated[str, StringConstraints(pattern=r"^[0-9a-f]{64}$")]
+    expected_current_review_revision: Annotated[int, Field(strict=True, ge=1)] | None
 
 
 class ScopeMachineEvidence(BaseModel):
@@ -148,6 +160,10 @@ def _evidence(db: Session, detail: TenderScopeDetail) -> ScopeMachineEvidence:
         raise ScopeReviewSourceBlocked("Missing or inconsistent source provenance")
     values = {name: getattr(detail, name) for name in ScopeMachineEvidence.model_fields
               if name not in {"document_revision", "source_page"}}
+    # PostgreSQL may return the same instant in the session timezone after reload.
+    # Canonical UTC serialization keeps fingerprints stable across sessions.
+    for name in ("created_at", "updated_at"):
+        values[name] = values[name].astimezone(timezone.utc)
     return ScopeMachineEvidence(**values, document_revision=document.revision_number, source_page=page.page_number)
 
 
@@ -201,6 +217,7 @@ def list_scope_review_history(db: Session, *, tender_id: str, scope_detail_id: s
 
 def append_scope_review(
     db: Session, *, tender_id: str, scope_detail_id: str, decision: ScopeReviewDecisionInput,
+    expectations: ScopeReviewDecisionWrite | None = None,
 ) -> ScopeReviewRead:
     # Revalidate even Pydantic model_construct inputs before any persistence.
     validated = ScopeReviewDecisionInput.model_validate(decision.model_dump())
@@ -208,9 +225,14 @@ def append_scope_review(
         detail = _detail(db, tender_id, scope_detail_id, lock=True)
         evidence = _evidence(db, detail)
         projection = _projection(db, detail)
+        history = _history(db, tender_id, scope_detail_id)
+        if expectations is not None:
+            if expectations.expected_projection_fingerprint != _target_fingerprint(evidence, projection):
+                raise ScopeReviewConflict("SCOPE_REVIEW_TARGET_STALE")
+            if expectations.expected_current_review_revision != (history[-1].revision if history else None):
+                raise ScopeReviewConflict("SCOPE_REVIEW_REVISION_CONFLICT")
         if _source_blocked(projection):
             raise ScopeReviewSourceBlocked("Resolve source-version review before reviewing ScopeDetail")
-        history = _history(db, tender_id, scope_detail_id)
         row = TenderScopeReview(
             tender_id=tender_id, scope_detail_id=scope_detail_id,
             revision=(history[-1].revision + 1 if history else 1),
@@ -224,13 +246,15 @@ def append_scope_review(
     return _review_read(row)
 
 
-def get_effective_scope_review(db: Session, *, tender_id: str, scope_detail_id: str) -> EffectiveScopeReview:
+def _read_scope_review(
+    db: Session, *, tender_id: str, scope_detail_id: str,
+) -> tuple[EffectiveScopeReview, tuple[ScopeReviewRead, ...]]:
     with db.no_autoflush:
         detail = _detail(db, tender_id, scope_detail_id)
         machine = _evidence(db, detail)
         projection = _projection(db, detail)
-        history = _history(db, tender_id, scope_detail_id)
-        review = _review_read(history[-1]) if history else None
+        history = tuple(_review_read(row) for row in _history(db, tender_id, scope_detail_id))
+        review = history[-1] if history else None
 
     blocked = _source_blocked(projection)
     current = bool(review and review.machine_snapshot == machine
@@ -248,7 +272,7 @@ def get_effective_scope_review(db: Session, *, tender_id: str, scope_detail_id: 
     else:
         status = "PENDING" if machine.review_required else "NOT_REQUIRED"
 
-    return EffectiveScopeReview(
+    view = EffectiveScopeReview(
         machine=machine, latest_review=review, human_review_status=human_status,
         effective_status=status, effective_description=effective_description,
         accepted_execution_scope=status in {"NOT_REQUIRED", "CONFIRMED", "CORRECTED"},
@@ -257,3 +281,83 @@ def get_effective_scope_review(db: Session, *, tender_id: str, scope_detail_id: 
                                           and review.decision in {"CONFIRMED", "CORRECTED"}),
         source_blocked=blocked, source_projection=projection,
     )
+    return view, history
+
+
+def get_effective_scope_review(db: Session, *, tender_id: str, scope_detail_id: str) -> EffectiveScopeReview:
+    return _read_scope_review(db, tender_id=tender_id, scope_detail_id=scope_detail_id)[0]
+
+
+class ScopeReviewHistoryEntry(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+    review: ScopeReviewRead
+    applicable: bool
+    reason: Literal["CURRENT", "HISTORICAL_REVISION", "TARGET_CHANGED", "TARGET_REMOVED"]
+
+
+class ScopeReviewItemRead(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+    scope_detail_id: str
+    current: EffectiveScopeReview | None
+    projection_fingerprint: str | None
+    current_review_revision: int | None
+    latest_applicable_review: ScopeReviewRead | None
+    reviewable: bool
+    not_reviewable_reason: str | None
+    history: tuple[ScopeReviewHistoryEntry, ...]
+
+
+def _target_fingerprint(machine: ScopeMachineEvidence, projection: EffectiveEntityProjection) -> str:
+    payload = {"machine": machine.model_dump(mode="json"), "projection": asdict(projection)}
+    return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
+def get_scope_review_item(db: Session, *, tender_id: str, scope_detail_id: str) -> ScopeReviewItemRead:
+    """Read current facts or an archived identity, without carrying decisions forward."""
+    with db.no_autoflush:
+        try:
+            current, history = _read_scope_review(db, tender_id=tender_id, scope_detail_id=scope_detail_id)
+        except ScopeReviewNotFound:
+            history = list_scope_review_history(db, tender_id=tender_id, scope_detail_id=scope_detail_id)
+            if not history:
+                raise
+            current = None
+        applicable = current.latest_review if current and current.human_review_status == "CURRENT" else None
+        entries = tuple(ScopeReviewHistoryEntry(
+            review=review,
+            applicable=bool(applicable and applicable.id == review.id),
+            reason=("TARGET_REMOVED" if current is None else
+                    "TARGET_CHANGED" if review.machine_snapshot != current.machine or
+                    review.reviewed_source_fingerprint != _source_fingerprint(current.source_projection) else
+                    "CURRENT" if applicable and applicable.id == review.id else "HISTORICAL_REVISION"),
+        ) for review in history)
+        blocked = current is None or current.source_blocked
+        return ScopeReviewItemRead(
+            scope_detail_id=scope_detail_id, current=current,
+            projection_fingerprint=(_target_fingerprint(current.machine, current.source_projection) if current else None),
+            current_review_revision=history[-1].revision if history else None,
+            latest_applicable_review=applicable, reviewable=not blocked,
+            not_reviewable_reason=("TARGET_REMOVED" if current is None else
+                                   f"SOURCE_{current.source_projection.status}" if blocked else None),
+            history=entries,
+        )
+
+
+def list_scope_review_items(db: Session, *, tender_id: str) -> tuple[ScopeReviewItemRead, ...]:
+    # Include archived identities so regeneration cannot hide the audit trail.
+    with db.no_autoflush:
+        current_ids = set(db.scalars(select(TenderScopeDetail.id).where(TenderScopeDetail.tender_id == tender_id)))
+        historical_ids = set(db.scalars(select(TenderScopeReview.scope_detail_id).where(TenderScopeReview.tender_id == tender_id)))
+        return tuple(get_scope_review_item(db, tender_id=tender_id, scope_detail_id=identity)
+                     for identity in sorted(current_ids | historical_ids))
+
+
+def decide_scope_review(db: Session, *, tender_id: str, scope_detail_id: str,
+                        payload: ScopeReviewDecisionWrite) -> ScopeReviewItemRead:
+    validated = ScopeReviewDecisionWrite.model_validate(payload.model_dump())
+    decision = ScopeReviewDecisionInput.model_validate(validated.model_dump(exclude={
+        "expected_projection_fingerprint", "expected_current_review_revision",
+    }))
+    append_scope_review(db, tender_id=tender_id, scope_detail_id=scope_detail_id,
+                        decision=decision, expectations=validated)
+    return get_scope_review_item(db, tender_id=tender_id, scope_detail_id=scope_detail_id)

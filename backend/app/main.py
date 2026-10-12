@@ -169,6 +169,12 @@ from app.schemas import (
     TenderCompanyComplianceMatrixRead,
 )
 
+from app.schemas import ScopeReviewDecisionWrite, ScopeReviewItemRead
+from app.scope_review import (
+    ScopeReviewConflict, ScopeReviewNotFound, ScopeReviewSourceBlocked,
+    decide_scope_review, get_scope_review_item, list_scope_review_items,
+)
+
 settings = get_settings()
 
 MIN_IMAGE_REGION_AREA_RATIO = 0.03
@@ -3126,3 +3132,42 @@ def run_document_ocr(
         "page_count": len(response_results),
         "results": [result.model_dump() for result in response_results],
     }
+
+
+def _scope_review_tender(db: Session, tender_id: str) -> None:
+    if db.get(Tender, tender_id) is None:
+        raise HTTPException(status_code=404, detail="Tender not found")
+
+
+@app.get("/tenders/{tender_id}/scope-review", response_model=tuple[ScopeReviewItemRead, ...])
+def list_scope_review_endpoint(tender_id: str, db: Session = Depends(get_db)) -> tuple[ScopeReviewItemRead, ...]:
+    _scope_review_tender(db, tender_id)
+    return list_scope_review_items(db, tender_id=tender_id)
+
+
+@app.get("/tenders/{tender_id}/scope-review/{scope_detail_id}", response_model=ScopeReviewItemRead)
+def get_scope_review_endpoint(tender_id: str, scope_detail_id: str, db: Session = Depends(get_db)) -> ScopeReviewItemRead:
+    _scope_review_tender(db, tender_id)
+    try:
+        return get_scope_review_item(db, tender_id=tender_id, scope_detail_id=scope_detail_id)
+    except ScopeReviewNotFound as exc:
+        raise HTTPException(status_code=404, detail="ScopeDetail not found in requested tender") from exc
+
+
+@app.post("/tenders/{tender_id}/scope-review/{scope_detail_id}/decisions", response_model=ScopeReviewItemRead)
+def decide_scope_review_endpoint(tender_id: str, scope_detail_id: str,
+                                 payload: ScopeReviewDecisionWrite, db: Session = Depends(get_db)) -> ScopeReviewItemRead:
+    _scope_review_tender(db, tender_id)
+    try:
+        response = decide_scope_review(db, tender_id=tender_id, scope_detail_id=scope_detail_id, payload=payload)
+        db.commit()
+        return response
+    except ScopeReviewNotFound as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail="ScopeDetail not found in requested tender") from exc
+    except ScopeReviewConflict as exc:
+        db.rollback()
+        raise HTTPException(status_code=409, detail={"code": exc.code}) from exc
+    except ScopeReviewSourceBlocked as exc:
+        db.rollback()
+        raise HTTPException(status_code=409, detail={"code": "SCOPE_SOURCE_NOT_REVIEWABLE"}) from exc

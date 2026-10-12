@@ -64,3 +64,31 @@ máquina hasta adoptar explícitamente la nueva vista.
 Downgrade elimina únicamente el contrato añadido (y limpia la constraint obsoleta
 de la implementación 069 anterior a aceptación, si todavía existe);
 es una operación administrativa destructiva del historial, no una acción de usuario.
+
+## Extensión MVP-06.6.2 — API y concurrencia optimista
+
+- GET `/tenders/{tender_id}/scope-review` lista identidades actuales e históricas
+  por ID ascendente; GET `/{scope_detail_id}` muestra la vista actual y el
+  historial por revisión ascendente. Una identidad eliminada conserva historial,
+  `current=null`, `reviewable=false` y motivo `TARGET_REMOVED`.
+- POST `/{scope_detail_id}/decisions` exige request estricto con decisión,
+  corrección sólo de descripción cuando corresponde, nota opcional,
+  `expected_projection_fingerprint` y `expected_current_review_revision`
+  (null como expectativa de ausencia de revisión).
+- El fingerprint HTTP SHA-256 incluye snapshot máquina completo y proyección
+  actual, con timestamps máquina normalizados a UTC. Es distinto del fingerprint
+  de fuente persistido por 06.6.1: detecta también cambios de evidencia máquina.
+  No se persiste ningún nuevo fingerprint ni estado efectivo.
+- Bajo el bloqueo de ScopeDetail existente, el servicio recalcula fingerprint y
+  revisión antes de insertar. Desajustes devuelven 409 con códigos
+  `SCOPE_REVIEW_TARGET_STALE` o `SCOPE_REVIEW_REVISION_CONFLICT`, sin append.
+  Fuentes bloqueadas devuelven `SCOPE_SOURCE_NOT_REVIEWABLE` (409).
+- GET y POST usan el mismo servicio de lectura determinista. POST recalcula
+  después del flush del append y antes del commit, manteniendo el bloqueo hasta
+  finalizar la transacción. No se introduce actor ni autenticación.
+- El historial distingue CURRENT, HISTORICAL_REVISION, TARGET_CHANGED y
+  TARGET_REMOVED. Sólo la última decisión coincidente puede ser aplicable;
+  la aplicabilidad del snapshot no otorga autoridad sobre Source Effects.
+- Sólo incertidumbre `FACT_REVIEW_REQUIRED` puede resolverse mediante Scope
+  Review. Estados terminales, unresolved, conflictos y ambigüedad de fuente o
+  locator permanecen bloqueados. Los resolvers y materializadores no cambian.
