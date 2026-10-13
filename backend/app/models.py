@@ -5,7 +5,7 @@ from decimal import Decimal
 from enum import Enum
 from uuid import uuid4
 
-from sqlalchemy import Boolean, CheckConstraint, Date, DateTime, Float, ForeignKey, Index, Integer, JSON, Numeric, String, Text, Time, UniqueConstraint
+from sqlalchemy import Boolean, CheckConstraint, Date, DateTime, Float, ForeignKey, ForeignKeyConstraint, Index, Integer, JSON, Numeric, String, Text, Time, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -3140,3 +3140,40 @@ class RequirementEvidenceExpectation(Base):
     requirement: Mapped[Requirement] = relationship()
     source_candidate: Mapped[RequirementCandidate | None] = relationship(foreign_keys=[source_candidate_id])
     source_document: Mapped[TenderDocument | None] = relationship(foreign_keys=[source_document_id])
+
+
+class TechnicalAlternative(Base):
+    """Stable human strategy identity; content lives exclusively in revisions."""
+    __tablename__ = "technical_alternatives"
+    __table_args__ = (
+        UniqueConstraint("id", "tender_id", name="uq_technical_alt_identity_tender"),
+        Index("ix_technical_alt_tender", "tender_id"),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(String(36), ForeignKey("tenders.id", ondelete="RESTRICT"), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
+
+
+class TechnicalAlternativeRevision(Base):
+    __tablename__ = "technical_alternative_revisions"
+    __table_args__ = (
+        ForeignKeyConstraint(["alternative_id", "tender_id"],
+                             ["technical_alternatives.id", "technical_alternatives.tender_id"], ondelete="RESTRICT"),
+        UniqueConstraint("alternative_id", "revision", name="uq_technical_alt_revision"),
+        CheckConstraint("revision > 0", name="ck_technical_alt_revision"),
+        CheckConstraint("length(trim(name)) > 0", name="ck_technical_alt_name"),
+        CheckConstraint("length(trim(technical_description)) > 0", name="ck_technical_alt_description"),
+        CheckConstraint("lifecycle_state IN ('DRAFT', 'ACTIVE', 'ARCHIVED')", name="ck_technical_alt_lifecycle"),
+        CheckConstraint("fingerprint ~ '^[0-9a-f]{64}$'", name="ck_technical_alt_fingerprint"),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    alternative_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    tender_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    revision: Mapped[int] = mapped_column(Integer, nullable=False)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    technical_description: Mapped[str] = mapped_column(Text, nullable=False)
+    assumptions: Mapped[str | None] = mapped_column(Text, nullable=True)
+    notes: Mapped[str | None] = mapped_column(Text, nullable=True)
+    lifecycle_state: Mapped[str] = mapped_column(String(32), nullable=False)
+    fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
