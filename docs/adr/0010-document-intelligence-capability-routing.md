@@ -144,3 +144,60 @@ No hay cambio de esquema después de 072 ni nueva persistencia paralela. Scope
 conserva la provenance que soportan sus contratos actuales (canal, artefacto,
 locator, excerpt, analysis/page-result y revisión); el contexto DI completo es
 transitorio. CompanyEvidence y la política Source Effect Qwen NO-GO no cambian.
+
+## Contrato de provenance 06.R.3a — pendiente de aceptación arquitectónica
+
+`RoutingResult` permanece específico por capacidad. Una observación estructural
+no se reclasifica como transcripción para transportar un desacuerdo contractual.
+La comparación de identificadores críticos es una capa neutral separada, que
+consume observaciones clasificadas y bindings suministrados explícitamente por
+un contrato upstream; no descubre tipos a partir de texto o metadata del proveedor.
+
+El JSONB existente admite `schema_version: "2"`, sin columna, tabla ni migración.
+La v2 contiene página, `routing_contexts` (uno por capacidad, con selección,
+candidatos, conflictos, diagnósticos y provenance) e `identifier_comparisons`.
+Cada comparación conserva kind, binding, estado, carácter crítico, diagnósticos
+y todas las observaciones: valor raw y normalizado, excerpt exacto y fuente con
+capacidad original, canal, documento/versión/página, locator/coordenadas,
+artefacto/generación/analysis/page-result, calidad/confianza y lineage. La fuente
+de cada observación debe estar representada en su contexto de routing.
+
+El vocabulario neutral es `ITEM_NUMBER`, `PARTIDA`, `EQUIPMENT_TAG`,
+`MODEL_IDENTIFIER`, `DOCUMENT_REFERENCE`, `QUANTITY_BINDING_IDENTIFIER`,
+`STRUCTURAL_GROUP_IDENTIFIER` y `OTHER_CRITICAL_IDENTIFIER`. No implica verdad
+contractual ni introduce valores institucionales en el Core.
+
+La normalización de comparación usa NFC, trim y colapso de whitespace; conserva
+case, acentos, puntuación, ceros iniciales y sufijos. Nunca modifica el raw ni
+`normalize_item_identity`. `1`/`01`, `TAG-101`/`TAG-10I`, `A-1`/`A1`,
+`Rev A`/`Rev B`, `10 EA`/`10 SET` y `X100`/`X100A` siguen siendo distintos.
+
+Dos o más observaciones ACTIVE, confiables y de identidades independientes
+permiten AGREEMENT o CONFLICT según sus valores normalizados. DESELECTED se
+conserva como historia; no participa en el conflicto activo. Observaciones no
+certificadas no acreditan acuerdo ni contradicción confiable. FAILED/UNAVAILABLE
+pueden conservarse en routing, pero no suministrar valores de identificador.
+Sin observaciones el estado es NOT_APPLICABLE; sin dos fuentes confiables activas,
+INSUFFICIENT_EVIDENCE. La preferencia de canal del routing nunca resuelve un
+conflicto contractual; no existe precedencia por timestamp, archivo o proveedor.
+
+El reader usa una unión discriminada v1/v2. NULL continúa siendo ausencia legacy;
+v1 conserva exactamente sus hechos y no fabrica comparaciones. Versiones
+futuras, campos desconocidos, observaciones sin grounding, estados incompatibles
+y fuentes ajenas al contexto fallan explícitamente. La serialización ordena
+colecciones sin alterar hechos; el writer no ejecuta proveedores, recalcula
+routing ni hace commit. Rechaza snapshots que pierdan historia y downgrades v2.
+
+La escritura R.3-capable es explícita mediante `provenance_from_routings` y el
+writer existente. La ruta anterior de un solo `RoutingResult` conserva v1: esto
+evita upgrades/backfill automáticos y activar R.3 antes de su aceptación. El
+adapter R.2 admite lecturas v2 y, al refrescar transcripción de una fila v2,
+retiene los demás contextos y las observaciones históricas con su lineage; sólo
+actualiza el estado derivado de comparación para que sea consistente con esa
+lineage. No aplica la comparación a decisiones de dominio en R.3a.
+
+La propagación fail-closed y su alcance local en Requirements, evidencia
+solicitada, Scope, continuidad, cantidades y atributos pertenecen a R.3.
+No cambia Human Review, CompanyEvidence, Source Effects ni Alternative Compliance.
+Las pruebas sintéticas/JSONB no certifican precisión OCR/Vision. R.4 conserva
+la calibración real posterior; Tender #002 permanece protegido hasta MVP-06.V.
