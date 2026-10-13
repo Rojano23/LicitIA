@@ -212,7 +212,7 @@ def structural_candidate_from_native_text(
         source_analysis_id=source_analysis_id,
         source_page_result_id=source_page_result_id,
         source_contract_version="NATIVE_TEXT_V1",
-        source_excerpt=f"page:{page_number}|item:{identity.raw_label}",
+        source_excerpt=_EXPLICIT_ITEM_START_RE.search(native_text).group(0).strip(),
     )
     return StructuralCandidate(
         source_method=PAGE_STRUCTURE_SOURCE_METHOD_NATIVE_TEXT,
@@ -287,7 +287,7 @@ def structural_candidate_from_ocr_evidence(
         source_analysis_id=source_analysis_id,
         source_page_result_id=evidence.page_ocr_result_id,
         source_contract_version="OCR_TEXT_V1",
-        source_excerpt=f"page:{page_number}|scope:{evidence.scope}|item:{identity.raw_label}",
+        source_excerpt=next(_EXPLICIT_ITEM_START_RE.search(item.text).group(0).strip() for item in evidence_list if _EXPLICIT_ITEM_START_RE.search(item.text)),
     )
     return StructuralCandidate(
         source_method=PAGE_STRUCTURE_SOURCE_METHOD_OCR,

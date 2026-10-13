@@ -310,7 +310,7 @@ def test_persisted_vision_supply_materializes() -> None:
         result = _materialize(db, tender_id, document_id)
         db.commit()
 
-        assert result.status == SCOPE_DETAIL_MATERIALIZATION_STATUS_MATERIALIZED
+        assert result.status == SCOPE_DETAIL_MATERIALIZATION_STATUS_REVIEW_REQUIRED
         assert result.artifacts_materialized == 1
         assert result.persisted_count == 1
         row = db.scalar(select(TenderScopeDetail).where(TenderScopeDetail.source_artifact_key == f"vision-page-result:{page_result.id}"))
@@ -350,7 +350,7 @@ def test_persisted_vision_deliverable_materializes() -> None:
         result = _materialize(db, tender_id, document_id)
         db.commit()
 
-        assert result.status == SCOPE_DETAIL_MATERIALIZATION_STATUS_MATERIALIZED
+        assert result.status == SCOPE_DETAIL_MATERIALIZATION_STATUS_REVIEW_REQUIRED
         row = db.scalar(select(TenderScopeDetail).where(TenderScopeDetail.source_artifact_key == f"vision-page-result:{page_result.id}"))
         assert row is not None
         assert row.domain == "DELIVERABLE"
@@ -1157,7 +1157,7 @@ def test_unique_structural_segment_inheritance_resolves_ownership() -> None:
         assert row is not None
         assert row.applicability == "ITEM"
         assert row.scope_segment_id == segment.id
-        assert row.review_required is False
+        assert row.review_required is True  # DI fidelity is uncertified, despite resolved ownership.
     finally:
         db.close()
 
@@ -1248,7 +1248,7 @@ def test_explicit_conflict_remains_fail_closed_and_semantic_review_is_preserved(
 
     db = SessionLocal()
     try:
-        page = _seed_page(db, document_id, 7, "PARTIDA")
+        page = _seed_page(db, document_id, 7, "PARTIDA 2")  # Ground the current structural identity.
         page_result = _seed_vision_result(
             db,
             tender_id=tender_id,

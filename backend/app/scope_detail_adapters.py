@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Protocol, Sequence
 
 from sqlalchemy.orm import Session
 
 from app.models import TenderScopeDetail
+from app.document_intelligence import RoutingResult, Quality
 from app.scope_details import ScopeDetailCandidate, replace_scope_details_for_artifact
 
 SCOPE_DETAIL_ADAPTER_STATUS_ADAPTED = "ADAPTED"
@@ -26,6 +27,8 @@ class ScopeDetailEvidenceArtifact:
     source_analysis_id: str | None = None
     source_page_result_id: str | None = None
     payload: dict | None = None
+    transcription: RoutingResult | None = None
+    structure: RoutingResult | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -82,6 +85,14 @@ def adapt_and_persist_scope_detail_artifact(
         )
 
     candidates = list(selected_adapter.extract_candidates(db, artifact))
+    if artifact.transcription is not None:
+        current = [e for e in artifact.transcription.candidates if e.lineage == "ACTIVE"
+            and e.source_artifact_key == artifact.source_artifact_key
+            and e.quality in {Quality.RELIABLE, Quality.REVIEW_REQUIRED}]
+        # No bridge can resurrect failed or deselected detail evidence.
+        candidates = [candidate for candidate in candidates if any(candidate.source_excerpt in e.text for e in current)]
+        if artifact.transcription.status != "RESOLVED":
+            candidates = [replace(candidate, review_required=True) for candidate in candidates]
     if not candidates:
         replace_scope_details_for_artifact(
             db,

@@ -1,3 +1,4 @@
+from app.requirement_perception_provenance import RequirementPerceptionProvenance
 from datetime import date, datetime, time
 from decimal import Decimal
 from typing import Any
@@ -1177,6 +1178,7 @@ class TenderStateSnapshotRead(BaseModel):
 
 
 class RequirementCandidateEvidenceRead(BaseModel):
+    perception_provenance: RequirementPerceptionProvenance | None = None
     id: str
     source_document_id: str
     source_filename: str | None = None
@@ -1187,6 +1189,8 @@ class RequirementCandidateEvidenceRead(BaseModel):
 
 
 class RequirementCandidateRead(BaseModel):
+    perception_active: bool = True
+    perception_review_required: bool = False
     id: str
     tender_id: str
     semantic_key: str
@@ -1509,6 +1513,7 @@ class VisionAssistLatestSummaryRead(BaseModel):
 
 
 class RequirementSourceOccurrenceRead(BaseModel):
+    perception_provenance: list[RequirementPerceptionProvenance] = Field(default_factory=list)
     candidate_id: str
     source_document_id: str
     source_filename: str | None = None
@@ -1561,6 +1566,7 @@ class TenderRequirementsRead(BaseModel):
 
 
 class RequirementEvidenceExpectationRead(BaseModel):
+    perception_provenance: list[RequirementPerceptionProvenance] = Field(default_factory=list)
     id: str
     requirement_semantics_id: str
     requirement_id: str

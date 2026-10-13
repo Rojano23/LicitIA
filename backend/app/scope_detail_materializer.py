@@ -1,13 +1,16 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from typing import Sequence
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import DocumentPage, DocumentVisionAnalysis, DocumentVisionPageResult, NormalizedContent, PageOcrResult
+from app.document_intelligence_sources import PersistedPerceptionArtifact, _enumerate_persisted_artifacts_for_document, load_document_transcriptions, load_page_structure, transcription_from_artifact
+from app.document_intelligence import Capability, RoutingResult, advance_continuity, route_capability
+from app.scope_semantic_discovery import ScopeSemanticDiscoveryProvider
+from app.models import TenderDocument
 from app.scope_details import replace_scope_details_for_artifact
 from app.scope_detail_adapters import (
     SCOPE_DETAIL_ADAPTER_STATUS_ADAPTED,
@@ -63,22 +66,6 @@ class ScopeDetailMaterializationResult:
     artifact_results: tuple[ScopeDetailMaterializationArtifactResult, ...]
 
 
-@dataclass(frozen=True, slots=True)
-class _EnumeratedArtifact:
-    page_number: int
-    sort_key: str
-    artifact: ScopeDetailEvidenceArtifact
-    analysis_created_at: datetime | None = None
-    page_result_created_at: datetime | None = None
-    page_result_updated_at: datetime | None = None
-
-
-@dataclass(frozen=True, slots=True)
-class _EnumeratedArtifacts:
-    active: tuple[_EnumeratedArtifact, ...]
-    deselected: tuple[_EnumeratedArtifact, ...]
-
-
 def materialize_document_scope_details(
     db: Session,
     *,
@@ -86,6 +73,7 @@ def materialize_document_scope_details(
     document_id: str,
     execution_policy: str = EXECUTION_POLICY_AVAILABLE_ONLY,
     adapters: Sequence[ScopeDetailAdapter] | None = None,
+    semantic_providers: Sequence[ScopeSemanticDiscoveryProvider] | None = None,
 ) -> ScopeDetailMaterializationResult:
     if execution_policy != EXECUTION_POLICY_AVAILABLE_ONLY:
         raise ValueError(f"Unsupported execution policy: {execution_policy}")
@@ -102,6 +90,26 @@ def materialize_document_scope_details(
         document_id=document_id,
         pages=pages,
     )
+
+    document = db.get(TenderDocument, document_id)
+    if document is None or document.tender_id != tender_id:
+        raise ValueError("DOCUMENT_TENDER_MISMATCH")
+    transcriptions = load_document_transcriptions(db, document)
+    structures: dict[str, RoutingResult] = {}
+    previous_continuity = None
+    for page in pages:
+        structure = load_page_structure(db, document, page)
+        continuity = advance_continuity(structure, previous_continuity)
+        previous_continuity = continuity
+        if structure.status == "RESOLVED" and continuity.status != "VALID":
+            structure = RoutingResult(page=structure.page, capability=Capability.STRUCTURE,
+                status="REVIEW_REQUIRED", candidates=structure.candidates,
+                diagnostics=continuity.diagnostics)
+        structures[page.id] = structure
+    if semantic_providers is not None:
+        from app.scope_di_adapter import NeutralScopeSemanticAdapter
+        from app.scope_detail_adapters import _default_adapters
+        adapters = tuple(adapters or _default_adapters()) + (NeutralScopeSemanticAdapter(tuple(semantic_providers)),)
 
     artifact_results: list[ScopeDetailMaterializationArtifactResult] = []
     artifacts_supported = 0
@@ -157,7 +165,7 @@ def materialize_document_scope_details(
         try:
             adapter_result = adapt_and_persist_scope_detail_artifact(
                 db,
-                enumerated_artifact.artifact,
+                _scope_artifact_context(db, enumerated_artifact.artifact, transcriptions, structures),
                 adapters=adapters,
             )
             nested_tx.commit()
@@ -231,207 +239,6 @@ def materialize_document_scope_details(
     )
 
 
-def _enumerate_persisted_artifacts_for_document(
-    db: Session,
-    *,
-    tender_id: str,
-    document_id: str,
-    pages: Sequence[DocumentPage],
-) -> _EnumeratedArtifacts:
-    page_by_id = {page.id: page for page in pages}
-    active: list[_EnumeratedArtifact] = []
-    deselected: list[_EnumeratedArtifact] = []
-
-    vision_lineage_groups: dict[tuple[str, str, str], list[_EnumeratedArtifact]] = {}
-    additive_vision: list[_EnumeratedArtifact] = []
-
-    vision_rows = db.execute(
-        select(DocumentVisionPageResult, DocumentVisionAnalysis)
-        .join(DocumentVisionAnalysis, DocumentVisionAnalysis.id == DocumentVisionPageResult.analysis_id)
-        .where(
-            DocumentVisionAnalysis.tender_id == tender_id,
-            DocumentVisionAnalysis.document_id == document_id,
-        )
-        .order_by(DocumentVisionPageResult.page_number.asc(), DocumentVisionPageResult.id.asc())
-    ).all()
-    for page_result, analysis in vision_rows:
-        payload = _build_vision_payload(page_result)
-        if payload is None:
-            continue
-        detail_transcription = payload.get("detail_transcription")
-        detail_prompt_version = None
-        if isinstance(detail_transcription, dict):
-            detail_prompt_version = _optional_text(detail_transcription.get("prompt_version"))
-        enumerated_artifact = _EnumeratedArtifact(
-            page_number=page_result.page_number,
-            sort_key=f"vision:{page_result.page_number:04d}:{page_result.id}",
-            artifact=ScopeDetailEvidenceArtifact(
-                tender_id=tender_id,
-                source_document_id=document_id,
-                document_page_id=page_result.document_page_id,
-                source_method="VISION",
-                source_artifact_key=f"vision-page-result:{page_result.id}",
-                source_contract_version=detail_prompt_version or _optional_text(analysis.prompt_version),
-                source_locator=f"page:{page_result.page_number}",
-                source_analysis_id=analysis.id,
-                source_page_result_id=page_result.id,
-                payload=payload,
-            ),
-            analysis_created_at=analysis.created_at,
-            page_result_created_at=page_result.created_at,
-            page_result_updated_at=page_result.updated_at,
-        )
-
-        lineage_key = _vision_detail_lineage_key(page_result=page_result, payload=payload)
-        if lineage_key is None:
-            additive_vision.append(enumerated_artifact)
-            continue
-        vision_lineage_groups.setdefault(lineage_key, []).append(enumerated_artifact)
-
-    active.extend(additive_vision)
-    for grouped in vision_lineage_groups.values():
-        if len(grouped) == 1:
-            active.append(grouped[0])
-            continue
-
-        selected = max(grouped, key=_vision_artifact_lifecycle_sort_key)
-        active.append(selected)
-        for candidate in grouped:
-            if candidate is selected:
-                continue
-            deselected.append(candidate)
-
-    for ocr_row in db.execute(
-        select(PageOcrResult)
-        .join(DocumentPage, DocumentPage.id == PageOcrResult.document_page_id)
-        .where(DocumentPage.document_id == document_id)
-        .order_by(DocumentPage.page_number.asc(), PageOcrResult.created_at.asc(), PageOcrResult.id.asc())
-    ).scalars().all():
-        page = page_by_id.get(ocr_row.document_page_id)
-        if page is None:
-            continue
-        active.append(
-            _EnumeratedArtifact(
-                page_number=page.page_number,
-                sort_key=f"ocr:{page.page_number:04d}:{ocr_row.id}",
-                artifact=ScopeDetailEvidenceArtifact(
-                    tender_id=tender_id,
-                    source_document_id=document_id,
-                    document_page_id=ocr_row.document_page_id,
-                    source_method="OCR",
-                    source_artifact_key=f"ocr-result:{ocr_row.id}",
-                    source_contract_version=_optional_text(ocr_row.engine_version),
-                    source_locator=_ocr_source_locator(page.page_number, ocr_row.scope, ocr_row.region_id),
-                    payload={
-                        "text": ocr_row.text,
-                        "engine": ocr_row.engine,
-                        "engine_version": ocr_row.engine_version,
-                        "scope": ocr_row.scope,
-                        "region_id": ocr_row.region_id,
-                    },
-                ),
-            )
-        )
-
-    native_rows = db.execute(
-        select(NormalizedContent, DocumentPage)
-        .join(DocumentPage, DocumentPage.id == NormalizedContent.document_page_id)
-        .where(
-            DocumentPage.document_id == document_id,
-            NormalizedContent.source_type.in_(["NATIVE_PDF", "NATIVE_TEXT"]),
-        )
-        .order_by(DocumentPage.page_number.asc(), NormalizedContent.created_at.asc(), NormalizedContent.id.asc())
-    ).all()
-    seen_native_page_ids: set[str] = set()
-    for normalized_content, page in native_rows:
-        if page.id in seen_native_page_ids:
-            continue
-        text = _optional_text(normalized_content.normalized_text) or _optional_text(page.text)
-        if text is None:
-            continue
-        seen_native_page_ids.add(page.id)
-        active.append(
-            _EnumeratedArtifact(
-                page_number=page.page_number,
-                sort_key=f"native:{page.page_number:04d}:{page.id}",
-                artifact=ScopeDetailEvidenceArtifact(
-                    tender_id=tender_id,
-                    source_document_id=document_id,
-                    document_page_id=page.id,
-                    source_method="NATIVE",
-                    source_artifact_key=f"native-page:{page.id}",
-                    source_contract_version="NATIVE_TEXT_V1",
-                    source_locator=f"page:{page.page_number}",
-                    payload={
-                        "text": text,
-                        "normalized_content_id": normalized_content.id,
-                        "source_type": normalized_content.source_type,
-                        "source_scope": normalized_content.source_scope,
-                    },
-                ),
-            )
-        )
-
-    active.sort(key=lambda item: (item.page_number, item.sort_key))
-    deselected.sort(key=lambda item: (item.page_number, item.sort_key))
-    return _EnumeratedArtifacts(active=tuple(active), deselected=tuple(deselected))
-
-
-def _vision_detail_lineage_key(
-    *,
-    page_result: DocumentVisionPageResult,
-    payload: dict,
-) -> tuple[str, str, str] | None:
-    detail = payload.get("detail_transcription")
-    if not isinstance(detail, dict):
-        return None
-
-    task_type = str(detail.get("task_type") or "").strip().upper()
-    if task_type != VISION_DETAIL_TASK_TYPE:
-        return None
-
-    task_fingerprint = _optional_text(detail.get("task_fingerprint"))
-    if task_fingerprint is None:
-        return None
-
-    return (page_result.document_page_id, task_type, task_fingerprint)
-
-
-def _vision_artifact_lifecycle_sort_key(enumerated: _EnumeratedArtifact) -> tuple:
-    return (
-        _datetime_or_min(enumerated.analysis_created_at),
-        _datetime_or_min(enumerated.page_result_updated_at),
-        _datetime_or_min(enumerated.page_result_created_at),
-        enumerated.artifact.source_artifact_key,
-    )
-
-
-def _datetime_or_min(value: datetime | None) -> datetime:
-    if value is None:
-        return datetime.min.replace(tzinfo=timezone.utc)
-    return value
-
-
-def _build_vision_payload(page_result: DocumentVisionPageResult) -> dict | None:
-    if isinstance(page_result.structured_json, dict):
-        return page_result.structured_json
-    if page_result.raw_response_text or page_result.extracted_markdown or page_result.extracted_plain_text:
-        return {
-            "raw_response_text": page_result.raw_response_text,
-            "extracted_markdown": page_result.extracted_markdown,
-            "extracted_plain_text": page_result.extracted_plain_text,
-            "source_page": page_result.page_number,
-        }
-    return None
-
-
-def _ocr_source_locator(page_number: int, scope: str, region_id: str | None) -> str:
-    locator = f"page:{page_number}|ocr_scope:{scope}"
-    if region_id is not None:
-        locator = f"{locator}|region:{region_id}"
-    return locator
-
-
 def _summarize_materialization_status(
     *,
     artifacts_seen: int,
@@ -464,3 +271,15 @@ def _optional_text(value) -> str | None:
         return None
     text = str(value).strip()
     return text or None
+
+
+def _scope_artifact_context(db: Session, artifact: PersistedPerceptionArtifact,
+                            transcriptions: dict[str, RoutingResult],
+                            structures: dict[str, RoutingResult]) -> ScopeDetailEvidenceArtifact:
+    result = transcriptions[artifact.document_page_id]
+    observation = transcription_from_artifact(db, artifact)
+    if observation not in result.candidates:
+        result = route_capability(page=result.page, capability=Capability.TRANSCRIPTION,
+            evidence=(*result.candidates, observation))
+    return ScopeDetailEvidenceArtifact(**asdict(artifact), transcription=result,
+        structure=structures[artifact.document_page_id])

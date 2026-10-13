@@ -95,3 +95,52 @@ Los tests sintéticos demuestran contratos, routing, lineage y fail-closed;
 no certifican extracción visual/OCR ni calidad semántica. No se autorizan modelos
 reales en R.1. La calibración real exige una fase controlada posterior y autorización
 explícita. Tender #002 permanece ciego hasta MVP-06.V, después de MVP-06.R.
+
+## Integración productiva 06.R.2 — pendiente de aceptación arquitectónica
+
+La frontera ORM `document_intelligence_sources` normaliza artefactos existentes
+sin ejecutar proveedores. Centraliza la elegibilidad de detalle Vision conservando
+la reselección histórica por fingerprint explícito de tarea. Esa reselección es
+lineage de una misma tarea, no precedencia entre fuentes independientes. Sin
+fingerprint las observaciones permanecen aditivas; no se elige una estructura
+por fecha, versión de prompt o preferencia Vision. La elegibilidad de estructura
+se evalúa independientemente de la de detalle, dentro de la misma frontera DI.
+
+La adquisición exitosa de texto Native/OCR/Vision no certifica fidelidad. Estos
+adaptadores declaran `REVIEW_REQUIRED`, sin inventar umbrales; el discovery
+existente puede producir propuestas fundamentadas, pero normalization e
+interpretación de evidencia solicitada deben propagar esa revisión. Diferencias
+textuales entre observaciones disponibles, incluso no certificadas, conservan
+conflictos. La calidad estructural reutiliza la evaluación de los parsers y el
+contrato estructural aceptados. Los anchors Native/OCR conservan ahora el
+fragmento literal reconocido por el mismo parser en lugar de un locator sintético.
+
+Requirements persiste snapshots completos mediante el writer de 06.R.2a sin
+alterarlo. Al refrescar una página, las generaciones ausentes del snapshot actual
+se retienen explícitamente como DESELECTED; no se borran sus observaciones. Los
+candidatos históricos quedan auditables y exponen soporte activo/revisión. El
+normalizador excluye soporte exclusivamente inactivo de discovery automático;
+las decisiones humanas existentes se conservan. NULL legacy sigue siendo válido.
+La evidencia solicitada lee ese mismo contrato tipado y conserva el contexto de
+revisión en su interpretación y en sus fuentes, sin evaluar posesión del licitante.
+
+Scope recibe transcripción y estructura como resultados neutrales separados.
+Los adapters conservan sus reglas de obligación/ownership y los reemplazos
+continúan acotados a tender/documento/página/artefacto. Un detalle fallido o
+DESELECTED no puede reentrar mediante un bridge. El adaptador semántico neutral
+admite proveedores suministrados explícitamente para Native/OCR/Vision; no instala
+ni ejecuta un LLM por defecto. El adapter de detalle Vision existente sigue siendo
+el predeterminado. Esta integración no certifica calidad semántica de modelos.
+
+El orquestador productivo usa el routing y la continuidad neutral de R.1. Un
+límite sin prueba deja continuidad UNKNOWN y resolución REVIEW_REQUIRED, sin
+selección ni segmentos heredados. Un nuevo inicio independiente puede recuperar
+continuidad válida. Los resultados incompletos se conservan para auditoría sin
+impedir los reintentos explícitos permitidos por la política de ejecución existente.
+Las señales declaradas de conflicto de identificador se conservan como razón de
+revisión; su descubrimiento/hardening pertenece a 06.R.3.
+
+No hay cambio de esquema después de 072 ni nueva persistencia paralela. Scope
+conserva la provenance que soportan sus contratos actuales (canal, artefacto,
+locator, excerpt, analysis/page-result y revisión); el contexto DI completo es
+transitorio. CompanyEvidence y la política Source Effect Qwen NO-GO no cambian.

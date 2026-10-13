@@ -1341,10 +1341,9 @@ def test_auto_fail_closed_when_page_2_remains_incomplete_after_retry() -> None:
 
         assert [(row.page_number, row.sequence_index, row.candidate_item_key) for row in segments] == [
             (1, 0, "1"),
-            (3, 0, "2"),
-            (4, 0, "2"),
         ]
-        assert result.scope_segments_persisted == 3
+        assert result.scope_segments_persisted == 1
+        assert all(row.status == "REVIEW_REQUIRED" for row in result.page_results if row.page_number in {3, 4})
     finally:
         db.close()
 
@@ -1448,32 +1447,30 @@ def test_post_link_continuity_conflict_marks_resolved_page_review_required() -> 
         db.commit()
 
         page3_result = next(row for row in result.page_results if row.page_number == 3)
-        assert page3_result.status == "RESOLVED"
-        assert page3_result.selected_source_method == "VISION"
+        assert page3_result.status == "REVIEW_REQUIRED"
+        assert page3_result.selected_source_method is None
         assert page3_result.review_required is True
-        assert page3_result.reason == "DOCUMENT_CONTINUITY_CONFLICT"
+        assert page3_result.reason == "UNPROVEN_CONTINUITY_BOUNDARY"
 
         page3_resolution = db.scalar(
             select(DocumentPageStructureResolution).where(DocumentPageStructureResolution.document_page_id == page3.id)
         )
         assert page3_resolution is not None
-        assert page3_resolution.status == "RESOLVED"
+        assert page3_resolution.status == "REVIEW_REQUIRED"
         assert page3_resolution.review_required is True
-        assert page3_resolution.reason == "DOCUMENT_CONTINUITY_CONFLICT"
+        assert page3_resolution.reason == "UNPROVEN_CONTINUITY_BOUNDARY"
 
         segments = db.execute(
             select(TenderScopeSegment)
             .where(TenderScopeSegment.source_document_id == document_id)
             .order_by(TenderScopeSegment.page_number.asc(), TenderScopeSegment.sequence_index.asc())
         ).scalars().all()
-        assert len(segments) == 3
+        assert len(segments) == 2
         assert [(row.page_number, row.sequence_index, row.candidate_item_key, row.link_reason) for row in segments] == [
             (1, 0, "1", "EXPLICIT_ITEM_START"),
             (2, 0, "1", "CONTINUATION"),
-            (3, 0, "2", "CONTINUATION"),
         ]
-        page3_segment = [row for row in segments if row.page_number == 3 and row.sequence_index == 0][0]
-        assert page3_segment.review_required is True
+        assert not any(row.page_number == 3 for row in segments)
     finally:
         db.close()
 

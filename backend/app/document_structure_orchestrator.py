@@ -1,4 +1,6 @@
 from __future__ import annotations
+from app.document_intelligence import advance_continuity, RoutingResult, Quality
+from app.document_intelligence_sources import load_page_structure
 
 import hashlib
 from dataclasses import dataclass
@@ -14,8 +16,6 @@ from app.models import (
     DocumentPageStatus,
     DocumentPage,
     DocumentPageStructureResolution,
-    DocumentVisionAnalysis,
-    DocumentVisionPageResult,
     NormalizedContent,
     PageOcrResult,
     TenderDocument,
@@ -25,9 +25,7 @@ from app.content_normalization import process_document_normalization
 from app.database import SessionLocal
 from app.main import AUTO_OCR_PROVIDER_ORDER, _resolve_document_file_path, get_ocr_providers
 from app.ollama_vision import (
-    VISION_STRUCTURE_SCOPE_COMPATIBLE_PROMPT_VERSIONS,
     VISION_STRUCTURE_SCOPE_PROMPT_VERSION,
-    VISION_TASK_STRUCTURE_SCOPE,
 )
 from app.ollama_vision import analyze_vision_document_structure_only_isolated
 from app.page_structure import (
@@ -277,83 +275,6 @@ def _materialize_ocr_candidates(page: DocumentPage) -> tuple[list[StructuralCand
     return candidates, True, tuple(fingerprint_parts)
 
 
-def _materialize_vision_candidate(db: Session, *, document_id: str, document_page_id: str, page_number: int) -> tuple[StructuralCandidate | None, tuple[str, ...]]:
-    def _is_reusable_structural_runtime(structured_json: dict) -> bool:
-        runtime = structured_json.get("_vision_runtime")
-        if not isinstance(runtime, dict):
-            return True
-
-        if str(runtime.get("task_type") or "") != VISION_TASK_STRUCTURE_SCOPE:
-            return False
-
-        if runtime.get("structure_schema_valid") is not None:
-            return bool(runtime.get("structure_schema_valid"))
-
-        schema_valid = runtime.get("schema_valid")
-        if schema_valid is not False:
-            return True
-
-        # Historical payloads used `schema_valid` as a page-level flag and can be
-        # false when only the detail-transcription task failed. Keep those reusable
-        # when detail runtime is explicitly present and non-completed.
-        detail_runtime = structured_json.get("_detail_runtime")
-        if isinstance(detail_runtime, dict) and str(detail_runtime.get("status") or "") != "COMPLETED":
-            return True
-
-        return False
-
-    statement = (
-        select(DocumentVisionAnalysis, DocumentVisionPageResult)
-        .join(DocumentVisionPageResult, DocumentVisionPageResult.analysis_id == DocumentVisionAnalysis.id)
-        .where(
-            DocumentVisionAnalysis.document_id == document_id,
-            DocumentVisionAnalysis.prompt_version.in_(VISION_STRUCTURE_SCOPE_COMPATIBLE_PROMPT_VERSIONS),
-            DocumentVisionAnalysis.status.in_(("COMPLETED", "PARTIAL")),
-            DocumentVisionPageResult.document_page_id == document_page_id,
-            DocumentVisionPageResult.page_number == page_number,
-            DocumentVisionPageResult.status.in_(("COMPLETED", "PARTIAL")),
-        )
-        .order_by(DocumentVisionAnalysis.created_at.desc(), DocumentVisionPageResult.created_at.desc())
-    )
-
-    rows = db.execute(statement).all()
-    fallback: tuple[StructuralCandidate, tuple[str, ...]] | None = None
-    for analysis, page_result in rows:
-        structured_json = page_result.structured_json
-        if not isinstance(structured_json, dict):
-            continue
-        if not _is_reusable_structural_runtime(structured_json):
-            continue
-        candidate = structural_candidate_from_vision_005(
-            structured_json=structured_json,
-            page_number=page_number,
-            source_analysis_id=analysis.id,
-            source_page_result_id=page_result.id,
-        )
-        if candidate.structural_quality != "VALID":
-            continue
-        fingerprint = (
-            "VISION:" + ":".join(
-                [
-                    analysis.id,
-                    analysis.prompt_version,
-                    page_result.id,
-                    page_result.image_sha256,
-                    _sha256(str(structured_json)),
-                ]
-            ),
-        )
-        if analysis.prompt_version == VISION_STRUCTURE_SCOPE_PROMPT_VERSION:
-            return candidate, fingerprint
-        if fallback is None:
-            fallback = (candidate, fingerprint)
-
-    if fallback is not None:
-        return fallback
-
-    return None, ()
-
-
 def _build_input_fingerprint(page: DocumentPage, native_hash: str, ocr_fingerprint_parts: tuple[str, ...], vision_fingerprint_parts: tuple[str, ...]) -> str:
     payload = "|".join(
         [
@@ -398,6 +319,7 @@ def _find_selected_candidate(resolution: PageStructureResolution, candidates: li
         if candidate.page_state is not None
         and candidate.structural_quality == "VALID"
         and candidate.source_method == resolution.resolved_source_method
+        and candidate.page_state.provenance == resolution.resolved_state.provenance
         and candidate.page_state.segments == resolution.resolved_state.segments
         and candidate.page_state.outgoing_item_key == resolution.resolved_state.outgoing_item_key
         and candidate.page_state.incoming_item_key == resolution.resolved_state.incoming_item_key
@@ -786,19 +708,16 @@ def _collect_candidates_for_page(
     *,
     document_id: str,
     page: DocumentPage,
-) -> tuple[StructuralCandidate, list[StructuralCandidate], StructuralCandidate | None, str, tuple[str, ...], tuple[str, ...]]:
+) -> tuple[StructuralCandidate, list[StructuralCandidate], RoutingResult, str, tuple[str, ...], tuple[str, ...]]:
     native_candidate, native_hash = _materialize_native_candidate(page)
     ocr_candidates, _, ocr_fingerprint_parts = _materialize_ocr_candidates(page)
-    vision_candidate, vision_fingerprint_parts = _materialize_vision_candidate(
-        db,
-        document_id=document_id,
-        document_page_id=page.id,
-        page_number=page.page_number,
-    )
+    document = db.get(TenderDocument, document_id)
+    neutral_structure = load_page_structure(db, document, page)
+    vision_fingerprint_parts = tuple(e.model_dump_json() for e in neutral_structure.candidates if e.source_method == "VISION")
     return (
         native_candidate,
         ocr_candidates,
-        vision_candidate,
+        neutral_structure,
         native_hash,
         ocr_fingerprint_parts,
         vision_fingerprint_parts,
@@ -835,6 +754,7 @@ def orchestrate_document_structure_available_only(
         page_ids = list(read_db.execute(page_statement).scalars().all())
 
     final_snapshots: list[_PageResolutionSnapshot] = []
+    previous_continuity = None
 
     for page_id in page_ids:
         attempted_ocr = False
@@ -857,15 +777,19 @@ def orchestrate_document_structure_available_only(
                 (
                     native_candidate,
                     ocr_candidates,
-                    vision_candidate,
+                    neutral_structure,
                     native_hash,
                     ocr_fingerprint_parts,
                     vision_fingerprint_parts,
                 ) = _collect_candidates_for_page(read_db, document_id=document_id, page=page)
 
-                final_candidates = [native_candidate, *ocr_candidates]
-                if vision_candidate is not None:
-                    final_candidates.append(vision_candidate)
+                final_candidates = [StructuralCandidate(source_method=e.structural_state.provenance.source_method,
+                    structural_quality=e.structural_state.state_quality, page_state=e.structural_state,
+                    source_analysis_id=e.source_analysis_id, source_page_result_id=e.source_page_result_id)
+                    for e in neutral_structure.candidates if e.lineage == "ACTIVE" and e.structural_state is not None
+                    and (e.source_method != "VISION" or e.quality == Quality.RELIABLE)]
+                if not final_candidates:
+                    final_candidates = [native_candidate, *ocr_candidates]
 
                 ocr_useful = _is_ocr_acquisition_useful(page)
                 if _policy_allows_ocr(execution_policy):
@@ -889,6 +813,17 @@ def orchestrate_document_structure_available_only(
                     candidates=final_candidates,
                     acquisition_state=provider_state,
                 )
+                if neutral_structure.status == "RESOLVED":
+                    selected = neutral_structure.selected
+                    resolution = PageStructureResolution(status="RESOLVED", resolved_state=selected.structural_state,
+                        resolved_source_method=selected.structural_state.provenance.source_method, needs_provider=None,
+                        reason="CONSISTENT_VALID_CANDIDATE", review_required=False, considered_methods=resolution.considered_methods)
+                elif neutral_structure.conflicts or resolution.status == "RESOLVED":
+                    resolution = PageStructureResolution(status=RESOLUTION_REVIEW_REQUIRED, resolved_state=None,
+                        resolved_source_method=None, needs_provider=None,
+                        reason=("CRITICAL_IDENTIFIER_CONFLICT" if any(c.kind == "IDENTIFIER" for c in neutral_structure.conflicts)
+                            else "CONFLICTING_VALID_STRUCTURES" if neutral_structure.conflicts else "DI_STRUCTURE_REVIEW_REQUIRED"),
+                        review_required=True, considered_methods=resolution.considered_methods)
                 final_resolution = resolution
 
             if resolution.status in {"RESOLVED", RESOLUTION_REVIEW_REQUIRED}:
@@ -952,6 +887,12 @@ def orchestrate_document_structure_available_only(
         if final_page_number is None or final_resolution is None:
             raise RuntimeError("Page resolution state was not computed")
 
+        continuity = advance_continuity(neutral_structure, previous_continuity)
+        previous_continuity = continuity
+        if final_resolution.status == "RESOLVED" and continuity.status != "VALID":
+            final_resolution = PageStructureResolution(status=RESOLUTION_REVIEW_REQUIRED, resolved_state=None,
+                resolved_source_method=None, needs_provider=None, reason="UNPROVEN_CONTINUITY_BOUNDARY",
+                review_required=True, considered_methods=final_resolution.considered_methods)
         final_snapshots.append(
             _PageResolutionSnapshot(
                 document_page_id=page_id,

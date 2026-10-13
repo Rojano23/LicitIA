@@ -32,6 +32,10 @@ def logical():
         analyze_tender_requirements(db, tender.id)
         candidate = db.scalar(select(RequirementCandidate).where(RequirementCandidate.tender_id == tender.id))
         assert candidate is not None and len(candidate.evidence) == 1
+        # This persistence suite exercises an explicitly legacy NULL row. R.2
+        # now writes provenance in discovery; production wiring has its own tests.
+        candidate.evidence[0].perception_provenance = None
+        db.flush()
         identity = PageIdentity(tender_id=tender.id, document_id=doc.id, document_page_id=page.id, page_number=1, document_version="1")
         yield db, candidate.evidence[0], identity
         db.rollback()
@@ -157,14 +161,20 @@ def test_RP17_dedup_unchanged(logical):
     rows = db.scalars(select(RequirementCandidateEvidence).where(RequirementCandidateEvidence.candidate_id == row.candidate_id)).all()
     assert len(rows) == 1 and rows[0].id == row.id
     assert (rows[0].source_document_id, rows[0].source_page, rows[0].excerpt_sha256) == key
-    assert len(read_provenance(rows[0].perception_provenance).candidates) == 2
+    sources = read_provenance(rows[0].perception_provenance).candidates
+    assert len(sources) == 3  # Two explicit history observations plus current discovery.
+    assert sum(source.lineage == "DESELECTED" for source in sources) == 2
 
 def test_RP18_idempotence(logical):
     db, row, page = logical
     result = routing(page, source(page))
     first, second = roundtrip(logical, result), roundtrip(logical, result)
     analyze_tender_requirements(db, page.tender_id)
-    assert first == second and read_provenance(row.perception_provenance) == first
+    assert first == second
+    refreshed = read_provenance(row.perception_provenance)
+    analyze_tender_requirements(db, page.tender_id)
+    assert read_provenance(row.perception_provenance) == refreshed
+    assert any(source.source_artifact_key == "VISION:A" and source.lineage == "DESELECTED" for source in refreshed.candidates)
     assert len(row.candidate.evidence) == 1
 
 def test_RP19_no_domain_decision(logical):

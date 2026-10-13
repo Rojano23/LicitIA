@@ -4,6 +4,10 @@ import difflib
 import hashlib
 import re
 import unicodedata
+from app.document_intelligence import RoutingResult, Quality, Capability, route_capability
+from app.document_intelligence_sources import load_document_transcriptions
+from app.requirement_di_adapter import persist_snapshot, candidate_perception
+from app.requirement_perception_provenance import read_provenance
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
@@ -111,11 +115,12 @@ class SourceBlock:
     source_filename: str
     source_page: int | None
     document_page_id: str
-    normalized_content_id: str
+    normalized_content_id: str | None
     classification_type: str | None
     source_type: str
     text: str
     page_text: str
+    perception: RoutingResult | None = None
 
 
 @dataclass
@@ -125,6 +130,7 @@ class DetectedRequirementEvidence:
     document_page_id: str | None
     normalized_content_id: str | None
     source_excerpt: str
+    perception: RoutingResult | None = None
 
 
 @dataclass
@@ -484,6 +490,7 @@ def _detect_requirement_from_span(tender_id: str, block: SourceBlock, span: str,
         document_page_id=block.document_page_id,
         normalized_content_id=block.normalized_content_id,
         source_excerpt=requirement_text,
+        perception=block.perception,
     )
     return DetectedRequirementCandidate(
         semantic_key=semantic_key,
@@ -500,54 +507,26 @@ def _detect_requirement_from_span(tender_id: str, block: SourceBlock, span: str,
 
 
 def _extract_current_requirement_blocks(db: Session, tender_id: str) -> list[SourceBlock]:
-    rows = db.execute(
-        select(
-            TenderDocument.id,
-            TenderDocument.original_filename,
-            DocumentPage.id,
-            DocumentPage.page_number,
-            NormalizedContent.id,
-            NormalizedContent.normalized_text,
-            NormalizedContent.source_type,
-            DocumentClassification.human_type,
-            DocumentClassification.suggested_type,
-        )
-        .join(DocumentPage, DocumentPage.document_id == TenderDocument.id)
-        .join(NormalizedContent, NormalizedContent.document_page_id == DocumentPage.id)
-        .outerjoin(DocumentClassification, DocumentClassification.document_id == TenderDocument.id)
-        .where(TenderDocument.tender_id == tender_id, TenderDocument.is_current.is_(True))
-        .order_by(TenderDocument.original_filename.asc(), DocumentPage.page_number.asc(), NormalizedContent.created_at.asc())
-    ).all()
-
+    documents = db.scalars(select(TenderDocument).where(TenderDocument.tender_id == tender_id,
+        TenderDocument.is_current.is_(True)).order_by(TenderDocument.original_filename)).all()
     dedup: dict[tuple[str, str], SourceBlock] = {}
-    for doc_id, filename, page_id, page_number, normalized_content_id, normalized_text, source_type, human_type, suggested_type in rows:
-        text_value = (normalized_text or "").strip()
-        if not text_value:
-            continue
-
-        classification_type = human_type or suggested_type
-        source_rank = 0 if source_type == "NATIVE_PDF" else 1
-        for span in _split_blocks(text_value):
-            key = (page_id, hashlib.sha256(_normalize_for_key(span).encode("utf-8")).hexdigest())
-            candidate = SourceBlock(
-                source_document_id=doc_id,
-                source_filename=filename,
-                source_page=page_number,
-                document_page_id=page_id,
-                normalized_content_id=normalized_content_id,
-                classification_type=classification_type,
-                source_type=source_type,
-                text=span,
-                page_text=text_value,
-            )
-            existing = dedup.get(key)
-            if existing is None:
-                dedup[key] = candidate
-                continue
-            existing_rank = 0 if existing.source_type == "NATIVE_PDF" else 1
-            if source_rank < existing_rank:
-                dedup[key] = candidate
-
+    for document in documents:
+        classification = db.scalar(select(DocumentClassification).where(DocumentClassification.document_id == document.id))
+        classification_type = (classification.human_type or classification.suggested_type) if classification else None
+        for result in load_document_transcriptions(db, document).values():
+            for observation in result.candidates:
+                if observation.lineage != "ACTIVE" or observation.quality not in {Quality.RELIABLE, Quality.REVIEW_REQUIRED}:
+                    continue
+                text_value = observation.text.strip()
+                for span in _split_blocks(text_value):
+                    key = (result.page.document_page_id, hashlib.sha256(_normalize_for_key(span).encode("utf-8")).hexdigest())
+                    candidate = SourceBlock(source_document_id=document.id, source_filename=document.original_filename,
+                        source_page=result.page.page_number, document_page_id=result.page.document_page_id,
+                        normalized_content_id=observation.normalized_content_id, classification_type=classification_type,
+                        source_type=observation.source_method.value, text=span, page_text=text_value, perception=result)
+                    existing = dedup.get(key)
+                    if existing is None or candidate.source_type == "NATIVE" and existing.source_type != "NATIVE":
+                        dedup[key] = candidate
     return sorted(dedup.values(), key=lambda item: (item.source_filename.lower(), item.source_page or 0, item.text))
 
 
@@ -643,25 +622,28 @@ def _sync_evidence(candidate: RequirementCandidate, detected: DetectedRequiremen
         detected_keys.add(key)
         current = existing_by_key.get(key)
         if current is None:
-            candidate.evidence.append(
-                RequirementCandidateEvidence(
-                    source_document_id=evidence.source_document_id,
-                    source_page=evidence.source_page,
-                    source_excerpt=evidence.source_excerpt,
-                    excerpt_sha256=excerpt_sha,
-                    document_page_id=evidence.document_page_id,
-                    normalized_content_id=evidence.normalized_content_id,
-                )
+            current = RequirementCandidateEvidence(
+                source_document_id=evidence.source_document_id,
+                source_page=evidence.source_page,
+                source_excerpt=evidence.source_excerpt,
+                excerpt_sha256=excerpt_sha,
+                document_page_id=evidence.document_page_id,
+                normalized_content_id=evidence.normalized_content_id,
             )
+            candidate.evidence.append(current)
+            if evidence.perception is not None:
+                persist_snapshot(current, evidence.perception)
             continue
 
         current.source_excerpt = evidence.source_excerpt
         current.document_page_id = evidence.document_page_id
         current.normalized_content_id = evidence.normalized_content_id
+        if evidence.perception is not None:
+            persist_snapshot(current, evidence.perception)
 
     for row in list(candidate.evidence):
         key = (row.source_document_id, row.source_page, row.excerpt_sha256)
-        if key not in detected_keys:
+        if key not in detected_keys and row.perception_provenance is None:
             candidate.evidence.remove(row)
 
 
@@ -675,6 +657,7 @@ def _serialize_evidence(item: RequirementCandidateEvidence) -> dict[str, Any]:
         "source_excerpt": item.source_excerpt,
         "document_page_id": item.document_page_id,
         "normalized_content_id": item.normalized_content_id,
+        "perception_provenance": read_provenance(item.perception_provenance),
     }
 
 
@@ -684,6 +667,8 @@ def _serialize_candidate(item: RequirementCandidate) -> dict[str, Any]:
         "id": item.id,
         "tender_id": item.tender_id,
         "semantic_key": item.semantic_key,
+        "perception_active": candidate_perception(item)[0],
+        "perception_review_required": candidate_perception(item)[1],
         "requirement_text": item.requirement_text,
         "actor_text": item.actor_text,
         "modality_text": item.modality_text,
@@ -773,11 +758,23 @@ def analyze_tender_requirements(db: Session, tender_id: str) -> dict[str, Any]:
     ).scalars().all()
     existing_by_key = {row.semantic_key: row for row in existing_rows}
     detected_keys = {row.semantic_key for row in detected}
+    page_snapshots: dict[str, RoutingResult] = {}
+    for document in db.scalars(select(TenderDocument).where(TenderDocument.tender_id == tender_id)):
+        snapshots = load_document_transcriptions(db, document)
+        if not document.is_current:
+            snapshots = {page_id: route_capability(page=result.page, capability=Capability.TRANSCRIPTION,
+                evidence=[e.model_copy(update={"lineage": "DESELECTED"}) for e in result.candidates])
+                for page_id, result in snapshots.items()}
+        page_snapshots.update(snapshots)
+    for candidate in existing_rows:
+        for evidence in candidate.evidence:
+            if evidence.perception_provenance is not None and evidence.document_page_id in page_snapshots:
+                persist_snapshot(evidence, page_snapshots[evidence.document_page_id])
 
     for row in existing_rows:
         if row.semantic_key in detected_keys:
             continue
-        if row.detection_origin == ORIGIN_DETERMINISTIC and row.review_status == REVIEW_SUGGESTED:
+        if row.detection_origin == ORIGIN_DETERMINISTIC and row.review_status == REVIEW_SUGGESTED and not any(e.perception_provenance is not None for e in row.evidence):
             db.delete(row)
 
     for item in detected:

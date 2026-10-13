@@ -212,12 +212,18 @@ def route_capability(*, page: PageIdentity, capability: Capability,
                      availability: Iterable[CapabilityAvailability] = ()) -> RoutingResult:
     """Pure available-evidence policy; availability never executes a provider.
 
-    Exact disagreements between reliable sources conservatively require review.
+    Exact disagreements between available transcriptions conservatively require
+    review, including uncertified observations. Structure compares reliable states.
     Native/OCR preference applies only after checking conflicts.
     """
     candidates = tuple(sorted((e for e in evidence if e.page == page and e.capability == capability), key=_order))
     usable = tuple(e for e in candidates if _usable(e))
-    conflicts = _conflicts(usable)
+    # Uncertified but available transcriptions may disagree too. Preserve that
+    # signal without promoting either observation to reliable evidence.
+    comparable = tuple(e for e in candidates if e.lineage == "ACTIVE"
+                       and e.quality in {Quality.RELIABLE, Quality.REVIEW_REQUIRED}
+                       and e.text.strip()) if capability == Capability.TRANSCRIPTION else usable
+    conflicts = _conflicts(comparable)
     base = dict(page=page, capability=capability, candidates=candidates, conflicts=conflicts)
     if conflicts:
         return RoutingResult(**base, status="REVIEW_REQUIRED", diagnostics=("PERCEPTION_CONFLICT",))

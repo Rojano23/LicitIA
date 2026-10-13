@@ -1,4 +1,5 @@
 from __future__ import annotations
+from app.requirement_di_adapter import candidate_perception, candidate_provenance
 
 import hashlib
 import re
@@ -218,6 +219,7 @@ class CandidateView:
     source_excerpt: str
     document_page_id: str | None
     normalized_content_id: str | None
+    perception_review_required: bool = False
 
 
 @dataclass(frozen=True)
@@ -511,7 +513,7 @@ def _build_requirement_drafts(tender_id: str, candidates: list[CandidateView]) -
         canonical_text = _clean_canonical_text(primary.requirement_text)
         category = _category_from_text(canonical_text)
 
-        has_review_risk = False
+        has_review_risk = any(c.perception_review_required for c in group)
         confidences: list[float] = []
         reasons: list[str] = []
         for left_idx in range(len(group)):
@@ -582,6 +584,7 @@ def _candidate_view_from_row(row: RequirementCandidate) -> CandidateView:
         source_excerpt=row.source_excerpt,
         document_page_id=row.document_page_id,
         normalized_content_id=row.normalized_content_id,
+        perception_review_required=candidate_perception(row)[1],
     )
 
 
@@ -608,6 +611,7 @@ def _serialize_requirement(requirement: Requirement) -> dict[str, Any]:
             "normalized_content_id": candidate.normalized_content_id,
             "is_primary_source": link.is_primary_source,
             "link_origin": link.link_origin,
+            "perception_provenance": candidate_provenance(candidate),
         }
         candidates_payload.append(item)
         if link.is_primary_source:
@@ -707,7 +711,7 @@ def normalize_tender_requirements(db: Session, tender_id: str) -> dict[str, Any]
         .order_by(RequirementCandidate.source_document_id.asc(), RequirementCandidate.source_page.asc(), RequirementCandidate.created_at.asc())
     ).scalars().all()
 
-    candidate_views = [_candidate_view_from_row(row) for row in candidate_rows]
+    candidate_views = [_candidate_view_from_row(row) for row in candidate_rows if candidate_perception(row)[0] or row.review_status == "CONFIRMED"]
     drafts = _build_requirement_drafts(tender_id, candidate_views)
 
     existing_requirements = db.execute(

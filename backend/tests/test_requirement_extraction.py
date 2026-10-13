@@ -400,7 +400,11 @@ def test_reconciles_stale_suggested_candidates() -> None:
     _update_normalized(doc_id, "Texto narrativo sin obligaciones para el participante.")
     second = _analyze(tender_id)
 
-    assert second["summary"]["total"] == 0
+    # R.2 retains perception audit history while excluding obsolete evidence
+    # from normalization; this is not a newly active obligation.
+    assert second["summary"]["total"] == 1
+    assert second["candidates"][0]["perception_active"] is False
+    assert second["candidates"][0]["perception_review_required"] is True
 
 
 def test_preserves_confirmed_candidates_that_disappear_from_detector() -> None:

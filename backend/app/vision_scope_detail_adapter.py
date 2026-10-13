@@ -328,6 +328,15 @@ def _can_use_unique_structural_inheritance(
     segment = context.unique_resolved_segment
     if bool(segment.review_required):
         return False
+    if artifact.structure is not None:
+        structural = artifact.structure
+        if structural.status != "RESOLVED" or structural.selected is None:
+            return False
+        # Persisted segments alone cannot resurrect a failed/conflicted current
+        # structure. This proof is independent of the transcription provider.
+        keys = {s.item_identity.normalized_key for s in structural.selected.structural_state.segments}
+        if segment.candidate_item_key not in keys:
+            return False
 
     row_page = _extract_page_from_locator(source_locator)
     artifact_page = _extract_page_from_locator(artifact.source_locator or "")

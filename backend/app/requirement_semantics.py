@@ -1,4 +1,5 @@
 from __future__ import annotations
+from app.requirement_di_adapter import candidate_perception, candidate_provenance
 
 import hashlib
 import re
@@ -573,7 +574,10 @@ def _draft_for_requirement(requirement: Requirement) -> RequirementSemanticsDraf
     if requirement.normalization_status == "REVIEW_REQUIRED":
         reasons.append("normalization_review_required")
 
-    interpretation_status = INTERPRETATION_DETERMINED
+    perception_review = any(candidate_perception(link.candidate)[1] for link in requirement.candidate_links if link.candidate is not None)
+    if perception_review:
+        reasons.append("document_intelligence_review_required")
+    interpretation_status = INTERPRETATION_REVIEW_REQUIRED if perception_review else INTERPRETATION_DETERMINED
     if requirement.normalization_status == "REVIEW_REQUIRED":
         interpretation_status = INTERPRETATION_REVIEW_REQUIRED
     if applicability == APPLICABILITY_UNKNOWN:
@@ -722,6 +726,7 @@ def _serialize_primary_source(requirement: Requirement) -> dict[str, Any] | None
             "modality_text": candidate.modality_text,
             "is_primary_source": link.is_primary_source,
             "link_origin": link.link_origin,
+            "perception_provenance": candidate_provenance(candidate),
         }
     return None
 
@@ -739,6 +744,7 @@ def _serialize_expectation(row: RequirementEvidenceExpectation) -> dict[str, Any
         "source_filename": source_document.original_filename if source_document else None,
         "source_page": row.source_page,
         "source_excerpt": row.source_excerpt,
+        "perception_provenance": candidate_provenance(row.source_candidate) if row.source_candidate else [],
         "analyzer_version": row.analyzer_version,
         "created_at": row.created_at,
         "updated_at": row.updated_at,
