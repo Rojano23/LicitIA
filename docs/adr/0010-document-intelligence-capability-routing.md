@@ -76,6 +76,17 @@ Los contratos de dominio legados no transportan toda la provenance neutral;
 los tests de shape conservan el objeto DI junto a ellos y no certifican una
 integración productiva sin pérdida. R.2 debe mantener esa información al integrar.
 
+Para la brecha comprobada en Requirements, 06.R.2a permite incluir provenance
+neutral en la evidencia de dominio mediante una columna JSONB nullable,
+`RequirementCandidateEvidence.perception_provenance`. Su contrato Pydantic es
+tipado y versionado; conserva fuentes consideradas, selección segura, conflictos,
+diagnósticos y lineage. La identidad lógica de la evidencia permanece separada
+de las observaciones de percepción y conserva su deduplicación existente.
+Los helpers exigen snapshots completos que retengan observaciones previas con
+lineage explícita, sin inferir deselection. NULL identifica provenance legacy
+no disponible; no hay backfill especulativo. Datos inválidos fallan explícitamente.
+Esta excepción de persistencia no conecta todavía el discovery transversal R.2.
+
 La selección ACTIVE/DESELECTED y la evaluación de calidad son entradas explícitas,
 no inferencias del routing. No se reemplazan ahora las selecciones históricas del
 runtime. Su convergencia y calibración se revisarán en slices posteriores.

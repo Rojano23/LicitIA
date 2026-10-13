@@ -7,6 +7,7 @@ from uuid import uuid4
 
 from sqlalchemy import Boolean, CheckConstraint, Date, DateTime, Float, ForeignKey, ForeignKeyConstraint, Index, Integer, JSON, Numeric, String, Text, Time, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.dialects.postgresql import JSONB
 
 from app.database import Base
 
@@ -3022,6 +3023,7 @@ class RequirementCandidateEvidence(Base):
         nullable=True,
         index=True,
     )
+    perception_provenance: Mapped[dict | None] = mapped_column(JSONB(none_as_null=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),

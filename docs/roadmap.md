@@ -290,7 +290,10 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
   - MVP-06.6.3 (Human Scope Review UI): CLOSED — commit `48707d8`
   - MVP-06.6.4 (Alternatives + Compliance per Alternative): CLOSED — UI aceptada en commit `a56cba4`
 - MVP-06.R (Document Intelligence Convergence): CURRENT — después de MVP-06.6 y antes de MVP-06.V.
-  - MVP-06.R.1 (Document Intelligence Convergence Contract + Routing): CURRENT — pendiente de aceptación humana de arquitectura.
+  - MVP-06.R.1 (Document Intelligence Convergence Contract + Routing): CLOSED — commit `fcc6564`.
+  - MVP-06.R.2 (Transversal Document Intelligence Integration): CURRENT.
+    - MVP-06.R.2a (Requirement Perception Provenance Persistence): CURRENT — resolución interna del blocker de persistencia; pendiente de aceptación arquitectónica.
+  - MVP-06.R.3 (Critical Identifier + Conflict / Review Hardening): NEXT.
 - MVP-06.V (Cross-Tender Integration Validation): después de MVP-06.R.
 
 Tender #002 permanece blind out-of-sample, reservado para MVP-06.V; no debe inspeccionarse ni usarse antes de esa fase.
