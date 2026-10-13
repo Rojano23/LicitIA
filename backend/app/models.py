@@ -3177,3 +3177,65 @@ class TechnicalAlternativeRevision(Base):
     lifecycle_state: Mapped[str] = mapped_column(String(32), nullable=False)
     fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
+
+
+class AlternativeScopeComplianceEvaluation(Base):
+    __tablename__ = "alternative_scope_compliance_evaluations"
+    __table_args__ = (
+        ForeignKeyConstraint(["alternative_id", "tender_id"], ["technical_alternatives.id", "technical_alternatives.tender_id"], ondelete="RESTRICT"),
+        UniqueConstraint("id", "tender_id", "alternative_id", name="uq_alt_compliance_eval_identity"),
+        UniqueConstraint("alternative_id", "alternative_revision", "alternative_fingerprint", "scope_snapshot_fingerprint", name="uq_alt_compliance_eval_snapshot"),
+        CheckConstraint("alternative_revision > 0", name="ck_alt_compliance_eval_revision"),
+        CheckConstraint("alternative_fingerprint ~ '^[0-9a-f]{64}$' AND scope_snapshot_fingerprint ~ '^[0-9a-f]{64}$'", name="ck_alt_compliance_eval_fingerprints"),
+        Index("ix_alt_compliance_eval_tender_alt", "tender_id", "alternative_id"),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    alternative_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    alternative_revision_id: Mapped[str] = mapped_column(String(36), ForeignKey("technical_alternative_revisions.id", ondelete="RESTRICT"), nullable=False)
+    alternative_revision: Mapped[int] = mapped_column(Integer, nullable=False)
+    alternative_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    scope_snapshot_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    scope_snapshot: Mapped[dict] = mapped_column(JSON, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
+
+
+class AlternativeScopeComplianceItem(Base):
+    __tablename__ = "alternative_scope_compliance_items"
+    __table_args__ = (
+        ForeignKeyConstraint(["evaluation_id", "tender_id", "alternative_id"], ["alternative_scope_compliance_evaluations.id", "alternative_scope_compliance_evaluations.tender_id", "alternative_scope_compliance_evaluations.alternative_id"], ondelete="RESTRICT"),
+        UniqueConstraint("evaluation_id", "item_key", name="uq_alt_compliance_item_key"),
+        UniqueConstraint("evaluation_id", "item_index", name="uq_alt_compliance_item_index"),
+        UniqueConstraint("id", "evaluation_id", "tender_id", "alternative_id", name="uq_alt_compliance_item_identity"),
+        CheckConstraint("item_index >= 0", name="ck_alt_compliance_item_index"),
+        CheckConstraint("item_key = scope_detail_id AND (snapshot ->> 'scope_detail_id') IS NOT DISTINCT FROM scope_detail_id AND (snapshot -> 'machine' ->> 'tender_id') IS NOT DISTINCT FROM tender_id", name="ck_alt_compliance_item_snapshot_identity"),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    evaluation_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    tender_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    alternative_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    item_key: Mapped[str] = mapped_column(String(36), nullable=False)
+    scope_detail_id: Mapped[str] = mapped_column(String(36), nullable=False)  # historical identity, deliberately no FK
+    item_index: Mapped[int] = mapped_column(Integer, nullable=False)
+    snapshot: Mapped[dict] = mapped_column(JSON, nullable=False)
+
+
+class AlternativeScopeComplianceDecision(Base):
+    __tablename__ = "alternative_scope_compliance_decisions"
+    __table_args__ = (
+        ForeignKeyConstraint(["item_id", "evaluation_id", "tender_id", "alternative_id"], ["alternative_scope_compliance_items.id", "alternative_scope_compliance_items.evaluation_id", "alternative_scope_compliance_items.tender_id", "alternative_scope_compliance_items.alternative_id"], ondelete="RESTRICT"),
+        UniqueConstraint("item_id", "revision", name="uq_alt_compliance_decision_revision"),
+        CheckConstraint("revision > 0", name="ck_alt_compliance_decision_revision"),
+        CheckConstraint("status IN ('COMPLIANT', 'PARTIAL', 'NON_COMPLIANT', 'REVIEW_REQUIRED', 'NOT_EVALUATED')", name="ck_alt_compliance_decision_status"),
+        CheckConstraint("length(trim(rationale)) > 0", name="ck_alt_compliance_decision_rationale"),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    item_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    evaluation_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    tender_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    alternative_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    revision: Mapped[int] = mapped_column(Integer, nullable=False)
+    status: Mapped[str] = mapped_column(String(32), nullable=False)
+    rationale: Mapped[str] = mapped_column(Text, nullable=False)
+    evidence_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))

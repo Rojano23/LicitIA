@@ -9,6 +9,8 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
+from collections.abc import Callable
+from typing import TypeVar
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -21,6 +23,22 @@ import fitz
 
 ALLOWED_CONFLICT_ACTIONS = {"NONE", "IMPORT_INDEPENDENT", "NEW_REVISION"}
 ALLOWED_COMPANY_CONFLICT_ACTIONS = {"NONE", "NEW_DOCUMENT", "NEW_REVISION"}
+
+# Alternative-vs-Scope compliance is distinct from Requirement/Evidence compliance.
+from sqlalchemy.exc import DBAPIError
+from app.technical_alternatives import (
+    TechnicalAlternativeContent, TechnicalAlternativeAppend, TechnicalAlternativeRead,
+    TechnicalAlternativeNotFound, TechnicalAlternativeConflict,
+    create_technical_alternative, append_technical_alternative_revision,
+    get_technical_alternative, list_technical_alternatives,
+)
+from app.alternative_compliance import (
+    EffectiveScopeSnapshot, EvaluationCreate, EvaluationRead, ItemDecisionWrite,
+    AlternativeComplianceNotFound, AlternativeComplianceConflict,
+    get_effective_scope_snapshot, create_compliance_evaluation, get_compliance_evaluation,
+    list_compliance_evaluations, append_compliance_decision,
+)
+
 
 from app.config import get_settings
 from app.database import get_db
@@ -3171,3 +3189,83 @@ def decide_scope_review_endpoint(tender_id: str, scope_detail_id: str,
     except ScopeReviewSourceBlocked as exc:
         db.rollback()
         raise HTTPException(status_code=409, detail={"code": "SCOPE_SOURCE_NOT_REVIEWABLE"}) from exc
+
+
+AlternativeResponse = TypeVar("AlternativeResponse")
+
+
+def _alternative_domain_call(db: Session, operation: Callable[[], AlternativeResponse], *, write: bool = False) -> AlternativeResponse:
+    try:
+        response = operation()
+        if write:
+            db.commit()
+        return response
+    except (TechnicalAlternativeNotFound, AlternativeComplianceNotFound) as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except TechnicalAlternativeConflict as exc:
+        db.rollback()
+        raise HTTPException(status_code=409, detail={'code': 'ALTERNATIVE_REVISION_CONFLICT'}) from exc
+    except AlternativeComplianceConflict as exc:
+        db.rollback()
+        raise HTTPException(status_code=409, detail={'code': exc.code}) from exc
+    except DBAPIError as exc:
+        db.rollback()
+        sqlstate = getattr(exc.orig, 'sqlstate', None)
+        if sqlstate in {'40001', '40P01', '55P03', '23505'}:
+            raise HTTPException(status_code=409, detail={'code': 'ALTERNATIVE_CONCURRENT_CHANGE'}) from exc
+        raise HTTPException(status_code=500, detail={'code': 'ALTERNATIVE_PERSISTENCE_ERROR'}) from exc
+
+
+@app.get('/tenders/{tender_id}/technical-alternatives', response_model=tuple[TechnicalAlternativeRead, ...])
+def list_technical_alternatives_endpoint(tender_id: str, db: Session = Depends(get_db)):
+    _scope_review_tender(db, tender_id)
+    return _alternative_domain_call(db, lambda: list_technical_alternatives(db, tender_id=tender_id))
+
+
+@app.post('/tenders/{tender_id}/technical-alternatives', response_model=TechnicalAlternativeRead, status_code=201)
+def create_technical_alternative_endpoint(tender_id: str, payload: TechnicalAlternativeContent, db: Session = Depends(get_db)):
+    _scope_review_tender(db, tender_id)
+    return _alternative_domain_call(db, lambda: create_technical_alternative(db, tender_id=tender_id, content=payload), write=True)
+
+
+@app.get('/tenders/{tender_id}/technical-alternatives/{alternative_id}', response_model=TechnicalAlternativeRead)
+def get_technical_alternative_endpoint(tender_id: str, alternative_id: str, db: Session = Depends(get_db)):
+    _scope_review_tender(db, tender_id)
+    return _alternative_domain_call(db, lambda: get_technical_alternative(db, tender_id=tender_id, alternative_id=alternative_id))
+
+
+@app.post('/tenders/{tender_id}/technical-alternatives/{alternative_id}/revisions', response_model=TechnicalAlternativeRead)
+def append_technical_alternative_endpoint(tender_id: str, alternative_id: str, payload: TechnicalAlternativeAppend, db: Session = Depends(get_db)):
+    _scope_review_tender(db, tender_id)
+    return _alternative_domain_call(db, lambda: append_technical_alternative_revision(db, tender_id=tender_id, alternative_id=alternative_id, content=payload), write=True)
+
+
+@app.get('/tenders/{tender_id}/alternative-scope-snapshot', response_model=EffectiveScopeSnapshot)
+def get_alternative_scope_snapshot_endpoint(tender_id: str, db: Session = Depends(get_db)):
+    _scope_review_tender(db, tender_id)
+    return _alternative_domain_call(db, lambda: get_effective_scope_snapshot(db, tender_id=tender_id))
+
+
+@app.get('/tenders/{tender_id}/technical-alternatives/{alternative_id}/compliance', response_model=tuple[EvaluationRead, ...])
+def list_alternative_compliance_endpoint(tender_id: str, alternative_id: str, db: Session = Depends(get_db)):
+    _scope_review_tender(db, tender_id)
+    return _alternative_domain_call(db, lambda: list_compliance_evaluations(db, tender_id=tender_id, alternative_id=alternative_id))
+
+
+@app.post('/tenders/{tender_id}/technical-alternatives/{alternative_id}/compliance', response_model=EvaluationRead)
+def create_alternative_compliance_endpoint(tender_id: str, alternative_id: str, payload: EvaluationCreate, db: Session = Depends(get_db)):
+    _scope_review_tender(db, tender_id)
+    return _alternative_domain_call(db, lambda: create_compliance_evaluation(db, tender_id=tender_id, alternative_id=alternative_id, payload=payload), write=True)
+
+
+@app.get('/tenders/{tender_id}/technical-alternatives/{alternative_id}/compliance/{evaluation_id}', response_model=EvaluationRead)
+def get_alternative_compliance_endpoint(tender_id: str, alternative_id: str, evaluation_id: str, db: Session = Depends(get_db)):
+    _scope_review_tender(db, tender_id)
+    return _alternative_domain_call(db, lambda: get_compliance_evaluation(db, tender_id=tender_id, alternative_id=alternative_id, evaluation_id=evaluation_id))
+
+
+@app.post('/tenders/{tender_id}/technical-alternatives/{alternative_id}/compliance/{evaluation_id}/items/{item_key}/decisions', response_model=EvaluationRead)
+def decide_alternative_compliance_endpoint(tender_id: str, alternative_id: str, evaluation_id: str, item_key: str, payload: ItemDecisionWrite, db: Session = Depends(get_db)):
+    _scope_review_tender(db, tender_id)
+    return _alternative_domain_call(db, lambda: append_compliance_decision(db, tender_id=tender_id, alternative_id=alternative_id, evaluation_id=evaluation_id, item_key=item_key, payload=payload), write=True)

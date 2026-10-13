@@ -6,7 +6,7 @@ import json
 from datetime import datetime
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints, TypeAdapter
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints, TypeAdapter, computed_field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -55,6 +55,7 @@ class TechnicalAlternativeRead(BaseModel):
     created_at: datetime
     revisions: tuple[TechnicalAlternativeRevisionRead, ...]
 
+    @computed_field
     @property
     def current_revision(self) -> TechnicalAlternativeRevisionRead:
         return max(self.revisions, key=lambda row: row.revision)

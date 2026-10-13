@@ -2096,3 +2096,11 @@ class EvaluationCriterionDecisionWrite(BaseModel):
     threshold_unit: str | None = Field(default=None, max_length=32)
     is_exclusionary: bool | None = None
     human_note: str | None = Field(default=None, max_length=2000)
+
+# Public typed contracts live with their domain services, as Scope Review does.
+from app.technical_alternatives import (  # noqa: F401
+    TechnicalAlternativeContent, TechnicalAlternativeAppend, TechnicalAlternativeRead,
+)
+from app.alternative_compliance import (  # noqa: F401
+    EffectiveScopeSnapshot, EvaluationCreate, EvaluationRead, ItemDecisionWrite,
+)
