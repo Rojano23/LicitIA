@@ -151,3 +151,99 @@ Abrir `http://localhost:5173` y verificar:
 Si el expediente no contiene pendientes/bloqueados/históricos, esos escenarios
 no quedan aceptados manualmente por el solo hecho de pasar pruebas sintéticas.
 No ejecutar botones de extracción/Vision como requisito de esta revisión.
+
+## MVP-06.6.4d — Alternativas técnicas y cumplimiento
+
+La sección **Alternativas técnicas** abre junto a Revisión de alcance dentro del
+Tender seleccionado. Sólo carga al abrirse. Lista a la izquierda y detalle a la
+derecha; conserva el orden recibido y muestra también alternativas archivadas.
+No agrega dependencias, scripts, router ni configuración de pruebas.
+
+`TechnicalAlternatives.tsx` permite crear contenido humano, añadir revisiones con
+contenido actual prellenado y archivar con confirmación explícita mediante un
+POST de revisión. Cada escritura envía la revisión esperada del backend, conserva
+historial y usa la respuesta del servidor. Una alternativa archivada puede
+revisarse explícitamente de nuevo; el historial siempre permanece disponible.
+
+`AlternativeCompliance.tsx` consulta snapshot contractual vigente, historial y
+detalle de evaluaciones. Crear exige revisión/fingerprint de alternativa y
+fingerprint Scope recibidos de API; no calcula hashes. Cada obligación congelada
+separa visualmente **Lo que exige la licitación** de **Juicio técnico sobre esta
+alternativa**, conservando documento, versión, página, locator, fragmento y
+estado de revisión humana. Un enlace abre el PDF local.
+
+El juicio empieza sin selección, exige justificación no vacía y permite referencia
+opcional. Las cuatro decisiones sustantivas son humanas. Se envía la revisión de
+`latest_decision` o null; no se obtiene de tamaño/orden del historial. La UI muestra
+conteos, aggregate, applicability y revisión actual tal como llegan del backend;
+no resuelve Scope, Source Effects, vigencia, precedencia ni cobertura técnica.
+
+Historial de revisiones, evaluaciones y decisiones permanece visible, incluyendo
+PARTIAL/NON_COMPLIANT anteriores. Una evaluación stale tiene aviso prominente,
+resultado histórico identificado y formularios deshabilitados. Un contexto
+contractual sin resolver se conserva y explica que el juicio técnico no resuelve
+esa ambigüedad. No hay porcentajes, costos, precios, ranking ni ganador.
+
+Los clientes `src/api/technicalAlternatives.ts` y `alternativeCompliance.ts`
+separan ambos dominios y encapsulan Axios. Todos los 409 solicitados tienen
+mensajes específicos. Conflictos y respuestas de POST perdidas recargan el
+servidor, descartan formularios y nunca reenvían una escritura automáticamente.
+La guarda síncrona bloquea doble submit y las acciones/selección se deshabilitan
+mientras hay POST. Respuestas tardías de otro tender/alternativa/evaluación no
+reemplazan la selección vigente. Los errores muestran mensajes recuperables sin
+trazas SQL. Se conservan navegación por teclado y estados expresados con texto.
+
+La comparación conjunta está diferida para priorizar el flujo por alternativa,
+sin ampliar navegación ni carga de todas las evaluaciones. La lista muestra el
+estado de la evaluación consultada cuando está disponible; no declara que sea un
+ranking o la evaluación más reciente. Cambiar A/B consulta historiales separados.
+
+Las matrices UIA01–UIA10 y UIC01–UIC25 usan Vitest/RTL existente con fixtures
+sintéticos y HTTP mockeado. Incluyen protección adicional ante respuestas tardías,
+conflictos, fallos parciales de lectura y respuestas de guardado perdidas. No
+certifican apariencia visual ni sustituyen aceptación humana sobre el backend real.
+
+Validación desde `frontend`:
+
+```sh
+npm test -- src/components/TechnicalAlternatives.test.tsx
+npm test -- src/components/AlternativeCompliance.test.tsx
+npm test -- src/components/ScopeReview.test.tsx
+npm test -- src/App.test.tsx
+npm test
+npm run typecheck
+npm run build
+```
+
+Backend permanece sin cambios; no requiere regresión backend para este slice.
+No hay lint configurado. La base local utilizada manualmente debe tener head
+`20261012_alt_compliance_071` y ScopeDetails persistidos. No se ejecutaron
+migraciones ni fixtures en licitia_dev. Los comandos de backend/frontend de la
+sección anterior sirven también para este flujo, con IA local deshabilitada.
+
+Aceptación humana pendiente — abrir `http://localhost:5173`:
+
+1. Seleccionar un Tender y abrir **Alternativas técnicas**.
+2. Crear Alternativa A con nombre, descripción técnica, supuestos y notas.
+3. Crear Alternativa B; comprobar que ambas permanecen visibles.
+4. Seleccionar A, crear una nueva revisión y modificar explícitamente el contenido.
+5. Abrir el historial y verificar contenido de ambas revisiones.
+6. Crear una evaluación; inspeccionar alcance congelado, fuente y revisión evaluada.
+7. En obligaciones distintas, elegir Cumple, Cumplimiento parcial, No cumple y
+   Requiere revisión; escribir justificación y guardar. Si no hay suficientes
+   obligaciones, verificar distintas decisiones sucesivas conservando historial.
+8. Revisar aggregate y conteos recibidos del servidor; sin porcentajes ni ranking.
+9. Abrir historial técnico y verificar decisiones, revisiones, fechas y referencias.
+10. Modificar A mediante otra revisión; comprobar evaluación anterior desactualizada
+    con juicios deshabilitados y resultado histórico identificado.
+11. Crear una evaluación nueva; verificar que la anterior sigue consultable y que
+    sus decisiones no se copian al snapshot nuevo.
+12. Archivar A mediante Archivar alternativa → Confirmar archivo; comprobar
+    alternativa, revisiones y evaluaciones conservadas.
+13. Verificar que A archivada no ofrece crear una evaluación nueva.
+14. Cambiar entre A/B; verificar historiales independientes. En dos pestañas, probar
+    revisión/juicio concurrentes y comprobar recarga sin reenvío automático.
+
+No iniciar extracción/Vision/modelos como requisito de aceptación. Los casos
+stale Scope o fuente bloqueada requieren datos existentes o cambios contractuales
+humanamente autorizados; los mocks no constituyen aceptación real de esos casos.

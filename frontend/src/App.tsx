@@ -2,6 +2,7 @@ import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from "r
 import axios from "axios";
 import { CompanyEvidenceLibrary } from "./components/CompanyEvidenceLibrary";
 import { ScopeReview } from "./components/ScopeReview";
+import { TechnicalAlternatives } from "./components/TechnicalAlternatives";
 
 type Tender = {
   id: string;
@@ -4183,6 +4184,7 @@ function App() {
           </div>
 
           <ScopeReview key={selectedTenderId} apiUrl={API_URL} tenderId={selectedTenderId} documents={documents} />
+          <TechnicalAlternatives key={`alternatives:${selectedTenderId}`} apiUrl={API_URL} tenderId={selectedTenderId} documents={documents} />
 
           <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#f8fafc" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>

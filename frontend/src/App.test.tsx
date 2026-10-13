@@ -4,6 +4,7 @@ import axios from "axios";
 import { beforeEach, expect, it, vi } from "vitest";
 import App from "./App";
 import { scopeItem } from "./test/scopeReviewFixtures";
+import { alternative, evaluation } from "./test/alternativeFixtures";
 
 const tender = {
   id: "tender-1", title: "Licitación sintética de interfaz", institution_profile: "General",
@@ -46,5 +47,26 @@ it("workspace restores the selected tender and preserves the existing create for
   await waitFor(() => expect(screen.getByRole("heading", { name: "Revisión de alcance" })).toBeVisible());
   expect(screen.getByRole("button", { name: "Create Tender" })).toBeEnabled();
   expect(screen.getByLabelText("Title")).toHaveValue("");
+  expect(axios.post).not.toHaveBeenCalled();
+});
+
+it("workspace opens alternatives beside Scope Review with independent backend states", async () => {
+  const original = vi.mocked(axios.get).getMockImplementation()!;
+  vi.mocked(axios.get).mockImplementation(async (url: string) => {
+    if (url.endsWith("/technical-alternatives")) return { data: [alternative()] };
+    if (url.endsWith("/technical-alternatives/alt-a")) return { data: alternative() };
+    if (url.endsWith("/alternative-scope-snapshot")) return { data: evaluation().scope_snapshot };
+    if (url.endsWith("/compliance")) return { data: [evaluation()] };
+    if (url.endsWith("/compliance/eval-1")) return { data: evaluation() };
+    return original(url);
+  });
+  const user = userEvent.setup(); render(<App />);
+  await user.click(await screen.findByRole("button", { name: /Licitación sintética de interfaz/ }));
+  expect(screen.getByRole("heading", { name: "Revisión de alcance" })).toBeVisible();
+  expect(screen.getByRole("heading", { name: "Alternativas técnicas" })).toBeVisible();
+  expect(axios.get).not.toHaveBeenCalledWith("http://localhost:8000/tenders/tender-1/technical-alternatives");
+  await user.click(screen.getByRole("button", { name: "Abrir alternativas técnicas" }));
+  expect(await screen.findByLabelText("Detalle de evaluación")).toBeVisible();
+  expect(screen.getByRole("heading", { name: "Lo que exige la licitación" })).toBeVisible();
   expect(axios.post).not.toHaveBeenCalled();
 });
