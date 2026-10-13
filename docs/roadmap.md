@@ -271,8 +271,28 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
 ### Estado actual
 
 - MVP-06 (Tender Items & Technical Scope): CURRENT
-- MVP-06.1 (Tender Item Detection & Extraction): IN HUMAN ACCEPTANCE
-- MVP-06.2 (Item ↔ Distributed Scope Linking): NEXT
+- MVP-06.1 (Tender Item Detection & Extraction): CLOSED
+- MVP-06.2 (Item ↔ Distributed Scope Linking): CLOSED
+- MVP-06.3: CLOSED
+- MVP-06.4: CLOSED
+- MVP-06.5 (Effective Source / Versioning): CLOSED
+  - MVP-06.5.1 (Source Effect Contract + Persistence): CLOSED
+  - MVP-06.5.2 (Deterministic Cross-Document Effect Discovery): CLOSED
+  - MVP-06.5.3 (Semantic Effect Discovery Contract): CLOSED
+  - MVP-06.5.4 (Effective Source Resolution Engine): CLOSED
+  - MVP-06.5.5 (Golden / Conflict / Versioning Validation): CLOSED
+    - MVP-06.5.5a (Human Source Effect Golden): CLOSED
+    - MVP-06.5.5b (Real Semantic Calibration): CLOSED
+    - MVP-06.5.5c (Conflict / Versioning Golden Validation): CLOSED
+- MVP-06.6 (Human Scope Review + Alternatives / Compliance per Alternative): CURRENT
+  - MVP-06.6.1 (Human Scope Review Contract + Persistence): CLOSED — commit `426c856`
+  - MVP-06.6.2 (Human Scope Review API + Deterministic Recalculation): CLOSED — commit `4899ee6`
+  - MVP-06.6.3 (Human Scope Review UI): CLOSED — commit `48707d8`
+  - MVP-06.6.4 (Alternatives + Compliance per Alternative): NEXT
+- MVP-06.R (Document Intelligence Convergence): después de MVP-06.6 y antes de MVP-06.V.
+- MVP-06.V (Cross-Tender Integration Validation): después de MVP-06.R.
+
+Tender #002 permanece blind out-of-sample, reservado para MVP-06.V; no debe inspeccionarse ni usarse antes de esa fase.
 
 Nota de política MVP-06.5.5b:
 La calibración semántica de Source Effects queda cerrada como NO-GO para uso automático en MVP. El camino autoritativo permanece determinista con revisión humana: efectos ambiguos deben escalar a `REVIEW_REQUIRED`, la validación estricta permanece fail-closed y ningún candidato semántico puede pasar a confiable automáticamente. El proveedor bounded se conserva sólo como infraestructura experimental y reutilizable. Motivos: `qwen3:8b` mantuvo `0/3` positivos correctamente emparejados tras iteraciones calibradas y fully bounded; `qwen3:14b` resultó operacionalmente inviable en el hardware local objetivo.
@@ -297,6 +317,10 @@ Cada partida del Golden Tender muestra su alcance consolidado y sus fuentes docu
 ---
 
 ## MVP-07 — Costing & Pricing
+
+### Secuencia
+
+Permanece después del cierre de MVP-06, incluyendo MVP-06.R y MVP-06.V.
 
 ### Objetivo
 
