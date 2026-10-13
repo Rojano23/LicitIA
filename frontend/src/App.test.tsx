@@ -1,0 +1,50 @@
+import { render, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import axios from "axios";
+import { beforeEach, expect, it, vi } from "vitest";
+import App from "./App";
+import { scopeItem } from "./test/scopeReviewFixtures";
+
+const tender = {
+  id: "tender-1", title: "Licitación sintética de interfaz", institution_profile: "General",
+  external_reference: "UI-SYNTHETIC", status: "DRAFT", created_at: "2026-10-12T12:00:00Z", updated_at: "2026-10-12T12:00:00Z",
+};
+
+beforeEach(() => {
+  window.localStorage.clear();
+  vi.spyOn(axios, "get").mockImplementation(async (url: string) => {
+    if (url.endsWith("/tenders")) return { data: [tender] };
+    if (url.endsWith("/companies") || url.endsWith("/documents")) return { data: [] };
+    if (url.endsWith("/scope-review")) return { data: [scopeItem()] };
+    if (url.endsWith("/scope-review/scope-1")) return { data: scopeItem() };
+    // Existing unrelated panels keep their normal recoverable-error paths.
+    throw new Error("Synthetic unavailable endpoint");
+  });
+  vi.spyOn(axios, "post").mockRejectedValue(new Error("No automatic writes allowed"));
+});
+
+it("workspace selection exposes Scope Review beside canonical items without automatic writes", async () => {
+  const user = userEvent.setup();
+  render(<App />);
+  expect(screen.getByRole("heading", { name: "LicitIA — Tender Workspace" })).toBeVisible();
+  expect(screen.getByRole("heading", { name: /Biblioteca empresarial/ })).toBeVisible();
+  expect(screen.queryByRole("heading", { name: "Revisión de alcance" })).not.toBeInTheDocument();
+  await user.click(await screen.findByRole("button", { name: /Licitación sintética de interfaz/ }));
+  expect(screen.getByRole("heading", { name: "Partidas canónicas" })).toBeVisible();
+  expect(screen.getByRole("heading", { name: "Revisión de alcance" })).toBeVisible();
+  expect(window.localStorage.getItem("licitia_selected_tender_id")).toBe(tender.id);
+  expect(axios.get).not.toHaveBeenCalledWith("http://localhost:8000/tenders/tender-1/scope-review");
+  await user.click(screen.getByRole("button", { name: "Abrir revisión de alcance" }));
+  await screen.findByRole("heading", { name: "Lo que LicitIA encontró" });
+  expect(within(screen.getByLabelText("Detalle de alcance")).getByText("numeral 4.2")).toBeVisible();
+  expect(axios.post).not.toHaveBeenCalled();
+});
+
+it("workspace restores the selected tender and preserves the existing create form", async () => {
+  window.localStorage.setItem("licitia_selected_tender_id", tender.id);
+  render(<App />);
+  await waitFor(() => expect(screen.getByRole("heading", { name: "Revisión de alcance" })).toBeVisible());
+  expect(screen.getByRole("button", { name: "Create Tender" })).toBeEnabled();
+  expect(screen.getByLabelText("Title")).toHaveValue("");
+  expect(axios.post).not.toHaveBeenCalled();
+});
