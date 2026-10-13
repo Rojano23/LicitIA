@@ -285,7 +285,7 @@ def test_explicit_v1_upgrade_retains_history(logical):
     assert write_provenance(row,pair(identity)).schema_version == '2'
 
 
-def test_api_union_and_comparison_does_not_propagate_domain_review(logical):
+def test_api_union_and_critical_comparison_propagates_domain_review(logical):
     _,row,identity = logical
     a = source(identity=identity).model_copy(update={'text': row.source_excerpt + '\nItem 2'})
     b = source('3', C.STRUCTURE, S.VISION, identity=identity)
@@ -296,7 +296,8 @@ def test_api_union_and_comparison_does_not_propagate_domain_review(logical):
         observations=(observation(a,value='2'), observation(b)))
     v = provenance_from_routings(routes, comparisons=(c,))
     write_provenance(row,v)
-    assert baseline == candidate_perception(row.candidate) == (True,False)
+    assert baseline == (True,False)
+    assert candidate_perception(row.candidate) == (True,True)
     response = RequirementCandidateEvidenceRead(id=row.id,source_document_id=row.source_document_id,
         source_excerpt=row.source_excerpt, perception_provenance=read_provenance(row.perception_provenance))
     assert response.model_dump(mode='json')['perception_provenance']['schema_version'] == '2'

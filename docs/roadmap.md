@@ -293,8 +293,8 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
   - MVP-06.R.1 (Document Intelligence Convergence Contract + Routing): CLOSED — commit `fcc6564`.
   - MVP-06.R.2 (Transversal Document Intelligence Integration): CLOSED — commit `6d97859`; integración productiva Native/OCR/Vision aceptada.
     - MVP-06.R.2a (Requirement Perception Provenance Persistence): CLOSED — commit `5166ad8`; contrato tipado/versionado y migración 072 aceptados.
-  - MVP-06.R.3 (Critical Identifier + Conflict / Review Hardening): CURRENT.
-    - MVP-06.R.3a (Cross-Capability Critical Identifier Provenance Contract): contrato v2 en el JSONB existente, compatible con v1; pendiente de aceptación arquitectónica antes de reanudar la propagación R.3.
+  - MVP-06.R.3 (Critical Identifier + Conflict / Review Hardening): CURRENT — propagación implementada; pendiente de aceptación arquitectónica.
+    - MVP-06.R.3a (Cross-Capability Critical Identifier Provenance Contract): CLOSED — commit `857bbdc`; contrato v2 aceptado, compatible con v1 en el JSONB existente.
   - MVP-06.R.4 (Tender #001 Real Document Intelligence Convergence Calibration): NEXT — después de R.3 completo.
 - MVP-06.V (Cross-Tender Integration Validation): después de MVP-06.R.4 y del gate de readiness de MVP-06.R.
 

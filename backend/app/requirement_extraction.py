@@ -6,6 +6,7 @@ import re
 import unicodedata
 from app.document_intelligence import RoutingResult, Quality, Capability, route_capability
 from app.document_intelligence_sources import load_document_transcriptions
+from app.document_identifier_bindings import explicit_identifier_values
 from app.requirement_di_adapter import persist_snapshot, candidate_perception
 from app.requirement_perception_provenance import read_provenance
 from dataclasses import dataclass, field
@@ -572,6 +573,8 @@ def _prune_page_level_noise(detected: list[DetectedRequirementCandidate]) -> lis
                 if candidate.semantic_key == other.semantic_key or other.semantic_key in suppressed:
                     continue
                 other_norm = normalized_texts[other.semantic_key]
+                if explicit_identifier_values(candidate.requirement_text) != explicit_identifier_values(other.requirement_text):
+                    continue  # Similar prose cannot erase materially distinct references.
                 if _normalize_for_key(candidate.modality_text) != _normalize_for_key(other.modality_text):
                     continue
                 if current_norm == other_norm:

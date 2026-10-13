@@ -1,4 +1,5 @@
 from __future__ import annotations
+from app.document_identifier_bindings import guard_structure, page_identifier_comparisons
 from app.document_intelligence import advance_continuity, RoutingResult, Quality
 from app.document_intelligence_sources import load_page_structure
 
@@ -783,6 +784,10 @@ def orchestrate_document_structure_available_only(
                     vision_fingerprint_parts,
                 ) = _collect_candidates_for_page(read_db, document_id=document_id, page=page)
 
+                from app.document_intelligence_sources import load_document_transcriptions
+                document = read_db.get(TenderDocument,document_id)
+                transcription = load_document_transcriptions(read_db,document)[page.id]
+                neutral_structure = guard_structure(neutral_structure,page_identifier_comparisons(transcription,neutral_structure))
                 final_candidates = [StructuralCandidate(source_method=e.structural_state.provenance.source_method,
                     structural_quality=e.structural_state.state_quality, page_state=e.structural_state,
                     source_analysis_id=e.source_analysis_id, source_page_result_id=e.source_page_result_id)
@@ -818,10 +823,10 @@ def orchestrate_document_structure_available_only(
                     resolution = PageStructureResolution(status="RESOLVED", resolved_state=selected.structural_state,
                         resolved_source_method=selected.structural_state.provenance.source_method, needs_provider=None,
                         reason="CONSISTENT_VALID_CANDIDATE", review_required=False, considered_methods=resolution.considered_methods)
-                elif neutral_structure.conflicts or resolution.status == "RESOLVED":
+                elif neutral_structure.conflicts or "CRITICAL_IDENTIFIER_CONFLICT" in neutral_structure.diagnostics or resolution.status == "RESOLVED":
                     resolution = PageStructureResolution(status=RESOLUTION_REVIEW_REQUIRED, resolved_state=None,
                         resolved_source_method=None, needs_provider=None,
-                        reason=("CRITICAL_IDENTIFIER_CONFLICT" if any(c.kind == "IDENTIFIER" for c in neutral_structure.conflicts)
+                        reason=("CRITICAL_IDENTIFIER_CONFLICT" if any(c.kind == "IDENTIFIER" for c in neutral_structure.conflicts) or "CRITICAL_IDENTIFIER_CONFLICT" in neutral_structure.diagnostics
                             else "CONFLICTING_VALID_STRUCTURES" if neutral_structure.conflicts else "DI_STRUCTURE_REVIEW_REQUIRED"),
                         review_required=True, considered_methods=resolution.considered_methods)
                 final_resolution = resolution

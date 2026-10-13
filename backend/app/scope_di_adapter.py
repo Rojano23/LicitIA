@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from app.scope_detail_adapters import ScopeDetailEvidenceArtifact
 from app.scope_details import ScopeDetailCandidate
 from app.document_intelligence import Quality
+from app.document_identifier_bindings import transcription_requires_review
 from app.scope_semantic_discovery import ScopeSemanticSourceFragment, discover_scope_semantics, map_discovered_obligation_to_scope_detail_candidate, ScopeSemanticDiscoveryProvider
 
 
@@ -44,7 +45,7 @@ class NeutralScopeSemanticAdapter:
                 candidate = map_discovered_obligation_to_scope_detail_candidate(fragment, obligation)
                 candidate = replace(candidate, source_analysis_id=observation.source_analysis_id,
                     source_page_result_id=observation.source_page_result_id,
-                    review_required=candidate.review_required or result.status != "RESOLVED")
+                    review_required=candidate.review_required or transcription_requires_review(result,candidate.source_excerpt))
                 key = (candidate.domain, candidate.description, candidate.source_excerpt)
                 if key not in seen:
                     seen.add(key)

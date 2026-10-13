@@ -405,7 +405,7 @@ def test_multi_engine_ocr_conflict_sets_review_required_and_clears_scope() -> No
         db.commit()
 
         assert second.page_results[0].status == "REVIEW_REQUIRED"
-        assert second.page_results[0].reason == "CONFLICTING_VALID_STRUCTURES"
+        assert second.page_results[0].reason == "CRITICAL_IDENTIFIER_CONFLICT"
         assert db.execute(select(func.count(TenderScopeSegment.id)).where(TenderScopeSegment.source_document_id == document_id)).scalar_one() == 0
 
         resolution = db.scalar(select(DocumentPageStructureResolution).where(DocumentPageStructureResolution.document_page_id == page.id))

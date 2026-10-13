@@ -7,6 +7,8 @@ from sqlalchemy.orm import Session
 
 from app.models import TenderScopeDetail
 from app.document_intelligence import RoutingResult, Quality
+from app.critical_identifier_comparison import IdentifierComparison
+from app.document_identifier_bindings import affected_comparisons, page_identifier_comparisons, review_comparisons, transcription_requires_review
 from app.scope_details import ScopeDetailCandidate, replace_scope_details_for_artifact
 
 SCOPE_DETAIL_ADAPTER_STATUS_ADAPTED = "ADAPTED"
@@ -29,6 +31,7 @@ class ScopeDetailEvidenceArtifact:
     payload: dict | None = None
     transcription: RoutingResult | None = None
     structure: RoutingResult | None = None
+    identifier_comparisons: tuple[IdentifierComparison, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -91,8 +94,26 @@ def adapt_and_persist_scope_detail_artifact(
             and e.quality in {Quality.RELIABLE, Quality.REVIEW_REQUIRED}]
         # No bridge can resurrect failed or deselected detail evidence.
         candidates = [candidate for candidate in candidates if any(candidate.source_excerpt in e.text for e in current)]
-        if artifact.transcription.status != "RESOLVED":
-            candidates = [replace(candidate, review_required=True) for candidate in candidates]
+        comparisons = artifact.identifier_comparisons or page_identifier_comparisons(artifact.transcription,
+            *((artifact.structure,) if artifact.structure is not None else ()))
+        guarded = []
+        for candidate in candidates:
+            critical = affected_comparisons(comparisons,candidate.source_excerpt)
+            if not critical and candidate.candidate_item_key is not None:
+                from app.critical_identifier_comparison import IdentifierKind
+                from app.item_identity import normalize_item_identity
+                # Map risk to a pre-existing owner key; never use this legacy
+                # normalization to assert agreement between perception values.
+                critical = tuple(c for c in review_comparisons(comparisons) if c.kind in {IdentifierKind.ITEM_NUMBER,IdentifierKind.PARTIDA,IdentifierKind.STRUCTURAL_GROUP_IDENTIFIER}
+                    and any(normalize_item_identity(o.raw_value).normalized_key == candidate.candidate_item_key
+                        for o in c.observations if o.source.lineage == "ACTIVE"))
+            if critical:
+                candidate = replace(candidate,review_required=True, applicability="UNRESOLVED",
+                    scope_segment_id=None,tender_item_id=None,candidate_item_key=None)
+            elif transcription_requires_review(artifact.transcription,candidate.source_excerpt):
+                candidate = replace(candidate,review_required=True)
+            guarded.append(candidate)
+        candidates = guarded
     if not candidates:
         replace_scope_details_for_artifact(
             db,

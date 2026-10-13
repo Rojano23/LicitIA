@@ -145,7 +145,7 @@ conserva la provenance que soportan sus contratos actuales (canal, artefacto,
 locator, excerpt, analysis/page-result y revisión); el contexto DI completo es
 transitorio. CompanyEvidence y la política Source Effect Qwen NO-GO no cambian.
 
-## Contrato de provenance 06.R.3a — pendiente de aceptación arquitectónica
+## Contrato de provenance 06.R.3a — aceptado en `857bbdc`
 
 `RoutingResult` permanece específico por capacidad. Una observación estructural
 no se reclasifica como transcripción para transportar un desacuerdo contractual.
@@ -201,3 +201,67 @@ solicitada, Scope, continuidad, cantidades y atributos pertenecen a R.3.
 No cambia Human Review, CompanyEvidence, Source Effects ni Alternative Compliance.
 Las pruebas sintéticas/JSONB no certifican precisión OCR/Vision. R.4 conserva
 la calibración real posterior; Tender #002 permanece protegido hasta MVP-06.V.
+
+
+## Propagación 06.R.3 — pendiente de aceptación arquitectónica
+
+La comparación neutral ahora condiciona la confianza de dominio, sin cambiar
+el significado de Requirement, evidencia solicitada, ScopeDetail, atributos,
+cantidades ni Human Review. El routing original conserva su capacidad y sus
+observaciones; seleccionar un proveedor no resuelve identidad contractual.
+
+La frontera `document_identifier_bindings` consume bindings R.1 explícitos y
+una gramática determinista acotada: etiquetas Item/Partida, TAG, Model/Modelo,
+referencias documentales con código explícito y cantidades con unidad visible.
+No interpreta prosa arbitraria, números aislados ni metadata como identificadores.
+Los fragmentos exactos y valores raw llegan al comparador R.3a; los tipos sólo
+clasifican riesgo. La evidencia no certificada permanece en revisión.
+
+Una página con un solo propietario explícito por observación admite comparación
+de ese límite; páginas con varios propietarios requieren contexto textual
+coincidente tras sustituir exclusivamente spans de identificador. No se alinea
+por orden de filas. Contextos repetidos con valores distintos conservan bindings
+separados marcados como correspondencia no probada; una discrepancia de soporte
+entre fuentes confiables requiere revisión, sin fabricar CONFLICT o equivalencia.
+Esto protege `1` frente a `01` incluso cuando la firma estructural legacy coincide.
+
+Requirements escribe v2 al encontrar observaciones de identificador, conservando
+transcripción y estructura como contextos separados. El refresh retiene fuentes
+anteriores, deselecciona generaciones ausentes de las capacidades refrescadas,
+preserva los datos completos de comparación y nunca hace downgrade. NULL/v1 siguen
+siendo legibles; no existe backfill. El pruning por semejanza de prosa no elimina
+alternativas que difieren en identificadores explícitos.
+
+La revisión se aplica al fragmento afectado. Un fragmento exacto acordado por todas
+las transcripciones ACTIVE confiables puede continuar aunque otro fragmento de
+la página discrepe. Esto no certifica fuentes REVIEW_REQUIRED ni ignora conflictos
+que afecten al propio fragmento. La evidencia solicitada recibe la revisión y
+provenance mediante los bridges de Requirements existentes. No cambia CompanyEvidence.
+
+Scope marca los detalles afectados REVIEW_REQUIRED, deja applicability UNRESOLVED
+y retira scope_segment_id/tender_item_id/candidate_item_key confiables. También
+propaga el riesgo al propietario previamente normalizado: el normalizador legacy
+sólo sirve para localizar qué owner existente debe revisarse, nunca para acreditar
+igualdad entre alternativas raw. Detalles independientes conservan sus condiciones
+de confianza. Cantidades y atributos heredan la revisión del detalle mediante sus
+contratos vigentes; el vínculo al detalle auditado no representa un propietario
+contractual confiable. No se amplía extracción ni normalización de unidades.
+
+Un conflicto de item/partida/grupo impide continuidad: frontera UNKNOWN, sin clave
+abierta heredada ni selección alternativa oculta. El orquestador persiste la razón
+de revisión y retira segmentos derivados de una resolución no confiable. Un inicio
+independiente posterior puede recuperar continuidad. Una discrepancia de cantidad
+sin conflicto de agrupación se trata localmente y no invalida por sí sola el límite.
+
+No hay migración ni persistencia paralela. Requirements conserva el snapshot v2;
+Scope conserva review/applicability/ownership y su provenance existente. Las
+alternativas originales permanecen en NormalizedContent/OCR/Vision con sus IDs,
+versiones y excerpts; las comparaciones Scope son regenerables desde esos artefactos.
+El refresh no elimina percepciones originales ni las convierte en decisiones humanas.
+No se introduce resolución genérica de conflictos de percepción; un flujo humano
+explícito de resolución de identidad queda para trabajo posterior. Scope Review
+no obtiene nuevas facultades para resolver Source Effects.
+
+La validación usa fixtures sintéticos y servicios productivos: no certifica calidad
+OCR/Vision. Source Effects, frontend, Goldens y política Qwen NO-GO permanecen
+intactos. R.4 es la calibración real siguiente; Tender #002 sigue ciego hasta 06.V.

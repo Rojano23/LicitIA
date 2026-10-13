@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from app.models import DocumentPage, DocumentVisionAnalysis, DocumentVisionPageResult, NormalizedContent, PageOcrResult
 from app.document_intelligence_sources import PersistedPerceptionArtifact, _enumerate_persisted_artifacts_for_document, load_document_transcriptions, load_page_structure, transcription_from_artifact
 from app.document_intelligence import Capability, RoutingResult, advance_continuity, route_capability
+from app.document_identifier_bindings import guard_structure, page_identifier_comparisons
 from app.scope_semantic_discovery import ScopeSemanticDiscoveryProvider
 from app.models import TenderDocument
 from app.scope_details import replace_scope_details_for_artifact
@@ -99,6 +100,7 @@ def materialize_document_scope_details(
     previous_continuity = None
     for page in pages:
         structure = load_page_structure(db, document, page)
+        structure = guard_structure(structure,page_identifier_comparisons(transcriptions[page.id],structure))
         continuity = advance_continuity(structure, previous_continuity)
         previous_continuity = continuity
         if structure.status == "RESOLVED" and continuity.status != "VALID":
@@ -282,4 +284,5 @@ def _scope_artifact_context(db: Session, artifact: PersistedPerceptionArtifact,
         result = route_capability(page=result.page, capability=Capability.TRANSCRIPTION,
             evidence=(*result.candidates, observation))
     return ScopeDetailEvidenceArtifact(**asdict(artifact), transcription=result,
-        structure=structures[artifact.document_page_id])
+        structure=structures[artifact.document_page_id],
+        identifier_comparisons=page_identifier_comparisons(result,structures[artifact.document_page_id]))
