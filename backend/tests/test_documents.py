@@ -4057,7 +4057,7 @@ def test_task_fingerprint_differs_by_task_type_and_region() -> None:
 
 
 def test_structure_scope_prompt_version_bumped_for_normalization_semantics() -> None:
-    assert ollama_vision_module.VISION_STRUCTURE_SCOPE_PROMPT_VERSION == "vision-structure-scope-2026-09-01-005"
+    assert ollama_vision_module.VISION_STRUCTURE_SCOPE_PROMPT_VERSION == "vision-structure-scope-2026-09-03-006"
 
 
 def test_structure_scope_input_fingerprint_differs_by_prompt_version() -> None:
@@ -4210,7 +4210,7 @@ def test_completed_old_structure_scope_analysis_is_not_reused_after_version_bump
         assert len(analyses) == 2
         assert {analysis.prompt_version for analysis in analyses} == {
             "vision-structure-scope-2026-09-01-004",
-            "vision-structure-scope-2026-09-01-005",
+            "vision-structure-scope-2026-09-03-006",
         }
         assert any(analysis.status == "COMPLETED" and analysis.prompt_version == "vision-structure-scope-2026-09-01-004" for analysis in analyses)
         assert any(analysis.id == payload["id"] and analysis.prompt_version == ollama_vision_module.VISION_STRUCTURE_SCOPE_PROMPT_VERSION for analysis in analyses)
@@ -4371,15 +4371,15 @@ def _seed_vision_analysis_with_pages(
         db.close()
 
 
-def test_vision_latest_summary_prefers_current_005_over_legacy() -> None:
+def test_vision_latest_summary_prefers_current_006_over_legacy() -> None:
     tender_id = _create_tender("Vision latest summary preferred version")
     document_id = _import_vision_pdf(tender_id, "vision-latest-summary-preferred.pdf", ["P1", "P2"])
     _seed_normalized_lines(document_id, ["P1", "P2"])
 
-    analysis_005_id = _seed_vision_analysis_with_pages(
+    analysis_006_id = _seed_vision_analysis_with_pages(
         tender_id=tender_id,
         document_id=document_id,
-        prompt_version="vision-structure-scope-2026-09-01-005",
+        prompt_version="vision-structure-scope-2026-09-03-006",
         status="PARTIAL",
         page_rows=[
             {
@@ -4427,8 +4427,8 @@ def test_vision_latest_summary_prefers_current_005_over_legacy() -> None:
     payload = response.json()
 
     assert payload["latest_analysis"] is not None
-    assert payload["latest_analysis"]["analysis_id"] == analysis_005_id
-    assert payload["latest_analysis"]["prompt_version"] == "vision-structure-scope-2026-09-01-005"
+    assert payload["latest_analysis"]["analysis_id"] == analysis_006_id
+    assert payload["latest_analysis"]["prompt_version"] == "vision-structure-scope-2026-09-03-006"
 
 
 def test_vision_latest_summary_derives_candidates_and_status_without_heavy_payload() -> None:
@@ -4439,7 +4439,7 @@ def test_vision_latest_summary_derives_candidates_and_status_without_heavy_paylo
     _seed_vision_analysis_with_pages(
         tender_id=tender_id,
         document_id=document_id,
-        prompt_version="vision-structure-scope-2026-09-01-005",
+        prompt_version="vision-structure-scope-2026-09-03-006",
         status="PARTIAL",
         page_rows=[
             {

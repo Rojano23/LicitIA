@@ -289,7 +289,7 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
   - MVP-06.6.2 (Human Scope Review API + Deterministic Recalculation): CLOSED — commit `4899ee6`
   - MVP-06.6.3 (Human Scope Review UI): CLOSED — commit `48707d8`
   - MVP-06.6.4 (Alternatives + Compliance per Alternative): CLOSED — UI aceptada en commit `a56cba4`
-- MVP-06.R (Document Intelligence Convergence): CURRENT — después de MVP-06.6 y antes de MVP-06.V.
+- MVP-06.R (Document Intelligence Convergence): CLOSED — gate condicional aceptado para preparar preflight, sin certificar producción ni autorizar Tender #002.
   - MVP-06.R.1 (Document Intelligence Convergence Contract + Routing): CLOSED — commit `fcc6564`.
   - MVP-06.R.2 (Transversal Document Intelligence Integration): CLOSED — commit `6d97859`; integración productiva Native/OCR/Vision aceptada.
     - MVP-06.R.2a (Requirement Perception Provenance Persistence): CLOSED — commit `5166ad8`; contrato tipado/versionado y migración 072 aceptados.
@@ -301,8 +301,10 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
     - Phase 3A (B-4 Human Structural Golden Candidate): CLOSED — páginas 1–4, PDF y hashes de página aprobados humanamente sin correcciones; ITEM_1/ITEM_2 sólo como identidades Golden de comparación.
     - Phase 3B (Structural Golden Freeze + Offline Rescore): CLOSED — commit `3f2e29b`; Golden v1 congelado; P1 CORRECT, P2 PARTIAL, P3 INCORRECT; sin observación Vision P4. Rescore/replay sin proveedores ni cambios productivos.
     - Phase 4 (Structural Trust Propagation Hardening): CLOSED — commit `530621a`; P1 CORRECT, P2/P3 REVIEW_REQUIRED_CORRECT; cero unsafe trusted structural errors y cero proveedores en replay offline. Sin migración; Golden sólo para evaluación.
-  - MVP-06.R.4b (Convergence Readiness Gate): CURRENT — recomendación CONDITIONAL_GO_FOR_06V, pendiente aceptación humana. S01–S12 PASS; requiere colector transversal/métricas congeladas, configuración bounded sin transcription Vision normal, DB aislada 072 y autorización explícita antes de abrir Tender #002. No certifica producción.
-- MVP-06.V (Cross-Tender Integration Validation): PROTECTED — NEXT PENDING HUMAN AUTHORIZATION, después de aceptación de MVP-06.R.4b y cumplimiento de sus condiciones; no ACTIVE.
+  - MVP-06.R.4b (Convergence Readiness Gate): CLOSED — commit documental `1745c70`; CONDITIONAL_GO_FOR_06V aceptado para V.0. S01–S12 PASS; no certifica producción ni autoriza acceso ciego.
+- MVP-06.V (Cross-Tender Integration Validation): PROTECTED / NOT AUTHORIZED — Tender #002 permanece inaccesible; primer pase requiere aceptación de V.0, freeze de código/configuración y autorización humana explícita.
+  - MVP-06.V.0 (Blind Validation Preflight + Freeze): CURRENT — colector neutral y métricas/adjudicación separadas, plan AVAILABLE_ONLY sin inferencias autorizadas, deuda 005→006 corregida sólo en tests, DB `licitia_validation_06v` vacía en 072 y reportes exclusivos con SHA-256. READY FOR HUMAN AUTHORIZATION DECISION; código preparado aún sin stage/commit/push.
+  - Fases futuras, no ejecutadas: V.1 FREEZE + IMPORT → V.2 FIRST BLIND PRODUCTION RUN → V.3 FREEZE FIRST-PASS REPORT → V.4 HUMAN ADJUDICATION / ERROR ANALYSIS → V.5 FINAL CROSS-TENDER GO/NO-GO. Tras aceptación de V.0, 06.V NEXT — AWAITING EXPLICIT TENDER #002 AUTHORIZATION; no ACTIVE.
 
 Tender #002 permanece blind out-of-sample, reservado para MVP-06.V; no debe inspeccionarse ni usarse antes de esa fase.
 
