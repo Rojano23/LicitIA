@@ -293,10 +293,11 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
   - MVP-06.R.1 (Document Intelligence Convergence Contract + Routing): CLOSED — commit `fcc6564`.
   - MVP-06.R.2 (Transversal Document Intelligence Integration): CLOSED — commit `6d97859`; integración productiva Native/OCR/Vision aceptada.
     - MVP-06.R.2a (Requirement Perception Provenance Persistence): CLOSED — commit `5166ad8`; contrato tipado/versionado y migración 072 aceptados.
-  - MVP-06.R.3 (Critical Identifier + Conflict / Review Hardening): CURRENT — propagación implementada; pendiente de aceptación arquitectónica.
+  - MVP-06.R.3 (Critical Identifier + Conflict / Review Hardening): CLOSED — commit `d399b7a`; propagación fail-closed aceptada.
     - MVP-06.R.3a (Cross-Capability Critical Identifier Provenance Contract): CLOSED — commit `857bbdc`; contrato v2 aceptado, compatible con v1 en el JSONB existente.
-  - MVP-06.R.4 (Tender #001 Real Document Intelligence Convergence Calibration): NEXT — después de R.3 completo.
-- MVP-06.V (Cross-Tender Integration Validation): después de MVP-06.R.4 y del gate de readiness de MVP-06.R.
+  - MVP-06.R.4a (Tender #001 Real Document Intelligence Convergence Calibration): CURRENT — fase 2: comparación por dimensión y replay offline aislado del primer lote en `licitia_test`; sin nuevas inferencias. Conflicto fuente–Golden y verdad estructural pendientes de revisión humana; detalle OCR no soportado por adapters predeterminados. Cierre pendiente de calibración revisada. Vision/Ollama/Qwen requieren autorización separada.
+  - MVP-06.R.4b (Convergence Readiness Gate): NEXT — después de revisar la calibración R.4a.
+- MVP-06.V (Cross-Tender Integration Validation): después de MVP-06.R.4b y del gate de readiness de MVP-06.R.
 
 Tender #002 permanece blind out-of-sample, reservado para MVP-06.V; no debe inspeccionarse ni usarse antes de esa fase.
 

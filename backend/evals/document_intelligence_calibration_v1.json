@@ -1,0 +1,188 @@
+{
+  "cases": [
+    {
+      "case_id": "T01",
+      "document_id": "9601b788-4824-43b8-b97e-44f1a3682eaa",
+      "document_page_id": "ec315681-4170-4e1f-8833-948efd28e2d6",
+      "document_sha256": "1f1750a3ec21a2d531832b91be5f803de42eb47c38129f67d28d15b5de5724fc",
+      "filename": "06 Mecanismos de ingeniería GNR-ABS.pdf",
+      "page_number": 2,
+      "purpose": "Good Native availability; fidelity diagnostic",
+      "reference_scope": "No human-approved page fidelity label",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T02",
+      "document_id": "05729651-df52-405b-864b-fc7ad6e591ad",
+      "document_page_id": "7aef0085-8f56-453b-88be-dde896c05864",
+      "document_sha256": "c2f3161915eb19a027b7d2c4a4317435123f25cdb41b65ab743101527a80802d",
+      "filename": "04. PAPFS.pdf",
+      "page_number": 1,
+      "purpose": "Image-only OCR candidate; OCR-friendly is hypothesis",
+      "reference_scope": "No human-approved page fidelity label",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T03",
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "filename": "ANEXO B-4.pdf",
+      "page_number": 4,
+      "purpose": "Difficult scanned supply text",
+      "reference_scope": "partial human-approved quantity/attribute excerpts",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T04",
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "25bb20b7-13e6-4ab6-8505-326527a1f2c3",
+      "document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "filename": "ANEXO B-4.pdf",
+      "page_number": 1,
+      "purpose": "Visible structure start candidate",
+      "reference_scope": "No human-approved page fidelity label",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T05",
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "6280ec57-5949-4032-9b09-379b1429f81f",
+      "document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "filename": "ANEXO B-4.pdf",
+      "page_number": 2,
+      "purpose": "Continuation candidate",
+      "reference_scope": "No human-approved page fidelity label",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T06",
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "filename": "ANEXO B-4.pdf",
+      "page_number": 4,
+      "purpose": "Model critical identifier; approved attribute fragment",
+      "reference_scope": "partial human-approved quantity/attribute excerpts",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T07",
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "filename": "ANEXO B-4.pdf",
+      "page_number": 4,
+      "purpose": "Quantity binding; approved quantity fragment",
+      "reference_scope": "partial human-approved quantity/attribute excerpts",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T08",
+      "document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "document_page_id": "a9c0f46d-7e50-47e8-8369-c8cfca99ae53",
+      "document_sha256": "bb6eff2e47516c348024d9695b9632b95b0843f9b842770fc0f226d6e26925d2",
+      "filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "page_number": 59,
+      "purpose": "Native structure reliable vs transcription uncertified",
+      "reference_scope": "No human-approved page fidelity label",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T09",
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "filename": "ANEXO B-4.pdf",
+      "page_number": 4,
+      "purpose": "OCR/Vision disagreement diagnostic",
+      "reference_scope": "partial human-approved quantity/attribute excerpts",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T10",
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "6280ec57-5949-4032-9b09-379b1429f81f",
+      "document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "filename": "ANEXO B-4.pdf",
+      "page_number": 2,
+      "purpose": "Known B-4 difficult structure",
+      "reference_scope": "No human-approved page fidelity label",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T11",
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "50fa4ff5-f91f-4ca7-8f2d-a27a6d7d381d",
+      "document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "filename": "ANEXO B-4.pdf",
+      "page_number": 3,
+      "purpose": "B-4 page 2→3 ownership transition, unproven boundary",
+      "reference_scope": "No human-approved page fidelity label",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T12",
+      "document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "document_page_id": "1ecd6f9f-a674-4f3f-94d8-c053bb927f5b",
+      "document_sha256": "bb6eff2e47516c348024d9695b9632b95b0843f9b842770fc0f226d6e26925d2",
+      "filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "page_number": 24,
+      "purpose": "Persisted Requirements input",
+      "reference_scope": "No human-approved page fidelity label",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T13",
+      "document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "document_page_id": "3dd408a0-3237-4700-ae4f-abf014079415",
+      "document_sha256": "bb6eff2e47516c348024d9695b9632b95b0843f9b842770fc0f226d6e26925d2",
+      "filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "page_number": 19,
+      "purpose": "Persisted requested Evidence input",
+      "reference_scope": "No human-approved page fidelity label",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T14",
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_page_id": "7cdee9bc-2cae-4825-a454-feade595b797",
+      "document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "filename": "ANEXO B-4.pdf",
+      "page_number": 4,
+      "purpose": "Persisted Scope input",
+      "reference_scope": "partial human-approved quantity/attribute excerpts",
+      "status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "case_id": "T15",
+      "document_id": "ca4ada03-8740-4f29-a99e-d5e874669555",
+      "document_page_id": "b66ffc48-8bb7-44c5-9d59-888f612cd7eb",
+      "document_sha256": "bb6eff2e47516c348024d9695b9632b95b0843f9b842770fc0f226d6e26925d2",
+      "filename": "2.1. ANEXOS - CAD-265-2026.pdf",
+      "page_number": 2,
+      "purpose": "Approved domain negative: annex index, NO_OBLIGATIONS; no structure truth implied",
+      "reference_scope": "domain NO_OBLIGATIONS only",
+      "status": "DIAGNOSTIC_ONLY"
+    }
+  ],
+  "external_reference": "SNR-CAD-265-CA-S-2026",
+  "golden_references": [
+    {
+      "path": "backend/evals/semantic_scope_golden_v1.json",
+      "sha256": "ad9d44a67022fa1eaec3181799a88b93c4c6dd04572fff46f31c3ac0c244af86"
+    },
+    {
+      "path": "backend/evals/technical_attribute_golden_v1.json",
+      "sha256": "ad2e3707f5b7a2e53e44339108c14669d9697ad733af3527a8e40216dd7b991b"
+    },
+    {
+      "path": "backend/evals/scope_quantity_golden_v1.json",
+      "sha256": "de2327ca868f8b72bf6dd80f50a568807b567f92c4106d65f913b7ce263339e7"
+    }
+  ],
+  "notes": "Selection manifest only. No new Golden truth. Each measurement must consult approved reference scope. Artifact structures are observations, never labels.",
+  "schema_version": "1",
+  "starting_head": "d399b7a",
+  "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+}
