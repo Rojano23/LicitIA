@@ -19,6 +19,25 @@ ROOT=Path(__file__).resolve().parents[2]
 CONFIG=ROOT/'backend/evals/document_intelligence_06v_config_v1.json'
 
 @pytest.fixture
+def synthetic_identity(tmp_path, monkeypatch):
+    # Identity mechanics use a synthetic repository, not Attempt #1's frozen code.
+    root=tmp_path/'repository'; file=root/'backend/app/synthetic.py'
+    file.parent.mkdir(parents=True); file.write_text('synthetic = True\n')
+    config=root/'backend/evals/config.json'; config.parent.mkdir(parents=True)
+    data=json.loads(CONFIG.read_bytes())
+    data['code_file_sha256']={'backend/app/synthetic.py':sha256(file.read_bytes())}
+    config.write_bytes(canonical_bytes(data))
+    original=subprocess.check_output
+    def git(args, **kwargs):
+        if args[0] != 'git': return original(args, **kwargs)
+        if args[1]=='rev-parse': return 'a'*40+'\n'
+        if args[1]=='status': return ''
+        if args[1]=='ls-files': return 'backend/app/synthetic.py\nbackend/evals/config.json\n'
+        raise AssertionError(args)
+    monkeypatch.setattr(subprocess,'check_output',git)
+    return root,config
+
+@pytest.fixture
 def snapshot():
     records=[]
     for domain in DOMAINS:
@@ -86,17 +105,17 @@ def test_VF15_structure_bounded():
     assert policy['vision_structure_requires_grounding_review_and_explicit_authorization'] is True
     assert policy['provider_calls_authorized']==0
 
-def test_VF16_code_sha():assert len(capture_code_identity(ROOT,CONFIG,require_clean=False)['commit'])==40
-def test_VF17_config_sha():assert capture_code_identity(ROOT,CONFIG,require_clean=False)['config_sha256']==sha256(CONFIG.read_bytes())
-def test_VF18_dirty_capture(monkeypatch):
+def test_VF16_code_sha(synthetic_identity):assert len(capture_code_identity(*synthetic_identity,require_clean=False)['commit'])==40
+def test_VF17_config_sha(synthetic_identity):assert capture_code_identity(*synthetic_identity,require_clean=False)['config_sha256']==sha256(synthetic_identity[1].read_bytes())
+def test_VF18_dirty_capture(monkeypatch, synthetic_identity):
     original=subprocess.check_output
     def output(args,**kwargs):
         if args[:2]==['git','status']:return ' M backend/app/document_intelligence.py\n?? backend/reports/runtime.json\n'
         return original(args,**kwargs)
     monkeypatch.setattr(subprocess,'check_output',output)
-    identity=capture_code_identity(ROOT,CONFIG,require_clean=False)
+    identity=capture_code_identity(*synthetic_identity,require_clean=False)
     assert identity['protected_dirty'] and len(identity['protected_status'])==1
-    with pytest.raises(ValueError,match='Dirty'):capture_code_identity(ROOT,CONFIG)
+    with pytest.raises(ValueError,match='Dirty'):capture_code_identity(*synthetic_identity)
 
 def test_VF19_serialization(report):assert canonical_bytes(report)==canonical_bytes(FirstPass.model_validate_json(canonical_bytes(report)))
 def test_VF20_no_overwrite(report,tmp_path):
@@ -126,16 +145,18 @@ def test_VF24_empty_db(corpus):
     assert identity['database']=='licitia_test' and identity['tender_count']>0
     # Empty detection is independent from names/contents and never queries other corpus tables.
     assert identity['revision']=='20261013_req_perception_prov_072'
-    from sqlalchemy import create_engine
-    from sqlalchemy.orm import Session
-    engine=create_engine('postgresql+psycopg://ceciliavalencia@localhost:5432/licitia_validation_06v')
-    try:
-        with Session(engine) as validation:
-            validation.execute(text('SET TRANSACTION READ ONLY'))
-            empty=database_identity(validation)
-            assert empty['tender_count']==empty['document_count']==0
-            assert empty['revision']==identity['revision']
-    finally:engine.dispose()
+    # V.0's historical empty validation DB is no longer a test fixture.
+    # Empty-state identity is exercised with a synthetic read-only query interface.
+    class EmptyDatabase:
+        def execute(self, statement):
+            sql=str(statement)
+            value='licitia_validation_06v' if 'current_database' in sql else identity['revision'] if 'alembic_version' in sql else 0
+            class Result:
+                def scalar_one(self): return value
+            return Result()
+    empty=database_identity(EmptyDatabase())
+    assert empty['tender_count']==empty['document_count']==0
+    assert empty['revision']==identity['revision']
 
 def test_VF25_no_blind_corpus(snapshot,monkeypatch):
     assert snapshot.tender_id=='independent-synthetic-tender'

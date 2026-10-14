@@ -302,11 +302,16 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
     - Phase 3B (Structural Golden Freeze + Offline Rescore): CLOSED — commit `3f2e29b`; Golden v1 congelado; P1 CORRECT, P2 PARTIAL, P3 INCORRECT; sin observación Vision P4. Rescore/replay sin proveedores ni cambios productivos.
     - Phase 4 (Structural Trust Propagation Hardening): CLOSED — commit `530621a`; P1 CORRECT, P2/P3 REVIEW_REQUIRED_CORRECT; cero unsafe trusted structural errors y cero proveedores en replay offline. Sin migración; Golden sólo para evaluación.
   - MVP-06.R.4b (Convergence Readiness Gate): CLOSED — commit documental `1745c70`; CONDITIONAL_GO_FOR_06V aceptado para V.0. S01–S12 PASS; no certifica producción ni autoriza acceso ciego.
-- MVP-06.V (Cross-Tender Integration Validation): PROTECTED / NOT AUTHORIZED — Tender #002 permanece inaccesible; primer pase requiere aceptación de V.0, freeze de código/configuración y autorización humana explícita.
-  - MVP-06.V.0 (Blind Validation Preflight + Freeze): CURRENT — colector neutral y métricas/adjudicación separadas, plan AVAILABLE_ONLY sin inferencias autorizadas, deuda 005→006 corregida sólo en tests, DB `licitia_validation_06v` vacía en 072 y reportes exclusivos con SHA-256. READY FOR HUMAN AUTHORIZATION DECISION; código preparado aún sin stage/commit/push.
-  - Fases futuras, no ejecutadas: V.1 FREEZE + IMPORT → V.2 FIRST BLIND PRODUCTION RUN → V.3 FREEZE FIRST-PASS REPORT → V.4 HUMAN ADJUDICATION / ERROR ANALYSIS → V.5 FINAL CROSS-TENDER GO/NO-GO. Tras aceptación de V.0, 06.V NEXT — AWAITING EXPLICIT TENDER #002 AUTHORIZATION; no ACTIVE.
+- MVP-06.V (Cross-Tender Integration Validation): CURRENT — contacto mecánico autorizado; contenido semántico de Tender #002 protegido, sin adjudicación ni certificación productiva.
+  - MVP-06.V.0 (Blind Validation Preflight + Freeze): CLOSED — commit `3c989fa`; plan AVAILABLE_ONLY sin inferencias autorizadas.
+  - MVP-06.V.1 (Freeze + Blind Import): CLOSED — importación canónica en DB aislada 072; originales y manifest congelados.
+  - MVP-06.V.2 ATTEMPT_1: FROZEN / EXECUTION_BLOCKED — `BLIND_RUN_EXECUTION_BLOCKER`; run `06v_6f6c60e697534a04abc3f922e698fef1`, SHA-256 `af9eeb1c94b79417033d6e533f4ca837ea94984a6085254392d39ff041fe5ead`. Evidencia histórica permanente; no representa ejecución exitosa de Effective Source.
+  - MVP-06.V.3 (Freeze Verification + First-Pass Operational Review): CLOSED — integridad/blindness preservadas; defecto genérico en driver de preparación, guard PDF correcto.
+  - MVP-06.V.3a (Capability-Aware Document Preparation Recovery): CURRENT — preparación genérica por capacidad; unsupported por documento no implica fallo fatal del Tender. Sin proveedores, acceso semántico ni rerun; pendiente de aceptación arquitectónica.
+  - ATTEMPT_2 requiere aceptación + commit/push del fix, HEAD/manifest de freeze nuevos, reset/reimport autorizado y run_id nuevo; preservar ATTEMPT_1. No autorizado en V.3a.
+  - V.4 HUMAN ADJUDICATION / ERROR ANALYSIS y V.5 FINAL CROSS-TENDER GO/NO-GO permanecen pendientes.
 
-Tender #002 permanece blind out-of-sample, reservado para MVP-06.V; no debe inspeccionarse ni usarse antes de esa fase.
+Tender #002 permanece blind out-of-sample: contenido semántico protegido hasta autorización explícita de la fase correspondiente; no usar para tuning, fixtures ni Golden.
 
 Nota de política MVP-06.5.5b:
 La calibración semántica de Source Effects queda cerrada como NO-GO para uso automático en MVP. El camino autoritativo permanece determinista con revisión humana: efectos ambiguos deben escalar a `REVIEW_REQUIRED`, la validación estricta permanece fail-closed y ningún candidato semántico puede pasar a confiable automáticamente. El proveedor bounded se conserva sólo como infraestructura experimental y reutilizable. Motivos: `qwen3:8b` mantuvo `0/3` positivos correctamente emparejados tras iteraciones calibradas y fully bounded; `qwen3:14b` resultó operacionalmente inviable en el hardware local objetivo.

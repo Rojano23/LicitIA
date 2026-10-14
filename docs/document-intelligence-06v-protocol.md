@@ -172,3 +172,35 @@ Stale carry es observable si UNKNOWN transportara outgoing confiable, reutilizan
 el guard productivo; sin medición es null. Se reportan structural errors y errores
 contractuales juntos con sus denominadores y solapamientos, no accuracy única.
 No se fija una carga aceptable de revisión ni una latencia objetivo arbitraria.
+
+## Recuperación 06.V.3a — pendiente de aceptación
+
+ATTEMPT_1 permanece `BLIND_RUN_EXECUTION_BLOCKER`: run
+`06v_6f6c60e697534a04abc3f922e698fef1`, primer pase SHA-256
+`af9eeb1c94b79417033d6e533f4ca837ea94984a6085254392d39ff041fe5ead`.
+No se sobrescribe ni se reclasifica como éxito. Los 11 ACTIVE del collector
+representan estado observado; no acreditan descubrimiento de Source Effects,
+que no se ejecutó. El contenido semántico de Tender #002 continúa protegido.
+
+El driver genérico `prepare_tender_documents(db, tender_id=...)` de
+`app.document_intelligence_blind_run` reemplaza el loop incondicional de
+extracción del driver temporal V.2. Reutiliza la elegibilidad MIME/extensión del
+endpoint PDF y los endpoints canónicos de extracción/normalización. El guard
+PDF permanece intacto. Un original válido sin esa capacidad produce resultado
+operacional tipado `UNAVAILABLE / UNSUPPORTED_NATIVE_CAPABILITY`, conserva
+PENDING y no crea páginas, percepción ni provenance de extracción. El collector
+existente refleja ese documento como unavailable; no cambia denominadores.
+
+La ausencia de capacidad de un documento no aborta otros documentos soportados.
+Identidad ajena/inexistente, original ausente, hash/tamaño inconsistente, estado
+persistido inconsistente y error de parser se propagan explícitamente; no existe
+catch-all que los convierta en unsupported. Las páginas Native completadas se
+reutilizan y la normalización conserva su idempotencia. El driver no adquiere
+OCR/Vision ni clasifica el soporte por contenido o nombre institucional.
+
+V.3a sólo prueba fixtures sintéticos en licitia_test, sin reset/reimport/rerun
+ni cambios a evidencia de ATTEMPT_1. ATTEMPT_2 exige aceptación humana,
+commit/push, HEAD nuevo, manifest nuevo que congele los hashes de código/protocolo
+actualizados (sin editar el manifest histórico), reset/reimport autorizado de la
+DB de validación conforme al protocolo y run_id nuevo. Se identifica como
+`BLIND ATTEMPT #2 AFTER DISCLOSED OPERATIONAL FIX`, nunca continuación del anterior.
