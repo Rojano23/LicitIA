@@ -46,7 +46,10 @@ def test_GS14_review(golden,observations):
     r=score_page(golden.pages[2],surface(observations[2].provenance['structured_json']),routing='REVIEW_REQUIRED',domain_review=True)
     assert r['status']=='REVIEW_REQUIRED_CORRECT' and r['correct_review_escalation']==1
 
-def test_GS15_unsafe(result):assert result['aggregate']['unsafe_trusted_structural_errors']==2
+def test_GS15_unsafe(result):
+    assert result['aggregate']['unsafe_trusted_structural_errors']==0
+    assert result['aggregate']['correct_review_escalation']==2
+    assert result['aggregate']['safe_misses']==2
 def test_GS16_stale(golden,observations):
     r=score_page(golden.pages[0],surface(observations[0].provenance['structured_json']),stale=True)
     assert r['stale_carry_violations']==1

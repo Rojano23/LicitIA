@@ -179,6 +179,7 @@ def score_page(label: ApprovedPage,observed: dict,*,routing='REVIEW_REQUIRED',do
         'false_starts':sorted(false_starts),'missed_continuations':sorted(missed_continuations),'missed_closures':sorted(missed_closures),
         'provider_conflicts':conflicts,'correct_review_escalation':int(reviewed),
         'unsafe_trusted_structural_errors':int(unsafe),'stale_carry_violations':int(stale),
+        'safe_misses':int(reviewed),
         'trust_basis':{'routing':routing,'persisted_segment_review_required':domain_review}}
 
 
@@ -226,7 +227,7 @@ def rescore(golden: ApprovedGolden,observations:list,replay:dict)->dict:
             'left_outgoing_correct':left_correct if a else None,'right_incoming_correct':right_correct if b else None,
             'status':'CORRECT' if a and b and left_correct and right_correct else 'INCORRECT' if a and b else 'UNASSESSABLE',
             'partial_left_check':left_correct if a and not b else None,'observation_fabricated':False})
-    aggregates={field:sum(p.get(field,0) for p in pages) for field in ['unsafe_trusted_structural_errors','correct_review_escalation','stale_carry_violations','provider_conflicts']}
+    aggregates={field:sum(p.get(field,0) for p in pages) for field in ['unsafe_trusted_structural_errors','correct_review_escalation','stale_carry_violations','provider_conflicts','safe_misses']}
     for field in ('false_starts','missed_continuations','missed_closures'):
         aggregates[field]=sum(len(p.get(field,())) for p in pages)
     aggregates['group_identity_errors']=sum('GROUP_IDENTITY_ERROR' in p['errors'] for p in pages)

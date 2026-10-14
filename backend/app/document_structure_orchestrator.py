@@ -896,7 +896,7 @@ def orchestrate_document_structure_available_only(
         previous_continuity = continuity
         if final_resolution.status == "RESOLVED" and continuity.status != "VALID":
             final_resolution = PageStructureResolution(status=RESOLUTION_REVIEW_REQUIRED, resolved_state=None,
-                resolved_source_method=None, needs_provider=None, reason="UNPROVEN_CONTINUITY_BOUNDARY",
+                resolved_source_method=None, needs_provider=None, reason=continuity.diagnostics[0],
                 review_required=True, considered_methods=final_resolution.considered_methods)
         final_snapshots.append(
             _PageResolutionSnapshot(

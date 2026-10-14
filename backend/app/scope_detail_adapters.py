@@ -114,6 +114,11 @@ def adapt_and_persist_scope_detail_artifact(
                 candidate = replace(candidate,review_required=True)
             guarded.append(candidate)
         candidates = guarded
+    if artifact.structure is not None and artifact.structure.status != "RESOLVED":
+        candidates = [replace(candidate, review_required=True, applicability="UNRESOLVED",
+            scope_segment_id=None, tender_item_id=None, candidate_item_key=None)
+            if (candidate.candidate_item_key is not None or candidate.scope_segment_id is not None
+                or candidate.tender_item_id is not None) else candidate for candidate in candidates]
     if not candidates:
         replace_scope_details_for_artifact(
             db,

@@ -265,3 +265,29 @@ no obtiene nuevas facultades para resolver Source Effects.
 La validación usa fixtures sintéticos y servicios productivos: no certifica calidad
 OCR/Vision. Source Effects, frontend, Goldens y política Qwen NO-GO permanecen
 intactos. R.4 es la calibración real siguiente; Tender #002 sigue ciego hasta 06.V.
+
+## Structural trust propagation 06.R.4a Phase 4 — propuesta para revisión
+
+Una partida abierta en una página exige que la primera identidad estructural
+de la página adyacente dé cuenta de esa misma partida. Una entrada incompatible
+o un inicio de otra identidad sin transición sustentada produce
+`STRUCTURAL_BOUNDARY_CONFLICT`, continuidad UNKNOWN y resolución REVIEW_REQUIRED.
+Repetir un encabezado de la misma identidad no sustituye al propietario abierto.
+Continuar A y luego iniciar B dentro de la página permite la transición; si la
+página anterior termina sin partida abierta, el cambio de identidad por sí solo
+no requiere revisión. La regla usa contratos y evidencia locales, nunca un Golden.
+
+La ausencia de estructura utilizable conserva `CURRENT_STRUCTURE_UNTRUSTWORTHY`;
+no fabrica una contradicción. Después de un límite UNKNOWN, una página sin
+entrada heredada sólo recupera confianza con segmentos de inicio independientes
+y sus identificadores presentes en anchors fuente. Sin ese soporte produce
+`INSUFFICIENT_STRUCTURAL_BOUNDARY_EVIDENCE`. Esto verifica grounding del inicio,
+no descubre identidades a partir de números aislados ni certifica percepción.
+
+UNKNOWN no transporta salida ni estado estructural confiables. Las observaciones
+permanecen auditables; las páginas anteriores no se invalidan y un grupo posterior
+independiente puede recuperarse. Scope retira ownership de los detalles dependientes
+de estructura no resuelta, marca REVIEW_REQUIRED/applicability UNRESOLVED y conserva
+detalles independientes. Cantidades y atributos heredan la revisión del detalle
+mediante sus contratos existentes. No se agregan schema, migración, UI ni resolución
+humana automática. La regla es idéntica para Native, OCR y Vision.

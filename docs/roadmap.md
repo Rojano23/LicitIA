@@ -295,11 +295,12 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
     - MVP-06.R.2a (Requirement Perception Provenance Persistence): CLOSED — commit `5166ad8`; contrato tipado/versionado y migración 072 aceptados.
   - MVP-06.R.3 (Critical Identifier + Conflict / Review Hardening): CLOSED — commit `d399b7a`; propagación fail-closed aceptada.
     - MVP-06.R.3a (Cross-Capability Critical Identifier Provenance Contract): CLOSED — commit `857bbdc`; contrato v2 aceptado, compatible con v1 en el JSONB existente.
-  - MVP-06.R.4a (Tender #001 Real Document Intelligence Convergence Calibration): CURRENT — Golden estructural B-4 aprobado humanamente; rescore y replay offline aislado en `licitia_test` identifican dos errores estructurales confiados sin revisión. Cierre pendiente de revisión de calibración; readiness no certificado. Detalle OCR no soportado por adapters predeterminados. Vision/Ollama/Qwen requieren autorización separada.
+  - MVP-06.R.4a (Tender #001 Real Document Intelligence Convergence Calibration): CURRENT — Golden estructural B-4 aprobado humanamente; Phase 4 endurece confianza estructural con reglas genéricas. Replay offline en `licitia_test`: errores estructurales confiados sin revisión de 2 a 0. Corrección pendiente de aceptación arquitectónica; readiness no certificado. Detalle OCR no soportado por adapters predeterminados. Vision/Ollama/Qwen requieren autorización separada.
     - Phase 1 (Calibration Harness): CLOSED — commit `dc8f825`.
     - Phase 2 (Harness Fidelity + Offline Replay): CLOSED — commit `dc8f825`.
     - Phase 3A (B-4 Human Structural Golden Candidate): CLOSED — páginas 1–4, PDF y hashes de página aprobados humanamente sin correcciones; ITEM_1/ITEM_2 sólo como identidades Golden de comparación.
-    - Phase 3B (Structural Golden Freeze + Offline Rescore): READY FOR REVIEW — Golden v1 congelado; P1 CORRECT, P2 PARTIAL, P3 INCORRECT; sin observación Vision P4. Rescore/replay sin proveedores ni cambios productivos; recomendación de corregir propagación de revisión estructural antes de certificar readiness.
+    - Phase 3B (Structural Golden Freeze + Offline Rescore): CLOSED — commit `3f2e29b`; Golden v1 congelado; P1 CORRECT, P2 PARTIAL, P3 INCORRECT; sin observación Vision P4. Rescore/replay sin proveedores ni cambios productivos.
+    - Phase 4 (Structural Trust Propagation Hardening): CURRENT — READY FOR ARCHITECT REVIEW; P1 CORRECT, P2/P3 REVIEW_REQUIRED_CORRECT; cero unsafe trusted structural errors y cero proveedores en replay offline. Sin migración; Golden sólo para evaluación.
   - MVP-06.R.4b (Convergence Readiness Gate): NEXT — después de revisar la calibración R.4a.
 - MVP-06.V (Cross-Tender Integration Validation): después de MVP-06.R.4b y del gate de readiness de MVP-06.R.
 

@@ -6,6 +6,7 @@ an invented confidence threshold. Existing structural value objects are reused.
 from __future__ import annotations
 
 from enum import Enum
+import re
 from itertools import combinations
 from typing import Iterable, Literal
 
@@ -271,6 +272,29 @@ def advance_continuity(result: RoutingResult, previous: StructuralContinuity | N
     if result.status != "RESOLVED" or selected is None or not _usable(selected):
         return StructuralContinuity(page=result.page, status="UNKNOWN", diagnostics=("CURRENT_STRUCTURE_UNTRUSTWORTHY",))
     state = selected.structural_state
+    same_boundary = bool(previous and previous.page.tender_id == result.page.tender_id
+        and previous.page.document_id == result.page.document_id
+        and previous.page.document_version == result.page.document_version
+        and previous.page.page_number + 1 == result.page.page_number)
+    if same_boundary and previous.status == "VALID" and previous.outgoing_item_key is not None:
+        incoming = state.incoming_item_key
+        first = state.segments[0] if state.segments else None
+        accounts_for_open = bool(first and first.item_identity.normalized_key == previous.outgoing_item_key
+            and not first.review_required and (incoming == previous.outgoing_item_key
+                or incoming is None))
+        if not accounts_for_open:
+            return StructuralContinuity(page=result.page, status="UNKNOWN", evidence=selected,
+                diagnostics=("STRUCTURAL_BOUNDARY_CONFLICT",))
+    if same_boundary and previous.status == "UNKNOWN" and state.incoming_item_key is None:
+        # Recovery needs an independent, source-grounded start, not merely a
+        # provider assertion that could silently replace the unresolved owner.
+        starts = [s for s in state.segments if s.starts_on_this_page]
+        grounded = bool(starts) and len(starts) == len(state.segments) and all(s.anchor_raw_text and s.item_identity.raw_label
+            and re.search(r"(?<![\w.])" + re.escape(s.item_identity.raw_label) + r"(?![\w.])",
+                s.anchor_raw_text) for s in starts)
+        if not grounded:
+            return StructuralContinuity(page=result.page, status="UNKNOWN", evidence=selected,
+                diagnostics=("INSUFFICIENT_STRUCTURAL_BOUNDARY_EVIDENCE",))
     if state.incoming_item_key is not None:
         adjacent = bool(previous and previous.status == "VALID"
                         and previous.page.tender_id == result.page.tender_id

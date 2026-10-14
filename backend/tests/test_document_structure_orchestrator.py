@@ -1450,7 +1450,7 @@ def test_post_link_continuity_conflict_marks_resolved_page_review_required() -> 
         assert page3_result.status == "REVIEW_REQUIRED"
         assert page3_result.selected_source_method is None
         assert page3_result.review_required is True
-        assert page3_result.reason == "UNPROVEN_CONTINUITY_BOUNDARY"
+        assert page3_result.reason == "STRUCTURAL_BOUNDARY_CONFLICT"
 
         page3_resolution = db.scalar(
             select(DocumentPageStructureResolution).where(DocumentPageStructureResolution.document_page_id == page3.id)
@@ -1458,7 +1458,7 @@ def test_post_link_continuity_conflict_marks_resolved_page_review_required() -> 
         assert page3_resolution is not None
         assert page3_resolution.status == "REVIEW_REQUIRED"
         assert page3_resolution.review_required is True
-        assert page3_resolution.reason == "UNPROVEN_CONTINUITY_BOUNDARY"
+        assert page3_resolution.reason == "STRUCTURAL_BOUNDARY_CONFLICT"
 
         segments = db.execute(
             select(TenderScopeSegment)
@@ -1475,7 +1475,7 @@ def test_post_link_continuity_conflict_marks_resolved_page_review_required() -> 
         db.close()
 
 
-def test_explicit_start_top_of_page_does_not_trigger_continuity_conflict() -> None:
+def test_explicit_start_does_not_discard_previous_unclosed_group() -> None:
     tender_id = _create_tender("orchestrator continuity explicit start", "MVP-627-RECON-002")
     document_id = _import_pdf(tender_id, "orchestrator-continuity-explicit-start.pdf")
 
@@ -1519,9 +1519,9 @@ def test_explicit_start_top_of_page_does_not_trigger_continuity_conflict() -> No
         db.commit()
 
         page2_result = next(row for row in result.page_results if row.page_number == 2)
-        assert page2_result.status == "RESOLVED"
-        assert page2_result.review_required is False
-        assert page2_result.reason == "CONSISTENT_VALID_CANDIDATE"
+        assert page2_result.status == "REVIEW_REQUIRED"
+        assert page2_result.review_required is True
+        assert page2_result.reason == "STRUCTURAL_BOUNDARY_CONFLICT"
 
         page2_segment = db.scalar(
             select(TenderScopeSegment).where(
@@ -1530,9 +1530,7 @@ def test_explicit_start_top_of_page_does_not_trigger_continuity_conflict() -> No
                 TenderScopeSegment.sequence_index == 0,
             )
         )
-        assert page2_segment is not None
-        assert page2_segment.link_reason == "EXPLICIT_ITEM_START"
-        assert page2_segment.review_required is False
+        assert page2_segment is None
     finally:
         db.close()
 
@@ -2293,8 +2291,9 @@ def test_mixed_provider_full_document_routes_all_pages_through_neutral_scope_lin
         ).scalars().all()
         methods_by_page = {segment.page_number: segment.source_method for segment in segments}
         assert methods_by_page[1] == "NATIVE_TEXT"
-        assert methods_by_page[2] == "VISION"
+        assert 2 not in methods_by_page
         assert methods_by_page[3] == "OCR"
-        assert methods_by_page[4] == "NATIVE_TEXT"
+        assert 4 not in methods_by_page
+        assert [r.status for r in result.page_results] == ["RESOLVED", "REVIEW_REQUIRED", "RESOLVED", "REVIEW_REQUIRED"]
     finally:
         db.close()

@@ -169,7 +169,8 @@ def replay_batch(observations: list[Observation], database_url: str, references=
                     result=load_page_structure(db,doc,page)
                     result=guard_structure(result,page_identifier_comparisons(transcriptions[page.id],result))
                     previous=advance_continuity(result,previous)
-                    struct_results.append({'page':page.page_number,'routing':result.status,'continuity':previous.status,
+                    struct_results.append({'page':page.page_number,'routing':('REVIEW_REQUIRED' if result.status == 'RESOLVED' and previous.status != 'VALID' else result.status),'continuity':previous.status,
+                        'continuity_diagnostics':list(previous.diagnostics),
                         'outgoing_item_key':previous.outgoing_item_key,
                         'stale_carry':previous.status=='UNKNOWN' and previous.outgoing_item_key is not None,
                         'candidates':[s.model_dump(mode='json') for s in result.candidates]})
