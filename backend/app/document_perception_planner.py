@@ -149,3 +149,83 @@ def plan_document_ocr_tasks(db, *, tender_id: str, document_id: str, requests,
             plans.append(replace(plan, source_identity=(document.tender_id, document.id,
                 f'{document.revision_number}:{document.sha256}')))
     return tuple(plans)
+
+
+@dataclass(frozen=True)
+class VisionTaskRequest:
+    request: TaskRequest
+    vision_task: str
+    # Explicit evidence binding; a failure or low score is never this proof.
+    visual_region_id: str | None = None
+    visual_reason: str | None = None
+
+
+@dataclass(frozen=True)
+class VisionPlan:
+    perception: PerceptionPlan
+    task: VisionTaskRequest
+    eligible: bool
+    status: str
+    reason: str
+    evidence_signature: str
+
+
+def plan_document_vision_tasks(db, *, tender_id: str, document_id: str, requests,
+                               execution_policy: str = 'AVAILABLE_ONLY'):
+    """Pure persisted-evidence planning: no render, probes or providers."""
+    from dataclasses import replace
+    from app.models import TenderDocument, DocumentPage, NormalizedContent, PageOcrResult
+    from app.document_intelligence_sources import load_document_transcriptions
+    from sqlalchemy import select
+    document = db.get(TenderDocument, document_id)
+    base = plan_document_ocr_tasks(db, tender_id=tender_id, document_id=document_id,
+        requests={p: tuple(t.request for t in tasks) for p,tasks in requests.items()},
+        execution_policy=execution_policy)
+    routes = load_document_transcriptions(db, document)
+    plans = []
+    index = 0
+    for page_id,tasks in requests.items():
+        page = db.get(DocumentPage, page_id)
+        for task in tasks:
+            if task.vision_task not in {'STRUCTURE_SCOPE','DETAIL_TRANSCRIPTION'}:
+                raise ValueError('UNSUPPORTED_VISION_TASK')
+            if (task.request.task == PerceptionTask.STRUCTURE) != (task.vision_task == 'STRUCTURE_SCOPE'):
+                raise ValueError('VISION_TASK_CAPABILITY_MISMATCH')
+            p = base[index]; index += 1
+            evidence = []
+            sufficient = p.native_sufficient
+            for n in db.scalars(select(NormalizedContent).where(NormalizedContent.document_page_id == page_id)):
+                if n.source_type not in {'OCR','NATIVE_TEXT','NATIVE_PDF'}:
+                    continue
+                if hashlib.sha256(n.normalized_text.encode()).hexdigest() != n.content_sha256:
+                    raise ValueError('PERCEPTION_GENERATION_HASH_MISMATCH')
+                evidence.append((n.id,n.content_sha256))
+                if n.source_type != 'OCR' or not n.page_ocr_result_id:
+                    continue
+                row = db.get(PageOcrResult, n.page_ocr_result_id)
+                from app.content_normalization import _normalize_text
+                if (row is None or row.status != 'OCR_TEXT_EXTRACTED'
+                        or _normalize_text(row.text) != n.normalized_text):
+                    continue
+                target_region = task.request.region_id or (task.visual_region_id if task.request.visual_relationships_required else None)
+                if target_region and row.region_id != target_region:
+                    continue
+                # Evaluate the same bounded task contract, without assuming spatial recovery.
+                probe = plan_ocr(page_id=page_id,page_number=page.page_number,native_text=n.normalized_text,
+                    image_region_ids=(),request=replace(task.request,region_id=None,visual_relationships_required=False))
+                if not task.request.visual_relationships_required:
+                    sufficient |= probe.native_sufficient
+            signature = hashlib.sha256(repr(sorted(evidence)).encode()).hexdigest()
+            proven = (task.request.visual_relationships_required and task.visual_reason in {
+                'SPATIAL_RELATIONSHIP','TABLE_RELATIONSHIP','GRAPHICAL_STRUCTURE'} and
+                any(r.id == task.visual_region_id and r.region_type == 'IMAGE' for r in page.regions))
+            if p.status == 'UNAVAILABLE':
+                eligible,status,reason = False,'UNAVAILABLE',p.reason
+            elif sufficient and not routes[page_id].conflicts:
+                eligible,status,reason = False,'SUFFICIENT_FOR_TASK','NATIVE_OCR_SUFFICIENT'
+            elif proven:
+                eligible,status,reason = True,'VISUAL_CAPABILITY_PENDING','PROVEN_TASK_VISUAL_DEFICIT'
+            else:
+                eligible,status,reason = False,'REVIEW_REQUIRED','NO_PROVEN_VISUAL_SEMANTIC_DEFICIT'
+            plans.append(VisionPlan(p,task,eligible,status,reason,signature))
+    return tuple(plans)
