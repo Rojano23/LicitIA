@@ -1113,7 +1113,7 @@ def test_unique_structural_segment_inheritance_resolves_ownership() -> None:
 
     db = SessionLocal()
     try:
-        page = _seed_page(db, document_id, 4, "PARTIDA 2")
+        page = _seed_page(db, document_id, 4, "PARTIDA 2\nSuministro de componentes")
         page_result = _seed_vision_result(
             db,
             tender_id=tender_id,
@@ -1248,7 +1248,7 @@ def test_explicit_conflict_remains_fail_closed_and_semantic_review_is_preserved(
 
     db = SessionLocal()
     try:
-        page = _seed_page(db, document_id, 7, "PARTIDA 2")  # Ground the current structural identity.
+        page = _seed_page(db, document_id, 7, "PARTIDA 2\nSuministro de componentes")  # Ground the current structural identity.
         page_result = _seed_vision_result(
             db,
             tender_id=tender_id,

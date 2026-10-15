@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Iterable, Sequence
 
 from app.item_identity import ITEM_IDENTITY_DETERMINED, NormalizedItemIdentity, normalize_item_identity
@@ -124,6 +124,64 @@ def _extract_explicit_item_starts(text: str) -> list[NormalizedItemIdentity]:
     return identities
 
 
+def _has_procurement_identity(text: str, match: re.Match[str]) -> bool:
+    """Positive row evidence, distinct from recognizing a number/column label.
+
+    Text flattened across columns cannot establish a label-to-number binding.
+    Explicit item declarations need a description; generic labels additionally
+    need quantity/unit fields bound to that row, not keywords elsewhere on a page.
+    """
+    anchor = match.group(0).strip()
+    if "\n" in anchor or "\r" in anchor:
+        return False
+    explicit_item_label = bool(re.match(r"(?i)^(?:PARTIDA|I[TÍ]EM|ITEM)\b", anchor))
+    remaining_lines = text[match.end():].splitlines()
+    tail = (remaining_lines[0] if remaining_lines else "").strip(" .:\t|;-–")
+    if not tail and explicit_item_label and len(remaining_lines) > 1:
+        # The label and identifier are bound on one line; a following description
+        # is legitimate. This never binds a generic column heading to another row.
+        tail = remaining_lines[1].strip(" .:\t|;-–")
+    if not re.search(r"[^\W\d_]", tail, re.UNICODE):
+        return False
+    if "?" in tail or "¿" in tail or re.search(r"\.{2,}\s*\d+\s*$", tail):
+        return False
+    if explicit_item_label:
+        return True
+    # Require explicit field/value bindings, not a page-level catalog score.
+    if (re.search(r"(?i)\b(?:cantidad|quantity|qty)\s*:\s*\d+(?:[.,]\d+)?\b", tail)
+            and re.search(r"(?i)\b(?:unidad|unit)\s*:\s*[a-záéíóú]+\b", tail)):
+        return True
+    # A delimited row may bind values through its immediately preceding header.
+    prior = text[:match.start()].rstrip().splitlines()
+    if not prior:
+        return False
+    row = anchor + (remaining_lines[0] if remaining_lines else "")
+    for delimiter in ("|", "\t"):
+        headers = [cell.strip().casefold() for cell in prior[-1].split(delimiter)]
+        values = [cell.strip() for cell in row.split(delimiter)]
+        if len(headers) != len(values):
+            continue
+        quantity = next((i for i, h in enumerate(headers) if h in {"cantidad", "quantity", "qty"}), None)
+        unit = next((i for i, h in enumerate(headers) if h in {"unidad", "unit"}), None)
+        if quantity is not None and unit is not None:
+            if re.fullmatch(r"\d+(?:[.,]\d+)?", values[quantity]) and re.fullmatch(r"[^\W\d_]+\.?", values[unit]):
+                return True
+    return False
+
+
+def _identity_review_candidate(*, text: str, page_number: int, source_method: str,
+                              source_analysis_id: str | None, source_page_result_id: str | None,
+                              source_contract_version: str) -> StructuralCandidate:
+    candidate = _unknown_candidate(page_number=page_number, source_method=source_method,
+        source_analysis_id=source_analysis_id, source_page_result_id=source_page_result_id,
+        source_contract_version=source_contract_version, reason="INSUFFICIENT_PROCUREMENT_ITEM_IDENTITY")
+    segments = tuple(PageStructuralSegment(item_identity=_identity_for_match(m.group(1)),
+        starts_on_this_page=True, sequence=i, anchor_raw_text=m.group(0).strip(), review_required=True)
+        for i, m in enumerate(_EXPLICIT_ITEM_START_RE.finditer(text))
+        if _identity_for_match(m.group(1)).state == ITEM_IDENTITY_DETERMINED)
+    return replace(candidate, page_state=replace(candidate.page_state, segments=segments))
+
+
 def _has_continuation_marker(text: str) -> bool:
     return bool(_CONTINUATION_MARKER_RE.search(text or ""))
 
@@ -183,6 +241,13 @@ def structural_candidate_from_native_text(
             reason="NATIVE_NO_EXPLICIT_ITEM_START",
         )
 
+    eligible = [m for m in _EXPLICIT_ITEM_START_RE.finditer(native_text)
+                if _has_procurement_identity(native_text, m)]
+    if not eligible:
+        return _identity_review_candidate(text=native_text, page_number=page_number,
+            source_method=PAGE_STRUCTURE_SOURCE_METHOD_NATIVE_TEXT, source_analysis_id=source_analysis_id,
+            source_page_result_id=source_page_result_id, source_contract_version="NATIVE_TEXT_V1")
+    explicit_starts = [_identity_for_match(m.group(1)) for m in eligible]
     unique_keys = {identity.normalized_key for identity in explicit_starts if identity.normalized_key is not None}
     if _has_continuation_marker(native_text):
         return _unknown_candidate(
@@ -212,7 +277,7 @@ def structural_candidate_from_native_text(
         source_analysis_id=source_analysis_id,
         source_page_result_id=source_page_result_id,
         source_contract_version="NATIVE_TEXT_V1",
-        source_excerpt=_EXPLICIT_ITEM_START_RE.search(native_text).group(0).strip(),
+        source_excerpt=eligible[0].group(0).strip(),
     )
     return StructuralCandidate(
         source_method=PAGE_STRUCTURE_SOURCE_METHOD_NATIVE_TEXT,
@@ -257,6 +322,14 @@ def structural_candidate_from_ocr_evidence(
             reason="OCR_NO_EXPLICIT_ITEM_START",
         )
 
+    eligible = [(item, m) for item in evidence_list for m in _EXPLICIT_ITEM_START_RE.finditer(item.text)
+                if _has_procurement_identity(item.text, m)]
+    if not eligible:
+        source = next(item for item in evidence_list if _EXPLICIT_ITEM_START_RE.search(item.text))
+        return _identity_review_candidate(text="\n".join(item.text for item in evidence_list), page_number=page_number,
+            source_method=PAGE_STRUCTURE_SOURCE_METHOD_OCR, source_analysis_id=source_analysis_id,
+            source_page_result_id=source.page_ocr_result_id, source_contract_version="OCR_TEXT_V1")
+    explicit_starts = [_identity_for_match(m.group(1)) for _, m in eligible]
     unique_keys = {identity.normalized_key for identity in explicit_starts if identity.normalized_key is not None}
     if has_continuation_marker:
         return _unknown_candidate(
@@ -278,7 +351,7 @@ def structural_candidate_from_ocr_evidence(
             reason="OCR_AMBIGUOUS_ITEM_OWNERSHIP",
         )
 
-    evidence = evidence_list[0]
+    evidence, anchor = eligible[0]
     identity = explicit_starts[0]
     state = _valid_single_segment_state(
         page_number=page_number,
@@ -287,7 +360,7 @@ def structural_candidate_from_ocr_evidence(
         source_analysis_id=source_analysis_id,
         source_page_result_id=evidence.page_ocr_result_id,
         source_contract_version="OCR_TEXT_V1",
-        source_excerpt=next(_EXPLICIT_ITEM_START_RE.search(item.text).group(0).strip() for item in evidence_list if _EXPLICIT_ITEM_START_RE.search(item.text)),
+        source_excerpt=anchor.group(0).strip(),
     )
     return StructuralCandidate(
         source_method=PAGE_STRUCTURE_SOURCE_METHOD_OCR,
