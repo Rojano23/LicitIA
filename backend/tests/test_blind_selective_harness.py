@@ -171,6 +171,7 @@ def test_no_budget_increase(profile):
 @pytest.fixture
 def frozen_context(tmp_path,monkeypatch,profile):
     import app.blind_selective_freeze as f
+    monkeypatch.setattr(f,'storage_identity',lambda **kw:dict(schema_version='BLIND_STORAGE_ROOT_001',canonical_data_root=str(tmp_path)))
     identity=dict(head='a'*40,tracked_clean=True,code_sha256={'synthetic':'b'*64},code_manifest_sha256='c'*64)
     empty=dict(database='licitia_validation_06v',revision=profile.alembic_revision,tender_count=0,document_count=0)
     availability={'inference_calls':0,'synthetic':True}
@@ -189,6 +190,7 @@ def test_BH15_complete_freeze(frozen_context,profile):
     f,directory,root,_,_=frozen_context
     payload=f.read_evidence(directory/'pre_execution.json')
     assert payload['profile']==profile.model_dump(mode='json')
+    assert payload['storage']==dict(schema_version='BLIND_STORAGE_ROOT_001',canonical_data_root=str(root))
     assert payload['versions']['vision_fingerprint']=='selective-vision-v1'
     assert payload['versions']['structure_schema_sha256']
     with pytest.raises(FileExistsError):

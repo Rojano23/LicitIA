@@ -15,8 +15,9 @@ from app.document_intelligence_blind_run import canonical_bytes,sha256,PROTECTED
 from app.document_intelligence_validation_metrics import database_identity
 
 from app.blind_schema_drift import observe_schema_drift,verify_accepted_drift
+from app.blind_environment import storage_identity
 
-FREEZE_VERSION='DI_SELECTIVE_FREEZE_002'
+FREEZE_VERSION='DI_SELECTIVE_FREEZE_003'
 
 
 def exclusive_json(path,payload):
@@ -112,6 +113,7 @@ def implementation_versions():
 
 def create_pre_execution_freeze(db,*,root,output_root,run_id,profile,availability):
     if not re.fullmatch(r'[A-Za-z0-9_-]{1,80}',run_id):raise ValueError('INVALID_RUN_ID')
+    storage=storage_identity()
     identity=code_identity(root)
     database=database_identity(db)
     if (database['database']!=profile.database_name or database['revision']!=profile.alembic_revision
@@ -122,7 +124,7 @@ def create_pre_execution_freeze(db,*,root,output_root,run_id,profile,availabilit
     drift=verify_accepted_drift(observe_schema_drift(db))
     payload=dict(schema_version=FREEZE_VERSION,run_id=run_id,created_at=datetime.now(timezone.utc).isoformat(),
         code=identity,profile=profile.model_dump(mode='json'),versions=implementation_versions(),
-        database=database,availability=availability,schema_drift=drift)
+        database=database,availability=availability,schema_drift=drift,storage=storage)
     directory=output_root/run_id;directory.mkdir(parents=True,exist_ok=False)
     write_evidence(directory/'pre_execution.json',payload)
     return directory
@@ -132,6 +134,9 @@ def verify_execution_identity(directory,root,profile,*,db=None):
     frozen=read_evidence(directory/'pre_execution.json')
     if frozen.get('schema_version')!=FREEZE_VERSION or not isinstance(frozen.get('schema_drift'),dict):
         raise ValueError('CURRENT_DRIFT_FREEZE_CONTRACT_REQUIRED')
+    storage=frozen.get('storage')
+    if not isinstance(storage,dict) or storage!=storage_identity(expected=storage.get('canonical_data_root')):
+        raise ValueError('FROZEN_STORAGE_CONTRACT_REQUIRED')
     if frozen['profile']!=profile.model_dump(mode='json') or frozen['code']!=code_identity(root):
         raise ValueError('FROZEN_CODE_OR_PROFILE_CHANGED')
     if frozen['versions']!=implementation_versions():raise ValueError('POLICY_VERSION_CHANGED')
@@ -140,6 +145,7 @@ def verify_execution_identity(directory,root,profile,*,db=None):
 
 
 def input_identity(db,*,tender_id):
+    storage_identity()
     from app.models import Tender,TenderDocument,DocumentPage,NormalizedContent,PageOcrResult,DocumentVisionAnalysis
     if db.get(Tender,tender_id) is None:raise ValueError('IMPORTED_TENDER_REQUIRED')
     documents=db.scalars(select(TenderDocument).where(TenderDocument.tender_id==tender_id).order_by(TenderDocument.id)).all()

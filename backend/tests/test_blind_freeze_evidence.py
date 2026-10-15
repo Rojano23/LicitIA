@@ -13,6 +13,11 @@ from test_selective_ocr_recovery import scene
 from test_document_intelligence_integration import corpus
 
 
+@pytest.fixture(autouse=True)
+def synthetic_storage_observation(monkeypatch):
+    monkeypatch.setattr("app.blind_selective_freeze.storage_identity", lambda **kw: {"schema_version":"BLIND_STORAGE_ROOT_001","canonical_data_root":"/synthetic"})
+
+
 def identity(scene):
     db,tender,document,_=scene[0]
     document.file_size_bytes=(scene[4]/'synthetic.pdf').stat().st_size
@@ -46,7 +51,7 @@ def test_FB03_filename_not_in_task_or_perception_identity(scene):
 def test_FB04_pre_freeze_records_drift_and_revision(frozen_context):
     f,directory,*_=frozen_context
     data=read_evidence(directory/'pre_execution.json')
-    assert data['schema_version']=='DI_SELECTIVE_FREEZE_002'
+    assert data['schema_version']=='DI_SELECTIVE_FREEZE_003'
     assert data['schema_drift']==ACCEPTED_DRIFT.model_dump(mode='json')
     assert data['database']['revision']==ACCEPTED_DRIFT.current_revision[0]
 

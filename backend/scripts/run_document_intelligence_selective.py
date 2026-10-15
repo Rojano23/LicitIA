@@ -34,16 +34,10 @@ def main(argv=None):
     import re
     if args.run_id and not re.fullmatch(r'[A-Za-z0-9_-]{1,80}',args.run_id):
         raise ValueError('Safe run identity required')
+    from app.blind_environment import establish_environment
+    establish_environment(database_url=args.database_url, data_dir=args.data_dir)
     from sqlalchemy.engine import make_url
     url=make_url(args.database_url)
-    if url.database!='licitia_validation_06v' or url.host not in {'localhost','127.0.0.1'}:
-        raise ValueError('Dedicated local validation DB required')
-    if args.data_dir.resolve() in {(ROOT/'.licitia-data').resolve(),(ROOT/'.licitia-data-test').resolve()}:
-        raise ValueError('Isolated validation filesystem required')
-    os.environ['DATABASE_URL']=args.database_url
-    os.environ['LICITIA_DATA_DIR']=str(args.data_dir.resolve())
-    # Block other automatic AI layers; accepted selective clients are explicit only.
-    os.environ['LICITIA_LOCAL_AI_ENABLED']='false'
     from app.blind_selective_profile import SelectiveProfile
     from app.blind_selective_freeze import (runtime_preflight,create_pre_execution_freeze,
         bind_import,execute_frozen_run)

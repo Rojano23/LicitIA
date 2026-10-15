@@ -215,10 +215,10 @@ app.add_middleware(
 
 
 def get_licitia_data_root() -> Path:
-    configured_root = Path(get_settings().licitia_data_dir)
-    if not configured_root.is_absolute():
-        configured_root = Path(__file__).resolve().parents[1] / configured_root
-    configured_root.mkdir(parents=True, exist_ok=True)
+    from app.blind_environment import verify_storage_root, ROOT_VARIABLE
+    configured_root = verify_storage_root(get_settings().licitia_data_dir, writable=True)
+    if not os.environ.get(ROOT_VARIABLE):
+        configured_root.mkdir(parents=True, exist_ok=True)
     return configured_root
 
 
@@ -263,6 +263,8 @@ def _store_uploaded_file(tender_id: str, upload: UploadFile, source_relative_pat
     document_id = str(uuid4())
     safe_name = _safe_filename(upload.filename or "document.bin")
     storage_dir = data_root / "tenders" / tender_id / "originals" / document_id
+    if os.environ.get("LICITIA_BLIND_DATA_ROOT") and not storage_dir.resolve().is_relative_to(data_root):
+        raise ValueError("BLIND_ORIGINAL_OUTSIDE_DATA_ROOT")
     storage_dir.mkdir(parents=True, exist_ok=True)
     destination = storage_dir / safe_name
 
