@@ -70,7 +70,9 @@ def _default_adapters() -> tuple[ScopeDetailAdapter, ...]:
 
     from app.native_scope_detail_adapter import NativeScopeDetailAdapter
 
-    return (VisionScopeDetailAdapter(), NativeScopeDetailAdapter())
+    from app.ocr_scope_adapters import OcrScopeDetailAdapter
+
+    return (VisionScopeDetailAdapter(), NativeScopeDetailAdapter(), OcrScopeDetailAdapter())
 
 
 def adapt_and_persist_scope_detail_artifact(

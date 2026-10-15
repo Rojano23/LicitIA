@@ -122,6 +122,10 @@ def _enumerate_persisted_artifacts_for_document(
         page = page_by_id.get(ocr_row.document_page_id)
         if page is None:
             continue
+        normalized_ocr = db.scalars(select(NormalizedContent).where(
+            NormalizedContent.page_ocr_result_id == ocr_row.id,
+            NormalizedContent.source_type == 'OCR')).all()
+        normalized_ocr_id = normalized_ocr[0].id if len(normalized_ocr) == 1 else None
         active.append(
             _EnumeratedArtifact(
                 page_number=page.page_number,
@@ -136,6 +140,7 @@ def _enumerate_persisted_artifacts_for_document(
                     source_locator=_ocr_source_locator(page.page_number, ocr_row.scope, ocr_row.region_id),
                     payload={
                         "text": ocr_row.text,
+                        "normalized_content_id": normalized_ocr_id,
                         "engine": ocr_row.engine,
                         "engine_version": ocr_row.engine_version,
                         "scope": ocr_row.scope,

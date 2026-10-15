@@ -115,10 +115,12 @@ def materialize_document_scope_details(
         from app.scope_di_adapter import NeutralScopeSemanticAdapter
         from app.scope_detail_adapters import _default_adapters
         from app.native_scope_detail_adapter import NativeScopeDetailAdapter
+        from app.ocr_scope_adapters import OcrScopeDetailAdapter
+        textual_adapters = (NativeScopeDetailAdapter, OcrScopeDetailAdapter)
         configured = tuple(adapters or _default_adapters())
-        adapters = (tuple(a for a in configured if not isinstance(a, NativeScopeDetailAdapter))
+        adapters = (tuple(a for a in configured if not isinstance(a, textual_adapters))
                     + (NeutralScopeSemanticAdapter(tuple(semantic_providers)),)
-                    + tuple(a for a in configured if isinstance(a, NativeScopeDetailAdapter)))
+                    + tuple(a for a in configured if isinstance(a, textual_adapters)))
 
     artifact_results: list[ScopeDetailMaterializationArtifactResult] = []
     artifacts_supported = 0

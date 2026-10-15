@@ -112,7 +112,7 @@ def _delete_chunks_for_content(db: Session, normalized_content_id: str) -> None:
     db.flush()
 
 
-def process_document_normalization(db: Session, document: Any) -> dict[str, int]:
+def process_document_normalization(db: Session, document: Any, *, ocr_result_ids: frozenset[str] | None = None) -> dict[str, int]:
     page_records = db.execute(
         select(DocumentPage)
         .options(selectinload(DocumentPage.ocr_results))
@@ -129,6 +129,9 @@ def process_document_normalization(db: Session, document: Any) -> dict[str, int]
 
     for page_record in page_records:
         for source in _iter_sources_for_page(page_record):
+            # Selective acquisition must not rewrite Native/other completed sources.
+            if ocr_result_ids is not None and source['page_ocr_result_id'] not in ocr_result_ids:
+                continue
             source_text = _normalize_text(source["raw_text"])
             if not source_text:
                 skipped_empty_sources += 1

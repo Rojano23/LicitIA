@@ -229,13 +229,17 @@ def _resolve_scope_quantity_evidence_artifact(
         if ocr_row.document_page_id != scope_detail.document_page_id:
             raise ValueError("source artifact OCR result is outside scope detail page")
 
-        payload = {
-            "text": ocr_row.text,
-            "engine": ocr_row.engine,
-            "engine_version": ocr_row.engine_version,
-            "scope": ocr_row.scope,
-            "region_id": ocr_row.region_id,
-        }
+        from app.ocr_scope_evidence import resolve_ocr_scope_payload
+        if '|ocr_scope:1|' in scope_detail.source_locator:
+            payload = resolve_ocr_scope_payload(db, scope_detail)
+        else:
+            payload = {
+                "text": ocr_row.text,
+                "engine": ocr_row.engine,
+                "engine_version": ocr_row.engine_version,
+                "scope": ocr_row.scope,
+                "region_id": ocr_row.region_id,
+            }
         source_analysis_id = None
         source_page_result_id = None
 
