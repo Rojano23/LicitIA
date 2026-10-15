@@ -61,3 +61,17 @@ El guard registra rechazos con calls0 y los trata como violación dura de protoc
 Recibos/eventos congelados se retienen hasta aceptación humana y sólo se eliminan por
 acción explícita; no son un stream indefinido. No se convierte éxito operacional o
 mocks en calidad semántica real. No hay nuevo run_id/freeze real en este slice.
+
+## Refinamiento V.5a.1 — evidencia del freeze
+
+El contrato selectivo002 exige evidencia de drift aceptado: current/head072,
+59 operaciones de índice (55 add/4 remove), algoritmo normalizado versionado y
+firma `3abb0337a79b5faf56c2ced30e69d4482c47ab17e7e2fc925156ad59f760dde7`.
+El observador Alembic usa conexión sólo lectura; revisión igual no sustituye
+comparación de firma/conteo. Crear/verificar con baseline distinto o ausente falla
+cerrado. No afecta el contrato ni los artefactos del modo ciego histórico.
+
+El binding post-import conserva original_filename exactamente como metadata de
+identidad. No lo usa para semántica, planning ni logical procurement identity.
+Se mantienen hashes/tamaños/MIME independientes y unicidad documental existente.
+Este refinamiento sólo cierra evidencia; no cambia percepción, tareas o budgets.

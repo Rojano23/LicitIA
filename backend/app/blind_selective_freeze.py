@@ -14,7 +14,9 @@ from app.blind_selective_profile import SelectiveProfile,PROFILE_VERSION,TASK_PO
 from app.document_intelligence_blind_run import canonical_bytes,sha256,PROTECTED
 from app.document_intelligence_validation_metrics import database_identity
 
-FREEZE_VERSION='DI_SELECTIVE_FREEZE_001'
+from app.blind_schema_drift import observe_schema_drift,verify_accepted_drift
+
+FREEZE_VERSION='DI_SELECTIVE_FREEZE_002'
 
 
 def exclusive_json(path,payload):
@@ -117,19 +119,23 @@ def create_pre_execution_freeze(db,*,root,output_root,run_id,profile,availabilit
         raise ValueError('EMPTY_VALIDATION_DATABASE_REQUIRED')
     if availability.get('inference_calls')!=0 or availability!=runtime_preflight(profile):
         raise ValueError('NON_INFERENCE_PREFLIGHT_REQUIRED')
+    drift=verify_accepted_drift(observe_schema_drift(db))
     payload=dict(schema_version=FREEZE_VERSION,run_id=run_id,created_at=datetime.now(timezone.utc).isoformat(),
         code=identity,profile=profile.model_dump(mode='json'),versions=implementation_versions(),
-        database=database,availability=availability)
+        database=database,availability=availability,schema_drift=drift)
     directory=output_root/run_id;directory.mkdir(parents=True,exist_ok=False)
     write_evidence(directory/'pre_execution.json',payload)
     return directory
 
 
-def verify_execution_identity(directory,root,profile):
+def verify_execution_identity(directory,root,profile,*,db=None):
     frozen=read_evidence(directory/'pre_execution.json')
+    if frozen.get('schema_version')!=FREEZE_VERSION or not isinstance(frozen.get('schema_drift'),dict):
+        raise ValueError('CURRENT_DRIFT_FREEZE_CONTRACT_REQUIRED')
     if frozen['profile']!=profile.model_dump(mode='json') or frozen['code']!=code_identity(root):
         raise ValueError('FROZEN_CODE_OR_PROFILE_CHANGED')
     if frozen['versions']!=implementation_versions():raise ValueError('POLICY_VERSION_CHANGED')
+    verify_accepted_drift(observe_schema_drift(db),frozen=frozen['schema_drift'])
     return frozen
 
 
@@ -142,7 +148,7 @@ def input_identity(db,*,tender_id):
     for document in documents:
         path=_verified_path(document)
         if path.stat().st_size!=document.file_size_bytes:raise ValueError('ORIGINAL_SIZE_MISMATCH')
-        identities.append(dict(id=document.id,sha256=document.sha256,size=document.file_size_bytes,
+        identities.append(dict(id=document.id,original_filename=document.original_filename,sha256=document.sha256,size=document.file_size_bytes,
             mime=document.mime_type,revision=document.revision_number))
     ids=[d.id for d in documents]
     pages=db.scalars(select(DocumentPage).where(DocumentPage.document_id.in_(ids)).order_by(DocumentPage.id)).all()
@@ -155,7 +161,7 @@ def input_identity(db,*,tender_id):
 
 
 def bind_import(db,*,directory,root,profile,tender_id):
-    frozen=verify_execution_identity(directory,root,profile)
+    frozen=verify_execution_identity(directory,root,profile,db=db)
     database=database_identity(db)
     if database['database']!=profile.database_name or database['revision']!=profile.alembic_revision or database['tender_count']!=1:
         raise ValueError('ISOLATED_IMPORTED_DATABASE_REQUIRED')
@@ -167,7 +173,7 @@ def bind_import(db,*,directory,root,profile,tender_id):
 
 def execute_frozen_run(db,*,directory,root,profile,authorized=False,**test_clients):
     if not authorized:raise PermissionError('EXACT_RUN_AUTHORIZATION_REQUIRED')
-    frozen=verify_execution_identity(directory,root,profile)
+    frozen=verify_execution_identity(directory,root,profile,db=db)
     binding=read_evidence(directory/'input_binding.json')
     if binding['run_id']!=frozen['run_id'] or binding['pre_execution_sha256']!=sha256((directory/'pre_execution.json').read_bytes()):
         raise ValueError('INPUT_BINDING_MISMATCH')
@@ -187,7 +193,7 @@ def execute_frozen_run(db,*,directory,root,profile,authorized=False,**test_clien
             write_evidence(events/(event.id+'.json'),event.model_dump(mode='json'))
         result=execute_selective_pipeline(db,tender_id=binding['input']['tender_id'],profile=profile,
             event_sink=event_sink,**test_clients)
-        verify_execution_identity(directory,root,profile)
+        verify_execution_identity(directory,root,profile,db=db)
         if input_identity(db,tender_id=binding['input']['tender_id'])['documents']!=binding['input']['documents']:
             raise ValueError('ORIGINAL_INPUT_CHANGED_DURING_EXECUTION')
         evidence=dict(run_id=frozen['run_id'],pre_execution_sha256=sha256((directory/'pre_execution.json').read_bytes()),

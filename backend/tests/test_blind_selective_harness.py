@@ -177,6 +177,8 @@ def frozen_context(tmp_path,monkeypatch,profile):
     monkeypatch.setattr(f,'code_identity',lambda root:identity.copy())
     monkeypatch.setattr(f,'runtime_preflight',lambda p:availability.copy())
     monkeypatch.setattr(f,'database_identity',lambda db:empty.copy())
+    from app.blind_schema_drift import ACCEPTED_DRIFT
+    monkeypatch.setattr(f,'observe_schema_drift',lambda db:ACCEPTED_DRIFT)
     # Unit tests write only synthetic evidence beneath pytest tmp_path, never real blind roots.
     directory=f.create_pre_execution_freeze(None,root=tmp_path,output_root=tmp_path/'synthetic',
         run_id='synthetic-BH',profile=profile,availability=availability)

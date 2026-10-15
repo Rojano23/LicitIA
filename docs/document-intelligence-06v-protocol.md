@@ -318,3 +318,28 @@ Los errores esperados de proveedor se consumen sólo dentro del retry congelado;
 no autorizan reparar código, cambiar motor, prompts ni presupuesto a mitad del pase.
 Retener evidencia hasta aceptación humana; eliminación sólo explícita. Attempts #1/#2,
 sus freezes/first-pass/adjudicación permanecen inmutables.
+
+### V.5a.1 — cierre de evidencia de identidad y drift
+
+El freeze selectivo `DI_SELECTIVE_FREEZE_002` incorpora `schema_drift` explícito:
+revisiones Alembic current/head, algoritmo `ALEMBIC_INDEX_DRIFT_001`, conteo59,
+operaciones55 add_index/4 remove_index y firma normalizada aceptada
+`3abb0337a79b5faf56c2ced30e69d4482c47ab17e7e2fc925156ad59f760dde7`.
+Se obtiene con Alembic MigrationContext/compare_metadata (compare_type=True), la
+misma metadata y normalización de índices de la certificación previa, sobre una
+conexión independiente `TRANSACTION READ ONLY`. No genera/aplica migraciones ni
+repara drift. Una operación ajena a índices, cambio de revisión/head, conteo,
+firma u operaciones bloquea creación/verificación. Se verifica al crear el
+pre-freeze, al vincular importación y antes/después de ejecución. Falta de evidencia
+o contrato anterior no puede aceptarse silenciosamente como freeze selectivo002.
+BlindConfig, manifest y verificador históricos permanecen sin cambios.
+
+Cada documento de input_binding incluye ahora `original_filename` exacto junto
+a id, MIME, tamaño, SHA-256 y revisión; Tender/generaciones permanecen en su
+representación existente. Un cambio sólo de nombre altera el digest y bloquea
+verificación del input vinculado, sin normalizar nombres ni afectar planners,
+fingerprints de percepción, identidad lógica, elegibilidad, confianza o extracción.
+La unicidad canónica `(tender_id, sha256)` sigue vigente: no se crean documentos
+duplicados artificialmente para conservar otro nombre.
+El input binding no modifica el pre-freeze. No cambian perfil, proveedores,
+contratos de tarea ni presupuestos. Esta corrección no crea un intento real.
