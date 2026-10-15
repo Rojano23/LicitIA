@@ -4,7 +4,7 @@ import hashlib
 from dataclasses import dataclass
 from typing import Sequence
 
-from sqlalchemy import delete
+from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from app.models import TenderScopeDetail
@@ -91,28 +91,8 @@ def _optional_text(value: str | None) -> str | None:
 
 
 def _fingerprint_for_candidate(candidate: ScopeDetailCandidate) -> str:
-    payload = "|".join(
-        [
-            candidate.tender_id,
-            candidate.source_document_id,
-            candidate.document_page_id,
-            candidate.domain,
-            candidate.detail_type or "",
-            candidate.description,
-            candidate.normalized_label or "",
-            candidate.applicability,
-            candidate.scope_segment_id or "",
-            candidate.tender_item_id or "",
-            candidate.candidate_item_key or "",
-            candidate.source_method,
-            candidate.source_artifact_key,
-            candidate.source_locator,
-            candidate.source_excerpt,
-            candidate.quantity_raw if candidate.quantity_raw is not None else "",
-            candidate.unit_raw if candidate.unit_raw is not None else "",
-        ]
-    )
-    return _sha256(payload)
+    from app.scope_logical_identity import logical_fingerprint
+    return logical_fingerprint(candidate)
 
 
 def _validate_candidate(candidate: ScopeDetailCandidate) -> None:
@@ -152,17 +132,31 @@ def replace_scope_details_for_artifact(
     document_page_id: str,
     source_artifact_key: str,
     candidates: Sequence[ScopeDetailCandidate],
+    reuse_unchanged: bool = False,
 ) -> list[TenderScopeDetail]:
     resolved_artifact_key = _required_text("source_artifact_key", source_artifact_key)
 
-    db.execute(
-        delete(TenderScopeDetail).where(
-            TenderScopeDetail.tender_id == tender_id,
-            TenderScopeDetail.source_document_id == source_document_id,
-            TenderScopeDetail.document_page_id == document_page_id,
-            TenderScopeDetail.source_artifact_key == resolved_artifact_key,
-        )
-    )
+    existing = {row.semantic_fingerprint: row for row in db.scalars(select(TenderScopeDetail).where(
+        TenderScopeDetail.tender_id == tender_id,
+        TenderScopeDetail.source_document_id == source_document_id,
+        TenderScopeDetail.document_page_id == document_page_id,
+        TenderScopeDetail.source_artifact_key == resolved_artifact_key))}
+    # Explicit replacement remains regeneration: human review must become stale.
+    # Only the materializer can retain an unchanged artifact generation on replay.
+    wanted = {_fingerprint_for_candidate(candidate) for candidate in candidates
+              if reuse_unchanged and (row := existing.get(_fingerprint_for_candidate(candidate))) is not None
+              and row.source_locator == candidate.source_locator
+              and row.source_contract_version == candidate.source_contract_version
+              and row.source_analysis_id == candidate.source_analysis_id
+              and row.source_page_result_id == candidate.source_page_result_id
+              and row.scope_segment_id == candidate.scope_segment_id
+              and row.review_required == candidate.review_required
+              and row.confidence == candidate.confidence}
+    for fingerprint, row in existing.items():
+        if fingerprint not in wanted:
+            db.delete(row)
+    existing = {fp: row for fp, row in existing.items() if fp in wanted}
+    db.flush()
 
     persisted: list[TenderScopeDetail] = []
     for candidate in candidates:
@@ -179,7 +173,7 @@ def replace_scope_details_for_artifact(
         if candidate_artifact_key != resolved_artifact_key:
             raise ValueError("Candidate source_artifact_key does not match replacement scope")
 
-        row = TenderScopeDetail(
+        values = dict(
             tender_id=tender_id,
             source_document_id=source_document_id,
             document_page_id=document_page_id,
@@ -204,7 +198,13 @@ def replace_scope_details_for_artifact(
             unit_raw=None if candidate.unit_raw is None else str(candidate.unit_raw),
             semantic_fingerprint=_fingerprint_for_candidate(candidate),
         )
-        db.add(row)
+        row = existing.get(values['semantic_fingerprint'])
+        if row is None:
+            row = TenderScopeDetail(**values)
+            db.add(row)
+        else:
+            for name, value in values.items():
+                setattr(row, name, value)
         persisted.append(row)
 
     db.flush()

@@ -246,11 +246,10 @@ def _resolve_scope_quantity_evidence_artifact(
         if page_id != page.id:
             raise ValueError("source artifact page is outside scope detail page")
 
-        payload = {
-            "text": page.text,
-            "source_type": page.extraction_method,
-            "source_scope": "NATIVE_PAGE",
-        }
+        from app.native_scope_evidence import resolve_native_scope_payload
+        payload = resolve_native_scope_payload(db, scope_detail)
+        payload['valid_scope_identity'] = (scope_detail.applicability == 'ITEM' and bool(
+            scope_detail.candidate_item_key or scope_detail.scope_segment_id or scope_detail.tender_item_id))
         source_analysis_id = None
         source_page_result_id = None
 

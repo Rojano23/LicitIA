@@ -408,8 +408,10 @@ def test_cross_page_artifact_rejected(corpus):
 
 def test_ocr_failure_does_not_delete_native_details(corpus):
     seed(corpus, "NATIVE"); seed(corpus, "OCR")
-    _, rows = scopes(corpus)
-    assert {r.source_method for r in rows} == {"NATIVE", "OCR"}
+    result, rows = scopes(corpus)
+    # Same exact grounded obligation has one logical parent and both observations.
+    assert len(rows) == 1
+    assert len(result.logical_evidence[0][1]) == 2
     db, _, _, page = corpus
     ocr = db.scalar(select(PageOcrResult).where(PageOcrResult.document_page_id == page.id))
     ocr.status = "OCR_FAILED"; db.flush()

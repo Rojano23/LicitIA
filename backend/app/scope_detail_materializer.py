@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, replace
 from typing import Sequence
 
 from sqlalchemy import select
@@ -11,8 +11,9 @@ from app.document_intelligence_sources import PersistedPerceptionArtifact, _enum
 from app.document_intelligence import Capability, RoutingResult, advance_continuity, route_capability
 from app.document_identifier_bindings import guard_structure, page_identifier_comparisons
 from app.scope_semantic_discovery import ScopeSemanticDiscoveryProvider
-from app.models import TenderDocument
+from app.models import TenderDocument, TenderScopeDetail
 from app.scope_details import replace_scope_details_for_artifact
+from app.scope_logical_identity import ScopeLogicalEvidence
 from app.scope_detail_adapters import (
     SCOPE_DETAIL_ADAPTER_STATUS_ADAPTED,
     SCOPE_DETAIL_ADAPTER_STATUS_NO_DETAILS,
@@ -46,6 +47,7 @@ class ScopeDetailMaterializationArtifactResult:
     candidate_count: int
     persisted_count: int
     review_required_count: int
+    errors: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -65,6 +67,7 @@ class ScopeDetailMaterializationResult:
     review_required_count: int
     status: str
     artifact_results: tuple[ScopeDetailMaterializationArtifactResult, ...]
+    logical_evidence: tuple[ScopeLogicalEvidence, ...] = ()
 
 
 def materialize_document_scope_details(
@@ -111,7 +114,11 @@ def materialize_document_scope_details(
     if semantic_providers is not None:
         from app.scope_di_adapter import NeutralScopeSemanticAdapter
         from app.scope_detail_adapters import _default_adapters
-        adapters = tuple(adapters or _default_adapters()) + (NeutralScopeSemanticAdapter(tuple(semantic_providers)),)
+        from app.native_scope_detail_adapter import NativeScopeDetailAdapter
+        configured = tuple(adapters or _default_adapters())
+        adapters = (tuple(a for a in configured if not isinstance(a, NativeScopeDetailAdapter))
+                    + (NeutralScopeSemanticAdapter(tuple(semantic_providers)),)
+                    + tuple(a for a in configured if isinstance(a, NativeScopeDetailAdapter)))
 
     artifact_results: list[ScopeDetailMaterializationArtifactResult] = []
     artifacts_supported = 0
@@ -162,26 +169,47 @@ def materialize_document_scope_details(
                 )
             )
 
+    prepared = []
     for enumerated_artifact in enumerated.active:
         nested_tx = db.begin_nested()
         try:
             adapter_result = adapt_and_persist_scope_detail_artifact(
                 db,
                 _scope_artifact_context(db, enumerated_artifact.artifact, transcriptions, structures),
-                adapters=adapters,
+                adapters=adapters, persist=False,
             )
             nested_tx.commit()
-        except Exception:
+        except Exception as exc:
             nested_tx.rollback()
             adapter_result = ScopeDetailAdapterRunResult(
                 source_artifact_key=enumerated_artifact.artifact.source_artifact_key,
                 adapter_name=None,
                 adapter_version=None,
-                status=SCOPE_DETAIL_ADAPTER_STATUS_UNSUPPORTED,
+                status="INVALID_EVIDENCE",
                 candidate_count=0,
                 persisted_count=0,
-                review_required_count=0,
+                review_required_count=0, errors=(str(exc),),
             )
+        prepared.append((enumerated_artifact, adapter_result))
+
+    from app.scope_logical_identity import reconcile_candidates
+    existing = db.scalars(select(TenderScopeDetail).where(TenderScopeDetail.source_document_id == document_id)).all()
+    chosen, logical_evidence = reconcile_candidates(
+        [c for _, run in prepared for c in run.candidates], existing)
+    for enumerated_artifact, adapter_result in prepared:
+        if adapter_result.status not in {"INVALID_EVIDENCE", SCOPE_DETAIL_ADAPTER_STATUS_UNSUPPORTED}:
+            batch = tuple(c for c in chosen if c.source_artifact_key == adapter_result.source_artifact_key)
+            nested_tx = db.begin_nested()
+            try:
+                rows = replace_scope_details_for_artifact(db, tender_id=tender_id, source_document_id=document_id,
+                    document_page_id=enumerated_artifact.artifact.document_page_id,
+                    source_artifact_key=adapter_result.source_artifact_key, candidates=batch, reuse_unchanged=True)
+                nested_tx.commit()
+                adapter_result = replace(adapter_result, persisted_count=len(rows),
+                    review_required_count=sum(r.review_required for r in rows))
+            except Exception as exc:
+                nested_tx.rollback()
+                adapter_result = replace(adapter_result, status="INVALID_EVIDENCE", errors=(str(exc),))
 
         artifact_results.append(
             ScopeDetailMaterializationArtifactResult(
@@ -192,7 +220,7 @@ def materialize_document_scope_details(
                 status=adapter_result.status,
                 candidate_count=adapter_result.candidate_count,
                 persisted_count=adapter_result.persisted_count,
-                review_required_count=adapter_result.review_required_count,
+                review_required_count=adapter_result.review_required_count, errors=adapter_result.errors,
             )
         )
 
@@ -200,7 +228,7 @@ def materialize_document_scope_details(
         persisted_count += adapter_result.persisted_count
         review_required_count += adapter_result.review_required_count
 
-        if adapter_result.status == SCOPE_DETAIL_ADAPTER_STATUS_UNSUPPORTED:
+        if adapter_result.status in {SCOPE_DETAIL_ADAPTER_STATUS_UNSUPPORTED, "INVALID_EVIDENCE"}:
             artifacts_unsupported += 1
             continue
 
@@ -222,6 +250,9 @@ def materialize_document_scope_details(
         persisted_count=persisted_count,
     )
 
+    if any(r.errors for r in artifact_results):
+        status = "INVALID_EVIDENCE"
+
     return ScopeDetailMaterializationResult(
         tender_id=tender_id,
         document_id=document_id,
@@ -237,7 +268,7 @@ def materialize_document_scope_details(
         persisted_count=persisted_count,
         review_required_count=review_required_count,
         status=status,
-        artifact_results=tuple(artifact_results),
+        artifact_results=tuple(artifact_results), logical_evidence=logical_evidence,
     )
 
 
@@ -280,7 +311,10 @@ def _scope_artifact_context(db: Session, artifact: PersistedPerceptionArtifact,
                             structures: dict[str, RoutingResult]) -> ScopeDetailEvidenceArtifact:
     result = transcriptions[artifact.document_page_id]
     observation = transcription_from_artifact(db, artifact)
-    if observation not in result.candidates:
+    if not any(e.source_artifact_key == observation.source_artifact_key
+               and e.generation_id == observation.generation_id
+               and e.source_method == observation.source_method
+               and e.capability == observation.capability for e in result.candidates):
         result = route_capability(page=result.page, capability=Capability.TRANSCRIPTION,
             evidence=(*result.candidates, observation))
     return ScopeDetailEvidenceArtifact(**asdict(artifact), transcription=result,

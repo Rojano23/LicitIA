@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from app.item_identity import normalize_item_identity
 from app.models import DocumentPageStructureResolution, TenderScopeSegment
-from app.scope_detail_adapters import ScopeDetailEvidenceArtifact
+from app.scope_detail_adapters import ScopeDetailEvidenceArtifact, ScopeDetailEvidenceCandidate
 from app.scope_details import (
     SCOPE_DETAIL_APPLICABILITY_ITEM,
     SCOPE_DETAIL_APPLICABILITY_UNRESOLVED,
@@ -114,7 +114,7 @@ class VisionScopeDetailAdapter:
                 review_required = True
 
             candidates.append(
-                ScopeDetailCandidate(
+                ScopeDetailEvidenceCandidate(
                     tender_id=artifact.tender_id,
                     source_document_id=artifact.source_document_id,
                     document_page_id=artifact.document_page_id,
@@ -135,6 +135,8 @@ class VisionScopeDetailAdapter:
                     candidate_item_key=owner.candidate_item_key,
                     source_analysis_id=artifact.source_analysis_id,
                     source_page_result_id=artifact.source_page_result_id,
+                    attribute_bindings=tuple((name, value) for name in ('brand', 'model')
+                                             if (value := _optional_text(row.get(name))) is not None),
                     quantity_raw=_optional_text(row.get("quantity")),
                     unit_raw=_optional_text(row.get("unit")),
                 )

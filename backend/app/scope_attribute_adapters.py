@@ -219,7 +219,9 @@ def run_scope_attribute_adapter(
 
 
 def default_scope_attribute_adapters() -> tuple[ScopeAttributeAdapter, ...]:
-    return (VisionDetailTranscriptionScopeAttributeAdapter(),)
+    from app.native_scope_attribute_adapter import NativeScopeAttributeAdapter
+
+    return (VisionDetailTranscriptionScopeAttributeAdapter(), NativeScopeAttributeAdapter())
 
 
 def _extract_detail_row_index(source_locator: str | None) -> int | None:

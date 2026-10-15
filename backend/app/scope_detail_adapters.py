@@ -35,6 +35,13 @@ class ScopeDetailEvidenceArtifact:
 
 
 @dataclass(frozen=True, slots=True)
+class ScopeDetailEvidenceCandidate(ScopeDetailCandidate):
+    # Transient claims used for cross-capability disagreement checks. Canonical
+    # persistence and explicit regeneration retain the existing candidate shape.
+    attribute_bindings: tuple[tuple[str, str], ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
 class ScopeDetailAdapterRunResult:
     source_artifact_key: str
     adapter_name: str | None
@@ -43,6 +50,8 @@ class ScopeDetailAdapterRunResult:
     candidate_count: int
     persisted_count: int
     review_required_count: int
+    candidates: tuple[ScopeDetailCandidate, ...] = ()
+    errors: tuple[str, ...] = ()
 
 
 class ScopeDetailAdapter(Protocol):
@@ -59,7 +68,9 @@ class ScopeDetailAdapter(Protocol):
 def _default_adapters() -> tuple[ScopeDetailAdapter, ...]:
     from app.vision_scope_detail_adapter import VisionScopeDetailAdapter
 
-    return (VisionScopeDetailAdapter(),)
+    from app.native_scope_detail_adapter import NativeScopeDetailAdapter
+
+    return (VisionScopeDetailAdapter(), NativeScopeDetailAdapter())
 
 
 def adapt_and_persist_scope_detail_artifact(
@@ -67,6 +78,7 @@ def adapt_and_persist_scope_detail_artifact(
     artifact: ScopeDetailEvidenceArtifact,
     *,
     adapters: Sequence[ScopeDetailAdapter] | None = None,
+    persist: bool = True,
 ) -> ScopeDetailAdapterRunResult:
     available_adapters = tuple(adapters or _default_adapters())
 
@@ -119,6 +131,15 @@ def adapt_and_persist_scope_detail_artifact(
             scope_segment_id=None, tender_item_id=None, candidate_item_key=None)
             if (candidate.candidate_item_key is not None or candidate.scope_segment_id is not None
                 or candidate.tender_item_id is not None) else candidate for candidate in candidates]
+    if not persist:
+        return ScopeDetailAdapterRunResult(
+            source_artifact_key=artifact.source_artifact_key,
+            adapter_name=selected_adapter.adapter_name,
+            adapter_version=selected_adapter.adapter_version,
+            status=(SCOPE_DETAIL_ADAPTER_STATUS_REVIEW_REQUIRED if any(c.review_required for c in candidates)
+                    else SCOPE_DETAIL_ADAPTER_STATUS_ADAPTED if candidates else SCOPE_DETAIL_ADAPTER_STATUS_NO_DETAILS),
+            candidate_count=len(candidates), persisted_count=0,
+            review_required_count=sum(c.review_required for c in candidates), candidates=tuple(candidates))
     if not candidates:
         replace_scope_details_for_artifact(
             db,

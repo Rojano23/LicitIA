@@ -279,7 +279,9 @@ def run_scope_quantity_adapter(
 
 
 def default_scope_quantity_adapters() -> tuple[ScopeQuantityAdapter, ...]:
-    return (VisionDetailTranscriptionScopeQuantityAdapter(),)
+    from app.native_scope_quantity_adapter import NativeScopeQuantityAdapter
+
+    return (VisionDetailTranscriptionScopeQuantityAdapter(), NativeScopeQuantityAdapter())
 
 
 def _extract_detail_row_index(source_locator: str | None) -> int | None:
