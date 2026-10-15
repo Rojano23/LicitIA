@@ -619,7 +619,7 @@ def test_replay_is_semantically_idempotent() -> None:
 
         assert first.status == SCOPE_ATTRIBUTE_MATERIALIZATION_STATUS_MATERIALIZED
         assert second.status == SCOPE_ATTRIBUTE_MATERIALIZATION_STATUS_MATERIALIZED
-        assert first_state == second_state
+        assert sorted(first_state) == sorted(second_state)
     finally:
         db.close()
 

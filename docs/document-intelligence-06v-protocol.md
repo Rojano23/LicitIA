@@ -204,3 +204,117 @@ commit/push, HEAD nuevo, manifest nuevo que congele los hashes de código/protoc
 actualizados (sin editar el manifest histórico), reset/reimport autorizado de la
 DB de validación conforme al protocolo y run_id nuevo. Se identifica como
 `BLIND ATTEMPT #2 AFTER DISCLOSED OPERATIONAL FIX`, nunca continuación del anterior.
+
+## V.5a — perfil selectivo explícito (propuesto para aceptación)
+
+El protocolo histórico `DI_06V_CONFIG_001`, `BlindConfig`, su CLI y AVAILABLE_ONLY
+conservan cero adquisición. No se altera el manifest histórico ni se reclasifican
+sus llamadas. El perfil nuevo `DI_BLIND_SELECTIVE_001` vive separado en
+`blind_selective_profile.py`; su CLI es `scripts/run_document_intelligence_selective.py`.
+Esto prepara un pase futuro; NO autoriza ni crea Attempt #3.
+
+Perfiles:
+
+- HISTORICAL_SAFE exige AVAILABLE_ONLY: Native/persistido, cero OCR/Vision.
+- SELECTIVE_PERCEPTION permite AVAILABLE_ONLY (sólo gaps), ALLOW_OCR (OCR
+  planificado) o AUTO (OCR y Vision planificados/budgeted). No usar AUTO legacy.
+- No se permiten proveedores semánticos de Requirements/Scope/Source Effects
+  instalados implícitamente; Source Effect LLM automático continúa deshabilitado.
+
+### Contratos de tarea genéricos
+
+Después de preparación Native canónica, el harness construye TEXT, STRUCTURE,
+SCOPE, ATTRIBUTES y QUANTITIES por página. El planner exige evidencia suficiente;
+texto no vacío no demuestra TEXT completo. UNKNOWN/review sin tarea OCR elegible
+no se transforma en OCR por existir un logo. Regiones IMAGE canónicas con geometría
+válida acotan adquisición de tareas pendientes; nunca se elige por archivo,
+producto, página conocida, respuesta adjudicada ni conteo esperado.
+
+`spatial_contracts` es una lista explícita congelada, sin IDs/páginas, de preguntas
+STRUCTURE_SCOPE o DETAIL_TRANSCRIPTION que requieren IMAGE_LAYOUT_RELATIONSHIP.
+Lista vacía significa ninguna necesidad visual declarada. Una imagen no crea ese
+contrato: el responsable del futuro freeze debe aprobarlo como necesidad de tarea,
+no como afirmación de que la imagen contiene una partida/tabla contractual.
+Native suficiente evita el trabajo visual. Tras OCR se reevalúa el mismo contrato
+textual; si ya es suficiente, no se ejecuta Vision. De lo contrario, sólo un
+contrato espacial aprobado + binding de región canónica habilita el planner Vision.
+Un fallo OCR por sí solo no construye contratos. No hay descubrimiento nuevo de
+semántica visual ni tuning. Vectores sin binding IMAGE siguen pendientes.
+
+Las tareas espaciales independientes no requieren OCR previo para su capacidad;
+OCR de otras tareas textuales no constituye requisito de esa tarea Vision. Estructura
+y detalle tienen planes, presupuestos y provenance independientes.
+
+### Presupuestos y guard
+
+OCR requiere `max_calls` agregado explícito, finito (0–10000), sin default derivado
+del Tender; motor/version conocidos, idioma es+en/es/en, timeout default30/máximo60s,
+2x, 8 millones de píxeles y 8 MiB. La elección del límite real se aprueba antes del
+freeze; los fixtures sintéticos pueden usar límites pequeños. Se reserva antes de
+invocar; indisponibilidad/fallo consume la reserva, sin fan-out a otro motor.
+
+Vision comparte UN VisionBudget por pase: defaults 4 calls / 4 tasks / 4 pages,
+2 intentos por fingerprint, 60s, 600 tokens estructura / 1000 detalle y retry JSON
+interno0. El perfil permite reducirlos, no aumentarlos. Agotamiento permanece
+pending explícito y no borra evidencia. El executor conserva agotamiento equivalente
+entre ejecuciones. El pase completo no se reintenta bajo su misma identidad.
+
+ProviderCallGuard registra planes y envuelve sólo las interfaces canónicas. Rechaza
+llamadas no planificadas, política incompatible o configuración distinta del freeze;
+no puede convertirse el rechazo en un resultado válido. Se registran eventos de
+llamadas reales/simuladas y rechazos, con calls0 para rechazo, None cuando el ACK OCR
+no demuestra si llegó a reconocer y diagnóstico aparte de reserva de presupuesto.
+La selección/reuse/exhaustion de fingerprint permanece en los ejecutores aceptados.
+El guard es control de flujo de esta aplicación, no sandbox contra código Python
+arbitrario que invoque proveedores fuera del harness.
+
+### Preflight sin inferencia y evidencia inmutable
+
+CLI futuro (NO ejecutado aquí):
+
+```text
+python scripts/run_document_intelligence_selective.py <preflight|freeze|bind|execute>
+  --profile <JSON_APROBADO> --database-url <URL_VALIDACION>
+  --data-dir <FILESYSTEM_VALIDACION_AISLADO> --run-id <IDENTIDAD_NUEVA>
+```
+
+Usar exclusivamente `/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python`.
+La URL debe ser local y apuntar a licitia_validation_06v; revisión072. La CLI no
+resetea ni importa documentos. Reset/reimport requieren autorización aparte y el
+procedimiento/API canónicos documentados arriba. No reutilizar el filesystem de
+percepción de intentos anteriores ni eliminar recibos para reiniciar retries.
+
+1. `preflight`: lectura de identidad DB y metadata local, sin inferencia ni corpus.
+   Captura ejecutable/paquetes/versiones instaladas, candidatos tessdata/packs/hash,
+   manifest/digest y presencia de blobs del modelo. No inicializa Paddle ni descarga
+   pesos. Los probes Tesseract --version/--list-langs no reconocen imágenes. Si el effective
+   tessdata no puede comprobarse, queda NOT_RUNTIME_CONFIRMED;
+   servicio Ollama queda NOT_PROBED. La disponibilidad operacional debe confirmarse
+   y autorizarse antes del pase real; presencia de paquetes NO certifica inferencia.
+2. `freeze --authorized-freeze`: exige DB vacía, HEAD/código limpio y ADRs relevantes
+   committed. Crea directorio exclusivo y `pre_execution.json` con perfil completo,
+   presupuestos, runtime/availability, código/protocolo/ADRs, prompts/schemas,
+   planner/policy/fingerprints y DB/revisión. No abre corpus. El run_id lo aporta
+   la autorización humana; no se genera automáticamente.
+3. Importar ciegamente mediante create_tender/import_documents con URL y data-dir
+   aislados. `bind --authorized-import --tender-id <UUID>` crea input_binding.json
+   separado, ligado por SHA al pre-freeze, antes de extracción/percepción. Incluye
+   Tender/document IDs, originales/hash/tamaño/MIME/revisión y generaciones iniciales.
+   No modifica pre_execution.json. Exige un único Tender y ninguna generación previa.
+4. `execute --authorized-execution`: verifica código/perfil/runtime/input y escribe
+   marcador exclusivo EXECUTION_STARTED. Ejecuta Native → tareas/suficiencia → OCR
+   selectivo → reevaluación → Vision selectivo → materialización canónica → métricas.
+   El materializador estructural consume AVAILABLE_ONLY; no tiene un segundo canal
+   de adquisición legacy. Requirements/normalization/requested Evidence, Scope/hijos,
+   Source Effects deterministas y proyecciones/collector conservan sus reglas.
+5. Los eventos se conservan en archivos exclusivos bajo events/, incluso si el pase
+   falla. first_pass.json/md y FROZEN.json cierran un éxito operacional; no certifican
+   corrección semántica. Presupuestos, reuse, pending, fallos y fuentes quedan visibles.
+
+Cualquier excepción/violación produce BLOCKED y preserva resultados parciales;
+EXECUTION_STARTED impide repetir aun tras interrupción. No patch ni rerun bajo el
+mismo run_id. Una corrección posterior a Attempt #3 requiere commit nuevo y Attempt #4.
+Los errores esperados de proveedor se consumen sólo dentro del retry congelado;
+no autorizan reparar código, cambiar motor, prompts ni presupuesto a mitad del pase.
+Retener evidencia hasta aceptación humana; eliminación sólo explícita. Attempts #1/#2,
+sus freezes/first-pass/adjudicación permanecen inmutables.
