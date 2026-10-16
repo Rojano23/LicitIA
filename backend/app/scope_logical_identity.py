@@ -20,6 +20,11 @@ SCOPE_IDENTITY_POLICY = 'scope-logical-v2'
 
 
 def logical_key(candidate: ScopeDetailCandidate) -> tuple:
+    block = getattr(candidate, 'structured_block', None)
+    if block is not None:
+        from app.structured_evidence_grounding import fact_key
+        return ('structured-logical-v1', candidate.tender_id, candidate.source_document_id,
+                candidate.document_page_id, fact_key(block))
     # Whitespace only; preserve case, numeric spelling, units and all identifiers.
     excerpt = ' '.join(candidate.source_excerpt.split())
     occurrence = next((t for t in candidate.source_locator.split('|') if t.startswith('occurrence:')), 'occurrence:0')
@@ -45,6 +50,9 @@ def reconcile_candidates(candidates, existing=()):
     groups = defaultdict(list)
     occurrences = defaultdict(int)
     for candidate in candidates:
+        if getattr(candidate, 'structured_block', None) is not None:
+            groups[logical_key(candidate)].append(candidate)
+            continue
         base = (candidate.source_artifact_key, logical_key(candidate)[:-1])
         index = occurrences[base]
         occurrences[base] += 1
@@ -70,6 +78,9 @@ def reconcile_candidates(candidates, existing=()):
         if conflict:
             chosen = replace(chosen, review_required=True, applicability='UNRESOLVED',
                              candidate_item_key=None, scope_segment_id=None, tender_item_id=None)
+        if getattr(chosen, 'structured_block', None) is not None:
+            from app.structured_evidence_grounding import merge_proofs
+            chosen = merge_proofs(chosen, group)
         selected.append(chosen)
         evidence.append(ScopeLogicalEvidence(logical_fingerprint(chosen), tuple(sorted({c.source_artifact_key for c in group})), conflict))
     return tuple(selected), tuple(evidence)

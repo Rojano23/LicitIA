@@ -283,7 +283,9 @@ def default_scope_quantity_adapters() -> tuple[ScopeQuantityAdapter, ...]:
 
     from app.ocr_scope_adapters import OcrScopeQuantityAdapter
 
-    return (VisionDetailTranscriptionScopeQuantityAdapter(), NativeScopeQuantityAdapter(), OcrScopeQuantityAdapter())
+    from app.structured_evidence_grounding import StructuredQuantityAdapter
+
+    return (StructuredQuantityAdapter(), VisionDetailTranscriptionScopeQuantityAdapter(), NativeScopeQuantityAdapter(), OcrScopeQuantityAdapter())
 
 
 def _extract_detail_row_index(source_locator: str | None) -> int | None:

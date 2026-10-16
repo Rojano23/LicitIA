@@ -190,7 +190,10 @@ def _resolve_scope_quantity_evidence_artifact(
     source_analysis_id = scope_detail.source_analysis_id
     source_page_result_id = scope_detail.source_page_result_id
 
-    if source_method == "VISION":
+    from app.structured_evidence_grounding import is_structured, resolve_payload
+    if is_structured(scope_detail.source_locator):
+        payload = resolve_payload(db, scope_detail)
+    elif source_method == "VISION":
         page_result_id = _parse_prefixed_id(artifact_key, prefixes=("vision-page-result:", "DocumentVisionPageResult:"))
         if page_result_id is None:
             raise ValueError("Unsupported VISION source_artifact_key format")

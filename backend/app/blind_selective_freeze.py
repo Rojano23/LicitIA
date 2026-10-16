@@ -103,8 +103,10 @@ def implementation_versions():
         VisionAssistModelPageResponse,VisionAssistModelDetailTranscriptionResponse,OllamaVisionAssistClient)
     from app.document_structure_orchestrator import STRUCTURE_RESOLVER_VERSION
     import inspect
+    from app.structured_evidence import POLICY_VERSION as STRUCTURED_POLICY, MANIFEST_VERSION
     return dict(planner=TASK_POLICY_VERSION,ocr_fingerprint='selective-ocr-v1',vision_fingerprint=POLICY_VERSION,
-        vision_task_version=1,logical_scope='scope-logical-v2',structural_policy=STRUCTURE_RESOLVER_VERSION,
+        vision_task_version=1,logical_scope='scope-logical-v2',structured_evidence=STRUCTURED_POLICY,
+        structured_manifest=MANIFEST_VERSION,structural_policy=STRUCTURE_RESOLVER_VERSION,
         structure_prompt=VISION_STRUCTURE_SCOPE_PROMPT_VERSION,detail_prompt=VISION_DETAIL_TRANSCRIPTION_PROMPT_VERSION,
         prompt_implementation_sha256=sha256(inspect.getsource(OllamaVisionAssistClient).encode()),
         structure_schema_sha256=sha256(canonical_bytes(VisionAssistModelPageResponse.model_json_schema())),

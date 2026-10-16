@@ -217,6 +217,8 @@ def replace_scope_attributes_for_artifact(
 
     for candidate in candidates:
         validate_scope_attribute_candidate(candidate)
+        from app.structured_evidence_grounding import validate_persisted_candidate
+        validate_persisted_candidate(db, candidate, 'attribute')
 
         if candidate.tender_id != resolved_tender_id:
             raise ValueError("Candidate tender_id does not match replacement scope")

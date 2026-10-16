@@ -223,7 +223,9 @@ def default_scope_attribute_adapters() -> tuple[ScopeAttributeAdapter, ...]:
 
     from app.ocr_scope_adapters import OcrScopeAttributeAdapter
 
-    return (VisionDetailTranscriptionScopeAttributeAdapter(), NativeScopeAttributeAdapter(), OcrScopeAttributeAdapter())
+    from app.structured_evidence_grounding import StructuredAttributeAdapter
+
+    return (StructuredAttributeAdapter(), VisionDetailTranscriptionScopeAttributeAdapter(), NativeScopeAttributeAdapter(), OcrScopeAttributeAdapter())
 
 
 def _extract_detail_row_index(source_locator: str | None) -> int | None:

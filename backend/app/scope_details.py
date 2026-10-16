@@ -141,11 +141,12 @@ def replace_scope_details_for_artifact(
         TenderScopeDetail.source_document_id == source_document_id,
         TenderScopeDetail.document_page_id == document_page_id,
         TenderScopeDetail.source_artifact_key == resolved_artifact_key))}
+    from app.structured_evidence_grounding import corroboration_only
     # Explicit replacement remains regeneration: human review must become stale.
     # Only the materializer can retain an unchanged artifact generation on replay.
     wanted = {_fingerprint_for_candidate(candidate) for candidate in candidates
               if reuse_unchanged and (row := existing.get(_fingerprint_for_candidate(candidate))) is not None
-              and row.source_locator == candidate.source_locator
+              and (row.source_locator == candidate.source_locator or corroboration_only(db, row.source_locator, candidate.source_locator))
               and row.source_contract_version == candidate.source_contract_version
               and row.source_analysis_id == candidate.source_analysis_id
               and row.source_page_result_id == candidate.source_page_result_id
@@ -158,9 +159,15 @@ def replace_scope_details_for_artifact(
     existing = {fp: row for fp, row in existing.items() if fp in wanted}
     db.flush()
 
+    for candidate in candidates:
+        retained = existing.get(_fingerprint_for_candidate(candidate))
+        if retained is not None:
+            retained.source_locator = candidate.source_locator
     persisted: list[TenderScopeDetail] = []
     for candidate in candidates:
         _validate_candidate(candidate)
+        from app.structured_evidence_grounding import validate_persisted_candidate
+        validate_persisted_candidate(db, candidate, 'scope')
 
         if candidate.tender_id != tender_id:
             raise ValueError("Candidate tender_id does not match replacement scope")

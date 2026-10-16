@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from datetime import datetime, timezone
 from typing import Literal
 
@@ -158,6 +158,12 @@ def _evidence(db: Session, detail: TenderScopeDetail) -> ScopeMachineEvidence:
     page = db.get(DocumentPage, detail.document_page_id)
     if document is None or page is None or document.tender_id != detail.tender_id or page.document_id != document.id:
         raise ScopeReviewSourceBlocked("Missing or inconsistent source provenance")
+    from app.structured_evidence_grounding import is_structured, resolve_payload
+    if is_structured(detail.source_locator):
+        try:
+            resolve_payload(db, detail)
+        except ValueError as exc:
+            raise ScopeReviewSourceBlocked(str(exc)) from exc
     values = {name: getattr(detail, name) for name in ScopeMachineEvidence.model_fields
               if name not in {"document_revision", "source_page"}}
     # PostgreSQL may return the same instant in the session timezone after reload.
@@ -246,6 +252,22 @@ def append_scope_review(
     return _review_read(row)
 
 
+def _corroborated_review_current(db, review, machine, projection):
+    from app.structured_evidence_grounding import corroboration_only
+    old = review.machine_snapshot
+    if not corroboration_only(db, old.source_locator, machine.source_locator):
+        return False
+    comparable = machine.model_copy(update={'source_locator':old.source_locator,'updated_at':old.updated_at})
+    if comparable != old:
+        return False
+    # Preserve the exact prior source-effect projection contract. Only the
+    # verified proof reference may differ; any effect/status change goes stale.
+    comparable_projection = replace(projection,source_locator=old.source_locator,
+        diagnostics=tuple(replace(d,source_locator=old.source_locator)
+            if d.source_locator == machine.source_locator else d for d in projection.diagnostics))
+    return review.reviewed_source_fingerprint == _source_fingerprint(comparable_projection)
+
+
 def _read_scope_review(
     db: Session, *, tender_id: str, scope_detail_id: str,
 ) -> tuple[EffectiveScopeReview, tuple[ScopeReviewRead, ...]]:
@@ -257,8 +279,9 @@ def _read_scope_review(
         review = history[-1] if history else None
 
     blocked = _source_blocked(projection)
-    current = bool(review and review.machine_snapshot == machine
-                   and review.reviewed_source_fingerprint == _source_fingerprint(projection))
+    current = bool(review and (
+        (review.machine_snapshot == machine and review.reviewed_source_fingerprint == _source_fingerprint(projection))
+        or _corroborated_review_current(db, review, machine, projection)))
     human_status = "NO_REVIEW" if review is None else ("CURRENT" if current else "STALE")
     effective_description = machine.description
     if blocked:

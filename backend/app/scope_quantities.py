@@ -148,12 +148,15 @@ def validate_scope_quantity_candidate(candidate: ScopeQuantityCandidate) -> None
     if candidate.confidence is not None and (candidate.confidence < 0.0 or candidate.confidence > 1.0):
         raise ValueError("confidence must be between 0.0 and 1.0")
 
-    if not _is_grounded(candidate.source_excerpt, candidate.quantity_raw):
-        raise ValueError("quantity_raw is not grounded in source_excerpt")
-
-    unit_raw = _optional_text(candidate.unit_raw)
-    if unit_raw is not None and not _is_grounded(candidate.source_excerpt, unit_raw):
-        raise ValueError("unit_raw is not grounded in source_excerpt")
+    from app.structured_evidence_grounding import is_structured, validate_quantity_fields
+    if is_structured(candidate.source_locator):
+        validate_quantity_fields(candidate)
+    else:
+        if not _is_grounded(candidate.source_excerpt, candidate.quantity_raw):
+            raise ValueError("quantity_raw is not grounded in source_excerpt")
+        unit_raw = _optional_text(candidate.unit_raw)
+        if unit_raw is not None and not _is_grounded(candidate.source_excerpt, unit_raw):
+            raise ValueError("unit_raw is not grounded in source_excerpt")
 
     quantity_value = _decimal_or_none(candidate.quantity_value)
     quantity_min = _decimal_or_none(candidate.quantity_min)
@@ -288,6 +291,8 @@ def replace_scope_quantities_for_artifact(
 
     for candidate in candidates:
         validate_scope_quantity_candidate(candidate)
+        from app.structured_evidence_grounding import validate_persisted_candidate
+        validate_persisted_candidate(db, candidate, 'quantity')
 
         if candidate.tender_id != resolved_tender_id:
             raise ValueError("Candidate tender_id does not match replacement scope")
