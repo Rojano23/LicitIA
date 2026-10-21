@@ -6,9 +6,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     app_env: str = "development"
-    app_host: str = "0.0.0.0"
+    app_host: str = "127.0.0.1"
     app_port: int = 8000
-    database_url: str = "postgresql+psycopg://postgres:change_me@localhost:5432/licitia_dev"
+    database_url: str = "postgresql+psycopg://licitia@127.0.0.1:55432/licitia_uat"
     frontend_url: str = "http://localhost:5173"
     licitia_data_dir: str = ".licitia-data"
     licitia_local_ai_enabled: bool = True

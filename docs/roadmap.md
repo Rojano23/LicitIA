@@ -311,6 +311,7 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
   - Attempts #1–#8: historia preservada; no reparar/reutilizar identidades. Los gates intermedios históricos no son una autorización vigente para otro intento.
   - Adjudicación final de Attempt #9 `06v9_4bb38af849cf4b3683bcc9db455f8349`: ACCEPTED. Dos partidas B-1 con Scope/Quantity/manifests correctos; límites Requirements/Evidence/Attributes/scans explícitos. No certificación autónoma ni productiva general.
 - **Fase actual: RELEASE CANDIDATE / UAT HARDENING** — [readiness y gates P0](release-candidate-limited-uat-readiness.md), [capacidades UAT](uat-capability-statement.md). Primer usuario externo pendiente de hardening operacional; no reabrir Document Intelligence ni crear Attempt #10. No RC/tag creado.
+  - RC-H1 (Local Reproducible Deployment): implementación para revisión arquitectónica; baseline documental `6a5cfdf`, [instalación](local-deployment.md). No autoriza RC-H2 ni reabre semántica de Document Intelligence.
 
 Tender #002 fue expuesto sólo en las fases de validación/adjudicación autorizadas y ahora es referencia histórica; no es una muestra ciega nueva. No usar para tuning, fixtures, Golden o nuevas ejecuciones sin autorización explícita; preservar todos los artefactos.
 
