@@ -84,6 +84,14 @@ def _locator(block, digest):
     return locator
 
 
+def _reconstruct_for_materialization(db, artifact, source, text):
+    blocks = reconstruct(source, text)
+    if source.method == 'NATIVE':
+        from app.native_table_relationships import reconstruct_native_tables
+        blocks += reconstruct_native_tables(db, artifact, source, text, occurrence_start=len(blocks))
+    return blocks
+
+
 def extract_candidates(db, artifact):
     from app.item_identity import normalize_item_identity
     from app.scope_detail_adapters import ScopeDetailEvidenceCandidate
@@ -94,7 +102,7 @@ def extract_candidates(db, artifact):
             return ()
         raise
     candidates = []
-    for block in reconstruct(source,text):
+    for block in _reconstruct_for_materialization(db, artifact, source, text):
         digest = write_manifest(StructuredEvidenceManifest(blocks=(block,)))
         representative = block.fragment(block.field('description').refs[0]).text
         fields = {f.name:f.value for f in block.fields}
@@ -137,7 +145,14 @@ def validate_manifest(db, digest):
             raise ValueError('STRUCTURED_GENERATION_STALE')
         if any(not 0 <= f.start < f.end <= len(text) or text[f.start:f.end] != f.text for f in block.fragments):
             raise ValueError('STRUCTURED_FRAGMENT_MISMATCH')
-        if block not in reconstruct(current,text):
+        if block.native_table_proof is not None:
+            import pymupdf
+            if block.native_table_proof.engine_version != pymupdf.VersionBind:
+                raise ValueError('NATIVE_TABLE_ENGINE_MISMATCH')
+            replay = _reconstruct_for_materialization(db, artifact, current, text)
+        else:
+            replay = reconstruct(current, text)
+        if block not in replay:
             raise ValueError('STRUCTURED_RELATIONSHIP_MISMATCH')
     primary = manifest.blocks[0]
     if any((b.source.tender_id,b.source.document_id,b.source.page_id,fact_key(b)) !=

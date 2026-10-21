@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import re
 from typing import Literal
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_serializer
 
 POLICY_VERSION = 'structured-evidence-v1'
 MANIFEST_VERSION = 'STRUCTURED_EVIDENCE_001'
@@ -64,6 +64,22 @@ class FieldBinding(FrozenModel):
     refs: tuple[str, ...]
 
 
+class NativeCellProof(FrozenModel):
+    role: str
+    header: bool
+    bbox: tuple[float, float, float, float]
+    refs: tuple[str, ...]
+
+
+class NativeTableProof(FrozenModel):
+    version: Literal['NATIVE_RULED_TABLE_001'] = 'NATIVE_RULED_TABLE_001'
+    engine_version: str
+    page_bbox: tuple[float, float, float, float]
+    table_bbox: tuple[float, float, float, float]
+    row_index: int = Field(ge=1)
+    cells: tuple[NativeCellProof, ...] = Field(max_length=12)
+
+
 class StructuredEvidenceBlock(FrozenModel):
     policy_version: str = POLICY_VERSION
     source: EvidenceSource
@@ -76,6 +92,15 @@ class StructuredEvidenceBlock(FrozenModel):
     state: Literal['SUPPORTED', 'AMBIGUOUS'] = 'SUPPORTED'
     review_required: Literal[True] = True
     reasons: tuple[str, ...] = ()
+    native_table_proof: NativeTableProof | None = None
+
+    @model_serializer(mode='wrap')
+    def serialize(self, handler):
+        data = handler(self)
+        # Preserve the exact canonical representation of existing v1 manifests.
+        if self.native_table_proof is None:
+            data.pop('native_table_proof', None)
+        return data
 
     def field(self, name: str) -> FieldBinding | None:
         return next((f for f in self.fields if f.name == name), None)
