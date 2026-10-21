@@ -104,7 +104,8 @@ def implementation_versions():
     from app.document_structure_orchestrator import STRUCTURE_RESOLVER_VERSION
     import inspect
     from app.structured_evidence import POLICY_VERSION as STRUCTURED_POLICY, MANIFEST_VERSION
-    return dict(planner=TASK_POLICY_VERSION,ocr_fingerprint='selective-ocr-v1',vision_fingerprint=POLICY_VERSION,
+    from app.perception_sufficiency import POLICY_VERSION as SUFFICIENCY_POLICY
+    return dict(perception_sufficiency=SUFFICIENCY_POLICY,planner=TASK_POLICY_VERSION,ocr_fingerprint='selective-ocr-v1',vision_fingerprint=POLICY_VERSION,
         vision_task_version=1,logical_scope='scope-logical-v2',structured_evidence=STRUCTURED_POLICY,
         structured_manifest=MANIFEST_VERSION,structural_policy=STRUCTURE_RESOLVER_VERSION,
         structure_prompt=VISION_STRUCTURE_SCOPE_PROMPT_VERSION,detail_prompt=VISION_DETAIL_TRANSCRIPTION_PROMPT_VERSION,

@@ -39,7 +39,9 @@ class ProviderCallGuard:
         page_id=plan.perception.page_id if method=='VISION' else plan.page_id
         self.events.append(ProviderMetric(id=f'guard-{len(self.events)}',provider='GUARD',source_method=method,
             capability='TRANSCRIPTION',status='REJECTED',calls=0,page_id=page_id,execution_event=True,
-            configuration={'reason':reason,'plan':plan_identity(plan)}))
+            configuration={'reason':reason,'plan':plan_identity(plan),
+                'perception_assessment':asdict(plan.assessment) if plan.assessment else None,
+                'interpretation_assessment':asdict(plan.interpretation) if plan.interpretation else None}))
         self.violations.append(reason)
         raise ProtocolViolation(reason)
 
@@ -60,7 +62,9 @@ class ProviderCallGuard:
             status='REUSED' if getattr(result,'reused',False) or result.reason=='REUSED_EQUIVALENT_COMPLETED' else result.status,
             calls=0,page_id=page_id,execution_event=True,
             configuration={'decision_only':True,'reason':result.reason,'fingerprint':result.fingerprint,
-                'plan':plan_identity(plan)}))
+                'plan':plan_identity(plan),
+                'perception_assessment':asdict(plan.assessment) if plan.assessment else None,
+                'interpretation_assessment':asdict(plan.interpretation) if plan.interpretation else None}))
 
     def ocr(self,plan,engine,image,language,timeout):
         self.allowed('OCR',plan)
@@ -215,13 +219,11 @@ def execute_selective_pipeline(db,*,tender_id,profile,ocr=bounded_local_ocr,visi
         # Re-evaluate only after OCR; task construction is independent of its failures.
         for page_id,tasks in visual.items():
             for request in tasks:
-                from dataclasses import replace
-                textual=replace(request,request=replace(request.request,visual_relationships_required=False))
-                sufficiency=plan_document_vision_tasks(db,tender_id=tender_id,document_id=document.id,
-                    requests={page_id:(textual,)},execution_policy=profile.execution_policy)[0]
-                plan=(sufficiency if sufficiency.status=='SUFFICIENT_FOR_TASK' else
-                    plan_document_vision_tasks(db,tender_id=tender_id,document_id=document.id,
-                        requests={page_id:(request,)},execution_policy=profile.execution_policy)[0])
+                # Keep the original spatial question and source-region binding.
+                # The planner may discharge it only with proven equivalent
+                # relationships; generic readable OCR is not spatial evidence.
+                plan=plan_document_vision_tasks(db,tender_id=tender_id,document_id=document.id,
+                    requests={page_id:(request,)},execution_policy=profile.execution_policy)[0]
                 vplans.append(plan);guard.register('VISION',plan)
                 # The final executor check reports persistent exhaustion without another provider call.
                 for _ in range(profile.vision.max_attempts+1):

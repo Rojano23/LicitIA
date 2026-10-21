@@ -1,6 +1,6 @@
 """SI contracts: invented generic data; no blind corpus or provider invocation.
 
-SI21–SI23 are explicitly deferred to V.6c by human scope decision.
+SI21–SI23 are activated in test_perception_sufficiency.py for V.6c.
 """
 from decimal import Decimal
 import hashlib

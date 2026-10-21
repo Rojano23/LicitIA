@@ -265,7 +265,9 @@ def execute_planned_vision(db, plan: VisionPlan, *, config: VisionConfiguration,
 
 def vision_metrics(plans,results):
     from collections import Counter
-    return dict(needed=sum(p.eligible for p in plans),eligible=sum(p.eligible for p in plans),
+    return dict(perception_states=dict(Counter(p.assessment.state for p in plans if p.assessment)),
+        interpretation_states=dict(Counter(p.interpretation.state for p in plans if p.interpretation)),
+        sufficiency_reasons=dict(Counter(p.assessment.reason for p in plans if p.assessment)),needed=sum(p.eligible for p in plans),eligible=sum(p.eligible for p in plans),
         executed=sum(r.calls for r in results),reused=sum(r.reused for r in results),
         avoided=sum(p.status=='SUFFICIENT_FOR_TASK' for p in plans),
         failures=sum(r.status in {'FAILED','UNAVAILABLE','RENDER_FAILED'} for r in results),
