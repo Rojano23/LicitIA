@@ -16,6 +16,7 @@ Construir una aplicación On-Premise, Local-first, modular y auditable capaz de 
 8. **No microservicios prematuros.**
 9. **No Redis/Kafka/Kubernetes sin necesidad medible.**
 10. **Instalación final transparente para usuario no técnico.**
+11. **Revisar implementaciones open-source maduras antes de desarrollar funcionalidad commodity sustancial.** Evaluar referencias, prácticas, benchmarks y dependencias justificadas con licencias comercialmente permisivas (MIT/Apache-2.0/BSD compatibles); verificar obligaciones transitivas/distribución y evitar dependencia comercial obligatoria cuando existan alternativas razonables. No habilita envío de documentos a terceros ni sustituye ADR para decisiones significativas.
 
 ## 3. Arquitectura lógica
 

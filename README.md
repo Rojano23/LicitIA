@@ -1,17 +1,27 @@
 # LicitIA
 
-**Estado:** MVP-01 — Tender Workspace completado  
+**Estado:** MVP-06.V CLOSED — OPTION B / LIMITED UAT; RELEASE CANDIDATE / UAT HARDENING pendiente de gates operacionales
 **Versión de definición:** v0.1  
 **Perfil institucional inicial:** PEMEX / SNR — Concursos Abiertos  
 **Arquitectura de producto:** On-Premise / Local-first
 
 LicitIA es un software local de inteligencia para procesos licitatorios. La primera fase completada del producto centra su valor en administrar de forma local, trazable y segura el expediente de una licitación: tender, documentos, metadatos, conflictos humanos, revisiones y vista local de PDFs. Este primer alcance no sustituye la comprensión documental ni la evaluación técnica/comercial; esas capacidades siguen siendo objetivos de MVP posteriores.
 
+## Estado actual y siguiente fase
+
+El motor de validación MVP-06.V quedó cerrado por aceptación arquitectónica el 2026-10-21. Esto no declara lista la instalación para participantes externos: primero se requieren los gates de operabilidad para una UAT limitada, asistida y local.
+
+- [Cierre MVP-06.V y evidencia aceptada](docs/mvp-06v-closure.md)
+- [Readiness y backlog RC / LIMITED UAT](docs/release-candidate-limited-uat-readiness.md)
+- [Declaración de capacidades para usuarios UAT](docs/uat-capability-statement.md)
+
+Las secciones MVP-01 siguientes conservan la línea base histórica; el estado vigente se consulta en los documentos anteriores y el roadmap.
+
 ## Principio rector
 
 > LicitIA no gana licitaciones por el usuario. Le da al usuario una comprensión más rápida, completa, trazable y controlable del proceso para que pueda tomar mejores decisiones técnicas, documentales y comerciales.
 
-## Alcance actual
+## Línea base histórica del Tender Workspace (MVP-01)
 
 El MVP-01 soporta de forma verificable **Concursos Abiertos PEMEX / SNR** mediante:
 

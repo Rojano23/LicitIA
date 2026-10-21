@@ -302,16 +302,17 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
     - Phase 3B (Structural Golden Freeze + Offline Rescore): CLOSED — commit `3f2e29b`; Golden v1 congelado; P1 CORRECT, P2 PARTIAL, P3 INCORRECT; sin observación Vision P4. Rescore/replay sin proveedores ni cambios productivos.
     - Phase 4 (Structural Trust Propagation Hardening): CLOSED — commit `530621a`; P1 CORRECT, P2/P3 REVIEW_REQUIRED_CORRECT; cero unsafe trusted structural errors y cero proveedores en replay offline. Sin migración; Golden sólo para evaluación.
   - MVP-06.R.4b (Convergence Readiness Gate): CLOSED — commit documental `1745c70`; CONDITIONAL_GO_FOR_06V aceptado para V.0. S01–S12 PASS; no certifica producción ni autoriza acceso ciego.
-- MVP-06.V (Cross-Tender Integration Validation): CURRENT — contacto mecánico autorizado; contenido semántico de Tender #002 protegido, sin adjudicación ni certificación productiva.
+- MVP-06.V (Cross-Tender Integration Validation): **CLOSED — 2026-10-21**, aceptación arquitectónica de Attempt #9, **OPTION B — LIMITED UAT**. Motor HEAD `14097f428e2185152aae1b671485244f1656fb07`; [cierre e identidad canónicos](mvp-06v-closure.md).
   - MVP-06.V.0 (Blind Validation Preflight + Freeze): CLOSED — commit `3c989fa`; plan AVAILABLE_ONLY sin inferencias autorizadas.
   - MVP-06.V.1 (Freeze + Blind Import): CLOSED — importación canónica en DB aislada 072; originales y manifest congelados.
   - MVP-06.V.2 ATTEMPT_1: FROZEN / EXECUTION_BLOCKED — `BLIND_RUN_EXECUTION_BLOCKER`; run `06v_6f6c60e697534a04abc3f922e698fef1`, SHA-256 `af9eeb1c94b79417033d6e533f4ca837ea94984a6085254392d39ff041fe5ead`. Evidencia histórica permanente; no representa ejecución exitosa de Effective Source.
   - MVP-06.V.3 (Freeze Verification + First-Pass Operational Review): CLOSED — integridad/blindness preservadas; defecto genérico en driver de preparación, guard PDF correcto.
-  - MVP-06.V.3a (Capability-Aware Document Preparation Recovery): CURRENT — preparación genérica por capacidad; unsupported por documento no implica fallo fatal del Tender. Sin proveedores, acceso semántico ni rerun; pendiente de aceptación arquitectónica.
-  - ATTEMPT_2 requiere aceptación + commit/push del fix, HEAD/manifest de freeze nuevos, reset/reimport autorizado y run_id nuevo; preservar ATTEMPT_1. No autorizado en V.3a.
-  - V.4 HUMAN ADJUDICATION / ERROR ANALYSIS y V.5 FINAL CROSS-TENDER GO/NO-GO permanecen pendientes.
+  - MVP-06.V.3a (Capability-Aware Document Preparation Recovery): registro histórico anterior a la validación final; su estado CURRENT quedó superado por el cierre de V. No representa trabajo actual autorizado.
+  - Attempts #1–#8: historia preservada; no reparar/reutilizar identidades. Los gates intermedios históricos no son una autorización vigente para otro intento.
+  - Adjudicación final de Attempt #9 `06v9_4bb38af849cf4b3683bcc9db455f8349`: ACCEPTED. Dos partidas B-1 con Scope/Quantity/manifests correctos; límites Requirements/Evidence/Attributes/scans explícitos. No certificación autónoma ni productiva general.
+- **Fase actual: RELEASE CANDIDATE / UAT HARDENING** — [readiness y gates P0](release-candidate-limited-uat-readiness.md), [capacidades UAT](uat-capability-statement.md). Primer usuario externo pendiente de hardening operacional; no reabrir Document Intelligence ni crear Attempt #10. No RC/tag creado.
 
-Tender #002 permanece blind out-of-sample: contenido semántico protegido hasta autorización explícita de la fase correspondiente; no usar para tuning, fixtures ni Golden.
+Tender #002 fue expuesto sólo en las fases de validación/adjudicación autorizadas y ahora es referencia histórica; no es una muestra ciega nueva. No usar para tuning, fixtures, Golden o nuevas ejecuciones sin autorización explícita; preservar todos los artefactos.
 
 Nota de política MVP-06.5.5b:
 La calibración semántica de Source Effects queda cerrada como NO-GO para uso automático en MVP. El camino autoritativo permanece determinista con revisión humana: efectos ambiguos deben escalar a `REVIEW_REQUIRED`, la validación estricta permanece fail-closed y ningún candidato semántico puede pasar a confiable automáticamente. El proveedor bounded se conserva sólo como infraestructura experimental y reutilizable. Motivos: `qwen3:8b` mantuvo `0/3` positivos correctamente emparejados tras iteraciones calibradas y fully bounded; `qwen3:14b` resultó operacionalmente inviable en el hardware local objetivo.
