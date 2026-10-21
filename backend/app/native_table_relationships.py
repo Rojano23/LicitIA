@@ -102,6 +102,20 @@ def _build_block(source, text, table, header, row, roles, words, row_index, occu
             name = 'header_' + role if is_header else role
             role_spans[name] = spans
             boxes.append((role, is_header, tuple(box), name))
+    block = block_from_cell_spans(source, text, role_spans, roles, occurrence)
+    if block is None:
+        return None
+    refs = {name: tuple(next(f.id for f in block.fragments if (f.start, f.end, f.role) == (a,b,name))
+                        for a,b in spans) for name,spans in role_spans.items()}
+    proof = NativeTableProof(engine_version=engine, page_bbox=page_bbox, table_bbox=tuple(table.bbox),
+        row_index=row_index, cells=tuple(NativeCellProof(role=role, header=is_header, bbox=box,
+            refs=refs[name]) for role, is_header, box, name in boxes))
+    return block.model_copy(update={'native_table_proof': proof})
+
+
+def block_from_cell_spans(source, text, role_spans, roles, occurrence, *, relation_rule=POLICY_VERSION):
+    """Existing positive-row grammar; literals already proven by the physical adapter."""
+    from app.scope_quantity_adapters import _unit_to_measure_kind
     values = {name: ' '.join(text[a:b] for a, b in spans) for name, spans in role_spans.items()}
     if (not re.fullmatch(r'0*[1-9]\d*', values['item'])
             or not re.fullmatch(r'\d+(?:\.\d+)?', values['quantity'])
@@ -119,22 +133,18 @@ def _build_block(source, text, table, header, row, roles, words, row_index, occu
     relations = []
     for role in roles:
         for ref in refs[role]:
-            relations.extend(Relation(kind='HEADER_OF', anchor=h, target=ref, rule=POLICY_VERSION)
+            relations.extend(Relation(kind='HEADER_OF', anchor=h, target=ref, rule=relation_rule)
                              for h in refs['header_' + role])
             if role != 'item':
                 kind = {'quantity': 'VALUE_FOR', 'unit': 'UNIT_FOR',
                         'brand': 'ATTRIBUTE_OF', 'model': 'ATTRIBUTE_OF'}.get(role, 'DESCRIBES_ITEM')
                 relations.append(Relation(kind=kind, anchor=anchor, target=ref,
-                                          support=refs['header_' + role], rule=POLICY_VERSION))
-    relations.extend(Relation(kind='CONTINUES', anchor=a, target=b, support=(anchor,), rule=POLICY_VERSION)
+                                          support=refs['header_' + role], rule=relation_rule))
+    relations.extend(Relation(kind='CONTINUES', anchor=a, target=b, support=(anchor,), rule=relation_rule)
                      for a, b in zip(refs['description'], refs['description'][1:]))
-    proof = NativeTableProof(engine_version=engine, page_bbox=page_bbox, table_bbox=tuple(table.bbox),
-        row_index=row_index, cells=tuple(NativeCellProof(role=role, header=is_header, bbox=box,
-            refs=refs[name]) for role, is_header, box, name in boxes))
     return StructuredEvidenceBlock(source=source, occurrence=occurrence, item_raw=values['item'],
         domain=_domain(values['description']) or 'OTHER', fragments=fragments, relations=tuple(relations),
-        fields=tuple(FieldBinding(name=r, value=values[r], refs=refs[r]) for r in roles if r != 'item'),
-        native_table_proof=proof)
+        fields=tuple(FieldBinding(name=r, value=values[r], refs=refs[r]) for r in roles if r != 'item'))
 
 
 def reconstruct_native_tables(db, artifact, source: EvidenceSource, text: str, *, occurrence_start=0):

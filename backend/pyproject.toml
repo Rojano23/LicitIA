@@ -6,6 +6,7 @@ requires-python = ">=3.11"
 dependencies = [
   "PyMuPDF==1.26.3",
   "pytesseract==0.3.13",
+  "camelot-py==2.0.0",
 ]
 
 [tool.pytest.ini_options]

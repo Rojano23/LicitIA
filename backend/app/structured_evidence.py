@@ -9,6 +9,7 @@ from __future__ import annotations
 import re
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_serializer
+from app.camelot_table_contract import CamelotNativeProof
 
 POLICY_VERSION = 'structured-evidence-v1'
 MANIFEST_VERSION = 'STRUCTURED_EVIDENCE_001'
@@ -92,7 +93,7 @@ class StructuredEvidenceBlock(FrozenModel):
     state: Literal['SUPPORTED', 'AMBIGUOUS'] = 'SUPPORTED'
     review_required: Literal[True] = True
     reasons: tuple[str, ...] = ()
-    native_table_proof: NativeTableProof | None = None
+    native_table_proof: NativeTableProof | CamelotNativeProof | None = None
 
     @model_serializer(mode='wrap')
     def serialize(self, handler):

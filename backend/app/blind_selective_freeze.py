@@ -106,7 +106,11 @@ def implementation_versions():
     from app.structured_evidence import POLICY_VERSION as STRUCTURED_POLICY, MANIFEST_VERSION
     from app.perception_sufficiency import POLICY_VERSION as SUFFICIENCY_POLICY
     from app.native_table_relationships import POLICY_VERSION as NATIVE_TABLE_POLICY
-    return dict(native_table_relationships=NATIVE_TABLE_POLICY,perception_sufficiency=SUFFICIENCY_POLICY,planner=TASK_POLICY_VERSION,ocr_fingerprint='selective-ocr-v1',vision_fingerprint=POLICY_VERSION,
+    from app.camelot_table_contract import POLICY_VERSION as CAMELOT_POLICY, CONFIG_SHA256, CONFIG
+    from app.camelot_table_adapter import dependency_identity
+    return dict(camelot_native_table=CAMELOT_POLICY,camelot_config=CONFIG_SHA256,
+        camelot_configuration=dict(CONFIG),
+        camelot_dependencies=dict(dependency_identity()),native_table_relationships=NATIVE_TABLE_POLICY,perception_sufficiency=SUFFICIENCY_POLICY,planner=TASK_POLICY_VERSION,ocr_fingerprint='selective-ocr-v1',vision_fingerprint=POLICY_VERSION,
         vision_task_version=1,logical_scope='scope-logical-v2',structured_evidence=STRUCTURED_POLICY,
         structured_manifest=MANIFEST_VERSION,structural_policy=STRUCTURE_RESOLVER_VERSION,
         structure_prompt=VISION_STRUCTURE_SCOPE_PROMPT_VERSION,detail_prompt=VISION_DETAIL_TRANSCRIPTION_PROMPT_VERSION,

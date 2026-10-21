@@ -87,8 +87,8 @@ def _locator(block, digest):
 def _reconstruct_for_materialization(db, artifact, source, text):
     blocks = reconstruct(source, text)
     if source.method == 'NATIVE':
-        from app.native_table_relationships import reconstruct_native_tables
-        blocks += reconstruct_native_tables(db, artifact, source, text, occurrence_start=len(blocks))
+        from app.camelot_table_adapter import reconstruct_camelot_tables
+        blocks += reconstruct_camelot_tables(db, artifact, source, text, occurrence_start=len(blocks))
     return blocks
 
 
@@ -146,10 +146,30 @@ def validate_manifest(db, digest):
         if any(not 0 <= f.start < f.end <= len(text) or text[f.start:f.end] != f.text for f in block.fragments):
             raise ValueError('STRUCTURED_FRAGMENT_MISMATCH')
         if block.native_table_proof is not None:
-            import pymupdf
-            if block.native_table_proof.engine_version != pymupdf.VersionBind:
-                raise ValueError('NATIVE_TABLE_ENGINE_MISMATCH')
-            replay = _reconstruct_for_materialization(db, artifact, current, text)
+            if block.native_table_proof.version == 'CAMELOT_NATIVE_TABLE_001':
+                from app.camelot_table_contract import check_digest, CONFIG_SHA256, digest
+                from app.camelot_table_adapter import dependency_identity
+                proof = block.native_table_proof
+                if proof.engine_version != dict(dependency_identity())['PyMuPDF']:
+                    raise ValueError('NATIVE_TABLE_ENGINE_MISMATCH')
+                try:
+                    check_digest(proof, 'proof_sha256')
+                    check_digest(proof.proposal, 'proposal_sha256')
+                except ValueError as exc:
+                    raise ValueError('STRUCTURED_RELATIONSHIP_MISMATCH: ' + str(exc)) from exc
+                if proof.proposal.source_identity_sha256 != digest(current.model_dump(mode='json')):
+                    raise ValueError('CAMELOT_SOURCE_IDENTITY_MISMATCH')
+                if proof.dependencies != dependency_identity() or proof.proposal.config_sha256 != CONFIG_SHA256:
+                    raise ValueError('CAMELOT_ENGINE_OR_CONFIG_MISMATCH')
+                replay = _reconstruct_for_materialization(db, artifact, current, text)
+            else:
+                import pymupdf
+                from app.native_table_relationships import reconstruct_native_tables
+                if block.native_table_proof.engine_version != pymupdf.VersionBind:
+                    raise ValueError('NATIVE_TABLE_ENGINE_MISMATCH')
+                legacy = reconstruct(current, text)
+                replay = legacy + reconstruct_native_tables(db, artifact, current, text,
+                                                            occurrence_start=len(legacy))
         else:
             replay = reconstruct(current, text)
         if block not in replay:
