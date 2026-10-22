@@ -7,6 +7,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+from app.read_batch import memo_read
+
 from dataclasses import asdict, replace
 from datetime import datetime, timezone
 from typing import Literal
@@ -142,6 +144,12 @@ class EffectiveScopeReview(BaseModel):
 
 
 def _detail(db: Session, tender_id: str, scope_detail_id: str, *, lock: bool = False) -> TenderScopeDetail:
+    from app.read_batch import current_batch
+    batch = current_batch(db)
+    if not lock and batch is not None and batch['tender_id']==tender_id:
+        detail = batch['scopes'].get(scope_detail_id)
+        if detail is None:raise ScopeReviewNotFound('ScopeDetail not found in requested tender')
+        return detail
     query = select(TenderScopeDetail).where(
         TenderScopeDetail.id == scope_detail_id, TenderScopeDetail.tender_id == tender_id,
     )
@@ -207,6 +215,10 @@ def _review_read(row: TenderScopeReview) -> ScopeReviewRead:
 
 
 def _history(db: Session, tender_id: str, scope_detail_id: str) -> list[TenderScopeReview]:
+    from app.read_batch import current_batch
+    batch = current_batch(db)
+    if batch is not None and batch['tender_id']==tender_id:
+        return list(batch['history'].get(scope_detail_id, []))
     return list(db.scalars(select(TenderScopeReview).where(
         TenderScopeReview.tender_id == tender_id,
         TenderScopeReview.scope_detail_id == scope_detail_id,
@@ -268,6 +280,7 @@ def _corroborated_review_current(db, review, machine, projection):
     return review.reviewed_source_fingerprint == _source_fingerprint(comparable_projection)
 
 
+@memo_read
 def _read_scope_review(
     db: Session, *, tender_id: str, scope_detail_id: str,
 ) -> tuple[EffectiveScopeReview, tuple[ScopeReviewRead, ...]]:

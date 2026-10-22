@@ -453,3 +453,16 @@ expone contratos tipados de readiness MVP-08/propuesta MVP-09 y auditoría pagin
 revisiones existentes. No duplica aritmética ni modifica motores documentales. No nuevas
 dependencias/migración. [ADR-0025](adr/0025-commercial-readiness-projections.md),
 [contrato de cierre](commercial-readiness.md). Freeze final de propuesta diferido.
+
+## 21. Bid Readiness M8-A
+
+`bid_readiness_service.py` adapta Workspace/commercial-readiness/Source Effects y metadata
+local de documentos; `bid_readiness.py` compone DTOs derivados deterministas. Sin extracción,
+pricing duplicado, proveedores, escrituras ni persistencia de issues. API/Workspace sólo
+inspeccionan. [Contrato](bid-readiness.md), [ADR-0026](adr/0026-bid-readiness-foundation.md).
+No selecciona empresa ni certifica cumplimiento/checklist; snapshot final queda diferido.
+
+Hardening M8-A: `read_batch.py` precarga contexto ORM y memoiza sólo lecturas canónicas
+puras dentro del request, con limpieza incondicional. Historial/proyección/manifest
+siguen validadores existentes; Workspace agrupa Quantity en una consulta. Escala 2→20
+Scope: consultas constantes en fixture controlada, sin política semántica nueva.

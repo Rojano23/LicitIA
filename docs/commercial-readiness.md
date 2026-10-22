@@ -91,4 +91,5 @@ Defaults de sesión, máximo 100 por bulk; XLSX/CSV conservan límites/TTL M7-C.
 
 Sin ERP, estimating engine, inventario, purchasing, accounting, sourcing/interpretación
 automática de quotes, FX, optimización, escenarios nuevos, propuesta o UI final.
-Próximo paso: revisión arquitectónica del cierre y posterior definición de MVP-08.
+MVP-07 cerrado por aceptación arquitectónica. La fase siguiente es [MVP-08](bid-readiness.md);
+M8-A agrega lectura de readiness sin reabrir el dominio comercial.

@@ -8,6 +8,7 @@ from app.commercial import _fingerprint, _line, _latest, _inputs
 from app.commercial_matrix import read_matrix
 from app.commercial_readiness import CommercialReadiness
 from app.models import CommercialLineRevision
+from app.read_batch import memo_read
 
 
 class Contract(BaseModel):
@@ -77,6 +78,7 @@ def _state(matrix):
         'summary': r['summary']} for r in matrix['rows']])
 
 
+@memo_read
 def tender_readiness(db, tender_id):
     matrix = read_matrix(db, tender_id)
     items = [_item(r) for r in matrix['rows']]

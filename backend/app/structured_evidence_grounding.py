@@ -1,5 +1,7 @@
 """Source-bound reconstruction and fail-closed multispan provenance resolution."""
 from __future__ import annotations
+from app.read_batch import memo_read
+
 from dataclasses import replace
 import hashlib
 import re
@@ -14,6 +16,7 @@ def is_structured(locator: str) -> bool:
     return any(token.startswith('se:') for token in (locator or '').split('|'))
 
 
+@memo_read
 def source_text(db, artifact):
     from app.models import DocumentPage, TenderDocument, NormalizedContent
     from app.document_intelligence_sources import transcription_from_artifact
@@ -121,6 +124,7 @@ def extract_candidates(db, artifact):
     return tuple(candidates)
 
 
+@memo_read
 def validate_manifest(db, digest):
     """Re-enumerate active generations, verify each exact fragment and relation.
 

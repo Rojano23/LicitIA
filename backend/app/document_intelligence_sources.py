@@ -4,6 +4,8 @@ Detail lineage retains the existing fingerprint reselection policy. It is lifecy
 eligibility, not resolution of disagreements between independent active sources.
 """
 from __future__ import annotations
+from app.read_batch import memo_read
+
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from typing import Sequence
@@ -43,6 +45,7 @@ class _EnumeratedArtifacts:
     deselected: tuple[_EnumeratedArtifact, ...]
 
 
+@memo_read
 def _enumerate_persisted_artifacts_for_document(
     db: Session,
     *,

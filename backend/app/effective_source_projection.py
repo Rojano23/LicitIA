@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from app.read_batch import memo_read
+
 from dataclasses import dataclass
 
 from sqlalchemy import select
@@ -132,6 +134,7 @@ class _ParentChildCombination:
     include_parent_traceability: bool = False
 
 
+@memo_read
 def project_effective_sources_for_tender(
     db: Session,
     *,

@@ -348,7 +348,8 @@ ofertado, minimizando captura repetida. MVP-06.V y RC-H1/H2/H3 están cerrados/a
 M7-A ACCEPTED: commit `6d30509d9859dabf44fd85341759ff8054707668`, sin push.
 M7-B ACCEPTED: commit `faa238dbecd3a5ba12cd78ce2d1f9d490750de47`, sin push.
 M7-C ACCEPTED: commit `d22cf3ed24d9529093513829d3a784dc63cadd62`, sin push.
-**MVP-07 CLOSED — aceptación arquitectónica formal. M7-D ACCEPTED.** [Contrato de cierre](commercial-readiness.md).
+**MVP-07 CLOSED — aceptación arquitectónica formal. M7-D ACCEPTED**, commit
+`49bc60d2364c17a86347628f945b4fbb227cc593`, sin push. [Contrato de cierre](commercial-readiness.md).
 No es un ERP ni una plataforma completa de estimación. El concepto anterior de
 proveedores, parsing de cotizaciones, componentes y escenarios no es el alcance vigente.
 
@@ -373,12 +374,24 @@ Modo COST_FIRST (markup o margen objetivo) o PRICE_FIRST; no confundir markup co
 Un precio manual prevalece sobre una recomendación; sólo una acción explícita puede
 reemplazarlo. Pérdida, costo desconocido y ambigüedad permanecen visibles para decisión
 humana. Sin FX ni suma de distintas monedas. El usuario puede cambiar costo/precio sin
-perder origen, evidencia ni auditoría. MVP-07 completo deberá agilizar trabajo con
-matriz/bulk/defaults/XLSX; M7-A entrega únicamente la fundación.
+perder origen, evidencia ni auditoría. MVP-07 agiliza el trabajo con matriz/bulk/defaults/XLSX; M7-A conserva el registro
+histórico de la fundación inicial.
 
 ---
 
 ## MVP-08 — Bid Readiness
+
+### Estado y slices
+
+M8-A aceptado funcionalmente, gate de rendimiento PASS; commit autorizado. [Contrato](bid-readiness.md),
+[ADR-0026](adr/0026-bid-readiness-foundation.md). Sólo agregación/inspección de registros
+canónicos; sin certificación contractual ni cambios documentales/comerciales.
+
+- M8-A: dominio/readiness y agregación canónica.
+- M8-B: seguimiento de checklist/work-items y decisiones humanas (pendiente).
+- M8-C: board Workspace, filtros/prioridades (pendiente).
+- M8-D: snapshot/handoff MVP-09 y cierre (pendiente).
+
 
 ### Objetivo
 

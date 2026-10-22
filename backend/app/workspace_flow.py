@@ -17,6 +17,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import Tender, TenderDocument, TenderScopeDetail, TenderScopeQuantity, DocumentPage, NormalizedContent
+from app.read_batch import memo_read
 from app.schemas import TenderRequirementMatrixRead, TenderRequirementSemanticsRead
 from app.scope_review import ScopeReviewItemRead, ScopeReviewSourceBlocked, get_scope_review_item
 
@@ -182,18 +183,21 @@ def quantity_read(db, quantity, parent) -> QuantityRead:
         status='UNRESOLVED' if not valid else 'REVIEW_REQUIRED' if quantity.review_required else 'NOT_REQUIRED', source=source)
 
 
+@memo_read
 def read_workspace(db: Session, tender_id: str) -> WorkspaceRead:
     from app.requirement_matrix import get_tender_requirement_matrix
     from app.requirement_semantics import get_tender_requirement_semantics
     documents = _documents(db, tender_id)
     scopes = []
+    children = {}
+    for child in db.scalars(select(TenderScopeQuantity).where(TenderScopeQuantity.tender_id==tender_id).order_by(TenderScopeQuantity.id)):
+        children.setdefault(child.scope_detail_id, []).append(child)
     for detail in db.scalars(select(TenderScopeDetail).where(TenderScopeDetail.tender_id == tender_id).order_by(TenderScopeDetail.candidate_item_key, TenderScopeDetail.id)):
         try:
             review = get_scope_review_item(db, tender_id=tender_id, scope_detail_id=detail.id)
         except (ScopeReviewSourceBlocked, FileNotFoundError):
             review = None
-        quantities = tuple(quantity_read(db, q, detail) for q in db.scalars(select(TenderScopeQuantity).where(
-            TenderScopeQuantity.tender_id == tender_id, TenderScopeQuantity.scope_detail_id == detail.id).order_by(TenderScopeQuantity.id)))
+        quantities = tuple(quantity_read(db, q, detail) for q in children.get(detail.id, []))
         scopes.append(ScopeRead(scope_detail_id=detail.id, candidate_item_key=detail.candidate_item_key,
             description=review.current.effective_description if review and review.current else detail.description,
             source=_source(db, detail), review=review, quantities=quantities))

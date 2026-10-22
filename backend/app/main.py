@@ -3433,3 +3433,27 @@ def commercial_audit_endpoint(tender_id: str, scope_id: str, limit: int = Query(
                               before_revision: int | None = Query(None, ge=1), db: Session = Depends(get_db)):
     from app.commercial_projections import commercial_audit
     return commercial_audit(db, tender_id, scope_id, limit=limit, before_revision=before_revision)
+
+
+from app.bid_readiness import TenderBidReadiness, ReadinessItem, DimensionReadiness, Dimension, Severity
+
+
+@app.get('/tenders/{tender_id}/bid-readiness', response_model=TenderBidReadiness)
+def bid_readiness_endpoint(tender_id: str, db: Session = Depends(get_db)):
+    from app.bid_readiness_service import read_bid_readiness
+    return read_bid_readiness(db, tender_id)
+
+
+@app.get('/tenders/{tender_id}/bid-readiness/issues', response_model=list[ReadinessItem])
+def bid_readiness_issues_endpoint(tender_id: str, dimension: Dimension | None = None, severity: Severity | None = None,
+                                  offset: int = Query(0, ge=0), limit: int = Query(100, ge=1, le=500), db: Session = Depends(get_db)):
+    from app.bid_readiness_service import read_bid_readiness
+    result = read_bid_readiness(db, tender_id)
+    issues = [i for i in result.issues if (dimension is None or i.dimension==dimension) and (severity is None or i.severity==severity)]
+    return issues[offset:offset+limit]
+
+
+@app.get('/tenders/{tender_id}/bid-readiness/dimensions', response_model=list[DimensionReadiness])
+def bid_readiness_dimensions_endpoint(tender_id: str, db: Session = Depends(get_db)):
+    from app.bid_readiness_service import read_bid_readiness
+    return read_bid_readiness(db, tender_id).dimensions

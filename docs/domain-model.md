@@ -687,3 +687,9 @@ sin costos internos; CommercialAudit paginado con cambios/recomendación histór
 entidades persistentes nuevas. Pérdida no implica bloqueo; evidencia pendiente sí exige
 revisión. Quantity continúa canónica/read-only. State reference detecta cambios del
 estado leído, sin bid freeze. Ver [contrato de cierre](commercial-readiness.md).
+
+M8-A agrega ReadinessItem/DimensionReadiness/TenderBidReadiness como proyecciones temporales
+de lectura: identidad UUID5 por Tender/dimensión/entidad/código, estado normalizado y
+severidad, referencias originales y motivos. No nuevas entidades SQL; una consulta no
+crea tareas ni decisiones. Human Review conserva autoridad de sus dominios. Conteos son
+señales, no entidades únicas. [Contrato](bid-readiness.md).
