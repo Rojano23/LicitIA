@@ -34,8 +34,8 @@ def _inputs(revision):
     return CommercialInputs.model_validate({key: getattr(revision, key) for key in CommercialInputs.model_fields})
 
 
-def _context(db, tender_id, scope_id, values):
-    scope = db.scalar(select(TenderScopeDetail).where(TenderScopeDetail.id == scope_id, TenderScopeDetail.tender_id == tender_id))
+def _context(db, tender_id, scope_id, values, *, prefetched=None):
+    scope = prefetched[0] if prefetched is not None else db.scalar(select(TenderScopeDetail).where(TenderScopeDetail.id == scope_id, TenderScopeDetail.tender_id == tender_id))
     warnings = []
     quantity = None
     snapshot = {'scope': None, 'quantities': [], 'selected_quantity_id': None, 'quote': None}
@@ -57,7 +57,7 @@ def _context(db, tender_id, scope_id, values):
         snapshot['scope'] = {'id': scope.id, 'tender_id': scope.tender_id, 'description': description,
                              'source': source, 'review_status': review_state, 'review_fingerprint': review_fp,
                              'semantic_fingerprint': scope.semantic_fingerprint}
-        children = list(db.scalars(select(TenderScopeQuantity).where(TenderScopeQuantity.scope_detail_id == scope.id,
+        children = prefetched[1] if prefetched is not None else list(db.scalars(select(TenderScopeQuantity).where(TenderScopeQuantity.scope_detail_id == scope.id,
                                TenderScopeQuantity.tender_id == tender_id).order_by(TenderScopeQuantity.id)))
         choices = [quantity_read(db, q, scope) for q in children]
         snapshot['quantities'] = [q.model_dump(mode='json') for q in choices]
@@ -113,12 +113,15 @@ def _result(values, quantity, warnings):
     return result
 
 
-def _append(db, line, values, prior, action, method, price_origin):
+def _append(db, line, values, prior, action, method, price_origin, *, audit_metadata=None):
     snapshot, quantity, warnings = _context(db, line.tender_id, line.scope_detail_id, values)
+    calculation = _result(values, quantity, warnings)
+    if audit_metadata is not None:
+        calculation['bulk_operation'] = audit_metadata
     row = CommercialLineRevision(line_id=line.id, tender_id=line.tender_id, revision=prior.revision + 1 if prior else 1,
         **values.model_dump(), action=action, price_method=method, price_value_origin=price_origin,
         source_fingerprint=_fingerprint(snapshot), source_snapshot=snapshot,
-        calculation_snapshot=_result(values, quantity, warnings), calculation_version='commercial-v1')
+        calculation_snapshot=calculation, calculation_version='commercial-v1')
     db.add(row)
     db.flush()
     return row

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { workspaceApi, recoveryApi, type RetryRead, type ProcessingStatus, type WorkspaceRead, type WorkspaceSource } from "../api/workspace";
+import { CommercialMatrix } from "./CommercialMatrix";
 import { CommercialLine } from "./CommercialLine";
 import { ScopeReview } from "./ScopeReview";
 
@@ -95,6 +96,7 @@ export function WorkspaceFlow({ apiUrl, tenderId, documents }: Props) {
       {data?.processing.provider_degraded && <p>Percepción parcial o no disponible: la evidencia determinista válida permanece disponible y requiere revisión humana.</p>}
       {error && <p role="alert">{error} Los resultados visibles pueden estar desactualizados.</p>}
       {data && <>
+        <CommercialMatrix key={tenderId} apiUrl={apiUrl} tenderId={tenderId} />
         <h4>Alcance y cantidades</h4>
         <p>Las cantidades son de solo lectura y conservan su estado automático. Confirmar el alcance no confirma sus cantidades. La corrección independiente de cantidades está pendiente (P1). Después de revisar el alcance, usa Actualizar resultados para consultar la decisión vigente.</p>
         {data.scopes.length === 0 && <p>Sin resultados de alcance. Esto no confirma ausencia de obligaciones.</p>}

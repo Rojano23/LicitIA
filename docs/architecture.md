@@ -425,3 +425,12 @@ Workspace muestra controles provisionales dentro del Scope existente. Dos tablas
 Alembic 073 conservan identidad/revisiones; SET NULL del Scope vivo evita bloquear
 regeneración documental. [ADR-0022](adr/0022-commercial-line-calculation-traceability.md)
 explica integridad, auditoría, precisión y revisión OSS sin nuevas dependencias.
+
+## 18. Matriz comercial M7-B
+
+`commercial_matrix.py` compone filas actuales sin provisionar registros al leer,
+precarga decisiones comerciales y procesa bulk con savepoints/expectativas por fila.
+Reutiliza cálculo/auditoría M7-A y lectores canónicos MVP-06, sin modificar semántica.
+Defaults React de sesión, sin migración. [ADR-0023](adr/0023-commercial-matrix-bulk.md)
+y [contrato API/Workspace](commercial-matrix.md) definen precedencia, parcialidad,
+copy seguro, auditoría y subtotales por moneda/cobertura.

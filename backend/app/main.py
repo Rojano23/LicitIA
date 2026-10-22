@@ -3344,3 +3344,24 @@ def update_commercial_endpoint(tender_id: str, scope_id: str, payload: Commercia
 def calculate_commercial_endpoint(tender_id: str, scope_id: str, payload: CalculationRequest, db: Session = Depends(get_db)):
     from app.commercial import calculate_commercial
     return _commercial_call(db, lambda: calculate_commercial(db, tender_id, scope_id, payload), write=payload.apply_calculated_price)
+
+
+from app.commercial_matrix import BulkRequest
+
+
+@app.get('/tenders/{tender_id}/commercial-matrix')
+def commercial_matrix_endpoint(tender_id: str, db: Session = Depends(get_db)):
+    from app.commercial_matrix import read_matrix
+    return _commercial_call(db, lambda: read_matrix(db, tender_id))
+
+
+@app.get('/tenders/{tender_id}/commercial-matrix/summary')
+def commercial_matrix_summary_endpoint(tender_id: str, db: Session = Depends(get_db)):
+    from app.commercial_matrix import read_matrix
+    return {'summary_by_currency': read_matrix(db, tender_id)['summary_by_currency']}
+
+
+@app.post('/tenders/{tender_id}/commercial-matrix/bulk')
+def commercial_matrix_bulk_endpoint(tender_id: str, payload: BulkRequest, db: Session = Depends(get_db)):
+    from app.commercial_matrix import bulk_commercial
+    return _commercial_call(db, lambda: bulk_commercial(db, tender_id, payload), write=payload.apply)

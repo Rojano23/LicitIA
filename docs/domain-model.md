@@ -666,3 +666,9 @@ existentes; no segunda Quantity comercial ni descripción autoritativa duplicada
 Fuentes comerciales y orígenes económicos son ejes distintos. El precio elegido es una
 decisión humana; la recomendación calculada no lo reemplaza al guardar inputs.
 Ver [contratos, fórmulas y límites](commercial-foundation.md) y [ADR-0022](adr/0022-commercial-line-calculation-traceability.md).
+
+M7-B no agrega entidades: MatrixRow es proyección de Scope/Quantity + última revisión
+comercial o fila virtual. Bulk conserva identidad y agrega revisiones M7-A sólo por
+cambios efectivos, con metadata del lote en su snapshot de cálculo. Defaults/selección/
+borradores son estado UI; no se convierten en hechos documentales ni se copian cantidades.
+Ver [contrato M7-B](commercial-matrix.md).
