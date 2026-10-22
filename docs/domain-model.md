@@ -672,3 +672,11 @@ comercial o fila virtual. Bulk conserva identidad y agrega revisiones M7-A sólo
 cambios efectivos, con metadata del lote en su snapshot de cálculo. Defaults/selección/
 borradores son estado UI; no se convierten en hechos documentales ni se copian cantidades.
 Ver [contrato M7-B](commercial-matrix.md).
+
+M7-C conserva estas entidades: XLSX_IMPORT/CSV_IMPORT amplían el origen de entrada de
+la revisión comercial existente; hash, export/stage UUID y nombre descriptivo quedan
+en metadata auditada. ExportContext/ImportStage son envelopes JSON locales temporales,
+no evidencia Tender ni entidades SQL. Sólo UUID Scope + Tender + contexto de export
+pueden reconciliar una fila. Campos canónicos modificados invalidan la fila; no hay
+creación, borrado ni remapeo de Scope/Quantity por spreadsheet. Ver
+[contrato M7-C](commercial-spreadsheet-roundtrip.md).

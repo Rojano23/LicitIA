@@ -434,3 +434,13 @@ Reutiliza cálculo/auditoría M7-A y lectores canónicos MVP-06, sin modificar s
 Defaults React de sesión, sin migración. [ADR-0023](adr/0023-commercial-matrix-bulk.md)
 y [contrato API/Workspace](commercial-matrix.md) definen precedencia, parcialidad,
 copy seguro, auditoría y subtotales por moneda/cobertura.
+
+## 19. Round trip comercial M7-C
+
+`commercial_workbook.py` delimita XLSX/CSV no confiables; `commercial_exchange.py`
+reconcilia identidad/revisión y delega preview/apply a bulk M7-B. La carga nunca aplica
+decisiones. `commercial_exchange_store.py` conserva contextos locales versionados y
+expirables bajo `commercial-roundtrip-v1` del data root, sin retener archivos completos.
+El backup local existente incluye ese filesystem; no se agregan modelos ni migraciones.
+Origen/hash de importación viven en revisiones comerciales, separados de provenance
+documental. [Contrato](commercial-spreadsheet-roundtrip.md) y [ADR-0024](adr/0024-commercial-spreadsheet-roundtrip.md).

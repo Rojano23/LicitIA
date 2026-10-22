@@ -38,7 +38,8 @@ class BulkRequest(BaseModel):
     recalculate: bool = False
     replace_manual_price: bool = False
     confirm_currency_change: bool = False
-    input_origin: Literal['UI', 'API'] = 'API'
+    input_origin: Literal['UI', 'API', 'XLSX_IMPORT', 'CSV_IMPORT'] = 'API'
+    import_evidence: dict[str, JsonValue] | None = None
 
     @model_validator(mode='after')
     def bounded(self):
@@ -210,7 +211,7 @@ def bulk_commercial(db, tender_id, request):
                     continue
                 row_changes = request.row_changes.get(target.scope_id, {})
                 effective_changes = row_changes | changes
-                values = CommercialInputs.model_validate(old.model_dump() | (request.defaults if prior is None else {}) | effective_changes | {'input_origin': request.input_origin})
+                values = CommercialInputs.model_validate(old.model_dump() | (request.defaults if prior is None else {}) | effective_changes | {'input_origin': request.input_origin} | ({'actor_label': None} if request.import_evidence else {}))
                 if old.currency != values.currency and (old.unit_cost is not None or old.offered_unit_price is not None) and not request.confirm_currency_change:
                     raise HTTPException(409, 'CURRENCY_CONFIRMATION_REQUIRED')
                 snapshot, quantity, warnings = _context(db, tender_id, scope.id, values)
@@ -243,10 +244,13 @@ def bulk_commercial(db, tender_id, request):
                             line = CommercialLine(tender_id=tender_id, scope_detail_id=scope.id, scope_id_at_creation=scope.id, scope_snapshot=snapshot)
                             db.add(line); db.flush()
                         fields = [k for k in CommercialInputs.model_fields if getattr(values, k) != getattr(old, k)]
-                        audit = {'id': str(request.operation_id), 'origin': 'WORKSPACE_BULK' if request.input_origin == 'UI' else 'API_BULK',
+                        audit = {'id': str(request.operation_id), 'origin': request.input_origin if request.import_evidence else 'WORKSPACE_BULK' if request.input_origin == 'UI' else 'API_BULK',
                                  'timestamp': timestamp, 'action': request.action, 'requested_scope_ids': [t.scope_id for t in request.targets],
                                  'changed_fields': fields, 'before': old.model_dump(mode='json'), 'after': values.model_dump(mode='json')}
-                        revision = _append(db, line, values, prior, 'BULK_WORKSPACE' if request.input_origin == 'UI' else 'BULK_API', method, origin, audit_metadata=audit)
+                        if request.import_evidence is not None:
+                            audit['import_evidence'] = request.import_evidence
+                        action = request.input_origin if request.import_evidence else 'BULK_WORKSPACE' if request.input_origin == 'UI' else 'BULK_API'
+                        revision = _append(db, line, values, prior, action, method, origin, audit_metadata=audit)
                         outcome['revision'] = revision.revision
         except ValidationError as exc:
             outcome.update(outcome='INVALID', reasons=['INVALID_INPUT'], validation_fields=['.'.join(str(k) for k in e['loc']) for e in exc.errors()])

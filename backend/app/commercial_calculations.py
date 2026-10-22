@@ -41,7 +41,7 @@ class CommercialInputs(BaseModel):
     target_margin_percent: Percent | None = None
     quantity_id: str | None = Field(default=None, max_length=36)
     notes: str | None = Field(default=None, max_length=4000)
-    input_origin: Literal['UI', 'API'] = 'API'
+    input_origin: Literal['UI', 'API', 'XLSX_IMPORT', 'CSV_IMPORT'] = 'API'
     actor_label: str | None = Field(default=None, max_length=200)
 
 

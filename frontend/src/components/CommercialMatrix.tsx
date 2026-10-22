@@ -1,3 +1,4 @@
+import { CommercialSpreadsheet } from "./CommercialSpreadsheet";
 import { useEffect, useRef, useState } from "react";
 import { costSources, type CommercialInputs } from "../api/commercial";
 import { matrixApi, target, type MatrixRead, type MatrixRow, type BulkWrite, type BulkRead, type BulkAction } from "../api/commercialMatrix";
@@ -88,6 +89,8 @@ export function CommercialMatrix({ apiUrl,tenderId }: Props) {
     <h4>Matriz comercial</h4><button disabled={busy} onClick={() => void load()}>{opened ? "Actualizar matriz":"Abrir matriz comercial"}</button>
     {error && <p role="alert">{error}</p>}
     {opened && data && <>
+      <CommercialSpreadsheet apiUrl={apiUrl} tenderId={tenderId} disabled={busy || Object.keys(drafts).length > 0} onBusyChange={setBusy}
+        onApplied={async () => {const refreshed=await matrixApi.read(apiUrl,tenderId);if(mounted.current) {setData(refreshed);setDrafts({});setSelected(new Set());invalidate();}}}/>
       <p>Datos heredados de Scope/Quantity. Selección y defaults de esta sesión; no se crean líneas al consultar. Tab recorre campos; Enter previsualiza la fila. Los cambios sólo se guardan al aplicar el preview.</p>
       <fieldset disabled={busy}><legend>Filtros y selección</legend>
         <label>Estado <select value={filter} onChange={e => editControl(() => setFilter(e.target.value))}>{["ALL","READY","INCOMPLETE","REVIEW_REQUIRED","MISSING_COST","MISSING_PRICE"].map(v => <option key={v}>{v}</option>)}</select></label>

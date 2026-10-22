@@ -3324,6 +3324,8 @@ def _commercial_call(db, call, *, write=False):
 @app.post('/tenders/{tender_id}/scopes/{scope_id}/commercial-line', status_code=201)
 def create_commercial_endpoint(tender_id: str, scope_id: str, payload: CommercialInputs, db: Session = Depends(get_db)):
     from app.commercial import create_commercial
+    if payload.input_origin not in {'UI', 'API'}:
+        raise HTTPException(422, 'RESERVED_IMPORT_ORIGIN')
     return _commercial_call(db, lambda: create_commercial(db, tender_id, scope_id, payload), write=True)
 
 
@@ -3337,6 +3339,8 @@ def read_commercial_endpoint(tender_id: str, scope_id: str, db: Session = Depend
 @app.patch('/tenders/{tender_id}/scopes/{scope_id}/commercial-line')
 def update_commercial_endpoint(tender_id: str, scope_id: str, payload: CommercialUpdate, db: Session = Depends(get_db)):
     from app.commercial import update_commercial
+    if payload.input_origin not in {'UI', 'API'}:
+        raise HTTPException(422, 'RESERVED_IMPORT_ORIGIN')
     return _commercial_call(db, lambda: update_commercial(db, tender_id, scope_id, payload), write=True)
 
 
@@ -3364,4 +3368,40 @@ def commercial_matrix_summary_endpoint(tender_id: str, db: Session = Depends(get
 @app.post('/tenders/{tender_id}/commercial-matrix/bulk')
 def commercial_matrix_bulk_endpoint(tender_id: str, payload: BulkRequest, db: Session = Depends(get_db)):
     from app.commercial_matrix import bulk_commercial
+    if payload.input_origin not in {'UI', 'API'} or payload.import_evidence is not None:
+        raise HTTPException(422, 'RESERVED_IMPORT_ORIGIN')
     return _commercial_call(db, lambda: bulk_commercial(db, tender_id, payload), write=payload.apply)
+
+
+from app.commercial_exchange import ApplyExchange
+
+
+@app.get('/tenders/{tender_id}/commercial-exchange/export/{kind}')
+def export_commercial_endpoint(tender_id: str, kind: str, db: Session = Depends(get_db)):
+    from fastapi.responses import Response
+    from app.commercial_exchange import export_commercial
+    identity, data = export_commercial(db, tender_id, kind)
+    mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' if kind == 'xlsx' else 'text/csv; charset=utf-8'
+    return Response(data, media_type=mime, headers={'Content-Disposition': f'attachment; filename="licitia-commercial-{identity}.{kind}"', 'Cache-Control': 'no-store'})
+
+
+@app.post('/tenders/{tender_id}/commercial-exchange/stage')
+async def stage_commercial_endpoint(tender_id: str, file: UploadFile = File(...), replace_manual_price: bool = Form(False),
+                                    confirm_currency_change: bool = Form(False), db: Session = Depends(get_db)):
+    from app.commercial_workbook import MAX_FILE
+    from app.commercial_exchange import stage_commercial
+    try:
+        data = await file.read(MAX_FILE + 1)
+        return stage_commercial(db, tender_id, file.filename, data, replace=replace_manual_price, currency=confirm_currency_change)
+    finally:
+        await file.close()
+
+
+@app.post('/tenders/{tender_id}/commercial-exchange/stages/{stage_id}/apply')
+def apply_commercial_endpoint(tender_id: str, stage_id: str, payload: ApplyExchange, db: Session = Depends(get_db)):
+    from app.commercial_exchange import apply_commercial
+    return _commercial_call(db, lambda: apply_commercial(db, tender_id, stage_id, payload.confirm), write=True)
+
+
+from app.commercial_workbook import CommercialUploadLimitMiddleware
+app.add_middleware(CommercialUploadLimitMiddleware)

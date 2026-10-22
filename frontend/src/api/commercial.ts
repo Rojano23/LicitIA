@@ -9,7 +9,7 @@ export type CommercialInputs = {
   quote_document_id: string | null; quote_reference: string | null; currency: "MXN" | "USD" | "EUR" | null;
   unit_cost: string | null; offered_unit_price: string | null; calculation_mode: "COST_FIRST" | "PRICE_FIRST";
   calculation_basis: "MARKUP" | "MARGIN" | null; markup_percent: string | null; target_margin_percent: string | null;
-  quantity_id: string | null; notes: string | null; input_origin: "UI" | "API"; actor_label: string | null;
+  quantity_id: string | null; notes: string | null; input_origin: "UI" | "API" | "XLSX_IMPORT" | "CSV_IMPORT"; actor_label: string | null;
 };
 export type CommercialSummary = {
   recommended_unit_price: string | null; total_cost: string | null; offered_total: string | null; profit: string | null;
