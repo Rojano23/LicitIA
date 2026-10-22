@@ -170,7 +170,15 @@ def test_DFZ06_canonical_comparison_is_read_only(corpus):
         observed=observe_schema_drift(db)
     finally:
         event.remove(engine,'before_cursor_execute',inspect_sql)
-    assert observed==ACCEPTED_DRIFT
+    # Same certified index differences; the live product head advanced additively.
+    # This is regression evidence, never certification of a new blind-run profile.
+    expected = ACCEPTED_DRIFT.model_copy(update={
+        'current_revision': ('20261021_commercial_073',),
+        'head_revision': ('20261021_commercial_073',),
+    })
+    assert observed == expected
+    with pytest.raises(ValueError, match='OBSERVED_SCHEMA_DRIFT_MISMATCH'):
+        verify_accepted_drift(observed)
     assert statements and set(statements)<={'SELECT','SET','SHOW'}
 
 

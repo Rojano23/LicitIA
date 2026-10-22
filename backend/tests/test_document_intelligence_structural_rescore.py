@@ -8,6 +8,13 @@ ROOT=Path(__file__).resolve().parents[1]
 GOLD=ROOT/'evals'/'document_intelligence_b4_structure_golden_v1.json'
 OBS=ROOT/'reports'/'di_r4a_vision_b4_p1_p3_structure.json'
 URL='postgresql+psycopg://ceciliavalencia@localhost:5432/licitia_test'
+@pytest.fixture(scope='module', autouse=True)
+def current_schema_replay_contract():
+    # Regression at M7-A schema only; do not alter the frozen production replay guard.
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr('app.document_intelligence_calibration_replay.EXPECTED_HEAD', '20261021_commercial_073')
+        yield
+
 @pytest.fixture(scope='module')
 def golden():return load_golden(GOLD)
 @pytest.fixture(scope='module')

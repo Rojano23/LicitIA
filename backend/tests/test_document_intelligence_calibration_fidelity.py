@@ -15,6 +15,13 @@ ROOT=Path(__file__).resolve().parents[1]
 PATHS=[ROOT/'reports'/f for f in ['di_r4a_tesseract_b4_p4_transcription.json','di_r4a_vision_b4_p4_transcription.json','di_r4a_vision_b4_p1_p3_structure.json']]
 TEST_URL='postgresql+psycopg://ceciliavalencia@localhost:5432/licitia_test'
 
+@pytest.fixture(scope='module', autouse=True)
+def current_schema_replay_contract():
+    # Regression at M7-A schema only; do not alter the frozen production replay guard.
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr('app.document_intelligence_calibration_replay.EXPECTED_HEAD', '20261021_commercial_073')
+        yield
+
 @pytest.fixture(scope='module')
 def batch():return read_batch(PATHS)
 @pytest.fixture(scope='module')

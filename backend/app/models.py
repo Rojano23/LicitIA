@@ -3241,3 +3241,57 @@ class AlternativeScopeComplianceDecision(Base):
     rationale: Mapped[str] = mapped_column(Text, nullable=False)
     evidence_note: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc))
+
+
+class CommercialLine(Base):
+    __tablename__ = 'commercial_lines'
+    __table_args__ = (
+        UniqueConstraint('tender_id', 'scope_id_at_creation', name='uq_commercial_scope'),
+        UniqueConstraint('id', 'tender_id', name='uq_commercial_line_tender'),
+        CheckConstraint('scope_detail_id IS NULL OR scope_detail_id = scope_id_at_creation', name='ck_commercial_scope_identity'),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(ForeignKey('tenders.id', ondelete='RESTRICT'), nullable=False)
+    scope_detail_id: Mapped[str | None] = mapped_column(ForeignKey('tender_scope_details.id', ondelete='SET NULL'))
+    scope_id_at_creation: Mapped[str] = mapped_column(String(36), nullable=False)
+    scope_snapshot: Mapped[dict] = mapped_column(JSON, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+
+class CommercialLineRevision(Base):
+    __tablename__ = 'commercial_line_revisions'
+    __table_args__ = (
+        ForeignKeyConstraint(['line_id', 'tender_id'], ['commercial_lines.id', 'commercial_lines.tender_id'], ondelete='RESTRICT'),
+        UniqueConstraint('line_id', 'revision', name='uq_commercial_revision'),
+        CheckConstraint('revision > 0', name='ck_commercial_revision_positive'),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    line_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    tender_id: Mapped[str] = mapped_column(String(36), nullable=False)
+    revision: Mapped[int] = mapped_column(Integer, nullable=False)
+    cost_source_type: Mapped[str] = mapped_column(String(32), nullable=False)
+    cost_value_origin: Mapped[str] = mapped_column(String(32), nullable=False)
+    reference_party_name: Mapped[str | None] = mapped_column(String(300))
+    reference_party_reference: Mapped[str | None] = mapped_column(String(300))
+    reference_party_note: Mapped[str | None] = mapped_column(Text)
+    quote_document_id: Mapped[str | None] = mapped_column(ForeignKey('tender_documents.id', ondelete='RESTRICT'))
+    quote_reference: Mapped[str | None] = mapped_column(Text)
+    currency: Mapped[str | None] = mapped_column(String(3))
+    unit_cost: Mapped[Decimal | None] = mapped_column(Numeric(24, 6))
+    offered_unit_price: Mapped[Decimal | None] = mapped_column(Numeric(24, 6))
+    calculation_mode: Mapped[str] = mapped_column(String(16), nullable=False)
+    calculation_basis: Mapped[str | None] = mapped_column(String(16))
+    markup_percent: Mapped[Decimal | None] = mapped_column(Numeric(18, 8))
+    target_margin_percent: Mapped[Decimal | None] = mapped_column(Numeric(18, 8))
+    quantity_id: Mapped[str | None] = mapped_column(String(36))
+    notes: Mapped[str | None] = mapped_column(Text)
+    price_method: Mapped[str | None] = mapped_column(String(16))
+    price_value_origin: Mapped[str | None] = mapped_column(String(32))
+    input_origin: Mapped[str] = mapped_column(String(16), nullable=False)
+    actor_label: Mapped[str | None] = mapped_column(String(200))
+    action: Mapped[str] = mapped_column(String(32), nullable=False)
+    source_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    source_snapshot: Mapped[dict] = mapped_column(JSON, nullable=False)
+    calculation_snapshot: Mapped[dict] = mapped_column(JSON, nullable=False)
+    calculation_version: Mapped[str] = mapped_column(String(32), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)

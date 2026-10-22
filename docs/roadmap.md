@@ -313,7 +313,7 @@ Para un conjunto de evidencias de prueba, LicitIA distingue correctamente entre 
 - **Fase actual: RELEASE CANDIDATE / UAT HARDENING** — [readiness y gates P0](release-candidate-limited-uat-readiness.md), [capacidades UAT](uat-capability-statement.md). Primer usuario externo pendiente de hardening operacional; no reabrir Document Intelligence ni crear Attempt #10. No RC/tag creado.
   - RC-H1 (Local Reproducible Deployment): ACCEPTED, commit `65b3465c35877408aafe15757d3e74aaddf10e36`; [instalación](local-deployment.md). Sin push. No reabre semántica de Document Intelligence.
   - RC-H2 (Functional Workspace Integration): ACCEPTED, commit `415669f3a42850971ef57bae031ce19a622340b4`; composición normal Native/evidencia disponible, Scope con Quantity por padre, requisitos/evidencia y revisión Scope existentes. [Decisión y límites](adr/0020-workspace-canonical-composition.md), [flujo UAT](workspace-functional-flow.md). Sin migración ni rediseño final. Quantity independiente queda de solo lectura; revisión/edición auditada permanece DEFERRED P1 tras evaluación RC-H3, requiere contrato/migración y aprobación arquitectónica.
-  - RC-H3 (Operational Recovery and Data Safety): implementado para revisión arquitectónica; backup DB+filesystem offline, verify/restore con staging y rollback, recuperación tras interrupción y retry normal con identidad vigente. [Contrato y límites](adr/0021-local-backup-restore-safe-retry.md), [operación](local-deployment.md#rc-h3--backup-restore-y-retry-local). Sin migración ni cambios semánticos; sin stage/commit/push RC-H3.
+  - RC-H3 (Operational Recovery and Data Safety): ACCEPTED, commit `6fab7612ed0cbf6659cb1cf985d3becbd60350d8`; backup DB+filesystem offline, verify/restore con staging y rollback, recuperación tras interrupción y retry normal con identidad vigente. [Contrato y límites](adr/0021-local-backup-restore-safe-retry.md), [operación](local-deployment.md#rc-h3--backup-restore-y-retry-local). Sin migración ni cambios semánticos; cierre aceptado antes de M7-A.
 
 Tender #002 fue expuesto sólo en las fases de validación/adjudicación autorizadas y ahora es referencia histórica; no es una muestra ciega nueva. No usar para tuning, fixtures, Golden o nuevas ejecuciones sin autorización explícita; preservar todos los artefactos.
 
@@ -339,38 +339,36 @@ Cada partida del Golden Tender muestra su alcance consolidado y sus fuentes docu
 
 ---
 
-## MVP-07 — Costing & Pricing
+## MVP-07 — Commercial Traceability & Pricing Assist
 
-### Secuencia
+### Objetivo y estado
 
-Permanece después del cierre de MVP-06, incluyendo MVP-06.R y MVP-06.V.
+Preservar trazabilidad de Tender/Scope → fuente de costo → decisión comercial → precio
+ofertado, minimizando captura repetida. MVP-06.V y RC-H1/H2/H3 están cerrados/aceptados;
+M7-A ACCEPTED: fundación comercial validada y aceptada; commit autorizado, sin push.
+No es un ERP ni una plataforma completa de estimación. El concepto anterior de
+proveedores, parsing de cotizaciones, componentes y escenarios no es el alcance vigente.
 
-### Objetivo
+### Slices
 
-Dar control comercial completo sin rigidizar la estrategia del usuario.
+- **M7-A:** dominio de línea comercial, cálculos Decimal, Quantity canónica, origen e
+  historial de decisiones, API y controles internos mínimos. [Contrato](commercial-foundation.md),
+  [ADR-0022](adr/0022-commercial-line-calculation-traceability.md).
+- **M7-B:** matriz comercial, edición masiva y defaults explícitos; reutilizar contratos
+  de M7-A, preservando overrides y concurrencia. Sin diseño final en M7-A.
+- **M7-C:** XLSX/CSV export/import/reconciliación con conflictos y procedencia auditada.
+- **M7-D:** completitud comercial, auditoría y contratos para MVP-08/MVP-09.
 
-### Funciones
+### Reglas y criterio de salida
 
-- proveedores;
-- carga de cotizaciones;
-- extracción de líneas;
-- matching cotización ↔ partida;
-- costos confirmados/históricos/estimados/manuales;
-- componentes de costo;
-- escenarios;
-- edición manual total;
-- margen y markup;
-- utilidad por partida;
-- utilidad global;
-- alertas de pérdida y falta de respaldo.
-
-### Regla crítica
-
-Ningún precio de venta es inmutable ni obligatorio.
-
-### Criterio de salida
-
-El usuario puede cambiar cualquier costo o precio y observar de inmediato el efecto por partida y general sin perder origen ni auditoría.
+No reingresar Tender, Scope, descripción, Quantity/unidad, fuente ni estado de revisión.
+Cotización opcional: costos internos/de fabricante son válidos sin proveedor ficticio.
+Modo COST_FIRST (markup o margen objetivo) o PRICE_FIRST; no confundir markup con margen.
+Un precio manual prevalece sobre una recomendación; sólo una acción explícita puede
+reemplazarlo. Pérdida, costo desconocido y ambigüedad permanecen visibles para decisión
+humana. Sin FX ni suma de distintas monedas. El usuario puede cambiar costo/precio sin
+perder origen, evidencia ni auditoría. MVP-07 completo deberá agilizar trabajo con
+matriz/bulk/defaults/XLSX; M7-A entrega únicamente la fundación.
 
 ---
 

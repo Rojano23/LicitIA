@@ -144,7 +144,7 @@ def test_VF24_empty_db(corpus):
     identity=database_identity(db)
     assert identity['database']=='licitia_test' and identity['tender_count']>0
     # Empty detection is independent from names/contents and never queries other corpus tables.
-    assert identity['revision']=='20261013_req_perception_prov_072'
+    assert identity['revision']=='20261021_commercial_073'  # live test DB; frozen reports above remain 072
     # V.0's historical empty validation DB is no longer a test fixture.
     # Empty-state identity is exercised with a synthetic read-only query interface.
     class EmptyDatabase:

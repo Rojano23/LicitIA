@@ -655,3 +655,14 @@ No definir todavía sin evidencia de implementación/casos reales:
 - asignación de costos comunes a múltiples partidas;
 - multiusuario/roles;
 - firma y exportaciones finales.
+
+## 14. MVP-07 M7-A — dominio comercial vigente
+
+El diagrama conceptual de Supplier/SupplierQuote/CostComponent/BidPrice/PriceScenario
+anterior no representa entidades implementadas ni alcance de M7-A. El dominio comercial
+vigente es CommercialLine (identidad única Tender/Scope) → CommercialLineRevision
+(decisiones inmutables). Reutiliza TenderScopeDetail/TenderScopeQuantity y documentos
+existentes; no segunda Quantity comercial ni descripción autoritativa duplicada.
+Fuentes comerciales y orígenes económicos son ejes distintos. El precio elegido es una
+decisión humana; la recomendación calculada no lo reemplaza al guardar inputs.
+Ver [contratos, fórmulas y límites](commercial-foundation.md) y [ADR-0022](adr/0022-commercial-line-calculation-traceability.md).

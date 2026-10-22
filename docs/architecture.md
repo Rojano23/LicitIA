@@ -414,3 +414,14 @@ Toda decisión que cambie alguno de estos puntos requiere ADR:
 - introducción de nuevas colas/middleware;
 - cambio del modelo de trazabilidad;
 - cambio de estrategia de originales/documentos derivados.
+
+## 17. Fundación comercial M7-A
+
+`commercial_calculations.py` es cálculo Decimal puro; `commercial.py` compone evidencia
+canónica y decisiones comerciales, sin proveedores/LLM ni dependencia FastAPI de los
+motores existentes. Los errores HTTP en el servicio siguen la convención de composición
+Workspace; las fórmulas no dependen de HTTP. La API aditiva confirma transacciones y
+Workspace muestra controles provisionales dentro del Scope existente. Dos tablas con
+Alembic 073 conservan identidad/revisiones; SET NULL del Scope vivo evita bloquear
+regeneración documental. [ADR-0022](adr/0022-commercial-line-calculation-traceability.md)
+explica integridad, auditoría, precisión y revisión OSS sin nuevas dependencias.

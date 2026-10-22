@@ -81,7 +81,7 @@ class FakeDatabase:
     def exec_driver_sql(self,*a):pass
     def execute(self,*a):return self
     def scalars(self):return self
-    def all(self):return ['20261013_req_perception_prov_072']
+    def all(self):return ['20261021_commercial_073']
     @contextmanager
     def connect(self):yield self
     def dispose(self):pass
@@ -125,3 +125,13 @@ def test_configure_refuses_foreign_runtime_directory(tmp_path):
     result=subprocess.run([sys.executable,str(script),'--config',str(tmp_path/'runtime.json'),'configure'],capture_output=True,text=True)
     assert result.returncode!=0 and 'EMPTY_NEW_RUNTIME_DIRECTORY_REQUIRED' in result.stderr
     assert not (tmp_path/'runtime.json').exists() and (foreign/'PG_VERSION').read_text()=='17'
+
+
+def test_outdated_database_requires_migration(runtime,monkeypatch):
+    class OutdatedDatabase(FakeDatabase):
+        def all(self):return ['20261013_req_perception_prov_072']
+    monkeypatch.setattr('sqlalchemy.create_engine',lambda *a,**kw:OutdatedDatabase())
+    monkeypatch.setattr('app.local_deployment.subprocess.run',lambda *a,**kw:SimpleNamespace(stdout='List:\neng\nspa\n'))
+    result=readiness(runtime)
+    assert result['state']=='FAILED'
+    assert result['components']['database_migrations']['state']=='FAILED'

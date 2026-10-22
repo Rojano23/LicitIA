@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { workspaceApi, recoveryApi, type RetryRead, type ProcessingStatus, type WorkspaceRead, type WorkspaceSource } from "../api/workspace";
+import { CommercialLine } from "./CommercialLine";
 import { ScopeReview } from "./ScopeReview";
 
 type Props = { apiUrl: string; tenderId: string; documents: readonly { id: string; original_filename: string }[] };
@@ -106,6 +107,7 @@ export function WorkspaceFlow({ apiUrl, tenderId, documents }: Props) {
             <p key={q.id} role="alert">Cantidad con asociación no válida; requiere revisión.</p> :
             <div key={q.id}><p>Cantidad: {q.quantity_raw} {q.unit_raw ?? "sin unidad"} · {q.relation ?? "relación sin determinar"} · {q.status === "UNRESOLVED" ? "Sin resolver" : q.status === "REVIEW_REQUIRED" ? "Requiere revisión" : "Sin revisión requerida"}</p>
               <Source source={q.source} apiUrl={apiUrl} tenderId={tenderId} /></div>)}
+          <CommercialLine apiUrl={apiUrl} tenderId={tenderId} scopeDetailId={scope.scope_detail_id} documents={documents} />
         </article>)}
         <details><summary>Requisitos y evidencia solicitada</summary>
           <p>{data.requirements.scope_note}</p>

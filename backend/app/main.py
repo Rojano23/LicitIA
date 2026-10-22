@@ -3302,3 +3302,45 @@ def workspace_recovery_endpoint(tender_id: str, db: Session = Depends(get_db)) -
 def workspace_retry_endpoint(tender_id: str, payload: RetryWrite, db: Session = Depends(get_db)) -> WorkspaceRead:
     from app.workspace_flow import process_workspace
     return process_workspace(db, tender_id, retry_fingerprint=payload.expected_fingerprint)
+
+
+# M7-A human commercial overlay; no Document Intelligence engine changes.
+from app.commercial_calculations import CommercialInputs
+from app.commercial import CommercialUpdate, CalculationRequest
+
+
+def _commercial_call(db, call, *, write=False):
+    try:
+        result = call()
+        if write:
+            db.commit()
+        return result
+    except Exception:
+        if write:
+            db.rollback()
+        raise
+
+
+@app.post('/tenders/{tender_id}/scopes/{scope_id}/commercial-line', status_code=201)
+def create_commercial_endpoint(tender_id: str, scope_id: str, payload: CommercialInputs, db: Session = Depends(get_db)):
+    from app.commercial import create_commercial
+    return _commercial_call(db, lambda: create_commercial(db, tender_id, scope_id, payload), write=True)
+
+
+@app.get('/tenders/{tender_id}/scopes/{scope_id}/commercial-line')
+@app.get('/tenders/{tender_id}/scopes/{scope_id}/commercial-line/summary')
+def read_commercial_endpoint(tender_id: str, scope_id: str, db: Session = Depends(get_db)):
+    from app.commercial import read_commercial
+    return _commercial_call(db, lambda: read_commercial(db, tender_id, scope_id))
+
+
+@app.patch('/tenders/{tender_id}/scopes/{scope_id}/commercial-line')
+def update_commercial_endpoint(tender_id: str, scope_id: str, payload: CommercialUpdate, db: Session = Depends(get_db)):
+    from app.commercial import update_commercial
+    return _commercial_call(db, lambda: update_commercial(db, tender_id, scope_id, payload), write=True)
+
+
+@app.post('/tenders/{tender_id}/scopes/{scope_id}/commercial-line/calculate')
+def calculate_commercial_endpoint(tender_id: str, scope_id: str, payload: CalculationRequest, db: Session = Depends(get_db)):
+    from app.commercial import calculate_commercial
+    return _commercial_call(db, lambda: calculate_commercial(db, tender_id, scope_id, payload), write=payload.apply_calculated_price)
