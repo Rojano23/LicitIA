@@ -475,3 +475,9 @@ reconciliación derivada sin sincronización por lectura. Alembic074 guarda sól
 humanas; no nueva extracción, pricing, auth o filesystem. [ADR-0027](adr/0027-readiness-workflow.md),
 [contrato](readiness-workflow.md). Cambios fuente invalidan conservadoramente workflow
 anterior; notas permanecen. Canonical readiness sigue autoritativo para MVP-09.
+
+## 23. Board operacional M8-C
+
+`readiness_board.py` compone una lectura M8-A/M8-B, prioridad determinista, filtros y
+paginación. Sin persistencia ni autoridad nueva; targets abren módulos existentes.
+Workspace reutiliza acciones humanas M8-B. [Contrato](readiness-board.md).

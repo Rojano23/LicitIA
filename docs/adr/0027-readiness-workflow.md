@@ -1,6 +1,6 @@
 # ADR-0027 — M8-B: decisiones de seguimiento de readiness
 
-Estado: implementación para revisión arquitectónica. Esquema documentado ANTES de crear074.
+Estado: aceptado arquitectónicamente, commit M8-B `db3325c`. Esquema documentado ANTES de crear074.
 Base M8-A8431338, performance gatePASS.
 
 Inventario: TenderScopeReview tiene decisiones CONFIRMED/CORRECTED/REJECTED con snapshot

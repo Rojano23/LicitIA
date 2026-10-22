@@ -389,9 +389,10 @@ M8-A aceptado funcionalmente, gate de rendimiento PASS; commit
 canónicos; sin certificación contractual ni cambios documentales/comerciales.
 
 - M8-A: dominio/readiness y agregación canónica.
-- M8-B: overlay de seguimiento/decisiones humanas implementado para revisión, sin stage/commit.
+- M8-B: ACCEPTED; commit `db3325c3e201123ef8f54045e484f2a6328969fa`, sin push.
   [Contrato](readiness-workflow.md), [ADR-0027](adr/0027-readiness-workflow.md), Alembic074.
-- M8-C: board Workspace, filtros/prioridades (pendiente).
+- M8-C: board Workspace implementado para revisión, sin stage/commit.
+  [Contrato](readiness-board.md): composición canónica/humana, filtros, prioridad determinista y paginación; sin migración nueva.
 - M8-D: snapshot/handoff MVP-09 y cierre (pendiente).
 
 

@@ -1,6 +1,6 @@
 # MVP-08 M8-B — trabajo de readiness y decisiones humanas
 
-Implementado para revisión arquitectónica; sin stage/commit. Base M8-A
+Aceptado arquitectónicamente; commit `db3325c3e201123ef8f54045e484f2a6328969fa`, sin push. Base M8-A
 `8431338f7004911c625a713bd9429be92ee7d03f`, con gate de rendimiento PASS.
 [ADR-0027](adr/0027-readiness-workflow.md) documenta esquema e inventario antes de074.
 

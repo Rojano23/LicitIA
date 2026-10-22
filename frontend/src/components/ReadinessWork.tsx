@@ -1,6 +1,6 @@
 import {useEffect,useRef,useState} from "react";
 import {workApi,type WorkItem,type WorkRead,type Workflow,type WorkEvent} from "../api/readinessWork";
-function WorkRow({item,apiUrl,tenderId,disabled,onSaved}:{item:WorkItem;apiUrl:string;tenderId:string;disabled:boolean;onSaved:()=>Promise<void>}){
+export function WorkRow({item,apiUrl,tenderId,disabled,onSaved}:{item:WorkItem;apiUrl:string;tenderId:string;disabled:boolean;onSaved:()=>Promise<void>}){
  const [state,setState]=useState<Workflow>(item.workflow_status),[note,setNote]=useState(item.note??""),[owner,setOwner]=useState(item.owner??""),[actor,setActor]=useState("");
  const [busy,setBusy]=useState(false),[error,setError]=useState(false),[history,setHistory]=useState<WorkEvent[]|null>(null);
  const mounted=useRef(true);useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;};},[]);

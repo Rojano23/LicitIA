@@ -699,3 +699,7 @@ con descriptor mínimo, hash de contexto, workflow, nota/owner/actor declarado y
 No persiste issues derivados ni estado fuente. Lifecycle ACTIVE/RESOLVED_BY_SOURCE_CHANGE/
 OBSOLETE es proyección; contexto stale reabre actividad sin borrar historia. Marcar RESOLVED
 no elimina un blocker canónico. [Contrato](readiness-workflow.md).
+
+M8-C BoardRead/BoardItem son DTOs de composición read-only, sin entidades SQL nuevas.
+Separan canonical_summary/work_summary, dimensiones, buckets/prioridad y targets;
+M8-A conserva autoridad y M8-B conserva decisiones/historia. [Contrato](readiness-board.md).

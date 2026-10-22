@@ -1,0 +1,12 @@
+import axios from "axios";
+import type {WorkItem,Workflow,WorkRead} from "./readinessWork";
+export const dimensions=["DOCUMENTS","REQUIREMENTS","REQUESTED_EVIDENCE","SCOPE","QUANTITIES","COMMERCIAL","HUMAN_REVIEW"] as const;
+export type Dimension=typeof dimensions[number];
+export const buckets=["BLOCKERS","REVIEW_REQUIRED","IN_PROGRESS","ATTENTION","ACCEPTED_RISKS","RESOLVED"] as const;
+export type Bucket=typeof buckets[number];
+export type BoardQuery={dimension?:Dimension;severity?:"BLOCKER"|"REVIEW"|"WARNING";workflow_status?:Workflow;bucket?:Bucket;search:string;include_inactive:boolean;offset:number;limit:number};
+export type BoardItem={work:WorkItem;bucket:Bucket;priority:number;action_target:string;source_target:string|null};
+export type BoardRead={tender_id:string;canonical_summary:WorkRead["canonical_summary"];work_summary:Record<string,number>;bucket_counts:Record<Bucket,number>;
+ dimensions:{dimension:Dimension;status:string;blocker_count:number;review_count:number;warning_count:number;open_work_count:number}[];
+ total_filtered:number;offset:number;limit:number;items:BoardItem[];notice:string};
+export const boardApi={read:async(base:string,tender:string,params:BoardQuery)=>(await axios.get<BoardRead>(`${base}/tenders/${tender}/readiness-board`,{params})).data};

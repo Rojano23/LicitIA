@@ -3495,3 +3495,16 @@ def readiness_work_history_endpoint(tender_id: str, issue_id: str, limit: int = 
                                     before_revision: int | None = Query(None,ge=1), db: Session = Depends(get_db)):
     from app.readiness_work import work_history
     return work_history(db,tender_id,issue_id,limit=limit,before_revision=before_revision)
+
+
+from app.readiness_board import BoardRead, Bucket
+
+
+@app.get('/tenders/{tender_id}/readiness-board', response_model=BoardRead)
+def readiness_board_endpoint(tender_id: str, dimension: Dimension | None = None, severity: Severity | None = None,
+                             workflow_status: Workflow | None = None, bucket: Bucket | None = None,
+                             include_inactive: bool = False, search: str = Query('',max_length=200),
+                             offset: int = Query(0,ge=0), limit: int = Query(50,ge=1,le=200), db: Session = Depends(get_db)):
+    from app.readiness_board import read_board
+    return read_board(db,tender_id,dimension=dimension,severity=severity,workflow_status=workflow_status,
+                      bucket=bucket,include_inactive=include_inactive,search=search,offset=offset,limit=limit)

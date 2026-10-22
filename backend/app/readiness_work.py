@@ -119,17 +119,7 @@ def _items(db,tender_id):
 def list_work(db,tender_id,*,dimension=None,severity=None,workflow_status=None,include_inactive=False,offset=0,limit=50):
     if offset<0 or not 1<=limit<=200:raise HTTPException(422,'INVALID_WORK_PAGE')
     canonical,items=_items(db,tender_id)
-    active=[i for i in items if i.lifecycle=='ACTIVE']
-    closed={'RESOLVED','ACCEPTED_RISK','NOT_APPLICABLE'}
-    summary={'total_active':len(active),
-        'total_open':sum(i.canonical_blocker_remains or i.workflow_status not in closed for i in active),
-        'blockers_open':sum(i.canonical_blocker_remains for i in active),
-        'review_items_open':sum(i.issue.severity=='REVIEW' and i.workflow_status!='RESOLVED' for i in active),
-        'accepted_risks':sum(i.workflow_status=='ACCEPTED_RISK' for i in active),
-        'resolved':sum(i.lifecycle=='RESOLVED_BY_SOURCE_CHANGE' for i in items),
-        'obsolete':sum(i.lifecycle=='OBSOLETE' for i in items),
-        'manually_closed_activity':sum(i.workflow_status=='RESOLVED' for i in active),
-        'stale_annotations':sum(i.annotation_stale for i in active)}
+    summary=work_summary(items)
     selected=[i for i in items if (include_inactive or i.lifecycle=='ACTIVE') and (dimension is None or i.dimension==dimension)
         and (severity is None or i.issue is not None and i.issue.severity==severity)
         and (workflow_status is None or i.workflow_status==workflow_status)]
@@ -177,3 +167,18 @@ def work_history(db,tender_id,issue_id,*,limit=25,before_revision=None):
     rows=list(db.scalars(query.order_by(ReadinessWorkDecision.revision.desc()).limit(limit)))
     return [WorkEvent(revision=r.revision,workflow_status=r.workflow_status,note=r.note,owner=r.owner,actor_label=r.actor_label,
         timestamp=r.created_at.astimezone(timezone.utc),context_sha256=r.context_sha256) for r in rows]
+
+
+def work_summary(items):
+    active=[i for i in items if i.lifecycle=='ACTIVE']
+    closed={'RESOLVED','ACCEPTED_RISK','NOT_APPLICABLE'}
+    summary={'total_active':len(active),
+        'total_open':sum(i.canonical_blocker_remains or i.workflow_status not in closed for i in active),
+        'blockers_open':sum(i.canonical_blocker_remains for i in active),
+        'review_items_open':sum(i.issue.severity=='REVIEW' and i.workflow_status!='RESOLVED' for i in active),
+        'accepted_risks':sum(i.workflow_status=='ACCEPTED_RISK' for i in active),
+        'resolved':sum(i.lifecycle=='RESOLVED_BY_SOURCE_CHANGE' for i in items),
+        'obsolete':sum(i.lifecycle=='OBSOLETE' for i in items),
+        'manually_closed_activity':sum(i.workflow_status=='RESOLVED' for i in active),
+        'stale_annotations':sum(i.annotation_stale for i in active)}
+    return summary
