@@ -383,12 +383,14 @@ histórico de la fundación inicial.
 
 ### Estado y slices
 
-M8-A aceptado funcionalmente, gate de rendimiento PASS; commit autorizado. [Contrato](bid-readiness.md),
+M8-A aceptado funcionalmente, gate de rendimiento PASS; commit
+`8431338f7004911c625a713bd9429be92ee7d03f`, sin push. [Contrato](bid-readiness.md),
 [ADR-0026](adr/0026-bid-readiness-foundation.md). Sólo agregación/inspección de registros
 canónicos; sin certificación contractual ni cambios documentales/comerciales.
 
 - M8-A: dominio/readiness y agregación canónica.
-- M8-B: seguimiento de checklist/work-items y decisiones humanas (pendiente).
+- M8-B: overlay de seguimiento/decisiones humanas implementado para revisión, sin stage/commit.
+  [Contrato](readiness-workflow.md), [ADR-0027](adr/0027-readiness-workflow.md), Alembic074.
 - M8-C: board Workspace, filtros/prioridades (pendiente).
 - M8-D: snapshot/handoff MVP-09 y cierre (pendiente).
 

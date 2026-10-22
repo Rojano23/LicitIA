@@ -3457,3 +3457,41 @@ def bid_readiness_issues_endpoint(tender_id: str, dimension: Dimension | None = 
 def bid_readiness_dimensions_endpoint(tender_id: str, db: Session = Depends(get_db)):
     from app.bid_readiness_service import read_bid_readiness
     return read_bid_readiness(db, tender_id).dimensions
+
+
+from app.readiness_work import WorkRead, WorkItem, WorkEvent, WorkUpdate, Workflow
+
+
+@app.get('/tenders/{tender_id}/readiness-work', response_model=WorkRead)
+def readiness_work_list_endpoint(tender_id: str, dimension: Dimension | None = None, severity: Severity | None = None,
+                                  workflow_status: Workflow | None = None, include_inactive: bool = False,
+                                  offset: int = Query(0,ge=0), limit: int = Query(50,ge=1,le=200), db: Session = Depends(get_db)):
+    from app.readiness_work import list_work
+    return list_work(db,tender_id,dimension=dimension,severity=severity,workflow_status=workflow_status,
+                     include_inactive=include_inactive,offset=offset,limit=limit)
+
+
+@app.get('/tenders/{tender_id}/readiness-work/summary')
+def readiness_work_summary_endpoint(tender_id: str, db: Session = Depends(get_db)):
+    from app.readiness_work import list_work
+    result=list_work(db,tender_id,limit=1)
+    return {'canonical_summary':result.canonical_summary,'work_summary':result.work_summary}
+
+
+@app.get('/tenders/{tender_id}/readiness-work/{issue_id}', response_model=WorkItem)
+def readiness_work_get_endpoint(tender_id: str, issue_id: str, db: Session = Depends(get_db)):
+    from app.readiness_work import get_work
+    return get_work(db,tender_id,issue_id)
+
+
+@app.patch('/tenders/{tender_id}/readiness-work/{issue_id}', response_model=WorkItem)
+def readiness_work_update_endpoint(tender_id: str, issue_id: str, payload: WorkUpdate, db: Session = Depends(get_db)):
+    from app.readiness_work import update_work
+    return _commercial_call(db,lambda:update_work(db,tender_id,issue_id,payload),write=True)
+
+
+@app.get('/tenders/{tender_id}/readiness-work/{issue_id}/history', response_model=list[WorkEvent])
+def readiness_work_history_endpoint(tender_id: str, issue_id: str, limit: int = Query(25,ge=1,le=100),
+                                    before_revision: int | None = Query(None,ge=1), db: Session = Depends(get_db)):
+    from app.readiness_work import work_history
+    return work_history(db,tender_id,issue_id,limit=limit,before_revision=before_revision)

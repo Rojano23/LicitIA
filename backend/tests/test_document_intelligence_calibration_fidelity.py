@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 from copy import deepcopy
+from tests.schema_head import current_head
 import pytest
 from pydantic import ValidationError
 from sqlalchemy import create_engine,select
@@ -17,9 +18,9 @@ TEST_URL='postgresql+psycopg://ceciliavalencia@localhost:5432/licitia_test'
 
 @pytest.fixture(scope='module', autouse=True)
 def current_schema_replay_contract():
-    # Regression at M7-A schema only; do not alter the frozen production replay guard.
+    # Regression at current test schema only; do not alter the frozen production replay guard.
     with pytest.MonkeyPatch.context() as patch:
-        patch.setattr('app.document_intelligence_calibration_replay.EXPECTED_HEAD', '20261021_commercial_073')
+        patch.setattr('app.document_intelligence_calibration_replay.EXPECTED_HEAD', current_head())
         yield
 
 @pytest.fixture(scope='module')

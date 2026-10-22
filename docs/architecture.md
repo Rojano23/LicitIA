@@ -466,3 +466,12 @@ Hardening M8-A: `read_batch.py` precarga contexto ORM y memoiza sólo lecturas c
 puras dentro del request, con limpieza incondicional. Historial/proyección/manifest
 siguen validadores existentes; Workspace agrupa Quantity en una consulta. Escala 2→20
 Scope: consultas constantes en fixture controlada, sin política semántica nueva.
+
+## 22. Seguimiento humano M8-B
+
+`readiness_work.py` compone issues M8-A con eventos humanos append-only específicos,
+sin alterar readiness fuente. Contexto canónico reutilizado por request, overlay en lote,
+reconciliación derivada sin sincronización por lectura. Alembic074 guarda sólo decisiones
+humanas; no nueva extracción, pricing, auth o filesystem. [ADR-0027](adr/0027-readiness-workflow.md),
+[contrato](readiness-workflow.md). Cambios fuente invalidan conservadoramente workflow
+anterior; notas permanecen. Canonical readiness sigue autoritativo para MVP-09.

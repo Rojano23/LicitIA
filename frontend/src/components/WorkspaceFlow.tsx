@@ -1,3 +1,4 @@
+import { ReadinessWork } from "./ReadinessWork";
 import { BidReadinessInspection } from "./BidReadinessInspection";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { workspaceApi, recoveryApi, type RetryRead, type ProcessingStatus, type WorkspaceRead, type WorkspaceSource } from "../api/workspace";
@@ -97,6 +98,7 @@ export function WorkspaceFlow({ apiUrl, tenderId, documents }: Props) {
       {data?.processing.provider_degraded && <p>Percepción parcial o no disponible: la evidencia determinista válida permanece disponible y requiere revisión humana.</p>}
       {error && <p role="alert">{error} Los resultados visibles pueden estar desactualizados.</p>}
       {data && <>
+        <ReadinessWork key={`work:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/>
         <BidReadinessInspection key={`readiness:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/>
         <CommercialMatrix key={tenderId} apiUrl={apiUrl} tenderId={tenderId} />
         <h4>Alcance y cantidades</h4>

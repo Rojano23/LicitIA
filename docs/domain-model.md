@@ -693,3 +693,9 @@ de lectura: identidad UUID5 por Tender/dimensión/entidad/código, estado normal
 severidad, referencias originales y motivos. No nuevas entidades SQL; una consulta no
 crea tareas ni decisiones. Human Review conserva autoridad de sus dominios. Conteos son
 señales, no entidades únicas. [Contrato](bid-readiness.md).
+
+M8-B: ReadinessWorkDecision (Alembic074) es historial humano por Tender/UUID issue/revisión,
+con descriptor mínimo, hash de contexto, workflow, nota/owner/actor declarado y fecha.
+No persiste issues derivados ni estado fuente. Lifecycle ACTIVE/RESOLVED_BY_SOURCE_CHANGE/
+OBSOLETE es proyección; contexto stale reabre actividad sin borrar historia. Marcar RESOLVED
+no elimina un blocker canónico. [Contrato](readiness-workflow.md).

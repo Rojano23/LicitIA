@@ -6,6 +6,7 @@ from pathlib import Path
 import subprocess
 import sys
 from types import SimpleNamespace
+from tests.schema_head import current_head
 import pytest
 from app.local_deployment import (RuntimeConfig,REPOSITORY,load_config,validate_storage,
     local_url,aggregate,readiness,OllamaReadiness)
@@ -81,7 +82,7 @@ class FakeDatabase:
     def exec_driver_sql(self,*a):pass
     def execute(self,*a):return self
     def scalars(self):return self
-    def all(self):return ['20261021_commercial_073']
+    def all(self):return [current_head()]
     @contextmanager
     def connect(self):yield self
     def dispose(self):pass

@@ -3295,3 +3295,28 @@ class CommercialLineRevision(Base):
     calculation_snapshot: Mapped[dict] = mapped_column(JSON, nullable=False)
     calculation_version: Mapped[str] = mapped_column(String(32), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+
+class ReadinessWorkDecision(Base):
+    """Human activity overlay; never source readiness or contractual decisions."""
+    __tablename__ = 'readiness_work_decisions'
+    __table_args__ = (
+        UniqueConstraint('tender_id','issue_id','revision',name='uq_readiness_work_revision'),
+        CheckConstraint('revision > 0',name='ck_readiness_work_revision'),
+        CheckConstraint("workflow_status IN ('OPEN','IN_REVIEW','RESOLVED','ACCEPTED_RISK','NOT_APPLICABLE')",name='ck_readiness_work_status'),
+        Index('ix_readiness_work_tender_issue','tender_id','issue_id'),
+    )
+    id: Mapped[str] = mapped_column(String(36),primary_key=True,default=lambda:str(uuid4()))
+    tender_id: Mapped[str] = mapped_column(String(36),ForeignKey('tenders.id',ondelete='RESTRICT'),nullable=False)
+    issue_id: Mapped[str] = mapped_column(String(36),nullable=False)
+    revision: Mapped[int] = mapped_column(Integer,nullable=False)
+    dimension: Mapped[str] = mapped_column(String(32),nullable=False)
+    entity_type: Mapped[str] = mapped_column(String(64),nullable=False)
+    entity_id: Mapped[str] = mapped_column(String(512),nullable=False)
+    issue_code: Mapped[str] = mapped_column(String(128),nullable=False)
+    context_sha256: Mapped[str] = mapped_column(String(64),nullable=False)
+    workflow_status: Mapped[str] = mapped_column(String(32),nullable=False)
+    note: Mapped[str | None] = mapped_column(Text,nullable=True)
+    owner: Mapped[str | None] = mapped_column(String(200),nullable=True)
+    actor_label: Mapped[str | None] = mapped_column(String(200),nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True),default=lambda:datetime.now(timezone.utc),nullable=False)
