@@ -3271,3 +3271,19 @@ def get_alternative_compliance_endpoint(tender_id: str, alternative_id: str, eva
 def decide_alternative_compliance_endpoint(tender_id: str, alternative_id: str, evaluation_id: str, item_key: str, payload: ItemDecisionWrite, db: Session = Depends(get_db)):
     _scope_review_tender(db, tender_id)
     return _alternative_domain_call(db, lambda: append_compliance_decision(db, tender_id=tender_id, alternative_id=alternative_id, evaluation_id=evaluation_id, item_key=item_key, payload=payload), write=True)
+
+
+# Additive Workspace composition. Existing domain and review APIs remain canonical.
+from app.workspace_flow import WorkspaceRead
+
+
+@app.get('/tenders/{tender_id}/workspace', response_model=WorkspaceRead)
+def get_workspace_endpoint(tender_id: str, db: Session = Depends(get_db)) -> WorkspaceRead:
+    from app.workspace_flow import read_workspace
+    return read_workspace(db, tender_id)
+
+
+@app.post('/tenders/{tender_id}/workspace/process', response_model=WorkspaceRead)
+def process_workspace_endpoint(tender_id: str, db: Session = Depends(get_db)) -> WorkspaceRead:
+    from app.workspace_flow import process_workspace
+    return process_workspace(db, tender_id)
