@@ -488,3 +488,10 @@ Workspace reutiliza acciones humanas M8-B. [Contrato](readiness-board.md).
 sin locks de edición permanentes. Snapshot explícito, payload versionado/hash verificado,
 append-only por Alembic075; GET handoff usa sólo estado almacenado. Freshness se evalúa
 aparte, sin mutar snapshot. No ProposalVersion ni generación. [ADR-0028](adr/0028-proposal-readiness-snapshot.md).
+
+## 25. Dominio de versiones M9-A
+
+`proposal_versions.py` compone sólo snapshot M8-D verificado + configuración humana.
+Proposal/Version/Event en076, DRAFT/FROZEN, binding fijo, auditoría append-only y hash frozen.
+Freshness aparte; no renderer, DI, cálculo comercial o dependencia LLM.
+[ADR-0029](adr/0029-proposal-version-foundation.md), [contrato](proposal-version-foundation.md).

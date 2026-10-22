@@ -1,6 +1,6 @@
 # ADR-0028 — M8-D: snapshot de handoff para MVP-09
 
-Estado: implementación autorizada para revisión. Esquema documentado antes de075.
+Estado: aceptado arquitectónicamente; M8-D commit `2bcd556`, MVP-08 CLOSED. Esquema documentado antes de075.
 M8-C aceptado, commit `748dda6265feda23d356086fb63218b434c6e501`.
 
 M8-A/B/C y M7-D siguen autoritativos. No existe snapshot de producto previo que preserve

@@ -708,3 +708,9 @@ ProposalReadinessSnapshot (M8-D,075) preserva handoff tipado a MVP-09: metadata 
 request/fecha/actor, fingerprints de estado/request/payload y JSON versionado inmutable.
 FK Tender RESTRICT, idempotencia por request, trigger anti UPDATE/DELETE. Fuente sigue editable;
 CURRENT/STALE es proyección derivada separada. [Contrato](proposal-readiness-snapshot.md).
+
+M9-A: Proposal identifica agregado por Tender; ProposalVersion fija snapshot ID/hash y versión
+lineal, configuración tipada DRAFT/FROZEN, revisión optimista y freeze hash; ProposalVersionEvent
+conserva CREATED/CONFIGURED/FROZEN/SUPERSEDED sin modificar frozen anterior. Input DTO
+`proposal-builder-v1` reutiliza handoff M8-D, sin duplicar fuentes ni calcular valores.
+[Contrato](proposal-version-foundation.md), Alembic076.

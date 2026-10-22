@@ -3338,3 +3338,61 @@ class ProposalReadinessSnapshot(Base):
     input_sha256: Mapped[str] = mapped_column(String(64),nullable=False)
     payload_sha256: Mapped[str] = mapped_column(String(64),nullable=False)
     payload: Mapped[dict] = mapped_column(JSON,nullable=False)
+
+
+class Proposal(Base):
+    __tablename__ = 'proposals'
+    id: Mapped[str] = mapped_column(String(36),primary_key=True)
+    tender_id: Mapped[str] = mapped_column(String(36),ForeignKey('tenders.id',ondelete='RESTRICT'),nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True),nullable=False)
+
+
+class ProposalVersion(Base):
+    __tablename__ = 'proposal_versions'
+    __table_args__ = (
+        UniqueConstraint('proposal_id','version',name='uq_proposal_version'),
+        UniqueConstraint('tender_id','request_id',name='uq_proposal_version_request'),
+        CheckConstraint('version > 0 AND edit_revision > 0',name='ck_proposal_version_revision'),
+        CheckConstraint("state IN ('DRAFT','FROZEN')",name='ck_proposal_version_state'),
+        CheckConstraint("content_contract = 'proposal-builder-v1'",name='ck_proposal_version_contract'),
+        CheckConstraint("created_origin IN ('API','WORKSPACE')",name='ck_proposal_version_origin'),
+        CheckConstraint("(state = 'DRAFT' AND frozen_at IS NULL AND frozen_sha256 IS NULL AND freeze_acknowledgements IS NULL AND frozen_actor_label IS NULL) OR (state = 'FROZEN' AND frozen_at IS NOT NULL AND frozen_sha256 IS NOT NULL AND freeze_acknowledgements IS NOT NULL)",name='ck_proposal_version_freeze'),
+        Index('ix_proposal_version_history','tender_id','created_at','id'),
+    )
+    id: Mapped[str] = mapped_column(String(36),primary_key=True)
+    proposal_id: Mapped[str] = mapped_column(String(36),ForeignKey('proposals.id',ondelete='RESTRICT'),nullable=False)
+    tender_id: Mapped[str] = mapped_column(String(36),ForeignKey('tenders.id',ondelete='RESTRICT'),nullable=False)
+    snapshot_id: Mapped[str] = mapped_column(String(36),ForeignKey('proposal_readiness_snapshots.id',ondelete='RESTRICT'),nullable=False)
+    snapshot_sha256: Mapped[str] = mapped_column(String(64),nullable=False)
+    previous_version_id: Mapped[str | None] = mapped_column(String(36),ForeignKey('proposal_versions.id',ondelete='RESTRICT'))
+    version: Mapped[int] = mapped_column(Integer,nullable=False)
+    edit_revision: Mapped[int] = mapped_column(Integer,nullable=False)
+    state: Mapped[str] = mapped_column(String(16),nullable=False)
+    content_contract: Mapped[str] = mapped_column(String(32),nullable=False)
+    configuration: Mapped[dict] = mapped_column(JSON,nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True),nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True),nullable=False)
+    created_origin: Mapped[str] = mapped_column(String(16),nullable=False)
+    actor_label: Mapped[str | None] = mapped_column(String(200))
+    frozen_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    frozen_actor_label: Mapped[str | None] = mapped_column(String(200))
+    frozen_sha256: Mapped[str | None] = mapped_column(String(64))
+    freeze_acknowledgements: Mapped[dict | None] = mapped_column(JSON(none_as_null=True),nullable=True)
+    request_id: Mapped[str] = mapped_column(String(36),nullable=False)
+    request_sha256: Mapped[str] = mapped_column(String(64),nullable=False)
+
+
+class ProposalVersionEvent(Base):
+    __tablename__ = 'proposal_version_events'
+    __table_args__ = (
+        UniqueConstraint('version_id','sequence',name='uq_proposal_event_sequence'),
+        CheckConstraint('sequence > 0',name='ck_proposal_event_sequence'),
+        CheckConstraint("action IN ('CREATED','CONFIGURED','FROZEN','SUPERSEDED')",name='ck_proposal_event_action'),
+    )
+    id: Mapped[str] = mapped_column(String(36),primary_key=True)
+    version_id: Mapped[str] = mapped_column(String(36),ForeignKey('proposal_versions.id',ondelete='RESTRICT'),nullable=False)
+    sequence: Mapped[int] = mapped_column(Integer,nullable=False)
+    action: Mapped[str] = mapped_column(String(32),nullable=False)
+    actor_label: Mapped[str | None] = mapped_column(String(200))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True),nullable=False)
+    details: Mapped[dict] = mapped_column(JSON,nullable=False)

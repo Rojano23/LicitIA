@@ -383,7 +383,7 @@ histórico de la fundación inicial.
 
 ### Estado y slices
 
-**MVP-08 CLOSED — gates A–L PASS; M8-D listo para revisión de cierre arquitectónica, sin stage/commit.**
+**MVP-08 CLOSED — decisión arquitectónica formal; M8-D ACCEPTED, commit `2bcd556b6b785412a5cf24b81d2ccac770e995a4`, sin push.**
 
 M8-A aceptado funcionalmente, gate de rendimiento PASS; commit
 `8431338f7004911c625a713bd9429be92ee7d03f`, sin push. [Contrato](bid-readiness.md),
@@ -395,7 +395,7 @@ canónicos; sin certificación contractual ni cambios documentales/comerciales.
   [Contrato](readiness-workflow.md), [ADR-0027](adr/0027-readiness-workflow.md), Alembic074.
 - M8-C: ACCEPTED; commit `748dda6265feda23d356086fb63218b434c6e501`, sin push.
   [Contrato](readiness-board.md): composición canónica/humana, filtros, prioridad determinista y paginación; sin migración nueva.
-- M8-D: snapshot/handoff MVP-09 completo; gates A–L PASS, listo para revisión de cierre, sin stage/commit.
+- M8-D: snapshot/handoff MVP-09 completo; gates A–L PASS, ACCEPTED, commit `2bcd556`.
   [Contrato](proposal-readiness-snapshot.md), [ADR-0028](adr/0028-proposal-readiness-snapshot.md), Alembic075.
 
 
@@ -421,11 +421,26 @@ MVP-09 debe consumir una identidad de snapshot específica, no valores actuales 
 Sin project management, auth/roles, notificaciones, UI final o generación de propuestas.
 Gates A–L verificados con regresión backend2351, frontend134, build/compileall/diff PASS;
 075 sólo en licitia_test/clusters efímeros. Fingerprint conservador M8-B y composición en
-memoria siguen como límites. M8-D requiere revisión arquitectónica antes de commit.
+memoria siguen como límites. M8-D aceptado y comprometido; sin M8-E.
 
 ---
 
 ## MVP-09 — Proposal Builder
+
+### Estado y slices
+
+**MVP-09 OPEN — M9-A implementado para revisión, sin stage/commit/push.** [Contrato](proposal-version-foundation.md),
+[ADR-0029](adr/0029-proposal-version-foundation.md), Alembic076. Revisión open source de referencia,
+sin dependencias nuevas. LicitIA es nombre interno; futura distribución RX23 Digital local/on-premise,
+sin renaming ni UI final.
+
+- M9-A: Proposal/Version, snapshot binding, configuración DRAFT, freeze/hash/audit/revisión.
+- M9-B: composición determinista de secciones/matrices (pendiente).
+- M9-C: exports editables/paquete (pendiente).
+- M9-D: validación, trazabilidad y cierre (pendiente).
+
+MVP-09 consume snapshot ID específico; no reinterpreta evidencia ni recalcula precios/Quantity.
+M9-A no genera DOCX/XLSX/PDF/ZIP, plantillas o prosa IA.
 
 ### Objetivo
 

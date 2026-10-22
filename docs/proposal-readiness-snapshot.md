@@ -1,6 +1,6 @@
 # MVP-08 M8-D — snapshot de readiness y handoff MVP-09
 
-MVP-08 CLOSED — gates A–L PASS. M8-D completo para revisión arquitectónica de cierre, sin stage/commit/push. [ADR-0028](adr/0028-proposal-readiness-snapshot.md)
+MVP-08 CLOSED — M8-D ACCEPTED; commit `2bcd556b6b785412a5cf24b81d2ccac770e995a4`, sin push. [ADR-0028](adr/0028-proposal-readiness-snapshot.md)
 documentó el esquema antes de075. M8-C ACCEPTED, commit748dda6.
 
 ## Qué significa preparado
@@ -111,7 +111,7 @@ Incluye agregación, dimensiones, blockers/warnings/review, workflow/notas/riesg
 prioridad, navegación, resumen y snapshot/handoff. Excluye certificación legal, aprobación
 autónoma, project management, notificaciones, auth/roles, UI final, edición Quantity y
 generación documental. Cierre MVP-08 requiere gates A–L y regresión green; revisión de cierre
-arquitectónica separada del commit. M8-D permanece sin stage/commit/push hasta aceptación.
+arquitectónica separada del commit. M8-D aceptado y comprometido en `2bcd556`, sin push.
 
 ## Gate de cierre verificado
 
@@ -119,4 +119,4 @@ A agregación estable; B actividad subordinada; C board operacional; D elegibili
 E blocker/warning/review separados; F snapshot íntegro/inmutable/reproducible; G stale correcto;
 H contrato por snapshot para MVP-09; I sin certificación; J sin project management;
 K semántica MVP-06/07 conservada; L regresión green. Todos PASS. Backend2351 y frontend134;
-build/compileall/diff PASS. La revisión de cierre arquitectónica y commit M8-D siguen pendientes.
+build/compileall/diff PASS. La revisión de cierre M8-D fue aceptada; commit `2bcd556`. MVP-08 CLOSED formalmente.

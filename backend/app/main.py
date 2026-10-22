@@ -3556,3 +3556,68 @@ def proposal_snapshot_freshness_endpoint(tender_id: str, snapshot_id: str, db: S
 def proposal_snapshot_handoff_endpoint(tender_id: str, snapshot_id: str, db: Session = Depends(get_proposal_db)):
     from app.proposal_readiness import get_snapshot
     return get_snapshot(db,tender_id,snapshot_id).payload.projection
+
+
+from app.proposal_versions import CreateProposal,UpdateProposal,FreezeProposal,ProposalRead,ProposalInput
+
+
+def _proposal_write(db,operation):
+    from sqlalchemy.exc import IntegrityError,OperationalError
+    try:
+        result=operation();db.commit();return result
+    except (IntegrityError,OperationalError) as exc:
+        db.rollback()
+        if getattr(exc.orig,'sqlstate',None) not in {'23505','40001','40P01'}:raise
+        raise HTTPException(409,'PROPOSAL_CONCURRENT_CHANGE_RETRY_REQUEST') from exc
+    except Exception:
+        db.rollback();raise
+
+
+@app.post('/tenders/{tender_id}/proposal-versions',response_model=ProposalRead)
+def proposal_version_create_endpoint(tender_id: str,payload: CreateProposal,db: Session = Depends(get_proposal_db)):
+    from app.proposal_versions import create_version
+    return _proposal_write(db,lambda:create_version(db,tender_id,payload))
+
+
+@app.get('/tenders/{tender_id}/proposal-versions')
+def proposal_version_list_endpoint(tender_id: str,proposal_id: str | None=None,limit: int=Query(20,ge=1,le=50),
+                                   before_id: str | None=None,db: Session = Depends(get_proposal_db)):
+    from app.proposal_versions import list_versions
+    return list_versions(db,tender_id,proposal_id=proposal_id,limit=limit,before_id=before_id)
+
+
+@app.get('/tenders/{tender_id}/proposal-versions/{version_id}',response_model=ProposalRead)
+def proposal_version_get_endpoint(tender_id: str,version_id: str,db: Session = Depends(get_proposal_db)):
+    from app.proposal_versions import read_version
+    return read_version(db,tender_id,version_id)
+
+
+@app.patch('/tenders/{tender_id}/proposal-versions/{version_id}',response_model=ProposalRead)
+def proposal_version_update_endpoint(tender_id: str,version_id: str,payload: UpdateProposal,db: Session = Depends(get_proposal_db)):
+    from app.proposal_versions import update_version
+    return _proposal_write(db,lambda:update_version(db,tender_id,version_id,payload))
+
+
+@app.post('/tenders/{tender_id}/proposal-versions/{version_id}/freeze',response_model=ProposalRead)
+def proposal_version_freeze_endpoint(tender_id: str,version_id: str,payload: FreezeProposal,db: Session = Depends(get_proposal_db)):
+    from app.proposal_versions import freeze_version
+    return _proposal_write(db,lambda:freeze_version(db,tender_id,version_id,payload))
+
+
+@app.get('/tenders/{tender_id}/proposal-versions/{version_id}/inputs',response_model=ProposalInput)
+def proposal_version_input_endpoint(tender_id: str,version_id: str,db: Session = Depends(get_proposal_db)):
+    from app.proposal_versions import input_projection
+    return input_projection(db,tender_id,version_id)
+
+
+@app.get('/tenders/{tender_id}/proposal-versions/{version_id}/source-state')
+def proposal_version_source_endpoint(tender_id: str,version_id: str,db: Session = Depends(get_proposal_db)):
+    from app.proposal_versions import source_state
+    return source_state(db,tender_id,version_id)
+
+
+@app.get('/tenders/{tender_id}/proposal-versions/{version_id}/history')
+def proposal_version_audit_endpoint(tender_id: str,version_id: str,limit: int=Query(25,ge=1,le=100),
+                                    before_sequence: int | None=Query(None,ge=1),db: Session = Depends(get_proposal_db)):
+    from app.proposal_versions import version_history
+    return version_history(db,tender_id,version_id,limit=limit,before_sequence=before_sequence)

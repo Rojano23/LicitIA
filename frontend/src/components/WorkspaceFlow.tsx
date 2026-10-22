@@ -1,3 +1,4 @@
+import {ProposalVersions} from "./ProposalVersions";
 import { ReadinessBoard } from "./ReadinessBoard";
 import { BidReadinessInspection } from "./BidReadinessInspection";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -99,6 +100,7 @@ export function WorkspaceFlow({ apiUrl, tenderId, documents }: Props) {
       {error && <p role="alert">{error} Los resultados visibles pueden estar desactualizados.</p>}
       {data && <>
         <ReadinessBoard key={`work:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/>
+        <ProposalVersions key={`proposal:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/>
         <BidReadinessInspection key={`readiness:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/>
         <CommercialMatrix key={tenderId} apiUrl={apiUrl} tenderId={tenderId} />
         <h4>Alcance y cantidades</h4>
