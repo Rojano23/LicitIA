@@ -1,7 +1,8 @@
 # MVP-08 M8-C — Board operacional provisional
 
 M8-B aceptado y comprometido en `db3325c3e201123ef8f54045e484f2a6328969fa`.
-M8-C implementado para revisión; sin stage/commit/push. Sin nueva migración: head074.
+M8-C ACCEPTED, commit `748dda6265feda23d356086fb63218b434c6e501`, sin push. Sin migración propia (074).
+M8-D agrega controles de handoff/snapshot: [contrato](proposal-readiness-snapshot.md).
 
 ## Contrato y autoridades
 

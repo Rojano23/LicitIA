@@ -3320,3 +3320,21 @@ class ReadinessWorkDecision(Base):
     owner: Mapped[str | None] = mapped_column(String(200),nullable=True)
     actor_label: Mapped[str | None] = mapped_column(String(200),nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True),default=lambda:datetime.now(timezone.utc),nullable=False)
+
+
+class ProposalReadinessSnapshot(Base):
+    """Immutable product handoff, distinct from blind-run experiment evidence."""
+    __tablename__ = 'proposal_readiness_snapshots'
+    __table_args__ = (
+        UniqueConstraint('tender_id','request_id',name='uq_proposal_snapshot_request'),
+        Index('ix_proposal_snapshot_history','tender_id','created_at','id'),
+    )
+    id: Mapped[str] = mapped_column(String(36),primary_key=True)
+    tender_id: Mapped[str] = mapped_column(String(36),ForeignKey('tenders.id',ondelete='RESTRICT'),nullable=False)
+    request_id: Mapped[str] = mapped_column(String(36),nullable=False)
+    request_sha256: Mapped[str] = mapped_column(String(64),nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True),nullable=False)
+    actor_label: Mapped[str | None] = mapped_column(String(200))
+    input_sha256: Mapped[str] = mapped_column(String(64),nullable=False)
+    payload_sha256: Mapped[str] = mapped_column(String(64),nullable=False)
+    payload: Mapped[dict] = mapped_column(JSON,nullable=False)

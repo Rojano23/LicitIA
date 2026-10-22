@@ -1,3 +1,4 @@
+import {ProposalReadiness} from "./ProposalReadiness";
 import {useEffect,useRef,useState} from "react";
 import {boardApi,buckets,dimensions,type BoardRead,type BoardQuery,type Bucket,type Dimension} from "../api/readinessBoard";
 import type {Workflow} from "../api/readinessWork";
@@ -9,6 +10,7 @@ export function ReadinessBoard({apiUrl,tenderId,disabled}:{apiUrl:string;tenderI
  function filter(change:Partial<BoardQuery>){setQuery(q=>({...q,...change,offset:0}));setData(null);}
  async function read(offset=query.offset){setBusy(true);setError(false);try{const result=await boardApi.read(apiUrl,tenderId,{...query,offset});if(mounted.current){setData(result);setQuery(q=>({...q,offset}));}}catch{if(mounted.current){setError(true);setData(null);}}finally{if(mounted.current)setBusy(false);}}
  return <section aria-label="Board operacional de readiness"><h4>Board de readiness</h4>
+ <ProposalReadiness apiUrl={apiUrl} tenderId={tenderId} disabled={disabled||busy}/>
  <p>Fuente canónica y actividad humana separadas. Guardar notas antes de cambiar filtros o consultar de nuevo.</p>
  <fieldset disabled={busy||disabled}><legend>Filtros del board</legend>
  <label>Dimensión <select value={query.dimension??""} onChange={e=>filter({dimension:e.target.value as Dimension||undefined})}><option value="">Todas</option>{dimensions.map(d=><option key={d}>{d}</option>)}</select></label>

@@ -703,3 +703,8 @@ no elimina un blocker canónico. [Contrato](readiness-workflow.md).
 M8-C BoardRead/BoardItem son DTOs de composición read-only, sin entidades SQL nuevas.
 Separan canonical_summary/work_summary, dimensiones, buckets/prioridad y targets;
 M8-A conserva autoridad y M8-B conserva decisiones/historia. [Contrato](readiness-board.md).
+
+ProposalReadinessSnapshot (M8-D,075) preserva handoff tipado a MVP-09: metadata UUID/Tender/
+request/fecha/actor, fingerprints de estado/request/payload y JSON versionado inmutable.
+FK Tender RESTRICT, idempotencia por request, trigger anti UPDATE/DELETE. Fuente sigue editable;
+CURRENT/STALE es proyección derivada separada. [Contrato](proposal-readiness-snapshot.md).

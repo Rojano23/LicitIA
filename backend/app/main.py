@@ -3508,3 +3508,51 @@ def readiness_board_endpoint(tender_id: str, dimension: Dimension | None = None,
     from app.readiness_board import read_board
     return read_board(db,tender_id,dimension=dimension,severity=severity,workflow_status=workflow_status,
                       bucket=bucket,include_inactive=include_inactive,search=search,offset=offset,limit=limit)
+
+
+from app.proposal_readiness import get_proposal_db, Evaluation, CreateSnapshot, SnapshotRead, ProposalReadinessProjection
+
+
+@app.get('/tenders/{tender_id}/proposal-readiness', response_model=Evaluation)
+def proposal_readiness_endpoint(tender_id: str, db: Session = Depends(get_proposal_db)):
+    from app.proposal_readiness import evaluate
+    return evaluate(db,tender_id)
+
+
+@app.post('/tenders/{tender_id}/proposal-readiness/snapshots', response_model=SnapshotRead)
+def proposal_snapshot_create_endpoint(tender_id: str, payload: CreateSnapshot, db: Session = Depends(get_proposal_db)):
+    from app.proposal_readiness import create_snapshot
+    from sqlalchemy.exc import IntegrityError, OperationalError
+    try:
+        result=create_snapshot(db,tender_id,payload);db.commit();return result
+    except (IntegrityError,OperationalError) as exc:
+        db.rollback()
+        if getattr(exc.orig,'sqlstate',None) not in {'23505','40001','40P01'}:raise
+        raise HTTPException(409,'SNAPSHOT_CONCURRENT_CHANGE_RETRY_SAME_REQUEST') from exc
+    except Exception:
+        db.rollback();raise
+
+
+@app.get('/tenders/{tender_id}/proposal-readiness/snapshots')
+def proposal_snapshot_list_endpoint(tender_id: str, limit: int = Query(20,ge=1,le=50), before_id: str | None = None,
+                                    db: Session = Depends(get_proposal_db)):
+    from app.proposal_readiness import list_snapshots
+    return list_snapshots(db,tender_id,limit=limit,before_id=before_id)
+
+
+@app.get('/tenders/{tender_id}/proposal-readiness/snapshots/{snapshot_id}', response_model=SnapshotRead)
+def proposal_snapshot_get_endpoint(tender_id: str, snapshot_id: str, db: Session = Depends(get_proposal_db)):
+    from app.proposal_readiness import get_snapshot
+    return get_snapshot(db,tender_id,snapshot_id)
+
+
+@app.get('/tenders/{tender_id}/proposal-readiness/snapshots/{snapshot_id}/freshness')
+def proposal_snapshot_freshness_endpoint(tender_id: str, snapshot_id: str, db: Session = Depends(get_proposal_db)):
+    from app.proposal_readiness import freshness
+    return freshness(db,tender_id,snapshot_id)
+
+
+@app.get('/tenders/{tender_id}/proposal-readiness/snapshots/{snapshot_id}/handoff', response_model=ProposalReadinessProjection)
+def proposal_snapshot_handoff_endpoint(tender_id: str, snapshot_id: str, db: Session = Depends(get_proposal_db)):
+    from app.proposal_readiness import get_snapshot
+    return get_snapshot(db,tender_id,snapshot_id).payload.projection

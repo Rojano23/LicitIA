@@ -383,6 +383,8 @@ histórico de la fundación inicial.
 
 ### Estado y slices
 
+**MVP-08 CLOSED — gates A–L PASS; M8-D listo para revisión de cierre arquitectónica, sin stage/commit.**
+
 M8-A aceptado funcionalmente, gate de rendimiento PASS; commit
 `8431338f7004911c625a713bd9429be92ee7d03f`, sin push. [Contrato](bid-readiness.md),
 [ADR-0026](adr/0026-bid-readiness-foundation.md). Sólo agregación/inspección de registros
@@ -391,32 +393,35 @@ canónicos; sin certificación contractual ni cambios documentales/comerciales.
 - M8-A: dominio/readiness y agregación canónica.
 - M8-B: ACCEPTED; commit `db3325c3e201123ef8f54045e484f2a6328969fa`, sin push.
   [Contrato](readiness-workflow.md), [ADR-0027](adr/0027-readiness-workflow.md), Alembic074.
-- M8-C: board Workspace implementado para revisión, sin stage/commit.
+- M8-C: ACCEPTED; commit `748dda6265feda23d356086fb63218b434c6e501`, sin push.
   [Contrato](readiness-board.md): composición canónica/humana, filtros, prioridad determinista y paginación; sin migración nueva.
-- M8-D: snapshot/handoff MVP-09 y cierre (pendiente).
+- M8-D: snapshot/handoff MVP-09 completo; gates A–L PASS, listo para revisión de cierre, sin stage/commit.
+  [Contrato](proposal-readiness-snapshot.md), [ADR-0028](adr/0028-proposal-readiness-snapshot.md), Alembic075.
 
 
 ### Objetivo
 
 Consolidar estado de preparación para decisión humana.
 
-### Funciones
+### Capacidades cerradas
 
-- integridad del análisis;
-- requisitos críticos;
-- cumplimiento comercial;
-- cumplimiento técnico;
-- cobertura de partidas;
-- documentos faltantes;
-- cotizaciones faltantes;
-- costos no confirmados;
-- margen actual;
-- ambigüedades;
-- riesgos.
+- agregación canónica de siete dimensiones con blockers/review/warnings;
+- actividad humana, notas, riesgos aceptados y auditoría, sin sobrescribir fuente;
+- board provisional con prioridad determinista, filtros, targets y paginación;
+- resumen de Tender y elegibilidad determinista para Proposal Builder;
+- snapshots explícitos, inmutables, hash verificado y CURRENT/STALE;
+- contrato MVP-09 por snapshot ID con Scope/Quantity/precio/moneda y provenance.
 
-### Criterio de salida
+### Límite y criterio de salida
 
-El dashboard permite decidir dónde invertir tiempo antes del cierre sin emitir una decisión autónoma BID/NO BID.
+Readiness sólo describe información rastreada por LicitIA; no certifica cumplimiento legal,
+contractual, técnico ni completitud del checklist. La revisión humana conserva autoridad.
+Warnings no se borran, actividad RESOLVED no fabrica datos y Quantity permanece sólo lectura.
+MVP-09 debe consumir una identidad de snapshot específica, no valores actuales recompuestos.
+Sin project management, auth/roles, notificaciones, UI final o generación de propuestas.
+Gates A–L verificados con regresión backend2351, frontend134, build/compileall/diff PASS;
+075 sólo en licitia_test/clusters efímeros. Fingerprint conservador M8-B y composición en
+memoria siguen como límites. M8-D requiere revisión arquitectónica antes de commit.
 
 ---
 

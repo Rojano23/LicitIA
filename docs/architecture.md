@@ -481,3 +481,10 @@ anterior; notas permanecen. Canonical readiness sigue autoritativo para MVP-09.
 `readiness_board.py` compone una lectura M8-A/M8-B, prioridad determinista, filtros y
 paginación. Sin persistencia ni autoridad nueva; targets abren módulos existentes.
 Workspace reutiliza acciones humanas M8-B. [Contrato](readiness-board.md).
+
+## 24. Snapshot de handoff M8-D
+
+`proposal_readiness.py` compone M8-A/B y filas M7-D en una transacción REPEATABLE READ,
+sin locks de edición permanentes. Snapshot explícito, payload versionado/hash verificado,
+append-only por Alembic075; GET handoff usa sólo estado almacenado. Freshness se evalúa
+aparte, sin mutar snapshot. No ProposalVersion ni generación. [ADR-0028](adr/0028-proposal-readiness-snapshot.md).

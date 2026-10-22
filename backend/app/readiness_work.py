@@ -1,4 +1,5 @@
 """Readiness-specific human activity, separate from canonical source truth."""
+from contextlib import nullcontext
 import hashlib
 import json
 from datetime import datetime, timezone
@@ -74,8 +75,8 @@ class WorkRead(Contract):
     notice: str='Seguimiento humano; no modifica readiness canónico ni certifica cumplimiento. Owner/actor son declaraciones sin autenticación.'
 
 
-def _context(db,tender_id):
-    with canonical_read_batch(db,tender_id):
+def _context(db,tender_id,*,batched=True):
+    with canonical_read_batch(db,tender_id) if batched else nullcontext():
         canonical=read_bid_readiness(db,tender_id,batched=False)
         commercial=tender_readiness(db,tender_id)
         workspace=read_workspace(db,tender_id)
@@ -90,8 +91,8 @@ def _latest(db,tender_id):
         .distinct(ReadinessWorkDecision.issue_id).order_by(ReadinessWorkDecision.issue_id,ReadinessWorkDecision.revision.desc())))
 
 
-def _items(db,tender_id):
-    canonical,digest=_context(db,tender_id)
+def _items(db,tender_id,*,batched=True):
+    canonical,digest=_context(db,tender_id,batched=batched)
     active={i.id:i for i in canonical.issues}
     by_id={r.issue_id:r for r in _latest(db,tender_id)}
     entities={(i.entity_type,i.entity_id) for i in canonical.items}
