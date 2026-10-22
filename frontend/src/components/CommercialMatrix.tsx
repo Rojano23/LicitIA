@@ -1,3 +1,4 @@
+import { CommercialAuditDetails } from "./CommercialAuditDetails";
 import { CommercialSpreadsheet } from "./CommercialSpreadsheet";
 import { useEffect, useRef, useState } from "react";
 import { costSources, type CommercialInputs } from "../api/commercial";
@@ -5,8 +6,8 @@ import { matrixApi, target, type MatrixRead, type MatrixRow, type BulkWrite, typ
 
 type Props = { apiUrl: string; tenderId: string };
 type EditKey = "unit_cost" | "offered_unit_price" | "markup_percent" | "target_margin_percent" | "reference_party_name" | "notes";
-function EditableRow({ row, selected, toggle, disabled, preview, invalidate, draft, onDraft }: {
-  row: MatrixRow; selected: boolean; toggle: () => void; disabled: boolean;
+function EditableRow({ apiUrl,tenderId,row, selected, toggle, disabled, preview, invalidate, draft, onDraft }: {
+  apiUrl: string; tenderId: string; row: MatrixRow; selected: boolean; toggle: () => void; disabled: boolean;
   preview: (row: MatrixRow, fields: Partial<CommercialInputs>) => void; invalidate: () => void;
   draft: Partial<CommercialInputs>; onDraft: (fields: Partial<CommercialInputs>) => void;
 }) {
@@ -27,7 +28,8 @@ function EditableRow({ row, selected, toggle, disabled, preview, invalidate, dra
     <td>{input("offered_unit_price","Precio")}{row.manual_price_protected && <p>Precio manual protegido</p>}{input("notes","Notas")}
       <button disabled={disabled || !Object.keys(changes).length} onClick={() => preview(row,changes)}>Vista previa de fila {row.item_reference}</button></td>
     <td><p>Costo total: {row.summary.total_cost ?? "Sin resolver"}</p><p>Oferta: {row.summary.offered_total ?? "Sin resolver"}</p><p>Utilidad: {row.summary.profit ?? "Sin resolver"}</p><p>{row.inputs.currency ?? "Sin moneda"}</p><p>Markup: {row.summary.actual_markup_percent ?? "Sin resolver"}% · Margen: {row.summary.actual_margin_percent ?? "Sin resolver"}%</p></td>
-    <td>{row.initialized ? row.summary.status : "Sin inicializar · INCOMPLETE"}{row.summary.warnings.map(w => <p key={w}>{w}</p>)}</td>
+    <td>{row.initialized ? row.summary.status : "Sin inicializar · INCOMPLETE"}{row.summary.readiness ? row.summary.readiness.reasons.map(reason => <p key={reason.code}>{reason.severity}: {reason.code}</p>) : row.summary.warnings.map(w => <p key={w}>{w}</p>)}
+      {row.initialized && <CommercialAuditDetails apiUrl={apiUrl} tenderId={tenderId} scopeId={row.scope_id} disabled={disabled}/> }</td>
   </tr>;
 }
 
@@ -89,6 +91,8 @@ export function CommercialMatrix({ apiUrl,tenderId }: Props) {
     <h4>Matriz comercial</h4><button disabled={busy} onClick={() => void load()}>{opened ? "Actualizar matriz":"Abrir matriz comercial"}</button>
     {error && <p role="alert">{error}</p>}
     {opened && data && <>
+      {data.commercial_readiness && <div aria-label="Completitud comercial"><p>{data.commercial_readiness.status}: {data.commercial_readiness.ready_count} READY · {data.commercial_readiness.incomplete_count} INCOMPLETE · {data.commercial_readiness.review_required_count} REVIEW_REQUIRED</p>
+        <p>{data.commercial_readiness.total_scope_items} Scope · {data.commercial_readiness.warning_count} advertencias comerciales · {data.commercial_readiness.missing_commercial_treatment_count} sin tratamiento comercial. Una advertencia comercial por sí sola no impide usar un precio decidido.</p></div>}
       <CommercialSpreadsheet apiUrl={apiUrl} tenderId={tenderId} disabled={busy || Object.keys(drafts).length > 0} onBusyChange={setBusy}
         onApplied={async () => {const refreshed=await matrixApi.read(apiUrl,tenderId);if(mounted.current) {setData(refreshed);setDrafts({});setSelected(new Set());invalidate();}}}/>
       <p>Datos heredados de Scope/Quantity. Selección y defaults de esta sesión; no se crean líneas al consultar. Tab recorre campos; Enter previsualiza la fila. Los cambios sólo se guardan al aplicar el preview.</p>
@@ -123,7 +127,7 @@ export function CommercialMatrix({ apiUrl,tenderId }: Props) {
         {pending && <button disabled={busy || !result.outcomes.some(o => o.outcome === "ELIGIBLE")} onClick={() => void apply()}>Aplicar vista previa</button>}
       </div>}
       <div style={{overflowX:"auto"}}><table><caption>Hoja de trabajo comercial por Scope</caption><thead><tr>{["Selección","Alcance, Quantity y fuente","Costo y referencia","Modo y regla","Precio y notas","Cálculos","Estado y avisos"].map(v => <th key={v}>{v}</th>)}</tr></thead>
-        <tbody>{visible.map(row => <EditableRow key={`${row.scope_id}:${row.revision}:${row.source_fingerprint}`} row={row} selected={selected.has(row.scope_id)} disabled={busy}
+        <tbody>{visible.map(row => <EditableRow apiUrl={apiUrl} tenderId={tenderId} key={`${row.scope_id}:${row.revision}:${row.source_fingerprint}`} row={row} selected={selected.has(row.scope_id)} disabled={busy}
           toggle={() => editControl(() => setSelected(prev => {const next=new Set(prev);if(next.has(row.scope_id)) next.delete(row.scope_id);else next.add(row.scope_id);return next;}))}
           draft={drafts[row.scope_id] ?? {}} onDraft={fields => setDrafts(prev => ({...prev,[row.scope_id]:fields}))} invalidate={invalidate} preview={(r,fields) => void preview(request([r],"PATCH",fields))}/>)}</tbody></table></div>
       {!visible.length && <p>Sin filas para este filtro.</p>}

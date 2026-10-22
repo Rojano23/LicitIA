@@ -94,12 +94,12 @@ def calculate(values: CommercialInputs, quantity: Decimal | None) -> dict:
         profit = offered_total - total_cost if offered_total is not None and total_cost is not None else None
         markup = ((p - c) / c * 100).quantize(Decimal('.00000001')) if c not in (None, 0) and p is not None else None
         margin = ((p - c) / p * 100).quantize(Decimal('.00000001')) if p not in (None, 0) and c is not None else None
-    incomplete = {'MISSING_CURRENCY', 'MISSING_OFFERED_PRICE', 'MISSING_CANONICAL_QUANTITY', 'MISSING_CALCULATION_BASIS'}
     result = dict(recommended_unit_price=recommendation, total_cost=total_cost, offered_total=offered_total, profit=profit,
                   actual_markup_percent=markup, actual_margin_percent=margin)
-    return {**{k: str(v) if v is not None else None for k, v in result.items()}, 'currency': values.currency,
-            'warnings': warnings, 'status': 'INCOMPLETE' if incomplete.intersection(warnings) else 'REVIEW_REQUIRED' if warnings else 'READY',
-            'calculation_version': 'commercial-v1', 'recommendation_origin': 'SYSTEM_ESTIMATE'}
+    from app.commercial_readiness import complete_result
+    return complete_result(values, {**{k: str(v) if v is not None else None for k, v in result.items()}, 'currency': values.currency,
+            'warnings': warnings,
+            'calculation_version': 'commercial-v1', 'recommendation_origin': 'SYSTEM_ESTIMATE'})
 
 
 def aggregate_currency_totals(lines: list[dict]) -> dict:

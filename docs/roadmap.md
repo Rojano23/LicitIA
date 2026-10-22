@@ -347,7 +347,8 @@ Preservar trazabilidad de Tender/Scope → fuente de costo → decisión comerci
 ofertado, minimizando captura repetida. MVP-06.V y RC-H1/H2/H3 están cerrados/aceptados;
 M7-A ACCEPTED: commit `6d30509d9859dabf44fd85341759ff8054707668`, sin push.
 M7-B ACCEPTED: commit `faa238dbecd3a5ba12cd78ce2d1f9d490750de47`, sin push.
-M7-C ACCEPTED: round trip validado; commit autorizado, sin push.
+M7-C ACCEPTED: commit `d22cf3ed24d9529093513829d3a784dc63cadd62`, sin push.
+**MVP-07 CLOSED — aceptación arquitectónica formal. M7-D ACCEPTED.** [Contrato de cierre](commercial-readiness.md).
 No es un ERP ni una plataforma completa de estimación. El concepto anterior de
 proveedores, parsing de cotizaciones, componentes y escenarios no es el alcance vigente.
 
@@ -362,6 +363,7 @@ proveedores, parsing de cotizaciones, componentes y escenarios no es el alcance 
 - **M7-C:** XLSX/CSV export/import/reconciliación con conflictos y procedencia auditada.
   [Contrato M7-C](commercial-spreadsheet-roundtrip.md), [ADR-0024](adr/0024-commercial-spreadsheet-roundtrip.md).
 - **M7-D:** completitud comercial, auditoría y contratos para MVP-08/MVP-09.
+  [ADR-0025](adr/0025-commercial-readiness-projections.md); sin implementación de esos consumidores.
 
 ### Reglas y criterio de salida
 

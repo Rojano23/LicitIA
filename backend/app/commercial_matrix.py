@@ -92,12 +92,10 @@ def _row(scope, line, revision, snapshot, quantity, warnings):
     values = _inputs(revision) if revision else CommercialInputs()
     if revision and revision.source_fingerprint != _fingerprint(snapshot):
         warnings = warnings + ['SOURCE_CONTEXT_CHANGED']
-    summary = _result(values, quantity, warnings)
+    summary = _result(values, quantity, warnings, initialized=line is not None, manual_price=bool(revision and revision.price_method == 'MANUAL'))
     if revision and revision.price_method == 'CALCULATED' and values.offered_unit_price != (
             Decimal(summary['recommended_unit_price']) if summary['recommended_unit_price'] is not None else None):
-        summary['warnings'].append('PRICE_CALCULATION_STALE')
-        if summary['status'] == 'READY':
-            summary['status'] = 'REVIEW_REQUIRED'
+        summary = _result(values, quantity, warnings + ['PRICE_CALCULATION_STALE'], manual_price=False)
     return {'scope_id': scope.id, 'item_reference': scope.candidate_item_key,
             'description': snapshot['scope']['description'] if snapshot['scope'] else scope.description,
             'commercial_line_id': line.id if line else None, 'revision': revision.revision if revision else None,
@@ -157,7 +155,8 @@ def read_matrix(db, tender_id):
                            prefetched=(scope, children[scope.id]))
         rows.append(_row(scope, line, revision, *context))
     archived = [{'id': line.id, 'scope_id': line.scope_id_at_creation, 'warning': 'SCOPE_UNAVAILABLE'} for line in lines if line.scope_detail_id is None]
-    return {'tender_id': tender_id, 'rows': rows, 'summary_by_currency': currency_summary(rows), 'archived_lines': archived}
+    from app.commercial_readiness import readiness_counts
+    return {'tender_id': tender_id, 'rows': rows, 'commercial_readiness': readiness_counts(rows), 'summary_by_currency': currency_summary(rows), 'archived_lines': archived}
 
 
 def bulk_commercial(db, tender_id, request):
@@ -219,7 +218,7 @@ def bulk_commercial(db, tender_id, request):
                 if 'offered_unit_price' in effective_changes:
                     method = 'MANUAL' if values.offered_unit_price is not None else None
                     origin = 'MANUAL_INPUT' if method else None
-                result = _result(values, quantity, warnings)
+                result = _result(values, quantity, warnings, manual_price=method == 'MANUAL')
                 if request.recalculate or request.action in {'MARKUP', 'MARGIN', 'RECALCULATE'}:
                     if method == 'MANUAL' and not request.replace_manual_price:
                         outcome['price_outcome'] = 'PROTECTED'
@@ -232,7 +231,7 @@ def bulk_commercial(db, tender_id, request):
                         method, origin = 'CALCULATED', 'SYSTEM_ESTIMATE'
                         outcome['price_outcome'] = 'RECALCULATED'
                 differs = values.model_dump(exclude={'input_origin'}) != old.model_dump(exclude={'input_origin'}) or (prior is not None and (method != prior.price_method or _fingerprint(snapshot) != prior.source_fingerprint))
-                result = _result(values, quantity, warnings)
+                result = _result(values, quantity, warnings, manual_price=method == 'MANUAL')
                 outcome['warnings'] = result['warnings']
                 outcome['proposed_inputs'] = values.model_dump(mode='json')
                 if not differs:

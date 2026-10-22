@@ -1,3 +1,4 @@
+import type { ReadinessCounts } from "./commercialReadiness";
 import axios from "axios";
 import type { CommercialInputs, CommercialRead, CommercialSummary } from "./commercial";
 export type MatrixRow = {
@@ -12,7 +13,7 @@ export type CurrencySummary = { currency: string | null; line_count: number; sta
   total_cost_calculable_count: number; offered_total_calculable_count: number; profit_calculable_count: number;
   total_cost_missing_count: number; offered_total_missing_count: number; profit_missing_count: number;
   paired_count: number; paired_markup_percent: string | null; paired_margin_percent: string | null };
-export type MatrixRead = { tender_id: string; rows: MatrixRow[]; summary_by_currency: CurrencySummary[]; archived_lines: {id: string; scope_id: string; warning: string}[] };
+export type MatrixRead = { commercial_readiness?: ReadinessCounts; tender_id: string; rows: MatrixRow[]; summary_by_currency: CurrencySummary[]; archived_lines: {id: string; scope_id: string; warning: string}[] };
 export const target = (row: MatrixRow) => ({scope_id: row.scope_id, expected_revision: row.revision, expected_source_fingerprint: row.source_fingerprint});
 export type BulkAction = "PATCH" | "MARKUP" | "MARGIN" | "RECALCULATE" | "COPY_SETTINGS" | "INITIALIZE";
 export type BulkWrite = { operation_id?: string; targets: ReturnType<typeof target>[]; action: BulkAction;

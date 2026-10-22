@@ -67,3 +67,9 @@ it("applying a selected row preserves unselected monetary drafts",async () => {
   expect(screen.getByLabelText("Costo 31")).toHaveValue("0.10");
   expect(vi.mocked(matrixApi.bulk).mock.calls[1][2].row_changes).toEqual({"32":{unit_cost:"200.25"}});
 });
+it("M7D shows canonical completeness and separates blockers from warnings",async()=>{
+  const ready=row("31","MXN");ready.summary.status="READY";ready.summary.readiness={status:"READY",proposal_eligible:true,reasons:[{code:"PRICE_BELOW_COST",severity:"WARNING"}],warnings:["PRICE_BELOW_COST"]};
+  const missing=row("32","USD");missing.summary.status="INCOMPLETE";missing.summary.readiness={status:"INCOMPLETE",proposal_eligible:false,reasons:[{code:"MISSING_OFFERED_PRICE",severity:"BLOCKER"}],warnings:[]};
+  vi.mocked(matrixApi.read).mockResolvedValue({...data,rows:[ready,missing],commercial_readiness:{status:"INCOMPLETE",total_scope_items:2,ready_count:1,incomplete_count:1,review_required_count:0,warning_count:1,missing_commercial_treatment_count:0}});
+  await open();expect(screen.getByLabelText("Completitud comercial")).toHaveTextContent("1 READY · 1 INCOMPLETE · 0 REVIEW_REQUIRED");expect(screen.getByText("WARNING: PRICE_BELOW_COST")).toBeInTheDocument();expect(screen.getByText("BLOCKER: MISSING_OFFERED_PRICE")).toBeInTheDocument();
+});

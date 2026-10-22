@@ -444,3 +444,12 @@ expirables bajo `commercial-roundtrip-v1` del data root, sin retener archivos co
 El backup local existente incluye ese filesystem; no se agregan modelos ni migraciones.
 Origen/hash de importación viven en revisiones comerciales, separados de provenance
 documental. [Contrato](commercial-spreadsheet-roundtrip.md) y [ADR-0024](adr/0024-commercial-spreadsheet-roundtrip.md).
+
+## 20. Completitud comercial M7-D
+
+`commercial_readiness.py` define un evaluador puro con razones BLOCKER/REVIEW/WARNING;
+composición comercial, matriz y lecturas usan ese mismo resultado. `commercial_projections.py`
+expone contratos tipados de readiness MVP-08/propuesta MVP-09 y auditoría paginada sobre
+revisiones existentes. No duplica aritmética ni modifica motores documentales. No nuevas
+dependencias/migración. [ADR-0025](adr/0025-commercial-readiness-projections.md),
+[contrato de cierre](commercial-readiness.md). Freeze final de propuesta diferido.

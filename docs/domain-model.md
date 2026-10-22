@@ -680,3 +680,10 @@ no evidencia Tender ni entidades SQL. Sólo UUID Scope + Tender + contexto de ex
 pueden reconciliar una fila. Campos canónicos modificados invalidan la fila; no hay
 creación, borrado ni remapeo de Scope/Quantity por spreadsheet. Ver
 [contrato M7-C](commercial-spreadsheet-roundtrip.md).
+
+M7-D agrega sólo proyecciones de lectura: CommercialReadiness con un estado y razones
+severidad BLOCKER/REVIEW/WARNING; Scope/Tender readiness; ProposalCommercialProjection
+sin costos internos; CommercialAudit paginado con cambios/recomendación histórica. No
+entidades persistentes nuevas. Pérdida no implica bloqueo; evidencia pendiente sí exige
+revisión. Quantity continúa canónica/read-only. State reference detecta cambios del
+estado leído, sin bid freeze. Ver [contrato de cierre](commercial-readiness.md).

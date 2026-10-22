@@ -1,3 +1,4 @@
+import type { Readiness } from "./commercialReadiness";
 import axios from "axios";
 import type { WorkspaceQuantity, WorkspaceSource } from "./workspace";
 
@@ -14,6 +15,7 @@ export type CommercialInputs = {
 export type CommercialSummary = {
   recommended_unit_price: string | null; total_cost: string | null; offered_total: string | null; profit: string | null;
   actual_markup_percent: string | null; actual_margin_percent: string | null; currency: string | null;
+  readiness?: Readiness;
   status: "READY" | "INCOMPLETE" | "REVIEW_REQUIRED"; warnings: string[];
 };
 export type CommercialRead = {

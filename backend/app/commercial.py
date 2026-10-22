@@ -105,17 +105,16 @@ def _latest(db, line):
     return db.scalar(select(CommercialLineRevision).where(CommercialLineRevision.line_id == line.id).order_by(CommercialLineRevision.revision.desc()).limit(1))
 
 
-def _result(values, quantity, warnings):
+def _result(values, quantity, warnings, *, initialized=True, manual_price=True):
     result = calculate(values, quantity)
     result['warnings'] = list(dict.fromkeys(result['warnings'] + warnings))
-    if warnings and result['status'] == 'READY':
-        result['status'] = 'REVIEW_REQUIRED'
-    return result
+    from app.commercial_readiness import complete_result
+    return complete_result(values, result, initialized=initialized, manual_price=manual_price)
 
 
 def _append(db, line, values, prior, action, method, price_origin, *, audit_metadata=None):
     snapshot, quantity, warnings = _context(db, line.tender_id, line.scope_detail_id, values)
-    calculation = _result(values, quantity, warnings)
+    calculation = _result(values, quantity, warnings, manual_price=method == 'MANUAL')
     if audit_metadata is not None:
         calculation['bulk_operation'] = audit_metadata
     row = CommercialLineRevision(line_id=line.id, tender_id=line.tender_id, revision=prior.revision + 1 if prior else 1,
@@ -135,11 +134,9 @@ def read_commercial(db: Session, tender_id: str, scope_id: str):
     fp = _fingerprint(snapshot)
     if fp != row.source_fingerprint:
         warnings.append('SOURCE_CONTEXT_CHANGED')
-    result = _result(values, quantity, warnings)
+    result = _result(values, quantity, warnings, manual_price=row.price_method == 'MANUAL')
     if row.price_method == 'CALCULATED' and values.offered_unit_price != (Decimal(result['recommended_unit_price']) if result['recommended_unit_price'] is not None else None):
-        result['warnings'].append('PRICE_CALCULATION_STALE')
-        if result['status'] == 'READY':
-            result['status'] = 'REVIEW_REQUIRED'
+        result = _result(values, quantity, warnings + ['PRICE_CALCULATION_STALE'], manual_price=False)
     history = list(db.scalars(select(CommercialLineRevision).where(CommercialLineRevision.line_id == line.id).order_by(CommercialLineRevision.revision)))
     return {'id': line.id, 'tender_id': tender_id, 'scope_detail_id': line.scope_detail_id,
         'scope_id_at_creation': line.scope_id_at_creation, 'revision': row.revision,
@@ -197,7 +194,7 @@ def calculate_commercial(db, tender_id, scope_id, payload):
     _check(db, line, prior, payload.expected_revision, payload.expected_source_fingerprint)
     values = _inputs(prior)
     _, quantity, warnings = _context(db, tender_id, scope_id, values)
-    result = _result(values, quantity, warnings)
+    result = _result(values, quantity, warnings, manual_price=prior.price_method == 'MANUAL')
     if not payload.apply_calculated_price:
         return read_commercial(db, tender_id, scope_id)
     if prior.price_method == 'MANUAL' and not payload.replace_manual_price:

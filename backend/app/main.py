@@ -12,7 +12,7 @@ from uuid import uuid4
 from collections.abc import Callable
 from typing import TypeVar
 
-from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile, status
+from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile, Query, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pathlib import PurePosixPath
@@ -3405,3 +3405,31 @@ def apply_commercial_endpoint(tender_id: str, stage_id: str, payload: ApplyExcha
 
 from app.commercial_workbook import CommercialUploadLimitMiddleware
 app.add_middleware(CommercialUploadLimitMiddleware)
+
+
+from app.commercial_projections import TenderCommercialReadiness, ScopeCommercialReadiness, ProposalCommercialProjection, CommercialAudit
+
+
+@app.get('/tenders/{tender_id}/commercial-readiness', response_model=TenderCommercialReadiness)
+def tender_commercial_readiness_endpoint(tender_id: str, db: Session = Depends(get_db)):
+    from app.commercial_projections import tender_readiness
+    return tender_readiness(db, tender_id)
+
+
+@app.get('/tenders/{tender_id}/scopes/{scope_id}/commercial-readiness', response_model=ScopeCommercialReadiness)
+def scope_commercial_readiness_endpoint(tender_id: str, scope_id: str, db: Session = Depends(get_db)):
+    from app.commercial_projections import scope_readiness
+    return scope_readiness(db, tender_id, scope_id)
+
+
+@app.get('/tenders/{tender_id}/commercial-proposal', response_model=ProposalCommercialProjection)
+def commercial_proposal_endpoint(tender_id: str, db: Session = Depends(get_db)):
+    from app.commercial_projections import proposal_projection
+    return proposal_projection(db, tender_id)
+
+
+@app.get('/tenders/{tender_id}/scopes/{scope_id}/commercial-audit', response_model=CommercialAudit)
+def commercial_audit_endpoint(tender_id: str, scope_id: str, limit: int = Query(25, ge=1, le=100),
+                              before_revision: int | None = Query(None, ge=1), db: Session = Depends(get_db)):
+    from app.commercial_projections import commercial_audit
+    return commercial_audit(db, tender_id, scope_id, limit=limit, before_revision=before_revision)
