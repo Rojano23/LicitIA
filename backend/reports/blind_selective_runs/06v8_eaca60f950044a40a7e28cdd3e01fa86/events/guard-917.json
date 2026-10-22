@@ -1,0 +1,32 @@
+{
+  "payload": {
+    "calls": 0,
+    "capability": "TRANSCRIPTION",
+    "configuration": {
+      "decision_only": true,
+      "fingerprint": null,
+      "interpretation_assessment": {
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED",
+        "state": "UNRESOLVED"
+      },
+      "perception_assessment": {
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE",
+        "state": "SUFFICIENT"
+      },
+      "plan": "695de2a3a801ecad3058bd14390c2c383a28be67c15c22b018e7ef528a5e85bc",
+      "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+    },
+    "execution_event": true,
+    "id": "guard-917",
+    "latency_ms": null,
+    "model": null,
+    "page_id": "affa241c-0448-44e7-92ce-93b2a7a948af",
+    "provider": "PLANNER",
+    "source_method": "OCR",
+    "status": "SKIPPED",
+    "timeout": false,
+    "truncated": false
+  },
+  "sha256": "0ec5dba30ca975b5de4025ff9adceccde0dd65b48e3916dc3409aa330115b03d"
+}

@@ -1,0 +1,24 @@
+{
+  "head": "415669f3a42850971ef57bae031ce19a622340b4",
+  "subject": "feat(rc): connect workspace to canonical tender flow",
+  "files": [
+    "backend/app/blind_selective_harness.py",
+    "backend/app/canonical_materialization.py",
+    "backend/app/document_intelligence_blind_run.py",
+    "backend/app/main.py",
+    "backend/app/native_preparation.py",
+    "backend/app/workspace_flow.py",
+    "backend/tests/test_workspace_flow.py",
+    "docs/adr/0020-workspace-canonical-composition.md",
+    "docs/roadmap.md",
+    "docs/uat-capability-statement.md",
+    "docs/workspace-functional-flow.md",
+    "frontend/src/App.tsx",
+    "frontend/src/api/workspace.ts",
+    "frontend/src/components/WorkspaceFlow.test.tsx",
+    "frontend/src/components/WorkspaceFlow.tsx",
+    "frontend/vite.config.js"
+  ],
+  "pushed": false,
+  "whitespace_only_adjustment": "Remove trailing blank lines in canonical_materialization.py before final commit"
+}

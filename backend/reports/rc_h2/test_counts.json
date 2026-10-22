@@ -1,0 +1,26 @@
+{
+  "RC-H2": {
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "core": {
+    "tests": 207,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "DI": {
+    "tests": 1153,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "full": {
+    "tests": 2146,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

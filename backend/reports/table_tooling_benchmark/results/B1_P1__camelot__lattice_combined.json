@@ -1,0 +1,921 @@
+{
+  "page": "B1_P1",
+  "tool": "camelot",
+  "configuration": "lattice_combined",
+  "parameters": {
+    "flavor": "lattice",
+    "engine": "combined"
+  },
+  "repeat_seconds": [
+    1.3440355830243789,
+    0.3073504159983713
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 423854080,
+  "warnings": [],
+  "errors": [],
+  "tables": [
+    {
+      "bbox_bottom_origin": [
+        49.199999999999996,
+        377.4056346561648,
+        567.6,
+        500.0084822780975
+      ],
+      "bbox": [
+        49.199999999999996,
+        291.9915177219025,
+        567.6,
+        414.5943653438352
+      ],
+      "rows": 3,
+      "columns": 4,
+      "matrix": [
+        [
+          "Partida",
+          "Descripción",
+          "Unidad de \nMedida",
+          "Cantidad"
+        ],
+        [
+          "1",
+          "RELEVADOR MULTILIN No F60-U03-HKH-F8L-H6L-M6B-P6B-W7K \nDESCRIPCION: RELEVADOR \nFABRICANTE/MARCA: GE MULTILIN \nNUMERO DE PARTE: F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+          "PZA",
+          "1"
+        ],
+        [
+          "2",
+          "RELEVADOR MULTILIN No L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K \nDESCRIPCION: RELEVADOR \nFABRICANTE/MARCA: GE MULTILIN \nNo. PARTE: L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+          "PZA",
+          "2"
+        ]
+      ],
+      "parser_report": {
+        "accuracy": 100.0,
+        "whitespace": 0.0,
+        "order": 1,
+        "page": 1,
+        "confidence": 1.0
+      },
+      "cells": [
+        {
+          "row": 0,
+          "column": 0,
+          "text": "Partida \n",
+          "bbox": [
+            49.650000000000006,
+            292.4563768554983,
+            106.32,
+            314.784610724023
+          ],
+          "bbox_bottom_origin": [
+            49.650000000000006,
+            477.215389275977,
+            106.32,
+            499.5436231445017
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "text": "Descripción \n",
+          "bbox": [
+            106.32,
+            292.4563768554983,
+            453.59999999999997,
+            314.784610724023
+          ],
+          "bbox_bottom_origin": [
+            106.32,
+            477.215389275977,
+            453.59999999999997,
+            499.5436231445017
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "text": "Unidad de \nMedida \n",
+          "bbox": [
+            453.59999999999997,
+            292.4563768554983,
+            510.24,
+            314.784610724023
+          ],
+          "bbox_bottom_origin": [
+            453.59999999999997,
+            477.215389275977,
+            510.24,
+            499.5436231445017
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "text": "Cantidad \n",
+          "bbox": [
+            510.24,
+            292.4563768554983,
+            567.24,
+            314.784610724023
+          ],
+          "bbox_bottom_origin": [
+            510.24,
+            477.215389275977,
+            567.24,
+            499.5436231445017
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "text": "1 \n",
+          "bbox": [
+            49.650000000000006,
+            314.784610724023,
+            106.32,
+            364.44956073916995
+          ],
+          "bbox_bottom_origin": [
+            49.650000000000006,
+            427.55043926083005,
+            106.32,
+            477.215389275977
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "text": "RELEVADOR MULTILIN No F60-U03-HKH-F8L-H6L-M6B-P6B-W7K \nDESCRIPCION: RELEVADOR \nFABRICANTE/MARCA: GE MULTILIN \nNUMERO DE PARTE: F60-U03-HKH-F8L-H6L-M6B-P6B-W7K \n",
+          "bbox": [
+            106.32,
+            314.784610724023,
+            453.59999999999997,
+            364.44956073916995
+          ],
+          "bbox_bottom_origin": [
+            106.32,
+            427.55043926083005,
+            453.59999999999997,
+            477.215389275977
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "text": "PZA \n",
+          "bbox": [
+            453.59999999999997,
+            314.784610724023,
+            510.24,
+            364.44956073916995
+          ],
+          "bbox_bottom_origin": [
+            453.59999999999997,
+            427.55043926083005,
+            510.24,
+            477.215389275977
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "text": "1 \n",
+          "bbox": [
+            510.24,
+            314.784610724023,
+            567.24,
+            364.44956073916995
+          ],
+          "bbox_bottom_origin": [
+            510.24,
+            427.55043926083005,
+            567.24,
+            477.215389275977
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 0,
+          "text": "2 \n",
+          "bbox": [
+            49.650000000000006,
+            364.44956073916995,
+            106.32,
+            414.23447440169645
+          ],
+          "bbox_bottom_origin": [
+            49.650000000000006,
+            377.76552559830355,
+            106.32,
+            427.55043926083005
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "text": "RELEVADOR MULTILIN No L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K \nDESCRIPCION: RELEVADOR \nFABRICANTE/MARCA: GE MULTILIN \nNo. PARTE: L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K \n",
+          "bbox": [
+            106.32,
+            364.44956073916995,
+            453.59999999999997,
+            414.23447440169645
+          ],
+          "bbox_bottom_origin": [
+            106.32,
+            377.76552559830355,
+            453.59999999999997,
+            427.55043926083005
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "text": "PZA \n",
+          "bbox": [
+            453.59999999999997,
+            364.44956073916995,
+            510.24,
+            414.23447440169645
+          ],
+          "bbox_bottom_origin": [
+            453.59999999999997,
+            377.76552559830355,
+            510.24,
+            427.55043926083005
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "text": "2 \n",
+          "bbox": [
+            510.24,
+            364.44956073916995,
+            567.24,
+            414.23447440169645
+          ],
+          "bbox_bottom_origin": [
+            510.24,
+            377.76552559830355,
+            567.24,
+            427.55043926083005
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        }
+      ]
+    },
+    {
+      "bbox_bottom_origin": [
+        54.239999999999995,
+        95.97091790366555,
+        558.24,
+        344.055740684641
+      ],
+      "bbox": [
+        54.239999999999995,
+        447.944259315359,
+        558.24,
+        696.0290820963345
+      ],
+      "rows": 11,
+      "columns": 2,
+      "matrix": [
+        [
+          "Norma  /  Estándar \ntécnico / Código",
+          "Descripción"
+        ],
+        [
+          "IEC-60255",
+          "Relevadores de medición y equipos de protección."
+        ],
+        [
+          "IEC-60255",
+          "26 requerimientos de compatibilidad electromagnética."
+        ],
+        [
+          "IEC-60255",
+          "27 requerimientos de seguridad del producto."
+        ],
+        [
+          "IEC-60068",
+          "Pruebas ambientales."
+        ],
+        [
+          "IEC-61000",
+          "Compatibilidad electromagnética."
+        ],
+        [
+          "ISO9001:2015",
+          "Requerimientos de gestión de calidad."
+        ],
+        [
+          "NMX-J-625-21-1-\nANCE-2020",
+          "Relevadores eléctricos-parte 21: pruebas de vibración, choque, golpes y sísmicas en \nrelevadores \nde  medición \ny equipos \nde \nprotección-sección \n1: \npruebas \nde \nvibración (sinusoidales)"
+        ],
+        [
+          "NOM-003-SCT-\n2008.",
+          "Características de las etiquetas de envases y embalajes, destinadas al transporte de \nsubstancias, materiales y residuos peligrosos"
+        ],
+        [
+          "IEC 61850-9-2LE",
+          "Guía \nde \nimplementación \npara \nla \ninterfaz \ndigital \nde \ntransformadores \nde \ninstrumentos usando IEC 61850-9-2"
+        ],
+        [
+          "IEC 60255-1:2022",
+          "Cláusula 8: Marking, labelling and packaging"
+        ]
+      ],
+      "parser_report": {
+        "accuracy": 100.0,
+        "whitespace": 0.0,
+        "order": 2,
+        "page": 1,
+        "confidence": 1.0
+      },
+      "cells": [
+        {
+          "row": 0,
+          "column": 0,
+          "text": "Norma  /  Estándar \ntécnico / Código \n",
+          "bbox": [
+            54.7198828125,
+            448.36413208118756,
+            158.4,
+            476.01575280218117
+          ],
+          "bbox_bottom_origin": [
+            54.7198828125,
+            315.98424719781883,
+            158.4,
+            343.63586791881244
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "text": "Descripción \n",
+          "bbox": [
+            158.4,
+            448.36413208118756,
+            557.88,
+            476.01575280218117
+          ],
+          "bbox_bottom_origin": [
+            158.4,
+            315.98424719781883,
+            557.88,
+            343.63586791881244
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "text": "IEC-60255 \n",
+          "bbox": [
+            54.7198828125,
+            476.01575280218117,
+            158.4,
+            493.5304453196001
+          ],
+          "bbox_bottom_origin": [
+            54.7198828125,
+            298.4695546803999,
+            158.4,
+            315.98424719781883
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "text": "Relevadores de medición y equipos de protección. \n",
+          "bbox": [
+            158.4,
+            476.01575280218117,
+            557.88,
+            493.5304453196001
+          ],
+          "bbox_bottom_origin": [
+            158.4,
+            298.4695546803999,
+            557.88,
+            315.98424719781883
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 0,
+          "text": "IEC-60255 \n",
+          "bbox": [
+            54.7198828125,
+            493.5304453196001,
+            158.4,
+            510.80521054225994
+          ],
+          "bbox_bottom_origin": [
+            54.7198828125,
+            281.19478945774006,
+            158.4,
+            298.4695546803999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "text": "26 requerimientos de compatibilidad electromagnética. \n",
+          "bbox": [
+            158.4,
+            493.5304453196001,
+            557.88,
+            510.80521054225994
+          ],
+          "bbox_bottom_origin": [
+            158.4,
+            281.19478945774006,
+            557.88,
+            298.4695546803999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 0,
+          "text": "IEC-60255 \n",
+          "bbox": [
+            54.7198828125,
+            510.80521054225994,
+            158.4,
+            528.3199030596788
+          ],
+          "bbox_bottom_origin": [
+            54.7198828125,
+            263.6800969403211,
+            158.4,
+            281.19478945774006
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "text": "27 requerimientos de seguridad del producto. \n",
+          "bbox": [
+            158.4,
+            510.80521054225994,
+            557.88,
+            528.3199030596788
+          ],
+          "bbox_bottom_origin": [
+            158.4,
+            263.6800969403211,
+            557.88,
+            281.19478945774006
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 0,
+          "text": "IEC-60068 \n",
+          "bbox": [
+            54.7198828125,
+            528.3199030596788,
+            158.4,
+            545.8345955770978
+          ],
+          "bbox_bottom_origin": [
+            54.7198828125,
+            246.16540442290216,
+            158.4,
+            263.6800969403211
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 1,
+          "text": "Pruebas ambientales. \n",
+          "bbox": [
+            158.4,
+            528.3199030596788,
+            557.88,
+            545.8345955770978
+          ],
+          "bbox_bottom_origin": [
+            158.4,
+            246.16540442290216,
+            557.88,
+            263.6800969403211
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 0,
+          "text": "IEC-61000 \n",
+          "bbox": [
+            54.7198828125,
+            545.8345955770978,
+            158.4,
+            563.589215389276
+          ],
+          "bbox_bottom_origin": [
+            54.7198828125,
+            228.41078461072402,
+            158.4,
+            246.16540442290216
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 1,
+          "text": "Compatibilidad electromagnética. \n",
+          "bbox": [
+            158.4,
+            545.8345955770978,
+            557.88,
+            563.589215389276
+          ],
+          "bbox_bottom_origin": [
+            158.4,
+            228.41078461072402,
+            557.88,
+            246.16540442290216
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 0,
+          "text": "ISO9001:2015 \n",
+          "bbox": [
+            54.7198828125,
+            563.589215389276,
+            158.4,
+            581.103907906695
+          ],
+          "bbox_bottom_origin": [
+            54.7198828125,
+            210.89609209330504,
+            158.4,
+            228.41078461072402
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 1,
+          "text": "Requerimientos de gestión de calidad. \n",
+          "bbox": [
+            158.4,
+            563.589215389276,
+            557.88,
+            581.103907906695
+          ],
+          "bbox_bottom_origin": [
+            158.4,
+            210.89609209330504,
+            557.88,
+            228.41078461072402
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 0,
+          "text": "NMX-J-625-21-1-\nANCE-2020 \n",
+          "bbox": [
+            54.7198828125,
+            581.103907906695,
+            158.4,
+            622.3714026052711
+          ],
+          "bbox_bottom_origin": [
+            54.7198828125,
+            169.62859739472887,
+            158.4,
+            210.89609209330504
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 1,
+          "text": "Relevadores eléctricos-parte 21: pruebas de vibración, choque, golpes y sísmicas en \nrelevadores \nde  medición \ny equipos \nde \nprotección-sección \n1: \npruebas \nde \nvibración (sinusoidales) \n",
+          "bbox": [
+            158.4,
+            581.103907906695,
+            557.88,
+            622.3714026052711
+          ],
+          "bbox_bottom_origin": [
+            158.4,
+            169.62859739472887,
+            557.88,
+            210.89609209330504
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 0,
+          "text": "NOM-003-SCT-\n2008. \n",
+          "bbox": [
+            54.7198828125,
+            622.3714026052711,
+            158.4,
+            650.2029687973342
+          ],
+          "bbox_bottom_origin": [
+            54.7198828125,
+            141.79703120266586,
+            158.4,
+            169.62859739472887
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 1,
+          "text": "Características de las etiquetas de envases y embalajes, destinadas al transporte de \nsubstancias, materiales y residuos peligrosos \n",
+          "bbox": [
+            158.4,
+            622.3714026052711,
+            557.88,
+            650.2029687973342
+          ],
+          "bbox_bottom_origin": [
+            158.4,
+            141.79703120266586,
+            557.88,
+            169.62859739472887
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 0,
+          "text": "IEC 61850-9-2LE \n",
+          "bbox": [
+            54.7198828125,
+            650.2029687973342,
+            158.4,
+            677.794607694638
+          ],
+          "bbox_bottom_origin": [
+            54.7198828125,
+            114.20539230536201,
+            158.4,
+            141.79703120266586
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 1,
+          "text": "Guía \nde \nimplementación \npara \nla \ninterfaz \ndigital \nde \ntransformadores \nde \ninstrumentos usando IEC 61850-9-2 \n",
+          "bbox": [
+            158.4,
+            650.2029687973342,
+            557.88,
+            677.794607694638
+          ],
+          "bbox_bottom_origin": [
+            158.4,
+            114.20539230536201,
+            557.88,
+            141.79703120266586
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 0,
+          "text": "IEC 60255-1:2022 \n",
+          "bbox": [
+            54.7198828125,
+            677.794607694638,
+            158.4,
+            695.6691911541957
+          ],
+          "bbox_bottom_origin": [
+            54.7198828125,
+            96.3308088458043,
+            158.4,
+            114.20539230536201
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 1,
+          "text": "Cláusula 8: Marking, labelling and packaging \n",
+          "bbox": [
+            158.4,
+            677.794607694638,
+            557.88,
+            695.6691911541957
+          ],
+          "bbox_bottom_origin": [
+            158.4,
+            96.3308088458043,
+            557.88,
+            114.20539230536201
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        }
+      ]
+    }
+  ],
+  "repeat_structure_sha256": [
+    "ab35e29a0912b138242b3374c4f4119621601a4d9e0a481d132505e20570d96a",
+    "ab35e29a0912b138242b3374c4f4119621601a4d9e0a481d132505e20570d96a"
+  ]
+}

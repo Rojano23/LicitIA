@@ -1,0 +1,122 @@
+{
+  "vision-task-receipts-v1/8dd755cee1c2f258d60d0abf99ad63b67eaac8596a9af41a64789db906b32820.lock": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "vision-task-receipts-v1/ac834040bb4cc4b4f3d0c220ab9854c4c5f93e3d30f63d709d5894063c8dcb48.json": {
+    "sha256": "64e52328892546dbc66d89065bc3dfea696dd84ebc0ac48f5ecb0e7a3e7d5961",
+    "size": 1301
+  },
+  "vision-task-receipts-v1/779c97fbc896faaa89fa09ed7aad702b5c10435708fd18037c37a9f4f3d5a6ef.lock": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "vision-task-receipts-v1/8d153f84624c23f267947dbac2bf663d2407898595f9a9d3bfbfb537591fcd2d.lock": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "vision-task-receipts-v1/835a4e2296ab96c44b8cad06c448aba5b0e508e620984c440a4c15bcb97159a8.lock": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "vision-task-receipts-v1/570b55d2b54bbfa5624b89231a14e927d2d40b4b89572898441179ccf1f7b130.lock": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "vision-task-receipts-v1/570b55d2b54bbfa5624b89231a14e927d2d40b4b89572898441179ccf1f7b130.json": {
+    "sha256": "26effab9e305d1be49ddc9a0e51c9ca5f6574dc5e0c5ce878dae9f8a659fe9e4",
+    "size": 1475
+  },
+  "vision-task-receipts-v1/adf615ff0c8456cab5298b653aa94949cddd47fb1d2d30956d9a99faff4d622a.lock": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "vision-task-receipts-v1/779c97fbc896faaa89fa09ed7aad702b5c10435708fd18037c37a9f4f3d5a6ef.json": {
+    "sha256": "71bf4d9974d5c06b525a40c6e22fc88f1888a58e3d34a9c47a755678e4a6e7e8",
+    "size": 1435
+  },
+  "vision-task-receipts-v1/ac834040bb4cc4b4f3d0c220ab9854c4c5f93e3d30f63d709d5894063c8dcb48.lock": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "vision-task-receipts-v1/ecb7b7d7ee026f7835759471d97c0a6a35c0998e7109f82d79f4cffc27f8d367.lock": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "ocr-task-receipts-v1/5410be381081f4154d3d09f83eaa3524c753c454048836a3b2f45f7e1fec61a0.lock": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "ocr-task-receipts-v1/fef247a9908bd66656a9b033eba3c18008553d1267a19050abfca727f7c81fcf.json": {
+    "sha256": "fb4502ce060162aa14068f1647fb2e3e7553f7adc434184fc451201188d4539d",
+    "size": 938
+  },
+  "ocr-task-receipts-v1/1766fe3cc98f598b6af27391e334ab3654adbfb73a770b899c4103b63157156c.lock": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "ocr-task-receipts-v1/c395410b0886d41bf830b221a7ab0e21f66de7bf74eeacf175897d7a9b6e73fd.lock": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "ocr-task-receipts-v1/1766fe3cc98f598b6af27391e334ab3654adbfb73a770b899c4103b63157156c.json": {
+    "sha256": "f69dbae5cf404ef64a5f1cf258fc155e24b8b3eff34c3fb651f9f91eb20cb454",
+    "size": 898
+  },
+  "ocr-task-receipts-v1/c395410b0886d41bf830b221a7ab0e21f66de7bf74eeacf175897d7a9b6e73fd.json": {
+    "sha256": "9dba633bd04998227a92e3f49f0e2d97dea1fe629d774a987df92788483a96a3",
+    "size": 906
+  },
+  "ocr-task-receipts-v1/fef247a9908bd66656a9b033eba3c18008553d1267a19050abfca727f7c81fcf.lock": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "ocr-task-receipts-v1/5410be381081f4154d3d09f83eaa3524c753c454048836a3b2f45f7e1fec61a0.json": {
+    "sha256": "25452d9127fd90bdd59d802da0b7dc89593e629609d29db5cc8e7683eae3a2d1",
+    "size": 906
+  },
+  "tenders/fe687dcf-e566-4956-9c63-1b7eb10a6090/originals/d004a4da-ac86-4b1b-a116-087b7d24ed88/2. Anexo_C.pdf": {
+    "sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+    "size": 177466
+  },
+  "tenders/fe687dcf-e566-4956-9c63-1b7eb10a6090/originals/2f56d38e-b391-4485-aa4a-c284e84b1ae3/1. Anexo_B1_Relevadores GE V2.pdf": {
+    "sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "size": 298410
+  },
+  "tenders/fe687dcf-e566-4956-9c63-1b7eb10a6090/originals/a746bf25-85d0-45d0-9f3d-8fd57c6af93b/01. Convocatoria  ID-107478.pdf": {
+    "sha256": "c5b8e39e09d66d288b097faad99cfab22c5a9c5573e8187c1d428d8ee5de075f",
+    "size": 943530
+  },
+  "tenders/fe687dcf-e566-4956-9c63-1b7eb10a6090/originals/86b89135-51fb-4b6b-ac6d-81e987e95c72/1. Cuestionarios DD ANEXO.pdf": {
+    "sha256": "7e4b94ae3130c1e1e46e1bc4ad89040a3d68351ab25b88c633a7c62bcd138670",
+    "size": 871097
+  },
+  "tenders/fe687dcf-e566-4956-9c63-1b7eb10a6090/originals/4808410e-5ac5-42b3-b7f2-7e2fd5b75357/2. Mecanismo GNR.pdf": {
+    "sha256": "d0517f47b23c88593765876b11ea85a8fbc4ba7f1bc2fb9568c20bcaff00043f",
+    "size": 258291
+  },
+  "tenders/fe687dcf-e566-4956-9c63-1b7eb10a6090/originals/089651b1-2b52-4f44-86a8-4f0a8e369b15/.DS_Store": {
+    "sha256": "0c3c4c0b58647e4ca761e9fe61421b68208c9bc656714cd49c89031e85f20616",
+    "size": 6148
+  },
+  "tenders/fe687dcf-e566-4956-9c63-1b7eb10a6090/originals/ba23f71d-f1cf-48ff-b258-44db5dc6b837/02. Bases Internacionales  ID-107478.pdf": {
+    "sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "size": 1956514
+  },
+  "tenders/fe687dcf-e566-4956-9c63-1b7eb10a6090/originals/b6231d15-cad3-4518-a6d0-9720b97ddf2b/3. Anexo SSPA (Formato 4).pdf": {
+    "sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+    "size": 247307
+  },
+  "tenders/fe687dcf-e566-4956-9c63-1b7eb10a6090/originals/c05e5e2a-f3de-4528-8b4d-67e05c2f4379/3. Anexo CN Tipo 2.pdf": {
+    "sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+    "size": 231613
+  },
+  "tenders/fe687dcf-e566-4956-9c63-1b7eb10a6090/originals/a85e6e4a-d7ed-429c-a755-a7b1e1d72fc9/5. MODELO DE CONTRATO PARA BIENES.pdf": {
+    "sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+    "size": 678952
+  },
+  "tenders/fe687dcf-e566-4956-9c63-1b7eb10a6090/originals/ec10f84c-8018-4093-8851-abbf3d9fe039/4. Anexo PACMA.pdf": {
+    "sha256": "0d6d8dbdc296109add69965efda636f97a1e759efbbaa1f188162350de2d8327",
+    "size": 860878
+  }
+}

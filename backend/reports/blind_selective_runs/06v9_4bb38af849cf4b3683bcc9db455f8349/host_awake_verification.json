@@ -1,0 +1,9 @@
+{
+  "mechanism": "caffeinate -ims",
+  "pid": 52678,
+  "execution_start": "2026-10-21T22:13:10.147754+00:00",
+  "execution_end": "2026-10-21T22:17:38.072633+00:00",
+  "suspension_events_during_entire_execution": [],
+  "provider_intervals_covered_by_whole_run": true,
+  "actual_per_call_start_end": "NOT_DIRECTLY_MEASURABLE; provider wall durations recorded, entire execution interval has no sleep events"
+}

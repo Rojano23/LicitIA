@@ -1,0 +1,13 @@
+{
+  "restart_persistence": "PASS",
+  "document_id": "59f87c2b-444b-4f67-905b-39d7904c02d3",
+  "source_sha256": "82b92df6f1609cd6fd4ca0e3f44e2f16da73d01301610e3279589c9d29df7e3a",
+  "python_network_events": 10,
+  "destinations": [
+    "('127.0.0.1', 5173)",
+    "('127.0.0.1', 8000)"
+  ],
+  "unexpected_external_events": 0,
+  "inference_calls": 0,
+  "limitations": "Python loopback fence; not an OS packet capture or a clean VM. Native binaries not instrumented."
+}

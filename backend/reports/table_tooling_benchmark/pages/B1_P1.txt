@@ -1,0 +1,72 @@
+ 
+1 
+ 
+Dirección de Transformación Energética 
+Subdirección de Proceso de Gas y Derivados 
+Complejo Procesador de Gas Cactus. 
+ 
+ 
+Anexo B-1  
+Especificaciones particulares o técnicas 
+Objeto de la Contratación: Relevadores de protección marca General Electric 
+ 
+El participante debe incluir en su propuesta técnica las especificaciones, alcances y requerimientos 
+que se indican en los siguientes numerales:  
+ 
+1. El participante deberá cumplir e incluir en su propuesta técnica las siguientes especificaciones técnicas 
+y alcances: 
+1.1. 
+Especificaciones técnicas de los productos y cantidades requeridas: 
+ 
+ 
+Partida 
+Descripción 
+Unidad de 
+Medida 
+Cantidad 
+1 
+RELEVADOR MULTILIN No F60-U03-HKH-F8L-H6L-M6B-P6B-W7K 
+DESCRIPCION: RELEVADOR 
+FABRICANTE/MARCA: GE MULTILIN 
+NUMERO DE PARTE: F60-U03-HKH-F8L-H6L-M6B-P6B-W7K 
+PZA 
+1 
+2 
+RELEVADOR MULTILIN No L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K 
+DESCRIPCION: RELEVADOR 
+FABRICANTE/MARCA: GE MULTILIN 
+No. PARTE: L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K 
+PZA 
+2 
+ 
+1.1.1. Normas aplicables vigentes que deberán cumplirse para este requerimiento. 
+Norma / Estándar 
+técnico / Código 
+Descripción 
+IEC-60255 
+Relevadores de medición y equipos de protección. 
+IEC-60255 
+26 requerimientos de compatibilidad electromagnética. 
+IEC-60255 
+27 requerimientos de seguridad del producto. 
+IEC-60068 
+Pruebas ambientales. 
+IEC-61000 
+Compatibilidad electromagnética. 
+ISO9001:2015 
+Requerimientos de gestión de calidad. 
+NMX-J-625-21-1-
+ANCE-2020 
+Relevadores eléctricos-parte 21: pruebas de vibración, choque, golpes y sísmicas en 
+relevadores de medición y equipos de protección-sección 1: pruebas de 
+vibración (sinusoidales) 
+NOM-003-SCT-
+2008. 
+Características de las etiquetas de envases y embalajes, destinadas al transporte de 
+substancias, materiales y residuos peligrosos 
+IEC 61850-9-2LE 
+Guía de implementación para la interfaz digital de transformadores de 
+instrumentos usando IEC 61850-9-2 
+IEC 60255-1:2022 
+Cláusula 8: Marking, labelling and packaging 
+25 de agosto de 2026 

@@ -1,0 +1,8 @@
+{
+  "tender_id": "f2ccf71a-9fb1-42a7-94fa-391afe75cb57",
+  "documents": 10,
+  "source_count": 10,
+  "input_binding_sha256": "2fb79c7d24595089e28245a0faf4ef3f909702cca9e55ab1bc0b708e28e9e0e8",
+  "pre_freeze_sha256": "a827ef282726ab28f0d33370b78c171ea7ee466b548205205ce000b9cfcfcb30",
+  "originals_inside_root": true
+}

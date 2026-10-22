@@ -1,0 +1,2333 @@
+[
+  {
+    "channel": "NATIVE",
+    "document": "D09",
+    "page": 1,
+    "page_id": "db4b7507-f7bd-473d-b0ef-e66fb5a96cdd",
+    "source_artifact_key": "native-page:db4b7507-f7bd-473d-b0ef-e66fb5a96cdd",
+    "normalized_content_id": "b8099d44-aca9-45b4-87f8-2c0f5be44f4f",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D09",
+    "page": 2,
+    "page_id": "e72c9bb9-27b9-40bb-95d1-d6a1b707c0ac",
+    "source_artifact_key": "native-page:e72c9bb9-27b9-40bb-95d1-d6a1b707c0ac",
+    "normalized_content_id": "13d924ba-eb92-468d-9baf-24d511e80558",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D09",
+    "page": 3,
+    "page_id": "3e9cb852-a3f9-4176-b7f8-1edda60ce987",
+    "source_artifact_key": "native-page:3e9cb852-a3f9-4176-b7f8-1edda60ce987",
+    "normalized_content_id": "e4db896c-5f98-4f71-b95f-cb86748be2dd",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D09",
+    "page": 4,
+    "page_id": "6bd047aa-7968-4f9a-8b7b-aed3e1f067b2",
+    "source_artifact_key": "native-page:6bd047aa-7968-4f9a-8b7b-aed3e1f067b2",
+    "normalized_content_id": "09f45d8f-fcea-45fa-855a-4c588ee61fd2",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D09",
+    "page": 5,
+    "page_id": "6f4807fa-468a-4854-8644-2d9558922351",
+    "source_artifact_key": "native-page:6f4807fa-468a-4854-8644-2d9558922351",
+    "normalized_content_id": "489445da-0133-4c81-8fbe-a63c281f0d42",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D07",
+    "page": 1,
+    "page_id": "fe823ee0-55e3-4114-aa39-be86787c3eb7",
+    "source_artifact_key": "native-page:fe823ee0-55e3-4114-aa39-be86787c3eb7",
+    "normalized_content_id": "50c41673-eb65-466c-9ebf-3a19439a202d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D07",
+    "page": 2,
+    "page_id": "356f5838-8e05-4d23-989e-4c69ce968a23",
+    "source_artifact_key": "native-page:356f5838-8e05-4d23-989e-4c69ce968a23",
+    "normalized_content_id": "32d3a846-a81d-4c4f-86f7-985d067f903c",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D07",
+    "page": 3,
+    "page_id": "dfcf0ab4-6d80-4b70-b238-2b5c7a331c55",
+    "source_artifact_key": "native-page:dfcf0ab4-6d80-4b70-b238-2b5c7a331c55",
+    "normalized_content_id": "d7db7fe1-5b89-4f6a-8bd2-5848a341ad3c",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D07",
+    "page": 4,
+    "page_id": "446e9eef-24a7-4a25-bd31-63547993ee44",
+    "source_artifact_key": "native-page:446e9eef-24a7-4a25-bd31-63547993ee44",
+    "normalized_content_id": "24ea502a-0947-4660-a475-99b7e714f843",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D07",
+    "page": 5,
+    "page_id": "ac8124d4-66f0-4df1-8070-c19c5e70d33a",
+    "source_artifact_key": "native-page:ac8124d4-66f0-4df1-8070-c19c5e70d33a",
+    "normalized_content_id": "e759adcf-c0d7-4633-b8a0-409bb3356e91",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D07",
+    "page": 6,
+    "page_id": "0000377a-3bc6-42d0-99e1-8b4d24004f88",
+    "source_artifact_key": "native-page:0000377a-3bc6-42d0-99e1-8b4d24004f88",
+    "normalized_content_id": "d61030af-7e99-4468-a0d1-5446b7b7d2a1",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D07",
+    "page": 7,
+    "page_id": "a50fcb40-0904-4615-8b55-2a4cc184676a",
+    "source_artifact_key": "native-page:a50fcb40-0904-4615-8b55-2a4cc184676a",
+    "normalized_content_id": "d81c5a7a-4738-44a8-a2ad-f3955098a634",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D07",
+    "page": 8,
+    "page_id": "f2825ea4-771a-40a3-8866-a4480db443fd",
+    "source_artifact_key": "native-page:f2825ea4-771a-40a3-8866-a4480db443fd",
+    "normalized_content_id": "88e5c2fc-e8b6-481d-be29-7bb9753adbd8",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D07",
+    "page": 9,
+    "page_id": "aaa902c2-a28d-4ef7-ac78-fcaed941227e",
+    "source_artifact_key": "native-page:aaa902c2-a28d-4ef7-ac78-fcaed941227e",
+    "normalized_content_id": "5503ed47-d972-4799-a72c-3b68fdbb970c",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D07",
+    "page": 10,
+    "page_id": "0f49d5f2-2335-4c96-8475-2252812bc1cc",
+    "source_artifact_key": "native-page:0f49d5f2-2335-4c96-8475-2252812bc1cc",
+    "normalized_content_id": "7189b620-6a48-4573-8c52-263b61125067",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D07",
+    "page": 11,
+    "page_id": "64c286f6-32e8-4499-b903-89ea176b366c",
+    "source_artifact_key": "native-page:64c286f6-32e8-4499-b903-89ea176b366c",
+    "normalized_content_id": "c511fb6b-a08a-412e-b42e-83452860ba07",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D07",
+    "page": 12,
+    "page_id": "052b5795-5d11-4f1a-b9ad-8d6765498f2a",
+    "source_artifact_key": "native-page:052b5795-5d11-4f1a-b9ad-8d6765498f2a",
+    "normalized_content_id": "7af62164-c4e5-410a-a38f-4c1e76b06d59",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 1,
+    "page_id": "bf2696ba-988c-4ba6-ae30-03058887d83c",
+    "source_artifact_key": "native-page:bf2696ba-988c-4ba6-ae30-03058887d83c",
+    "normalized_content_id": "a5da0ccb-e3cd-47cf-9b7a-edf6baf582dd",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 2,
+    "page_id": "3b516775-6b17-47f3-8f10-ddefc813feb1",
+    "source_artifact_key": "native-page:3b516775-6b17-47f3-8f10-ddefc813feb1",
+    "normalized_content_id": "5936d581-400c-40a0-bedf-6af71770c1c8",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 3,
+    "page_id": "d43cc6e0-001d-4ea9-93b2-5acb8ee6f70d",
+    "source_artifact_key": "native-page:d43cc6e0-001d-4ea9-93b2-5acb8ee6f70d",
+    "normalized_content_id": "801127d8-8f2a-4407-b743-06ca13ba1d0b",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 4,
+    "page_id": "af86b236-f9f0-4c87-b927-03922411bed5",
+    "source_artifact_key": "native-page:af86b236-f9f0-4c87-b927-03922411bed5",
+    "normalized_content_id": "4083d924-3dde-45a2-afc2-c19e1674674a",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 5,
+    "page_id": "b1b8c1c2-58d7-49f5-aa66-755b3c9e5a07",
+    "source_artifact_key": "native-page:b1b8c1c2-58d7-49f5-aa66-755b3c9e5a07",
+    "normalized_content_id": "cf44b9a0-369b-4785-8814-cc8bf5acb668",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 6,
+    "page_id": "53a1ac0f-2e82-4878-9571-aff0f944f4a3",
+    "source_artifact_key": "native-page:53a1ac0f-2e82-4878-9571-aff0f944f4a3",
+    "normalized_content_id": "acdc45bd-6367-4631-a352-6cf7e001b493",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 7,
+    "page_id": "c67f393a-02c3-44a2-bf2f-11b226bbeae7",
+    "source_artifact_key": "native-page:c67f393a-02c3-44a2-bf2f-11b226bbeae7",
+    "normalized_content_id": "5fa9f6a2-7b5b-403e-b3e5-32fe8e8cdeb4",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 8,
+    "page_id": "29b34f88-bad3-4881-af6f-1ee25634fc0a",
+    "source_artifact_key": "native-page:29b34f88-bad3-4881-af6f-1ee25634fc0a",
+    "normalized_content_id": "9a11c2c3-e089-47cf-9fec-2fd2ace464d7",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 9,
+    "page_id": "330dfd36-842e-44ac-aa5e-e3f3e533cea1",
+    "source_artifact_key": "native-page:330dfd36-842e-44ac-aa5e-e3f3e533cea1",
+    "normalized_content_id": "fde08955-178a-4f2c-b7ed-0b566dd4702e",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 10,
+    "page_id": "b783f4e8-718b-4acf-841c-842cd330cff2",
+    "source_artifact_key": "native-page:b783f4e8-718b-4acf-841c-842cd330cff2",
+    "normalized_content_id": "139d5b26-b323-47f2-ad21-f42181090706",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 11,
+    "page_id": "fe5636af-7512-446f-b0ac-4699569aaefd",
+    "source_artifact_key": "native-page:fe5636af-7512-446f-b0ac-4699569aaefd",
+    "normalized_content_id": "10990866-8d32-4240-8f08-6ac78bd01c74",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 12,
+    "page_id": "0e5366a4-b3a8-42c9-ae83-f8752d22aca5",
+    "source_artifact_key": "native-page:0e5366a4-b3a8-42c9-ae83-f8752d22aca5",
+    "normalized_content_id": "b9d7d73c-b409-4d27-b8b7-367c2e9f27cb",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 13,
+    "page_id": "75940a85-9088-43f3-a023-08b41a840ae5",
+    "source_artifact_key": "native-page:75940a85-9088-43f3-a023-08b41a840ae5",
+    "normalized_content_id": "0fbcf873-4a9f-462e-b4d7-86041b71446d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 14,
+    "page_id": "f7cadba5-fae9-48ab-9240-ea91c55a4727",
+    "source_artifact_key": "native-page:f7cadba5-fae9-48ab-9240-ea91c55a4727",
+    "normalized_content_id": "5216409c-7765-4eee-85a4-5d714acdd11b",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 15,
+    "page_id": "ae1fca8e-0b95-406f-92d1-fe904596a351",
+    "source_artifact_key": "native-page:ae1fca8e-0b95-406f-92d1-fe904596a351",
+    "normalized_content_id": "2457ff06-dbbc-448d-bc07-c5edbf2ac71e",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 16,
+    "page_id": "3b3c40fd-57bb-410a-8633-0cf71484bb88",
+    "source_artifact_key": "native-page:3b3c40fd-57bb-410a-8633-0cf71484bb88",
+    "normalized_content_id": "ae2508d6-de84-4670-b443-c732f9e4cce7",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 17,
+    "page_id": "197c7dd8-5b8a-4955-99be-a250d3a7a33d",
+    "source_artifact_key": "native-page:197c7dd8-5b8a-4955-99be-a250d3a7a33d",
+    "normalized_content_id": "3b8fbc33-0f6e-4d1a-ad65-b0133dc78934",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 18,
+    "page_id": "2339e44c-0142-4255-b716-b8cdd79c2349",
+    "source_artifact_key": "native-page:2339e44c-0142-4255-b716-b8cdd79c2349",
+    "normalized_content_id": "38716633-04aa-4be1-bbe3-622714ef2377",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 19,
+    "page_id": "00718c78-05b9-4b8c-b153-32eee0f67da6",
+    "source_artifact_key": "native-page:00718c78-05b9-4b8c-b153-32eee0f67da6",
+    "normalized_content_id": "b59ceeaf-9260-4bd3-bc62-afc070ef4813",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D03",
+    "page": 20,
+    "page_id": "012a2a10-6e45-477e-bec3-468bc955650f",
+    "source_artifact_key": "native-page:012a2a10-6e45-477e-bec3-468bc955650f",
+    "normalized_content_id": "5af15d23-d0e5-4b7f-8d12-368691b165fd",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D10",
+    "page": 1,
+    "page_id": "b8ada5c7-521f-4ca0-951f-2835bc9b29e5",
+    "source_artifact_key": "native-page:b8ada5c7-521f-4ca0-951f-2835bc9b29e5",
+    "normalized_content_id": "d5792f9e-d626-4b6a-8e63-758d473d9e40",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D10",
+    "page": 2,
+    "page_id": "1d4a64cf-5e19-42ce-8832-5b9d645cab3e",
+    "source_artifact_key": "native-page:1d4a64cf-5e19-42ce-8832-5b9d645cab3e",
+    "normalized_content_id": "b3b0b1f3-e2c4-45cf-8e72-38956ae8f145",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D10",
+    "page": 3,
+    "page_id": "259949b2-4576-4432-8509-0270f327c293",
+    "source_artifact_key": "native-page:259949b2-4576-4432-8509-0270f327c293",
+    "normalized_content_id": "71a7d858-f794-4d45-b4dd-4d44b7ec0713",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D10",
+    "page": 4,
+    "page_id": "3e557df9-d518-4b68-b47f-f15eb90a3119",
+    "source_artifact_key": "native-page:3e557df9-d518-4b68-b47f-f15eb90a3119",
+    "normalized_content_id": "804a515d-cc78-4019-8e0a-43df7dc0b08f",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D10",
+    "page": 5,
+    "page_id": "e6ba09a4-9514-4791-85c1-1d56bc7a909b",
+    "source_artifact_key": "native-page:e6ba09a4-9514-4791-85c1-1d56bc7a909b",
+    "normalized_content_id": "9589d084-c176-4d2e-b7df-4d083707557b",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D10",
+    "page": 6,
+    "page_id": "be811b13-87b7-403c-b024-59439d244e89",
+    "source_artifact_key": "native-page:be811b13-87b7-403c-b024-59439d244e89",
+    "normalized_content_id": "497b5828-23a4-464b-aa95-7b32412ef4a5",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D10",
+    "page": 7,
+    "page_id": "f5fe1a62-683e-40e4-a2da-bb94eb732e31",
+    "source_artifact_key": "native-page:f5fe1a62-683e-40e4-a2da-bb94eb732e31",
+    "normalized_content_id": "aed9c541-2887-4468-a1e8-42b7b575ad8f",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D10",
+    "page": 8,
+    "page_id": "6e51963c-4a48-4155-804e-32f84c375e68",
+    "source_artifact_key": "native-page:6e51963c-4a48-4155-804e-32f84c375e68",
+    "normalized_content_id": "364babec-a94b-4388-9939-e624476fabc3",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D10",
+    "page": 9,
+    "page_id": "e6612f70-44a3-4655-ab58-b0639d75401f",
+    "source_artifact_key": "native-page:e6612f70-44a3-4655-ab58-b0639d75401f",
+    "normalized_content_id": "854680a6-b0cd-47c0-b683-68abcb165a3c",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D10",
+    "page": 10,
+    "page_id": "976580cd-f008-4edb-81e6-4bba4251f26c",
+    "source_artifact_key": "native-page:976580cd-f008-4edb-81e6-4bba4251f26c",
+    "normalized_content_id": "9cb087d8-1c8d-44e3-b4f0-8800820ebc18",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D10",
+    "page": 11,
+    "page_id": "47173fe4-c1f3-4321-b3c9-7d6425bc9041",
+    "source_artifact_key": "native-page:47173fe4-c1f3-4321-b3c9-7d6425bc9041",
+    "normalized_content_id": "3788acb6-c398-4cd9-bd1b-67e55a3168e8",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 1,
+    "page_id": "4ded46b4-94ad-427b-84b2-c4d31d8d6655",
+    "source_artifact_key": "native-page:4ded46b4-94ad-427b-84b2-c4d31d8d6655",
+    "normalized_content_id": "2724f0c6-4df6-4334-b2c3-483afe098fc7",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 2,
+    "page_id": "ef3c540a-4829-4898-98be-9bda162853ba",
+    "source_artifact_key": "native-page:ef3c540a-4829-4898-98be-9bda162853ba",
+    "normalized_content_id": "1aeebd2a-d1df-4867-bb2e-b772a4db3b4d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 3,
+    "page_id": "2e03b388-d418-48b8-a59b-599267135758",
+    "source_artifact_key": "native-page:2e03b388-d418-48b8-a59b-599267135758",
+    "normalized_content_id": "00b4a1a7-d0f6-457c-af7b-e1a61b33f489",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 4,
+    "page_id": "03f69276-eba2-4fb9-85de-882fa2b78c05",
+    "source_artifact_key": "native-page:03f69276-eba2-4fb9-85de-882fa2b78c05",
+    "normalized_content_id": "f6527525-863d-45cc-911c-7216e3db6607",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 5,
+    "page_id": "134356fd-e8fa-42be-9c42-d0e420254874",
+    "source_artifact_key": "native-page:134356fd-e8fa-42be-9c42-d0e420254874",
+    "normalized_content_id": "0b5af7d2-49db-4a0f-9fe4-f802838f4915",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 6,
+    "page_id": "47ee4b6c-215e-4912-ad1d-44f74aea6729",
+    "source_artifact_key": "native-page:47ee4b6c-215e-4912-ad1d-44f74aea6729",
+    "normalized_content_id": "057dd011-15ee-40c1-96e9-facdec010e39",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 7,
+    "page_id": "523e4b58-5967-458a-92ca-d1e2dc5257ac",
+    "source_artifact_key": "native-page:523e4b58-5967-458a-92ca-d1e2dc5257ac",
+    "normalized_content_id": "f4c1f382-ace1-407b-b3ed-b4bea1dfa763",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 8,
+    "page_id": "facf14a4-973e-43ea-8118-76e7d4536ee9",
+    "source_artifact_key": "native-page:facf14a4-973e-43ea-8118-76e7d4536ee9",
+    "normalized_content_id": "319d0a78-aad5-47bf-9466-c8e29760e269",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 9,
+    "page_id": "779e1268-d1f9-42fc-92eb-7782cf0968a7",
+    "source_artifact_key": "native-page:779e1268-d1f9-42fc-92eb-7782cf0968a7",
+    "normalized_content_id": "725cff0b-137d-4d1e-9279-5caec8348fbd",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 10,
+    "page_id": "eb1faffa-8334-4c7c-9a65-b7902f95fe4a",
+    "source_artifact_key": "native-page:eb1faffa-8334-4c7c-9a65-b7902f95fe4a",
+    "normalized_content_id": "5939bd02-a0dc-49f0-8728-6de8a1e2516e",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 11,
+    "page_id": "8fba9abd-4580-4c08-8414-86e0134ffc5b",
+    "source_artifact_key": "native-page:8fba9abd-4580-4c08-8414-86e0134ffc5b",
+    "normalized_content_id": "990b120a-b048-44f1-8d11-1b71b13398cd",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 12,
+    "page_id": "799a5922-f946-475a-8730-f21a9af06dcd",
+    "source_artifact_key": "native-page:799a5922-f946-475a-8730-f21a9af06dcd",
+    "normalized_content_id": "b1bc78f2-e208-4142-903a-acc375699ef6",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 13,
+    "page_id": "19d66d4f-52a4-4090-a83b-9995a09497d9",
+    "source_artifact_key": "native-page:19d66d4f-52a4-4090-a83b-9995a09497d9",
+    "normalized_content_id": "0731433b-9ec3-4f0f-9f02-18368bed6927",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 14,
+    "page_id": "edd4df63-9f68-4297-8f84-c0f1b628acee",
+    "source_artifact_key": "native-page:edd4df63-9f68-4297-8f84-c0f1b628acee",
+    "normalized_content_id": "4b5a4d8c-7c0e-4cc7-9dd3-57d184721d20",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 15,
+    "page_id": "f7ab9a29-ecd0-4fa4-868f-d6853b5758c1",
+    "source_artifact_key": "native-page:f7ab9a29-ecd0-4fa4-868f-d6853b5758c1",
+    "normalized_content_id": "ffc11e2f-f7cf-4d88-94e1-eb8040dbdfe8",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 16,
+    "page_id": "6e6de60a-e40a-42ab-b1da-2c6edb62cfbb",
+    "source_artifact_key": "native-page:6e6de60a-e40a-42ab-b1da-2c6edb62cfbb",
+    "normalized_content_id": "2a70fc05-e047-4a50-8d69-3ca93ede9829",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 17,
+    "page_id": "9f1140ae-4b06-4c28-b9d4-a96407c2e92d",
+    "source_artifact_key": "native-page:9f1140ae-4b06-4c28-b9d4-a96407c2e92d",
+    "normalized_content_id": "1fd91af0-3517-4589-97e3-5487b9425da1",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 18,
+    "page_id": "dff66c2d-06a2-4a4e-92a2-3f999638297b",
+    "source_artifact_key": "native-page:dff66c2d-06a2-4a4e-92a2-3f999638297b",
+    "normalized_content_id": "1c6009f3-b3ef-4cf6-b72d-e40c9362eae0",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 19,
+    "page_id": "f73f0103-95cd-404f-b78a-dd97bda60498",
+    "source_artifact_key": "native-page:f73f0103-95cd-404f-b78a-dd97bda60498",
+    "normalized_content_id": "d3b453ab-85d7-4d55-b82d-90029d3702a2",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 20,
+    "page_id": "51ac9b6f-e5d5-47aa-9d1c-efd066d567f0",
+    "source_artifact_key": "native-page:51ac9b6f-e5d5-47aa-9d1c-efd066d567f0",
+    "normalized_content_id": "02f91ad5-c156-4bc6-950d-75c10aa94c26",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 21,
+    "page_id": "aebe8eb5-77b6-40cc-90da-9b89a6f8aa03",
+    "source_artifact_key": "native-page:aebe8eb5-77b6-40cc-90da-9b89a6f8aa03",
+    "normalized_content_id": "28d2f2bd-3819-4a64-a111-c7028bd09f08",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 22,
+    "page_id": "9ba055ed-60fd-4aaf-89fe-4665f0f16d52",
+    "source_artifact_key": "native-page:9ba055ed-60fd-4aaf-89fe-4665f0f16d52",
+    "normalized_content_id": "350b3e9b-527f-4b6b-abac-3f42c5c2e878",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 23,
+    "page_id": "15c0453d-9ff4-40fe-999e-e12688c026de",
+    "source_artifact_key": "native-page:15c0453d-9ff4-40fe-999e-e12688c026de",
+    "normalized_content_id": "5fe85578-545e-4bdc-90f7-dc12a389104c",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 24,
+    "page_id": "61e9a966-210a-45c4-be5b-f2ba1a30e081",
+    "source_artifact_key": "native-page:61e9a966-210a-45c4-be5b-f2ba1a30e081",
+    "normalized_content_id": "4b3f76e9-8b83-4d90-b949-2e7362e2b662",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 25,
+    "page_id": "f5e19998-37c4-4324-8827-54af6f9e324e",
+    "source_artifact_key": "native-page:f5e19998-37c4-4324-8827-54af6f9e324e",
+    "normalized_content_id": "d3f925eb-bbad-4786-aef6-0a1956a78986",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 26,
+    "page_id": "200868b7-c69e-47ad-ac37-2e8505f440b3",
+    "source_artifact_key": "native-page:200868b7-c69e-47ad-ac37-2e8505f440b3",
+    "normalized_content_id": "ce4ec7de-f9ac-4782-b381-1508527d380e",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 27,
+    "page_id": "ac132d2c-cd05-4a08-813d-80ddfd65f6af",
+    "source_artifact_key": "native-page:ac132d2c-cd05-4a08-813d-80ddfd65f6af",
+    "normalized_content_id": "b622e064-7285-490b-9d96-a2fe7f2f39e7",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 28,
+    "page_id": "cdcc3ec0-de8a-4859-8206-d8327d95f69c",
+    "source_artifact_key": "native-page:cdcc3ec0-de8a-4859-8206-d8327d95f69c",
+    "normalized_content_id": "87d43859-9af8-4210-889e-33e2b15ad8dd",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 29,
+    "page_id": "8c86b1cc-b192-4349-bffe-0a7768e878c3",
+    "source_artifact_key": "native-page:8c86b1cc-b192-4349-bffe-0a7768e878c3",
+    "normalized_content_id": "6426e802-8836-41b9-9bc2-e322cba935af",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 30,
+    "page_id": "3a3775c0-2db7-42f2-811c-1fc3f4b4187a",
+    "source_artifact_key": "native-page:3a3775c0-2db7-42f2-811c-1fc3f4b4187a",
+    "normalized_content_id": "f193e072-a72b-402d-a3cf-7e6a5f86f60c",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 31,
+    "page_id": "875fbe49-64cb-4aed-a7c7-e5cc713f8ac8",
+    "source_artifact_key": "native-page:875fbe49-64cb-4aed-a7c7-e5cc713f8ac8",
+    "normalized_content_id": "0df9ab33-aaa2-4fa3-89fe-bec54ad3a605",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 32,
+    "page_id": "f067c772-a337-4337-be0a-eb274e1b91ac",
+    "source_artifact_key": "native-page:f067c772-a337-4337-be0a-eb274e1b91ac",
+    "normalized_content_id": "8c608f02-52b1-43d0-81f5-38e7ab0fdbc6",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 33,
+    "page_id": "946a59df-d52b-4850-bebf-7e09927e875c",
+    "source_artifact_key": "native-page:946a59df-d52b-4850-bebf-7e09927e875c",
+    "normalized_content_id": "03dd330b-918b-425b-9f04-888a95770025",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 34,
+    "page_id": "659c882a-86dc-41a1-aba7-6c8fcfa2f7eb",
+    "source_artifact_key": "native-page:659c882a-86dc-41a1-aba7-6c8fcfa2f7eb",
+    "normalized_content_id": "14a1ede6-334b-4f59-a271-9d56fccb3c02",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 35,
+    "page_id": "471970ac-cb91-47ca-8557-86d5c835bc25",
+    "source_artifact_key": "native-page:471970ac-cb91-47ca-8557-86d5c835bc25",
+    "normalized_content_id": "3b078e8f-7e6a-4d38-a48f-41f35bbad2b1",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 36,
+    "page_id": "49844521-0166-4331-bf4d-d53c4164cca1",
+    "source_artifact_key": "native-page:49844521-0166-4331-bf4d-d53c4164cca1",
+    "normalized_content_id": "ecbeaa42-87c5-42df-900d-00c6a7626f89",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 37,
+    "page_id": "ea47c491-e939-4467-851d-1623941e5099",
+    "source_artifact_key": "native-page:ea47c491-e939-4467-851d-1623941e5099",
+    "normalized_content_id": "5d487499-2f63-41c4-ac26-70921f2f6fa3",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 38,
+    "page_id": "99162b03-2c31-42a0-b3b3-84a36a8c85e5",
+    "source_artifact_key": "native-page:99162b03-2c31-42a0-b3b3-84a36a8c85e5",
+    "normalized_content_id": "6f8af49a-ba54-481c-8555-a5bc1ef9d528",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 39,
+    "page_id": "ba8634e3-eaf0-4cd7-9bab-d834923f512b",
+    "source_artifact_key": "native-page:ba8634e3-eaf0-4cd7-9bab-d834923f512b",
+    "normalized_content_id": "429fb3da-942f-44ed-abad-90143dcdd870",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 40,
+    "page_id": "17529a8f-be00-4774-b0e8-74f4cb249f50",
+    "source_artifact_key": "native-page:17529a8f-be00-4774-b0e8-74f4cb249f50",
+    "normalized_content_id": "7b10000d-40eb-4d89-b88c-953abd07a371",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 41,
+    "page_id": "8e0af8e2-4a39-4a4b-a0b9-282ab2397c29",
+    "source_artifact_key": "native-page:8e0af8e2-4a39-4a4b-a0b9-282ab2397c29",
+    "normalized_content_id": "cc22a0b5-cd94-44a7-9e02-c05478f2c258",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 42,
+    "page_id": "c1060c3c-1b15-4286-8600-1850b196c938",
+    "source_artifact_key": "native-page:c1060c3c-1b15-4286-8600-1850b196c938",
+    "normalized_content_id": "17c46a1a-18c7-4d30-86c5-5311aa3de0f9",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 43,
+    "page_id": "399750d7-b38c-4a20-81b8-e23c74d130cb",
+    "source_artifact_key": "native-page:399750d7-b38c-4a20-81b8-e23c74d130cb",
+    "normalized_content_id": "cd619cf6-69e8-44a2-902a-32154d3d1c2d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 44,
+    "page_id": "d0fb2117-ed75-4140-b4da-043730068032",
+    "source_artifact_key": "native-page:d0fb2117-ed75-4140-b4da-043730068032",
+    "normalized_content_id": "bf51806c-b04b-4e5e-a631-fb48e614b233",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 45,
+    "page_id": "edcb6ef7-0370-4e6d-a7df-1ffdc5537878",
+    "source_artifact_key": "native-page:edcb6ef7-0370-4e6d-a7df-1ffdc5537878",
+    "normalized_content_id": "8cf5d377-409e-4467-b239-15101240f455",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 46,
+    "page_id": "f11a1387-e0b2-47d1-86a3-68f284fd6bb5",
+    "source_artifact_key": "native-page:f11a1387-e0b2-47d1-86a3-68f284fd6bb5",
+    "normalized_content_id": "e7cafcfc-f001-457e-9a5c-67449969809f",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 47,
+    "page_id": "738aa22d-d67f-471a-94e3-dfbac0a1f6bf",
+    "source_artifact_key": "native-page:738aa22d-d67f-471a-94e3-dfbac0a1f6bf",
+    "normalized_content_id": "d76aada4-fae3-40cc-a468-a0c81ddb8945",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 48,
+    "page_id": "315dd5a8-e7f2-4808-a79f-b63f269cc546",
+    "source_artifact_key": "native-page:315dd5a8-e7f2-4808-a79f-b63f269cc546",
+    "normalized_content_id": "2601af6f-b842-4887-b869-cad0d688b820",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 49,
+    "page_id": "eab5eee4-e065-4b29-931a-37181ee35b17",
+    "source_artifact_key": "native-page:eab5eee4-e065-4b29-931a-37181ee35b17",
+    "normalized_content_id": "1f6e88dd-6a5a-4f74-b24f-e152f6be860e",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 50,
+    "page_id": "1af69519-7384-471e-8e38-d888254292ad",
+    "source_artifact_key": "native-page:1af69519-7384-471e-8e38-d888254292ad",
+    "normalized_content_id": "c870f6db-dc49-4ae2-9be8-9ec96969463d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 51,
+    "page_id": "cdd11f83-be8b-4ab5-9be5-cb35568d9586",
+    "source_artifact_key": "native-page:cdd11f83-be8b-4ab5-9be5-cb35568d9586",
+    "normalized_content_id": "36cb9ac0-e449-4c2d-a205-1ae13a7d0caf",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 52,
+    "page_id": "39e1e1e2-7b84-4940-9767-4cf2cfd9d952",
+    "source_artifact_key": "native-page:39e1e1e2-7b84-4940-9767-4cf2cfd9d952",
+    "normalized_content_id": "113ae2b6-35cb-4518-bb86-c3ca6ca066f3",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 53,
+    "page_id": "14f67338-9e0e-4e7b-83eb-b9efba62edcc",
+    "source_artifact_key": "native-page:14f67338-9e0e-4e7b-83eb-b9efba62edcc",
+    "normalized_content_id": "4830e905-b5ec-467b-8e38-dba3a109ed4d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 54,
+    "page_id": "ce81c1b5-ac84-4c2a-9489-b2c405dca92e",
+    "source_artifact_key": "native-page:ce81c1b5-ac84-4c2a-9489-b2c405dca92e",
+    "normalized_content_id": "8a554c0d-3174-426e-8ee1-9007d64a2c6c",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D05",
+    "page": 55,
+    "page_id": "2ff165d1-3197-4941-aa8d-8d9545d70ca2",
+    "source_artifact_key": "native-page:2ff165d1-3197-4941-aa8d-8d9545d70ca2",
+    "normalized_content_id": "87c3cb26-ba9b-4699-9de6-1f337d945caa",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D06",
+    "page": 1,
+    "page_id": "23a27429-179e-4d18-86f8-e3906f83336d",
+    "source_artifact_key": "native-page:23a27429-179e-4d18-86f8-e3906f83336d",
+    "normalized_content_id": "5b0c7c55-c698-4d6d-b8df-140526939c43",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D06",
+    "page": 2,
+    "page_id": "baaf11b0-eef4-4a2d-8299-8331a199ee7a",
+    "source_artifact_key": "native-page:baaf11b0-eef4-4a2d-8299-8331a199ee7a",
+    "normalized_content_id": "31c3b54e-d45e-4381-b47a-3e012a72055a",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D06",
+    "page": 3,
+    "page_id": "7a273de9-61d5-488e-b9d0-a80e4aa44b5b",
+    "source_artifact_key": "native-page:7a273de9-61d5-488e-b9d0-a80e4aa44b5b",
+    "normalized_content_id": "8e680b9c-20da-4722-a394-2ab3e58d9781",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 1,
+    "page_id": "e3cfba19-6d06-495d-a2db-74e2058b2cbc",
+    "source_artifact_key": "native-page:e3cfba19-6d06-495d-a2db-74e2058b2cbc",
+    "normalized_content_id": "b70f7984-9731-4430-a662-b3a84eab1279",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 2,
+    "page_id": "c5cce5c6-2caf-4c01-81fa-3b862dbfa3cc",
+    "source_artifact_key": "native-page:c5cce5c6-2caf-4c01-81fa-3b862dbfa3cc",
+    "normalized_content_id": "2f09cc4e-56dc-4c3a-880c-7567cb42529e",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 3,
+    "page_id": "3ae95601-c307-47a2-96d0-ddd96c6780fe",
+    "source_artifact_key": "native-page:3ae95601-c307-47a2-96d0-ddd96c6780fe",
+    "normalized_content_id": "356cb307-f2bc-4ef4-9585-8f3cd202bed9",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 4,
+    "page_id": "bfef4095-c13e-44de-825c-ccf02c0fa4bd",
+    "source_artifact_key": "native-page:bfef4095-c13e-44de-825c-ccf02c0fa4bd",
+    "normalized_content_id": "77fa3d19-b3e9-4c4d-a9c6-e5d5fd00cff1",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 5,
+    "page_id": "33eda6a7-060b-46ea-a946-617d293d4eca",
+    "source_artifact_key": "native-page:33eda6a7-060b-46ea-a946-617d293d4eca",
+    "normalized_content_id": "d874366e-343b-47fe-a5f8-b026cbacc2e8",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 6,
+    "page_id": "15711e65-92c4-49c8-a283-831440d9b168",
+    "source_artifact_key": "native-page:15711e65-92c4-49c8-a283-831440d9b168",
+    "normalized_content_id": "701bfde5-cac7-4a6e-a64a-ba1e1590ea1f",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 7,
+    "page_id": "698f9a83-fe59-42e8-8ea6-369400e89498",
+    "source_artifact_key": "native-page:698f9a83-fe59-42e8-8ea6-369400e89498",
+    "normalized_content_id": "c03e6fba-5b75-47e0-b8fa-31c455e624ee",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 8,
+    "page_id": "02f9f2d9-f35c-4d31-8055-d2ae55f4d113",
+    "source_artifact_key": "native-page:02f9f2d9-f35c-4d31-8055-d2ae55f4d113",
+    "normalized_content_id": "82381a4f-01db-4f8c-8232-57103012dd54",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 9,
+    "page_id": "a6a9ab1c-84c6-417b-addf-97e4fcea271a",
+    "source_artifact_key": "native-page:a6a9ab1c-84c6-417b-addf-97e4fcea271a",
+    "normalized_content_id": "0cdb30b5-5e97-4113-b37b-45a5326d35fc",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 10,
+    "page_id": "ad8fbbf8-2c12-4805-89ca-d274df82a45f",
+    "source_artifact_key": "native-page:ad8fbbf8-2c12-4805-89ca-d274df82a45f",
+    "normalized_content_id": "b4ea8c8e-df92-4540-a214-78f454aec31c",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 11,
+    "page_id": "4dc66355-6a4b-4b3e-8476-5010e592a832",
+    "source_artifact_key": "native-page:4dc66355-6a4b-4b3e-8476-5010e592a832",
+    "normalized_content_id": "11744362-fee2-4c08-87f9-a538c7a0b352",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 12,
+    "page_id": "242070d3-d5ed-4197-a0df-9ba0cc92ace9",
+    "source_artifact_key": "native-page:242070d3-d5ed-4197-a0df-9ba0cc92ace9",
+    "normalized_content_id": "940a89b3-5b63-48f0-ad22-67426328fb39",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 13,
+    "page_id": "4ed6bcf2-f5a6-4774-84b3-68653dd3aea4",
+    "source_artifact_key": "native-page:4ed6bcf2-f5a6-4774-84b3-68653dd3aea4",
+    "normalized_content_id": "b81545fb-ad11-4cc7-ae13-9d690533fff1",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 14,
+    "page_id": "9e6ab79f-53a6-4810-bb54-5cf3357b1812",
+    "source_artifact_key": "native-page:9e6ab79f-53a6-4810-bb54-5cf3357b1812",
+    "normalized_content_id": "529d34c2-943a-49cc-901d-6bb331ceccf4",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 15,
+    "page_id": "74fd47fb-5b9c-481c-9c87-96a680252a70",
+    "source_artifact_key": "native-page:74fd47fb-5b9c-481c-9c87-96a680252a70",
+    "normalized_content_id": "60f1392c-ea4e-4e42-b3b3-a682260e3688",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 16,
+    "page_id": "2f1ebfd2-fe7d-40ed-af29-de4165936f23",
+    "source_artifact_key": "native-page:2f1ebfd2-fe7d-40ed-af29-de4165936f23",
+    "normalized_content_id": "5ff08358-25b0-40b3-b4c9-93302e248361",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 17,
+    "page_id": "66c5fe13-f691-4db9-ae10-214cd187a312",
+    "source_artifact_key": "native-page:66c5fe13-f691-4db9-ae10-214cd187a312",
+    "normalized_content_id": "f40d6d7b-a592-4fd3-b763-861e0f9a707c",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 18,
+    "page_id": "1daeb34a-f8b5-4dda-967f-86b6183bb3f8",
+    "source_artifact_key": "native-page:1daeb34a-f8b5-4dda-967f-86b6183bb3f8",
+    "normalized_content_id": "6e883b69-b865-4859-b9ae-719a23c1058d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 19,
+    "page_id": "e668c591-c358-4edd-b4d9-9fd99063a205",
+    "source_artifact_key": "native-page:e668c591-c358-4edd-b4d9-9fd99063a205",
+    "normalized_content_id": "bc2d918d-3f44-4b65-8230-f60605c52364",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 20,
+    "page_id": "62ea5421-ae29-4b67-b0bb-a2a5df4d73ea",
+    "source_artifact_key": "native-page:62ea5421-ae29-4b67-b0bb-a2a5df4d73ea",
+    "normalized_content_id": "2d427457-9713-442c-8f81-f6caa5eda949",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 21,
+    "page_id": "427012da-645f-4cc6-8971-7abc437c6a59",
+    "source_artifact_key": "native-page:427012da-645f-4cc6-8971-7abc437c6a59",
+    "normalized_content_id": "112ff83a-810f-42b1-8318-44ebbdcbb9a3",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 22,
+    "page_id": "94a23723-0c62-45c3-9e19-e93a37a82ec2",
+    "source_artifact_key": "native-page:94a23723-0c62-45c3-9e19-e93a37a82ec2",
+    "normalized_content_id": "935359c5-ac97-4ac4-8a05-eb55c3db6805",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 23,
+    "page_id": "7b6f4a32-ef4a-45f7-9a37-de23d6979739",
+    "source_artifact_key": "native-page:7b6f4a32-ef4a-45f7-9a37-de23d6979739",
+    "normalized_content_id": "5ce6f2b3-8272-494e-afe2-5b5e5259fa12",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 24,
+    "page_id": "c42ecd20-2a1b-4dad-829f-ca3d2af18de3",
+    "source_artifact_key": "native-page:c42ecd20-2a1b-4dad-829f-ca3d2af18de3",
+    "normalized_content_id": "d6293a26-b6b4-4a7e-8d30-1b58d3c5acce",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 25,
+    "page_id": "55cfba57-45a9-4f7b-8fc4-3ba4159c65d2",
+    "source_artifact_key": "native-page:55cfba57-45a9-4f7b-8fc4-3ba4159c65d2",
+    "normalized_content_id": "d7ec6092-5835-4903-a124-60ab70b09315",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 26,
+    "page_id": "e9d4950a-c839-4d53-996a-653b540f35ac",
+    "source_artifact_key": "native-page:e9d4950a-c839-4d53-996a-653b540f35ac",
+    "normalized_content_id": "e9092e5a-13bb-4c13-964b-482c7a8c7028",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 27,
+    "page_id": "1adead05-a6ca-48f2-895f-a7d23c2b29ff",
+    "source_artifact_key": "native-page:1adead05-a6ca-48f2-895f-a7d23c2b29ff",
+    "normalized_content_id": "64deb548-fcfe-49ac-b5ba-776777e0e047",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 28,
+    "page_id": "626c98fa-e96c-49d6-a25c-4d41151ae5d0",
+    "source_artifact_key": "native-page:626c98fa-e96c-49d6-a25c-4d41151ae5d0",
+    "normalized_content_id": "e66fb648-20b7-4e53-acfd-6d2a187ae343",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 29,
+    "page_id": "add520db-96c3-4f50-89b3-045fd20ad349",
+    "source_artifact_key": "native-page:add520db-96c3-4f50-89b3-045fd20ad349",
+    "normalized_content_id": "4cbeb53f-f725-48e4-ac42-8faa3a574788",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 30,
+    "page_id": "2393e966-a5dd-4058-973a-e8ce9fef9dd3",
+    "source_artifact_key": "native-page:2393e966-a5dd-4058-973a-e8ce9fef9dd3",
+    "normalized_content_id": "10b863cc-55b2-4fcd-8406-864c292a06d6",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 31,
+    "page_id": "39a4b0b0-0b2a-4354-8234-d68ee6f23c13",
+    "source_artifact_key": "native-page:39a4b0b0-0b2a-4354-8234-d68ee6f23c13",
+    "normalized_content_id": "a19fa739-42d0-403f-b595-bd9373d175b4",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 32,
+    "page_id": "912a3473-e855-49ee-883c-a77bcbb44c08",
+    "source_artifact_key": "native-page:912a3473-e855-49ee-883c-a77bcbb44c08",
+    "normalized_content_id": "bc69f9dc-64aa-4703-9497-ddc64ebec54f",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 33,
+    "page_id": "9fafbbe1-d6ed-4f75-81ee-3e50c296a1c6",
+    "source_artifact_key": "native-page:9fafbbe1-d6ed-4f75-81ee-3e50c296a1c6",
+    "normalized_content_id": "2d4206da-6fe4-45a1-903d-13ed52b4c554",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 34,
+    "page_id": "249b7112-677e-485d-8536-5d18d937899f",
+    "source_artifact_key": "native-page:249b7112-677e-485d-8536-5d18d937899f",
+    "normalized_content_id": "f5696194-e23b-4fd3-a09a-f013bb11f2bb",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 35,
+    "page_id": "ea99d90d-0e33-4200-936b-0ceda82f045e",
+    "source_artifact_key": "native-page:ea99d90d-0e33-4200-936b-0ceda82f045e",
+    "normalized_content_id": "8944cc94-13f7-47be-a864-6cde1b2b0afe",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 36,
+    "page_id": "892e73f3-d384-4fbc-b89a-3ff85202cfd6",
+    "source_artifact_key": "native-page:892e73f3-d384-4fbc-b89a-3ff85202cfd6",
+    "normalized_content_id": "6b8202cd-47c1-4e62-b2a3-510716caa045",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 37,
+    "page_id": "04eb5e4c-08fe-4742-9d04-8be426b902ea",
+    "source_artifact_key": "native-page:04eb5e4c-08fe-4742-9d04-8be426b902ea",
+    "normalized_content_id": "eb769a2d-48d3-4880-935b-d7fd6d67154e",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 38,
+    "page_id": "1e74de53-d2ba-4e22-8ca5-f486a25022e4",
+    "source_artifact_key": "native-page:1e74de53-d2ba-4e22-8ca5-f486a25022e4",
+    "normalized_content_id": "31fa13d8-00e8-492b-a377-40094f4d38b8",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 39,
+    "page_id": "c5dc3dfa-cb6e-4ecf-8aa5-7086b14a4863",
+    "source_artifact_key": "native-page:c5dc3dfa-cb6e-4ecf-8aa5-7086b14a4863",
+    "normalized_content_id": "037fac31-3b9f-4732-a328-7ad1a916d5fd",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 40,
+    "page_id": "d9dff0ba-bea0-42f3-92b9-d9c485564da2",
+    "source_artifact_key": "native-page:d9dff0ba-bea0-42f3-92b9-d9c485564da2",
+    "normalized_content_id": "5d33f389-f568-4922-a603-32c55f430b60",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 41,
+    "page_id": "4d706a89-0142-4182-bd01-358d18fd0a57",
+    "source_artifact_key": "native-page:4d706a89-0142-4182-bd01-358d18fd0a57",
+    "normalized_content_id": "7ac680a6-4ff8-4f67-8bc8-d9ad4c5bd32f",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 42,
+    "page_id": "299b32c5-3d33-454e-a7a0-a0a832f490ce",
+    "source_artifact_key": "native-page:299b32c5-3d33-454e-a7a0-a0a832f490ce",
+    "normalized_content_id": "dec235c7-9026-455f-959c-9c7e34c2971f",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 43,
+    "page_id": "6193506b-5aba-4977-b1de-af1bc09a0acb",
+    "source_artifact_key": "native-page:6193506b-5aba-4977-b1de-af1bc09a0acb",
+    "normalized_content_id": "f527deff-d6fc-4db0-8955-0b21603d3565",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 44,
+    "page_id": "732b713b-62f4-445b-bd88-3cc5b117e2de",
+    "source_artifact_key": "native-page:732b713b-62f4-445b-bd88-3cc5b117e2de",
+    "normalized_content_id": "7378605b-4eee-48f2-b216-5b5f85b3b70d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 45,
+    "page_id": "f3585f62-05bf-4ec6-bade-b13f6e1f269b",
+    "source_artifact_key": "native-page:f3585f62-05bf-4ec6-bade-b13f6e1f269b",
+    "normalized_content_id": "e8b28c53-c399-4108-afff-bc8363a23e1d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 46,
+    "page_id": "cc0d7b47-bda2-4f35-9ad1-68f68c32a442",
+    "source_artifact_key": "native-page:cc0d7b47-bda2-4f35-9ad1-68f68c32a442",
+    "normalized_content_id": "bfb3e410-eca6-41b4-8811-a6cc7643d311",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 47,
+    "page_id": "b5f8f775-9ecb-4ade-a94b-21347a26767a",
+    "source_artifact_key": "native-page:b5f8f775-9ecb-4ade-a94b-21347a26767a",
+    "normalized_content_id": "a58788ec-83fc-46b5-adf2-1ac1ed2627e7",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 48,
+    "page_id": "810f6372-66bf-4cae-8e10-02fe53799bdc",
+    "source_artifact_key": "native-page:810f6372-66bf-4cae-8e10-02fe53799bdc",
+    "normalized_content_id": "fc191bf3-adf8-4579-98fe-9749584bba3a",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 49,
+    "page_id": "8478ee8b-c94f-472f-b921-4dfdfff501f0",
+    "source_artifact_key": "native-page:8478ee8b-c94f-472f-b921-4dfdfff501f0",
+    "normalized_content_id": "46f1b571-cf08-4f44-a638-c5f862f28829",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 50,
+    "page_id": "43dc9177-cee6-4209-a369-e4f0e8c46601",
+    "source_artifact_key": "native-page:43dc9177-cee6-4209-a369-e4f0e8c46601",
+    "normalized_content_id": "316bdeab-499d-4dae-8c51-7dd3ac40683e",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 51,
+    "page_id": "bab527b3-888b-4fad-a42e-3cb91792f9d7",
+    "source_artifact_key": "native-page:bab527b3-888b-4fad-a42e-3cb91792f9d7",
+    "normalized_content_id": "c0d623ae-f0cb-486f-bac1-85fca0476ffe",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 52,
+    "page_id": "a2da4ab0-9d0f-4079-9bce-7e03a6b404b7",
+    "source_artifact_key": "native-page:a2da4ab0-9d0f-4079-9bce-7e03a6b404b7",
+    "normalized_content_id": "da462e20-7946-4c8c-8f61-c06b51d90cd4",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 53,
+    "page_id": "3cbbd3f2-cab5-48d7-970b-fcf9ec44a112",
+    "source_artifact_key": "native-page:3cbbd3f2-cab5-48d7-970b-fcf9ec44a112",
+    "normalized_content_id": "163098cd-3d4d-4929-88e5-bd72c42594f0",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 54,
+    "page_id": "beaa48e0-90a4-48e7-8f4b-56bd143fb07b",
+    "source_artifact_key": "native-page:beaa48e0-90a4-48e7-8f4b-56bd143fb07b",
+    "normalized_content_id": "7316b2ac-fedd-4591-a335-5de3e331b8a2",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 55,
+    "page_id": "f0038603-d96f-466d-8c77-67fc26aaff4a",
+    "source_artifact_key": "native-page:f0038603-d96f-466d-8c77-67fc26aaff4a",
+    "normalized_content_id": "e2106c22-b562-47d9-a477-8025db2d0cdb",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 56,
+    "page_id": "20d9d9fc-ab9d-481b-924f-67a7305187ec",
+    "source_artifact_key": "native-page:20d9d9fc-ab9d-481b-924f-67a7305187ec",
+    "normalized_content_id": "16904a92-76d1-43a7-a9ec-ef9f7c91f851",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 57,
+    "page_id": "9429ce3a-ce84-4e77-bed8-09c4ee639c1f",
+    "source_artifact_key": "native-page:9429ce3a-ce84-4e77-bed8-09c4ee639c1f",
+    "normalized_content_id": "69ccb896-98fb-4975-bd4d-021174c14e78",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 58,
+    "page_id": "5171cb51-e1d5-4dbe-abc4-120ff2b727d4",
+    "source_artifact_key": "native-page:5171cb51-e1d5-4dbe-abc4-120ff2b727d4",
+    "normalized_content_id": "aa963811-fdab-4e2d-983b-6aaa6f9db06e",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 59,
+    "page_id": "51823946-d6de-42b2-9d6f-3cd1907e16ff",
+    "source_artifact_key": "native-page:51823946-d6de-42b2-9d6f-3cd1907e16ff",
+    "normalized_content_id": "256d2f7f-06b5-4926-99aa-d204903d2f7f",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 60,
+    "page_id": "911bb87d-af64-4c75-a8e4-a36258634ddf",
+    "source_artifact_key": "native-page:911bb87d-af64-4c75-a8e4-a36258634ddf",
+    "normalized_content_id": "535a09f3-b89c-458f-a10c-f702fda567e8",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 61,
+    "page_id": "05597651-8b35-466d-8416-42bbf9a828d1",
+    "source_artifact_key": "native-page:05597651-8b35-466d-8416-42bbf9a828d1",
+    "normalized_content_id": "9633ec09-8084-4e2b-a381-f305b32c7a77",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 62,
+    "page_id": "3b99cacb-ad70-4d14-a355-c8c428a53512",
+    "source_artifact_key": "native-page:3b99cacb-ad70-4d14-a355-c8c428a53512",
+    "normalized_content_id": "b5486a51-db29-4c07-8f94-523e41290173",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 63,
+    "page_id": "08728449-0d36-4369-a678-e1afdf83660e",
+    "source_artifact_key": "native-page:08728449-0d36-4369-a678-e1afdf83660e",
+    "normalized_content_id": "c1adf041-f619-43d4-8fa7-f38dd381df58",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 64,
+    "page_id": "fc1ed66f-21f2-4df3-99e2-2d577c208488",
+    "source_artifact_key": "native-page:fc1ed66f-21f2-4df3-99e2-2d577c208488",
+    "normalized_content_id": "832bb9c1-7020-4beb-abe3-745cdf7f46f4",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 65,
+    "page_id": "fbdfdc19-90b3-427d-a615-8aeee50ef0ec",
+    "source_artifact_key": "native-page:fbdfdc19-90b3-427d-a615-8aeee50ef0ec",
+    "normalized_content_id": "ca32a601-4f97-4460-bd03-678b7224e439",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 66,
+    "page_id": "6f293ad6-a55b-4e20-8449-e61f588a556e",
+    "source_artifact_key": "native-page:6f293ad6-a55b-4e20-8449-e61f588a556e",
+    "normalized_content_id": "3b996f7d-c221-4c3a-9742-eeb3e94c1fc4",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 67,
+    "page_id": "a2c18fed-a689-4fa5-b4b6-ccaeaa5a990f",
+    "source_artifact_key": "native-page:a2c18fed-a689-4fa5-b4b6-ccaeaa5a990f",
+    "normalized_content_id": "c086a63d-64f3-4569-86a4-c63e6e4fdab9",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 68,
+    "page_id": "6091a1bf-c658-4c13-bf89-dd6a03990648",
+    "source_artifact_key": "native-page:6091a1bf-c658-4c13-bf89-dd6a03990648",
+    "normalized_content_id": "578fe020-1d47-4080-a4e4-c1c96080f363",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 69,
+    "page_id": "997d7f9d-2e54-404d-abf6-28ec19b65d37",
+    "source_artifact_key": "native-page:997d7f9d-2e54-404d-abf6-28ec19b65d37",
+    "normalized_content_id": "5889d35b-fbfc-4131-a87e-6d2425ee983e",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 70,
+    "page_id": "813f7a35-3698-432f-820b-2a605e409846",
+    "source_artifact_key": "native-page:813f7a35-3698-432f-820b-2a605e409846",
+    "normalized_content_id": "d3c10b83-d2d0-4d1e-9784-bf95c59c9e31",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 71,
+    "page_id": "e493d739-14c6-461c-8097-8b5f3c3e564b",
+    "source_artifact_key": "native-page:e493d739-14c6-461c-8097-8b5f3c3e564b",
+    "normalized_content_id": "78a05880-0d0c-4aa6-84ed-8a320b10343e",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 72,
+    "page_id": "f0bb4adb-0756-4eed-8322-6642b45efa33",
+    "source_artifact_key": "native-page:f0bb4adb-0756-4eed-8322-6642b45efa33",
+    "normalized_content_id": "8b21a626-b8da-4a04-835f-6af495604723",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 73,
+    "page_id": "aefe2548-fc8d-4d15-913b-7aa645376777",
+    "source_artifact_key": "native-page:aefe2548-fc8d-4d15-913b-7aa645376777",
+    "normalized_content_id": "d1729896-d3d1-4968-9046-01628e315088",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 74,
+    "page_id": "c170611e-5f07-4d26-9cac-cf2bf70fd7e7",
+    "source_artifact_key": "native-page:c170611e-5f07-4d26-9cac-cf2bf70fd7e7",
+    "normalized_content_id": "5a4d183a-f781-4bc1-872d-2d273986caaf",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 75,
+    "page_id": "c70521c9-1054-4d54-90ee-a5531411e695",
+    "source_artifact_key": "native-page:c70521c9-1054-4d54-90ee-a5531411e695",
+    "normalized_content_id": "53d5644f-9e2d-4af0-b185-9d7facf21f7f",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 76,
+    "page_id": "4bbafdca-6987-4ffd-b428-77acdfa0ee52",
+    "source_artifact_key": "native-page:4bbafdca-6987-4ffd-b428-77acdfa0ee52",
+    "normalized_content_id": "63064421-f34b-40dc-8a9b-4ea014accd13",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 77,
+    "page_id": "a6275afc-75c0-4d72-bcc0-feafb4a236b5",
+    "source_artifact_key": "native-page:a6275afc-75c0-4d72-bcc0-feafb4a236b5",
+    "normalized_content_id": "641df884-9d51-422d-a769-924bb41af6f5",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 78,
+    "page_id": "5d8bf77f-5cdf-4705-bf44-c943d458d4d6",
+    "source_artifact_key": "native-page:5d8bf77f-5cdf-4705-bf44-c943d458d4d6",
+    "normalized_content_id": "960d89aa-bd59-488f-8a9f-2a1f22c136bc",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 79,
+    "page_id": "a406326c-5f4d-4c92-8e4e-1d5e92508464",
+    "source_artifact_key": "native-page:a406326c-5f4d-4c92-8e4e-1d5e92508464",
+    "normalized_content_id": "d3f09984-d112-458e-9e65-44352b3402c6",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 80,
+    "page_id": "36b7eb0d-79c6-4f2d-904d-547a29f65ff6",
+    "source_artifact_key": "native-page:36b7eb0d-79c6-4f2d-904d-547a29f65ff6",
+    "normalized_content_id": "068a3b17-a49b-43e5-81a4-2f041b89440d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 81,
+    "page_id": "b48a6864-1912-4bc6-89be-f5e34062cd99",
+    "source_artifact_key": "native-page:b48a6864-1912-4bc6-89be-f5e34062cd99",
+    "normalized_content_id": "faa865ad-ea8e-491e-99dd-ebae49c1b5cb",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 82,
+    "page_id": "ccf93a9e-95ba-4ab0-abf7-294d7ea4395f",
+    "source_artifact_key": "native-page:ccf93a9e-95ba-4ab0-abf7-294d7ea4395f",
+    "normalized_content_id": "aadadf89-6386-467e-9729-37d113e0c4e5",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 83,
+    "page_id": "fcd10775-4df5-4373-b6f3-97ce8570ef75",
+    "source_artifact_key": "native-page:fcd10775-4df5-4373-b6f3-97ce8570ef75",
+    "normalized_content_id": "3e696061-f5af-4238-9786-454fe4633cf8",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 84,
+    "page_id": "c3ffce34-f409-44a4-bcfa-dfeb0ec66de2",
+    "source_artifact_key": "native-page:c3ffce34-f409-44a4-bcfa-dfeb0ec66de2",
+    "normalized_content_id": "3c436599-fcb2-480a-9486-72f4b85ec4aa",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 85,
+    "page_id": "bd5a5588-c1bf-4eec-9d62-c447456e308f",
+    "source_artifact_key": "native-page:bd5a5588-c1bf-4eec-9d62-c447456e308f",
+    "normalized_content_id": "e47a39a6-4385-49e0-b19b-b41a3317045a",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 86,
+    "page_id": "1794ff16-a78d-4168-bae5-c7dcc3376f33",
+    "source_artifact_key": "native-page:1794ff16-a78d-4168-bae5-c7dcc3376f33",
+    "normalized_content_id": "abb5b32f-d1ac-40fd-adc3-66ebf7abbeac",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 87,
+    "page_id": "8d989343-f3b2-4d34-b5bd-58f9d5b4ad8b",
+    "source_artifact_key": "native-page:8d989343-f3b2-4d34-b5bd-58f9d5b4ad8b",
+    "normalized_content_id": "615b2590-6d69-4e5a-850d-48d4f06c0acd",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 88,
+    "page_id": "3f4a3589-839c-4797-aeb2-e1faaf6c2b4d",
+    "source_artifact_key": "native-page:3f4a3589-839c-4797-aeb2-e1faaf6c2b4d",
+    "normalized_content_id": "25c90bd3-b021-4e99-9b04-3c30a3b1e6b5",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 89,
+    "page_id": "ec6235ce-e8d9-45aa-89d9-26a4f0ee9d46",
+    "source_artifact_key": "native-page:ec6235ce-e8d9-45aa-89d9-26a4f0ee9d46",
+    "normalized_content_id": "342050bf-c001-4c5d-9e26-32f0823b752c",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 90,
+    "page_id": "b982af6f-48e4-47c4-9465-e376aa99b700",
+    "source_artifact_key": "native-page:b982af6f-48e4-47c4-9465-e376aa99b700",
+    "normalized_content_id": "2da00aaf-0376-44d5-9753-a6139d620ed1",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 91,
+    "page_id": "10c0e179-2f20-470a-b933-ba5e4bfc8cc2",
+    "source_artifact_key": "native-page:10c0e179-2f20-470a-b933-ba5e4bfc8cc2",
+    "normalized_content_id": "ed99ceca-ae20-463d-81cc-3988d6b20619",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 92,
+    "page_id": "2714a499-63ee-442f-9c1e-52a547d239b9",
+    "source_artifact_key": "native-page:2714a499-63ee-442f-9c1e-52a547d239b9",
+    "normalized_content_id": "f8a8c1b1-ea24-4dd5-9102-6818ba35956d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 93,
+    "page_id": "fbec05d1-047a-42d9-9ac3-4cb9b8003b0c",
+    "source_artifact_key": "native-page:fbec05d1-047a-42d9-9ac3-4cb9b8003b0c",
+    "normalized_content_id": "5fb89816-17f7-4db6-9b98-ad597d2211fa",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 94,
+    "page_id": "9bee94b5-be48-4c66-84bb-23d9fbf0e43a",
+    "source_artifact_key": "native-page:9bee94b5-be48-4c66-84bb-23d9fbf0e43a",
+    "normalized_content_id": "f95a0512-b774-448a-a47b-6f6bc716b8e6",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 95,
+    "page_id": "82f38166-a72a-42e0-9de3-937fd34c759b",
+    "source_artifact_key": "native-page:82f38166-a72a-42e0-9de3-937fd34c759b",
+    "normalized_content_id": "f89e6fd5-f85c-4ca9-8a24-b237c6c811ab",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 96,
+    "page_id": "4e855ed8-cd6d-40e3-84f2-1fc15101a08a",
+    "source_artifact_key": "native-page:4e855ed8-cd6d-40e3-84f2-1fc15101a08a",
+    "normalized_content_id": "f02e1776-48e1-4de1-a293-e69f79b39818",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 97,
+    "page_id": "9ab93c60-5a97-477e-931d-f34892b4d7ce",
+    "source_artifact_key": "native-page:9ab93c60-5a97-477e-931d-f34892b4d7ce",
+    "normalized_content_id": "3aeaf2b0-aca4-45fe-9899-a364bd2b387b",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 98,
+    "page_id": "287fe134-0736-4f44-b0fd-866a3139a218",
+    "source_artifact_key": "native-page:287fe134-0736-4f44-b0fd-866a3139a218",
+    "normalized_content_id": "e408da91-94f2-444d-b9b6-ae89e40bdae9",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 99,
+    "page_id": "a3d28da9-db22-446b-aa19-c9607a9a84e9",
+    "source_artifact_key": "native-page:a3d28da9-db22-446b-aa19-c9607a9a84e9",
+    "normalized_content_id": "7a4c4cf7-7a8f-40e4-b723-acad4d89b1b6",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 100,
+    "page_id": "f4f8ea64-0ac5-4ab8-93c2-15dc6b420f2c",
+    "source_artifact_key": "native-page:f4f8ea64-0ac5-4ab8-93c2-15dc6b420f2c",
+    "normalized_content_id": "316811aa-1e36-4363-bc5e-0d586baeb0ba",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 101,
+    "page_id": "ebb828ad-8bbc-474a-88f8-ec22d1594455",
+    "source_artifact_key": "native-page:ebb828ad-8bbc-474a-88f8-ec22d1594455",
+    "normalized_content_id": "2a2143df-ba89-4a9d-9dc2-c3b150434352",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 102,
+    "page_id": "5a4bc6fb-8e87-4bcb-a85e-40181fa263c2",
+    "source_artifact_key": "native-page:5a4bc6fb-8e87-4bcb-a85e-40181fa263c2",
+    "normalized_content_id": "a5d6cb99-9551-47c4-9070-a51f89c709ea",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 103,
+    "page_id": "27232701-164c-49fc-ad16-9c6dd45cb5c5",
+    "source_artifact_key": "native-page:27232701-164c-49fc-ad16-9c6dd45cb5c5",
+    "normalized_content_id": "54d87d18-2392-45f9-ae19-c30fdfbd2caa",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 104,
+    "page_id": "361e0449-781b-4b02-a014-49f8016a4840",
+    "source_artifact_key": "native-page:361e0449-781b-4b02-a014-49f8016a4840",
+    "normalized_content_id": "dde7ef59-3590-41c1-aa42-e04000313742",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 105,
+    "page_id": "5443eefe-05f4-4cfa-be4e-4adc44c713e2",
+    "source_artifact_key": "native-page:5443eefe-05f4-4cfa-be4e-4adc44c713e2",
+    "normalized_content_id": "9f4c6d57-bbc7-4c7e-af06-aa018d7c328d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 106,
+    "page_id": "9ca9bfd3-f1c9-492a-bafb-ccbabba45afb",
+    "source_artifact_key": "native-page:9ca9bfd3-f1c9-492a-bafb-ccbabba45afb",
+    "normalized_content_id": "7deef9bc-da00-49eb-baea-9c5156a1fbd2",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 107,
+    "page_id": "27e19236-5806-45fc-bafe-f5c6966b32b9",
+    "source_artifact_key": "native-page:27e19236-5806-45fc-bafe-f5c6966b32b9",
+    "normalized_content_id": "26044557-68d7-4e3b-9848-17dcd493cd4d",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 108,
+    "page_id": "923b7439-06b6-4b31-af69-6be15f1bbce8",
+    "source_artifact_key": "native-page:923b7439-06b6-4b31-af69-6be15f1bbce8",
+    "normalized_content_id": "b5937ffa-5cff-4e54-9e2e-707eb9b6ed1e",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 109,
+    "page_id": "0a015eaa-a407-4bff-bbf6-47cac7e2b269",
+    "source_artifact_key": "native-page:0a015eaa-a407-4bff-bbf6-47cac7e2b269",
+    "normalized_content_id": "e707d693-a032-4b70-8d6c-6463dedc7ff9",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 110,
+    "page_id": "49cfeb37-04ce-41b9-8623-b9063759d584",
+    "source_artifact_key": "native-page:49cfeb37-04ce-41b9-8623-b9063759d584",
+    "normalized_content_id": "c58a6c3c-025a-4cb5-a1c6-1225b7368658",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 111,
+    "page_id": "4586bcc4-955c-4c1f-9e17-030b1fd4bed2",
+    "source_artifact_key": "native-page:4586bcc4-955c-4c1f-9e17-030b1fd4bed2",
+    "normalized_content_id": "f2112537-c650-4388-a1c1-babf41e60f57",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 112,
+    "page_id": "9c41c437-bdd9-4887-b391-49c3adeb5a1d",
+    "source_artifact_key": "native-page:9c41c437-bdd9-4887-b391-49c3adeb5a1d",
+    "normalized_content_id": "4b835257-6bb5-44aa-976a-0f97bbfd208f",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 113,
+    "page_id": "d711e594-cf53-4ce3-a6b4-7afc3dd5f828",
+    "source_artifact_key": "native-page:d711e594-cf53-4ce3-a6b4-7afc3dd5f828",
+    "normalized_content_id": "9d2cb22d-171c-41b4-9479-d229bca77594",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 114,
+    "page_id": "47f8ba3b-e769-48f0-8558-59c428a4e0da",
+    "source_artifact_key": "native-page:47f8ba3b-e769-48f0-8558-59c428a4e0da",
+    "normalized_content_id": "86e111a1-3bc2-4bcd-aa88-ebe134886702",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 115,
+    "page_id": "d9c8ae88-1993-4d58-a7e0-6c33ac45ac3b",
+    "source_artifact_key": "native-page:d9c8ae88-1993-4d58-a7e0-6c33ac45ac3b",
+    "normalized_content_id": "17207478-97bc-46ff-9870-9d63083b1e98",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 116,
+    "page_id": "3fc511e3-adfd-48e0-b3e9-3d4b305ab53e",
+    "source_artifact_key": "native-page:3fc511e3-adfd-48e0-b3e9-3d4b305ab53e",
+    "normalized_content_id": "5564f388-c31a-455c-a538-0d3cca6d3b43",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 117,
+    "page_id": "bf6d9d5b-20b3-46d0-b22d-129b52171177",
+    "source_artifact_key": "native-page:bf6d9d5b-20b3-46d0-b22d-129b52171177",
+    "normalized_content_id": "6cf0c625-44f4-42f3-8d2a-11e8528e2731",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 118,
+    "page_id": "5757be1e-82f7-453a-99ea-18f0e31d5b6e",
+    "source_artifact_key": "native-page:5757be1e-82f7-453a-99ea-18f0e31d5b6e",
+    "normalized_content_id": "4e6995bd-7e9f-47fe-b353-de9ca423a7f2",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D01",
+    "page": 119,
+    "page_id": "6002c780-88de-476d-8169-f161cd4c29fc",
+    "source_artifact_key": "native-page:6002c780-88de-476d-8169-f161cd4c29fc",
+    "normalized_content_id": "c34ded87-d24d-439c-ab1b-8522696851c4",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 1,
+    "page_id": "230e7720-9641-4930-927c-97aab4ec6b54",
+    "source_artifact_key": "native-page:230e7720-9641-4930-927c-97aab4ec6b54",
+    "normalized_content_id": "803394bf-546a-4a99-a02d-36128c543ef3",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 2,
+    "page_id": "d10f26f8-c73e-4c6f-b3b8-236b4b661dd4",
+    "source_artifact_key": "native-page:d10f26f8-c73e-4c6f-b3b8-236b4b661dd4",
+    "normalized_content_id": "7f924822-c86c-4dad-a147-e00c2ca76824",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 3,
+    "page_id": "1e3742a6-324c-400f-8ba1-c8b6e6392cba",
+    "source_artifact_key": "native-page:1e3742a6-324c-400f-8ba1-c8b6e6392cba",
+    "normalized_content_id": "37779a91-32e6-4197-8b45-a425f8ac0b15",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 4,
+    "page_id": "37dbc5fc-94ee-4f68-96d5-bb7c7c92a42a",
+    "source_artifact_key": "native-page:37dbc5fc-94ee-4f68-96d5-bb7c7c92a42a",
+    "normalized_content_id": "af67ce32-3606-4af3-8c60-fa91696978c3",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 5,
+    "page_id": "9792a1b8-10aa-4225-940d-39ea4443f4ef",
+    "source_artifact_key": "native-page:9792a1b8-10aa-4225-940d-39ea4443f4ef",
+    "normalized_content_id": "cc2f2fe5-ceb5-46e4-9285-ee272551ee82",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 6,
+    "page_id": "b2123a57-7600-4fea-91fb-0eb246540100",
+    "source_artifact_key": "native-page:b2123a57-7600-4fea-91fb-0eb246540100",
+    "normalized_content_id": "30cb0ea4-401b-4230-b82e-3b78f46fd4d6",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 7,
+    "page_id": "8938ce9f-7e79-4687-a532-d6a26f36369b",
+    "source_artifact_key": "native-page:8938ce9f-7e79-4687-a532-d6a26f36369b",
+    "normalized_content_id": "22d0c875-7fc9-420b-86d8-c55bf145db38",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 8,
+    "page_id": "6685ce1d-b943-4c5d-a00a-3b4f57017f57",
+    "source_artifact_key": "native-page:6685ce1d-b943-4c5d-a00a-3b4f57017f57",
+    "normalized_content_id": "a89f4e8e-441f-4538-a738-919b7ffbace8",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 9,
+    "page_id": "bf185c75-d06b-45a3-a4bf-fcc5ef40bc45",
+    "source_artifact_key": "native-page:bf185c75-d06b-45a3-a4bf-fcc5ef40bc45",
+    "normalized_content_id": "6dabd5cb-c826-4980-a424-9f394577bbd7",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 10,
+    "page_id": "618ab2b2-d289-4937-9088-bede8f944b9b",
+    "source_artifact_key": "native-page:618ab2b2-d289-4937-9088-bede8f944b9b",
+    "normalized_content_id": "0477d622-7bbe-4b89-a1ce-bf45a8ed5dc3",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 11,
+    "page_id": "a7968be3-3017-4c2c-909a-6bf2579251de",
+    "source_artifact_key": "native-page:a7968be3-3017-4c2c-909a-6bf2579251de",
+    "normalized_content_id": "4d662d79-7b43-477a-a8d4-65ccc29eb027",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 12,
+    "page_id": "0a866d8f-66e8-4547-b4df-df06f2209ce0",
+    "source_artifact_key": "native-page:0a866d8f-66e8-4547-b4df-df06f2209ce0",
+    "normalized_content_id": "6cb91b01-acb1-49e1-973c-8b2f56cf11d1",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 13,
+    "page_id": "f1899b28-67ca-45d2-aa4f-39ae4f04b350",
+    "source_artifact_key": "native-page:f1899b28-67ca-45d2-aa4f-39ae4f04b350",
+    "normalized_content_id": "5bc87c3a-d3e4-4493-a7fe-6d68bc895705",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 14,
+    "page_id": "ed27057b-3547-4dae-82d7-00496b8ba147",
+    "source_artifact_key": "native-page:ed27057b-3547-4dae-82d7-00496b8ba147",
+    "normalized_content_id": "3313afeb-9f4a-40c2-959f-ffd6ea69ed65",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 15,
+    "page_id": "660a6ae0-9a8f-4a55-97b9-928cc52b014a",
+    "source_artifact_key": "native-page:660a6ae0-9a8f-4a55-97b9-928cc52b014a",
+    "normalized_content_id": "ef829be6-0ffb-4a94-b713-4f5789dc5502",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 16,
+    "page_id": "23da0470-0b95-4e0d-b2fa-b1592aa99b83",
+    "source_artifact_key": "native-page:23da0470-0b95-4e0d-b2fa-b1592aa99b83",
+    "normalized_content_id": "283086b6-7c04-4960-991c-bfd2f09f4313",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 17,
+    "page_id": "b9ee7cd5-516d-432e-b45e-7d223eebcb09",
+    "source_artifact_key": "native-page:b9ee7cd5-516d-432e-b45e-7d223eebcb09",
+    "normalized_content_id": "57f98785-e291-4a7d-8377-8ac3385b51c7",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 18,
+    "page_id": "712bcb98-8908-49f4-9521-6eec41d25634",
+    "source_artifact_key": "native-page:712bcb98-8908-49f4-9521-6eec41d25634",
+    "normalized_content_id": "36aca03d-ff4f-4b64-ab97-001ef849be58",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 19,
+    "page_id": "878edb80-f1dd-4ce8-b878-bbbf04e297f9",
+    "source_artifact_key": "native-page:878edb80-f1dd-4ce8-b878-bbbf04e297f9",
+    "normalized_content_id": "02be2d0b-9850-40df-9b43-4d2030dffac5",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 20,
+    "page_id": "2591e013-bba6-439b-b61c-fec64365fd4c",
+    "source_artifact_key": "native-page:2591e013-bba6-439b-b61c-fec64365fd4c",
+    "normalized_content_id": "93fd64ef-0972-4b86-bc10-0b28525f09e1",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 21,
+    "page_id": "a7b87f30-81df-4051-96ba-dfc2ee8f7123",
+    "source_artifact_key": "native-page:a7b87f30-81df-4051-96ba-dfc2ee8f7123",
+    "normalized_content_id": "7527dcb5-4895-491f-b939-a2cc09b44706",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 22,
+    "page_id": "79541981-6d00-4d7f-8854-1950e5204372",
+    "source_artifact_key": "native-page:79541981-6d00-4d7f-8854-1950e5204372",
+    "normalized_content_id": "2608f6c7-8a3e-434e-b52c-82e0622463a7",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 23,
+    "page_id": "e6c87f7d-32ad-4753-afce-2fa5a5d626dc",
+    "source_artifact_key": "native-page:e6c87f7d-32ad-4753-afce-2fa5a5d626dc",
+    "normalized_content_id": "63ab9302-c82e-4d62-b656-041980546d75",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 24,
+    "page_id": "1cc0c062-fca5-40fb-9d90-9c039847ddfe",
+    "source_artifact_key": "native-page:1cc0c062-fca5-40fb-9d90-9c039847ddfe",
+    "normalized_content_id": "cb7812bb-21d5-4591-b332-7d80aad35378",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 25,
+    "page_id": "d640c1f0-0cbb-40e3-90a2-b23b3640abce",
+    "source_artifact_key": "native-page:d640c1f0-0cbb-40e3-90a2-b23b3640abce",
+    "normalized_content_id": "9e39cb69-a659-4d3e-aae5-e474563ddd1f",
+    "row_candidates": 0
+  },
+  {
+    "channel": "NATIVE",
+    "document": "D04",
+    "page": 26,
+    "page_id": "6f682c5b-294c-4dbe-8648-2377e330a212",
+    "source_artifact_key": "native-page:6f682c5b-294c-4dbe-8648-2377e330a212",
+    "normalized_content_id": "9593eb1e-97d8-48b5-bbe0-db0b0200c5c4",
+    "row_candidates": 0
+  },
+  {
+    "channel": "OCR",
+    "document": "D09",
+    "page": 2,
+    "page_id": "e72c9bb9-27b9-40bb-95d1-d6a1b707c0ac",
+    "source_artifact_key": "ocr-result:5a207dee-416f-42af-9250-caaa5ec0fc63",
+    "normalized_content_id": "2d7baea7-1ad5-4b08-b910-46cbbba057ed",
+    "row_candidates": 0
+  },
+  {
+    "channel": "OCR",
+    "document": "D09",
+    "page": 3,
+    "page_id": "3e9cb852-a3f9-4176-b7f8-1edda60ce987",
+    "source_artifact_key": "ocr-result:0ba83b86-9b20-4cf7-ad6f-e9e7181eee6d",
+    "normalized_content_id": "c3bae10b-7f79-41ec-8a04-81ea02f3788c",
+    "row_candidates": 0
+  },
+  {
+    "channel": "OCR",
+    "document": "D11",
+    "page": 1,
+    "page_id": "f0acf65a-1544-45c4-b573-20c8f6b32761",
+    "source_artifact_key": "ocr-result:750d3d0f-296f-486a-998c-b7fe02ed0902",
+    "normalized_content_id": "e77debfb-907c-4335-a549-16bccce4ab82",
+    "row_candidates": 0
+  },
+  {
+    "channel": "OCR",
+    "document": "D06",
+    "page": 1,
+    "page_id": "23a27429-179e-4d18-86f8-e3906f83336d",
+    "source_artifact_key": "ocr-result:ac349a33-5f99-4e2e-822a-92f1e2216a6a",
+    "normalized_content_id": "2370ebc1-fb5e-493d-89be-49b0c77ca2e4",
+    "row_candidates": 0
+  },
+  {
+    "channel": "OCR",
+    "document": "D06",
+    "page": 2,
+    "page_id": "baaf11b0-eef4-4a2d-8299-8331a199ee7a",
+    "source_artifact_key": "ocr-result:b1d2cc08-e3b8-4261-a0e8-f224e2d86019",
+    "normalized_content_id": "413be076-98c2-4424-9eb7-b10a44ffc8b2",
+    "row_candidates": 0
+  },
+  {
+    "channel": "OCR",
+    "document": "D06",
+    "page": 3,
+    "page_id": "7a273de9-61d5-488e-b9d0-a80e4aa44b5b",
+    "source_artifact_key": "ocr-result:c3f43f36-f019-4f33-b18f-3218ba3d3558",
+    "normalized_content_id": "3fa5d79a-07e7-4949-8e04-3260034116dc",
+    "row_candidates": 0
+  },
+  {
+    "channel": "OCR",
+    "document": "D02",
+    "page": 1,
+    "page_id": "0e23d1ac-2c45-4036-8171-6834de199a31",
+    "source_artifact_key": "ocr-result:8e8c3769-2cae-402b-8a76-b84aa76a3385",
+    "normalized_content_id": "4761f04d-9f03-4889-bc29-1f4027ee5693",
+    "row_candidates": 0
+  },
+  {
+    "channel": "OCR",
+    "document": "D01",
+    "page": 51,
+    "page_id": "bab527b3-888b-4fad-a42e-3cb91792f9d7",
+    "source_artifact_key": "ocr-result:caabc784-aaa3-4eb7-8c6f-a02353a4d15e",
+    "normalized_content_id": "beb99764-f11b-4de8-b228-2510cc924897",
+    "row_candidates": 0
+  }
+]

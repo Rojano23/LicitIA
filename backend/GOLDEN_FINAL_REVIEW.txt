@@ -1,0 +1,384 @@
+========================================================================================================================
+GOLDEN SET FINAL REVIEW — ALL 12 APPROVED CASES
+========================================================================================================================
+
+Golden Set Version: semantic-scope-golden-2026-09-06-001
+Tender ID: decd32ae-2c1f-4520-89bc-d845c986a7ba
+Total Cases: 12 (12 APPROVED)
+Status: ARCHITECT-APPROVED V1 IMPLEMENTATION COMPLETE
+
+========================================================================================================================
+CASE COMPOSITION
+========================================================================================================================
+
+Status Distribution:
+  APPROVED: 12
+  PENDING: 0
+
+Evaluation Mode Distribution:
+  NO_OBLIGATIONS: 7
+  STRICT: 5
+
+Domain Distribution of Positive Obligations:
+  LOGISTICS_SITE: 1
+  PERSONNEL: 5
+  SERVICE: 1
+  SSPA: 4
+  TECHNICAL: 1
+  TOTAL POSITIVE OBLIGATIONS: 12
+
+========================================================================================================================
+ALL 12 APPROVED CASES (HUMAN-LABELED)
+========================================================================================================================
+
+------------------------------------------------------------------------------------------------------------------------
+CASE 1/12: golden_tender_candidate_006
+------------------------------------------------------------------------------------------------------------------------
+Status: APPROVED
+Evaluation Mode: NO_OBLIGATIONS
+Page: 2 | Method: NATIVE
+Artifact: DocumentPage:b66ffc48-8bb7-44c5-9d59-888f612cd7eb
+Source Locator: page_2_native|chars_167-763
+Character Boundaries: 167-763
+Length: 596 characters
+SHA256: 5a73d1f98d4fdb14bd538e293c516699dfc93990a2c1f10a622ae52791245cb9
+Obligations: 0
+  (NO OBLIGATIONS - Administrative/Qualifying text)
+
+SOURCE TEXT:
+ESTA SECCIÓN SE INTEGRA CON LA SIGUIENTE INFORMACIÓN 
+ 
+ 
+ 
+Anexo “B” 
+Especificaciones Particulares. 
+Anexo “B-1” 
+Normas, Especificaciones y Procedimientos Técnicos. 
+Anexo “B-4” 
+Catálogo de Alcances. 
+Anexo “B-5” 
+Anexo SSPA Formato 4. 
+Anexo “C” 
+Relación de Conceptos. 
+Anexo “D” 
+Programa General de Ejecución de los Servicios. 
+Anexo “E” 
+Maquinaria y Equipo que proporcionará PEMEX. 
+Anexo “E-1” 
+Maquinaria y Equipo que proporcionará el Proveedor. 
+Anexo “M” 
+Materiales que suministrara el Proveedor. 
+Anexo “M-1” 
+Materiales y equipos de instalación permanente que suministrara PEMEX.
+
+
+------------------------------------------------------------------------------------------------------------------------
+CASE 2/12: golden_tender_candidate_009
+------------------------------------------------------------------------------------------------------------------------
+Status: APPROVED
+Evaluation Mode: NO_OBLIGATIONS
+Page: 4 | Method: NATIVE
+Artifact: DocumentPage:6705809f-b3d3-437a-bbb2-2c25b512e192
+Source Locator: page_4_native|chars_0-610
+Character Boundaries: 0-610
+Length: 610 characters
+SHA256: f3c344d58ac962df3e5094c51d31f6b2cd31a5c02cdaa20a1bfa106fb5f0b121
+Obligations: 0
+  (NO OBLIGATIONS - Administrative/Qualifying text)
+
+SOURCE TEXT:
+características técnicas y magnitud similares, como parte de su propuesta técnica, deberá presentar la documentación que acredite la 
+experiencia del personal asignado a la ejecución de los servicios, mediante constancias de experiencia (expedidas por el participante u 
+otra empresa), cartas laborales u otros documentos equivalentes que demuestren su participación en al menos 2 (dos) servicios en el 
+mantenimiento a estos sistemas de control distribuido (SCD) de la familia (Centum VP) y/o Sistemas Instrumentados de Seguridad (SIS, 
+ESD, F&G, BMS) de la familia Prosafe RS, de no más de 5 años a la fecha.
+
+
+------------------------------------------------------------------------------------------------------------------------
+CASE 3/12: golden_tender_candidate_010
+------------------------------------------------------------------------------------------------------------------------
+Status: APPROVED
+Evaluation Mode: STRICT
+Page: 4 | Method: NATIVE
+Artifact: DocumentPage:6705809f-b3d3-437a-bbb2-2c25b512e192
+Source Locator: page_4_native|chars_612-1026
+Character Boundaries: 612-1026
+Length: 414 characters
+SHA256: 6605ed26e870e02df0080a6438a6509048c7dc3454f04a6684f5b09ad50fa80d
+Obligations: 4
+  • 010-personnel-001: PERSONNEL
+  • 010-personnel-002: PERSONNEL
+  • 010-personnel-003: PERSONNEL
+  • 010-personnel-004: PERSONNEL
+
+SOURCE TEXT:
+b). - Personal profesional y técnico responsable de la supervisión y dirección de los servicios: 
+✓1 (Un) Supervisor de Servicio.
+✓1 (Un) Supervisor de Contrato.
+✓1 (Un) responsable de SSPA.
+Los cuales deberán de contar con estudios de nivel licenciatura en alguna de las siguientes ramas de la ingeniería: Ingeniero Electrónico,
+Ingeniero Eléctrico, Ingeniero Mecánico, Ingeniero Eléctrico o Ingeniero Industrial.
+
+OBLIGATION GROUNDING VALIDATION:
+  Obl 010-personnel-001: ✓ GROUNDED
+    Domain: PERSONNEL
+    Evidence: 1 (Un) Supervisor de Servicio....
+  Obl 010-personnel-002: ✓ GROUNDED
+    Domain: PERSONNEL
+    Evidence: 1 (Un) Supervisor de Contrato....
+  Obl 010-personnel-003: ✓ GROUNDED
+    Domain: PERSONNEL
+    Evidence: 1 (Un) responsable de SSPA....
+  Obl 010-personnel-004: ✓ GROUNDED
+    Domain: PERSONNEL
+    Evidence: Los cuales deberán de contar con estudios de nivel licenciatura en alguna de las...
+
+
+------------------------------------------------------------------------------------------------------------------------
+CASE 4/12: golden_tender_scope_ca4ada03_p4_226_984
+------------------------------------------------------------------------------------------------------------------------
+Status: APPROVED
+Evaluation Mode: NO_OBLIGATIONS
+Page: 4 | Method: NATIVE
+Artifact: DocumentPage:a7cceb17-b5c6-4571-b756-bdee91eb74cc
+Source Locator: page_4_native|chars_226-984
+Character Boundaries: 226-984
+Length: 758 characters
+SHA256: a16e3ebf90e7775596275b8c902c1b349877aae23634f6f2ab7e30e69b4956d7
+Obligations: 0
+  (NO OBLIGATIONS - Administrative/Qualifying text)
+
+SOURCE TEXT:
+DC-1 
+Manifiesto de la existencia legal y personalidad del PARTICIPANTE. 
+DC-2 
+Manifiesto de no encontrarse en algún supuesto que impida la participación. 
+DC-3 
+Convenio privado de participación conjunta.  
+DC-4 
+Compromiso con la transparencia. 
+DC-5 
+Manifestación de esquemas en materia de integridad y ética corporativa. 
+DC-6 
+Manifiesto de cumplimiento de obligaciones fiscales, así como de seguridad social. 
+DC-7 
+Manifiesto de confidencialidad (Opcional). 
+DC-8 
+Manifiesto de aceptación de la utilización de la e-Firma en la Plataforma de Firma Electrónica 
+Avanzada de Pemex. 
+DC-9 
+Manifiesto de formalización del acuerdo comercial con la e. Firma en la Plataforma de Firma 
+Electrónica Avanzada de Pemex. 
+CN 
+Manifiesto de Contenido Nacional.
+
+
+------------------------------------------------------------------------------------------------------------------------
+CASE 5/12: golden_tender_scope_ca4ada03_p5_975_1199
+------------------------------------------------------------------------------------------------------------------------
+Status: APPROVED
+Evaluation Mode: NO_OBLIGATIONS
+Page: 5 | Method: NATIVE
+Artifact: DocumentPage:db7b3234-d54f-437e-99ec-0326e50dc6c0
+Source Locator: page_5_native|chars_975-1199
+Character Boundaries: 975-1199
+Length: 224 characters
+SHA256: 03645721269b194d99c19cd6539d114d82a5e5a4bcf86ff181a0b43c70f8baba
+Obligations: 0
+  (NO OBLIGATIONS - Administrative/Qualifying text)
+
+SOURCE TEXT:
+Descripción objeto 
+social: 
+(XXX) (máximo 150 palabras) El objeto social de los Participantes debe estar 
+directamente relacionado con la venta de los bienes, arrendamientos, obras y/o  
+servicios objeto de la contratación.
+
+
+------------------------------------------------------------------------------------------------------------------------
+CASE 6/12: golden_tender_scope_ca4ada03_p6_446_585
+------------------------------------------------------------------------------------------------------------------------
+Status: APPROVED
+Evaluation Mode: NO_OBLIGATIONS
+Page: 6 | Method: NATIVE
+Artifact: DocumentPage:5627459a-00e4-407b-9970-ec340fd288c6
+Source Locator: page_6_native|chars_446-585
+Character Boundaries: 446-585
+Length: 139 characters
+SHA256: 1f04adc2f25d0fdce7bd6e255bcf85324a55928ee404ee84ba733e007ee19241
+Obligations: 0
+  (NO OBLIGATIONS - Administrative/Qualifying text)
+
+SOURCE TEXT:
+Finalmente, mi representada se compromete a entregar la documentación que el ÁREA CONTRATANTE solicite 
+relacionada con las PLDD, vigentes.
+
+
+------------------------------------------------------------------------------------------------------------------------
+CASE 7/12: golden_tender_scope_ca4ada03_p6_1106_1366
+------------------------------------------------------------------------------------------------------------------------
+Status: APPROVED
+Evaluation Mode: NO_OBLIGATIONS
+Page: 6 | Method: NATIVE
+Artifact: DocumentPage:5627459a-00e4-407b-9970-ec340fd288c6
+Source Locator: page_6_native|chars_1106-1366
+Character Boundaries: 1106-1366
+Length: 260 characters
+SHA256: 96cdef4fbcc9766401735515f0bd74a0ef16ac448b7520287909625f639e1f44
+Obligations: 0
+  (NO OBLIGATIONS - Administrative/Qualifying text)
+
+SOURCE TEXT:
+(CUANDO APLIQUE) 
+NOTA: Como parte del presente documento, se deberá adjuntar, para cada uno de los integrantes del consorcio:  
+• 
+Certificado de Registro en la HIIP vigente durante todo el PROCEDIMIENTO DE CONTRATACIÓN y 
+hasta la formalización del contrato.
+
+
+------------------------------------------------------------------------------------------------------------------------
+CASE 8/12: golden_tender_scope_ca4ada03_p8_198_400
+------------------------------------------------------------------------------------------------------------------------
+Status: APPROVED
+Evaluation Mode: NO_OBLIGATIONS
+Page: 8 | Method: NATIVE
+Artifact: DocumentPage:50b12dda-494f-429d-a308-a46bf7d4dfc8
+Source Locator: page_8_native|chars_198-400
+Character Boundaries: 198-400
+Length: 202 characters
+SHA256: 95499a7027607c2514f293d196e7a0ffab01ba7f5b8bf36e6962e88aebb819fb
+Obligations: 0
+  (NO OBLIGATIONS - Administrative/Qualifying text)
+
+SOURCE TEXT:
+Para la entrega de este documento el PARTICIPANTE deberá seleccionar una de las 2 opciones que se indican 
+a continuación, dejando solo la opción seleccionada y eliminar los textos marcados en amarillo:
+
+
+------------------------------------------------------------------------------------------------------------------------
+CASE 9/12: golden_tender_scope_acf31750_ocr_579_938
+------------------------------------------------------------------------------------------------------------------------
+Status: APPROVED
+Evaluation Mode: STRICT
+Page: 1 | Method: OCR
+Artifact: PageOcrResult:c85f2711-6030-4a43-9cee-ab0958cc1e55
+Source Locator: page_1_ocr|chars_579-938
+Character Boundaries: 579-938
+Length: 359 characters
+SHA256: 41d9c8d7f6fee4fe4e010e198601a957018ba88affd6a446b237686efeffe3c2
+Obligations: 3
+  • A1: SSPA
+  • A2: TECHNICAL
+  • A3: PERSONNEL
+
+SOURCE TEXT:
+PARA LA EJECUCION DE LOS SERVICIOS EL PROVEEDOR DEBE DE
+CONSIDERAR COMO MINIMO LO SIGUIENTE:
+TRAMITAR LA ORDEN O PERMISO DE TRABAJO INSTITUCIONAL EN
+EL LUGAR DONDE SE EFECTUARÁ EL SERVICIO.
+APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS
+POR EL FABRICANTE DEL EQUIPO
+CUADRILLA ESPECIALIZADA EN SISTEMAS YOKOGAWA PARA EFECTUAR LAS
+SIGUIENTES ACTIVIDADES:
+
+
+OBLIGATION GROUNDING VALIDATION:
+  Obl A1: ✓ GROUNDED
+    Domain: SSPA
+    Evidence: TRAMITAR LA ORDEN O PERMISO DE TRABAJO INSTITUCIONAL EN
+EL LUGAR DONDE SE EFECTU...
+  Obl A2: ✓ GROUNDED
+    Domain: TECHNICAL
+    Evidence: APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS
+POR EL FABRICANTE DEL EQUIP...
+  Obl A3: ✓ GROUNDED
+    Domain: PERSONNEL
+    Evidence: CUADRILLA ESPECIALIZADA EN SISTEMAS YOKOGAWA PARA EFECTUAR LAS
+SIGUIENTES ACTIVI...
+
+
+------------------------------------------------------------------------------------------------------------------------
+CASE 10/12: golden_tender_scope_d8eb8816_native_2381_2748
+------------------------------------------------------------------------------------------------------------------------
+Status: APPROVED
+Evaluation Mode: STRICT
+Page: 10 | Method: NATIVE
+Artifact: DocumentPage:2e7ce599-7422-49c9-a2d6-5782d38c0191
+Source Locator: page_10_native|chars_2381_2748
+Length: 367 characters
+SHA256: 3a36fc9b404cfdebc2f962bfcd7f65a9b3e06fc241f461c688130bc42edb68e8
+Obligations: 1
+  • B1: SSPA
+
+SOURCE TEXT:
+III.4. Presentar antes del inicio de los trabajos objeto del contrato los planes y programas de capacitación previamente registrados ante la 
+Secretaría del Trabajo y Previsión Social (STPS) o aprobados por la misma, para capacitar a sus trabajadores sobre los riesgos de trabajo 
+inherentes a sus labores motivo del contrato y las medidas preventivas para evitarlos.
+
+OBLIGATION GROUNDING VALIDATION:
+  Obl B1: ✓ GROUNDED
+    Domain: SSPA
+    Evidence: Presentar antes del inicio de los trabajos objeto del contrato los planes
+y prog...
+
+
+------------------------------------------------------------------------------------------------------------------------
+CASE 11/12: golden_tender_scope_d8eb8816_native_3298_3844
+------------------------------------------------------------------------------------------------------------------------
+Status: APPROVED
+Evaluation Mode: STRICT
+Page: 20 | Method: NATIVE
+Artifact: DocumentPage:a867f46e-8cc3-41fa-ac2f-e59d8ba7f95d
+Source Locator: page_20_native|chars_3298_3844
+Length: 546 characters
+SHA256: 77606b55251a130d78f2e4c62ba81401188940147f17c8f2fb60b0c0468220bc
+Obligations: 2
+  • C1: SSPA
+  • C2: SSPA
+
+SOURCE TEXT:
+Vl.5.5. Cuando se le suministren alimentos a Petróleos Mexicanos u Organismos Subsidiarios, cumplir con el procedimiento del plato testigo 
+establecido en la Normatividad Oficial, cumplir con la NOM-251 -SSA1-2009 'Prácticas de higiene para el proceso de alimentos, bebidas o 
+suplementos alimenticios', en lo relativo a la inspección organoléptica de los insumos, las temperaturas diarias de los frigoríficos, las líneas de 
+alimentos fríos y calientes, el control de primeras entradas y primeras salidas de materias primas, entre otros aspectos
+
+OBLIGATION GROUNDING VALIDATION:
+  Obl C1: ✓ GROUNDED
+    Domain: SSPA
+    Evidence: cumplir con el procedimiento del plato testigo establecido en la Normatividad Of...
+  Obl C2: ✓ GROUNDED
+    Domain: SSPA
+    Evidence: cumplir con la NOM-251 -SSA1-2009 'Prácticas de higiene para el proceso de alime...
+
+
+------------------------------------------------------------------------------------------------------------------------
+CASE 12/12: golden_tender_scope_ca4ada03_native_693_965
+------------------------------------------------------------------------------------------------------------------------
+Status: APPROVED
+Evaluation Mode: STRICT
+Page: 31 | Method: NATIVE
+Artifact: DocumentPage:6d8b3dc2-4cfc-451d-ab52-0bd7b22694b4
+Source Locator: page_31_native|chars_693_965
+Length: 272 characters
+SHA256: f640d4d9d9dd78e1b1e2e2868356e84ceeddaf2ceb37673c3a2adfa17ff1e02d
+Obligations: 2
+  • D1: SERVICE
+  • D2: LOGISTICS_SITE
+
+SOURCE TEXT:
+Plazo de Ejecución 
+El plazo de ejecución de los Servicios es de 35 días naturales a partir de la fecha de formalización del Contrato 
+Lugar de Ejecución 
+La ejecución de los Servicios se realizará en: la planta MTBE-1 y en la planta de Asfaltos de la Refinería Cadereyta.
+
+OBLIGATION GROUNDING VALIDATION:
+  Obl D1: ✓ GROUNDED
+    Domain: SERVICE
+    Evidence: El plazo de ejecución de los Servicios es de 35 días naturales a partir de la fe...
+  Obl D2: ✓ GROUNDED
+    Domain: LOGISTICS_SITE
+    Evidence: La ejecución de los Servicios se realizará en: la planta MTBE-1 y en la planta d...
+
+========================================================================================================================
+END OF REVIEW DOCUMENT
+========================================================================================================================

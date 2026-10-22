@@ -1,0 +1,16 @@
+[
+  "/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python",
+  "scripts/run_document_intelligence_selective.py",
+  "execute",
+  "--profile",
+  "/Users/ceciliavalencia/LiticIA/backend/reports/blind_selective_runs/06v8_eaca60f950044a40a7e28cdd3e01fa86/execution_profile.json",
+  "--database-url",
+  "postgresql+psycopg://ceciliavalencia@localhost:5432/licitia_validation_06v",
+  "--data-dir",
+  "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v8_eaca60f950044a40a7e28cdd3e01fa86",
+  "--output-root",
+  "/Users/ceciliavalencia/LiticIA/backend/reports/blind_selective_runs",
+  "--run-id",
+  "06v8_eaca60f950044a40a7e28cdd3e01fa86",
+  "--authorized-execution"
+]

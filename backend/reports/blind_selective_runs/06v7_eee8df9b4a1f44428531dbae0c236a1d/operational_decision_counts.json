@@ -1,0 +1,19 @@
+{
+  "ocr_reasons": {
+    "OCR_ACQUIRED_REVIEW_REQUIRED": 4,
+    "REUSED_EQUIVALENT_COMPLETED": 6,
+    "TEXT_TASK_CONTRACT_REQUIRED": 251,
+    "STRUCTURE_INTERPRETATION_UNRESOLVED": 249,
+    "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED": 747
+  },
+  "statuses": {
+    "('OCR', 'COMPLETED')": 4,
+    "('OCR', 'REUSED')": 6,
+    "('VISION', 'COMPLETED')": 2,
+    "('VISION', 'FAILED')": 2,
+    "('VISION', 'RETRY_EXHAUSTED')": 1,
+    "('OCR', 'SKIPPED')": 1247,
+    "('VISION', 'BUDGET_EXHAUSTED')": 5
+  },
+  "events": 1275
+}

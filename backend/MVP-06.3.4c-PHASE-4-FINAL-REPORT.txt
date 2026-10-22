@@ -1,0 +1,227 @@
+========================================================================================================================
+MVP-06.3.4c PHASE 4 — FINAL IMPLEMENTATION REPORT
+ARCHITECT-APPROVED GOLDEN TENDER V1 INTEGRATION COMPLETE
+========================================================================================================================
+
+Timestamp: 2026-09-07T20:31:14.461773
+Component: backend/evals/semantic_scope_golden_v1.json
+Status: READY FOR DEPLOYMENT
+
+========================================================================================================================
+SUMMARY
+========================================================================================================================
+
+PHASE 4 completed all architect-specified requirements:
+  ✓ All 4 architect-approved execution-scope cases integrated into Golden JSON
+  ✓ All 12 cases validated (100% parent recovery success)
+  ✓ All 12 cases SHA256 verified (0 hash mismatches)
+  ✓ All 46 focused tests PASSING (scope semantic + discovery + provider)
+  ✓ All 56 regression tests PASSING (scope details + adapters + materializer)
+  ✓ Python compilation CLEAN (no syntax errors)
+  ✓ Git status CLEAN (no staging, no commits)
+  ✓ Documentation regenerated (GOLDEN_FINAL_REVIEW.txt, PARENT_RECOVERY_AUDIT.txt)
+
+========================================================================================================================
+GOLDEN SET COMPOSITION (FINAL STATE: 12 APPROVED CASES)
+========================================================================================================================
+
+Status Distribution:
+  APPROVED:      12/12
+  PENDING:       0/12
+
+Evaluation Mode Distribution:
+  NO_OBLIGATIONS: 7/12 (administrative/qualifying text)
+  STRICT:         5/12 (executable obligations)
+
+Source Method Distribution:
+  NATIVE: 11/12
+  OCR: 1/12
+
+Domain Distribution of Positive Obligations (12 total):
+  LOGISTICS_SITE: 1
+  PERSONNEL: 5
+  SERVICE: 1
+  SSPA: 4
+  TECHNICAL: 1
+
+========================================================================================================================
+ALL 12 APPROVED CASES (BY PHASE)
+========================================================================================================================
+
+PHASE 1 BASELINE (8 EXISTING CASES - PRESERVED EXACTLY):
+
+  1. golden_tender_candidate_006
+     Mode: NO_OBL | Method: NATIVE | Page: 2
+  2. golden_tender_candidate_009
+     Mode: NO_OBL | Method: NATIVE | Page: 4
+  3. golden_tender_candidate_010
+     Mode: STRICT(4) | Method: NATIVE | Page: 4
+  4. golden_tender_scope_ca4ada03_p4_226_984
+     Mode: NO_OBL | Method: NATIVE | Page: 4
+  5. golden_tender_scope_ca4ada03_p5_975_1199
+     Mode: NO_OBL | Method: NATIVE | Page: 5
+  6. golden_tender_scope_ca4ada03_p6_446_585
+     Mode: NO_OBL | Method: NATIVE | Page: 6
+  7. golden_tender_scope_ca4ada03_p6_1106_1366
+     Mode: NO_OBL | Method: NATIVE | Page: 6
+  8. golden_tender_scope_ca4ada03_p8_198_400
+     Mode: NO_OBL | Method: NATIVE | Page: 8
+
+PHASE 4 NEW CASES (4 ARCHITECT-APPROVED EXECUTION OBLIGATIONS):
+
+  1. golden_tender_scope_acf31750_ocr_579_938
+     Mode: STRICT(3) | Method: OCR | Page: 1
+     Reason: Architect-approved execution preconditions (B-4 Catalog of Scopes)
+  2. golden_tender_scope_d8eb8816_native_2381_2748
+     Mode: STRICT(1) | Method: NATIVE | Page: 10
+     Reason: Architect-approved SSPA training obligation (B-5 Annex)
+  3. golden_tender_scope_d8eb8816_native_3298_3844
+     Mode: STRICT(2) | Method: NATIVE | Page: 20
+     Reason: Architect-approved SSPA food supply obligation (B-5 Annex)
+  4. golden_tender_scope_ca4ada03_native_693_965
+     Mode: STRICT(2) | Method: NATIVE | Page: 31
+     Reason: Architect-approved execution timeframe and location (ANEXOS)
+
+========================================================================================================================
+NEW CASES VALIDATION DETAILS
+========================================================================================================================
+
+CASE A: B-4 Execution Preconditions
+  Case ID: golden_tender_scope_acf31750_ocr_579_938
+  Source: page_1_ocr|chars_579-938
+  SHA256: 41d9c8d7f6fee4fe4e010e198601a957018ba88affd6a446b237686efeffe3c2
+  Obligations: 3
+    • SSPA: A1
+    • TECHNICAL: A2
+    • PERSONNEL: A3
+
+CASE B: B-5 SSPA III.4
+  Case ID: golden_tender_scope_d8eb8816_native_2381_2748
+  Source: page_10_native|chars_2381_2748
+  SHA256: 3a36fc9b404cfdebc2f962bfcd7f65a9b3e06fc241f461c688130bc42edb68e8
+  Obligations: 1
+    • SSPA: B1
+
+CASE C: B-5 SSPA VI.5.5
+  Case ID: golden_tender_scope_d8eb8816_native_3298_3844
+  Source: page_20_native|chars_3298_3844
+  SHA256: 77606b55251a130d78f2e4c62ba81401188940147f17c8f2fb60b0c0468220bc
+  Obligations: 2
+    • SSPA: C1
+    • SSPA: C2
+
+CASE D: ANEXOS Execution Timeframe
+  Case ID: golden_tender_scope_ca4ada03_native_693_965
+  Source: page_31_native|chars_693_965
+  SHA256: f640d4d9d9dd78e1b1e2e2868356e84ceeddaf2ceb37673c3a2adfa17ff1e02d
+  Obligations: 2
+    • SERVICE: D1
+    • LOGISTICS_SITE: D2
+
+========================================================================================================================
+TEST RESULTS SUMMARY
+========================================================================================================================
+
+FOCUSED TESTS (46 PASSING):
+  ✓ test_scope_semantic_golden.py: 18 tests
+  ✓ test_ollama_scope_semantic_provider.py: 21 tests
+  ✓ test_scope_semantic_discovery.py: 7 tests
+
+REGRESSION TESTS (56 PASSING):
+  ✓ test_scope_details.py: 16 tests
+  ✓ test_scope_detail_adapters.py: 20 tests
+  ✓ test_scope_detail_materializer.py: 12 tests
+  ✓ test_scope_segments.py: 8 tests
+
+TOTAL: 102 tests PASSING (46 + 56)
+
+========================================================================================================================
+VALIDATION CHECKS
+========================================================================================================================
+
+✓ All 12 cases: Parent text recovery successful (12/12)
+✓ All 12 cases: SHA256 hash validation successful (12/12)
+✓ All 12 cases: Artifact key format valid (12/12)
+✓ All 12 cases: Source locator format valid (12/12)
+✓ All STRICT cases: Expected obligations grounded in source_text
+✓ All NO_OBLIGATIONS cases: No spurious obligations
+✓ Python compilation: All modules compile clean
+✓ Git whitespace: No issues (git diff --check)
+
+========================================================================================================================
+DELIVERABLES
+========================================================================================================================
+
+1. backend/evals/semantic_scope_golden_v1.json
+   - 12 APPROVED cases (8 existing + 4 new)
+   - Version: semantic-scope-golden-2026-09-06-001
+   - Ready for evaluation runner
+
+2. backend/GOLDEN_FINAL_REVIEW.txt
+   - Comprehensive review of all 12 cases
+   - Full source text for each case
+   - Obligation grounding validation
+
+3. backend/PARENT_RECOVERY_AUDIT.txt
+   - Proof of exact recovery: parent_text[start:end] == source_text
+   - 12/12 cases PASSED
+
+========================================================================================================================
+NEXT STEPS: CALIBRATION & EVALUATION
+========================================================================================================================
+
+To evaluate the Golden Set with qwen3:8b model, execute:
+
+OPTION A: Via Python script (recommended for production)
+  cd backend
+  .venv/bin/python << 'EVAL'
+  from app.ollama_scope_semantic_provider import OllamaScopeSemanticDiscoveryProvider
+  from app.scope_semantic_discovery import ScopeSemanticSourceFragment
+  import json
+
+  # Load Golden
+  with open('evals/semantic_scope_golden_v1.json') as f:
+      golden = json.load(f)
+
+  # Initialize provider with qwen3:8b
+  provider = OllamaScopeSemanticDiscoveryProvider(model_name='qwen3:8b')
+
+  # Evaluate each case
+  for case in golden['cases']:
+      fragment = ScopeSemanticSourceFragment(
+          tender_id=case['tender_id'],
+          source_document_id=case['source_document_id'],
+          document_page_id=case['document_page_id'],
+          page_number=case['page_number'],
+          source_method=case['source_method'],
+          source_artifact_key=case['source_artifact_key'],
+          source_locator=case['source_locator'],
+          source_text=case['source_text'],
+          source_contract_version=case['source_contract_version']
+      )
+      discovered = provider.discover(fragment)
+      # Compare discovered vs expected_obligations
+  EVAL
+
+OPTION B: Via Ollama CLI (for quick testing)
+  ollama run qwen3:8b <<'PROMPT'
+  [Load case source_text and ask model to extract scope obligations]
+  PROMPT
+
+========================================================================================================================
+PHASE 4 COMPLETION CHECKLIST
+========================================================================================================================
+
+✓ All 4 architect-approved cases integrated
+✓ Exact parent recovery: 12/12 PASSED
+✓ SHA256 validation: 12/12 PASSED
+✓ Focused tests: 46/46 PASSING
+✓ Regression tests: 56/56 PASSING
+✓ Python compilation: CLEAN
+✓ Git status: CLEAN
+✓ Documentation: REGENERATED
+✓ No staging, no commits (working tree only)
+
+========================================================================================================================
+END OF REPORT
+========================================================================================================================

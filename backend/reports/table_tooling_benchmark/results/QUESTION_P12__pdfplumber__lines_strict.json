@@ -1,0 +1,22 @@
+{
+  "page": "QUESTION_P12",
+  "tool": "pdfplumber",
+  "configuration": "lines_strict",
+  "parameters": {
+    "vertical_strategy": "lines_strict",
+    "horizontal_strategy": "lines_strict"
+  },
+  "repeat_seconds": [
+    0.05731083400314674,
+    0.057874999998603016
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 532873216,
+  "warnings": [],
+  "errors": [],
+  "tables": [],
+  "repeat_structure_sha256": [
+    "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "payload": {
+    "input": {
+      "documents": [
+        {
+          "id": "0bf2bb84-24ab-4fbc-85ed-69e579261b3c",
+          "mime": "application/pdf",
+          "original_filename": "1. Anexo_B1_Relevadores GE V2.pdf",
+          "revision": 1,
+          "sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+          "size": 298410
+        },
+        {
+          "id": "2c2d0fe7-2043-465e-b492-b2fc0d7bb0ae",
+          "mime": "application/pdf",
+          "original_filename": "1. Cuestionarios DD ANEXO.pdf",
+          "revision": 1,
+          "sha256": "7e4b94ae3130c1e1e46e1bc4ad89040a3d68351ab25b88c633a7c62bcd138670",
+          "size": 871097
+        },
+        {
+          "id": "4dd8431f-8899-461f-8bc5-c2adc998dc83",
+          "mime": "application/pdf",
+          "original_filename": "2. Anexo_C.pdf",
+          "revision": 1,
+          "sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+          "size": 177466
+        },
+        {
+          "id": "597b9c5b-ce16-4791-ab46-3f9c4f396e0b",
+          "mime": "application/pdf",
+          "original_filename": "01. Convocatoria  ID-107478.pdf",
+          "revision": 1,
+          "sha256": "c5b8e39e09d66d288b097faad99cfab22c5a9c5573e8187c1d428d8ee5de075f",
+          "size": 943530
+        },
+        {
+          "id": "61786600-3d9e-4d1d-b076-061964cabd59",
+          "mime": "application/pdf",
+          "original_filename": "2. Mecanismo GNR.pdf",
+          "revision": 1,
+          "sha256": "d0517f47b23c88593765876b11ea85a8fbc4ba7f1bc2fb9568c20bcaff00043f",
+          "size": 258291
+        },
+        {
+          "id": "6a8c4222-c6c8-42d2-81e7-6c1f2a0355a1",
+          "mime": "application/pdf",
+          "original_filename": "02. Bases Internacionales  ID-107478.pdf",
+          "revision": 1,
+          "sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+          "size": 1956514
+        },
+        {
+          "id": "981b07c7-0985-4c2f-bed9-e49085841e7d",
+          "mime": "application/pdf",
+          "original_filename": "4. Anexo PACMA.pdf",
+          "revision": 1,
+          "sha256": "0d6d8dbdc296109add69965efda636f97a1e759efbbaa1f188162350de2d8327",
+          "size": 860878
+        },
+        {
+          "id": "a1dea38a-48a8-4adf-9c40-656a780ea534",
+          "mime": "application/pdf",
+          "original_filename": "5. MODELO DE CONTRATO PARA BIENES.pdf",
+          "revision": 1,
+          "sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+          "size": 678952
+        },
+        {
+          "id": "cc0ccbe7-aa8b-4ca8-971d-248ed67f7e17",
+          "mime": "application/pdf",
+          "original_filename": "3. Anexo CN Tipo 2.pdf",
+          "revision": 1,
+          "sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+          "size": 231613
+        },
+        {
+          "id": "d139b5fa-138a-4688-ab81-4ddf63d6698e",
+          "mime": "application/pdf",
+          "original_filename": "3. Anexo SSPA (Formato 4).pdf",
+          "revision": 1,
+          "sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+          "size": 247307
+        }
+      ],
+      "generations": {
+        "normalized": [],
+        "ocr": [],
+        "pages": [],
+        "vision": []
+      },
+      "tender_id": "f2ccf71a-9fb1-42a7-94fa-391afe75cb57"
+    },
+    "pre_execution_sha256": "a827ef282726ab28f0d33370b78c171ea7ee466b548205205ce000b9cfcfcb30",
+    "run_id": "06v6_079e3cc877be4aa9b915869cbe19d8b8"
+  },
+  "sha256": "110f8f9e5a6df19ae8155153f0a31fd6ea64ade073655caf6a5b24c49ea7864c"
+}

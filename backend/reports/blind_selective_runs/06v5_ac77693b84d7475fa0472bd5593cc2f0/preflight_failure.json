@@ -1,0 +1,18 @@
+{
+  "run_id": "06v5_ac77693b84d7475fa0472bd5593cc2f0",
+  "recorded_at": "2026-10-21T14:56:12.940770+00:00",
+  "phase": "NON_INFERENCE_PREFLIGHT",
+  "status": "STOPPED_BEFORE_RESET_FREEZE_IMPORT_EXECUTION",
+  "error": "OLLAMA_SERVICE_CONNECTION_REFUSED",
+  "endpoint": "http://127.0.0.1:11434/api/version",
+  "detail": "urllib.error.URLError: [Errno 61] Connection refused",
+  "execution_started": false,
+  "inference_calls": 0,
+  "database_reset": false,
+  "corpus_imported": false,
+  "semantic_inspection": false,
+  "tracked_status": "",
+  "staging": "",
+  "diff_check_exit_code": 0,
+  "head": "429bf2ff95043c6d74af379a22d85bdd85843340"
+}

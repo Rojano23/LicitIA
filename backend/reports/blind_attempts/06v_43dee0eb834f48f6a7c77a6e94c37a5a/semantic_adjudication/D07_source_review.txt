@@ -1,0 +1,643 @@
+
+=== D07 PAGE 1 ===
+ 
+ 
+GERENCIA DE INGENIERÍA DE COSTOS  
+MECANISMO DE GASTOS NO RECUPERABLES 
+ANEXO “GNR” 
+MEC-GNR-375-2026 
+Descripción: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC.”  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Mecanismo de Gastos No 
+Recuperables. 
+ 
+ 
+“RELEVADORES DE PROTECCIÓN MARCA GENERAL 
+ELECTRIC.” 
+ 
+MRR-504-2026 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+=== D07 PAGE 2 ===
+ 
+ 
+GERENCIA DE INGENIERÍA DE COSTOS  
+MECANISMO DE GASTOS NO RECUPERABLES 
+ANEXO “GNR” 
+MEC-GNR-375-2026 
+Descripción: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC.”  
+ 
+Página 1 de 10 
+ 
+FUNDAMENTO LEGAL 
+ 
+De conformidad con lo establecido en las Políticas y Lineamientos para Abastecimiento 
+(PyLA), en su fracción IV.14.8 y Anexo 1; y, de las Disposiciones Generales de Contratación 
+para Petróleos Mexicanos y sus Empresas Productivas Subsidiarias, Artículo 18, Artículo 20 
+fracción IX y del Artículo 38 fracciones XVIII, XIX y XX, se extiende el presente mecanismo 
+de Gastos No Recuperables. 
+ 
+DEFINICIONES 
+Para efectos del presente mecanismo serán aplicables las definiciones que se establecen 
+a continuación, así como las establecidas en el Anexo 1 “Metodología para la Elaboración y 
+Aplicación de Mecanismos de Ingeniería de Costos” de las Políticas y Lineamientos para 
+Abastecimiento. 
+ 
+ADP: Administrador del Proyecto o la persona que este designe para tal efecto. 
+ACont: Área de Contratación, área de procura y abastecimiento, competente para dirigir 
+los Procedimientos de Contratación y la suscripción de contratos y convenios. 
+CONCEPTOS: Son los trabajos, servicios o bienes que integran el catálogo de conceptos. 
+GIC: Gerencia de Ingeniería de Costos perteneciente a la Subdirección de Abastecimiento. 
+GNR: Gastos No Recuperables. 
+PARTICIPANTE: Persona física o moral que interviene en el procedimiento de contratación. 
+PEMEX: Petróleos Mexicanos. 
+PU: Precio Unitario, Costo por unidad de concepto terminado.  
+PROVEEDOR / CONTRATISTA: La persona física o moral que, mediante la 
+celebración de un contrato derivado de un Procedimiento de Contratación, 
+otorga PEMEX bienes, arrendamientos, obras o servicios.  
+ 
+CONSIDERACIONES GENERALES 
+Para considerar los gastos en que pudieran incurrir el Participante derivado de la 
+cancelación de un procedimiento de contratación o bien en que incurre el Proveedor o 
+Contratista cuando se suspende o se termina anticipadamente un Contrato, la GIC elabora 
+el presente Mecanismo de GNR, para la determinación de dichos gastos.  
+En el presente Anexo “GNR” se establecen tanto el Mecanismo, como los criterios para 
+efectuar el Catálogo de Costos Unitarios, que permita al ACont y/o ADP la cuantificación 
+de los GNR, así mismo, contendrá las fuentes de información que se utilizarán o la forma 
+en que se determinarán de acuerdo con la circunstancia de las cuales deriven dichos 
+gastos, de manera enunciativa mas no limitativa, se tomará como base lo señalado en el 
+presente Anexo. 
+
+=== D07 PAGE 3 ===
+ 
+ 
+GERENCIA DE INGENIERÍA DE COSTOS  
+MECANISMO DE GASTOS NO RECUPERABLES 
+ANEXO “GNR” 
+MEC-GNR-375-2026 
+Descripción: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC.”  
+ 
+Página 2 de 10 
+ 
+El reconocimiento de los GNR, sólo procederá para los supuestos de cancelación de un 
+procedimiento de contratación; suspensión de un Contrato; o bien, cuando se determine 
+la terminación anticipada de un Contrato.  
+De acuerdo a lo anterior se establecen los puntos generales siguientes: 
+• 
+Para la atención de la solicitud de GNR, la dictaminación de procedencia de los 
+conceptos, así como la documentación que se envíe a la GIC, deberá estar avalada 
+técnicamente por el ADP. 
+• 
+Cuando el Contrato prevea Ajuste de Precios o Costos, los conceptos que se 
+reconozcan como GNR y que se encuentren de origen, se actualizarán con el 
+último Factor de Ajuste de Precios o Costos autorizado previo a la suspensión o 
+terminación anticipada del Contrato. 
+• 
+Los GNR que se establecen en el presente Mecanismo, no son aplicables para 
+Causas de Fuerza Mayor, por lo que en el caso de que se determine en el 
+procedimiento de contratación el reconocimiento de GNR por Causas de Fuerza 
+Mayor, la GIC procederá conforme lo que se establezca en el clausulado del 
+Contrato.  
+• 
+El Participante tendrá un plazo de 30 días naturales posteriores a la notificación de 
+la cancelación del procedimiento de contratación o de la firma del Contrato, para 
+solicitar los GNR. 
+• 
+En el caso de suspensión, el [PROVEEDOR/CONTRATISTA] tendrá un plazo de 30 
+días naturales a partir de la notificación del ADP que dé por terminada la 
+suspensión para solicitar los GNR, en caso de que dicho plazo no se establezca en 
+la cláusula correspondiente en el Contrato  
+• 
+En el caso la terminación anticipada, el [PROVEEDOR/CONTRATISTA] deberá 
+solicitar los GNR derivados de la terminación anticipada, una vez que ésta surta sus 
+efectos y a más tardar 30 días naturales antes de la fecha de la firma del finiquito.  
+• 
+Cuando en el Contrato se indique un plazo de solicitud de GNR, la GIC, verificará 
+que la solicitud realizada por el [PROVEEDOR/CONTRATISTA], se haya realizado en 
+el periodo establecido, en caso contrario, procederá a realizar la devolución de la 
+solicitud al ADP. 
+• 
+Tanto el [PROVEEDOR/CONTRATISTA] como el ADP, estarán obligados a entregar, 
+cualquier información o documentación adicional que la GIC requiera para 
+determinar los GNR. 
+• 
+Cuando no obtenga respuesta a la solicitud de información o aclaración, por parte 
+del ADP y/o [PROVEEDOR/CONTRATISTA], la GIC procederá a devolver la solicitud 
+de GNR en un plazo máximo de 15 días hábiles. 
+• 
+La GIC notificará al ADP y/o ACont a través del Sistema de Correspondencia 
+Institucional y/o correo electrónico institucional. 
+• 
+La GIC una vez que se cuenten con toda la información requerida para su 
+elaboración, tendrá como plazo máximo de atención 40 días hábiles, para el caso 
+de GNR por terminación anticipada el plazo de emisión se ajustará considerando 
+el plazo señalado en el clausulado del Contrato para la firma del finiquito. 
+
+=== D07 PAGE 4 ===
+ 
+ 
+GERENCIA DE INGENIERÍA DE COSTOS  
+MECANISMO DE GASTOS NO RECUPERABLES 
+ANEXO “GNR” 
+MEC-GNR-375-2026 
+Descripción: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC.”  
+ 
+Página 3 de 10 
+ 
+• 
+En el supuesto de que no se pueda conciliar con el [PROVEEDOR/CONTRATISTA] 
+los costos unitarios de los GNR determinados por la GIC, esta condición no lo exime 
+de que le sean aplicados. 
+• 
+El ADP y/o el ACont es el responsable de la correcta cuantificación y aplicación 
+del(los) GNR emitidos por la GIC de la aplicación del mecanismo correspondiente. 
+• 
+En el caso de prorrogarse la vigencia del Contrato, la aplicación de los GNR 
+derivados de la suspensión o la terminación anticipada del Contrato, también 
+serán aplicables durante el período de prórroga establecido de común acuerdo 
+entre las partes. 
+• 
+En caso de requerirse alguna corrección en los costos unitarios de los GNR 
+emitidos durante la vigencia del Contrato, inclusive, en su finiquito, éstas se 
+realizarán por parte de la GIC, y se darán a conocer al ADP para su aplicación y 
+posterior cuantificación. 
+GNR ANTES DE LA FIRMA DE CONTRATO.  
+ 
+Los Gastos No Recuperables antes de la firma del Contrato, son los que se generen por los 
+siguientes supuestos: 
+ 
+• 
+Cancelación de un proceso de contratación por causas diferentes a un caso 
+fortuito y fuerza mayor, y/o 
+• 
+Cancelación de la firma de un Contrato por causas imputables a Petróleos 
+Mexicanos o Filiales. 
+ 
+Cuando, por razones fundadas y motivadas, se realice la cancelación de un procedimiento 
+de contratación o la firma de un Contrato, se cubrirán los GNR que procedan, siempre y 
+cuando los mismos sean comprobables y razonables; estén directamente relacionados 
+con la preparación y presentación de sus propuestas y hayan sido documentados, 
+limitándose a lo siguiente: 
+ 
+• 
+Costos de las Bases de Contratación, en su caso. 
+• 
+Cuando apliquen los costos de pasajes y hospedaje del personal que haya asistido 
+a los eventos del proceso (visita al sitio, precalificación, juntas de aclaraciones, acto 
+de presentación y apertura de propuestas, evento de oferta subsecuente de 
+descuento, negociación de precios, acto de fallo, y en su caso, a la firma del 
+Contrato, etc.), en el supuesto de que el [PROVEEDOR/CONTRATISTA] no resida en 
+el lugar en que se realice el procedimiento. 
+• 
+Costo de la preparación e integración de la proposición. 
+• 
+El 
+costo 
+de 
+las 
+garantías 
+de 
+cumplimiento, 
+sólo 
+en 
+el 
+caso 
+del 
+[PROVEEDOR/CONTRATISTA] ganador; y para los demás participantes para el caso 
+de la garantía de sostenimiento de las ofertas, debidamente documentados. 
+ 
+La solicitud de los GNR antes de la firma de Contrato la recibirá la GIC por parte del ACont, 
+quién previamente junto con el ADP, desde el ámbito de su competencia, validarán los 
+
+=== D07 PAGE 5 ===
+ 
+ 
+GERENCIA DE INGENIERÍA DE COSTOS  
+MECANISMO DE GASTOS NO RECUPERABLES 
+ANEXO “GNR” 
+MEC-GNR-375-2026 
+Descripción: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC.”  
+ 
+Página 4 de 10 
+ 
+conceptos y unidades que se reconozcan como GNR antes de la firma de Contrato para 
+cada uno de los [PROVEEDOR/CONTRATISTA] que lo soliciten, siempre y cuando, los 
+mismos sean comprobables y razonables, estén directamente relacionados con la 
+preparación y presentación de sus propuestas y hayan sido documentados.  
+ 
+Cuando la cancelación del procedimiento de contratación o de la firma del Contrato sea 
+derivado de alguna situación de caso fortuito o fuerza mayor, PEMEX, no realizarán pago 
+alguno por concepto de GNR. 
+ 
+DOCUMENTOS REQUERIDOS PARA LA SOLICITUD DE LOS GNR ANTES DE 
+LA FIRMA DEL CONTRATO  
+La GIC deberá recibir como parte de la solicitud de los GNR por parte del ACont, los 
+siguientes documentos, debidamente avalados por el ACont y por el ADP desde el ámbito 
+de su competencia. 
+• 
+Copia del Documento de cancelación. 
+• 
+Dictamen del ACont y/o del ADP, que incluya los conceptos y unidades que se 
+reconozcan. 
+• 
+Solicitud original del Participante fundada y motivada para el pago de GNR, 
+incluyendo el análisis del cálculo elaborado por el Participante.  
+• 
+Original o copia de documentos que demuestren el gasto generado relacionado 
+directamente con el procedimiento de contratación o con la cancelación de la 
+firma del Contrato. 
+• 
+La demás información o documentación que requiera la GIC. 
+ 
+ 
+EMISIÓN DEL RESULTADO DE LOS GNR ANTES DE LA FIRMA DEL 
+CONTRATO 
+ 
+La GIC emitirá el resultado de la solicitud de GNR mediante oficio al ACont con copia al 
+ADP, adjuntando el documento denominado “Catálogo de Costos Unitarios de Gastos No 
+Recuperables”, el cual contendrá los costos unitarios de los mismos, en caso de que sean 
+procedentes, de acuerdo al Formato 4 “Anexo GNR-XX Catálogo de Costos Unitarios de 
+Gastos No Recuperables”. 
+ 
+En el caso de que, por algún motivo, no fuera posible su conciliación con el 
+[PROVEEDOR/CONTRATISTA], la GIC podrá autorizar los GNR, elaborando el “Catálogo de 
+Costos Unitarios de Gastos No Recuperables”, y en su caso, señalará en el oficio al ACont 
+para su devolución, aquellos que no fue posible conciliar, indicando las razones para que 
+el ACont tome las medidas que considere pertinentes.  
+ 
+En caso de que el ADP requiera modificaciones al presente mecanismo, deberá solicitarlo 
+de manera oficial a la GIC, fundamentando y motivando el cambio que se requiera. 
+ 
+
+=== D07 PAGE 6 ===
+ 
+ 
+GERENCIA DE INGENIERÍA DE COSTOS  
+MECANISMO DE GASTOS NO RECUPERABLES 
+ANEXO “GNR” 
+MEC-GNR-375-2026 
+Descripción: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC.”  
+ 
+Página 5 de 10 
+ 
+ 
+GNR DESPUÉS DE LA FIRMA DEL CONTRATO.  
+Los Gastos No recuperables después de la firma del Contrato, son los que se generen por 
+los siguientes supuestos: 
+• 
+Suspensión temporal total o parcial del Contrato por causas imputables a 
+Petróleos Mexicanos, o Filiales. 
+• 
+Terminación anticipada por causas imputables a Petróleos Mexicanos o Filiales. 
+ 
+En este supuesto, PEMEX a solicitud escrita del [PROVEEDOR/CONTRATISTA], podrán 
+cubrir los GNR en que hubiere incurrido cuando PEMEX hayan suspendido o terminado 
+anticipadamente un Contrato; siempre que éstos sean razonables, estén debidamente 
+comprobados y se relacionen directamente con el Contrato de que se trate, observado lo 
+estipulado en el Contrato. 
+ 
+Si durante la vigencia del Contrato existen suspensiones por períodos reducidos y difíciles 
+de cuantificar, la GIC podrá requerir para la atención de las solicitudes de GNR que el ADP 
+y el [PROVEEDOR/CONTRATISTA] acuerden que los períodos sean agrupados y 
+formalizados mediante la suscripción de una sola acta circunstanciada. 
+ 
+ 
+PARA ADQUISICIONES DESPUÉS DE LA FORMALIZACIÓN DEL CONTRATO.  
+En los Contratos de adquisiciones, cuando se generen GNR después de la formalización 
+del Contrato, la GIC a solicitud del ADP, observando lo estipulado en el Contrato procederá 
+en cada caso conforme a lo siguiente:  
+ 
+• 
+En todos los casos, para realizar la atención de la solicitud de GNR, la información 
+proporcionada por el [PROVEEDOR/CONTRATISTA] debe contar con la validación 
+técnica del ADP. 
+• 
+Para la determinación de estos GNR, se deberán considerar como base para su 
+cálculo, los costos originales de Contrato, y las órdenes de surtimiento pendientes 
+por entregar antes de la fecha de suspensión, firmadas por el ADP.  
+• 
+Cuando los costos a reconocer no estén citados de manera explícita, pero sean 
+parte de los alcances originales del Contrato, estos deberán ser validados por el 
+ADP; ser demostrables y ser Costos Razonables. 
+• 
+Los costos considerados para la elaboración del cálculo que soporte la solicitud de 
+los GNR deberán presentarse sin incluir el impuesto al valor agregado. 
+• 
+La determinación de los costos unitarios de los GNR los realizará la GIC, la 
+cuantificación del importe total por GNR, así como la autorización del pago, 
+quedará bajo la responsabilidad del ADP. 
+ 
+ 
+ 
+
+=== D07 PAGE 7 ===
+ 
+ 
+GERENCIA DE INGENIERÍA DE COSTOS  
+MECANISMO DE GASTOS NO RECUPERABLES 
+ANEXO “GNR” 
+MEC-GNR-375-2026 
+Descripción: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC.”  
+ 
+Página 6 de 10 
+ 
+GNR EN CASOS DE SUSPENSIÓN DEL CONTRATO  
+ 
+Sin menoscabo de lo estipulado en el Contrato, este tipo de GNR aplican cuando el ADP 
+realiza la suspensión temporal total o parcial del Contrato de adquisiciones por causas 
+imputables a PEMEX, y cuando estos se establezcan como parte de los términos y 
+condiciones del Contrato. 
+ 
+TIPOS DE GNR QUE SE PODRÁN RECONOCER EN CASOS DE 
+SUSPENSIÓN 
+ 
+La GIC, una vez que cuente con todos los elementos necesarios para la elaboración del 
+Catálogo de Costos Unitarios de los conceptos que el ADP reconozca en el Dictamen 
+Técnico, derivado de la suspensión del Contrato, observando lo estipulado en el Contrato, 
+procederá conforme a lo siguiente: 
+Para el análisis del cálculo elaborado por el [PROVEEDOR/CONTRATISTA], la GIC sólo podrá 
+considerar los siguientes conceptos durante la suspensión: 
+• 
+El costo que representa la extensión de las garantías del contrato 
+• 
+Los costos por concepto de renta de oficinas (excluyendo las oficinas centrales del 
+[PROVEEDOR/CONTRATISTA]), almacenes o bodegas que hubiere rentado el 
+[PROVEEDOR/CONTRATISTA] con el objeto de atender directamente las 
+necesidades de la entrega de los bienes relacionado con el alcance del Contrato 
+durante la suspensión. En caso de que estos conceptos sean compartidos con otro 
+contrato o no se utilicen a su capacidad total, se le pagará la parte proporcional que 
+se hubiere utilizado durante la suspensión del contrato. 
+• 
+Los costos por concepto de almacenaje que se hayan derivado y durante la 
+suspensión del contrato relacionado con las necesidades de la entrega de los 
+bienes relacionado con el alcance del Contrato, en el caso de que exista un 
+concepto establecido en el catálogo del contrato para almacenaje, no procederá el 
+pago de este costo de GNR.  
+• 
+Los costos por concepto del personal directamente relacionado a la entrega de los 
+bienes, considerado el estrictamente necesario y que tuvo una función específica 
+durante la suspensión.  
+ 
+DOCUMENTOS REQUERIDOS PARA LA SOLICITUD DE LOS GNR POR 
+SUSPENSIÓN DE CONTRATO.  
+ 
+ 
+La GIC deberá recibir del ADP como parte de la solicitud de los GNR en casos de 
+suspensión del Contrato, los documentos siguientes: 
+
+=== D07 PAGE 8 ===
+ 
+ 
+GERENCIA DE INGENIERÍA DE COSTOS  
+MECANISMO DE GASTOS NO RECUPERABLES 
+ANEXO “GNR” 
+MEC-GNR-375-2026 
+Descripción: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC.”  
+ 
+Página 7 de 10 
+ 
+1) 
+Oficio de solicitud del ADP 
+2) Copia de la designación del ADP o de la persona que este designe para tal efecto.  
+3) Acta circunstanciada o documento firmado por el ADP en el que se formalice la 
+suspensión. 
+4) Dictamen Técnico del ADP que incluya los conceptos y unidades que se reconozcan. 
+5) Copia del Oficio de solicitud del [PROVEEDOR/CONTRATISTA], fundado y motivado, 
+incluyendo el análisis del cálculo elaborado por el [PROVEEDOR/CONTRATISTA] con 
+los soportes documentales correspondientes, dirigido al ADP, referentes al pago de los 
+GNR por suspensión del Contrato. 
+6) Documentos que soporten los GNR generados como parte de la adquisición o 
+arrendamiento, tales como: 
+a) Las ordenes de surtimiento pendientes por entregar antes de la fecha de 
+suspensión, firmadas por el ADP. 
+b) Los programas (cuando aplique). 
+c) Los costos originalmente propuestos por el [PROVEEDOR/CONTRATISTA]. 
+EXCLUSIVAMENTE PARA ADQUISICIONES CUANDO INCLUYA LA INSTALACIÓN Y 
+PUESTA EN OPERACIÓN DEL BIEN  
+d) Los recibos de nómina del personal contratado por el [PROVEEDOR/CONTRATISTA 
+o por el Subcontratista(s) autorizado como parte de los términos y condiciones 
+establecidos en el contrato para Subcontratación]; directamente relacionado con 
+la instalación y puesta en operación de los bienes emitidos durante el período de 
+suspensión y que correspondan al personal que se consideró como estrictamente 
+necesario y que tuvo una función específica durante la suspensión, el cual deberá 
+estar listado por nombre y categoría en el acta circunstanciada o documento 
+firmado por el ADP en el que se formalice la suspensión. 
+e) Comprobante de pago de cuotas obrero patronal. 
+7) La demás información o documentación que requiera la GIC. 
+ 
+ 
+GNR 
+EN 
+CASOS 
+DE 
+TERMINACIÓN 
+ANTICIPADA 
+DEL 
+CONTRATO 
+ 
+ 
+Sin menoscabo de lo estipulado en el Contrato, este tipo de GNR aplican cuando el ADP 
+realiza la terminación anticipada del Contrato de adquisiciones por causas imputables a 
+PEMEX.  
+ 
+TIPOS DE GNR QUE SE PODRÁN RECONOCER EN CASO DE 
+TERMINACIÓN ANTICIPADA.   
+ 
+La GIC, una vez que cuente con todos los elementos necesarios para la elaboración del 
+Catálogo de Costos Unitarios de los conceptos que el ADP reconozca en el Dictamen 
+Técnico, derivado de la Terminación Anticipada del Contrato, observando lo estipulado en 
+el Contrato, procederá conforme a lo siguiente: 
+
+=== D07 PAGE 9 ===
+ 
+ 
+GERENCIA DE INGENIERÍA DE COSTOS  
+MECANISMO DE GASTOS NO RECUPERABLES 
+ANEXO “GNR” 
+MEC-GNR-375-2026 
+Descripción: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC.”  
+ 
+Página 8 de 10 
+ 
+ 
+Para el análisis del cálculo elaborado por el [PROVEEDOR/CONTRATISTA], la GIC sólo podrá 
+considerar los conceptos siguientes: 
+ 
+• 
+El PU de los bienes objeto del Contrato pendientes de entregar que se encuentren 
+en el sitio o camino a éste; siempre que cumplan con las especificaciones de 
+calidad y que la cuantía sea acorde con el suministro pendiente de entregar y que 
+no puedan ser utilizados por el mismo [PROVEEDOR/CONTRATISTA] para otros 
+fines; en cuyo caso entregará a PEMEX. 
+• 
+El costo de los bienes que se encuentren en procesos de fabricación al momento 
+de la terminación anticipada se podrá reconocer como GNR, ya sea el costo de la 
+cancelación de su fabricación o el costo total de los bienes o materiales, en cuyo 
+caso deberán ser entregados a PEMEX. Lo anterior deberá ser determinado por el 
+ADP mediante el dictamen respectivo. 
+• 
+El costo de la parte no amortizada de la garantía de cumplimiento. 
+• 
+El costo de penalización por concepto cancelación de Renta de oficinas, almacenes 
+o bodegas que hubiere rentado el [PROVEEDOR/CONTRATISTA] con el objeto de 
+atender directamente las necesidades de la entrega de los bienes derivado de la 
+terminación anticipada del Contrato. 
+• 
+El costo por concepto de liquidación del personal directamente relacionado a la 
+entrega de los bienes, siempre que haya sido contratado directamente por el 
+[PROVEEDOR/CONTRATISTA o por el Subcontratista(s) autorizado como parte de 
+los términos y condiciones establecidos en el contrato para Subcontratación], que 
+no sea empleado permanente del [PROVEEDOR/CONTRATISTA o por el 
+Subcontratista(s) autorizado como parte de los términos y condiciones 
+establecidos en el contrato para Subcontratación] y, que la liquidación se lleve a 
+cabo mediante un convenio de finiquito ante la autoridad competente. Dicha 
+liquidación corresponderá exclusivamente al plazo del Contrato pactado. En los 
+casos en que los sueldos del tiempo faltante del plazo del Contrato sean menores 
+al pago de la indemnización, se optará por autorizar el pago del sueldo del tiempo 
+restante. 
+• 
+El costo por concepto de los materiales y equipos de instalación permanente 
+adquiridos por el [PROVEEDOR/CONTRATISTA] para el cumplimiento del Contrato, 
+que no puedan ser utilizados por el mismo para otros fines derivado de la 
+terminación anticipada del Contrato. 
+En estos casos los materiales, equipos o diseños deberán ser entregados a PEMEX. 
+Lo anterior deberá ser determinado por el ADP mediante el dictamen respectivo. 
+• 
+ El costo por concepto de amortización de la garantía de cumplimiento del 
+Contrato derivado de la terminación anticipada del Contrato. 
+ 
+DOCUMENTOS REQUERIDOS PARA LA SOLICITUD DE LOS GNR EN 
+CASOS DE TERMINACIÓN ANTICIPADA  
+ 
+La GIC deberá recibir del ADP como parte de la solicitud de los GNR en casos de 
+terminación anticipada del Contrato, los documentos siguientes: 
+ 
+
+=== D07 PAGE 10 ===
+ 
+ 
+GERENCIA DE INGENIERÍA DE COSTOS  
+MECANISMO DE GASTOS NO RECUPERABLES 
+ANEXO “GNR” 
+MEC-GNR-375-2026 
+Descripción: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC.”  
+ 
+Página 9 de 10 
+ 
+1) 
+Oficio de solicitud del ADP. 
+2) Copia de la designación del ADP o de la persona que este designe para tal efecto.  
+3) Notificación de la terminación anticipada. 
+4) Dictamen Técnico del ADP que incluya los conceptos y unidades que se reconozcan. 
+5) Copia del Oficio de solicitud del [PROVEEDOR/CONTRATISTA], fundado y motivado, 
+incluyendo el análisis del cálculo elaborado por el [PROVEEDOR/CONTRATISTA] con 
+los soportes documentales correspondientes, dirigido al ADP, referentes al pago de los 
+GNR por terminación anticipada del Contrato. 
+6) Documentos que soporten los gastos generados, tales como: 
+a) Las ordenes de surtimiento pendientes por entregar antes de la fecha de 
+terminación anticipada, firmadas por el ADP. 
+b) Recibo de pago de penalización por concepto de cancelación de Renta de oficinas, 
+almacenes o bodegas. 
+c) Contrato de arrendamiento de Renta de oficinas, almacenes o bodegas. 
+d) Documento que acredite el pago de la garantía de cumplimiento. 
+e) Los programas (cuando aplique) y costos originalmente propuestos por el 
+[PROVEEDOR/CONTRATISTA]. 
+EXCLUSIVAMENTE PARA ADQUISICIONES CUANDO INCLUYA LA INSTALACIÓN Y 
+PUESTA EN OPERACIÓN DEL BIEN 
+f) 
+Contrato del personal a liquidar, cuya categoría deberá estar relacionada con la 
+instalación y puesta en operación de los bienes y su vigencia deberá corresponder 
+al período pactado del Contrato. 
+g) Convenio del finiquito ya sea por común acuerdo o ante la autoridad competente. 
+h) Cálculo del [PROVEEDOR/CONTRATISTA] para determinar el monto pagado por 
+cada uno de los trabajadores a liquidar. 
+i) 
+Cálculo del [PROVEEDOR/CONTRATISTA] para determinar el monto pagado por el 
+total de los trabajadores a liquidar. 
+j) 
+Comprobante de pago del finiquito del trabajador liquidado 
+7) La demás información o documentación que requiera la GIC. 
+ 
+EMISIÓN DEL RESULTADO DE LOS GNR DESPUÉS DE LA FIRMA DEL 
+CONTRATO 
+ 
+La GIC emitirá el resultado de la solicitud de GNR, adjuntando el documento denominado 
+Catálogo de Costos Unitarios de Gastos No Recuperables, el cual contendrá los costos 
+unitarios de los mismos, en caso de que sean procedentes, de acuerdo al Formato 4 
+“Anexo GNR-XX Catálogo de Costos Unitarios de Gastos No Recuperables”. 
+ 
+En dicho documento se listarán los costos unitarios de GNR sin Ajuste de Precios o Costos, 
+y en caso de que aplique, se indicará el último Factor de Ajuste de Precios o Costos 
+autorizado antes de la suspensión y terminación anticipada del Contrato, como referencia 
+para que sea utilizado por el ADP para la cuantificación de los GNR. 
+ 
+
+=== D07 PAGE 11 ===
+ 
+ 
+GERENCIA DE INGENIERÍA DE COSTOS  
+MECANISMO DE GASTOS NO RECUPERABLES 
+ANEXO “GNR” 
+MEC-GNR-375-2026 
+Descripción: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC.”  
+ 
+Página 10 de 10 
+ 
+La cuantificación final de los GNR quedará bajo la responsabilidad del ADP. 
+ 
+En el caso de que, por algún motivo, no fuera posible su conciliación con el 
+[PROVEEDOR/CONTRATISTA], la GIC podrá autorizar los GNR, elaborando el “Catálogo de 
+Costos Unitarios de Gastos No Recuperables”, y en su caso, señalará en el oficio al ADP para 
+su devolución, aquellos que no fue posible conciliar, indicando las razones para que el ADP 
+tome las medidas que considere pertinentes.  
+ 
+En caso de que el ADP requiera modificaciones al presente mecanismo, deberá solicitarlo 
+de manera oficial a la GIC, fundamentando y motivando el cambio que se requiera. 
+ 
+Fin del mecanismo. 
+APR/MJCG 
+ 
+ESTE DOCUMENTO PUEDE SER VERIFICADO EN https://valide.pemex.com
+Firmado por: LOPEZ DEL VALLE MARIO ALBERTO RFC: LOVM920824E30 Fecha: 15-06-2026 15:57:27 Certificado: 
+00001000000703336545 
+Firma: 
+isFH+2N9/cCsLOmy97spNDlqvtq3IMIX/PDRAK1gp3dU3xUWI//YZxkFDEN/BAyw/RzcU+SgVaqPnsDE3XblWa82A4tQnTaPfPbWF10kn1lLEphoy/qQ
+qzB9iSjdf/sI4GUTH6vIeZxZVMbzpAO7ESov0NTaNL567wLizBlsicCILv0Ndo/LWBiRNVNEF7myXBFyZwEhtmWEVOa+WAOj1xKxp9UcU0jCJwgRNzxE
++hqNKEUIkLipN7svtO735tz0QiolWDM4sEjNmurZiwCcElU4L2XuCFuAqFw+IimVG/QXnj1a4gx05pdX0ghulIlxguwArx9ItQU5tI+TRujb5Q== 
+Documento: ANEXO GNR -375-2026.pdf 
+GUID Paquete: 04a95434-4194-458e-9077-e26b1ac53028 GUID Documento: 300ca21c-1c1c-4f11-b3ec-d20d952892ca
+
+=== D07 PAGE 12 ===
+Firmante 2:
+Firmado por: PATIÑO ROMERO ALBERTO RFC: PARA7906141H5 Fecha: 15-06-2026 10:39:28 Certificado: 00001000000518946997
+Firma: 
+aWFVi5SdkCJKrCSls0Tj53LRTqKfyjZ2pSMORczP/N03YfMZB4GIBkJwcMwnCNhlvvVhratRJbTCK06sQBVRIZuE1aD57E59S8+eQpfIx5/jIAqoDarXSobMVWACj+5nT
+BZ0KPm5JB8Oth4+Z8ntZCeFD2eaK9KrozXQMwUbb9uWdzeKPfMF98exWgfoqiV3OYwHBtMYHmGC1hppNTtUrLJKYtnbyc5j/olGROY+hsz2jB3HWoS29O1uM3dQ9I+px7
+NU/yrI8xomX78gCzr3T96pqQ5GDOfcx5+B9u7aoZ1v5GJPmRZ1RS77InFGh0k2gXIwDftxx8Uu0GSg/YAC1w==
+Documento: ANEXO GNR -375-2026.pdf
+GUID Paquete: 04a95434-4194-458e-9077-e26b1ac53028 GUID Documento: 300ca21c-1c1c-4f11-b3ec-d20d952892ca
+Firmante 3:
+Firmado por: MARCOS JAVIER CORTES GALEANA RFC: COGM9903103D4 Fecha: 15-06-2026 09:35:37 Certificado: 00001000000706666563
+Firma: 
+jZlceVrK7/xww/Mi/vfJC9C/YHiuxPvy2R/285jQ5PM1OI2iiDGAZpeQSG94quCCdMlbBS5DOJb+kKfhmXXW+hisgfUdSjnnzHhTxcNBMF2O4LMBmv7XryffTXGveXmHq
+vqG1Vu5dxcq2vOsqlgS0OstqQciiT0fpLpT2xxSZtxjtIqSp5AE5mJePhxehIssYAxt+QkXNJZQKfvYlbbsM5G26S/yh0DCnVulCXt7AWk7XHhrqhno1nUke+qwIY3/Wa
+3+nNQje1n5cqyA9s3hcAieys+ucrKf5jT6Y8/0yLX76+VABpSYL7K46m97MTOxwgbGTP2Lue4CNHe63XFELQ==
+Documento: ANEXO GNR -375-2026.pdf
+GUID Paquete: 04a95434-4194-458e-9077-e26b1ac53028 GUID Documento: 300ca21c-1c1c-4f11-b3ec-d20d952892ca

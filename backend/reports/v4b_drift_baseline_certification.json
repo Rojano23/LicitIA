@@ -1,0 +1,2220 @@
+{
+  "active_integrity": {
+    "changed": [],
+    "files_verified": 435,
+    "staging_empty": true
+  },
+  "baseline": {
+    "app_modules": {
+      "app": "/private/tmp/licitia-v4b-drift-baseline-cb27af5/backend/app/__init__.py",
+      "app.config": "/private/tmp/licitia-v4b-drift-baseline-cb27af5/backend/app/config.py",
+      "app.database": "/private/tmp/licitia-v4b-drift-baseline-cb27af5/backend/app/database.py",
+      "app.models": "/private/tmp/licitia-v4b-drift-baseline-cb27af5/backend/app/models.py"
+    },
+    "backend": "/private/tmp/licitia-v4b-drift-baseline-cb27af5/backend",
+    "cli_exit_code": 255,
+    "configuration_hashes": {
+      "alembic.ini": "aec74d1f14b1d8328ca2335969b0a81b6023689641d148bd25d38b775f0efe9c",
+      "alembic/env.py": "cdba0bc8df06dc94da44d62495393b8f9f51ae2ceb5aec33d48df142f2f23415",
+      "app/__init__.py": "e70a2994a888fc455fba5a65f62a1afe869bd1689522ee051d9e6df5e82a1e5d",
+      "app/config.py": "de9eeed7e064e400906036accc8cf9dc356d3ffa8a5506d13aa8a03577aea477",
+      "app/database.py": "b0f29093939d5a4c3d8baf7345bd80b075cd5090d70319dd987008d73d6acae6",
+      "app/models.py": "320fe32c7b262895d8d81090957e79e2706f1631951f599209052b54cc75a10d"
+    },
+    "database": "licitia_test",
+    "database_read_only": true,
+    "difference_count": 59,
+    "differences": [
+      {
+        "columns": [
+          {
+            "name": "analysis_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.analysis_id"
+        ],
+        "name": "ix_document_references_analysis_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "assessment_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_checks.assessment_id"
+        ],
+        "name": "ix_requirement_compliance_checks_assessment_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_checks",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_evidence_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_candidate_matches.company_evidence_id"
+        ],
+        "name": "ix_requirement_evidence_candidate_matches_company_evidence_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_candidate_matches",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_evidence_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_checks.company_evidence_id"
+        ],
+        "name": "ix_requirement_compliance_checks_company_evidence_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_checks",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_assessments.company_id"
+        ],
+        "name": "ix_requirement_compliance_assessments_company_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_assessments",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_checks.company_id"
+        ],
+        "name": "ix_requirement_compliance_checks_company_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_checks",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_decisions.company_id"
+        ],
+        "name": "ix_requirement_compliance_decisions_company_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_decisions",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_candidate_matches.company_id"
+        ],
+        "name": "ix_requirement_evidence_candidate_matches_company_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_candidate_matches",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_candidate_reviews.company_id"
+        ],
+        "name": "ix_requirement_evidence_candidate_reviews_company_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_candidate_reviews",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "created_at",
+            "nullable": false,
+            "type": "TIMESTAMP"
+          }
+        ],
+        "expressions": [
+          "companies.created_at"
+        ],
+        "name": "ix_companies_created_at",
+        "operation": "remove_index",
+        "options": {},
+        "schema": null,
+        "table": "companies",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_chunk_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.document_chunk_id"
+        ],
+        "name": "ix_document_references_document_chunk_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_classifications.document_id"
+        ],
+        "name": "ix_document_classifications_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_classifications",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_page_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_page_structure_resolutions.document_page_id"
+        ],
+        "name": "ix_document_page_structure_resolutions_document_page_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_page_structure_resolutions",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_page_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.document_page_id"
+        ],
+        "name": "ix_document_references_document_page_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_page_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_candidate_evidence.document_page_id"
+        ],
+        "name": "ix_requirement_candidate_evidence_document_page_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_candidate_evidence",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_page_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_candidates.document_page_id"
+        ],
+        "name": "ix_requirement_candidates_document_page_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_candidates",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_page_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_items.document_page_id"
+        ],
+        "name": "ix_tender_items_document_page_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_items",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "evaluation_model_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_evaluation_model_evidence.evaluation_model_id"
+        ],
+        "name": "ix_tender_evaluation_model_evidence_evaluation_model_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_evaluation_model_evidence",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "human_target_document_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.human_target_document_id"
+        ],
+        "name": "ix_document_references_human_target_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "human_target_document_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_changes.human_target_document_id"
+        ],
+        "name": "ix_tender_changes_human_target_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_changes",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "imported_at",
+            "nullable": false,
+            "type": "TIMESTAMP"
+          }
+        ],
+        "expressions": [
+          "company_documents.imported_at"
+        ],
+        "name": "ix_company_documents_imported_at",
+        "operation": "remove_index",
+        "options": {},
+        "schema": null,
+        "table": "company_documents",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "match_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_checks.match_id"
+        ],
+        "name": "ix_requirement_compliance_checks_match_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_checks",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "normalized_content_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.normalized_content_id"
+        ],
+        "name": "ix_document_references_normalized_content_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "normalized_content_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_candidate_evidence.normalized_content_id"
+        ],
+        "name": "ix_requirement_candidate_evidence_normalized_content_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_candidate_evidence",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "normalized_content_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_candidates.normalized_content_id"
+        ],
+        "name": "ix_requirement_candidates_normalized_content_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_candidates",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "normalized_content_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_items.normalized_content_id"
+        ],
+        "name": "ix_tender_items_normalized_content_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_items",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "predecessor_requirement_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_version_links.predecessor_requirement_id"
+        ],
+        "name": "ix_requirement_version_links_predecessor_requirement_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_version_links",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "primary_candidate_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirements.primary_candidate_id"
+        ],
+        "name": "ix_requirements_primary_candidate_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirements",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "relationship_origin",
+            "nullable": false,
+            "type": "VARCHAR(32)"
+          }
+        ],
+        "expressions": [
+          "document_relationships.relationship_origin"
+        ],
+        "name": "ix_document_relationships_relationship_origin",
+        "operation": "remove_index",
+        "options": {},
+        "schema": null,
+        "table": "document_relationships",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "requirement_candidate_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_candidate_links.requirement_candidate_id"
+        ],
+        "name": "ix_requirement_candidate_links_requirement_candidate_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_candidate_links",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "requirement_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_assessments.requirement_id"
+        ],
+        "name": "ix_requirement_compliance_assessments_requirement_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_assessments",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "requirement_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_checks.requirement_id"
+        ],
+        "name": "ix_requirement_compliance_checks_requirement_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_checks",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "requirement_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_decisions.requirement_id"
+        ],
+        "name": "ix_requirement_compliance_decisions_requirement_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_decisions",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "requirement_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_candidate_matches.requirement_id"
+        ],
+        "name": "ix_requirement_evidence_candidate_matches_requirement_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_candidate_matches",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "requirement_semantics_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_expectations.requirement_semantics_id"
+        ],
+        "name": "ix_requirement_evidence_expectations_requirement_semantics_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_expectations",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "resolved_target_document_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.resolved_target_document_id"
+        ],
+        "name": "ix_document_references_resolved_target_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_analysis_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_attributes.source_analysis_id"
+        ],
+        "name": "ix_tender_scope_attributes_source_analysis_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_attributes",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_analysis_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_details.source_analysis_id"
+        ],
+        "name": "ix_tender_scope_details_source_analysis_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_details",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_analysis_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_quantities.source_analysis_id"
+        ],
+        "name": "ix_tender_scope_quantities_source_analysis_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_quantities",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_analysis_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_segments.source_analysis_id"
+        ],
+        "name": "ix_tender_scope_segments_source_analysis_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_segments",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_analysis_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_source_effects.source_analysis_id"
+        ],
+        "name": "ix_tender_source_effects_source_analysis_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_source_effects",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_candidate_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_expectations.source_candidate_id"
+        ],
+        "name": "ix_requirement_evidence_expectations_source_candidate_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_expectations",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_document_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_page_structure_resolutions.source_document_id"
+        ],
+        "name": "ix_document_page_structure_resolutions_source_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_page_structure_resolutions",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_document_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "evaluation_criteria.source_document_id"
+        ],
+        "name": "ix_evaluation_criteria_source_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "evaluation_criteria",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_document_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_changes.source_document_id"
+        ],
+        "name": "ix_tender_changes_source_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_changes",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_page_result_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_attributes.source_page_result_id"
+        ],
+        "name": "ix_tender_scope_attributes_source_page_result_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_attributes",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_page_result_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_details.source_page_result_id"
+        ],
+        "name": "ix_tender_scope_details_source_page_result_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_details",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_page_result_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_quantities.source_page_result_id"
+        ],
+        "name": "ix_tender_scope_quantities_source_page_result_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_quantities",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_page_result_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_segments.source_page_result_id"
+        ],
+        "name": "ix_tender_scope_segments_source_page_result_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_segments",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_page_result_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_source_effects.source_page_result_id"
+        ],
+        "name": "ix_tender_source_effects_source_page_result_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_source_effects",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_region_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.source_region_id"
+        ],
+        "name": "ix_document_references_source_region_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "status",
+            "nullable": false,
+            "type": "VARCHAR(32)"
+          }
+        ],
+        "expressions": [
+          "companies.status"
+        ],
+        "name": "ix_companies_status",
+        "operation": "remove_index",
+        "options": {},
+        "schema": null,
+        "table": "companies",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "successor_requirement_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_version_links.successor_requirement_id"
+        ],
+        "name": "ix_requirement_version_links_successor_requirement_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_version_links",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "target_document_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_changes.target_document_id"
+        ],
+        "name": "ix_tender_changes_target_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_changes",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "tender_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_assessments.tender_id"
+        ],
+        "name": "ix_requirement_compliance_assessments_tender_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_assessments",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "tender_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_checks.tender_id"
+        ],
+        "name": "ix_requirement_compliance_checks_tender_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_checks",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "tender_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_decisions.tender_id"
+        ],
+        "name": "ix_requirement_compliance_decisions_tender_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_decisions",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "tender_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_candidate_matches.tender_id"
+        ],
+        "name": "ix_requirement_evidence_candidate_matches_tender_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_candidate_matches",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "tender_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_candidate_reviews.tender_id"
+        ],
+        "name": "ix_requirement_evidence_candidate_reviews_tender_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_candidate_reviews",
+        "unique": false
+      }
+    ],
+    "metadata_sha256": "97651292fc4c46655c8727943ba813d40366229d8318d5b67739f7b751e97270",
+    "metadata_tables": 54,
+    "python": "/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python",
+    "revision": [
+      "20261013_req_perception_prov_072"
+    ],
+    "schema_after_sha256": "f495f99ded72f6a542619bfcdb105ab53da26b7d6375bf6c99ab05cd2164c34b",
+    "schema_before_sha256": "f495f99ded72f6a542619bfcdb105ab53da26b7d6375bf6c99ab05cd2164c34b",
+    "signature_sha256": "3abb0337a79b5faf56c2ced30e69d4482c47ab17e7e2fc925156ad59f760dde7"
+  },
+  "captured_raw": {
+    "baseline": {
+      "alembic_check.stderr.txt": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.schemas\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.tables\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.types\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.constraints\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.defaults\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.comments\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.checkconstraint_byname\nINFO  [alembic.autogenerate.compare.constraints] Detected removed index 'ix_companies_created_at' on 'companies'\nINFO  [alembic.autogenerate.compare.constraints] Detected removed index 'ix_companies_status' on 'companies'\nINFO  [alembic.autogenerate.compare.constraints] Detected removed index 'ix_company_documents_imported_at' on 'company_documents'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_classifications_document_id' on '('document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_page_structure_resolutions_document_page_id' on '('document_page_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_page_structure_resolutions_source_document_id' on '('source_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_analysis_id' on '('analysis_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_document_chunk_id' on '('document_chunk_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_document_page_id' on '('document_page_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_human_target_document_id' on '('human_target_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_normalized_content_id' on '('normalized_content_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_resolved_target_document_id' on '('resolved_target_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_source_region_id' on '('source_region_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected removed index 'ix_document_relationships_relationship_origin' on 'document_relationships'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_evaluation_criteria_source_document_id' on '('source_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_candidate_evidence_document_page_id' on '('document_page_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_candidate_evidence_normalized_content_id' on '('normalized_content_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_candidate_links_requirement_candidate_id' on '('requirement_candidate_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_candidates_document_page_id' on '('document_page_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_candidates_normalized_content_id' on '('normalized_content_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_assessments_company_id' on '('company_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_assessments_requirement_id' on '('requirement_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_assessments_tender_id' on '('tender_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_checks_assessment_id' on '('assessment_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_checks_company_evidence_id' on '('company_evidence_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_checks_company_id' on '('company_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_checks_match_id' on '('match_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_checks_requirement_id' on '('requirement_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_checks_tender_id' on '('tender_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_decisions_company_id' on '('company_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_decisions_requirement_id' on '('requirement_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_decisions_tender_id' on '('tender_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_candidate_matches_company_evidence_id' on '('company_evidence_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_candidate_matches_company_id' on '('company_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_candidate_matches_requirement_id' on '('requirement_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_candidate_matches_tender_id' on '('tender_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_candidate_reviews_company_id' on '('company_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_candidate_reviews_tender_id' on '('tender_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_expectations_requirement_semantics_id' on '('requirement_semantics_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_expectations_source_candidate_id' on '('source_candidate_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_version_links_predecessor_requirement_id' on '('predecessor_requirement_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_version_links_successor_requirement_id' on '('successor_requirement_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirements_primary_candidate_id' on '('primary_candidate_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_changes_human_target_document_id' on '('human_target_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_changes_source_document_id' on '('source_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_changes_target_document_id' on '('target_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_evaluation_model_evidence_evaluation_model_id' on '('evaluation_model_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_items_document_page_id' on '('document_page_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_items_normalized_content_id' on '('normalized_content_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_attributes_source_analysis_id' on '('source_analysis_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_attributes_source_page_result_id' on '('source_page_result_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_details_source_analysis_id' on '('source_analysis_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_details_source_page_result_id' on '('source_page_result_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_quantities_source_analysis_id' on '('source_analysis_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_quantities_source_page_result_id' on '('source_page_result_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_segments_source_analysis_id' on '('source_analysis_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_segments_source_page_result_id' on '('source_page_result_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_source_effects_source_analysis_id' on '('source_analysis_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_source_effects_source_page_result_id' on '('source_page_result_id',)'\nERROR [alembic.util.messaging] New upgrade operations detected: [('remove_index', Index('ix_companies_created_at', Column('created_at', TIMESTAMP(timezone=True), table=<companies>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x10451a090>, for_update=False)))), ('remove_index', Index('ix_companies_status', Column('status', VARCHAR(length=32), table=<companies>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x1043fc1d0>, for_update=False)))), ('remove_index', Index('ix_company_documents_imported_at', Column('imported_at', TIMESTAMP(timezone=True), table=<company_documents>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x104519bb0>, for_update=False)))), ('add_index', Index('ix_document_classifications_document_id', Column('document_id', String(length=36), table=<document_classifications>, nullable=False))), ('add_index', Index('ix_document_page_structure_resolutions_document_page_id', Column('document_page_id', String(length=36), table=<document_page_structure_resolutions>, nullable=False))), ('add_index', Index('ix_document_page_structure_resolutions_source_document_id', Column('source_document_id', String(length=36), table=<document_page_structure_resolutions>, nullable=False))), ('add_index', Index('ix_document_references_analysis_id', Column('analysis_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_document_chunk_id', Column('document_chunk_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_document_page_id', Column('document_page_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_human_target_document_id', Column('human_target_document_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_normalized_content_id', Column('normalized_content_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_resolved_target_document_id', Column('resolved_target_document_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_source_region_id', Column('source_region_id', String(length=36), table=<document_references>))), ('remove_index', Index('ix_document_relationships_relationship_origin', Column('relationship_origin', VARCHAR(length=32), table=<document_relationships>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x1043fc0b0>, for_update=False)))), ('add_index', Index('ix_evaluation_criteria_source_document_id', Column('source_document_id', String(length=36), table=<evaluation_criteria>, nullable=False))), ('add_index', Index('ix_requirement_candidate_evidence_document_page_id', Column('document_page_id', String(length=36), table=<requirement_candidate_evidence>))), ('add_index', Index('ix_requirement_candidate_evidence_normalized_content_id', Column('normalized_content_id', String(length=36), table=<requirement_candidate_evidence>))), ('add_index', Index('ix_requirement_candidate_links_requirement_candidate_id', Column('requirement_candidate_id', String(length=36), table=<requirement_candidate_links>, nullable=False))), ('add_index', Index('ix_requirement_candidates_document_page_id', Column('document_page_id', String(length=36), table=<requirement_candidates>))), ('add_index', Index('ix_requirement_candidates_normalized_content_id', Column('normalized_content_id', String(length=36), table=<requirement_candidates>))), ('add_index', Index('ix_requirement_compliance_assessments_company_id', Column('company_id', String(length=36), table=<requirement_compliance_assessments>, nullable=False))), ('add_index', Index('ix_requirement_compliance_assessments_requirement_id', Column('requirement_id', String(length=36), table=<requirement_compliance_assessments>, nullable=False))), ('add_index', Index('ix_requirement_compliance_assessments_tender_id', Column('tender_id', String(length=36), table=<requirement_compliance_assessments>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_assessment_id', Column('assessment_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_company_evidence_id', Column('company_evidence_id', String(length=36), table=<requirement_compliance_checks>))), ('add_index', Index('ix_requirement_compliance_checks_company_id', Column('company_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_match_id', Column('match_id', String(length=36), table=<requirement_compliance_checks>))), ('add_index', Index('ix_requirement_compliance_checks_requirement_id', Column('requirement_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_tender_id', Column('tender_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_decisions_company_id', Column('company_id', String(length=36), table=<requirement_compliance_decisions>, nullable=False))), ('add_index', Index('ix_requirement_compliance_decisions_requirement_id', Column('requirement_id', String(length=36), table=<requirement_compliance_decisions>, nullable=False))), ('add_index', Index('ix_requirement_compliance_decisions_tender_id', Column('tender_id', String(length=36), table=<requirement_compliance_decisions>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_company_evidence_id', Column('company_evidence_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_company_id', Column('company_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_requirement_id', Column('requirement_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_tender_id', Column('tender_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_reviews_company_id', Column('company_id', String(length=36), table=<requirement_evidence_candidate_reviews>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_reviews_tender_id', Column('tender_id', String(length=36), table=<requirement_evidence_candidate_reviews>, nullable=False))), ('add_index', Index('ix_requirement_evidence_expectations_requirement_semantics_id', Column('requirement_semantics_id', String(length=36), table=<requirement_evidence_expectations>, nullable=False))), ('add_index', Index('ix_requirement_evidence_expectations_source_candidate_id', Column('source_candidate_id', String(length=36), table=<requirement_evidence_expectations>))), ('add_index', Index('ix_requirement_version_links_predecessor_requirement_id', Column('predecessor_requirement_id', String(length=36), table=<requirement_version_links>))), ('add_index', Index('ix_requirement_version_links_successor_requirement_id', Column('successor_requirement_id', String(length=36), table=<requirement_version_links>))), ('add_index', Index('ix_requirements_primary_candidate_id', Column('primary_candidate_id', String(length=36), table=<requirements>))), ('add_index', Index('ix_tender_changes_human_target_document_id', Column('human_target_document_id', String(length=36), table=<tender_changes>))), ('add_index', Index('ix_tender_changes_source_document_id', Column('source_document_id', String(length=36), table=<tender_changes>, nullable=False))), ('add_index', Index('ix_tender_changes_target_document_id', Column('target_document_id', String(length=36), table=<tender_changes>))), ('add_index', Index('ix_tender_evaluation_model_evidence_evaluation_model_id', Column('evaluation_model_id', String(length=36), table=<tender_evaluation_model_evidence>, nullable=False))), ('add_index', Index('ix_tender_items_document_page_id', Column('document_page_id', String(length=36), table=<tender_items>))), ('add_index', Index('ix_tender_items_normalized_content_id', Column('normalized_content_id', String(length=36), table=<tender_items>))), ('add_index', Index('ix_tender_scope_attributes_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_attributes>))), ('add_index', Index('ix_tender_scope_attributes_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_attributes>))), ('add_index', Index('ix_tender_scope_details_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_details>))), ('add_index', Index('ix_tender_scope_details_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_details>))), ('add_index', Index('ix_tender_scope_quantities_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_quantities>))), ('add_index', Index('ix_tender_scope_quantities_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_quantities>))), ('add_index', Index('ix_tender_scope_segments_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_segments>))), ('add_index', Index('ix_tender_scope_segments_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_segments>))), ('add_index', Index('ix_tender_source_effects_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_source_effects>))), ('add_index', Index('ix_tender_source_effects_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_source_effects>)))]\n",
+      "alembic_check.stdout.txt": "FAILED: New upgrade operations detected: [('remove_index', Index('ix_companies_created_at', Column('created_at', TIMESTAMP(timezone=True), table=<companies>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x10451a090>, for_update=False)))), ('remove_index', Index('ix_companies_status', Column('status', VARCHAR(length=32), table=<companies>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x1043fc1d0>, for_update=False)))), ('remove_index', Index('ix_company_documents_imported_at', Column('imported_at', TIMESTAMP(timezone=True), table=<company_documents>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x104519bb0>, for_update=False)))), ('add_index', Index('ix_document_classifications_document_id', Column('document_id', String(length=36), table=<document_classifications>, nullable=False))), ('add_index', Index('ix_document_page_structure_resolutions_document_page_id', Column('document_page_id', String(length=36), table=<document_page_structure_resolutions>, nullable=False))), ('add_index', Index('ix_document_page_structure_resolutions_source_document_id', Column('source_document_id', String(length=36), table=<document_page_structure_resolutions>, nullable=False))), ('add_index', Index('ix_document_references_analysis_id', Column('analysis_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_document_chunk_id', Column('document_chunk_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_document_page_id', Column('document_page_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_human_target_document_id', Column('human_target_document_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_normalized_content_id', Column('normalized_content_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_resolved_target_document_id', Column('resolved_target_document_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_source_region_id', Column('source_region_id', String(length=36), table=<document_references>))), ('remove_index', Index('ix_document_relationships_relationship_origin', Column('relationship_origin', VARCHAR(length=32), table=<document_relationships>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x1043fc0b0>, for_update=False)))), ('add_index', Index('ix_evaluation_criteria_source_document_id', Column('source_document_id', String(length=36), table=<evaluation_criteria>, nullable=False))), ('add_index', Index('ix_requirement_candidate_evidence_document_page_id', Column('document_page_id', String(length=36), table=<requirement_candidate_evidence>))), ('add_index', Index('ix_requirement_candidate_evidence_normalized_content_id', Column('normalized_content_id', String(length=36), table=<requirement_candidate_evidence>))), ('add_index', Index('ix_requirement_candidate_links_requirement_candidate_id', Column('requirement_candidate_id', String(length=36), table=<requirement_candidate_links>, nullable=False))), ('add_index', Index('ix_requirement_candidates_document_page_id', Column('document_page_id', String(length=36), table=<requirement_candidates>))), ('add_index', Index('ix_requirement_candidates_normalized_content_id', Column('normalized_content_id', String(length=36), table=<requirement_candidates>))), ('add_index', Index('ix_requirement_compliance_assessments_company_id', Column('company_id', String(length=36), table=<requirement_compliance_assessments>, nullable=False))), ('add_index', Index('ix_requirement_compliance_assessments_requirement_id', Column('requirement_id', String(length=36), table=<requirement_compliance_assessments>, nullable=False))), ('add_index', Index('ix_requirement_compliance_assessments_tender_id', Column('tender_id', String(length=36), table=<requirement_compliance_assessments>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_assessment_id', Column('assessment_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_company_evidence_id', Column('company_evidence_id', String(length=36), table=<requirement_compliance_checks>))), ('add_index', Index('ix_requirement_compliance_checks_company_id', Column('company_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_match_id', Column('match_id', String(length=36), table=<requirement_compliance_checks>))), ('add_index', Index('ix_requirement_compliance_checks_requirement_id', Column('requirement_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_tender_id', Column('tender_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_decisions_company_id', Column('company_id', String(length=36), table=<requirement_compliance_decisions>, nullable=False))), ('add_index', Index('ix_requirement_compliance_decisions_requirement_id', Column('requirement_id', String(length=36), table=<requirement_compliance_decisions>, nullable=False))), ('add_index', Index('ix_requirement_compliance_decisions_tender_id', Column('tender_id', String(length=36), table=<requirement_compliance_decisions>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_company_evidence_id', Column('company_evidence_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_company_id', Column('company_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_requirement_id', Column('requirement_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_tender_id', Column('tender_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_reviews_company_id', Column('company_id', String(length=36), table=<requirement_evidence_candidate_reviews>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_reviews_tender_id', Column('tender_id', String(length=36), table=<requirement_evidence_candidate_reviews>, nullable=False))), ('add_index', Index('ix_requirement_evidence_expectations_requirement_semantics_id', Column('requirement_semantics_id', String(length=36), table=<requirement_evidence_expectations>, nullable=False))), ('add_index', Index('ix_requirement_evidence_expectations_source_candidate_id', Column('source_candidate_id', String(length=36), table=<requirement_evidence_expectations>))), ('add_index', Index('ix_requirement_version_links_predecessor_requirement_id', Column('predecessor_requirement_id', String(length=36), table=<requirement_version_links>))), ('add_index', Index('ix_requirement_version_links_successor_requirement_id', Column('successor_requirement_id', String(length=36), table=<requirement_version_links>))), ('add_index', Index('ix_requirements_primary_candidate_id', Column('primary_candidate_id', String(length=36), table=<requirements>))), ('add_index', Index('ix_tender_changes_human_target_document_id', Column('human_target_document_id', String(length=36), table=<tender_changes>))), ('add_index', Index('ix_tender_changes_source_document_id', Column('source_document_id', String(length=36), table=<tender_changes>, nullable=False))), ('add_index', Index('ix_tender_changes_target_document_id', Column('target_document_id', String(length=36), table=<tender_changes>))), ('add_index', Index('ix_tender_evaluation_model_evidence_evaluation_model_id', Column('evaluation_model_id', String(length=36), table=<tender_evaluation_model_evidence>, nullable=False))), ('add_index', Index('ix_tender_items_document_page_id', Column('document_page_id', String(length=36), table=<tender_items>))), ('add_index', Index('ix_tender_items_normalized_content_id', Column('normalized_content_id', String(length=36), table=<tender_items>))), ('add_index', Index('ix_tender_scope_attributes_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_attributes>))), ('add_index', Index('ix_tender_scope_attributes_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_attributes>))), ('add_index', Index('ix_tender_scope_details_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_details>))), ('add_index', Index('ix_tender_scope_details_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_details>))), ('add_index', Index('ix_tender_scope_quantities_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_quantities>))), ('add_index', Index('ix_tender_scope_quantities_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_quantities>))), ('add_index', Index('ix_tender_scope_segments_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_segments>))), ('add_index', Index('ix_tender_scope_segments_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_segments>))), ('add_index', Index('ix_tender_source_effects_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_source_effects>))), ('add_index', Index('ix_tender_source_effects_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_source_effects>)))]\n"
+    },
+    "current": {
+      "alembic_check.stderr.txt": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.\nINFO  [alembic.runtime.migration] Will assume transactional DDL.\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.schemas\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.tables\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.types\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.constraints\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.defaults\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.comments\nINFO  [alembic.runtime.plugins] setting up autogenerate plugin alembic.autogenerate.checkconstraint_byname\nINFO  [alembic.autogenerate.compare.constraints] Detected removed index 'ix_companies_created_at' on 'companies'\nINFO  [alembic.autogenerate.compare.constraints] Detected removed index 'ix_companies_status' on 'companies'\nINFO  [alembic.autogenerate.compare.constraints] Detected removed index 'ix_company_documents_imported_at' on 'company_documents'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_classifications_document_id' on '('document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_page_structure_resolutions_document_page_id' on '('document_page_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_page_structure_resolutions_source_document_id' on '('source_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_analysis_id' on '('analysis_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_document_chunk_id' on '('document_chunk_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_document_page_id' on '('document_page_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_human_target_document_id' on '('human_target_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_normalized_content_id' on '('normalized_content_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_resolved_target_document_id' on '('resolved_target_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_document_references_source_region_id' on '('source_region_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected removed index 'ix_document_relationships_relationship_origin' on 'document_relationships'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_evaluation_criteria_source_document_id' on '('source_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_candidate_evidence_document_page_id' on '('document_page_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_candidate_evidence_normalized_content_id' on '('normalized_content_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_candidate_links_requirement_candidate_id' on '('requirement_candidate_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_candidates_document_page_id' on '('document_page_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_candidates_normalized_content_id' on '('normalized_content_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_assessments_company_id' on '('company_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_assessments_requirement_id' on '('requirement_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_assessments_tender_id' on '('tender_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_checks_assessment_id' on '('assessment_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_checks_company_evidence_id' on '('company_evidence_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_checks_company_id' on '('company_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_checks_match_id' on '('match_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_checks_requirement_id' on '('requirement_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_checks_tender_id' on '('tender_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_decisions_company_id' on '('company_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_decisions_requirement_id' on '('requirement_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_compliance_decisions_tender_id' on '('tender_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_candidate_matches_company_evidence_id' on '('company_evidence_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_candidate_matches_company_id' on '('company_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_candidate_matches_requirement_id' on '('requirement_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_candidate_matches_tender_id' on '('tender_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_candidate_reviews_company_id' on '('company_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_candidate_reviews_tender_id' on '('tender_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_expectations_requirement_semantics_id' on '('requirement_semantics_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_evidence_expectations_source_candidate_id' on '('source_candidate_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_version_links_predecessor_requirement_id' on '('predecessor_requirement_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirement_version_links_successor_requirement_id' on '('successor_requirement_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_requirements_primary_candidate_id' on '('primary_candidate_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_changes_human_target_document_id' on '('human_target_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_changes_source_document_id' on '('source_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_changes_target_document_id' on '('target_document_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_evaluation_model_evidence_evaluation_model_id' on '('evaluation_model_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_items_document_page_id' on '('document_page_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_items_normalized_content_id' on '('normalized_content_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_attributes_source_analysis_id' on '('source_analysis_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_attributes_source_page_result_id' on '('source_page_result_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_details_source_analysis_id' on '('source_analysis_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_details_source_page_result_id' on '('source_page_result_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_quantities_source_analysis_id' on '('source_analysis_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_quantities_source_page_result_id' on '('source_page_result_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_segments_source_analysis_id' on '('source_analysis_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_scope_segments_source_page_result_id' on '('source_page_result_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_source_effects_source_analysis_id' on '('source_analysis_id',)'\nINFO  [alembic.autogenerate.compare.constraints] Detected added index 'ix_tender_source_effects_source_page_result_id' on '('source_page_result_id',)'\nERROR [alembic.util.messaging] New upgrade operations detected: [('remove_index', Index('ix_companies_created_at', Column('created_at', TIMESTAMP(timezone=True), table=<companies>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x1050a9070>, for_update=False)))), ('remove_index', Index('ix_companies_status', Column('status', VARCHAR(length=32), table=<companies>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x1050a9010>, for_update=False)))), ('remove_index', Index('ix_company_documents_imported_at', Column('imported_at', TIMESTAMP(timezone=True), table=<company_documents>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x104ea8170>, for_update=False)))), ('add_index', Index('ix_document_classifications_document_id', Column('document_id', String(length=36), table=<document_classifications>, nullable=False))), ('add_index', Index('ix_document_page_structure_resolutions_document_page_id', Column('document_page_id', String(length=36), table=<document_page_structure_resolutions>, nullable=False))), ('add_index', Index('ix_document_page_structure_resolutions_source_document_id', Column('source_document_id', String(length=36), table=<document_page_structure_resolutions>, nullable=False))), ('add_index', Index('ix_document_references_analysis_id', Column('analysis_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_document_chunk_id', Column('document_chunk_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_document_page_id', Column('document_page_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_human_target_document_id', Column('human_target_document_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_normalized_content_id', Column('normalized_content_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_resolved_target_document_id', Column('resolved_target_document_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_source_region_id', Column('source_region_id', String(length=36), table=<document_references>))), ('remove_index', Index('ix_document_relationships_relationship_origin', Column('relationship_origin', VARCHAR(length=32), table=<document_relationships>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x104de48f0>, for_update=False)))), ('add_index', Index('ix_evaluation_criteria_source_document_id', Column('source_document_id', String(length=36), table=<evaluation_criteria>, nullable=False))), ('add_index', Index('ix_requirement_candidate_evidence_document_page_id', Column('document_page_id', String(length=36), table=<requirement_candidate_evidence>))), ('add_index', Index('ix_requirement_candidate_evidence_normalized_content_id', Column('normalized_content_id', String(length=36), table=<requirement_candidate_evidence>))), ('add_index', Index('ix_requirement_candidate_links_requirement_candidate_id', Column('requirement_candidate_id', String(length=36), table=<requirement_candidate_links>, nullable=False))), ('add_index', Index('ix_requirement_candidates_document_page_id', Column('document_page_id', String(length=36), table=<requirement_candidates>))), ('add_index', Index('ix_requirement_candidates_normalized_content_id', Column('normalized_content_id', String(length=36), table=<requirement_candidates>))), ('add_index', Index('ix_requirement_compliance_assessments_company_id', Column('company_id', String(length=36), table=<requirement_compliance_assessments>, nullable=False))), ('add_index', Index('ix_requirement_compliance_assessments_requirement_id', Column('requirement_id', String(length=36), table=<requirement_compliance_assessments>, nullable=False))), ('add_index', Index('ix_requirement_compliance_assessments_tender_id', Column('tender_id', String(length=36), table=<requirement_compliance_assessments>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_assessment_id', Column('assessment_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_company_evidence_id', Column('company_evidence_id', String(length=36), table=<requirement_compliance_checks>))), ('add_index', Index('ix_requirement_compliance_checks_company_id', Column('company_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_match_id', Column('match_id', String(length=36), table=<requirement_compliance_checks>))), ('add_index', Index('ix_requirement_compliance_checks_requirement_id', Column('requirement_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_tender_id', Column('tender_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_decisions_company_id', Column('company_id', String(length=36), table=<requirement_compliance_decisions>, nullable=False))), ('add_index', Index('ix_requirement_compliance_decisions_requirement_id', Column('requirement_id', String(length=36), table=<requirement_compliance_decisions>, nullable=False))), ('add_index', Index('ix_requirement_compliance_decisions_tender_id', Column('tender_id', String(length=36), table=<requirement_compliance_decisions>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_company_evidence_id', Column('company_evidence_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_company_id', Column('company_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_requirement_id', Column('requirement_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_tender_id', Column('tender_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_reviews_company_id', Column('company_id', String(length=36), table=<requirement_evidence_candidate_reviews>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_reviews_tender_id', Column('tender_id', String(length=36), table=<requirement_evidence_candidate_reviews>, nullable=False))), ('add_index', Index('ix_requirement_evidence_expectations_requirement_semantics_id', Column('requirement_semantics_id', String(length=36), table=<requirement_evidence_expectations>, nullable=False))), ('add_index', Index('ix_requirement_evidence_expectations_source_candidate_id', Column('source_candidate_id', String(length=36), table=<requirement_evidence_expectations>))), ('add_index', Index('ix_requirement_version_links_predecessor_requirement_id', Column('predecessor_requirement_id', String(length=36), table=<requirement_version_links>))), ('add_index', Index('ix_requirement_version_links_successor_requirement_id', Column('successor_requirement_id', String(length=36), table=<requirement_version_links>))), ('add_index', Index('ix_requirements_primary_candidate_id', Column('primary_candidate_id', String(length=36), table=<requirements>))), ('add_index', Index('ix_tender_changes_human_target_document_id', Column('human_target_document_id', String(length=36), table=<tender_changes>))), ('add_index', Index('ix_tender_changes_source_document_id', Column('source_document_id', String(length=36), table=<tender_changes>, nullable=False))), ('add_index', Index('ix_tender_changes_target_document_id', Column('target_document_id', String(length=36), table=<tender_changes>))), ('add_index', Index('ix_tender_evaluation_model_evidence_evaluation_model_id', Column('evaluation_model_id', String(length=36), table=<tender_evaluation_model_evidence>, nullable=False))), ('add_index', Index('ix_tender_items_document_page_id', Column('document_page_id', String(length=36), table=<tender_items>))), ('add_index', Index('ix_tender_items_normalized_content_id', Column('normalized_content_id', String(length=36), table=<tender_items>))), ('add_index', Index('ix_tender_scope_attributes_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_attributes>))), ('add_index', Index('ix_tender_scope_attributes_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_attributes>))), ('add_index', Index('ix_tender_scope_details_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_details>))), ('add_index', Index('ix_tender_scope_details_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_details>))), ('add_index', Index('ix_tender_scope_quantities_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_quantities>))), ('add_index', Index('ix_tender_scope_quantities_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_quantities>))), ('add_index', Index('ix_tender_scope_segments_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_segments>))), ('add_index', Index('ix_tender_scope_segments_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_segments>))), ('add_index', Index('ix_tender_source_effects_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_source_effects>))), ('add_index', Index('ix_tender_source_effects_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_source_effects>)))]\n",
+      "alembic_check.stdout.txt": "FAILED: New upgrade operations detected: [('remove_index', Index('ix_companies_created_at', Column('created_at', TIMESTAMP(timezone=True), table=<companies>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x1050a9070>, for_update=False)))), ('remove_index', Index('ix_companies_status', Column('status', VARCHAR(length=32), table=<companies>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x1050a9010>, for_update=False)))), ('remove_index', Index('ix_company_documents_imported_at', Column('imported_at', TIMESTAMP(timezone=True), table=<company_documents>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x104ea8170>, for_update=False)))), ('add_index', Index('ix_document_classifications_document_id', Column('document_id', String(length=36), table=<document_classifications>, nullable=False))), ('add_index', Index('ix_document_page_structure_resolutions_document_page_id', Column('document_page_id', String(length=36), table=<document_page_structure_resolutions>, nullable=False))), ('add_index', Index('ix_document_page_structure_resolutions_source_document_id', Column('source_document_id', String(length=36), table=<document_page_structure_resolutions>, nullable=False))), ('add_index', Index('ix_document_references_analysis_id', Column('analysis_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_document_chunk_id', Column('document_chunk_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_document_page_id', Column('document_page_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_human_target_document_id', Column('human_target_document_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_normalized_content_id', Column('normalized_content_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_resolved_target_document_id', Column('resolved_target_document_id', String(length=36), table=<document_references>))), ('add_index', Index('ix_document_references_source_region_id', Column('source_region_id', String(length=36), table=<document_references>))), ('remove_index', Index('ix_document_relationships_relationship_origin', Column('relationship_origin', VARCHAR(length=32), table=<document_relationships>, nullable=False, server_default=DefaultClause(<sqlalchemy.sql.elements.TextClause object at 0x104de48f0>, for_update=False)))), ('add_index', Index('ix_evaluation_criteria_source_document_id', Column('source_document_id', String(length=36), table=<evaluation_criteria>, nullable=False))), ('add_index', Index('ix_requirement_candidate_evidence_document_page_id', Column('document_page_id', String(length=36), table=<requirement_candidate_evidence>))), ('add_index', Index('ix_requirement_candidate_evidence_normalized_content_id', Column('normalized_content_id', String(length=36), table=<requirement_candidate_evidence>))), ('add_index', Index('ix_requirement_candidate_links_requirement_candidate_id', Column('requirement_candidate_id', String(length=36), table=<requirement_candidate_links>, nullable=False))), ('add_index', Index('ix_requirement_candidates_document_page_id', Column('document_page_id', String(length=36), table=<requirement_candidates>))), ('add_index', Index('ix_requirement_candidates_normalized_content_id', Column('normalized_content_id', String(length=36), table=<requirement_candidates>))), ('add_index', Index('ix_requirement_compliance_assessments_company_id', Column('company_id', String(length=36), table=<requirement_compliance_assessments>, nullable=False))), ('add_index', Index('ix_requirement_compliance_assessments_requirement_id', Column('requirement_id', String(length=36), table=<requirement_compliance_assessments>, nullable=False))), ('add_index', Index('ix_requirement_compliance_assessments_tender_id', Column('tender_id', String(length=36), table=<requirement_compliance_assessments>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_assessment_id', Column('assessment_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_company_evidence_id', Column('company_evidence_id', String(length=36), table=<requirement_compliance_checks>))), ('add_index', Index('ix_requirement_compliance_checks_company_id', Column('company_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_match_id', Column('match_id', String(length=36), table=<requirement_compliance_checks>))), ('add_index', Index('ix_requirement_compliance_checks_requirement_id', Column('requirement_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_checks_tender_id', Column('tender_id', String(length=36), table=<requirement_compliance_checks>, nullable=False))), ('add_index', Index('ix_requirement_compliance_decisions_company_id', Column('company_id', String(length=36), table=<requirement_compliance_decisions>, nullable=False))), ('add_index', Index('ix_requirement_compliance_decisions_requirement_id', Column('requirement_id', String(length=36), table=<requirement_compliance_decisions>, nullable=False))), ('add_index', Index('ix_requirement_compliance_decisions_tender_id', Column('tender_id', String(length=36), table=<requirement_compliance_decisions>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_company_evidence_id', Column('company_evidence_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_company_id', Column('company_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_requirement_id', Column('requirement_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_matches_tender_id', Column('tender_id', String(length=36), table=<requirement_evidence_candidate_matches>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_reviews_company_id', Column('company_id', String(length=36), table=<requirement_evidence_candidate_reviews>, nullable=False))), ('add_index', Index('ix_requirement_evidence_candidate_reviews_tender_id', Column('tender_id', String(length=36), table=<requirement_evidence_candidate_reviews>, nullable=False))), ('add_index', Index('ix_requirement_evidence_expectations_requirement_semantics_id', Column('requirement_semantics_id', String(length=36), table=<requirement_evidence_expectations>, nullable=False))), ('add_index', Index('ix_requirement_evidence_expectations_source_candidate_id', Column('source_candidate_id', String(length=36), table=<requirement_evidence_expectations>))), ('add_index', Index('ix_requirement_version_links_predecessor_requirement_id', Column('predecessor_requirement_id', String(length=36), table=<requirement_version_links>))), ('add_index', Index('ix_requirement_version_links_successor_requirement_id', Column('successor_requirement_id', String(length=36), table=<requirement_version_links>))), ('add_index', Index('ix_requirements_primary_candidate_id', Column('primary_candidate_id', String(length=36), table=<requirements>))), ('add_index', Index('ix_tender_changes_human_target_document_id', Column('human_target_document_id', String(length=36), table=<tender_changes>))), ('add_index', Index('ix_tender_changes_source_document_id', Column('source_document_id', String(length=36), table=<tender_changes>, nullable=False))), ('add_index', Index('ix_tender_changes_target_document_id', Column('target_document_id', String(length=36), table=<tender_changes>))), ('add_index', Index('ix_tender_evaluation_model_evidence_evaluation_model_id', Column('evaluation_model_id', String(length=36), table=<tender_evaluation_model_evidence>, nullable=False))), ('add_index', Index('ix_tender_items_document_page_id', Column('document_page_id', String(length=36), table=<tender_items>))), ('add_index', Index('ix_tender_items_normalized_content_id', Column('normalized_content_id', String(length=36), table=<tender_items>))), ('add_index', Index('ix_tender_scope_attributes_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_attributes>))), ('add_index', Index('ix_tender_scope_attributes_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_attributes>))), ('add_index', Index('ix_tender_scope_details_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_details>))), ('add_index', Index('ix_tender_scope_details_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_details>))), ('add_index', Index('ix_tender_scope_quantities_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_quantities>))), ('add_index', Index('ix_tender_scope_quantities_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_quantities>))), ('add_index', Index('ix_tender_scope_segments_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_scope_segments>))), ('add_index', Index('ix_tender_scope_segments_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_scope_segments>))), ('add_index', Index('ix_tender_source_effects_source_analysis_id', Column('source_analysis_id', String(length=36), table=<tender_source_effects>))), ('add_index', Index('ix_tender_source_effects_source_page_result_id', Column('source_page_result_id', String(length=36), table=<tender_source_effects>)))]\n"
+    }
+  },
+  "classification": "PREEXISTING_SCHEMA_DRIFT — V.4b INTRODUCED ZERO NEW DRIFT",
+  "current": {
+    "app_modules": {
+      "app": "/Users/ceciliavalencia/LiticIA/backend/app/__init__.py",
+      "app.config": "/Users/ceciliavalencia/LiticIA/backend/app/config.py",
+      "app.database": "/Users/ceciliavalencia/LiticIA/backend/app/database.py",
+      "app.models": "/Users/ceciliavalencia/LiticIA/backend/app/models.py"
+    },
+    "backend": "/Users/ceciliavalencia/LiticIA/backend",
+    "cli_exit_code": 255,
+    "configuration_hashes": {
+      "alembic.ini": "aec74d1f14b1d8328ca2335969b0a81b6023689641d148bd25d38b775f0efe9c",
+      "alembic/env.py": "cdba0bc8df06dc94da44d62495393b8f9f51ae2ceb5aec33d48df142f2f23415",
+      "app/__init__.py": "e70a2994a888fc455fba5a65f62a1afe869bd1689522ee051d9e6df5e82a1e5d",
+      "app/config.py": "de9eeed7e064e400906036accc8cf9dc356d3ffa8a5506d13aa8a03577aea477",
+      "app/database.py": "b0f29093939d5a4c3d8baf7345bd80b075cd5090d70319dd987008d73d6acae6",
+      "app/models.py": "320fe32c7b262895d8d81090957e79e2706f1631951f599209052b54cc75a10d"
+    },
+    "database": "licitia_test",
+    "database_read_only": true,
+    "difference_count": 59,
+    "differences": [
+      {
+        "columns": [
+          {
+            "name": "analysis_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.analysis_id"
+        ],
+        "name": "ix_document_references_analysis_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "assessment_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_checks.assessment_id"
+        ],
+        "name": "ix_requirement_compliance_checks_assessment_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_checks",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_evidence_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_candidate_matches.company_evidence_id"
+        ],
+        "name": "ix_requirement_evidence_candidate_matches_company_evidence_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_candidate_matches",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_evidence_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_checks.company_evidence_id"
+        ],
+        "name": "ix_requirement_compliance_checks_company_evidence_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_checks",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_assessments.company_id"
+        ],
+        "name": "ix_requirement_compliance_assessments_company_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_assessments",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_checks.company_id"
+        ],
+        "name": "ix_requirement_compliance_checks_company_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_checks",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_decisions.company_id"
+        ],
+        "name": "ix_requirement_compliance_decisions_company_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_decisions",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_candidate_matches.company_id"
+        ],
+        "name": "ix_requirement_evidence_candidate_matches_company_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_candidate_matches",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "company_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_candidate_reviews.company_id"
+        ],
+        "name": "ix_requirement_evidence_candidate_reviews_company_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_candidate_reviews",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "created_at",
+            "nullable": false,
+            "type": "TIMESTAMP"
+          }
+        ],
+        "expressions": [
+          "companies.created_at"
+        ],
+        "name": "ix_companies_created_at",
+        "operation": "remove_index",
+        "options": {},
+        "schema": null,
+        "table": "companies",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_chunk_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.document_chunk_id"
+        ],
+        "name": "ix_document_references_document_chunk_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_classifications.document_id"
+        ],
+        "name": "ix_document_classifications_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_classifications",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_page_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_page_structure_resolutions.document_page_id"
+        ],
+        "name": "ix_document_page_structure_resolutions_document_page_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_page_structure_resolutions",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_page_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.document_page_id"
+        ],
+        "name": "ix_document_references_document_page_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_page_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_candidate_evidence.document_page_id"
+        ],
+        "name": "ix_requirement_candidate_evidence_document_page_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_candidate_evidence",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_page_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_candidates.document_page_id"
+        ],
+        "name": "ix_requirement_candidates_document_page_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_candidates",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "document_page_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_items.document_page_id"
+        ],
+        "name": "ix_tender_items_document_page_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_items",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "evaluation_model_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_evaluation_model_evidence.evaluation_model_id"
+        ],
+        "name": "ix_tender_evaluation_model_evidence_evaluation_model_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_evaluation_model_evidence",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "human_target_document_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.human_target_document_id"
+        ],
+        "name": "ix_document_references_human_target_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "human_target_document_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_changes.human_target_document_id"
+        ],
+        "name": "ix_tender_changes_human_target_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_changes",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "imported_at",
+            "nullable": false,
+            "type": "TIMESTAMP"
+          }
+        ],
+        "expressions": [
+          "company_documents.imported_at"
+        ],
+        "name": "ix_company_documents_imported_at",
+        "operation": "remove_index",
+        "options": {},
+        "schema": null,
+        "table": "company_documents",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "match_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_checks.match_id"
+        ],
+        "name": "ix_requirement_compliance_checks_match_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_checks",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "normalized_content_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.normalized_content_id"
+        ],
+        "name": "ix_document_references_normalized_content_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "normalized_content_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_candidate_evidence.normalized_content_id"
+        ],
+        "name": "ix_requirement_candidate_evidence_normalized_content_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_candidate_evidence",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "normalized_content_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_candidates.normalized_content_id"
+        ],
+        "name": "ix_requirement_candidates_normalized_content_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_candidates",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "normalized_content_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_items.normalized_content_id"
+        ],
+        "name": "ix_tender_items_normalized_content_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_items",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "predecessor_requirement_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_version_links.predecessor_requirement_id"
+        ],
+        "name": "ix_requirement_version_links_predecessor_requirement_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_version_links",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "primary_candidate_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirements.primary_candidate_id"
+        ],
+        "name": "ix_requirements_primary_candidate_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirements",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "relationship_origin",
+            "nullable": false,
+            "type": "VARCHAR(32)"
+          }
+        ],
+        "expressions": [
+          "document_relationships.relationship_origin"
+        ],
+        "name": "ix_document_relationships_relationship_origin",
+        "operation": "remove_index",
+        "options": {},
+        "schema": null,
+        "table": "document_relationships",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "requirement_candidate_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_candidate_links.requirement_candidate_id"
+        ],
+        "name": "ix_requirement_candidate_links_requirement_candidate_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_candidate_links",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "requirement_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_assessments.requirement_id"
+        ],
+        "name": "ix_requirement_compliance_assessments_requirement_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_assessments",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "requirement_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_checks.requirement_id"
+        ],
+        "name": "ix_requirement_compliance_checks_requirement_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_checks",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "requirement_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_decisions.requirement_id"
+        ],
+        "name": "ix_requirement_compliance_decisions_requirement_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_decisions",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "requirement_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_candidate_matches.requirement_id"
+        ],
+        "name": "ix_requirement_evidence_candidate_matches_requirement_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_candidate_matches",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "requirement_semantics_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_expectations.requirement_semantics_id"
+        ],
+        "name": "ix_requirement_evidence_expectations_requirement_semantics_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_expectations",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "resolved_target_document_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.resolved_target_document_id"
+        ],
+        "name": "ix_document_references_resolved_target_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_analysis_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_attributes.source_analysis_id"
+        ],
+        "name": "ix_tender_scope_attributes_source_analysis_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_attributes",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_analysis_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_details.source_analysis_id"
+        ],
+        "name": "ix_tender_scope_details_source_analysis_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_details",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_analysis_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_quantities.source_analysis_id"
+        ],
+        "name": "ix_tender_scope_quantities_source_analysis_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_quantities",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_analysis_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_segments.source_analysis_id"
+        ],
+        "name": "ix_tender_scope_segments_source_analysis_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_segments",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_analysis_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_source_effects.source_analysis_id"
+        ],
+        "name": "ix_tender_source_effects_source_analysis_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_source_effects",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_candidate_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_expectations.source_candidate_id"
+        ],
+        "name": "ix_requirement_evidence_expectations_source_candidate_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_expectations",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_document_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_page_structure_resolutions.source_document_id"
+        ],
+        "name": "ix_document_page_structure_resolutions_source_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_page_structure_resolutions",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_document_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "evaluation_criteria.source_document_id"
+        ],
+        "name": "ix_evaluation_criteria_source_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "evaluation_criteria",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_document_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_changes.source_document_id"
+        ],
+        "name": "ix_tender_changes_source_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_changes",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_page_result_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_attributes.source_page_result_id"
+        ],
+        "name": "ix_tender_scope_attributes_source_page_result_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_attributes",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_page_result_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_details.source_page_result_id"
+        ],
+        "name": "ix_tender_scope_details_source_page_result_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_details",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_page_result_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_quantities.source_page_result_id"
+        ],
+        "name": "ix_tender_scope_quantities_source_page_result_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_quantities",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_page_result_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_scope_segments.source_page_result_id"
+        ],
+        "name": "ix_tender_scope_segments_source_page_result_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_scope_segments",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_page_result_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_source_effects.source_page_result_id"
+        ],
+        "name": "ix_tender_source_effects_source_page_result_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_source_effects",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "source_region_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "document_references.source_region_id"
+        ],
+        "name": "ix_document_references_source_region_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "document_references",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "status",
+            "nullable": false,
+            "type": "VARCHAR(32)"
+          }
+        ],
+        "expressions": [
+          "companies.status"
+        ],
+        "name": "ix_companies_status",
+        "operation": "remove_index",
+        "options": {},
+        "schema": null,
+        "table": "companies",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "successor_requirement_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_version_links.successor_requirement_id"
+        ],
+        "name": "ix_requirement_version_links_successor_requirement_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_version_links",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "target_document_id",
+            "nullable": true,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "tender_changes.target_document_id"
+        ],
+        "name": "ix_tender_changes_target_document_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "tender_changes",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "tender_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_assessments.tender_id"
+        ],
+        "name": "ix_requirement_compliance_assessments_tender_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_assessments",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "tender_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_checks.tender_id"
+        ],
+        "name": "ix_requirement_compliance_checks_tender_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_checks",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "tender_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_compliance_decisions.tender_id"
+        ],
+        "name": "ix_requirement_compliance_decisions_tender_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_compliance_decisions",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "tender_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_candidate_matches.tender_id"
+        ],
+        "name": "ix_requirement_evidence_candidate_matches_tender_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_candidate_matches",
+        "unique": false
+      },
+      {
+        "columns": [
+          {
+            "name": "tender_id",
+            "nullable": false,
+            "type": "VARCHAR(36)"
+          }
+        ],
+        "expressions": [
+          "requirement_evidence_candidate_reviews.tender_id"
+        ],
+        "name": "ix_requirement_evidence_candidate_reviews_tender_id",
+        "operation": "add_index",
+        "options": {},
+        "schema": null,
+        "table": "requirement_evidence_candidate_reviews",
+        "unique": false
+      }
+    ],
+    "metadata_sha256": "97651292fc4c46655c8727943ba813d40366229d8318d5b67739f7b751e97270",
+    "metadata_tables": 54,
+    "python": "/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python",
+    "revision": [
+      "20261013_req_perception_prov_072"
+    ],
+    "schema_after_sha256": "f495f99ded72f6a542619bfcdb105ab53da26b7d6375bf6c99ab05cd2164c34b",
+    "schema_before_sha256": "f495f99ded72f6a542619bfcdb105ab53da26b7d6375bf6c99ab05cd2164c34b",
+    "signature_sha256": "3abb0337a79b5faf56c2ced30e69d4482c47ab17e7e2fc925156ad59f760dde7"
+  },
+  "database_mutation": false,
+  "differential": {
+    "added": [],
+    "changed": [],
+    "removed": []
+  },
+  "head": "cb27af54292ead1b5562f4d0a3de2637948d8d25",
+  "historical_integrity": {
+    "changed": [],
+    "files_verified": 107
+  },
+  "normalized_signature_algorithm": "SHA256(UTF8(json.dumps(sorted_operations, sort_keys=True, separators=(comma,colon), ensure_ascii=False)))",
+  "source_schema_registration_changed": false,
+  "temporary_worktree_removed": true
+}

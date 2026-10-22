@@ -1,0 +1,39 @@
+{
+  "branch": "main",
+  "canonical_importer_audited": "POST /tenders + POST /tenders/{tender_id}/documents/import",
+  "cause": "AUTHORIZED_SOURCE_DIRECTORY_NOT_FOUND",
+  "compileall": "PASS",
+  "config_sha256": "73d56599fc016a7b11bf43b4e5a9a58bbd008ae28410224c6b78e01c8743f9f2",
+  "database_post": {
+    "database": "licitia_validation_06v",
+    "document_count": 0,
+    "revision": "20261013_req_perception_prov_072",
+    "tender_count": 0
+  },
+  "database_pre": {
+    "database": "licitia_validation_06v",
+    "document_count": 0,
+    "revision": "20261013_req_perception_prov_072",
+    "tender_count": 0
+  },
+  "errno": 2,
+  "exception_type": "FileNotFoundError",
+  "import_executed": false,
+  "next_action": "Confirm exact available authorized source directory, then resume V.1; do not run V.2",
+  "page_count": null,
+  "production_config_modified": false,
+  "protected_dirty": false,
+  "provider_calls": 0,
+  "schema_version": "DI_06V_IMPORT_BLOCKER_001",
+  "semantic_inspection_performed": false,
+  "source_file_count": null,
+  "source_files_enumerated": false,
+  "source_files_opened": false,
+  "source_root": "/Users/ceciliavalencia/Documents/LicitIA/Reelevadores Electricos",
+  "stage_commit_push": false,
+  "starting_head": "3c989fae39975ed89d185fe52af0f94ab4012497",
+  "status": "BLIND_RUN_OPERATIONAL_BLOCKER",
+  "tender_created": false,
+  "v2_executed": false,
+  "v2_run_identity_frozen": false
+}

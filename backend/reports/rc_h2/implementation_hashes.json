@@ -1,0 +1,18 @@
+{
+  "backend/app/blind_selective_harness.py": "d034d33b6835151b230fc99f56dddfa732726f21ad8d04e4034122cba76410e6",
+  "backend/app/document_intelligence_blind_run.py": "d4ed2a7fd8cd63e52ba1b7304dc1e346df1a490ff09d5298f4e39a9c906f14f0",
+  "backend/app/main.py": "e75e02e8b99660de4078b8029e5b15ad6c3badf9906f4f48a55a9b9f364ea1f4",
+  "backend/app/canonical_materialization.py": "30bdabe408d38ca4f2ea32deae4920f3637f82636cdc3590337ddafe55b22289",
+  "backend/app/native_preparation.py": "6c82efe46e59b0d5ac14f32a859773176ef6bfc1ae4ecad881e9b61da2ec57bb",
+  "backend/app/workspace_flow.py": "c50bd695f31df3bf83c271da3b71f034ac90af594f4d06fd050a2aced2637d24",
+  "backend/tests/test_workspace_flow.py": "bd5b38bb7095bf37caa2795f575af16285153fe149309de984faff038fddd89a",
+  "frontend/src/App.tsx": "ebf0e54bc85f8c4baad2c527ab55e37ee358d0c64b4ad3dfa095a18d3c764891",
+  "frontend/src/api/workspace.ts": "6706a1de739629d7b6696f5fec9068d57bcc4d2f21801255960dea5ad16a2fe3",
+  "frontend/src/components/WorkspaceFlow.tsx": "44a5beda588b0f62ff6546ffa732e7c76c32ae482ed8c3f1bacb72a5cd889c20",
+  "frontend/src/components/WorkspaceFlow.test.tsx": "4f9681444c5b06ae28f219ae1edc3391b6451c6e0c8a1f18365f13a2680f9d91",
+  "frontend/vite.config.js": "4037cb2a14251d9ff75ae6ec7429be548937c6609578af76cf6bbcf49813d54a",
+  "docs/roadmap.md": "592c350943c7a00fc1ea5df3bd8c6e2fe5d89af0aadef861d3445292112548a3",
+  "docs/uat-capability-statement.md": "f3e36b8c461e001fed6c7bc62a56ed752ea9df268a2026dc3ec9b8cae53f12ea",
+  "docs/adr/0020-workspace-canonical-composition.md": "1f92c1c921d28bc229f564478d590fc5a7b6b0275e9454119e805517dcd046a2",
+  "docs/workspace-functional-flow.md": "27e5fe3684d45d2036fa345415b6c363a9ea20ac569d886a9732cd1ea9b38f7f"
+}

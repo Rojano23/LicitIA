@@ -1,0 +1,1132 @@
+[
+  {
+    "case_id": "REQUIREMENTS-01",
+    "domain": "REQUIREMENTS",
+    "truth": "Entrega en 60 días naturales desde formalización",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 15,
+    "source_excerpt": "El plazo de entrega de los bienes es de 60 (sesenta) días naturales",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:e9a7fce4-2caf-4f56-90a5-7e9c86bd59c8",
+    "generation_id": "1050e6e7-8f13-48fc-bb3c-f8e41c3d48ad:9c5072889318b694fb78b8aa14126d24ababe8bd679f8b54a9898379bea2b2e2",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-02",
+    "domain": "REQUIREMENTS",
+    "truth": "DDP nacionales / DAP extranjeros, destino final",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 15,
+    "source_excerpt": "Proveedores Nacionales: DDP",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:e9a7fce4-2caf-4f56-90a5-7e9c86bd59c8",
+    "generation_id": "1050e6e7-8f13-48fc-bb3c-f8e41c3d48ad:9c5072889318b694fb78b8aa14126d24ababe8bd679f8b54a9898379bea2b2e2",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-03",
+    "domain": "REQUIREMENTS",
+    "truth": "Precios fijos, dos decimales y sin IVA al cotizar",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 15,
+    "source_excerpt": "Los precios serán fijos.",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:e9a7fce4-2caf-4f56-90a5-7e9c86bd59c8",
+    "generation_id": "1050e6e7-8f13-48fc-bb3c-f8e41c3d48ad:9c5072889318b694fb78b8aa14126d24ababe8bd679f8b54a9898379bea2b2e2",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-04",
+    "domain": "REQUIREMENTS",
+    "truth": "Subcontratación no aplica",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 16,
+    "source_excerpt": "Para este procedimiento de contratación NO APLICA la subcontratación.",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:d48ffda0-f6d4-4955-b5c3-6e5d1c9ceb4f",
+    "generation_id": "d045acb3-5d75-4e20-a0d5-355c3b3cc0d8:f2d39e604dd790d5df391edad5f0563bce654f38488668afa1614d20df2ec39d",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-05",
+    "domain": "REQUIREMENTS",
+    "truth": "Suministro conforme a los dos modelos GE y cantidades de la tabla",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 1,
+    "source_excerpt": "RELEVADOR MULTILIN",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:4d7153fb-315b-4721-a3d8-e4ccf8a9da57",
+    "generation_id": "ee91d18e-d7ba-49a4-bda0-fb012ac7c022:2a94f5cbedba2bae0f327c511dae8f97ef3c1f138aac642d8beeee0e910d1e95",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-06",
+    "domain": "REQUIREMENTS",
+    "truth": "Contenedor con espuma, ESD y protección contra humedad",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 2,
+    "source_excerpt": "Deberá estar protegido mediante bolsa antiestática (ESD) o material equivalente",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:efe85d87-f5df-4692-9803-6d026a08de99",
+    "generation_id": "6d84fc65-70ee-4f30-b58a-ab037310acb7:efd9f9a8f0d6be41e8106e7003f202c5379057bf5557d5fdc0a5809cb29ea197",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-07",
+    "domain": "REQUIREMENTS",
+    "truth": "Dos juegos de cables de comunicación de cada puerto del relevador",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 2,
+    "source_excerpt": "Deberá entregarse 2 juegos de cables de comunicación de cada puerto",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:efe85d87-f5df-4692-9803-6d026a08de99",
+    "generation_id": "6d84fc65-70ee-4f30-b58a-ab037310acb7:efd9f9a8f0d6be41e8106e7003f202c5379057bf5557d5fdc0a5809cb29ea197",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-08",
+    "domain": "REQUIREMENTS",
+    "truth": "Software libre licencia en USB para Windows10",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 2,
+    "source_excerpt": "software de libre licencia en usb para windows 10",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:efe85d87-f5df-4692-9803-6d026a08de99",
+    "generation_id": "6d84fc65-70ee-4f30-b58a-ab037310acb7:efd9f9a8f0d6be41e8106e7003f202c5379057bf5557d5fdc0a5809cb29ea197",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-09",
+    "domain": "REQUIREMENTS",
+    "truth": "Anexar catálogos/fichas/dibujos/boletines del fabricante identificando partidas, marca y modelo",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 2,
+    "source_excerpt": "catálogos, fichas técnicas, dibujos o boletines técnicos emitidos por el fabricante",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:efe85d87-f5df-4692-9803-6d026a08de99",
+    "generation_id": "6d84fc65-70ee-4f30-b58a-ab037310acb7:efd9f9a8f0d6be41e8106e7003f202c5379057bf5557d5fdc0a5809cb29ea197",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-10",
+    "domain": "REQUIREMENTS",
+    "truth": "Carta de componentes nuevos, compatibles y ensamble correcto",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": "todos los componentes que oferta son totalmente nuevo, compatibles entre sí",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-11",
+    "domain": "REQUIREMENTS",
+    "truth": "Compromiso de avisar entrega con48h de anticipación",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": "Informar a Pemex la fecha y hora estimada de entrega con 48 horas de anticipación",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-12",
+    "domain": "REQUIREMENTS",
+    "truth": "Marcar bienes con centro de trabajo y contrato, letra>=10mm",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": "Número de contrato",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-13",
+    "domain": "REQUIREMENTS",
+    "truth": "Comprometer carta original fabricante y certificados de calidad en entrega",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": "Carta original del fabricante en la que adjunte los certificados de calidad",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-14",
+    "domain": "REQUIREMENTS",
+    "truth": "Opiniones positivas SAT/IMSS/INFONAVIT posteriores al fallo con plazo de3 días hábiles",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 49,
+    "source_excerpt": "dentro de los 3 (tres) días hábiles siguientes a la notificación del fallo",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:bc2f592a-77e5-4ca2-9987-30eff16af964",
+    "generation_id": "1cc24bbd-3ff6-4ed7-a540-4d33837b4ce2:6bfd9c2ffd2bedecb964640c896a4c1673013b1ee9ce7adc31288faf16a5d1c4",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-15",
+    "domain": "REQUIREMENTS",
+    "truth": "Cotizar total de partidas y conformidad de cada una",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 94,
+    "source_excerpt": "deberá cotizar la totalidad de las partidas",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:24ae9052-3894-40c9-a050-fd25737a7b39",
+    "generation_id": "249e4b47-fd62-4aa5-ac27-b2bdbe92073c:c7d0b6eea6ac7c9aa4f950fb1277387052ca0d831eab6b519c821414764b9016",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-16",
+    "domain": "REQUIREMENTS",
+    "truth": "Adoptar/mantener programa Pemex CUMPLE o compromiso de implementar propio",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 32,
+    "source_excerpt": "deberán conocer y adoptar el programa Pemex CUMPLE",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:90186924-2ef4-44a1-af6f-a3a276b7a3fb",
+    "generation_id": "5f1053ef-d067-44a8-8bf4-62d746184bc4:e0d16b00f460c30bcf978d9959ee3479bc199c6dc1ae769a74c4cf370b8c5fc5",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-17",
+    "domain": "REQUIREMENTS",
+    "truth": "Carta compromiso de cumplimiento Formato4 SSPA si resulta ganador",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": "cumplirá todos los requisitos que se indican en dicho formato",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-18",
+    "domain": "REQUIREMENTS",
+    "truth": "Formato3 de CN, plazo anual y acuse: detalles no conservados por R01",
+    "source_document_id": "bef7e0c8-0a3e-46a0-857d-902ded7d1042",
+    "source_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+    "page": 2,
+    "source_excerpt": "una declaración utilizando el Formato 3",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:32949a07-9ba0-403b-9002-5496a8093988",
+    "generation_id": "63f86707-0e3f-42af-8dde-a4e82f97f6c0:2c7df9e71b98bebcad731dcd4cc188f0d03cf01fe8ab6fb54f296da1941b9ce1",
+    "assessment": "INCOMPLETE_COMPONENT",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUIREMENTS-19",
+    "domain": "REQUIREMENTS",
+    "truth": "Traducción simple de adjuntos en otro idioma: perdida al cortar R28",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": "deberá adjuntarse una traducción simple al español",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "INCOMPLETE_COMPONENT",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-01",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Catálogos/fichas/dibujos/boletines emitidos por fabricante para oferta",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 2,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:efe85d87-f5df-4692-9803-6d026a08de99",
+    "generation_id": "6d84fc65-70ee-4f30-b58a-ab037310acb7:efd9f9a8f0d6be41e8106e7003f202c5379057bf5557d5fdc0a5809cb29ea197",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-02",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Carta compromiso SSPA de adjudicado",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-03",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Carta de componentes nuevos/compatibles/ensamble",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-04",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Manifiesto de compromiso aviso de entrega y marcado",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-05",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Carta original fabricante con certificados de calidad para entrega",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-06",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Copia de nota de remisión con descripción/especificaciones",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 4,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:a58e7383-a2f0-4e31-afe9-461642aaf906",
+    "generation_id": "111268ad-0473-4add-9884-1ecafa2f286c:e771b86d8a8869c2260dc8dc25411217cad40a7938b03faadd6ea80d77ff3cb6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-07",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Contrato impreso en2 juegos para entrega",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 4,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:a58e7383-a2f0-4e31-afe9-461642aaf906",
+    "generation_id": "111268ad-0473-4add-9884-1ecafa2f286c:e771b86d8a8869c2260dc8dc25411217cad40a7938b03faadd6ea80d77ff3cb6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-08",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Opinión positiva SAT, etapa posterior al fallo",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 49,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:bc2f592a-77e5-4ca2-9987-30eff16af964",
+    "generation_id": "1cc24bbd-3ff6-4ed7-a540-4d33837b4ce2:6bfd9c2ffd2bedecb964640c896a4c1673013b1ee9ce7adc31288faf16a5d1c4",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-09",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Opinión positiva IMSS, etapa posterior al fallo",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 49,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:bc2f592a-77e5-4ca2-9987-30eff16af964",
+    "generation_id": "1cc24bbd-3ff6-4ed7-a540-4d33837b4ce2:6bfd9c2ffd2bedecb964640c896a4c1673013b1ee9ce7adc31288faf16a5d1c4",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-10",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Opinión positiva INFONAVIT, etapa posterior al fallo",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 49,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:bc2f592a-77e5-4ca2-9987-30eff16af964",
+    "generation_id": "1cc24bbd-3ff6-4ed7-a540-4d33837b4ce2:6bfd9c2ffd2bedecb964640c896a4c1673013b1ee9ce7adc31288faf16a5d1c4",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-11",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Fotografías actualizadas fachada/áreas; R25 sí detecta requisito, no Requested Evidence",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 82,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:b6d11640-11d8-45e3-b5bf-5d2d64143524",
+    "generation_id": "1baf440f-d31f-45cb-a8b0-7d1eb84cfcee:0f9772d181b6a6b18bddea61588ada0d7e7c2d2ac4a7f78a7891da1b7531cf47",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-12",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Formato3 declaración CN de bienes, no porcentaje mínimo exigido",
+    "source_document_id": "bef7e0c8-0a3e-46a0-857d-902ded7d1042",
+    "source_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+    "page": 2,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:32949a07-9ba0-403b-9002-5496a8093988",
+    "generation_id": "63f86707-0e3f-42af-8dde-a4e82f97f6c0:2c7df9e71b98bebcad731dcd4cc188f0d03cf01fe8ab6fb54f296da1941b9ce1",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-13",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Cuestionario Anexo3 completo, firmado y escaneado; R02 sólo cubre condición de consorcio",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 78,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:ff3d0168-9baf-4198-807e-35a8921b9211",
+    "generation_id": "0c09e045-1560-4553-b2f1-e7180af8dbdb:85d76a6788a9b831bed131488424e7978d5edce4dd421ffdb7018680e677665d",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-14",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "DA-1 manifiesto de interés por plazo del cronograma",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 8,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:c4d438ab-dc17-466d-8ac0-18339aba4962",
+    "generation_id": "f4a9eb31-3c6d-4acd-80b4-545429f2be06:948dbe8ea3e5f1f8e26fac3ac5c32452ee24e6627459b9955151b7c7fe2e70f9",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-15",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Identificación oficial vigente con fotografía y ambos lados",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 87,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:23a64b26-f527-4a22-bdb3-13eb1c1ecea8",
+    "generation_id": "c27435ed-f54d-44f2-9d36-164fca52cf37:324df7c8ba9d8aa17a80635dcd07859cbaef01862df020c3e31a2fa85b4a161d",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-16",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Primera acta constitutiva y última reforma para persona moral",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 87,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:23a64b26-f527-4a22-bdb3-13eb1c1ecea8",
+    "generation_id": "c27435ed-f54d-44f2-9d36-164fca52cf37:324df7c8ba9d8aa17a80635dcd07859cbaef01862df020c3e31a2fa85b4a161d",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-17",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Poder de representante para firmar contrato, cuando aplique",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 87,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:23a64b26-f527-4a22-bdb3-13eb1c1ecea8",
+    "generation_id": "c27435ed-f54d-44f2-9d36-164fca52cf37:324df7c8ba9d8aa17a80635dcd07859cbaef01862df020c3e31a2fa85b4a161d",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "REQUESTED_EVIDENCE-18",
+    "domain": "REQUESTED_EVIDENCE",
+    "truth": "Constancia situación fiscal, distinta de opinión positiva SAT",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 87,
+    "source_excerpt": null,
+    "excerpt_whitespace_case_match": null,
+    "source_artifact_key": "native-page:23a64b26-f527-4a22-bdb3-13eb1c1ecea8",
+    "generation_id": "c27435ed-f54d-44f2-9d36-164fca52cf37:324df7c8ba9d8aa17a80635dcd07859cbaef01862df020c3e31a2fa85b4a161d",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Prior case provided no literal excerpt; same original hash/page verified; not treated as an independently verified new literal match"
+  },
+  {
+    "case_id": "SCOPE-01",
+    "domain": "SCOPE",
+    "truth": "Suministrar relevador F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 1,
+    "source_excerpt": "F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:4d7153fb-315b-4721-a3d8-e4ccf8a9da57",
+    "generation_id": "ee91d18e-d7ba-49a4-bda0-fb012ac7c022:2a94f5cbedba2bae0f327c511dae8f97ef3c1f138aac642d8beeee0e910d1e95",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 660,
+        "end": 691,
+        "text": "F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "SCOPE-02",
+    "domain": "SCOPE",
+    "truth": "Suministrar relevador L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 1,
+    "source_excerpt": "L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:4d7153fb-315b-4721-a3d8-e4ccf8a9da57",
+    "generation_id": "ee91d18e-d7ba-49a4-bda0-fb012ac7c022:2a94f5cbedba2bae0f327c511dae8f97ef3c1f138aac642d8beeee0e910d1e95",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 824,
+        "end": 863,
+        "text": "L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "SCOPE-03",
+    "domain": "SCOPE",
+    "truth": "Entregar cables de comunicación por puerto",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 2,
+    "source_excerpt": "Deberá entregarse 2 juegos de cables de comunicación de cada puerto con que cuente el\nrelevador",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:efe85d87-f5df-4692-9803-6d026a08de99",
+    "generation_id": "6d84fc65-70ee-4f30-b58a-ab037310acb7:efd9f9a8f0d6be41e8106e7003f202c5379057bf5557d5fdc0a5809cb29ea197",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 462,
+        "end": 557,
+        "text": "Deberá entregarse 2 juegos de cables de comunicación de cada puerto con que cuente el\nrelevador",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "SCOPE-04",
+    "domain": "SCOPE",
+    "truth": "Entregar software de configuración/comunicación enUSB",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 2,
+    "source_excerpt": "deberá entregar el software de libre licencia en usb para\nwindows 10 para la comunicación y configuración del relevador.",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:efe85d87-f5df-4692-9803-6d026a08de99",
+    "generation_id": "6d84fc65-70ee-4f30-b58a-ab037310acb7:efd9f9a8f0d6be41e8106e7003f202c5379057bf5557d5fdc0a5809cb29ea197",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 574,
+        "end": 694,
+        "text": "deberá entregar el software de libre licencia en usb para\nwindows 10 para la comunicación y configuración del relevador.",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "SCOPE-05",
+    "domain": "SCOPE",
+    "truth": "Embalaje con espuma, protecciónESD y humedad",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 2,
+    "source_excerpt": "hule espuma o material similar",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:efe85d87-f5df-4692-9803-6d026a08de99",
+    "generation_id": "6d84fc65-70ee-4f30-b58a-ab037310acb7:efd9f9a8f0d6be41e8106e7003f202c5379057bf5557d5fdc0a5809cb29ea197",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 391,
+        "end": 421,
+        "text": "hule espuma o material similar",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      },
+      {
+        "start": 728,
+        "end": 752,
+        "text": "bolsa antiestática (ESD)",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      },
+      {
+        "start": 854,
+        "end": 879,
+        "text": "protección contra humedad",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "SCOPE-06",
+    "domain": "SCOPE",
+    "truth": "Marcado con centro de trabajo/número de contrato",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": "entregará cada uno de los bienes\ngrabados o marcados con los siguientes datos:",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 1568,
+        "end": 1646,
+        "text": "entregará cada uno de los bienes\ngrabados o marcados con los siguientes datos:",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      },
+      {
+        "start": 1714,
+        "end": 1732,
+        "text": "Número de contrato",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "SCOPE-07",
+    "domain": "SCOPE",
+    "truth": "Coordinación de recepción mediante aviso anticipado",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": "Informar a Pemex la fecha y hora estimada de entrega con 48 horas de anticipación",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 1382,
+        "end": 1463,
+        "text": "Informar a Pemex la fecha y hora estimada de entrega con 48 horas de anticipación",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "SCOPE-08",
+    "domain": "SCOPE",
+    "truth": "Documentación acompañante de entrega: carta, nota, fichas, contrato",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": "la documentación mínima con la que acompañará las entregas\nde los bienes será la siguiente:",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 2254,
+        "end": 2345,
+        "text": "la documentación mínima con la que acompañará las entregas\nde los bienes será la siguiente:",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      },
+      {
+        "start": 2351,
+        "end": 2380,
+        "text": "Carta original del fabricante",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "ATTRIBUTES-01",
+    "domain": "ATTRIBUTES",
+    "truth": "Marca/fabricante GE MULTILIN",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 1,
+    "source_excerpt": "FABRICANTE/MARCA: GE MULTILIN",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:4d7153fb-315b-4721-a3d8-e4ccf8a9da57",
+    "generation_id": "ee91d18e-d7ba-49a4-bda0-fb012ac7c022:2a94f5cbedba2bae0f327c511dae8f97ef3c1f138aac642d8beeee0e910d1e95",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 715,
+        "end": 744,
+        "text": "FABRICANTE/MARCA: GE MULTILIN",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "ATTRIBUTES-02",
+    "domain": "ATTRIBUTES",
+    "truth": "Modelo F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 1,
+    "source_excerpt": "F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:4d7153fb-315b-4721-a3d8-e4ccf8a9da57",
+    "generation_id": "ee91d18e-d7ba-49a4-bda0-fb012ac7c022:2a94f5cbedba2bae0f327c511dae8f97ef3c1f138aac642d8beeee0e910d1e95",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 660,
+        "end": 691,
+        "text": "F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "ATTRIBUTES-03",
+    "domain": "ATTRIBUTES",
+    "truth": "Modelo L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 1,
+    "source_excerpt": "L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:4d7153fb-315b-4721-a3d8-e4ccf8a9da57",
+    "generation_id": "ee91d18e-d7ba-49a4-bda0-fb012ac7c022:2a94f5cbedba2bae0f327c511dae8f97ef3c1f138aac642d8beeee0e910d1e95",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 824,
+        "end": 863,
+        "text": "L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "ATTRIBUTES-04",
+    "domain": "ATTRIBUTES",
+    "truth": "Compatibilidad del software con Windows10",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 2,
+    "source_excerpt": "windows 10",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:efe85d87-f5df-4692-9803-6d026a08de99",
+    "generation_id": "6d84fc65-70ee-4f30-b58a-ab037310acb7:efd9f9a8f0d6be41e8106e7003f202c5379057bf5557d5fdc0a5809cb29ea197",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 632,
+        "end": 642,
+        "text": "windows 10",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "ATTRIBUTES-05",
+    "domain": "ATTRIBUTES",
+    "truth": "Norma IEC60255-1:2022, cláusula8",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 1,
+    "source_excerpt": "IEC 60255-1:2022",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:4d7153fb-315b-4721-a3d8-e4ccf8a9da57",
+    "generation_id": "ee91d18e-d7ba-49a4-bda0-fb012ac7c022:2a94f5cbedba2bae0f327c511dae8f97ef3c1f138aac642d8beeee0e910d1e95",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 1880,
+        "end": 1896,
+        "text": "IEC 60255-1:2022",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      },
+      {
+        "start": 1897,
+        "end": 1941,
+        "text": "Cláusula 8: Marking, labelling and packaging",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "ATTRIBUTES-06",
+    "domain": "ATTRIBUTES",
+    "truth": "Protección antiestáticaESD",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 2,
+    "source_excerpt": "bolsa antiestática (ESD)",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:efe85d87-f5df-4692-9803-6d026a08de99",
+    "generation_id": "6d84fc65-70ee-4f30-b58a-ab037310acb7:efd9f9a8f0d6be41e8106e7003f202c5379057bf5557d5fdc0a5809cb29ea197",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 728,
+        "end": 752,
+        "text": "bolsa antiestática (ESD)",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "ATTRIBUTES-07",
+    "domain": "ATTRIBUTES",
+    "truth": "Dimensión mínima de marcado10mm",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 3,
+    "source_excerpt": "tamaño de letra de 10 milímetros como\nmínimo",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "generation_id": "2eb44703-8b6c-4fcc-b4e1-e46bfb78f68b:7526b6249a0c21204fd98559cf09ff409f14a9fa57f53c601a432711868026d6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 1781,
+        "end": 1825,
+        "text": "tamaño de letra de 10 milímetros como\nmínimo",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "ATTRIBUTES-08",
+    "domain": "ATTRIBUTES",
+    "truth": "Plazo de entrega60 días naturales desde formalización",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 15,
+    "source_excerpt": "El plazo de entrega de los bienes es de 60 (sesenta) días naturales, contados a partir de la fecha de la formalización\ndel contrato.",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:e9a7fce4-2caf-4f56-90a5-7e9c86bd59c8",
+    "generation_id": "1050e6e7-8f13-48fc-bb3c-f8e41c3d48ad:9c5072889318b694fb78b8aa14126d24ababe8bd679f8b54a9898379bea2b2e2",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 635,
+        "end": 767,
+        "text": "El plazo de entrega de los bienes es de 60 (sesenta) días naturales, contados a partir de la fecha de la formalización\ndel contrato.",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": false,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "ATTRIBUTES-09",
+    "domain": "ATTRIBUTES",
+    "truth": "Precios fijos",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 15,
+    "source_excerpt": "Los precios serán fijos.",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:e9a7fce4-2caf-4f56-90a5-7e9c86bd59c8",
+    "generation_id": "1050e6e7-8f13-48fc-bb3c-f8e41c3d48ad:9c5072889318b694fb78b8aa14126d24ababe8bd679f8b54a9898379bea2b2e2",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 1926,
+        "end": 1950,
+        "text": "Los precios serán fijos.",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": false,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "ATTRIBUTES-10",
+    "domain": "ATTRIBUTES",
+    "truth": "Moneda permitida MXN o USD",
+    "source_document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+    "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 16,
+    "source_excerpt": "Las monedas en que se podrá cotizar son: Pesos Mexicanos o Dólares de Estados Unidos de América",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:d48ffda0-f6d4-4955-b5c3-6e5d1c9ceb4f",
+    "generation_id": "d045acb3-5d75-4e20-a0d5-355c3b3cc0d8:f2d39e604dd790d5df391edad5f0563bce654f38488668afa1614d20df2ec39d",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 244,
+        "end": 339,
+        "text": "Las monedas en que se podrá cotizar son: Pesos Mexicanos o Dólares de Estados Unidos de América",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": false,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "QUANTITIES-01",
+    "domain": "QUANTITIES",
+    "truth": "1 PZA de modelo F60; confirmación visual independiente D02p1",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 1,
+    "source_excerpt": "F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:4d7153fb-315b-4721-a3d8-e4ccf8a9da57",
+    "generation_id": "ee91d18e-d7ba-49a4-bda0-fb012ac7c022:2a94f5cbedba2bae0f327c511dae8f97ef3c1f138aac642d8beeee0e910d1e95",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 660,
+        "end": 691,
+        "text": "F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      },
+      {
+        "start": 794,
+        "end": 799,
+        "text": "PZA\n1",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "QUANTITIES-02",
+    "domain": "QUANTITIES",
+    "truth": "2 PZA de modelo L90; confirmación visual independiente D02p1",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 1,
+    "source_excerpt": "L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:4d7153fb-315b-4721-a3d8-e4ccf8a9da57",
+    "generation_id": "ee91d18e-d7ba-49a4-bda0-fb012ac7c022:2a94f5cbedba2bae0f327c511dae8f97ef3c1f138aac642d8beeee0e910d1e95",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 824,
+        "end": 863,
+        "text": "L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      },
+      {
+        "start": 968,
+        "end": 973,
+        "text": "PZA\n2",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "QUANTITIES-03",
+    "domain": "QUANTITIES",
+    "truth": "2 juegos de cables de comunicación de cada puerto; no inferir número de puertos ni total de cables",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 2,
+    "source_excerpt": "Deberá entregarse 2 juegos de cables de comunicación de cada puerto con que cuente el\nrelevador",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:efe85d87-f5df-4692-9803-6d026a08de99",
+    "generation_id": "6d84fc65-70ee-4f30-b58a-ab037310acb7:efd9f9a8f0d6be41e8106e7003f202c5379057bf5557d5fdc0a5809cb29ea197",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 462,
+        "end": 557,
+        "text": "Deberá entregarse 2 juegos de cables de comunicación de cada puerto con que cuente el\nrelevador",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "QUANTITIES-04",
+    "domain": "QUANTITIES",
+    "truth": "2 juegos de contrato impreso; son documentación, no dos relevadores adicionales",
+    "source_document_id": "b6566f40-0272-43b2-b53d-b380abfebfe9",
+    "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 4,
+    "source_excerpt": "3.4 Contrato impreso (2 juegos).",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "native-page:a58e7383-a2f0-4e31-afe9-461642aaf906",
+    "generation_id": "111268ad-0473-4add-9884-1ecafa2f286c:e771b86d8a8869c2260dc8dc25411217cad40a7938b03faadd6ea80d77ff3cb6",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "verified_literal_fragments": [
+      {
+        "start": 1604,
+        "end": 1636,
+        "text": "3.4 Contrato impreso (2 juegos).",
+        "offset_space": "FROZEN_NATIVE_TRANSCRIPTION"
+      }
+    ],
+    "visual_source_reviewed": true,
+    "relation_authority": "Directed semantic review; not an automatically created production IR relation"
+  },
+  {
+    "case_id": "REQUIREMENTS-20",
+    "domain": "REQUIREMENTS",
+    "truth": "Formatos6y7 sí aplican y deben entregarse5 días hábiles posteriores a la entrega del requerimiento",
+    "source_document_id": "0983e259-d81c-4fb0-aec6-8b269090247a",
+    "source_sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+    "page": 1,
+    "source_excerpt": "Si aplica y se debe entregar 5 días hábiles\nposteriores a la entrega del\n\nrequerimiento",
+    "excerpt_whitespace_case_match": true,
+    "source_artifact_key": "ocr-result:32cf00ba-4ca3-442e-b8eb-d2664f56193a",
+    "generation_id": "3bfd8f0a-d697-415f-8845-d4a13c8c951c:3fe6acfbde4e2041e45785ca67bb2648415a12c83ee9161df55779ff7fafb766",
+    "assessment": "MISSING",
+    "authority": "User-directed lower bound; prior artifacts proposed/not human-approved; reused only after identity verification",
+    "provenance_note": "Plazo y fila contrastados visualmente con SSPA original; no nueva obligación canónica.",
+    "source_method": "OCR",
+    "verified_literal_fragments": [
+      {
+        "start": 1209,
+        "end": 1296,
+        "text": "Si aplica y se debe entregar 5 días hábiles\nposteriores a la entrega del\n\nrequerimiento",
+        "offset_space": "FROZEN_OCR_TRANSCRIPTION"
+      }
+    ]
+  }
+]

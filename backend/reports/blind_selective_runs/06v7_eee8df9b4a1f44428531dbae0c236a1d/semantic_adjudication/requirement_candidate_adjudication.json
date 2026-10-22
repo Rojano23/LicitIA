@@ -1,0 +1,527 @@
+{
+  "summary": {
+    "linked_occurrences": 37,
+    "unique_candidates_linked": 37,
+    "unlinked_candidates": [
+      "a629c444-96f0-49cf-a74f-351a5e9ed4a5",
+      "78988f66-4ea5-422a-9a3f-6a51c44217ba",
+      "e3d91394-a197-4b94-8308-cac0e4665b04",
+      "b7ce9eba-2c0e-467c-85a6-5605e990df38",
+      "77bdb508-598e-42bf-9e5b-0cf5af3928c4",
+      "459ba6fc-5703-49f4-98dd-5da0fad4c05d"
+    ],
+    "class_counts": {
+      "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT": 9,
+      "SUPPORTED_WITH_DEFECT": 13,
+      "SUPPORTED_REQUIREMENT": 15
+    },
+    "primary_occurrence_change": [
+      {
+        "id": "26986b03-139a-4a37-816b-a8a013c4021b",
+        "page": 41,
+        "score": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          88,
+          "26986b03-139a-4a37-816b-a8a013c4021b"
+        ],
+        "is_primary": false
+      },
+      {
+        "id": "b1c3c644-0563-4981-a24f-abb24e808a04",
+        "page": 89,
+        "score": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          88,
+          "b1c3c644-0563-4981-a24f-abb24e808a04"
+        ],
+        "is_primary": true
+      }
+    ],
+    "method": "Semantic class of normalized group inherited after exact candidate-set/source comparison; duplicated occurrences are not independent obligations",
+    "all_candidate_occurrences_adjudicated": 43,
+    "unlinked_source_defect_occurrences": 6
+  },
+  "records": [
+    {
+      "candidate_id": "68ab8f9a-7607-4126-b336-b264d82ea2bd",
+      "requirement_id": "2d7e1dbf-f608-47eb-8ce5-cb6603b60157",
+      "requirement_label": "R21",
+      "inherited_semantic_class": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 21,
+      "primary": true,
+      "text": "1, 2 y 3, y en el acta respectiva deberá hacer constar al menos, el nombre de los PARTICIPANTES que hayan presentado PROPUESTAS, la relación de documentos presentados, verificando que sean todos y cada uno de los solicitados en las Bases de Contratación Versión Final, haciendo constar la recepción o no de los mismos y en la apertura de las propuestas económicas, se asentará el nombre de los PARTICIPANTES cuya oferta económica haya sido abierta sin que se dé a conocer en este evento los importes de éstas.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "a54674c7-cf5e-4912-8ba5-527cd8e4e935",
+      "requirement_id": "2efffcfc-d20d-405b-8652-72bdec28bbe8",
+      "requirement_label": "R17",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 19,
+      "primary": true,
+      "text": "9.2 La PROPUESTA del PARTICIPANTE se presentará a través del SISCEP en dos sobres electrónicos por separado y un sobre electrónico con la documentación de la DD de la manera siguiente:",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "107f3890-abbd-4636-8653-bed0eae15b76",
+      "requirement_id": "e8d4be46-b62f-49e5-9069-a5fb2b6d956c",
+      "requirement_label": "R28",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+      "page": 3,
+      "primary": true,
+      "text": "2.3. La propuesta técnica, fichas técnicas, catálogos, dibujos o boletines técnicos y demás documentación que forma parte de su propuesta deberán estar en idioma español en caso de que los documentos adjuntos, tales como folletos, fichas técnicas u hojas de datos estén en otro",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "83cc5508-a7d3-4293-8ca4-122f02475806",
+      "requirement_id": "81a9a071-824c-4ff3-92f7-7dfe550daa7d",
+      "requirement_label": "R23",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 100,
+      "primary": true,
+      "text": "a. Se procederá a una ronda vía SISCEP en la cual deberán de mejorar su(s) precio(s) unitario(s) y/o importe(s) y se adjudicará a la PROPUESTA con precio(s) unitario(s) y/o importe(s) más bajos.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "28076f70-40a3-4fed-a234-025170c313ae",
+      "requirement_id": "7bf72db3-8de1-4578-80a3-0513dc90b8cf",
+      "requirement_label": "R08",
+      "inherited_semantic_class": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 97,
+      "primary": true,
+      "text": "c. Si solo se tiene un PARTICIPANTE solvente, la CONVOCANTE podrá determinar el PMR considerando el precio unitario de la única propuesta solvente, y posterior al Evento de Presentación y Apertura de Propuestas Económicas con Descuento, deberá proceder conforme a la regla 30. Negociación de la",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "68e4ce81-7a5b-4f5c-a217-cb5b8d649b1b",
+      "requirement_id": "564e31a5-2beb-4fd0-ab89-2d9cf8e000fe",
+      "requirement_label": "R24",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 93,
+      "primary": true,
+      "text": "deberá estar firmada autógrafamente por la persona que el participante manifiesta que está facultada para ello conforme a lo indicado Documento DA-3, al menos en la última hoja del documento que la contenga.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "c2593f4c-ec0d-4148-ba01-a15527a371b7",
+      "requirement_id": "a3d0b059-e4ab-4bba-a91e-8183adb454aa",
+      "requirement_label": "R05",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 50,
+      "primary": true,
+      "text": "DEBERÁN PRESENTAR EL PRESENTE DOCUMENTO COMO PARTE DE LA PROPUESTA.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "c6a3c5b5-aebf-4cfd-b9e9-f1321eb72c8f",
+      "requirement_id": "0f411358-6902-4f39-aeb3-d711a3ba1446",
+      "requirement_label": "R25",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 82,
+      "primary": true,
+      "text": "Deberán remitirse fotografías actualizadas de la fachada, así como de las áreas operativas, administrativas, bodegas, almacenes, patios, parque vehicular y demás instalaciones que permitan acreditar, de manera objetiva, la capacidad del participante para atender los trabajos, servicios o actividades objeto del presente procedimiento de contratación",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "8e5ffb53-8b2f-46a2-9f5e-a98697d183e8",
+      "requirement_id": "607c1ce9-e2da-43f8-bc28-66dc2e0fdda3",
+      "requirement_label": "R13",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 19,
+      "primary": true,
+      "text": "El PARTICIPANTE deberá integrar dentro del SOBRE ELECTRÓNICO 1 su Propuesta Comercial, consistente en la documentación legal/administrativa, debidamente separada e identificada en archivos legibles de formato electrónico PDF y/o en formato comprimido ZIP (cuando el PARTICIPANTE opte por mandar la propuesta comprimida), con un tamaño máximo de 100 MB cada archivo y conteniendo los documentos solicitados, en el Documento D-1 de las Bases de Contratación Versión Final.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "6cbaa331-a9ce-4639-87cf-6a1e63a48cf7",
+      "requirement_id": "6d1a3935-6c3b-4186-bde4-055789e4f03b",
+      "requirement_label": "R14",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 19,
+      "primary": true,
+      "text": "El PARTICIPANTE deberá integrar dentro del SOBRE ELECTRÓNICO 1 su Propuesta Técnica debidamente separada e identificada en archivos legibles de formato electrónico PDF y/o en formato comprimido ZIP (cuando el PARTICIPANTE opte por mandar la propuesta comprimida), con un tamaño máximo de 100 MB cada archivo y conteniendo los documentos solicitados en el Documento D-3 de las Bases de Contratación Versión Final.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "35d3aa25-510e-4dd7-b544-540daef164a2",
+      "requirement_id": "3012817c-3899-4816-af3b-443f8560e218",
+      "requirement_label": "R31",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 19,
+      "primary": true,
+      "text": "El PARTICIPANTE deberá integrar dentro del SOBRE ELECTRÓNICO 2 su Propuesta Económica debidamente separada e identificada en archivos legibles de formato electrónico PDF y/o en formato comprimido ZIP (cuando el PARTICIPANTE opte por mandar la propuesta comprimida), con un tamaño máximo de 100 MB cada archivo y conteniendo los documentos solicitados en el Documento D-4 de las Bases de Contratación Versión Final.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "6bcb83dd-74e9-4c64-9a0d-65be4a7e5cd2",
+      "requirement_id": "515a302d-68ad-4549-ad64-461eb3df1b88",
+      "requirement_label": "R22",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 20,
+      "primary": true,
+      "text": "El PARTICIPANTE deberá integrar dentro del SOBRE ELECTRÓNICO 3 su documentación de DD debidamente separada e identificada en archivos legibles de formato electrónico PDF y/o en formato comprimido ZIP (cuando el PARTICIPANTE opte por mandar la propuesta comprimida), con un tamaño máximo de 100 MB cada archivo y conteniendo los documentos solicitados en el Anexo DD de las Bases de Contratación Versión Final.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "8c13382a-ca8f-4c13-b4c1-932394fd7198",
+      "requirement_id": "c5235a21-756d-4b01-b596-5eb93266dd9e",
+      "requirement_label": "R19",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 9,
+      "primary": true,
+      "text": "2) En caso de no coincidir dicha información, la CONVOCANTE vía correo electrónico le indicará la discrepancia entre el SISCEP y el Documento DA-1, para que el INTERESADO en participar gestione la modificación ya sea en el Documento DA-1 o en el SISCEP, precisando que en caso de haber corregido información contenida en el Documento DA-1 enviado originalmente, deberá enviarlo nuevamente con la información correcta al correo mencionado en el párrafo anterior;",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "00971edd-e294-4fa3-af01-97d5a82b162b",
+      "requirement_id": "c5b6fa57-6931-43e3-babf-175ba2060395",
+      "requirement_label": "R03",
+      "inherited_semantic_class": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "source_sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+      "page": 15,
+      "primary": true,
+      "text": "EN EL CASO EN QUE EL CONTRATO SEA CELEBRADO CON UN CONSORCIO SE DEBERÁ AGREGAR: Los Bienes que entregará cada parte del Consorcio están estipulados en el Anexo “____” denominado Convenio Privado de Propuesta Conjunta del Consorcio.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "6174eaf9-e700-43a9-9c53-e55ae95d9208",
+      "requirement_id": "7ea77975-e8c1-4516-bee5-1a46ce5d12f0",
+      "requirement_label": "R01",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+      "page": 1,
+      "primary": true,
+      "text": "Este Anexo aplica en procedimientos de contratación en los que NO se exige cumplir con un porcentaje de contenido nacional, pero sí se requiere que el Participante/Contratista/Proveedor presente declaraciones periódicas de contenido nacional que cumplan con los requerimientos de la Secretaría de Economía. Anexo CN",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "16ded9a3-a35a-4ace-9c70-e0e156f504fd",
+      "requirement_id": "7ea77975-e8c1-4516-bee5-1a46ce5d12f0",
+      "requirement_label": "R01",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+      "page": 6,
+      "primary": false,
+      "text": "Este Anexo aplica en procedimientos de contratación en los que NO se exige cumplir con un porcentaje de contenido nacional, pero sí se requiere que el Participante/Contratista/Proveedor presente declaraciones periódicas de contenido nacional que cumplan con los requerimientos de la Secretaría de Economía.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "f418cded-8d62-4c2b-9165-1b049fcc463f",
+      "requirement_id": "7ea77975-e8c1-4516-bee5-1a46ce5d12f0",
+      "requirement_label": "R01",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+      "page": 8,
+      "primary": false,
+      "text": "Este Anexo aplica en procedimientos de contratación en los que NO se exige cumplir con un porcentaje de contenido nacional, pero sí se requiere que el Participante/Contratista/Proveedor presente declaraciones periódicas de contenido nacional que cumplan con los requerimientos de la Secretaría de Economía.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "c174806d-bca6-4dc8-aefd-4e654cfe1307",
+      "requirement_id": "7ea77975-e8c1-4516-bee5-1a46ce5d12f0",
+      "requirement_label": "R01",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+      "page": 9,
+      "primary": false,
+      "text": "Este Anexo aplica en procedimientos de contratación en los que NO se exige cumplir con un porcentaje de contenido nacional, pero sí se requiere que el Participante/Contratista/Proveedor presente declaraciones periódicas de contenido nacional que cumplan con los requerimientos de la Secretaría de Economía.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "da7a04ac-a028-4b6c-a8cf-3835169b5f44",
+      "requirement_id": "7ea77975-e8c1-4516-bee5-1a46ce5d12f0",
+      "requirement_label": "R01",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+      "page": 10,
+      "primary": false,
+      "text": "Este Anexo aplica en procedimientos de contratación en los que NO se exige cumplir con un porcentaje de contenido nacional, pero sí se requiere que el Participante/Contratista/Proveedor presente declaraciones periódicas de contenido nacional que cumplan con los requerimientos de la Secretaría de Economía.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "571797ef-147f-44a7-9439-24d82cba97a6",
+      "requirement_id": "7ea77975-e8c1-4516-bee5-1a46ce5d12f0",
+      "requirement_label": "R01",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+      "page": 11,
+      "primary": false,
+      "text": "Este Anexo aplica en procedimientos de contratación en los que NO se exige cumplir con un porcentaje de contenido nacional, pero sí se requiere que el Participante/Contratista/Proveedor presente declaraciones periódicas de contenido nacional que cumplan con los requerimientos de la Secretaría de Economía.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "d58dcc23-3b1c-46b4-a6c9-0d9bd58744b5",
+      "requirement_id": "d5e65c19-a066-4f4d-aed8-e6ac244943c1",
+      "requirement_label": "R10",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 9,
+      "primary": true,
+      "text": "Forma de participación Sección I “REQUISITOS GENERALES PARA PARTICIPACION”, de las presentes Bases de Contratación, deberá manifestar su voluntad al seleccionar la opción “Acuerdo de Participante”, lo que permitirá al INTERESADO reconocer como propia y auténtica la información y documentación que envíe a través de SISCEP, por lo que la información y documentación relacionada con los eventos del procedimiento de contratación registrados en el SISCEP se considerarán como originales.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "26986b03-139a-4a37-816b-a8a013c4021b",
+      "requirement_id": "ea7494f0-f399-4218-8412-1c0d7c045e13",
+      "requirement_label": "R04",
+      "inherited_semantic_class": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 41,
+      "primary": false,
+      "text": "LA FALTA DE PRESENTACIÓN DE ESTE ESCRITO NO SERÁ CAUSA DE DESECHAMIENTO DE LA PROPUESTA.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "b1c3c644-0563-4981-a24f-abb24e808a04",
+      "requirement_id": "ea7494f0-f399-4218-8412-1c0d7c045e13",
+      "requirement_label": "R04",
+      "inherited_semantic_class": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 89,
+      "primary": true,
+      "text": "La falta de presentación de este escrito no será causa de desechamiento de la propuesta.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "afa66ffa-6a64-45f0-9874-18197a3e3d70",
+      "requirement_id": "e22d8ff6-5000-44d2-92dc-61efd8da3153",
+      "requirement_label": "R29",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 94,
+      "primary": true,
+      "text": "La propuesta deberá ser clara, precisa y congruente con los anexos técnicos y documentación soporte, que en su caso incluyan en el Documento DT-9 (Propuesta Técnica).",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "1d3fdcb2-4833-4912-93a5-aa97ad98733b",
+      "requirement_id": "fd0a1845-3d58-4676-a9e9-5d495bd1bff4",
+      "requirement_label": "R06",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 18,
+      "primary": true,
+      "text": "La Versión Final de las Bases de Contratación o aquellos documentos que las modifiquen, deberán ser considerados por el INTERESADO para la elaboración de su PROPUESTA, ya que la evaluación de las mismas se realizará considerando dichas modificaciones.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "2b30d58e-e754-4e87-a374-d9baed0af534",
+      "requirement_id": "9c9ce477-3df3-44f9-85fb-07540ac95fec",
+      "requirement_label": "R26",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 96,
+      "primary": true,
+      "text": "Las operaciones o cálculos aritméticos se deberán realizar correctamente, en caso de que en el Anexo DE-1 de la(s) PROPUESTA(S) alguna operación o calculo aritmético, presente un ERROR ARITMÉTICO y por ende, su resultado sea equivocado, la CONVOCANTE podrá efectuar las correcciones correspondientes, efectuando adecuadamente la operación o calculo aritmético erróneamente realizado, sin modificar los precios unitarios.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "2138615a-1268-4ea1-ad11-fa1302de86f2",
+      "requirement_id": "ab2e1eab-c49c-40af-a8fa-995ed69b62cf",
+      "requirement_label": "R12",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 19,
+      "primary": true,
+      "text": "Las PROPUESTAS en la última hoja deberán ser firmadas por la persona facultada (Representante Legal / Administrador Único / Apoderado o el representante común del consorcio en su caso), donde se solicite ésta.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "eff12393-f879-497f-a513-d7e3e8eeaf0d",
+      "requirement_id": "3f6ef6da-b77a-468e-9503-9ec0ac685b0a",
+      "requirement_label": "R02",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 78,
+      "primary": true,
+      "text": "NOTA: EN CASO DE PROPUESTA CONJUNTA (CONSORCIO) EL ANEXO 3 DEBERÁ ENTREGARSE DEBIDAMENTE REQUISITADO POR CADA UNA DE LAS PERSONAS FÍSICAS O MORALES QUE FORMAN EL CONSORCIO.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "17949db4-7feb-4e5f-8a4f-6f8df3d52458",
+      "requirement_id": "3d6a1e72-8d2a-4d5e-8923-63c92a7bff4e",
+      "requirement_label": "R09",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 72,
+      "primary": true,
+      "text": "NOTA: EN CASO DE PROPUESTA CONJUNTA (CONSORCIO) EL PRESENTE DOCUMENTO DEBERÁ ENTREGARSE DEBIDAMENTE REQUISITADO POR CADA UNA DE LAS PERSONAS QUE FORMAN EL CONSORCIO.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "e6716cf3-8f24-416f-a291-9f5eaf2253ee",
+      "requirement_id": "5148d231-040f-4848-aeda-2763913b286e",
+      "requirement_label": "R30",
+      "inherited_semantic_class": "SUPPORTED_WITH_DEFECT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 50,
+      "primary": true,
+      "text": "NOTA: PARA EL CASO DE CONSORCIOS, CADA UNO DE LOS INTEGRANTES DEL CONSORCIO PARTICIPEN CONJUNTAMENTE, DEBERÁN ANEXAR EL CERTIFICADO VIGENTE EMITIDO POR EL A.C.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "696a88dc-f4a2-49c4-a360-24e8ff3b19f6",
+      "requirement_id": "d892b7a7-821c-48d6-b85a-44c4a89847ec",
+      "requirement_label": "R18",
+      "inherited_semantic_class": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+      "page": 2,
+      "primary": true,
+      "text": "2. Otros requisitos que deberá incluir o indicar el participante como parte de su propuesta:",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "72f118fd-2cb4-446d-8edd-ac5195854214",
+      "requirement_id": "000a38ef-1bbd-4f27-b3bf-3e4e4e6237b8",
+      "requirement_label": "R16",
+      "inherited_semantic_class": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "source_sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+      "page": 54,
+      "primary": true,
+      "text": "PARA DETERMINAR EL IMPORTE EQUIVALENTE EN PESOS, DEL MONTO COTIZADO EN OTRA DIVISA, SE DEBERÁ UTILIZAR EL TIPO DE CAMBIO VIGENTE PARA SOLVENTAR OBLIGACIONES DENOMINADAS EN MONEDA EXTRANJERA, PAGADERAS EN LA REPÚBLICA MEXICANA, QUE EL BANCO DE MÉXICO DETERMINE Y PUBLIQUE EN EL DIARIO OFICIAL DE LA FEDERACIÓN EN LA FECHA DEL ACTO DE PRESENTACIÓN Y APERTURA DE PROPOSICIONES.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "e62dcfbd-8659-437e-9138-f09b8eeb528e",
+      "requirement_id": "16c89c2f-a9d9-46f0-b1fb-98049ef5f8c0",
+      "requirement_label": "R07",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 9,
+      "primary": true,
+      "text": "3) Para el caso de empresas que hayan tramitado por primera vez su RI/RC en la HIIP, una vez que el usuario de contacto de empresa del INTERESADO reciba la COMUNICACIÓN DE INCORPORACIÓN al procedimiento, deberá ingresar a la liga proporcionada por SISCEP y generar por única vez su CUENTA DE USUARIO y su CONTRASEÑA, e iniciar su participación.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "45db6edd-4a1c-485e-854d-62a06ac00b08",
+      "requirement_id": "0babcc11-3ed8-4cef-9eb5-181c83cb3007",
+      "requirement_label": "R27",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 9,
+      "primary": true,
+      "text": "4) Para el caso de empresas que su RI/RC en la HIIP esté vigente o en proceso de actualización o en renovación, una vez que el usuario de contacto de empresa del INTERESADO reciba la COMUNICACIÓN DE INCORPORACIÓN al procedimiento, deberá ingresar a la liga proporcionada por SISCEP, con la misma CUENTA DE USUARIO y su CONTRASEÑA que ya haya utilizado en algún procedimiento electrónico anterior.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "fd538fc6-470b-4044-89cf-bcef4e9a7529",
+      "requirement_id": "8fd41f11-fde6-46ba-936e-c2032edad2fe",
+      "requirement_label": "R15",
+      "inherited_semantic_class": "SUPPORTED_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 87,
+      "primary": true,
+      "text": "• Presentar el Documento DA-3 en hoja membretada del participante con toda la información requerida y firmado por la persona física o Representante Legal / Administrador Único / Apoderado de la empresa que participa.",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "183d8dd5-7851-48b7-b864-4ad583989a31",
+      "requirement_id": "9ba61d9f-14bd-4d86-b855-b199a07bf514",
+      "requirement_label": "R11",
+      "inherited_semantic_class": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 18,
+      "primary": true,
+      "text": "Si el INTERESADO tiene dudas sobre el funcionamiento del sistema SISCEP, deberá comunicarse a la mesa de ayuda de SISCEP en el correo electrónico siscep@pemex.com y al teléfono 55 1944-2500, ext.- 49-110 o 800 802 (3672).",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "e9bc6597-bf22-4075-8a17-00268dc15639",
+      "requirement_id": "30a007e9-143a-4fda-b578-1cf869e5279b",
+      "requirement_label": "R20",
+      "inherited_semantic_class": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "source_sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+      "page": 15,
+      "primary": true,
+      "text": "TRATÁNDOSE DE ACUERDOS REFERENCIALES/ CONTRATOS PREPARATORIOS/ NUEVOS MODELOS DE ABASTECIMIENTO SE DEBERÁN ESPECIFICAR LOS BIENES QUE ENTREGARÁ CADA PARTE DEL CONSORCIO",
+      "review_status": "SUGGESTED"
+    },
+    {
+      "candidate_id": "459ba6fc-5703-49f4-98dd-5da0fad4c05d",
+      "requirement_id": null,
+      "source_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+      "page": 1,
+      "text": "1. El participante deberá cumplir e incluir en su propuesta técnica las siguientes especificaciones técnicas y alcances: Especificaciones técnicas de los productos y cantidades requeridas:",
+      "classification": "CONTEXT_HEADING_WITH_SOURCE_DEFECT",
+      "assessment": "El excerpt elimina 1.1.; encabezado general, no especificación individualizada.",
+      "canonical_perception_active": false,
+      "normalized_output": false
+    },
+    {
+      "candidate_id": "77bdb508-598e-42bf-9e5b-0cf5af3928c4",
+      "requirement_id": null,
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 94,
+      "text": "Anexar el Documento DT-9 con los siguientes requisitos: ➢ Que se indique el número y descripciones del total de las partidas, cantidad por ejercicio fiscal y su Unidad de Medida, ajustándose a lo indicado en el Anexo “C” Catálogo de Conceptos o Bienes y que esté debidamente firmado representante legal del participante.",
+      "classification": "SUPPORTED_WITH_SOURCE_DEFECT",
+      "assessment": "Omitió por el en la firma del representante; obligación real pero excerpt no literal.",
+      "canonical_perception_active": false,
+      "normalized_output": false
+    },
+    {
+      "candidate_id": "78988f66-4ea5-422a-9a3f-6a51c44217ba",
+      "requirement_id": null,
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 54,
+      "text": "NOTA: EN CASO DE PROPUESTA CONJUNTA (CONSORCIO) EL PRESENTE DOCUMENTO DEBERÁ ENTREGARSE DEBIDAMENTE REQUISITADO POR CADA UNA DE LAS PERSONAS QUE FORMAN EL CONSORCIO.",
+      "classification": "SUPPORTED_WITH_SOURCE_DEFECT",
+      "assessment": "Eliminó guion de viñeta; cláusula condicional de consorcio repetida, no nueva obligación independiente.",
+      "canonical_perception_active": false,
+      "normalized_output": false
+    },
+    {
+      "candidate_id": "a629c444-96f0-49cf-a74f-351a5e9ed4a5",
+      "requirement_id": null,
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 49,
+      "text": "NOTA: LAS CONSTANCIAS DEBERÁN SER EMITIDAS A NOMBRE DEL PARTICIPANTE;",
+      "classification": "SUPPORTED_WITH_SOURCE_DEFECT",
+      "assessment": "Eliminó viñeta entre NOTA y LAS CONSTANCIAS; fuente material, excluida por provenance.",
+      "canonical_perception_active": false,
+      "normalized_output": false
+    },
+    {
+      "candidate_id": "b7ce9eba-2c0e-467c-85a6-5605e990df38",
+      "requirement_id": null,
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 93,
+      "text": "Deberá elaborar la propuesta en idioma español, sin tachaduras, enmendaduras y ser legible, debiendo considerar para elaboración las Bases de Contratación Versión Final.",
+      "classification": "SUPPORTED_WITH_SOURCE_DEFECT",
+      "assessment": "El excerpt omite su antes de elaboración; instrucción real, no fragmento literal exacto.",
+      "canonical_perception_active": false,
+      "normalized_output": false
+    },
+    {
+      "candidate_id": "e3d91394-a197-4b94-8308-cac0e4665b04",
+      "requirement_id": null,
+      "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "page": 88,
+      "text": "• Anexar Acta de Nacimiento, poder del Representante Legal / Administrador Único / Apoderado quien firmaría el contrato en caso de resultar ganador (cuando aplique) y constancia de situación Fiscal empresa participante.",
+      "classification": "SUPPORTED_WITH_SOURCE_DEFECT",
+      "assessment": "Omite de la antes de empresa participante; conserva condición de persona física, pero pierde literalidad.",
+      "canonical_perception_active": false,
+      "normalized_output": false
+    }
+  ]
+}

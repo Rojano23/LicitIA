@@ -1,0 +1,40 @@
+{
+  "state": "DEGRADED",
+  "components": {
+    "storage": {
+      "state": "READY",
+      "required": true,
+      "detail": "WRITABLE"
+    },
+    "camelot": {
+      "state": "READY",
+      "required": true,
+      "detail": "CAMELOT_2_LATTICE_COMBINED_DEPENDENCIES"
+    },
+    "tesseract": {
+      "state": "READY",
+      "required": true,
+      "detail": "spa+eng"
+    },
+    "database_migrations": {
+      "state": "READY",
+      "required": true,
+      "detail": "ALEMBIC_HEAD"
+    },
+    "local_provider": {
+      "state": "DEGRADED",
+      "required": false,
+      "detail": "LOCAL_PROVIDER_DISABLED"
+    },
+    "backend": {
+      "state": "READY",
+      "required": true,
+      "detail": "HTTP_READY"
+    },
+    "frontend": {
+      "state": "READY",
+      "required": true,
+      "detail": "HTTP_READY"
+    }
+  }
+}

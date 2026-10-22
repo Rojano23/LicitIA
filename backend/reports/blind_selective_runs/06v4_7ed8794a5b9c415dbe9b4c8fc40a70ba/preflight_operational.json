@@ -1,0 +1,48 @@
+{
+  "before_reset": {
+    "database": {
+      "database": "licitia_validation_06v",
+      "document_count": 11,
+      "revision": "20261013_req_perception_prov_072",
+      "tender_count": 1
+    },
+    "drift": {
+      "current_revision": [
+        "20261013_req_perception_prov_072"
+      ],
+      "difference_count": 59,
+      "head_revision": [
+        "20261013_req_perception_prov_072"
+      ],
+      "normalization_version": "ALEMBIC_INDEX_DRIFT_001",
+      "operations": {
+        "add_index": 55,
+        "remove_index": 4
+      },
+      "signature_sha256": "3abb0337a79b5faf56c2ced30e69d4482c47ab17e7e2fc925156ad59f760dde7"
+    }
+  },
+  "historical": [
+    {
+      "baseline": "/private/tmp/st_historical_hashes.json",
+      "changed": 0,
+      "files": 107
+    },
+    {
+      "baseline": "/private/tmp/br_attempt3_baseline.json",
+      "changed": 0,
+      "files": 24
+    }
+  ],
+  "ollama": {
+    "digest": "ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b",
+    "inference_calls": 0,
+    "model": "qwen3-vl:4b-instruct",
+    "version": "0.23.3"
+  },
+  "provider_calls": 0,
+  "storage": {
+    "canonical_data_root": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba",
+    "schema_version": "BLIND_STORAGE_ROOT_001"
+  }
+}

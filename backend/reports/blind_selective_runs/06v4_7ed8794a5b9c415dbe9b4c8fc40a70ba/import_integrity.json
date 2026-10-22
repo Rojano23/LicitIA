@@ -1,0 +1,12 @@
+{
+  "all_originals_under_frozen_root": true,
+  "document_count": 11,
+  "input_binding_sha256": "e37b77425fe2cc8ca12d0ebe8b51bca797d57e9524f0eaa93d1c0b1779a863b9",
+  "original_locators_sha256": "e22d32abb308f96170e69e152c8fde704b638e8777b90323aa983ac1ddf5f1a7",
+  "source_count": 11,
+  "source_immutability": true,
+  "statuses": {
+    "IMPORTED": 11
+  },
+  "tender_id": "4a0ac86b-a47e-4448-9f15-a6eff3ff43cf"
+}

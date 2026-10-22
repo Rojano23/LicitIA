@@ -3287,3 +3287,18 @@ def get_workspace_endpoint(tender_id: str, db: Session = Depends(get_db)) -> Wor
 def process_workspace_endpoint(tender_id: str, db: Session = Depends(get_db)) -> WorkspaceRead:
     from app.workspace_flow import process_workspace
     return process_workspace(db, tender_id)
+
+
+from app.workspace_recovery import RetryRead, RetryWrite
+
+
+@app.get('/tenders/{tender_id}/workspace/recovery', response_model=RetryRead)
+def workspace_recovery_endpoint(tender_id: str, db: Session = Depends(get_db)) -> RetryRead:
+    from app.workspace_recovery import retry_status
+    return retry_status(db, tender_id)
+
+
+@app.post('/tenders/{tender_id}/workspace/retry', response_model=WorkspaceRead)
+def workspace_retry_endpoint(tender_id: str, payload: RetryWrite, db: Session = Depends(get_db)) -> WorkspaceRead:
+    from app.workspace_flow import process_workspace
+    return process_workspace(db, tender_id, retry_fingerprint=payload.expected_fingerprint)

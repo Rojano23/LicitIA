@@ -1,0 +1,283 @@
+========================================================================================================================
+MVP-06.3.4c GOLDEN DIAGNOSTIC OUTPUT ENHANCEMENT REPORT
+========================================================================================================================
+Date: 2026-09-07T22:19:28.320697
+Status: READY FOR MANUAL QWEN3:8B DIAGNOSTIC REPLAY
+
+========================================================================================================================
+1. PROBLEM STATEMENT
+========================================================================================================================
+
+First calibration run with qwen3:8b produced:
+  • 12 cases
+  • PASS: 4, FAIL: 8
+  • Expected: 12 obligations
+  • Discovered: 11 obligations
+  • Matched: 0 obligations
+
+Root cause unclear. Possible explanations:
+  • Evidence span mismatch (substring not found in source)
+  • Domain mismatch (model predicted different domain)
+  • Granularity mismatch (model combined/split obligations)
+  • Text normalization difference
+
+Example: Case 3 showed Provider: INVALID_OUTPUT
+         but aggregate showed INVALID: 0
+         indicating evaluation/discovery status confusion
+
+========================================================================================================================
+2. RUNNER ENHANCEMENTS
+========================================================================================================================
+
+FILE: scripts/run_scope_semantic_golden.py
+
+CHANGE 1: Enhanced CaseEvaluationResult dataclass
+  OLD: Evaluated only high-level counts (expected, discovered, matched)
+  NEW: Added diagnostic fields:
+    • discovery_status: Neutral discovery layer status (DISCOVERED, NO_OBLIGATIONS, REVIEW_REQUIRED, INVALID_OUTPUT, UNSUPPORTED)
+    • expected_obligations: tuple[ExpectedObligation] — ALL expected obligations
+    • discovered_candidates: tuple[DiscoveredScopeObligation] — ALL model predictions
+    • discovery_errors: tuple[str] — Errors from neutral discovery layer
+
+CHANGE 2: Per-case diagnostic output (_print_case_result)
+  OLD: 7-line compact output
+  NEW: Detailed multi-section output:
+
+  [SECTION 1] Case header + high-level counts
+  [SECTION 2] EXPECTED OBLIGATIONS (all fields)
+    └─ For each expected:
+       - ID, domain, evidence_excerpt (full text)
+       - quantity_raw, unit_raw (if present)
+       - review_required (if true)
+
+  [SECTION 3] DISCOVERED CANDIDATES (all fields)
+    └─ For each discovered:
+       - domain, description (full model output)
+       - evidence_excerpt (full extracted text)
+       - detail_type, normalized_label, confidence
+       - quantity_raw, unit_raw
+       - review_required, candidate_item_key, applicability_hint
+
+  [SECTION 4] DISCOVERY STATUS & ERRORS
+    └─ Neutral orchestration layer status (e.g., INVALID_OUTPUT)
+    └─ All validation errors from orchestration
+
+  [SECTION 5] MATCH DIAGNOSTICS
+    └─ Expected/discovered/matched counts
+    └─ Missing expected obligation indices
+    └─ Unexpected discovered obligation indices
+    └─ Mixed-domain issues (if any)
+
+  [SECTION 6] VALIDATION ERRORS (if any)
+    └─ Case-level validation errors
+
+CHANGE 3: Aggregate summary with discovery status visibility (_print_summary)
+  OLD: Aggregated only evaluation status (PASS/FAIL/REVIEW_REQUIRED/INVALID)
+  NEW: Separate aggregates:
+    • EVALUATION RESULTS (Golden evaluation status)
+      └─ PASS, FAIL, REVIEW_REQUIRED, INVALID (from evaluator)
+
+    • DISCOVERY STATUS COUNTS (Neutral layer status)
+      └─ DISCOVERED, NO_OBLIGATIONS, REVIEW_REQUIRED, INVALID_OUTPUT, UNSUPPORTED
+
+  This prevents confusion like:
+    Case 3: Provider: INVALID_OUTPUT (discovery status)
+    Aggregate INVALID: 0 (evaluation status)
+    ✓ Now clear: evaluation and discovery are separate concerns
+
+CHANGE 4: Enhanced timing details
+  OLD: Only total elapsed time printed
+  NEW:
+    • Total elapsed (ms and seconds)
+    • Average per case
+    • Maximum elapsed with case ID
+
+========================================================================================================================
+3. DIAGNOSTIC DATA NOW VISIBLE
+========================================================================================================================
+
+For each of 12 cases, user can now see:
+
+EXPECTED SIDE:
+  • exact golden_obligation_id
+  • assigned domain
+  • full evidence_excerpt (required substring in source_text)
+  • quantity_raw, unit_raw (if specified)
+  • review_required flag
+
+DISCOVERED SIDE:
+  • exact domain predicted by qwen3:8b
+  • full description text from model
+  • exact evidence_excerpt extracted by model
+  • detail_type (if assigned by provider validation)
+  • normalized_label (if computed by provider)
+  • confidence (model-reported if available)
+  • quantity_raw, unit_raw (if extracted)
+  • review_required (set during neutral validation)
+  • applicability_hint (TENDER_WIDE, ITEM, or UNRESOLVED)
+
+MATCH SIDE:
+  • Which expected obligations matched discovered
+  • Missing expected indices (not matched)
+  • Unexpected discovered indices (not matched)
+  • Mixed-domain issues (if applicable)
+
+NEUTRAL LAYER:
+  • Discovery status (DISCOVERED, NO_OBLIGATIONS, INVALID_OUTPUT, etc.)
+  • All validation errors from orchestration
+  • Provider name and version (from neutral result)
+
+========================================================================================================================
+4. WHY ZERO MATCHED? DIAGNOSTIC FLOWCHART
+========================================================================================================================
+
+User can now troubleshoot why matched=0 by examining:
+
+1. Did provider return INVALID_OUTPUT?
+   → Check DISCOVERY ERRORS section
+   → Example: 'evidence_excerpt not in source_text'
+
+2. Did provider return NO_OBLIGATIONS?
+   → Check DISCOVERED CANDIDATES: should be empty
+   → If not empty, neutral validation filtered them out
+
+3. Did provider return predictions but all mismatched?
+   → Compare EXPECTED vs DISCOVERED side-by-side:
+
+     Expected[0]: domain=PERSONNEL, evidence='1 (Un) Supervisor de Servicio'
+     Discovered[0]: domain=SSPA, evidence='Supervisor training hours'
+     → Domain mismatch (PERSONNEL vs SSPA)
+
+     Expected[1]: domain=PERSONNEL, evidence='Ingeniero Electrónico'
+     Discovered[0]: domain=PERSONNEL, evidence='Ingeniero Electrónico'
+     → But evaluator says unmatched
+     → Check if text differs (line breaks, case, punctuation)
+
+4. Did provider return observations without evidence?
+   → Discovered[].evidence_excerpt would be missing/empty
+   → Provider validation converts to INVALID_OUTPUT
+
+========================================================================================================================
+5. TESTS ADDED
+========================================================================================================================
+
+FILE: tests/test_run_scope_semantic_golden.py
+
+CLASS: TestRunnerDiagnosticOutput (4 deterministic tests)
+
+TEST 1: test_case_result_contains_expected_obligations
+  • Verifies CaseEvaluationResult captures all expected obligations
+  • Proves diagnostic data structure is present
+  ✓ PASSED
+
+TEST 2: test_case_result_contains_discovered_candidates
+  • Verifies CaseEvaluationResult captures all discovered fields
+  • Includes: domain, description, evidence, detail_type,
+    normalized_label, confidence, quantity, unit, etc.
+  ✓ PASSED
+
+TEST 3: test_case_result_with_discovery_errors
+  • Verifies discovery errors captured and visible
+  • Proves INVALID_OUTPUT case produces accessible errors
+  ✓ PASSED
+
+TEST 4: test_case_result_zero_predictions_diagnostic
+  • Verifies diagnostic output handles empty discovered set
+  • Proves expected obligations still visible despite 0 discoveries
+  • Simulates NO_OBLIGATIONS case
+  ✓ PASSED
+
+========================================================================================================================
+6. TEST RESULTS
+========================================================================================================================
+
+FOCUSED TEST SUITE:
+  test_scope_semantic_golden.py:           18 PASSED
+  test_ollama_scope_semantic_provider.py:  21 PASSED
+  test_scope_semantic_discovery.py:         7 PASSED
+  test_run_scope_semantic_golden.py:        7 PASSED (3 hotfix + 4 diagnostic)
+  ─────────────────────────────────────────────────
+  TOTAL: 53 PASSED (0 failed, 0 skipped)
+  Execution time: 1.16s
+
+COMPILATION:
+  ✓ app/: CLEAN
+  ✓ scripts/: CLEAN
+
+GIT STATUS:
+  ✓ git diff --check: CLEAN
+  ✓ No staging, no commits, no pushes
+
+========================================================================================================================
+7. UNCHANGED BEHAVIOR
+========================================================================================================================
+
+✓ Orchestration layer: UNCHANGED
+✓ Evaluator matching logic: UNCHANGED
+✓ Provider behavior: UNCHANGED
+✓ Golden set: UNCHANGED
+✓ Expected obligations: UNCHANGED
+✓ Scoring (matched=0 remains): UNCHANGED
+
+Enhancement is DIAGNOSTIC ONLY — no logic changes.
+
+========================================================================================================================
+8. EXACT MACOS TERMINAL COMMAND (UNCHANGED)
+========================================================================================================================
+
+Same command as before (no changes needed):
+
+cd /Users/ceciliavalencia/LiticIA/backend && \
+.venv/bin/python scripts/run_scope_semantic_golden.py --model qwen3:8b
+
+Expected new output format:
+  • Case 1-12 with detailed diagnostic sections (much longer output)
+  • Separate aggregate sections:
+    - EVALUATION RESULTS (Golden status)
+    - DISCOVERY STATUS COUNTS (Neutral layer status)
+    - OBLIGATION AGGREGATES
+    - DEFECT COUNTS
+    - TIMING details
+
+========================================================================================================================
+9. NO OLLAMA EXECUTION
+========================================================================================================================
+
+This enhancement session:
+  ✗ Did NOT run qwen3:8b
+  ✓ Used only deterministic diagnostic tests
+  ✓ Verified diagnostic data structures
+
+User will execute real diagnostic run separately:
+  Next step: Run calibration command from Terminal with qwen3:8b
+  Output: Full diagnostic details for all 12 cases
+  Result: Clear visibility into why matched=0
+
+========================================================================================================================
+10. DELIVERABLES CHECKLIST
+========================================================================================================================
+
+✓ CaseEvaluationResult enhanced with diagnostic fields
+✓ Per-case output includes all expected obligations (no abbreviation)
+✓ Per-case output includes all discovered candidates (full text)
+✓ Per-case output displays neutral discovery status
+✓ Per-case output displays discovery errors (if any)
+✓ Match diagnostics show missing/unexpected indices
+✓ Aggregate separates evaluation status from discovery status
+✓ Aggregate adds timing details (total, average, max)
+✓ 4 deterministic diagnostic tests added and PASSED
+✓ All 53 focused tests PASSED (no regressions)
+✓ Python compilation CLEAN
+✓ Git status CLEAN (no staging, no commits)
+✓ No changes to orchestration, evaluator, or provider
+✓ No changes to Golden set or expected obligations
+✓ Unchanged calibration command provided
+✓ No Ollama execution (deterministic tests only)
+
+========================================================================================================================
+END OF DIAGNOSTIC OUTPUT ENHANCEMENT REPORT
+========================================================================================================================
+
+MVP-06.3.4c GOLDEN DIAGNOSTIC OUTPUT READY
+STATUS: WAITING FOR MANUAL QWEN3:8B REPLAY
+USER WILL SEE: Full diagnostic visibility into why matched=0

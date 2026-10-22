@@ -1,0 +1,22 @@
+{
+  "payload": {
+    "calls": 1,
+    "capability": "TRANSCRIPTION",
+    "configuration": {
+      "model_revision": "ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b",
+      "plan": "64c9ec32da69ef696627c5c8291dc4440adf7804039aa5e464c0f728a4743b39",
+      "task": "DETAIL_TRANSCRIPTION"
+    },
+    "execution_event": true,
+    "id": "guard-595",
+    "latency_ms": 57805,
+    "model": "qwen3-vl:4b-instruct",
+    "page_id": "22b9b53d-fe26-434a-8645-c48cdeeaa5a9",
+    "provider": "OLLAMA",
+    "source_method": "VISION",
+    "status": "FAILED",
+    "timeout": false,
+    "truncated": false
+  },
+  "sha256": "27d5e95d6c4af6604aad1ec74d7192b0bc597820f8d305d8aba314efbccc8f01"
+}

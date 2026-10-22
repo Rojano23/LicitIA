@@ -1,0 +1,23 @@
+{
+  "payload": {
+    "calls": 0,
+    "capability": "TRANSCRIPTION",
+    "configuration": {
+      "decision_only": true,
+      "fingerprint": "7eeb6a9828a5266b2320fb0d5bdbcff3676de79925642e8b0c2a38f3330235ed",
+      "plan": "431ee0d4c651e793a360c2abadf8ab32b2dfaa4b142bc71dd1a8e3ddb1c1b408",
+      "reason": "RUN_VISION_BUDGET_EXHAUSTED"
+    },
+    "execution_event": true,
+    "id": "guard-1325",
+    "latency_ms": null,
+    "model": null,
+    "page_id": "23da0470-0b95-4e0d-b2fa-b1592aa99b83",
+    "provider": "PLANNER",
+    "source_method": "VISION",
+    "status": "BUDGET_EXHAUSTED",
+    "timeout": false,
+    "truncated": false
+  },
+  "sha256": "291f4297fb831149e5bf3e850027d15f001f70c143fc2bdcd1a50eaf444d721b"
+}

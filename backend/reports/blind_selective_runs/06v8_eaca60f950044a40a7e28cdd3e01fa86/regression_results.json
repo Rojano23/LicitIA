@@ -1,0 +1,19 @@
+{
+  "focused": {
+    "tests": 538,
+    "failures": 0,
+    "summary": "538 passed, 7 warnings in 37.51s"
+  },
+  "expanded": {
+    "tests": 1121,
+    "failures": 0,
+    "summary": "1121 passed, 1 deselected, 8 warnings in 60.55s (0:01:00)"
+  },
+  "full": {
+    "tests": 2077,
+    "failures": 0,
+    "summary": "2077 passed, 1 deselected, 8 warnings in 125.61s (0:02:05)"
+  },
+  "compileall": "PASS",
+  "diff_check": "PASS"
+}

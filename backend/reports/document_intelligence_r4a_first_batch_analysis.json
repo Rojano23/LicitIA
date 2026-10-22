@@ -1,0 +1,137 @@
+{
+  "additional_real_model_run_recommended": false,
+  "additional_real_models_executed": false,
+  "artifacts": [
+    {
+      "path": "backend/reports/di_r4a_tesseract_b4_p4_transcription.json",
+      "sha256": "ba099b6dc93e82526c6d5e6bc506cc6ccc239e005ccc2aa735497ae46139f93a"
+    },
+    {
+      "path": "backend/reports/di_r4a_vision_b4_p4_transcription.json",
+      "sha256": "9b76c4010617db0e8075f7535775edff5ac9a350081a4a3b840a2e28c9531cef"
+    },
+    {
+      "path": "backend/reports/di_r4a_vision_b4_p1_p3_structure.json",
+      "sha256": "e37b20c8badc558516e1335beebd5285532c09b08ed339f0711a0abb4abe5aed"
+    }
+  ],
+  "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+  "domain_replay": {
+    "conditions": [
+      "Correct/document runner continuity adaptation without reclassifying model output as truth",
+      "Isolated migrated test fixture DB, no dev writes",
+      "Use validated Tesseract text; preserve failed Vision raw as failed diagnostic only",
+      "Create explicit provider artifacts and lineage, including all OCR and structure sources",
+      "Replay production APIs twice and verify IDs/provenance/review/ownership/quantity/attribute/idempotence; rollback or delete only owned test fixtures"
+    ],
+    "dev_alembic": "20261012_alt_compliance_071",
+    "execute_now": false,
+    "possible_conditionally": true,
+    "required_head": "20261013_req_perception_prov_072"
+  },
+  "golden_changed": false,
+  "golden_references": [
+    {
+      "path": "backend/evals/semantic_scope_golden_v1.json",
+      "sha256": "ad9d44a67022fa1eaec3181799a88b93c4c6dd04572fff46f31c3ac0c244af86"
+    },
+    {
+      "path": "backend/evals/technical_attribute_golden_v1.json",
+      "sha256": "ad2e3707f5b7a2e53e44339108c14669d9697ad733af3527a8e40216dd7b991b"
+    },
+    {
+      "path": "backend/evals/scope_quantity_golden_v1.json",
+      "sha256": "de2327ca868f8b72bf6dd80f50a568807b567f92c4106d65f913b7ce263339e7"
+    }
+  ],
+  "metric_gaps": [
+    "Literal absence mislabeled material omission; whitespace and separators not distinguished",
+    "FAILED structured_json null conflated with transcription omission",
+    "Deduplicated page fragments hide row multiplicity and item binding",
+    "External identifiers/critical tokens/domain impact fields empty",
+    "Structural metadata absent: _continuity_state_quality expected only from service wrapper",
+    "Mock structural test manually supplied metadata not emitted by direct client",
+    "Observation review unconditional: not proof of active error detection",
+    "Latency load/total_duration/render overhead unavailable",
+    "Image-derived artifact_id is shared across providers/runs; explicit task/run identity required for replay"
+  ],
+  "original_document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+  "production_code_changed": false,
+  "prompt_tuning_recommended": false,
+  "recommended_next_action": "D_CORRECT_CALIBRATION_HARNESS_FIRST",
+  "safety": {
+    "domain_trust_assessed": 0,
+    "domain_trust_unassessed": 5,
+    "limitation": "All outputs held REVIEW_REQUIRED; no domain replay; no proof of production contractual correctness",
+    "safe_misses_reported": 2,
+    "stale_carry_violations_observed": 0,
+    "unsafe_trusted_contractual_errors_observed": 0
+  },
+  "schema_version": "1",
+  "starting_head": "d399b7a",
+  "structural_coverage": {
+    "golden_labeled_observations": 0,
+    "human_approved_machine_readable_structure_found": false,
+    "known_human_reference": "Commit 913a4d2 closes continuity hardening but has no approved real-page expected structure labels; test fixtures are synthetic",
+    "reason": "A: no approved structural Golden wired/identified; additional runner continuity metadata defect confounds experiment"
+  },
+  "structure": [
+    {
+      "continuity_status": "UNKNOWN",
+      "latency_ms": 35825,
+      "original_document_diagnostic": "start item 1",
+      "outgoing_item_key": null,
+      "page_number": 1,
+      "proposed_item": "1",
+      "reference_status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "continuity_status": "UNKNOWN",
+      "latency_ms": 35638,
+      "original_document_diagnostic": "continue item 1 then start item 2",
+      "outgoing_item_key": null,
+      "page_number": 2,
+      "proposed_item": "2",
+      "reference_status": "DIAGNOSTIC_ONLY"
+    },
+    {
+      "continuity_status": "UNKNOWN",
+      "latency_ms": 36923,
+      "original_document_diagnostic": "continue item 2",
+      "outgoing_item_key": null,
+      "page_number": 3,
+      "proposed_item": "3",
+      "reference_status": "DIAGNOSTIC_ONLY"
+    }
+  ],
+  "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+  "tesseract": {
+    "interpretation": "3 whitespace artifacts; 1 spurious OCR separator before present RTD model; 1 source/Golden identifier discrepancy, not certified OCR error",
+    "latency_ms": 1549,
+    "literal_mismatches": [
+      "MODELO: AA143-H50/K4400",
+      "MODELO: AAR145-S50",
+      "MODELO: ADV159-P00",
+      "MODELO: ADV551-P60/D5A00",
+      "UNA COPIA"
+    ],
+    "non_whitespace_mismatches": [
+      "MODELO: AA143-H50/K4400",
+      "MODELO: AAR145-S50"
+    ],
+    "whitespace_only_mismatches": [
+      "MODELO: ADV159-P00",
+      "MODELO: ADV551-P60/D5A00",
+      "UNA COPIA"
+    ]
+  },
+  "vision_transcription": {
+    "failure": "OUTPUT_TRUNCATED / DONE_REASON:length; structured_json null",
+    "interpretation": "14 unavailable approved excerpts after whole-response validation failure, not 14 independently observed omissions",
+    "latency_ms": 86592,
+    "literal_mismatches_on_validated_text": 14,
+    "raw_partial_response_chars": 2961,
+    "runtime_status": "FAILED",
+    "validated_text_chars": 0
+  }
+}

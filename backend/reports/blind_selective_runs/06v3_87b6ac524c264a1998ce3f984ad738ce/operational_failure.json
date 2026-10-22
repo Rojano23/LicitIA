@@ -1,0 +1,13 @@
+{
+  "classification": "OPERATOR_PROCESS_ENVIRONMENT_MISMATCH",
+  "error": "FileNotFoundError during input_identity integrity verification",
+  "execution_log_sha256": "b1e0adecc66cc44edda09dd2c51923a200fcbbcd15081e062eed3bf02490a84a",
+  "execution_started": false,
+  "expected_data_root": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v3_87b6ac524c264a1998ce3f984ad738ce",
+  "import_data_root": ".licitia-data",
+  "import_original_count": 11,
+  "provider_calls": 0,
+  "run_id": "06v3_87b6ac524c264a1998ce3f984ad738ce",
+  "semantic_inspection": false,
+  "status": "FAILED_BEFORE_EXECUTION_STARTED"
+}

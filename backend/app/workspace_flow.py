@@ -32,6 +32,8 @@ class ProcessingRead(Contract):
     run_id: str | None = None
     error_code: str | None = None
     context_sha256: str | None = None
+    processing_identity: str | None = None
+    provider_degraded: bool = False
 
 
 class SourceRead(Contract):
@@ -139,6 +141,9 @@ def _processing(db, tender_id, documents):
                 fcntl.flock(lock, fcntl.LOCK_UN)
     if state.status == 'PROCESSING':
         return state.model_copy(update={'status': 'INTERRUPTED', 'error_code': 'PROCESS_INTERRUPTED'})
+    from app.workspace_recovery import processing_identity
+    if state.processing_identity is not None and state.processing_identity != processing_identity():
+        return state.model_copy(update={'status':'STALE'})
     if state.context_sha256 != _context(db, documents):
         return state.model_copy(update={'status': 'STALE'})
     return state
@@ -193,6 +198,11 @@ def read_workspace(db: Session, tender_id: str) -> WorkspaceRead:
             description=review.current.effective_description if review and review.current else detail.description,
             source=_source(db, detail), review=review, quantities=quantities))
     processing = _processing(db, tender_id, documents)
+    from app.workspace_recovery import provider_degraded
+    degraded = provider_degraded(db, [d.id for d in documents])
+    processing = processing.model_copy(update={'provider_degraded':degraded})
+    if degraded and processing.status == 'COMPLETED':
+        processing = processing.model_copy(update={'status':'COMPLETED_REVIEW_REQUIRED'})
     if processing.status in {'COMPLETED', 'COMPLETED_REVIEW_REQUIRED'} and any(
             not s.source.available or s.review is None or any(q.status == 'UNRESOLVED' for q in s.quantities) for s in scopes):
         processing = processing.model_copy(update={'status': 'PARTIAL'})
@@ -201,7 +211,7 @@ def read_workspace(db: Session, tender_id: str) -> WorkspaceRead:
         semantics=TenderRequirementSemanticsRead.model_validate(get_tender_requirement_semantics(db, tender_id)))
 
 
-def process_workspace(db: Session, tender_id: str) -> WorkspaceRead:
+def process_workspace(db: Session, tender_id: str, *, retry_fingerprint: str | None = None) -> WorkspaceRead:
     from app.native_preparation import prepare_tender_documents
     from app.canonical_materialization import materialize_canonical
     documents = _documents(db, tender_id)
@@ -214,9 +224,14 @@ def process_workspace(db: Session, tender_id: str) -> WorkspaceRead:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
             raise HTTPException(409, 'Tender processing already active')
+        if retry_fingerprint is not None:
+            from app.workspace_recovery import prepare_safe_retry
+            prepare_safe_retry(db, tender_id, retry_fingerprint)
+        from app.workspace_recovery import processing_identity, provider_degraded
+        identity = processing_identity()
         run_id = str(uuid4())
         try:
-            _save(path, ProcessingRead(status='PROCESSING', run_id=run_id, context_sha256=_context(db, documents)))
+            _save(path, ProcessingRead(status='PROCESSING', run_id=run_id, processing_identity=identity, context_sha256=_context(db, documents)))
             input_ids = tuple(d.id for d in documents)
             prepared = prepare_tender_documents(db, tender_id=tender_id, document_ids=input_ids)
             materialize_canonical(db, tender_id, documents)
@@ -225,14 +240,14 @@ def process_workspace(db: Session, tender_id: str) -> WorkspaceRead:
             documents = _documents(db, tender_id)
             result = read_workspace(db, tender_id)
             partial = any(p.status == 'UNAVAILABLE' for p in prepared) or any(d.processing_status in {'NO_NATIVE_TEXT', 'TEXT_EXTRACTION_PARTIAL'} for d in documents)
-            needs_review = bool(result.requirements.summary.pending_review_count or result.scopes or result.semantics.requirements)
+            needs_review = bool(result.requirements.summary.pending_review_count or result.scopes or result.semantics.requirements or provider_degraded(db, input_ids))
             state = ('STALE' if tuple(d.id for d in documents) != input_ids else
                      'PARTIAL' if partial else 'COMPLETED_REVIEW_REQUIRED' if needs_review else 'COMPLETED')
-            _save(path, ProcessingRead(status=state, run_id=run_id, context_sha256=_context(db, documents)))
+            _save(path, ProcessingRead(status=state, run_id=run_id, processing_identity=identity, context_sha256=_context(db, documents)))
         except Exception:
             db.rollback()
             logger.exception('Workspace processing failed: run_id=%s', run_id)
-            _save(path, ProcessingRead(status='FAILED', run_id=run_id, error_code='PROCESSING_FAILED',
+            _save(path, ProcessingRead(status='FAILED', run_id=run_id, processing_identity=identity, error_code='PROCESSING_FAILED',
                 context_sha256=_context(db, _documents(db, tender_id))))
             raise HTTPException(422, {'code': 'PROCESSING_FAILED', 'run_id': run_id})
         finally:

@@ -1,0 +1,4052 @@
+[
+  {
+    "configuration": "B1_P1__pdfplumber__lines",
+    "source": "reference_revision_002/{literal_fragments,geometry_fragments,fragment_provenance}.json",
+    "basis": "Offline comparison using already saved fragment midpoint and extractor cell boxes; not a new extraction or production grounding proof",
+    "fragments": [
+      {
+        "fragment_id": "B1_P1_word_79",
+        "matches": [
+          {
+            "row": 0,
+            "column": 0,
+            "cell_bbox": [
+              49.56,
+              292.369995,
+              106.33999999999999,
+              314.929995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_80",
+        "matches": [
+          {
+            "row": 0,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              292.369995,
+              453.670005,
+              314.929995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_81",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.670005,
+              292.369995,
+              510.340005,
+              314.929995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_82",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.670005,
+              292.369995,
+              510.340005,
+              314.929995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_83",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.670005,
+              292.369995,
+              510.340005,
+              314.929995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_84",
+        "matches": [
+          {
+            "row": 0,
+            "column": 3,
+            "cell_bbox": [
+              510.340005,
+              292.369995,
+              567.09999,
+              314.929995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_85",
+        "matches": [
+          {
+            "row": 1,
+            "column": 0,
+            "cell_bbox": [
+              49.56,
+              314.929995,
+              106.33999999999999,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_86",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_87",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_88",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_89",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_90",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_91",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_92",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_93",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_94",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_95",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_96",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_97",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_98",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_99",
+        "matches": [
+          {
+            "row": 1,
+            "column": 2,
+            "cell_bbox": [
+              453.670005,
+              314.929995,
+              510.340005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_100",
+        "matches": [
+          {
+            "row": 1,
+            "column": 3,
+            "cell_bbox": [
+              510.340005,
+              314.929995,
+              567.09999,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_101",
+        "matches": [
+          {
+            "row": 2,
+            "column": 0,
+            "cell_bbox": [
+              49.56,
+              364.49001,
+              106.33999999999999,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_102",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_103",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_104",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_105",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_106",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_107",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_108",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_109",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_110",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_111",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_112",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_113",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_114",
+        "matches": [
+          {
+            "row": 2,
+            "column": 2,
+            "cell_bbox": [
+              453.670005,
+              364.49001,
+              510.340005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_115",
+        "matches": [
+          {
+            "row": 2,
+            "column": 3,
+            "cell_bbox": [
+              510.340005,
+              364.49001,
+              567.09999,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      }
+    ],
+    "unique_cell_membership_count": 37,
+    "literal_matches": 37
+  },
+  {
+    "configuration": "B1_P1__camelot__lattice_combined",
+    "source": "reference_revision_002/{literal_fragments,geometry_fragments,fragment_provenance}.json",
+    "basis": "Offline comparison using already saved fragment midpoint and extractor cell boxes; not a new extraction or production grounding proof",
+    "fragments": [
+      {
+        "fragment_id": "B1_P1_word_79",
+        "matches": [
+          {
+            "row": 0,
+            "column": 0,
+            "cell_bbox": [
+              49.650000000000006,
+              292.4563768554983,
+              106.32,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_80",
+        "matches": [
+          {
+            "row": 0,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              292.4563768554983,
+              453.59999999999997,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_81",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              292.4563768554983,
+              510.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_82",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              292.4563768554983,
+              510.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_83",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              292.4563768554983,
+              510.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_84",
+        "matches": [
+          {
+            "row": 0,
+            "column": 3,
+            "cell_bbox": [
+              510.24,
+              292.4563768554983,
+              567.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_85",
+        "matches": [
+          {
+            "row": 1,
+            "column": 0,
+            "cell_bbox": [
+              49.650000000000006,
+              314.784610724023,
+              106.32,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_86",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_87",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_88",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_89",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_90",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_91",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_92",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_93",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_94",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_95",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_96",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_97",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_98",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_99",
+        "matches": [
+          {
+            "row": 1,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              314.784610724023,
+              510.24,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_100",
+        "matches": [
+          {
+            "row": 1,
+            "column": 3,
+            "cell_bbox": [
+              510.24,
+              314.784610724023,
+              567.24,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_101",
+        "matches": [
+          {
+            "row": 2,
+            "column": 0,
+            "cell_bbox": [
+              49.650000000000006,
+              364.44956073916995,
+              106.32,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_102",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_103",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_104",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_105",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_106",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_107",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_108",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_109",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_110",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_111",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_112",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_113",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_114",
+        "matches": [
+          {
+            "row": 2,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              364.44956073916995,
+              510.24,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_115",
+        "matches": [
+          {
+            "row": 2,
+            "column": 3,
+            "cell_bbox": [
+              510.24,
+              364.44956073916995,
+              567.24,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      }
+    ],
+    "unique_cell_membership_count": 37,
+    "literal_matches": 37
+  },
+  {
+    "configuration": "B1_P1__camelot__lattice_vector",
+    "source": "reference_revision_002/{literal_fragments,geometry_fragments,fragment_provenance}.json",
+    "basis": "Offline comparison using already saved fragment midpoint and extractor cell boxes; not a new extraction or production grounding proof",
+    "fragments": [
+      {
+        "fragment_id": "B1_P1_word_79",
+        "matches": [
+          {
+            "row": 0,
+            "column": 0,
+            "cell_bbox": [
+              49.56,
+              292.369995,
+              106.33999999999999,
+              314.929995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_80",
+        "matches": [
+          {
+            "row": 0,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              292.369995,
+              453.670005,
+              314.929995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_81",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.670005,
+              292.369995,
+              510.340005,
+              314.929995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_82",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.670005,
+              292.369995,
+              510.340005,
+              314.929995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_83",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.670005,
+              292.369995,
+              510.340005,
+              314.929995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_84",
+        "matches": [
+          {
+            "row": 0,
+            "column": 3,
+            "cell_bbox": [
+              510.340005,
+              292.369995,
+              567.0999899999999,
+              314.929995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_85",
+        "matches": [
+          {
+            "row": 1,
+            "column": 0,
+            "cell_bbox": [
+              49.56,
+              314.929995,
+              106.33999999999999,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_86",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_87",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_88",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_89",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_90",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_91",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_92",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_93",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_94",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_95",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_96",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_97",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_98",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              314.929995,
+              453.670005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_99",
+        "matches": [
+          {
+            "row": 1,
+            "column": 2,
+            "cell_bbox": [
+              453.670005,
+              314.929995,
+              510.340005,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_100",
+        "matches": [
+          {
+            "row": 1,
+            "column": 3,
+            "cell_bbox": [
+              510.340005,
+              314.929995,
+              567.0999899999999,
+              364.49001
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_101",
+        "matches": [
+          {
+            "row": 2,
+            "column": 0,
+            "cell_bbox": [
+              49.56,
+              364.49001,
+              106.33999999999999,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_102",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_103",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_104",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_105",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_106",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_107",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_108",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_109",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_110",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_111",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_112",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_113",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.33999999999999,
+              364.49001,
+              453.670005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_114",
+        "matches": [
+          {
+            "row": 2,
+            "column": 2,
+            "cell_bbox": [
+              453.670005,
+              364.49001,
+              510.340005,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_115",
+        "matches": [
+          {
+            "row": 2,
+            "column": 3,
+            "cell_bbox": [
+              510.340005,
+              364.49001,
+              567.0999899999999,
+              414.05001000000004
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      }
+    ],
+    "unique_cell_membership_count": 37,
+    "literal_matches": 37
+  },
+  {
+    "configuration": "B1_P1__camelot__lattice_raster",
+    "source": "reference_revision_002/{literal_fragments,geometry_fragments,fragment_provenance}.json",
+    "basis": "Offline comparison using already saved fragment midpoint and extractor cell boxes; not a new extraction or production grounding proof",
+    "fragments": [
+      {
+        "fragment_id": "B1_P1_word_79",
+        "matches": [
+          {
+            "row": 0,
+            "column": 0,
+            "cell_bbox": [
+              49.425,
+              292.4563768554983,
+              106.32,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_80",
+        "matches": [
+          {
+            "row": 0,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              292.4563768554983,
+              453.59999999999997,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_81",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              292.4563768554983,
+              510.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_82",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              292.4563768554983,
+              510.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_83",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              292.4563768554983,
+              510.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_84",
+        "matches": [
+          {
+            "row": 0,
+            "column": 3,
+            "cell_bbox": [
+              510.24,
+              292.4563768554983,
+              567.36,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_85",
+        "matches": [
+          {
+            "row": 1,
+            "column": 0,
+            "cell_bbox": [
+              49.425,
+              314.784610724023,
+              106.32,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_86",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_87",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_88",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_89",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_90",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_91",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_92",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_93",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_94",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_95",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_96",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_97",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_98",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_99",
+        "matches": [
+          {
+            "row": 1,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              314.784610724023,
+              510.24,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_100",
+        "matches": [
+          {
+            "row": 1,
+            "column": 3,
+            "cell_bbox": [
+              510.24,
+              314.784610724023,
+              567.36,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_101",
+        "matches": [
+          {
+            "row": 2,
+            "column": 0,
+            "cell_bbox": [
+              49.425,
+              364.44956073916995,
+              106.32,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_102",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_103",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_104",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_105",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_106",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_107",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_108",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_109",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_110",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_111",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_112",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_113",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_114",
+        "matches": [
+          {
+            "row": 2,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              364.44956073916995,
+              510.24,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_115",
+        "matches": [
+          {
+            "row": 2,
+            "column": 3,
+            "cell_bbox": [
+              510.24,
+              364.44956073916995,
+              567.36,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      }
+    ],
+    "unique_cell_membership_count": 37,
+    "literal_matches": 37
+  },
+  {
+    "configuration": "B1_P1__camelot__hybrid",
+    "source": "reference_revision_002/{literal_fragments,geometry_fragments,fragment_provenance}.json",
+    "basis": "Offline comparison using already saved fragment midpoint and extractor cell boxes; not a new extraction or production grounding proof",
+    "fragments": [
+      {
+        "fragment_id": "B1_P1_word_79",
+        "matches": [
+          {
+            "row": 0,
+            "column": 0,
+            "cell_bbox": [
+              49.650000000000006,
+              292.4563768554983,
+              106.32,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_80",
+        "matches": [
+          {
+            "row": 0,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              292.4563768554983,
+              453.59999999999997,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_81",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              292.4563768554983,
+              510.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_82",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              292.4563768554983,
+              510.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_83",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              292.4563768554983,
+              510.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_84",
+        "matches": [
+          {
+            "row": 0,
+            "column": 3,
+            "cell_bbox": [
+              510.24,
+              292.4563768554983,
+              567.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_85",
+        "matches": [
+          {
+            "row": 1,
+            "column": 0,
+            "cell_bbox": [
+              49.650000000000006,
+              314.784610724023,
+              106.32,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_86",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_87",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_88",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_89",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_90",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_91",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_92",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_93",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_94",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_95",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_96",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_97",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_98",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_99",
+        "matches": [
+          {
+            "row": 1,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              314.784610724023,
+              510.24,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_100",
+        "matches": [
+          {
+            "row": 1,
+            "column": 3,
+            "cell_bbox": [
+              510.24,
+              314.784610724023,
+              567.24,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_101",
+        "matches": [
+          {
+            "row": 2,
+            "column": 0,
+            "cell_bbox": [
+              49.650000000000006,
+              364.44956073916995,
+              106.32,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_102",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_103",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_104",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_105",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_106",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_107",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_108",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_109",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_110",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_111",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_112",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_113",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_114",
+        "matches": [
+          {
+            "row": 2,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              364.44956073916995,
+              510.24,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_115",
+        "matches": [
+          {
+            "row": 2,
+            "column": 3,
+            "cell_bbox": [
+              510.24,
+              364.44956073916995,
+              567.24,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      }
+    ],
+    "unique_cell_membership_count": 37,
+    "literal_matches": 37
+  },
+  {
+    "configuration": "B1_P1__camelot__auto",
+    "source": "reference_revision_002/{literal_fragments,geometry_fragments,fragment_provenance}.json",
+    "basis": "Offline comparison using already saved fragment midpoint and extractor cell boxes; not a new extraction or production grounding proof",
+    "fragments": [
+      {
+        "fragment_id": "B1_P1_word_79",
+        "matches": [
+          {
+            "row": 0,
+            "column": 0,
+            "cell_bbox": [
+              49.650000000000006,
+              292.4563768554983,
+              106.32,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_80",
+        "matches": [
+          {
+            "row": 0,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              292.4563768554983,
+              453.59999999999997,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_81",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              292.4563768554983,
+              510.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_82",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              292.4563768554983,
+              510.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_83",
+        "matches": [
+          {
+            "row": 0,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              292.4563768554983,
+              510.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_84",
+        "matches": [
+          {
+            "row": 0,
+            "column": 3,
+            "cell_bbox": [
+              510.24,
+              292.4563768554983,
+              567.24,
+              314.784610724023
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_85",
+        "matches": [
+          {
+            "row": 1,
+            "column": 0,
+            "cell_bbox": [
+              49.650000000000006,
+              314.784610724023,
+              106.32,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_86",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_87",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_88",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_89",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_90",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_91",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_92",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_93",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_94",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_95",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_96",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_97",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_98",
+        "matches": [
+          {
+            "row": 1,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              314.784610724023,
+              453.59999999999997,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_99",
+        "matches": [
+          {
+            "row": 1,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              314.784610724023,
+              510.24,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_100",
+        "matches": [
+          {
+            "row": 1,
+            "column": 3,
+            "cell_bbox": [
+              510.24,
+              314.784610724023,
+              567.24,
+              364.44956073916995
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_101",
+        "matches": [
+          {
+            "row": 2,
+            "column": 0,
+            "cell_bbox": [
+              49.650000000000006,
+              364.44956073916995,
+              106.32,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_102",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_103",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_104",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_105",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_106",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_107",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_108",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_109",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_110",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_111",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_112",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_113",
+        "matches": [
+          {
+            "row": 2,
+            "column": 1,
+            "cell_bbox": [
+              106.32,
+              364.44956073916995,
+              453.59999999999997,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_114",
+        "matches": [
+          {
+            "row": 2,
+            "column": 2,
+            "cell_bbox": [
+              453.59999999999997,
+              364.44956073916995,
+              510.24,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      },
+      {
+        "fragment_id": "B1_P1_word_115",
+        "matches": [
+          {
+            "row": 2,
+            "column": 3,
+            "cell_bbox": [
+              510.24,
+              364.44956073916995,
+              567.24,
+              414.23447440169645
+            ],
+            "literal_occurs_in_cell_text": true
+          }
+        ],
+        "source_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "source_page": 1
+      }
+    ],
+    "unique_cell_membership_count": 37,
+    "literal_matches": 37
+  }
+]

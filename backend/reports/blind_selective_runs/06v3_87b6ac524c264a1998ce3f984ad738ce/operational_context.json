@@ -1,0 +1,10 @@
+{
+  "data_dir": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v3_87b6ac524c264a1998ce3f984ad738ce",
+  "directory": "/Users/ceciliavalencia/LiticIA/backend/reports/blind_selective_runs/06v3_87b6ac524c264a1998ce3f984ad738ce",
+  "head": "75111c047766dc32e480589075df0a029815f394",
+  "pre_freeze_sha256": "89b02a39d958d9b3b8bc5619db8a2f1386f6479f5a5ed569baec3439a763a024",
+  "previous_database_export": "/private/tmp/06v3_87b6ac524c264a1998ce3f984ad738ce_attempt2_database.dump",
+  "previous_database_export_sha256": "5760deb5049d0a58bdae1d8f67dabaa5889e6254ccb292dfb75d66ccb61f90e1",
+  "profile_sha256": "a4e14ff90be7b66912ab51ac47b060a5a94a90fc38a9f35e37856d03303dfdc6",
+  "run_id": "06v3_87b6ac524c264a1998ce3f984ad738ce"
+}

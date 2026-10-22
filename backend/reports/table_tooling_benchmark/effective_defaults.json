@@ -1,0 +1,148 @@
+{
+  "pdfplumber": {
+    "lines": {
+      "vertical_strategy": "lines",
+      "horizontal_strategy": "lines",
+      "explicit_vertical_lines": null,
+      "explicit_horizontal_lines": null,
+      "snap_tolerance": 3,
+      "snap_x_tolerance": 3,
+      "snap_y_tolerance": 3,
+      "join_tolerance": 3,
+      "join_x_tolerance": 3,
+      "join_y_tolerance": 3,
+      "edge_min_length": 3,
+      "edge_min_length_prefilter": 1,
+      "min_words_vertical": 3,
+      "min_words_horizontal": 1,
+      "intersection_tolerance": 3,
+      "intersection_x_tolerance": 3,
+      "intersection_y_tolerance": 3,
+      "text_settings": {
+        "x_tolerance": 3,
+        "y_tolerance": 3
+      }
+    },
+    "lines_strict": {
+      "vertical_strategy": "lines_strict",
+      "horizontal_strategy": "lines_strict",
+      "explicit_vertical_lines": null,
+      "explicit_horizontal_lines": null,
+      "snap_tolerance": 3,
+      "snap_x_tolerance": 3,
+      "snap_y_tolerance": 3,
+      "join_tolerance": 3,
+      "join_x_tolerance": 3,
+      "join_y_tolerance": 3,
+      "edge_min_length": 3,
+      "edge_min_length_prefilter": 1,
+      "min_words_vertical": 3,
+      "min_words_horizontal": 1,
+      "intersection_tolerance": 3,
+      "intersection_x_tolerance": 3,
+      "intersection_y_tolerance": 3,
+      "text_settings": {
+        "x_tolerance": 3,
+        "y_tolerance": 3
+      }
+    },
+    "text": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text",
+      "explicit_vertical_lines": null,
+      "explicit_horizontal_lines": null,
+      "snap_tolerance": 3,
+      "snap_x_tolerance": 3,
+      "snap_y_tolerance": 3,
+      "join_tolerance": 3,
+      "join_x_tolerance": 3,
+      "join_y_tolerance": 3,
+      "edge_min_length": 3,
+      "edge_min_length_prefilter": 1,
+      "min_words_vertical": 3,
+      "min_words_horizontal": 1,
+      "intersection_tolerance": 3,
+      "intersection_x_tolerance": 3,
+      "intersection_y_tolerance": 3,
+      "text_settings": {
+        "x_tolerance": 3,
+        "y_tolerance": 3
+      }
+    },
+    "text_tolerance5": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text",
+      "explicit_vertical_lines": null,
+      "explicit_horizontal_lines": null,
+      "snap_tolerance": 5,
+      "snap_x_tolerance": 5,
+      "snap_y_tolerance": 5,
+      "join_tolerance": 5,
+      "join_x_tolerance": 5,
+      "join_y_tolerance": 5,
+      "edge_min_length": 3,
+      "edge_min_length_prefilter": 1,
+      "min_words_vertical": 3,
+      "min_words_horizontal": 1,
+      "intersection_tolerance": 5,
+      "intersection_x_tolerance": 5,
+      "intersection_y_tolerance": 5,
+      "text_settings": {
+        "x_tolerance": 3,
+        "y_tolerance": 3
+      }
+    },
+    "lines_text": {
+      "vertical_strategy": "lines",
+      "horizontal_strategy": "text",
+      "explicit_vertical_lines": null,
+      "explicit_horizontal_lines": null,
+      "snap_tolerance": 3,
+      "snap_x_tolerance": 3,
+      "snap_y_tolerance": 3,
+      "join_tolerance": 3,
+      "join_x_tolerance": 3,
+      "join_y_tolerance": 3,
+      "edge_min_length": 3,
+      "edge_min_length_prefilter": 1,
+      "min_words_vertical": 3,
+      "min_words_horizontal": 1,
+      "intersection_tolerance": 3,
+      "intersection_x_tolerance": 3,
+      "intersection_y_tolerance": 3,
+      "text_settings": {
+        "x_tolerance": 3,
+        "y_tolerance": 3
+      }
+    },
+    "text_lines": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "lines",
+      "explicit_vertical_lines": null,
+      "explicit_horizontal_lines": null,
+      "snap_tolerance": 3,
+      "snap_x_tolerance": 3,
+      "snap_y_tolerance": 3,
+      "join_tolerance": 3,
+      "join_x_tolerance": 3,
+      "join_y_tolerance": 3,
+      "edge_min_length": 3,
+      "edge_min_length_prefilter": 1,
+      "min_words_vertical": 3,
+      "min_words_horizontal": 1,
+      "intersection_tolerance": 3,
+      "intersection_x_tolerance": 3,
+      "intersection_y_tolerance": 3,
+      "text_settings": {
+        "x_tolerance": 3,
+        "y_tolerance": 3
+      }
+    }
+  },
+  "camelot_parser_constructor_signatures": {
+    "Lattice": "(table_regions=None, table_areas=None, process_background=False, line_scale=15, copy_text=None, shift_text=None, split_text=False, flag_size=False, strip_text='', replace_text=None, line_tol=2, joint_tol=2, threshold_blocksize=15, threshold_constant=-2, iterations=0, erode_iterations=0, resolution=300, use_fallback=True, backend='pdfium', engine='combined', **kwargs)",
+    "Stream": "(table_regions=None, table_areas=None, columns=None, split_text=False, flag_size=False, strip_text='', replace_text=None, edge_tol=50, row_tol=2, column_tol=0, **kwargs)",
+    "Network": "(table_regions=None, table_areas=None, columns=None, flag_size=False, split_text=False, strip_text='', replace_text=None, edge_tol=None, row_tol=2, column_tol=0, debug=False, **kwargs)",
+    "Hybrid": "(table_regions=None, table_areas=None, columns=None, flag_size=False, split_text=False, strip_text='', replace_text=None, edge_tol=None, row_tol=2, column_tol=0, debug=False, engine='combined', **kwargs)"
+  }
+}

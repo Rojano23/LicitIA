@@ -30,7 +30,7 @@ export type WorkspaceRequirement = {
 };
 export type WorkspaceRead = {
   tender_id: string;
-  processing: { status: ProcessingStatus; run_id: string | null; error_code: string | null; context_sha256: string | null };
+  processing: { status: ProcessingStatus; run_id: string | null; error_code: string | null; context_sha256: string | null; processing_identity?: string | null; provider_degraded?: boolean };
   scopes: WorkspaceScope[];
   requirements: { scope_note: string; requirements: (WorkspaceRequirement & {
     effective_status: string; review_status: string; review_freshness: string; system_warnings: string[];
@@ -43,4 +43,17 @@ export const workspaceApi = {
     (await axios.get<WorkspaceRead>(`${apiUrl}/tenders/${tenderId}/workspace`)).data,
   process: async (apiUrl: string, tenderId: string): Promise<WorkspaceRead> =>
     (await axios.post<WorkspaceRead>(`${apiUrl}/tenders/${tenderId}/workspace/process`)).data,
+};
+
+
+export type RetryRead = {
+  eligible: boolean; fingerprint: string; reasons: string[];
+  effect: "REUSE_AVAILABLE_EVIDENCE"; previous_results_preserved: boolean;
+  provider_acquisition: false; provider_degraded: boolean;
+};
+export const recoveryApi = {
+  read: async (apiUrl: string, tenderId: string): Promise<RetryRead> =>
+    (await axios.get<RetryRead>(`${apiUrl}/tenders/${tenderId}/workspace/recovery`)).data,
+  retry: async (apiUrl: string, tenderId: string, fingerprint: string): Promise<WorkspaceRead> =>
+    (await axios.post<WorkspaceRead>(`${apiUrl}/tenders/${tenderId}/workspace/retry`, { expected_fingerprint: fingerprint })).data,
 };

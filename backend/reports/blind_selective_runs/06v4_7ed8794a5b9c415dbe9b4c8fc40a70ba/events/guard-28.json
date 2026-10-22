@@ -1,0 +1,23 @@
+{
+  "payload": {
+    "calls": 0,
+    "capability": "TRANSCRIPTION",
+    "configuration": {
+      "decision_only": true,
+      "fingerprint": "a66a4786af9d723786f852f8b183d49b5df5d11f0cce6f54969900cc93826eb9",
+      "plan": "fdc6df5dce21bb026868f062f2fa153454bf400da44298fa8475ab626dc62783",
+      "reason": "VISION_PROVIDER_FAILED:['OUTPUT_TRUNCATED', 'DONE_REASON:length']"
+    },
+    "execution_event": true,
+    "id": "guard-28",
+    "latency_ms": null,
+    "model": null,
+    "page_id": "e72c9bb9-27b9-40bb-95d1-d6a1b707c0ac",
+    "provider": "PLANNER",
+    "source_method": "VISION",
+    "status": "FAILED",
+    "timeout": false,
+    "truncated": false
+  },
+  "sha256": "c1932b7261545ddf0a679030b4fbac333b56a5a99e347a21d8971c09d175cd8f"
+}

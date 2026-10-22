@@ -1,0 +1,21 @@
+{
+  "kind": "READ_ONLY_CONTRACT_REPRESENTATION_CHECK",
+  "first_pass_sha256": "8972172fd0c9c14ff2e20ba4e13e9c438bfee13d3fc8c5182af723c11972c1b6",
+  "scopes": 2,
+  "quantities": 2,
+  "distinct_parent_bindings": 2,
+  "same_document_page_per_parent": true,
+  "typed_nested_contract": true,
+  "rerun": false,
+  "semantic_adjudication": false,
+  "relationships": [
+    {
+      "scope_detail_id": "6444a44f-7615-43ba-aaa5-32dc25ca0be4",
+      "quantity_id": "2e8a8017-938c-47f8-bf89-487c40c6fa6e"
+    },
+    {
+      "scope_detail_id": "1f37518b-08f5-4715-b2f8-83084f32080d",
+      "quantity_id": "9916657c-91d7-4158-b5dd-f0006245324a"
+    }
+  ]
+}

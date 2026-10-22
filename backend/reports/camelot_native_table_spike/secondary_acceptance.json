@@ -1,0 +1,34 @@
+[
+  {
+    "page": "B1_P2",
+    "blocks": 0,
+    "semantic_objects_materialized": false,
+    "inherits_b1_truth": false,
+    "original_document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "benchmark_page_copy_sha256": "1961521112236b8345c45735b247d840a90601347df75904a7736ac42d74be34"
+  },
+  {
+    "page": "BASES_P41",
+    "blocks": 0,
+    "semantic_objects_materialized": false,
+    "inherits_b1_truth": false,
+    "original_document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "benchmark_page_copy_sha256": "b369278f397d19e99f541a4f08866aff2f8f9a7f1339ccdeca06ca8cdb7f3816"
+  },
+  {
+    "page": "QUESTION_P12",
+    "blocks": 0,
+    "semantic_objects_materialized": false,
+    "inherits_b1_truth": false,
+    "original_document_sha256": "7e4b94ae3130c1e1e46e1bc4ad89040a3d68351ab25b88c633a7c62bcd138670",
+    "benchmark_page_copy_sha256": "6cb14216b6a12d8fdde2efe3cbee381c891882cd33d0d6ad1271411566dfdbb7"
+  },
+  {
+    "page": "ANEXOC_P1",
+    "blocks": 0,
+    "semantic_objects_materialized": false,
+    "inherits_b1_truth": false,
+    "original_document_sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+    "benchmark_page_copy_sha256": "97785ba59f983c4dcce97edeac56830a5255c4f98cfa84598ece58ee633f96f8"
+  }
+]

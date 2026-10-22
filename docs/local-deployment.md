@@ -132,3 +132,75 @@ Ver [quickstart de administrador](uat-admin-quickstart.md). No resetear DB/data 
 Reproducción sustancial, no clean-machine completa: venv limpio + frontend limpio + clúster inicializado desde cero sobre host macOS con Python/Node/PostgreSQL/Tesseract/Ollama ya instalados. Los wheels se descargaron por red inicialmente; la instalación nueva usó wheelhouse y caché npm offline. No VM/freshOS, no installer Homebrew validado, no inferencia, no Windows/Linux, no UI end-to-end ni RC-H2.
 
 Se mantienen intactas las rutas de extracción/semántica/IR/proof/planner/budgets/prompts y las migraciones existentes. Los cambios de Settings sólo afectan bind/URLdefault de despliegue; Alembic usa ruta portable. El informe RC-H1 contiene comandos/resultados de pruebas y matriz de éxito A–K. Completar RC-H1 no autoriza otro slice ni implica que ya se cumplieron todos losP0de primer usuario externo.
+
+## RC-H3 — Backup, restore y retry local
+
+Implementación para revisión arquitectónica. Véase [ADR-0021](adr/0021-local-backup-restore-safe-retry.md).
+Sólo el clúster privado PostgreSQL 17 de este launcher; no usar contra DB dev/test,
+instancias compartidas, tablespaces externos ni roots históricos de validación.
+Requiere las herramientas PostgreSQL 17 instaladas y dependencias locales RC-H1.
+No requiere Internet, modelo disponible ni ningún servicio cloud.
+
+Detén la instancia con `stop`, espera su cierre y confirma que nadie escribe sobre
+su root (incluidos terminales/API fuera del launcher). Backup/restore rechazan un
+launcher/listener/PG/lock activo. `--confirm-quiescent` afirma esta condición; no pausa
+procesos ajenos ni sustituye su verificación. No borrar PIDs/locks para evadirla.
+
+Con el intérprete habitual del launcher y `--config /ruta/runtime.json`:
+
+```sh
+/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python backend/scripts/licitia_local.py --config /ruta/runtime.json backup --backup-path /ruta/segura/backup-nuevo --confirm-quiescent
+/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python backend/scripts/licitia_local.py --config /ruta/runtime.json verify-backup --backup-path /ruta/segura/backup-nuevo
+/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python backend/scripts/licitia_local.py --config /ruta/destino/runtime.json restore --backup-path /ruta/segura/backup-nuevo --confirm-quiescent --confirm-restore
+```
+
+Ejecutar desde la raíz del repositorio. El launcher usa el venv instalado del runtime.
+El destino debe estar configurado e instalado (RC-H1), detenido y sin journal pendiente;
+puede tener DB/storage vacíos o datos existentes. El backup debe estar fuera del runtime,
+en un directorio padre existente; el destino del backup debe ser nuevo. No incluir
+un backup dentro de otro ni copiar datos mientras haya escritores activos.
+
+Formato `licitia-local-backup-v1`: `database.dump`, `storage/`, `manifest.json`.
+Incluye base completa, originales de Tender/empresa, resultados, revisiones/correcciones,
+manifiestos y recibos OCR/Vision, estado Workspace y otros archivos del root de datos.
+El manifiesto contiene fecha UTC, aplicación/HEAD/hash de código, Alembic, identidades
+opacas de origen, rutas relativas/categorías, tamaño/hash SHA-256, conteos y validación.
+Huérfanos originales se cuentan y conservan; referencias ausentes/cambiadas bloquean
+el respaldo. Se rechazan links/special files y schema incompatible.
+
+Los backups contienen **información confidencial** aun sin runtime.json, contraseñas
+administrativas, roles globales o pesos LLM. Creación local con permisos 0700/0600.
+Protege también copias, discos extraíbles y manifests; copia sólo por medios aprobados
+y seguros, con cifrado del medio cuando tu política lo exija. No hay upload cloud ni
+cifrado propio. Los checksums prueban integridad, no origen: nunca restaures dumps de
+fuentes no confiables. Protege la configuración privada del destino por separado.
+
+Restore valida checksums/inventario/schema antes de modificar datos vigentes, copia
+el backup a un snapshot privado verificado de la misma identidad y reconstruye
+DB+storage en staging y conserva el par anterior en `.restore-<id>/prior` del destino.
+No importa contraseñas del origen ni ejecuta migraciones/proveedores automáticamente.
+Verifica fuentes/revisiones desde el Workspace después de `start`. Retén la copia
+anterior y el backup hasta aceptar la restauración; su retención/eliminación segura
+es responsabilidad administrativa, sin GC automático.
+
+Si hay interrupción de restore:
+
+```sh
+/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python backend/scripts/licitia_local.py --config /ruta/runtime.json recovery-status
+/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python backend/scripts/licitia_local.py --config /ruta/runtime.json recover-restore --confirm-quiescent
+```
+
+Un journal pendiente impide arrancar. La recuperación revierte un swap incompleto o
+finaliza uno ya marcado COMMITTED. Conserva staging/estado anterior para diagnóstico;
+no borres el journal manualmente. Si falló detener un PostgreSQL temporal, conserva
+su directorio y consulta soporte para detener sólo ese clúster antes de retirarlo.
+No se garantiza recuperación de daño físico de disco; conserva otra copia segura.
+
+En Workspace, **Verificar recuperación** muestra si un retry es seguro. **Reintentar
+de forma segura** exige identidad vigente, reutiliza evidencia compatible y conserva
+revisión humana. Puede recuperar un parser fallido sólo si no produjo páginas.
+No modifica originales, no borra recibos agotados, no cambia budgets y no adquiere
+OCR/Vision. Proveedores fallidos requieren sus controles específicos existentes;
+la evidencia determinista válida permanece consultable. Fuente/manifiesto cambiado,
+missing o estado inconsistente bloquea retry y requiere soporte, sin reset genérico.
+Quantity permanece solo lectura y no hereda la aceptación del Scope (P1).

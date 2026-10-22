@@ -1,0 +1,150 @@
+{
+  "page": "BASES_P41",
+  "tool": "camelot",
+  "configuration": "lattice_combined",
+  "parameters": {
+    "flavor": "lattice",
+    "engine": "combined"
+  },
+  "repeat_seconds": [
+    0.26417529201717116,
+    0.26507529098307714
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 530497536,
+  "warnings": [],
+  "errors": [],
+  "tables": [
+    {
+      "bbox_bottom_origin": [
+        42.239999999999995,
+        365.4092699182066,
+        546.72,
+        396.11996364737956
+      ],
+      "bbox": [
+        42.239999999999995,
+        395.88003635262044,
+        546.72,
+        426.5907300817934
+      ],
+      "rows": 2,
+      "columns": 2,
+      "matrix": [
+        [
+          "Documento",
+          "Tipo de Información (1)"
+        ],
+        [
+          "XXXXXXXX",
+          "XXXXXXXXX"
+        ]
+      ],
+      "parser_report": {
+        "accuracy": 100.0,
+        "whitespace": 0.0,
+        "order": 1,
+        "page": 1,
+        "confidence": 1.0
+      },
+      "cells": [
+        {
+          "row": 0,
+          "column": 0,
+          "text": "Documento \n",
+          "bbox": [
+            42.45,
+            396.7197818842775,
+            264.24,
+            409.7958194486519
+          ],
+          "bbox_bottom_origin": [
+            42.45,
+            382.2041805513481,
+            264.24,
+            395.2802181157225
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "text": "Tipo de Información (1) \n",
+          "bbox": [
+            264.24,
+            396.7197818842775,
+            546.24,
+            409.7958194486519
+          ],
+          "bbox_bottom_origin": [
+            264.24,
+            382.2041805513481,
+            546.24,
+            395.2802181157225
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "text": "XXXXXXXX \n",
+          "bbox": [
+            42.45,
+            409.7958194486519,
+            264.24,
+            426.1108754922751
+          ],
+          "bbox_bottom_origin": [
+            42.45,
+            365.8891245077249,
+            264.24,
+            382.2041805513481
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "text": "XXXXXXXXX \n",
+          "bbox": [
+            264.24,
+            409.7958194486519,
+            546.24,
+            426.1108754922751
+          ],
+          "bbox_bottom_origin": [
+            264.24,
+            365.8891245077249,
+            546.24,
+            382.2041805513481
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        }
+      ]
+    }
+  ],
+  "repeat_structure_sha256": [
+    "cf89f8bfd20142874a5fead3ee7462b5ee1d30deecf7d446b4a10b2f83ef6368",
+    "cf89f8bfd20142874a5fead3ee7462b5ee1d30deecf7d446b4a10b2f83ef6368"
+  ]
+}

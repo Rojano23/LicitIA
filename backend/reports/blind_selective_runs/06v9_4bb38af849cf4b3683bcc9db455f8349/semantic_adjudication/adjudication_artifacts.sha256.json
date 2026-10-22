@@ -1,0 +1,21 @@
+{
+  "adjudicate9_integrity.py": "9f999294c684e58de02e52c0d2600615e75ddf436806fa17ffc9fafcd6d6cd5b",
+  "semantic_adjudication.md": "56627290f99d61ed14e82fde8b1ebc31a570cca7bb67d94dabe10140dc710273",
+  "b1_page1.png": "dcf15928a52994a7736a3ecd76be7b961c0debe2397a553c42573edecdf09937",
+  "semantic_adjudication.json": "7eeaa016a787dd683a5cc8c26ba486c1bc89abcdabb6d77d7b08727abb9ed3c7",
+  "anexo_c_page1_independent_review.png": "5b534fe1d34a70a2956dd7ba11351095b36e33111315c6774d567ffe6058e60d",
+  "adj9_finalize.py": "e77a964a1779d72d1e655da2307b835560938a92511cf6814e67dc3b7e17b3b4",
+  "structural_safety_review.json": "cb777589b65beac82e32feac1bbc1abe1a13e6c050df8ec03925109e8c14febb",
+  "preservation_manifest.json": "17824758d90e1cc89ff77bf80ef1569786c4e8c6deaea017c7afb9c8ebe3cb88",
+  "post_git_status.txt": "4fa5ef0740affd9d7a8b0ea0ba651d7cc4cc5229a2be596b324a493641e653a0",
+  "post_git_diff_stat.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "uat_capability_statement.md": "c739473ed5737d31412d912866a87ea3eaac88b5ee34fa2e288bf81663294aa6",
+  "b1_page1_literal.txt": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325",
+  "adj9_compare.py": "8f07f99716c0cf86e630a660d3bc0428a41065bffbc27bccc267c5fa573ea34f",
+  "post_git_diff_check.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "comparison_ledger.json": "811aad779ac2a686ed1adf1040a2906e9d44764e3dd59dbf204475cfa6a2a33d",
+  "post_adjudication_integrity.json": "e622c88579bf33361a219c51f5c8878a3dd4ba5c33252c1079fd553914b0a0ce",
+  "individual_scope_quantity_adjudication.json": "fbd874e4bfeee350b5374d7f9451f5c06cfa507e49d8a7781f25ad6f526f7ce4",
+  "integrity_verification.json": "fc22a9a8409f9503c48737b8fca68a51da40c15c887eab6bbd1d2be31c49742e",
+  "adj9_proof.py": "71ea362429b0d8f030fe370dfa87d1b39fd78eb7a2fa20ea2b34e3717c21100d"
+}

@@ -110,6 +110,7 @@ def stop(config):
 
 
 def start(config):
+    if (config.directory/'restore-journal.json').exists():raise ValueError('PENDING_RESTORE_RECOVERY_REQUIRED')
     if not (config.directory/'frontend/dist/index.html').is_file():raise ValueError('FRONTEND_BUILD_REQUIRED')
     for port in (config.api_port,config.web_port,config.pg_port):available(port)
     state=config.directory/'running.json';children=[];database_started=False;log=None
@@ -176,7 +177,10 @@ def selftest(config):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config',type=Path,default=Path.home()/'Library/Application Support/LicitiaUAT/runtime.json')
-    parser.add_argument('action',choices=['configure','install','init','start','check','status','stop','restart','selftest'])
+    parser.add_argument('action',choices=['configure','install','init','start','check','status','stop','restart','selftest','backup','verify-backup','restore','recovery-status','recover-restore'])
+    parser.add_argument('--backup-path',type=Path)
+    parser.add_argument('--confirm-quiescent',action='store_true',help='Administrator confirms all writers are stopped')
+    parser.add_argument('--confirm-restore',action='store_true',help='Replace DB/data after validation, retaining previous state')
     parser.add_argument('--wheelhouse',type=Path)
     parser.add_argument('--npm-offline',action='store_true')
     parser.add_argument('--enable-llm',action='store_true')
@@ -194,8 +198,23 @@ def main():
         (path.parent/'data').mkdir(exist_ok=True,mode=0o700)
         private_write(path,asdict(config));print('Private configuration created; no services started.');return 0
     config=load_config(path)
-    if args.action in {'check','status','selftest'} and Path(sys.prefix)!=config.directory/'venv':
+    if args.action in {'check','status','selftest','backup','verify-backup','restore','recovery-status','recover-restore'} and Path(sys.prefix)!=config.directory/'venv':
         return subprocess.call([str(config.python),__file__,*sys.argv[1:]],env=config.environment())
+    if args.action in {'backup','verify-backup','restore','recovery-status','recover-restore'}:
+        from app.local_recovery import backup,verify_backup,restore,recovery_status,recover_restore
+        if args.action in {'backup','restore','recover-restore'} and not args.confirm_quiescent:
+            raise ValueError('CONFIRM_ALL_WRITERS_STOPPED_REQUIRED')
+        if args.action in {'backup','verify-backup','restore'} and args.backup_path is None:
+            raise ValueError('BACKUP_PATH_REQUIRED')
+        if args.action=='restore' and not args.confirm_restore:
+            raise ValueError('CONFIRM_RESTORE_REQUIRED')
+        if args.action=='backup':result=backup(config,args.backup_path)
+        elif args.action=='restore':result=restore(config,args.backup_path)
+        elif args.action=='verify-backup':
+            verified=verify_backup(args.backup_path);result={'status':'VERIFIED','file_count':verified.file_count}
+        elif args.action=='recover-restore':result=recover_restore(config)
+        else:result=recovery_status(config)
+        print(json.dumps(result,indent=2));return 0
     # Cross-command lock: installer/init/start cannot race or mutate a running instance.
     lock=None
     if args.action in {'install','init','start','restart'}:

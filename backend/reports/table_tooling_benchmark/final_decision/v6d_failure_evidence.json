@@ -1,0 +1,28 @@
+{
+  "basis": "Existing saved word/table geometry and committed code; no new extraction or execution trace",
+  "fragment_id": "B1_P1_word_81",
+  "literal": "Unidad",
+  "word_bbox": [
+    459.07000732421875,
+    291.8689880371094,
+    491.3889465332031,
+    304.1269836425781
+  ],
+  "table_bbox": [
+    49.49999952316284,
+    292.3219787597656,
+    567.1599731445312,
+    414.0980163574219
+  ],
+  "top_overshoot_points": 0.45299072265623863,
+  "full_containment_possible_in_any_table_cell": false,
+  "v6d_code_path": [
+    "reconstruct_native_tables: header_spans = _cell_spans(...)",
+    "_cell_spans: overlapping word not _inside => None",
+    "any missing header_spans => continue (skip table)"
+  ],
+  "synthetic_difference": "Generated fixtures place whole font/word boxes within roomy cells. Real multiline header font boxes straddle a rule. No missing line detection demonstrated on B1.",
+  "pdfplumber_assignment": "Table.extract uses per-character horizontal/vertical midpoint containment",
+  "camelot_assignment": "get_table_index uses text-line vertical midpoint and horizontal overlap/assignment error; not full containment of each original PyMuPDF word bbox",
+  "no_product_fix_or_new_extraction": true
+}

@@ -1,0 +1,924 @@
+{
+  "aggregate": {
+    "active_observations": 3,
+    "correct_review_required": 0,
+    "deselected_observations": 0,
+    "domain_engine_error_count": 0,
+    "domain_impact": {},
+    "domain_trust_assessed": 0,
+    "domain_trust_unassessed": 3,
+    "error_categories": {},
+    "labeled_observations": 0,
+    "measurements": {},
+    "readiness_certified": false,
+    "safe_automatic_selections": 0,
+    "safe_misses": 0,
+    "stale_carry_violations": 0,
+    "transcription": {
+      "critical_tokens": {
+        "matched_observed_fraction": null,
+        "precision": null,
+        "recall": null
+      },
+      "numeric_tokens": {
+        "matched_observed_fraction": null,
+        "precision": null,
+        "recall": null
+      },
+      "units": {
+        "matched_observed_fraction": null,
+        "precision": null,
+        "recall": null
+      }
+    },
+    "unnecessary_review": 0,
+    "unsafe_auto_selections": 0,
+    "unsafe_trusted_contractual_errors": 0
+  },
+  "baseline_provider": "VISION",
+  "by_provider_capability": {
+    "VISION:STRUCTURE": {
+      "active_observations": 3,
+      "correct_review_required": 0,
+      "deselected_observations": 0,
+      "domain_engine_error_count": 0,
+      "domain_impact": {},
+      "domain_trust_assessed": 0,
+      "domain_trust_unassessed": 3,
+      "error_categories": {},
+      "labeled_observations": 0,
+      "measurements": {},
+      "readiness_certified": false,
+      "safe_automatic_selections": 0,
+      "safe_misses": 0,
+      "stale_carry_violations": 0,
+      "transcription": {
+        "critical_tokens": {
+          "matched_observed_fraction": null,
+          "precision": null,
+          "recall": null
+        },
+        "numeric_tokens": {
+          "matched_observed_fraction": null,
+          "precision": null,
+          "recall": null
+        },
+        "units": {
+          "matched_observed_fraction": null,
+          "precision": null,
+          "recall": null
+        }
+      },
+      "unnecessary_review": 0,
+      "unsafe_auto_selections": 0,
+      "unsafe_trusted_contractual_errors": 0
+    }
+  },
+  "capability": "STRUCTURE",
+  "external_reference": "SNR-CAD-265-CA-S-2026",
+  "golden_references": [
+    {
+      "path": "/Users/ceciliavalencia/LiticIA/backend/evals/scope_quantity_golden_v1.json",
+      "sha256": "de2327ca868f8b72bf6dd80f50a568807b567f92c4106d65f913b7ce263339e7"
+    },
+    {
+      "path": "/Users/ceciliavalencia/LiticIA/backend/evals/semantic_scope_golden_v1.json",
+      "sha256": "ad9d44a67022fa1eaec3181799a88b93c4c6dd04572fff46f31c3ac0c244af86"
+    },
+    {
+      "path": "/Users/ceciliavalencia/LiticIA/backend/evals/technical_attribute_golden_v1.json",
+      "sha256": "ad2e3707f5b7a2e53e44339108c14669d9697ad733af3527a8e40216dd7b991b"
+    }
+  ],
+  "observations": [
+    {
+      "artifact_id": "external:cca731553a65bbd404871fe93aed1d41974d890e3e1a72da2a62b5a46f35580c",
+      "attribute_bindings": [],
+      "capability": "STRUCTURE",
+      "conflicts": [],
+      "continuity_status": "UNKNOWN",
+      "critical_tokens": [],
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "domain_errors": [],
+      "domain_impact": [],
+      "domain_input_trusted": null,
+      "external_reference": "SNR-CAD-265-CA-S-2026",
+      "identifiers": {},
+      "latency_ms": 35825,
+      "lineage": "ACTIVE",
+      "model": "qwen3-vl:4b-instruct",
+      "notes": [
+        "EXTERNAL_ACQUISITION_NOT_PERSISTED",
+        "FIDELITY_NOT_CERTIFIED"
+      ],
+      "outgoing_item_key": null,
+      "page_number": 1,
+      "provenance": {
+        "continuity": {
+          "diagnostics": [
+            "CURRENT_STRUCTURE_UNTRUSTWORTHY"
+          ],
+          "evidence": null,
+          "outgoing_item_key": null,
+          "page": {
+            "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+            "document_page_id": "25bb20b7-13e6-4ab6-8505-326527a1f2c3",
+            "document_version": "1",
+            "page_number": 1,
+            "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+          },
+          "status": "UNKNOWN",
+          "structural_state": null
+        },
+        "image_sha256": "cca731553a65bbd404871fe93aed1d41974d890e3e1a72da2a62b5a46f35580c",
+        "previous_page_context": null,
+        "prompt_version": "vision-structure-scope-2026-09-03-006",
+        "raw_response_text": "{\n  \"page_number\": 1,\n  \"continues_previous_item\": false,\n  \"previous_item_number\": null,\n  \"item_segments\": [\n    {\n      \"item_number\": \"1.\",\n      \"starts_on_this_page\": true,\n      \"has_service\": true,\n      \"has_supply\": false,\n      \"has_deliverable\": false,\n      \"anchor_raw_text\": \"SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE 1.\",\n      \"review_required\": false\n    }\n  ],\n  \"new_items\": [],\n  \"open_item_at_page_end\": \"1.\",\n  \"uncertainties\": []\n}",
+        "runtime_status": "COMPLETED",
+        "structured_json": {
+          "_continuity_context_used": null,
+          "_provider_response_meta": {
+            "done_reason": "stop",
+            "eval_count": 156,
+            "max_output_tokens": 600,
+            "prompt_eval_count": 2626,
+            "prompt_version": "vision-structure-scope-2026-09-03-006",
+            "task_type": "STRUCTURE_SCOPE"
+          },
+          "continues_previous_item": false,
+          "item_segments": [
+            {
+              "anchor_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE",
+              "has_deliverable": false,
+              "has_service": true,
+              "has_supply": false,
+              "item_number": "1",
+              "review_required": false,
+              "starts_on_this_page": true
+            }
+          ],
+          "new_items": [
+            {
+              "concept_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE 1.",
+              "item_number": "1",
+              "review_required": false
+            }
+          ],
+          "open_item_at_page_end": "1",
+          "page_number": 1,
+          "previous_item_number": null,
+          "uncertainties": []
+        },
+        "task": "STRUCTURE_SCOPE",
+        "timeout_seconds": 180.0,
+        "warnings": [
+          "ANCHOR_TRUNCATED_TO_MAX_WORDS",
+          "NEW_ITEM_DERIVED_FROM_ITEM_START",
+          "HTTP_STATUS:200",
+          "DONE_REASON:stop"
+        ]
+      },
+      "provider": "VISION",
+      "quantity_bindings": [],
+      "routing_status": "REVIEW_REQUIRED",
+      "structure": {
+        "incoming_item_key": null,
+        "outgoing_item_key": null,
+        "page_number": 1,
+        "provenance": {
+          "source_analysis_id": null,
+          "source_contract_version": "vision-structure-scope-2026-09-03-006",
+          "source_method": "VISION",
+          "source_page_result_id": null
+        },
+        "review_required": true,
+        "segments": [
+          {
+            "anchor_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE",
+            "has_deliverable": false,
+            "has_service": true,
+            "has_supply": false,
+            "item_identity": {
+              "components": [
+                "1"
+              ],
+              "depth": 1,
+              "normalized_key": "1",
+              "parent_key": null,
+              "raw_label": "1",
+              "state": "DETERMINED"
+            },
+            "review_required": false,
+            "sequence": 0,
+            "starts_on_this_page": true
+          }
+        ],
+        "state_quality": "UNKNOWN",
+        "warnings": [
+          "STRUCTURAL_STATE_UNRESOLVED"
+        ]
+      },
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "text": "SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE"
+    },
+    {
+      "artifact_id": "external:1cf4f18ca35c4522319d92e90fec199c1880d6ec2f73ad463283f2a2d6318543",
+      "attribute_bindings": [],
+      "capability": "STRUCTURE",
+      "conflicts": [],
+      "continuity_status": "UNKNOWN",
+      "critical_tokens": [],
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "domain_errors": [],
+      "domain_impact": [],
+      "domain_input_trusted": null,
+      "external_reference": "SNR-CAD-265-CA-S-2026",
+      "identifiers": {},
+      "latency_ms": 35638,
+      "lineage": "ACTIVE",
+      "model": "qwen3-vl:4b-instruct",
+      "notes": [
+        "EXTERNAL_ACQUISITION_NOT_PERSISTED",
+        "FIDELITY_NOT_CERTIFIED"
+      ],
+      "outgoing_item_key": null,
+      "page_number": 2,
+      "provenance": {
+        "continuity": {
+          "diagnostics": [
+            "CURRENT_STRUCTURE_UNTRUSTWORTHY"
+          ],
+          "evidence": null,
+          "outgoing_item_key": null,
+          "page": {
+            "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+            "document_page_id": "6280ec57-5949-4032-9b09-379b1429f81f",
+            "document_version": "1",
+            "page_number": 2,
+            "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+          },
+          "status": "UNKNOWN",
+          "structural_state": null
+        },
+        "image_sha256": "1cf4f18ca35c4522319d92e90fec199c1880d6ec2f73ad463283f2a2d6318543",
+        "previous_page_context": null,
+        "prompt_version": "vision-structure-scope-2026-09-03-006",
+        "raw_response_text": "{\n  \"page_number\": 2,\n  \"continues_previous_item\": false,\n  \"previous_item_number\": null,\n  \"item_segments\": [\n    {\n      \"item_number\": \"2.\",\n      \"starts_on_this_page\": true,\n      \"has_service\": true,\n      \"has_supply\": false,\n      \"has_deliverable\": false,\n      \"anchor_raw_text\": \"SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE PROCESO ASFALTOs.\",\n      \"review_required\": false\n    }\n  ],\n  \"new_items\": [],\n  \"open_item_at_page_end\": null,\n  \"uncertainties\": []\n}",
+        "runtime_status": "COMPLETED",
+        "structured_json": {
+          "_continuity_context_used": null,
+          "_provider_response_meta": {
+            "done_reason": "stop",
+            "eval_count": 157,
+            "max_output_tokens": 600,
+            "prompt_eval_count": 2626,
+            "prompt_version": "vision-structure-scope-2026-09-03-006",
+            "task_type": "STRUCTURE_SCOPE"
+          },
+          "continues_previous_item": false,
+          "item_segments": [
+            {
+              "anchor_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE",
+              "has_deliverable": false,
+              "has_service": true,
+              "has_supply": false,
+              "item_number": "2",
+              "review_required": false,
+              "starts_on_this_page": true
+            }
+          ],
+          "new_items": [
+            {
+              "concept_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE PROCESO ASFALTOs.",
+              "item_number": "2",
+              "review_required": false
+            }
+          ],
+          "open_item_at_page_end": "2",
+          "page_number": 2,
+          "previous_item_number": null,
+          "uncertainties": []
+        },
+        "task": "STRUCTURE_SCOPE",
+        "timeout_seconds": 180.0,
+        "warnings": [
+          "ANCHOR_TRUNCATED_TO_MAX_WORDS",
+          "NEW_ITEM_DERIVED_FROM_ITEM_START",
+          "OPEN_ITEM_DERIVED_FROM_LAST_NEW_ITEM",
+          "HTTP_STATUS:200",
+          "DONE_REASON:stop"
+        ]
+      },
+      "provider": "VISION",
+      "quantity_bindings": [],
+      "routing_status": "REVIEW_REQUIRED",
+      "structure": {
+        "incoming_item_key": null,
+        "outgoing_item_key": null,
+        "page_number": 2,
+        "provenance": {
+          "source_analysis_id": null,
+          "source_contract_version": "vision-structure-scope-2026-09-03-006",
+          "source_method": "VISION",
+          "source_page_result_id": null
+        },
+        "review_required": true,
+        "segments": [
+          {
+            "anchor_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE",
+            "has_deliverable": false,
+            "has_service": true,
+            "has_supply": false,
+            "item_identity": {
+              "components": [
+                "2"
+              ],
+              "depth": 1,
+              "normalized_key": "2",
+              "parent_key": null,
+              "raw_label": "2",
+              "state": "DETERMINED"
+            },
+            "review_required": false,
+            "sequence": 0,
+            "starts_on_this_page": true
+          }
+        ],
+        "state_quality": "UNKNOWN",
+        "warnings": [
+          "STRUCTURAL_STATE_UNRESOLVED"
+        ]
+      },
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "text": "SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE"
+    },
+    {
+      "artifact_id": "external:44e47c57341e81ee6679cd3ab0cc4ecb4d377ef3cc4fddd67c1b8bc42310221e",
+      "attribute_bindings": [],
+      "capability": "STRUCTURE",
+      "conflicts": [],
+      "continuity_status": "UNKNOWN",
+      "critical_tokens": [],
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "domain_errors": [],
+      "domain_impact": [],
+      "domain_input_trusted": null,
+      "external_reference": "SNR-CAD-265-CA-S-2026",
+      "identifiers": {},
+      "latency_ms": 36923,
+      "lineage": "ACTIVE",
+      "model": "qwen3-vl:4b-instruct",
+      "notes": [
+        "EXTERNAL_ACQUISITION_NOT_PERSISTED",
+        "FIDELITY_NOT_CERTIFIED"
+      ],
+      "outgoing_item_key": null,
+      "page_number": 3,
+      "provenance": {
+        "continuity": {
+          "diagnostics": [
+            "CURRENT_STRUCTURE_UNTRUSTWORTHY"
+          ],
+          "evidence": null,
+          "outgoing_item_key": null,
+          "page": {
+            "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+            "document_page_id": "50fa4ff5-f91f-4ca7-8f2d-a27a6d7d381d",
+            "document_version": "1",
+            "page_number": 3,
+            "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+          },
+          "status": "UNKNOWN",
+          "structural_state": null
+        },
+        "image_sha256": "44e47c57341e81ee6679cd3ab0cc4ecb4d377ef3cc4fddd67c1b8bc42310221e",
+        "previous_page_context": null,
+        "prompt_version": "vision-structure-scope-2026-09-03-006",
+        "raw_response_text": "{\n  \"page_number\": 3,\n  \"continues_previous_item\": false,\n  \"previous_item_number\": null,\n  \"item_segments\": [\n    {\n      \"item_number\": \"3\",\n      \"starts_on_this_page\": true,\n      \"has_service\": true,\n      \"has_supply\": true,\n      \"has_deliverable\": true,\n      \"anchor_raw_text\": \"APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO\",\n      \"review_required\": false\n    }\n  ],\n  \"new_items\": [],\n  \"open_item_at_page_end\": null,\n  \"uncertainties\": []\n}",
+        "runtime_status": "COMPLETED",
+        "structured_json": {
+          "_continuity_context_used": null,
+          "_provider_response_meta": {
+            "done_reason": "stop",
+            "eval_count": 147,
+            "max_output_tokens": 600,
+            "prompt_eval_count": 2626,
+            "prompt_version": "vision-structure-scope-2026-09-03-006",
+            "task_type": "STRUCTURE_SCOPE"
+          },
+          "continues_previous_item": false,
+          "item_segments": [
+            {
+              "anchor_raw_text": "APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO",
+              "has_deliverable": true,
+              "has_service": true,
+              "has_supply": true,
+              "item_number": "3",
+              "review_required": false,
+              "starts_on_this_page": true
+            }
+          ],
+          "new_items": [
+            {
+              "concept_raw_text": "APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO",
+              "item_number": "3",
+              "review_required": false
+            }
+          ],
+          "open_item_at_page_end": "3",
+          "page_number": 3,
+          "previous_item_number": null,
+          "uncertainties": []
+        },
+        "task": "STRUCTURE_SCOPE",
+        "timeout_seconds": 180.0,
+        "warnings": [
+          "NEW_ITEM_DERIVED_FROM_ITEM_START",
+          "OPEN_ITEM_DERIVED_FROM_LAST_NEW_ITEM",
+          "HTTP_STATUS:200",
+          "DONE_REASON:stop"
+        ]
+      },
+      "provider": "VISION",
+      "quantity_bindings": [],
+      "routing_status": "REVIEW_REQUIRED",
+      "structure": {
+        "incoming_item_key": null,
+        "outgoing_item_key": null,
+        "page_number": 3,
+        "provenance": {
+          "source_analysis_id": null,
+          "source_contract_version": "vision-structure-scope-2026-09-03-006",
+          "source_method": "VISION",
+          "source_page_result_id": null
+        },
+        "review_required": true,
+        "segments": [
+          {
+            "anchor_raw_text": "APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO",
+            "has_deliverable": true,
+            "has_service": true,
+            "has_supply": true,
+            "item_identity": {
+              "components": [
+                "3"
+              ],
+              "depth": 1,
+              "normalized_key": "3",
+              "parent_key": null,
+              "raw_label": "3",
+              "state": "DETERMINED"
+            },
+            "review_required": false,
+            "sequence": 0,
+            "starts_on_this_page": true
+          }
+        ],
+        "state_quality": "UNKNOWN",
+        "warnings": [
+          "STRUCTURAL_STATE_UNRESOLVED"
+        ]
+      },
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "text": "APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO"
+    }
+  ],
+  "real_models_executed": true,
+  "results": [
+    {
+      "criticality": "DIAGNOSTIC",
+      "domain_errors": [],
+      "domain_impact": [],
+      "error_category": [],
+      "error_origin": null,
+      "expected": null,
+      "measurements": {},
+      "observed": {
+        "artifact_id": "external:cca731553a65bbd404871fe93aed1d41974d890e3e1a72da2a62b5a46f35580c",
+        "attribute_bindings": [],
+        "capability": "STRUCTURE",
+        "conflicts": [],
+        "continuity_status": "UNKNOWN",
+        "critical_tokens": [],
+        "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+        "domain_errors": [],
+        "domain_impact": [],
+        "domain_input_trusted": null,
+        "external_reference": "SNR-CAD-265-CA-S-2026",
+        "identifiers": {},
+        "latency_ms": 35825,
+        "lineage": "ACTIVE",
+        "model": "qwen3-vl:4b-instruct",
+        "notes": [
+          "EXTERNAL_ACQUISITION_NOT_PERSISTED",
+          "FIDELITY_NOT_CERTIFIED"
+        ],
+        "outgoing_item_key": null,
+        "page_number": 1,
+        "provenance": {
+          "continuity": {
+            "diagnostics": [
+              "CURRENT_STRUCTURE_UNTRUSTWORTHY"
+            ],
+            "evidence": null,
+            "outgoing_item_key": null,
+            "page": {
+              "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+              "document_page_id": "25bb20b7-13e6-4ab6-8505-326527a1f2c3",
+              "document_version": "1",
+              "page_number": 1,
+              "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+            },
+            "status": "UNKNOWN",
+            "structural_state": null
+          },
+          "image_sha256": "cca731553a65bbd404871fe93aed1d41974d890e3e1a72da2a62b5a46f35580c",
+          "previous_page_context": null,
+          "prompt_version": "vision-structure-scope-2026-09-03-006",
+          "raw_response_text": "{\n  \"page_number\": 1,\n  \"continues_previous_item\": false,\n  \"previous_item_number\": null,\n  \"item_segments\": [\n    {\n      \"item_number\": \"1.\",\n      \"starts_on_this_page\": true,\n      \"has_service\": true,\n      \"has_supply\": false,\n      \"has_deliverable\": false,\n      \"anchor_raw_text\": \"SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE 1.\",\n      \"review_required\": false\n    }\n  ],\n  \"new_items\": [],\n  \"open_item_at_page_end\": \"1.\",\n  \"uncertainties\": []\n}",
+          "runtime_status": "COMPLETED",
+          "structured_json": {
+            "_continuity_context_used": null,
+            "_provider_response_meta": {
+              "done_reason": "stop",
+              "eval_count": 156,
+              "max_output_tokens": 600,
+              "prompt_eval_count": 2626,
+              "prompt_version": "vision-structure-scope-2026-09-03-006",
+              "task_type": "STRUCTURE_SCOPE"
+            },
+            "continues_previous_item": false,
+            "item_segments": [
+              {
+                "anchor_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE",
+                "has_deliverable": false,
+                "has_service": true,
+                "has_supply": false,
+                "item_number": "1",
+                "review_required": false,
+                "starts_on_this_page": true
+              }
+            ],
+            "new_items": [
+              {
+                "concept_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE 1.",
+                "item_number": "1",
+                "review_required": false
+              }
+            ],
+            "open_item_at_page_end": "1",
+            "page_number": 1,
+            "previous_item_number": null,
+            "uncertainties": []
+          },
+          "task": "STRUCTURE_SCOPE",
+          "timeout_seconds": 180.0,
+          "warnings": [
+            "ANCHOR_TRUNCATED_TO_MAX_WORDS",
+            "NEW_ITEM_DERIVED_FROM_ITEM_START",
+            "HTTP_STATUS:200",
+            "DONE_REASON:stop"
+          ]
+        },
+        "provider": "VISION",
+        "quantity_bindings": [],
+        "routing_status": "REVIEW_REQUIRED",
+        "structure": {
+          "incoming_item_key": null,
+          "outgoing_item_key": null,
+          "page_number": 1,
+          "provenance": {
+            "source_analysis_id": null,
+            "source_contract_version": "vision-structure-scope-2026-09-03-006",
+            "source_method": "VISION",
+            "source_page_result_id": null
+          },
+          "review_required": true,
+          "segments": [
+            {
+              "anchor_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE",
+              "has_deliverable": false,
+              "has_service": true,
+              "has_supply": false,
+              "item_identity": {
+                "components": [
+                  "1"
+                ],
+                "depth": 1,
+                "normalized_key": "1",
+                "parent_key": null,
+                "raw_label": "1",
+                "state": "DETERMINED"
+              },
+              "review_required": false,
+              "sequence": 0,
+              "starts_on_this_page": true
+            }
+          ],
+          "state_quality": "UNKNOWN",
+          "warnings": [
+            "STRUCTURAL_STATE_UNRESOLVED"
+          ]
+        },
+        "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+        "text": "SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE"
+      },
+      "review_surfaced": true,
+      "safe_misses": 0,
+      "stale_carry_violations": 0,
+      "status": "DIAGNOSTIC_ONLY",
+      "unsafe_trusted_contractual_errors": 0
+    },
+    {
+      "criticality": "DIAGNOSTIC",
+      "domain_errors": [],
+      "domain_impact": [],
+      "error_category": [],
+      "error_origin": null,
+      "expected": null,
+      "measurements": {},
+      "observed": {
+        "artifact_id": "external:1cf4f18ca35c4522319d92e90fec199c1880d6ec2f73ad463283f2a2d6318543",
+        "attribute_bindings": [],
+        "capability": "STRUCTURE",
+        "conflicts": [],
+        "continuity_status": "UNKNOWN",
+        "critical_tokens": [],
+        "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+        "domain_errors": [],
+        "domain_impact": [],
+        "domain_input_trusted": null,
+        "external_reference": "SNR-CAD-265-CA-S-2026",
+        "identifiers": {},
+        "latency_ms": 35638,
+        "lineage": "ACTIVE",
+        "model": "qwen3-vl:4b-instruct",
+        "notes": [
+          "EXTERNAL_ACQUISITION_NOT_PERSISTED",
+          "FIDELITY_NOT_CERTIFIED"
+        ],
+        "outgoing_item_key": null,
+        "page_number": 2,
+        "provenance": {
+          "continuity": {
+            "diagnostics": [
+              "CURRENT_STRUCTURE_UNTRUSTWORTHY"
+            ],
+            "evidence": null,
+            "outgoing_item_key": null,
+            "page": {
+              "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+              "document_page_id": "6280ec57-5949-4032-9b09-379b1429f81f",
+              "document_version": "1",
+              "page_number": 2,
+              "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+            },
+            "status": "UNKNOWN",
+            "structural_state": null
+          },
+          "image_sha256": "1cf4f18ca35c4522319d92e90fec199c1880d6ec2f73ad463283f2a2d6318543",
+          "previous_page_context": null,
+          "prompt_version": "vision-structure-scope-2026-09-03-006",
+          "raw_response_text": "{\n  \"page_number\": 2,\n  \"continues_previous_item\": false,\n  \"previous_item_number\": null,\n  \"item_segments\": [\n    {\n      \"item_number\": \"2.\",\n      \"starts_on_this_page\": true,\n      \"has_service\": true,\n      \"has_supply\": false,\n      \"has_deliverable\": false,\n      \"anchor_raw_text\": \"SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE PROCESO ASFALTOs.\",\n      \"review_required\": false\n    }\n  ],\n  \"new_items\": [],\n  \"open_item_at_page_end\": null,\n  \"uncertainties\": []\n}",
+          "runtime_status": "COMPLETED",
+          "structured_json": {
+            "_continuity_context_used": null,
+            "_provider_response_meta": {
+              "done_reason": "stop",
+              "eval_count": 157,
+              "max_output_tokens": 600,
+              "prompt_eval_count": 2626,
+              "prompt_version": "vision-structure-scope-2026-09-03-006",
+              "task_type": "STRUCTURE_SCOPE"
+            },
+            "continues_previous_item": false,
+            "item_segments": [
+              {
+                "anchor_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE",
+                "has_deliverable": false,
+                "has_service": true,
+                "has_supply": false,
+                "item_number": "2",
+                "review_required": false,
+                "starts_on_this_page": true
+              }
+            ],
+            "new_items": [
+              {
+                "concept_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE PROCESO ASFALTOs.",
+                "item_number": "2",
+                "review_required": false
+              }
+            ],
+            "open_item_at_page_end": "2",
+            "page_number": 2,
+            "previous_item_number": null,
+            "uncertainties": []
+          },
+          "task": "STRUCTURE_SCOPE",
+          "timeout_seconds": 180.0,
+          "warnings": [
+            "ANCHOR_TRUNCATED_TO_MAX_WORDS",
+            "NEW_ITEM_DERIVED_FROM_ITEM_START",
+            "OPEN_ITEM_DERIVED_FROM_LAST_NEW_ITEM",
+            "HTTP_STATUS:200",
+            "DONE_REASON:stop"
+          ]
+        },
+        "provider": "VISION",
+        "quantity_bindings": [],
+        "routing_status": "REVIEW_REQUIRED",
+        "structure": {
+          "incoming_item_key": null,
+          "outgoing_item_key": null,
+          "page_number": 2,
+          "provenance": {
+            "source_analysis_id": null,
+            "source_contract_version": "vision-structure-scope-2026-09-03-006",
+            "source_method": "VISION",
+            "source_page_result_id": null
+          },
+          "review_required": true,
+          "segments": [
+            {
+              "anchor_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE",
+              "has_deliverable": false,
+              "has_service": true,
+              "has_supply": false,
+              "item_identity": {
+                "components": [
+                  "2"
+                ],
+                "depth": 1,
+                "normalized_key": "2",
+                "parent_key": null,
+                "raw_label": "2",
+                "state": "DETERMINED"
+              },
+              "review_required": false,
+              "sequence": 0,
+              "starts_on_this_page": true
+            }
+          ],
+          "state_quality": "UNKNOWN",
+          "warnings": [
+            "STRUCTURAL_STATE_UNRESOLVED"
+          ]
+        },
+        "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+        "text": "SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE"
+      },
+      "review_surfaced": true,
+      "safe_misses": 0,
+      "stale_carry_violations": 0,
+      "status": "DIAGNOSTIC_ONLY",
+      "unsafe_trusted_contractual_errors": 0
+    },
+    {
+      "criticality": "DIAGNOSTIC",
+      "domain_errors": [],
+      "domain_impact": [],
+      "error_category": [],
+      "error_origin": null,
+      "expected": null,
+      "measurements": {},
+      "observed": {
+        "artifact_id": "external:44e47c57341e81ee6679cd3ab0cc4ecb4d377ef3cc4fddd67c1b8bc42310221e",
+        "attribute_bindings": [],
+        "capability": "STRUCTURE",
+        "conflicts": [],
+        "continuity_status": "UNKNOWN",
+        "critical_tokens": [],
+        "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+        "domain_errors": [],
+        "domain_impact": [],
+        "domain_input_trusted": null,
+        "external_reference": "SNR-CAD-265-CA-S-2026",
+        "identifiers": {},
+        "latency_ms": 36923,
+        "lineage": "ACTIVE",
+        "model": "qwen3-vl:4b-instruct",
+        "notes": [
+          "EXTERNAL_ACQUISITION_NOT_PERSISTED",
+          "FIDELITY_NOT_CERTIFIED"
+        ],
+        "outgoing_item_key": null,
+        "page_number": 3,
+        "provenance": {
+          "continuity": {
+            "diagnostics": [
+              "CURRENT_STRUCTURE_UNTRUSTWORTHY"
+            ],
+            "evidence": null,
+            "outgoing_item_key": null,
+            "page": {
+              "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+              "document_page_id": "50fa4ff5-f91f-4ca7-8f2d-a27a6d7d381d",
+              "document_version": "1",
+              "page_number": 3,
+              "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+            },
+            "status": "UNKNOWN",
+            "structural_state": null
+          },
+          "image_sha256": "44e47c57341e81ee6679cd3ab0cc4ecb4d377ef3cc4fddd67c1b8bc42310221e",
+          "previous_page_context": null,
+          "prompt_version": "vision-structure-scope-2026-09-03-006",
+          "raw_response_text": "{\n  \"page_number\": 3,\n  \"continues_previous_item\": false,\n  \"previous_item_number\": null,\n  \"item_segments\": [\n    {\n      \"item_number\": \"3\",\n      \"starts_on_this_page\": true,\n      \"has_service\": true,\n      \"has_supply\": true,\n      \"has_deliverable\": true,\n      \"anchor_raw_text\": \"APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO\",\n      \"review_required\": false\n    }\n  ],\n  \"new_items\": [],\n  \"open_item_at_page_end\": null,\n  \"uncertainties\": []\n}",
+          "runtime_status": "COMPLETED",
+          "structured_json": {
+            "_continuity_context_used": null,
+            "_provider_response_meta": {
+              "done_reason": "stop",
+              "eval_count": 147,
+              "max_output_tokens": 600,
+              "prompt_eval_count": 2626,
+              "prompt_version": "vision-structure-scope-2026-09-03-006",
+              "task_type": "STRUCTURE_SCOPE"
+            },
+            "continues_previous_item": false,
+            "item_segments": [
+              {
+                "anchor_raw_text": "APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO",
+                "has_deliverable": true,
+                "has_service": true,
+                "has_supply": true,
+                "item_number": "3",
+                "review_required": false,
+                "starts_on_this_page": true
+              }
+            ],
+            "new_items": [
+              {
+                "concept_raw_text": "APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO",
+                "item_number": "3",
+                "review_required": false
+              }
+            ],
+            "open_item_at_page_end": "3",
+            "page_number": 3,
+            "previous_item_number": null,
+            "uncertainties": []
+          },
+          "task": "STRUCTURE_SCOPE",
+          "timeout_seconds": 180.0,
+          "warnings": [
+            "NEW_ITEM_DERIVED_FROM_ITEM_START",
+            "OPEN_ITEM_DERIVED_FROM_LAST_NEW_ITEM",
+            "HTTP_STATUS:200",
+            "DONE_REASON:stop"
+          ]
+        },
+        "provider": "VISION",
+        "quantity_bindings": [],
+        "routing_status": "REVIEW_REQUIRED",
+        "structure": {
+          "incoming_item_key": null,
+          "outgoing_item_key": null,
+          "page_number": 3,
+          "provenance": {
+            "source_analysis_id": null,
+            "source_contract_version": "vision-structure-scope-2026-09-03-006",
+            "source_method": "VISION",
+            "source_page_result_id": null
+          },
+          "review_required": true,
+          "segments": [
+            {
+              "anchor_raw_text": "APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO",
+              "has_deliverable": true,
+              "has_service": true,
+              "has_supply": true,
+              "item_identity": {
+                "components": [
+                  "3"
+                ],
+                "depth": 1,
+                "normalized_key": "3",
+                "parent_key": null,
+                "raw_label": "3",
+                "state": "DETERMINED"
+              },
+              "review_required": false,
+              "sequence": 0,
+              "starts_on_this_page": true
+            }
+          ],
+          "state_quality": "UNKNOWN",
+          "warnings": [
+            "STRUCTURAL_STATE_UNRESOLVED"
+          ]
+        },
+        "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+        "text": "APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO"
+      },
+      "review_surfaced": true,
+      "safe_misses": 0,
+      "stale_carry_violations": 0,
+      "status": "DIAGNOSTIC_ONLY",
+      "unsafe_trusted_contractual_errors": 0
+    }
+  ],
+  "schema_version": "1",
+  "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+}

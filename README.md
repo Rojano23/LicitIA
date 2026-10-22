@@ -14,7 +14,7 @@ El motor de validación MVP-06.V quedó cerrado por aceptación arquitectónica 
 - [Cierre MVP-06.V y evidencia aceptada](docs/mvp-06v-closure.md)
 - [Readiness y backlog RC / LIMITED UAT](docs/release-candidate-limited-uat-readiness.md)
 - [Declaración de capacidades para usuarios UAT](docs/uat-capability-statement.md)
-- [Instalación local RC-H1](docs/local-deployment.md) y [quickstart del administrador](docs/uat-admin-quickstart.md) — implementación pendiente de revisión; sin tag/commit RC-H1.
+- [Instalación local RC-H1](docs/local-deployment.md) y [quickstart del administrador](docs/uat-admin-quickstart.md) — RC-H1 aceptado (`65b3465`); RC-H2 aceptado (`415669f`). [Flujo Workspace](docs/workspace-functional-flow.md). RC-H3 backup/restore/retry implementado para revisión arquitectónica; sin tag RC.
 
 Las secciones MVP-01 siguientes conservan la línea base histórica; el estado vigente se consulta en los documentos anteriores y el roadmap.
 

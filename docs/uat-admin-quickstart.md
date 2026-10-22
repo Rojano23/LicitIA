@@ -25,3 +25,20 @@ Para macOS Apple Silicon y herramientas exactas de [instalación](local-deployme
 Acceder a runtime.json permite acceso al DB de esa instalación:0600 y no compartirlo. Logs/tickets no deben contener textos, imágenes o credenciales por defecto; compartir únicamente IDs/códigos y metadata saneada bajo autorización. `network.jsonl` no es una captura exhaustiva de paquetes.
 
 Antes de datos reales: entregar [frontera UAT](uat-capability-statement.md), comprobar backup conjunto DB+root y completar gates pendientes de [readiness](release-candidate-limited-uat-readiness.md). RC-H1 demuestra instalación/arranque, no garantiza corrección de outputs ni completitud contractual.
+
+## Recuperación RC-H3
+
+- Antes de cambios importantes: detener launcher/escritores y ejecutar `backup` con
+  `--backup-path` nuevo fuera del runtime y `--confirm-quiescent`; después `verify-backup`.
+- Para restaurar: destino RC-H1 configurado/instalado y detenido, schema compatible;
+  `restore --backup-path ... --confirm-quiescent --confirm-restore`. Conserva el par
+  anterior hasta verificar Tender, Scope/Quantity, fuentes y revisiones en Workspace.
+- Ante journal pendiente: `recovery-status` y `recover-restore --confirm-quiescent`.
+  Nunca borres journal/PIDs/recibos para forzar un arranque o eludir límites.
+- Ante procesamiento interrumpido/proveedor caído: consultar resultados conservados,
+  **Verificar recuperación**, después **Reintentar de forma segura** si es elegible.
+  No repara una fuente alterada ni cambia budgets; OCR/Vision se gestionan aparte.
+- Backups y pares previos son confidenciales, locales y de retención manual. Protege
+  copias y configuración privada por separado; no hay cloud ni cifrado incorporado.
+
+[Comandos completos, formato, requisitos y troubleshooting](local-deployment.md#rc-h3--backup-restore-y-retry-local).

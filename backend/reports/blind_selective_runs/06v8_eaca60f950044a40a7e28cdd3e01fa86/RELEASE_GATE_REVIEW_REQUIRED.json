@@ -1,0 +1,9 @@
+{
+  "status": "FAILED_PRESERVED_FOR_RELEASE_GATE_REVIEW",
+  "canonical_harness_status": "FROZEN",
+  "canonical_exception": false,
+  "environment_issue": "Idle Sleep 867s during guard-597, wall latency923927ms",
+  "configured_timeout_seconds": 60,
+  "active_time": "NOT_DIRECTLY_MEASURABLE",
+  "no_semantic_adjudication": true
+}

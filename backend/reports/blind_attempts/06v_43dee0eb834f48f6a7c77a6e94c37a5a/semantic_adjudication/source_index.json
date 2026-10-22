@@ -1,0 +1,91 @@
+[
+  {
+    "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+    "label": "D01",
+    "name": "02. Bases Internacionales  ID-107478.pdf",
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/620ccc6c-5073-41cd-95f0-1829a450af36/02. Bases Internacionales  ID-107478.pdf",
+    "sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "size_bytes": 1956514
+  },
+  {
+    "document_id": "02ee7c3d-6d7e-402f-9adf-663eabd27d0b",
+    "label": "D02",
+    "name": "2. Anexo_C.pdf",
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/7b5f99df-9975-456f-80bc-04def01a5b17/2. Anexo_C.pdf",
+    "sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+    "size_bytes": 177466
+  },
+  {
+    "document_id": "5dbe08a3-6525-4995-a248-07901b3ee57c",
+    "label": "D03",
+    "name": "1. Cuestionarios DD ANEXO.pdf",
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/77ff5055-44b7-4ddc-a938-4a27078b150e/1. Cuestionarios DD ANEXO.pdf",
+    "sha256": "7e4b94ae3130c1e1e46e1bc4ad89040a3d68351ab25b88c633a7c62bcd138670",
+    "size_bytes": 871097
+  },
+  {
+    "document_id": "a01c1c77-9da4-48af-a1f8-c342981b6c58",
+    "label": "D04",
+    "name": "4. Anexo PACMA.pdf",
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/1b867cb1-cbed-4c67-8d1f-86abb4cfa982/4. Anexo PACMA.pdf",
+    "sha256": "0d6d8dbdc296109add69965efda636f97a1e759efbbaa1f188162350de2d8327",
+    "size_bytes": 860878
+  },
+  {
+    "document_id": "a72a4759-761f-470b-891d-1c7f387803b8",
+    "label": "D05",
+    "name": "5. MODELO DE CONTRATO PARA BIENES.pdf",
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/769aa789-0814-43d5-a34f-1f160aa58d55/5. MODELO DE CONTRATO PARA BIENES.pdf",
+    "sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+    "size_bytes": 678952
+  },
+  {
+    "document_id": "ade2f09f-4147-4f90-bb76-30f3977fc686",
+    "label": "D06",
+    "name": "01. Convocatoria  ID-107478.pdf",
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/46fee4a0-477b-4e3a-a0fa-7bc0d39ae5d3/01. Convocatoria  ID-107478.pdf",
+    "sha256": "c5b8e39e09d66d288b097faad99cfab22c5a9c5573e8187c1d428d8ee5de075f",
+    "size_bytes": 943530
+  },
+  {
+    "document_id": "cffc9137-565f-4a7b-8470-6c8294038da4",
+    "label": "D07",
+    "name": "2. Mecanismo GNR.pdf",
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/25bea58d-3952-40a3-9af1-c9ad159767b9/2. Mecanismo GNR.pdf",
+    "sha256": "d0517f47b23c88593765876b11ea85a8fbc4ba7f1bc2fb9568c20bcaff00043f",
+    "size_bytes": 258291
+  },
+  {
+    "document_id": "d0e05bd1-c933-4259-a9c7-610aaadd28fe",
+    "label": "D08",
+    "name": ".DS_Store",
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/25b38159-715f-458d-9287-0d4c466aa6ee/.DS_Store",
+    "sha256": "0c3c4c0b58647e4ca761e9fe61421b68208c9bc656714cd49c89031e85f20616",
+    "size_bytes": 6148,
+    "unsupported_header_hex": "00000001427564310000100000000800"
+  },
+  {
+    "document_id": "e0c592af-fe32-4ad3-97da-b08a7c91cfd5",
+    "label": "D09",
+    "name": "1. Anexo_B1_Relevadores GE V2.pdf",
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/1a80d43d-db37-4326-8825-aecfa77eedfa/1. Anexo_B1_Relevadores GE V2.pdf",
+    "sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "size_bytes": 298410
+  },
+  {
+    "document_id": "e493d850-421f-4643-aff7-108623c43583",
+    "label": "D10",
+    "name": "3. Anexo CN Tipo 2.pdf",
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/92fa7d91-22c9-4351-a68f-a12a6fc6479c/3. Anexo CN Tipo 2.pdf",
+    "sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+    "size_bytes": 231613
+  },
+  {
+    "document_id": "f9ca92e2-b4b8-473d-81f5-69381d593914",
+    "label": "D11",
+    "name": "3. Anexo SSPA (Formato 4).pdf",
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/845f6782-84fb-4a25-99fb-5729af2537f6/3. Anexo SSPA (Formato 4).pdf",
+    "sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+    "size_bytes": 247307
+  }
+]

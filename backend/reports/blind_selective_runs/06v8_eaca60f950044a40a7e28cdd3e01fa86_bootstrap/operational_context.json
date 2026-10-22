@@ -1,0 +1,9 @@
+{
+  "run_id": "06v8_eaca60f950044a40a7e28cdd3e01fa86",
+  "data_dir": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v8_eaca60f950044a40a7e28cdd3e01fa86",
+  "directory": "/Users/ceciliavalencia/LiticIA/backend/reports/blind_selective_runs/06v8_eaca60f950044a40a7e28cdd3e01fa86",
+  "bootstrap_directory": "/Users/ceciliavalencia/LiticIA/backend/reports/blind_selective_runs/06v8_eaca60f950044a40a7e28cdd3e01fa86_bootstrap",
+  "head": "0b04fc7677e670fb487683ac904d3c3a89daa373",
+  "database_url": "postgresql+psycopg://ceciliavalencia@localhost:5432/licitia_validation_06v",
+  "source_root": "/Users/ceciliavalencia/Documents/LicitIA/Reelevadores Elecricos"
+}

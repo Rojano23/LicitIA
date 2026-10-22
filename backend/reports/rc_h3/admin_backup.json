@@ -1,0 +1,10 @@
+{
+  "status": "VERIFIED",
+  "file_count": 3,
+  "backup": "/private/tmp/licitia-rc-h3-admin-backup",
+  "database_identity": "c897c5a7e01841400d1425362c0fbc1c36ba2a9cf7f20a65021aeff1fa4d7b9e",
+  "alembic_revisions": [
+    "20261013_req_perception_prov_072"
+  ],
+  "orphan_original_count": 0
+}

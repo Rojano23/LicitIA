@@ -1,0 +1,23 @@
+{
+  "frozen_artifacts_verified": 1369,
+  "frozen_outputs_changed": false,
+  "head": "a24a5b18fe43ca15a949408b77e19aea1f2950a4",
+  "history": [
+    {
+      "baseline": "/private/tmp/st_historical_hashes.json",
+      "changed": 0,
+      "files": 107
+    },
+    {
+      "baseline": "/private/tmp/br_attempt3_baseline.json",
+      "changed": 0,
+      "files": 24
+    }
+  ],
+  "new_attempt": false,
+  "original_storage_files_verified": 139,
+  "provider_calls": 0,
+  "run_id": "06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba",
+  "staging_empty": true,
+  "tracked_clean": true
+}

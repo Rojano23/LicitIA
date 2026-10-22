@@ -1,0 +1,16 @@
+{
+  "freeze_verification.json": "77984771d3f5ad979ba2b9c5ec7f8d472b7aecf9805f49f354dabb705e609d6a",
+  "operational_report.md": "86b22ec825dfd79c329f30508850b36c62c63404b4f7550ccbe70fe264d8959a",
+  "pre_execution.json": "a827ef282726ab28f0d33370b78c171ea7ee466b548205205ce000b9cfcfcb30",
+  "historical_integrity_verification.json": "281264bd9a032a69340c2eb981e01fb7b631473621773b4b818712caa5afb8bc",
+  "historical_integrity_baseline.json": "dff85b4d31cc06263ee5d47c8f8d59806ddae7d63d2dab18eac63335c035736d",
+  "import_results.json": "c0b7099fc01bce3a0ef95bdd2b4ec2b361fc93a5dbc684bac5fe4db93e67610a",
+  "import_integrity.json": "bb4e7d9be6d40a271c9f391e6a740cfc9eb6220c8e6cae651b144fb041c66630",
+  "source_inventory.json": "7f79d2fe0db3a546df0efd51704a34bbeb1b0c6e69fb38258cf3633b4c873bb7",
+  "execution_profile.json": "a4e14ff90be7b66912ab51ac47b060a5a94a90fc38a9f35e37856d03303dfdc6",
+  "operational_failure.json": "97736eab7a63e11b26814b6e490d9528a88d3bb4eaec582e3536b24b54962e5e",
+  "operational_context.json": "1b0f84e0c4c6bf7249cf2eb750bf918a15c41da9be28d6921aec7630677bb10d",
+  "original_locators.json": "1b5e5e05692213feadbe2e38d25e133a28b57888915b4a5a821fdaeb6b1a4562",
+  "input_binding.json": "2fb79c7d24595089e28245a0faf4ef3f909702cca9e55ab1bc0b708e28e9e0e8",
+  "post_stop_git_status.txt": "bdffd1e48da827d0a52572db4efeb2ee2cf05d9eb4518315a20b96e983d5d67d"
+}

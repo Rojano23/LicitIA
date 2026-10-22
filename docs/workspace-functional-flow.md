@@ -46,3 +46,11 @@ Contratos aditivos:
 
 Sin migración. [ADR-0020](adr/0020-workspace-canonical-composition.md) documenta composición,
 retención acotada del último estado y límites de coordinación/recuperación.
+
+
+RC-H3 agrega **Verificar recuperación** y **Reintentar de forma segura**. Antes de
+retry se verifican fuente, generación, código/paquetes y recibos; un cambio entre
+consulta y acción devuelve conflicto, sin borrar evidencia. Sólo un fallo Native
+sin páginas previas puede recuperar su estado inicial automáticamente. Los datos
+válidos siguen disponibles; percepción fallida requiere revisión y sus acciones
+específicas, sin aumentar budgets. [Administración y backups](local-deployment.md#rc-h3--backup-restore-y-retry-local).

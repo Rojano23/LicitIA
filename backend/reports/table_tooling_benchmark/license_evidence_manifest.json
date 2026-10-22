@@ -1,0 +1,30 @@
+{
+  "licenses/SLANet_plus_modelcard.md": {
+    "sha256": "a58bdd49c26b01af9d81c5d90684e2f303a4ebe26327d73f49a1ac1e64c80c63",
+    "bytes": 15347
+  },
+  "licenses/PP-OCRv5_mobile_det_modelcard.md": {
+    "sha256": "4cc20ad6d41af86b3ce9885ffb0956e152574a2eb14179aeb07fd2d3956161ca",
+    "bytes": 16243
+  },
+  "licenses/PP-DocLayout-S_modelcard.md": {
+    "sha256": "d8d4f20e0d2c2e091f87adbf62b99ccbcd5230ef2239ee09dfc3056b0e0999f2",
+    "bytes": 7298
+  },
+  "licenses/latin_PP-OCRv5_mobile_rec_modelcard.md": {
+    "sha256": "897e932f55386124163c5d051ee42a7481fad52ea447c9e3b009d22e5424bada",
+    "bytes": 7085
+  },
+  "licenses/pdfplumber.txt": {
+    "sha256": "0d48994da4d1321e395b5e64a724ed4dec63fb96b88ac5b88fc014771e690821",
+    "bytes": 1086
+  },
+  "licenses/paddleocr.txt": {
+    "sha256": "3840c5c0c61c294264d2dd77b8777be6ddd90121ef4e0e64abcd22edea581d6e",
+    "bytes": 11376
+  },
+  "licenses/camelot.txt": {
+    "sha256": "fd59aa9e7e8f97b17b010ba6f3d1f8d00f716144d60e12e7344db77399595c0a",
+    "bytes": 1135
+  }
+}

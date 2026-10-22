@@ -1,0 +1,26 @@
+{
+  "pipeline": "PaddleOCR independent LayoutDetection + TableStructureRecognition + OCR components, not full PP-StructureV3",
+  "models": [
+    "PP-DocLayout-S",
+    "SLANet_plus",
+    "PP-OCRv5_mobile_det",
+    "latin_PP-OCRv5_mobile_rec"
+  ],
+  "parameters": {
+    "device": "cpu",
+    "enable_mkldnn": false,
+    "cpu_threads": 4,
+    "render_scale": 2,
+    "use_doc_orientation_classify": false,
+    "use_doc_unwarping": false,
+    "use_textline_orientation": false
+  },
+  "startup_seconds": 1.3479351249989122,
+  "repeat_seconds": [
+    4.543547416978981,
+    4.29182275000494
+  ],
+  "max_rss_bytes": 672530432,
+  "network_disabled_during_inference": true,
+  "reference_boxes_used_for_detection": false
+}

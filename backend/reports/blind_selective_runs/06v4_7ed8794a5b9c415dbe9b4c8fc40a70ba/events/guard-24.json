@@ -1,0 +1,23 @@
+{
+  "payload": {
+    "calls": 0,
+    "capability": "STRUCTURE",
+    "configuration": {
+      "decision_only": true,
+      "fingerprint": "369df2157e2eede2213e11c6d8d41cc182bb9a760d3525400ce47d3b4ac148de",
+      "plan": "ed03d1e8f402ccf25ffa330365a2c229afdc59a999dca50c4c005d49ed81f7b5",
+      "reason": "VISION_ACQUIRED_REVIEW_REQUIRED"
+    },
+    "execution_event": true,
+    "id": "guard-24",
+    "latency_ms": null,
+    "model": null,
+    "page_id": "e72c9bb9-27b9-40bb-95d1-d6a1b707c0ac",
+    "provider": "PLANNER",
+    "source_method": "VISION",
+    "status": "COMPLETED",
+    "timeout": false,
+    "truncated": false
+  },
+  "sha256": "9b9456692c68f87d2fac983b6d470b16d8809d1c8364a96a3217abea198cb168"
+}

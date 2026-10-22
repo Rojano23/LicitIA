@@ -1,0 +1,15 @@
+ README.md                                        |  2 +-
+ backend/app/main.py                              | 15 +++++
+ backend/app/workspace_flow.py                    | 25 ++++++--
+ backend/scripts/licitia_local.py                 | 23 +++++++-
+ docs/adr/0019-local-uat-deployment.md            |  2 +-
+ docs/adr/0020-workspace-canonical-composition.md |  2 +-
+ docs/local-deployment.md                         | 72 ++++++++++++++++++++++++
+ docs/roadmap.md                                  |  3 +-
+ docs/uat-admin-quickstart.md                     | 17 ++++++
+ docs/uat-capability-statement.md                 |  2 +-
+ docs/workspace-functional-flow.md                |  8 +++
+ frontend/src/api/workspace.ts                    | 15 ++++-
+ frontend/src/components/WorkspaceFlow.test.tsx   | 32 +++++++++++
+ frontend/src/components/WorkspaceFlow.tsx        | 30 +++++++++-
+ 14 files changed, 234 insertions(+), 14 deletions(-)

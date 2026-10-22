@@ -1,0 +1,1063 @@
+[
+  {
+    "item": "1",
+    "scope_id": "6444a44f-7615-43ba-aaa5-32dc25ca0be4",
+    "quantity_id": "2e8a8017-938c-47f8-bf89-487c40c6fa6e",
+    "parent_id": "6444a44f-7615-43ba-aaa5-32dc25ca0be4",
+    "source": {
+      "tender_id": "2868761c-eba4-4dac-81fb-c8d8112ebd28",
+      "document_id": "bb2304a0-af3c-4d87-b20d-5d5f4b56b77b",
+      "page_id": "160e1f15-c066-46c0-ac3a-6b298e7f0105",
+      "page_number": 1,
+      "revision": 1,
+      "method": "NATIVE",
+      "artifact_key": "native-page:160e1f15-c066-46c0-ac3a-6b298e7f0105",
+      "generation_id": "2257a85e-8a5e-42ba-bad7-be86596aac7e",
+      "text_sha256": "2a94f5cbedba2bae0f327c511dae8f97ef3c1f138aac642d8beeee0e910d1e95",
+      "offset_space": "NORMALIZED_TEXT",
+      "contract_version": "NATIVE_TEXT_V1",
+      "capability": "TRANSCRIPTION",
+      "original_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+      "acquisition_identity": [],
+      "source_scope": "FULL_PAGE",
+      "region_id": null
+    },
+    "description": "RELEVADOR MULTILIN No F60-U03-HKH-F8L-H6L-M6B-P6B-W7K DESCRIPCION: RELEVADOR FABRICANTE/MARCA: GE MULTILIN NUMERO DE PARTE: F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+    "description_refs": [
+      "f6",
+      "f7",
+      "f8",
+      "f9"
+    ],
+    "quantity": "1.0000",
+    "unit": "PZA",
+    "manifest_sha256": "659cc2dcb365ebebde555141cdf7bccaeafaf8c144035fdcb2d49140914f9070",
+    "proof_sha256": "3bd1ca42c58598329393e29d6f93aa1e028074f511b03915a951c563b746ed78",
+    "proposal_sha256": "0fff88bcc2d056da3f5d51a220ca2d693224652e2a9b9df94d7f3c113ef678a6",
+    "row_index": 1,
+    "canonical_fragments": [
+      {
+        "id": "f0",
+        "start": 590,
+        "end": 597,
+        "text": "Partida",
+        "role": "header_item",
+        "order": 0
+      },
+      {
+        "id": "f1",
+        "start": 598,
+        "end": 609,
+        "text": "Descripción",
+        "role": "header_description",
+        "order": 1
+      },
+      {
+        "id": "f2",
+        "start": 610,
+        "end": 619,
+        "text": "Unidad de",
+        "role": "header_unit",
+        "order": 2
+      },
+      {
+        "id": "f3",
+        "start": 620,
+        "end": 626,
+        "text": "Medida",
+        "role": "header_unit",
+        "order": 3
+      },
+      {
+        "id": "f4",
+        "start": 627,
+        "end": 635,
+        "text": "Cantidad",
+        "role": "header_quantity",
+        "order": 4
+      },
+      {
+        "id": "f5",
+        "start": 636,
+        "end": 637,
+        "text": "1",
+        "role": "item",
+        "order": 5
+      },
+      {
+        "id": "f6",
+        "start": 638,
+        "end": 691,
+        "text": "RELEVADOR MULTILIN No F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+        "role": "description",
+        "order": 6
+      },
+      {
+        "id": "f7",
+        "start": 692,
+        "end": 714,
+        "text": "DESCRIPCION: RELEVADOR",
+        "role": "description",
+        "order": 7
+      },
+      {
+        "id": "f8",
+        "start": 715,
+        "end": 744,
+        "text": "FABRICANTE/MARCA: GE MULTILIN",
+        "role": "description",
+        "order": 8
+      },
+      {
+        "id": "f9",
+        "start": 745,
+        "end": 793,
+        "text": "NUMERO DE PARTE: F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+        "role": "description",
+        "order": 9
+      },
+      {
+        "id": "f10",
+        "start": 794,
+        "end": 797,
+        "text": "PZA",
+        "role": "unit",
+        "order": 10
+      },
+      {
+        "id": "f11",
+        "start": 798,
+        "end": 799,
+        "text": "1",
+        "role": "quantity",
+        "order": 11
+      }
+    ],
+    "proof_cells": [
+      {
+        "row": 0,
+        "column": 0,
+        "role": "item",
+        "header": true,
+        "bbox": [
+          49.650000000000006,
+          292.4563768554983,
+          106.32,
+          314.784610724023
+        ],
+        "refs": [
+          "f0"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f0",
+            "start": 590,
+            "end": 597,
+            "bbox": [
+              61.439998626708984,
+              297.3890075683594,
+              94.46099090576172,
+              309.6470031738281
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "role": "description",
+        "header": true,
+        "bbox": [
+          106.32,
+          292.4563768554983,
+          453.59999999999997,
+          314.784610724023
+        ],
+        "refs": [
+          "f1"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f1",
+            "start": 598,
+            "end": 609,
+            "bbox": [
+              253.72999572753906,
+              297.3890075683594,
+              306.18194580078125,
+              309.6470031738281
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "role": "unit",
+        "header": true,
+        "bbox": [
+          453.59999999999997,
+          292.4563768554983,
+          510.24,
+          314.784610724023
+        ],
+        "refs": [
+          "f2",
+          "f3"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f2",
+            "start": 610,
+            "end": 616,
+            "bbox": [
+              459.07000732421875,
+              291.8689880371094,
+              491.3889465332031,
+              304.1269836425781
+            ]
+          },
+          {
+            "fragment_ref": "f2",
+            "start": 617,
+            "end": 619,
+            "bbox": [
+              493.7199401855469,
+              291.8689880371094,
+              504.7899169921875,
+              304.1269836425781
+            ]
+          },
+          {
+            "fragment_ref": "f3",
+            "start": 620,
+            "end": 626,
+            "bbox": [
+              465.3399963378906,
+              302.90899658203125,
+              498.83795166015625,
+              315.1669921875
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "role": "quantity",
+        "header": true,
+        "bbox": [
+          510.24,
+          292.4563768554983,
+          567.24,
+          314.784610724023
+        ],
+        "refs": [
+          "f4"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f4",
+            "start": 627,
+            "end": 635,
+            "bbox": [
+              518.3800048828125,
+              297.3890075683594,
+              558.97900390625,
+              309.6470031738281
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "role": "item",
+        "header": false,
+        "bbox": [
+          49.650000000000006,
+          314.784610724023,
+          106.32,
+          364.44956073916995
+        ],
+        "refs": [
+          "f5"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f5",
+            "start": 636,
+            "end": 637,
+            "bbox": [
+              75.38400268554688,
+              333.5090026855469,
+              80.5320053100586,
+              345.7669982910156
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "role": "description",
+        "header": false,
+        "bbox": [
+          106.32,
+          314.784610724023,
+          453.59999999999997,
+          364.44956073916995
+        ],
+        "refs": [
+          "f6",
+          "f7",
+          "f8",
+          "f9"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f6",
+            "start": 638,
+            "end": 647,
+            "bbox": [
+              111.73999786376953,
+              315.14898681640625,
+              162.41900634765625,
+              327.406982421875
+            ]
+          },
+          {
+            "fragment_ref": "f6",
+            "start": 648,
+            "end": 656,
+            "bbox": [
+              164.8489990234375,
+              315.14898681640625,
+              206.84298706054688,
+              327.406982421875
+            ]
+          },
+          {
+            "fragment_ref": "f6",
+            "start": 657,
+            "end": 659,
+            "bbox": [
+              209.2369842529297,
+              315.14898681640625,
+              221.52198791503906,
+              327.406982421875
+            ]
+          },
+          {
+            "fragment_ref": "f6",
+            "start": 660,
+            "end": 691,
+            "bbox": [
+              223.87098693847656,
+              315.14898681640625,
+              380.7370300292969,
+              327.406982421875
+            ]
+          },
+          {
+            "fragment_ref": "f7",
+            "start": 692,
+            "end": 704,
+            "bbox": [
+              111.73999786376953,
+              327.3890075683594,
+              172.91299438476562,
+              339.6470031738281
+            ]
+          },
+          {
+            "fragment_ref": "f7",
+            "start": 705,
+            "end": 714,
+            "bbox": [
+              175.2889862060547,
+              327.3890075683594,
+              226.08499145507812,
+              339.6470031738281
+            ]
+          },
+          {
+            "fragment_ref": "f8",
+            "start": 715,
+            "end": 732,
+            "bbox": [
+              111.73999786376953,
+              339.6289978027344,
+              201.70401000976562,
+              351.8869934082031
+            ]
+          },
+          {
+            "fragment_ref": "f8",
+            "start": 733,
+            "end": 735,
+            "bbox": [
+              203.9810028076172,
+              339.6289978027344,
+              215.572998046875,
+              351.8869934082031
+            ]
+          },
+          {
+            "fragment_ref": "f8",
+            "start": 736,
+            "end": 744,
+            "bbox": [
+              217.99398803710938,
+              339.6289978027344,
+              259.8619689941406,
+              351.8869934082031
+            ]
+          },
+          {
+            "fragment_ref": "f9",
+            "start": 745,
+            "end": 751,
+            "bbox": [
+              111.73999786376953,
+              351.9889831542969,
+              151.0340118408203,
+              364.2469787597656
+            ]
+          },
+          {
+            "fragment_ref": "f9",
+            "start": 752,
+            "end": 754,
+            "bbox": [
+              153.3560028076172,
+              351.9889831542969,
+              164.94801330566406,
+              364.2469787597656
+            ]
+          },
+          {
+            "fragment_ref": "f9",
+            "start": 755,
+            "end": 761,
+            "bbox": [
+              167.26101684570312,
+              351.9889831542969,
+              196.52902221679688,
+              364.2469787597656
+            ]
+          },
+          {
+            "fragment_ref": "f9",
+            "start": 762,
+            "end": 793,
+            "bbox": [
+              198.78802490234375,
+              351.9889831542969,
+              355.6570129394531,
+              364.2469787597656
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "role": "unit",
+        "header": false,
+        "bbox": [
+          453.59999999999997,
+          314.784610724023,
+          510.24,
+          364.44956073916995
+        ],
+        "refs": [
+          "f10"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f10",
+            "start": 794,
+            "end": 797,
+            "bbox": [
+              473.8599853515625,
+              333.5090026855469,
+              490.15899658203125,
+              345.7669982910156
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "role": "quantity",
+        "header": false,
+        "bbox": [
+          510.24,
+          314.784610724023,
+          567.24,
+          364.44956073916995
+        ],
+        "refs": [
+          "f11"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f11",
+            "start": 798,
+            "end": 799,
+            "bbox": [
+              536.02001953125,
+              333.5090026855469,
+              541.1680297851562,
+              345.7669982910156
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      }
+    ],
+    "checks": {
+      "literal_fidelity": true,
+      "unique_cell_membership": true,
+      "source_generation": true,
+      "pure_proof_replay": true,
+      "no_cross_row_contamination": true,
+      "appropriate_review_trust": true
+    },
+    "semantic_verdict": "PASS_AGAINST_ACCEPTED_B1_REFERENCE"
+  },
+  {
+    "item": "2",
+    "scope_id": "1f37518b-08f5-4715-b2f8-83084f32080d",
+    "quantity_id": "9916657c-91d7-4158-b5dd-f0006245324a",
+    "parent_id": "1f37518b-08f5-4715-b2f8-83084f32080d",
+    "source": {
+      "tender_id": "2868761c-eba4-4dac-81fb-c8d8112ebd28",
+      "document_id": "bb2304a0-af3c-4d87-b20d-5d5f4b56b77b",
+      "page_id": "160e1f15-c066-46c0-ac3a-6b298e7f0105",
+      "page_number": 1,
+      "revision": 1,
+      "method": "NATIVE",
+      "artifact_key": "native-page:160e1f15-c066-46c0-ac3a-6b298e7f0105",
+      "generation_id": "2257a85e-8a5e-42ba-bad7-be86596aac7e",
+      "text_sha256": "2a94f5cbedba2bae0f327c511dae8f97ef3c1f138aac642d8beeee0e910d1e95",
+      "offset_space": "NORMALIZED_TEXT",
+      "contract_version": "NATIVE_TEXT_V1",
+      "capability": "TRANSCRIPTION",
+      "original_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+      "acquisition_identity": [],
+      "source_scope": "FULL_PAGE",
+      "region_id": null
+    },
+    "description": "RELEVADOR MULTILIN No L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K DESCRIPCION: RELEVADOR FABRICANTE/MARCA: GE MULTILIN No. PARTE: L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+    "description_refs": [
+      "f6",
+      "f7",
+      "f8",
+      "f9"
+    ],
+    "quantity": "2.0000",
+    "unit": "PZA",
+    "manifest_sha256": "0d5e4442ac675b1a473128551920816ab1509953164199de05842b4bf0b20f28",
+    "proof_sha256": "97a472a3e40a36d5a6a2aea1cab4398e2b08adb04e9eb482f98db884ff6eab73",
+    "proposal_sha256": "0fff88bcc2d056da3f5d51a220ca2d693224652e2a9b9df94d7f3c113ef678a6",
+    "row_index": 2,
+    "canonical_fragments": [
+      {
+        "id": "f0",
+        "start": 590,
+        "end": 597,
+        "text": "Partida",
+        "role": "header_item",
+        "order": 0
+      },
+      {
+        "id": "f1",
+        "start": 598,
+        "end": 609,
+        "text": "Descripción",
+        "role": "header_description",
+        "order": 1
+      },
+      {
+        "id": "f2",
+        "start": 610,
+        "end": 619,
+        "text": "Unidad de",
+        "role": "header_unit",
+        "order": 2
+      },
+      {
+        "id": "f3",
+        "start": 620,
+        "end": 626,
+        "text": "Medida",
+        "role": "header_unit",
+        "order": 3
+      },
+      {
+        "id": "f4",
+        "start": 627,
+        "end": 635,
+        "text": "Cantidad",
+        "role": "header_quantity",
+        "order": 4
+      },
+      {
+        "id": "f5",
+        "start": 800,
+        "end": 801,
+        "text": "2",
+        "role": "item",
+        "order": 5
+      },
+      {
+        "id": "f6",
+        "start": 802,
+        "end": 863,
+        "text": "RELEVADOR MULTILIN No L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+        "role": "description",
+        "order": 6
+      },
+      {
+        "id": "f7",
+        "start": 864,
+        "end": 886,
+        "text": "DESCRIPCION: RELEVADOR",
+        "role": "description",
+        "order": 7
+      },
+      {
+        "id": "f8",
+        "start": 887,
+        "end": 916,
+        "text": "FABRICANTE/MARCA: GE MULTILIN",
+        "role": "description",
+        "order": 8
+      },
+      {
+        "id": "f9",
+        "start": 917,
+        "end": 967,
+        "text": "No. PARTE: L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+        "role": "description",
+        "order": 9
+      },
+      {
+        "id": "f10",
+        "start": 968,
+        "end": 971,
+        "text": "PZA",
+        "role": "unit",
+        "order": 10
+      },
+      {
+        "id": "f11",
+        "start": 972,
+        "end": 973,
+        "text": "2",
+        "role": "quantity",
+        "order": 11
+      }
+    ],
+    "proof_cells": [
+      {
+        "row": 0,
+        "column": 0,
+        "role": "item",
+        "header": true,
+        "bbox": [
+          49.650000000000006,
+          292.4563768554983,
+          106.32,
+          314.784610724023
+        ],
+        "refs": [
+          "f0"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f0",
+            "start": 590,
+            "end": 597,
+            "bbox": [
+              61.439998626708984,
+              297.3890075683594,
+              94.46099090576172,
+              309.6470031738281
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "role": "description",
+        "header": true,
+        "bbox": [
+          106.32,
+          292.4563768554983,
+          453.59999999999997,
+          314.784610724023
+        ],
+        "refs": [
+          "f1"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f1",
+            "start": 598,
+            "end": 609,
+            "bbox": [
+              253.72999572753906,
+              297.3890075683594,
+              306.18194580078125,
+              309.6470031738281
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "role": "unit",
+        "header": true,
+        "bbox": [
+          453.59999999999997,
+          292.4563768554983,
+          510.24,
+          314.784610724023
+        ],
+        "refs": [
+          "f2",
+          "f3"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f2",
+            "start": 610,
+            "end": 616,
+            "bbox": [
+              459.07000732421875,
+              291.8689880371094,
+              491.3889465332031,
+              304.1269836425781
+            ]
+          },
+          {
+            "fragment_ref": "f2",
+            "start": 617,
+            "end": 619,
+            "bbox": [
+              493.7199401855469,
+              291.8689880371094,
+              504.7899169921875,
+              304.1269836425781
+            ]
+          },
+          {
+            "fragment_ref": "f3",
+            "start": 620,
+            "end": 626,
+            "bbox": [
+              465.3399963378906,
+              302.90899658203125,
+              498.83795166015625,
+              315.1669921875
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "role": "quantity",
+        "header": true,
+        "bbox": [
+          510.24,
+          292.4563768554983,
+          567.24,
+          314.784610724023
+        ],
+        "refs": [
+          "f4"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f4",
+            "start": 627,
+            "end": 635,
+            "bbox": [
+              518.3800048828125,
+              297.3890075683594,
+              558.97900390625,
+              309.6470031738281
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "role": "item",
+        "header": false,
+        "bbox": [
+          49.650000000000006,
+          364.44956073916995,
+          106.32,
+          414.23447440169645
+        ],
+        "refs": [
+          "f5"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f5",
+            "start": 800,
+            "end": 801,
+            "bbox": [
+              75.38400268554688,
+              383.0690002441406,
+              80.5320053100586,
+              395.3269958496094
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "role": "description",
+        "header": false,
+        "bbox": [
+          106.32,
+          364.44956073916995,
+          453.59999999999997,
+          414.23447440169645
+        ],
+        "refs": [
+          "f6",
+          "f7",
+          "f8",
+          "f9"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f6",
+            "start": 802,
+            "end": 811,
+            "bbox": [
+              111.73999786376953,
+              364.708984375,
+              162.41900634765625,
+              376.96697998046875
+            ]
+          },
+          {
+            "fragment_ref": "f6",
+            "start": 812,
+            "end": 820,
+            "bbox": [
+              164.8489990234375,
+              364.708984375,
+              206.84298706054688,
+              376.96697998046875
+            ]
+          },
+          {
+            "fragment_ref": "f6",
+            "start": 821,
+            "end": 823,
+            "bbox": [
+              209.2369842529297,
+              364.708984375,
+              221.52198791503906,
+              376.96697998046875
+            ]
+          },
+          {
+            "fragment_ref": "f6",
+            "start": 824,
+            "end": 863,
+            "bbox": [
+              223.87098693847656,
+              364.708984375,
+              416.01702880859375,
+              376.96697998046875
+            ]
+          },
+          {
+            "fragment_ref": "f7",
+            "start": 864,
+            "end": 876,
+            "bbox": [
+              111.73999786376953,
+              376.9490051269531,
+              172.91299438476562,
+              389.2070007324219
+            ]
+          },
+          {
+            "fragment_ref": "f7",
+            "start": 877,
+            "end": 886,
+            "bbox": [
+              175.2889862060547,
+              376.9490051269531,
+              226.08499145507812,
+              389.2070007324219
+            ]
+          },
+          {
+            "fragment_ref": "f8",
+            "start": 887,
+            "end": 904,
+            "bbox": [
+              111.73999786376953,
+              389.1889953613281,
+              201.70401000976562,
+              401.4469909667969
+            ]
+          },
+          {
+            "fragment_ref": "f8",
+            "start": 905,
+            "end": 907,
+            "bbox": [
+              203.9810028076172,
+              389.1889953613281,
+              215.572998046875,
+              401.4469909667969
+            ]
+          },
+          {
+            "fragment_ref": "f8",
+            "start": 908,
+            "end": 916,
+            "bbox": [
+              217.99398803710938,
+              389.1889953613281,
+              259.8619689941406,
+              401.4469909667969
+            ]
+          },
+          {
+            "fragment_ref": "f9",
+            "start": 917,
+            "end": 920,
+            "bbox": [
+              111.73999786376953,
+              401.4289855957031,
+              126.39200592041016,
+              413.6869812011719
+            ]
+          },
+          {
+            "fragment_ref": "f9",
+            "start": 921,
+            "end": 927,
+            "bbox": [
+              128.76800537109375,
+              401.4289855957031,
+              158.0360107421875,
+              413.6869812011719
+            ]
+          },
+          {
+            "fragment_ref": "f9",
+            "start": 928,
+            "end": 967,
+            "bbox": [
+              160.41200256347656,
+              401.4289855957031,
+              352.6570129394531,
+              413.6869812011719
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "role": "unit",
+        "header": false,
+        "bbox": [
+          453.59999999999997,
+          364.44956073916995,
+          510.24,
+          414.23447440169645
+        ],
+        "refs": [
+          "f10"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f10",
+            "start": 968,
+            "end": 971,
+            "bbox": [
+              473.8599853515625,
+              383.0690002441406,
+              490.15899658203125,
+              395.3269958496094
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "role": "quantity",
+        "header": false,
+        "bbox": [
+          510.24,
+          364.44956073916995,
+          567.24,
+          414.23447440169645
+        ],
+        "refs": [
+          "f11"
+        ],
+        "words": [
+          {
+            "fragment_ref": "f11",
+            "start": 972,
+            "end": 973,
+            "bbox": [
+              536.02001953125,
+              383.0690002441406,
+              541.1680297851562,
+              395.3269958496094
+            ]
+          }
+        ],
+        "status": "NATIVE_PROVEN"
+      }
+    ],
+    "checks": {
+      "literal_fidelity": true,
+      "unique_cell_membership": true,
+      "source_generation": true,
+      "pure_proof_replay": true,
+      "no_cross_row_contamination": true,
+      "appropriate_review_trust": true
+    },
+    "semantic_verdict": "PASS_AGAINST_ACCEPTED_B1_REFERENCE"
+  }
+]

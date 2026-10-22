@@ -1,0 +1,14 @@
+{
+  "RH301": "test_RH301_RH304_RH305_RH306_RH307_real_backup_restore_roundtrip",
+  "RH302": "test_RH302_manifest_and_hidden_original_verify",
+  "RH303": "test_RH303_tamper_fails_verification",
+  "RH304": "test_RH301_RH304_RH305_RH306_RH307_real_backup_restore_roundtrip",
+  "RH305": "test_RH301_RH304_RH305_RH306_RH307_real_backup_restore_roundtrip",
+  "RH306": "test_RH301_RH304_RH305_RH306_RH307_real_backup_restore_roundtrip",
+  "RH307": "test_RH301_RH304_RH305_RH306_RH307_real_backup_restore_roundtrip",
+  "RH308": "test_RH308_completed_same_document_retry_idempotent",
+  "RH309": "test_RH309_provider_failure_preserves_native_and_retry_does_not_duplicate / test_provider_unavailable_record_does_not_invalidate_native",
+  "RH310": "test_RH310_interruption_then_retry_preserves_generation / test_RH310_hard_process_exit_during_swap_is_recoverable",
+  "RH311": "test_RH311_schema_and_extra_missing_files_refused / test_RH311_corrupt_restore_never_touches_current_state",
+  "RH312": "test_RH312_failed_swap_rolls_back_both_resources / invalid dump staging case in real roundtrip"
+}

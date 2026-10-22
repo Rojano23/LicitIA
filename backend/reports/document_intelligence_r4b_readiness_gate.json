@@ -1,0 +1,864 @@
+{
+  "06v_active": false,
+  "blind_first_pass_protocol": [
+    "Antes de abrir corpus: aceptar explícitamente el gate y C01–C05; validar colector con fixtures sintéticos y congelar código/configuración/plan de ejecución. Registrar HEAD completo, diff vacío, hashes y versiones. No usar Git commit automático en este gate.",
+    "Crear, sólo en la fase autorizada: createdb licitia_06v; DATABASE_URL=postgresql+psycopg://ceciliavalencia@localhost:5432/licitia_06v /Users/ceciliavalencia/LiticIA/backend/.venv/bin/python -m alembic upgrade head. Verificar current/head072 y filesystem nuevo separado. No ejecutar estos comandos ahora.",
+    "Emitir autorización humana explícita para importación del corpus ciego. Iniciar API local con DATABASE_URL de la DB aislada y LICITIA_DATA_DIR nuevo; importar exclusivamente mediante POST /tenders y POST /tenders/{tender_id}/documents/import. Registrar UUIDs/hash/versiones al importar, nunca antes.",
+    "Ejecutar extracción nativa existente; usar orchestrate_document_structure_available_only(..., execution_policy=\"AVAILABLE_ONLY\"). No activar OCR/Vision automático ni providers semánticos no configurados. Si otro plan de proveedores fue aprobado antes de abrir, ejecutar sólo sus tareas/límites congelados y registrar fallos/timeouts sin reparar raw.",
+    "Por tender/documento: analyze_tender_requirements → normalize_tender_requirements → analyze_tender_requirement_semantics; por documento: estructura → materialize_document_scope_details; por detail: materialize_scope_quantities_for_scope_detail y materialize_scope_attributes_for_scope_detail. Registrar unsupported/no evidence/failed como tales; no introducir adapters o labels al ver resultados.",
+    "Capturar Versions/Effective Source mediante resoluciones/proyecciones deterministas y Source Effects sustentados disponibles; conservar revisión humana separada, sin discovery Qwen. Recoger matrices/snapshots y scope-review sin aprobar decisiones automáticamente.",
+    "Colector C01: guardar IDs, generaciones/lineage, hashes, locator/excerpt, routing/review, owners, cantidades/atributos, provider/configuration, runtime y errores por dominio; registrar numeradores/denominadores y unavailable/unsupported. Exportar datos suficientes para adjudicación, no sólo latest-summary.",
+    "Producir y congelar primer reporte de resultados observables y hashes de outputs/DB export. Antes de analizar errores no cambiar código/prompts/routing/thresholds, repetir para mejorar, ni fabricar Golden de T002.",
+    "Después del reporte congelado: revisión humana adjudica unsafe trusted errors, safe misses, unnecessary review, automation rate y domain impact por denominadores explícitos. Lo no adjudicado permanece NOT_MEASURED; adjudicación es un artefacto separado que referencia el primer reporte inmutable.",
+    "Cualquier corrección posterior es un pase separado/versionado; nunca reemplaza métricas del primer pase. GO/NO-GO de MVP-07 se decide humanamente después de 06.V."
+  ],
+  "conditions_for_06v": [
+    {
+      "condition": "Preparar y validar con fixtures sintéticos un colector genérico para Documents, Requirements, requested Evidence, Scope, attributes, quantities, Versions/Effective Source y review queue; separar observaciones, hechos de dominio y adjudicación humana. Congelar esquema/denominadores y capture de todas las generaciones antes de abrir T002. No reutilizar el harness B-4 fijo como evaluador universal.",
+      "id": "C01",
+      "pre_open_required": true
+    },
+    {
+      "condition": "Congelar plan bounded: Vision full-page TRANSCRIPTION excluida como fallback normal bajo configuración probada; Source Effect Qwen automático deshabilitado. Plan base AVAILABLE_ONLY sin adquisición OCR/Vision; cualquier lote real futuro exige autorización humana exacta y límites/configuración congelados antes de importar el corpus.",
+      "id": "C02",
+      "pre_open_required": true
+    },
+    {
+      "condition": "Congelar commit limpio/revisado, SHA de configs/provider versions/prompts/temperature/output budgets/timeout/retry/page limits, procedimiento y colector. No inventar targets de latencia; usuario acepta presupuesto operativo antes de ver T002. Reparar/aceptar explícitamente deuda de tests 005 sin alterar prompts o semántica para hacerlos pasar.",
+      "id": "C03",
+      "pre_open_required": true
+    },
+    {
+      "condition": "Crear DB aislada de validación al head072 y filesystem separado vacío; no migrar dev ni copiar T001. Autorizar T002 explícitamente después de aceptar el gate y verificar condiciones.",
+      "id": "C04",
+      "pre_open_required": true
+    },
+    {
+      "condition": "Congelar la primera salida y sus hashes antes de analizar errores; preservar raw FAILED/lineage/versiones. Medir seguridad por adjudicación humana posterior separada, sin tuning retroactivo ni asumir que ausencia de candidatos demuestra recall.",
+      "id": "C05",
+      "pre_open_required": true
+    }
+  ],
+  "database": {
+    "dev_current": "20261012_alt_compliance_071",
+    "dev_migrated": false,
+    "future_validation_database": "licitia_06v (not created)",
+    "repository_head": "20261013_req_perception_prov_072",
+    "test_current": "20261013_req_perception_prov_072"
+  },
+  "decision": "CONDITIONAL_GO_FOR_06V",
+  "evidence_inventory": [
+    {
+      "path": "docs/adr/0010-document-intelligence-capability-routing.md",
+      "role": "architecture R.1–R.4a",
+      "sha256": "1c9a9c2d2761e088ff97740cf0585609427bf6705e8c74f2c8f636a9f4f6afcd",
+      "tracked": true
+    },
+    {
+      "path": "backend/app/document_intelligence.py",
+      "role": "R.1 neutral contracts/routing/continuity",
+      "sha256": "d9f8776fbd7fd48211ee3a57641c6e2a1d96224a35a071d3679052ea2c63ef4b",
+      "tracked": true
+    },
+    {
+      "path": "backend/app/requirement_perception_provenance.py",
+      "role": "R.2a/R.3a typed durable provenance",
+      "sha256": "518655af05069a1bb9f4b320caf9e5fbd8de44f909ab84525da8b8e2aec15b8c",
+      "tracked": true
+    },
+    {
+      "path": "backend/app/requirement_di_adapter.py",
+      "role": "R.2 Requirements integration",
+      "sha256": "d13e596add7d6089b5b1cbd6ddcb5bbc0c39b6b8513617292502eb0984f61bca",
+      "tracked": true
+    },
+    {
+      "path": "backend/app/document_intelligence_sources.py",
+      "role": "R.2 persisted input adapters",
+      "sha256": "294d86a6ac3f41812cc813cbdec457df0550ef040b6d675bb3d82f2b0d27c608",
+      "tracked": true
+    },
+    {
+      "path": "backend/app/requirement_semantics.py",
+      "role": "R.2 requested Evidence",
+      "sha256": "a4704b28d8398a2fd7de589084bef9b3b32ca11950dcfc1fffcdeec3b8a4ce25",
+      "tracked": true
+    },
+    {
+      "path": "backend/app/scope_detail_materializer.py",
+      "role": "R.2 Scope integration",
+      "sha256": "240163aa90f469bc4462489581df320f301495e14e14f80408ddda70bef877eb",
+      "tracked": true
+    },
+    {
+      "path": "backend/app/critical_identifier_comparison.py",
+      "role": "R.3a cross-capability comparison",
+      "sha256": "34c1120c41966e4e793a63363515ef2ca18ea4bd862c030cbabe865d2b4ce76e",
+      "tracked": true
+    },
+    {
+      "path": "backend/app/document_identifier_bindings.py",
+      "role": "R.3 conflict propagation",
+      "sha256": "e1eacd2b7316db74c86778a3363703edf56ce7e05492e246fe828d0ca3ff24af",
+      "tracked": true
+    },
+    {
+      "path": "backend/app/document_structure_orchestrator.py",
+      "role": "R.4a Phase 4 production guard",
+      "sha256": "8300dfb390a4cf41f6251e060f2ee219ca19f48bf2d2bbc632b98fd04bc39f43",
+      "tracked": true
+    },
+    {
+      "path": "backend/app/scope_detail_adapters.py",
+      "role": "R.4a Phase 4 ownership guard",
+      "sha256": "654173ea32ea9f2f54c7f627b0d8b68eb8e0b1964b6a6240858451920c27005d",
+      "tracked": true
+    },
+    {
+      "path": "backend/reports/document_intelligence_r4a_phase1.md",
+      "role": "Phase 1 historical harness",
+      "sha256": "22d0fa7356a20486bf86295bfbbd0ff4470d58d605e49871c23ff02378f26b9e",
+      "tracked": false
+    },
+    {
+      "path": "backend/reports/document_intelligence_r4a_first_batch_analysis.json",
+      "role": "Phase 1 historical real batch analysis",
+      "sha256": "fb5b3761be70a677937b9158069763a64b650b71adcd5ff7c01983d78d40a6c1",
+      "tracked": false
+    },
+    {
+      "path": "backend/reports/di_r4a_native_transcription.json",
+      "role": "Native current stored diagnostic coverage",
+      "sha256": "ad9bda3330838a748d349f6cf811419b75fe708d6a1f9a2c87a0e1973bf553e0",
+      "tracked": false
+    },
+    {
+      "path": "backend/reports/di_r4a_native_structure.json",
+      "role": "Native structure diagnostic coverage",
+      "sha256": "615f2d367f65ad71f177b66c5099f8dcfeb032ec532a52dba460a61f7268085a",
+      "tracked": false
+    },
+    {
+      "path": "backend/reports/di_r4a_tesseract_b4_p4_transcription.json",
+      "role": "real Tesseract P4 immutable",
+      "sha256": "ba099b6dc93e82526c6d5e6bc506cc6ccc239e005ccc2aa735497ae46139f93a",
+      "tracked": false
+    },
+    {
+      "path": "backend/reports/di_r4a_vision_b4_p4_transcription.json",
+      "role": "real Vision transcription P4 immutable",
+      "sha256": "9b76c4010617db0e8075f7535775edff5ac9a350081a4a3b840a2e28c9531cef",
+      "tracked": false
+    },
+    {
+      "path": "backend/reports/di_r4a_vision_b4_p1_p3_structure.json",
+      "role": "real Vision structure P1–P3 immutable",
+      "sha256": "e37b20c8badc558516e1335beebd5285532c09b08ed339f0711a0abb4abe5aed",
+      "tracked": false
+    },
+    {
+      "path": "backend/reports/di_r4a_batch1_reanalysis.json",
+      "role": "Phase 2 offline fidelity/replay",
+      "sha256": "5dac77df45949f4351b4581c6a5c1d1ad78178b208d1c1e6cae8f528942b22c8",
+      "tracked": false
+    },
+    {
+      "path": "backend/reports/di_r4a_b4_structure_rescore.json",
+      "role": "Phase 3 original adjudication",
+      "sha256": "c4f8d251a8c004fc76908d384349986aeb0d9f582181ce2a8090ddd89d1ea300",
+      "tracked": false
+    },
+    {
+      "path": "backend/reports/di_r4a_b4_structure_phase4_rescore.json",
+      "role": "Phase 4 safety adjudication",
+      "sha256": "5bb02658ecbcce98ce6be8aa46811a8d9a34a547b4da107843c761d8fe57e13b",
+      "tracked": false
+    },
+    {
+      "path": "backend/reports/document_intelligence_r4a_phase4_structural_trust_hardening.md",
+      "role": "Phase 4 audit/validation",
+      "sha256": "ffd6b5839775ef31005a2a893b739925acbcf43eac6cf7e958295126e2069698",
+      "tracked": false
+    },
+    {
+      "path": "backend/evals/document_intelligence_calibration_v1.json",
+      "role": "diagnostic calibration manifest, not all human truth",
+      "sha256": "7a8d834c4672d93bc882087dd98e374202e3d84fc21d53901e0a86719544fbc8",
+      "tracked": true
+    },
+    {
+      "path": "backend/evals/document_intelligence_b4_structure_golden_v1.json",
+      "role": "human-approved structural Golden",
+      "sha256": "60520abdb48862cf99763d40e355cc03f6e3771e4f73f1c438f7c00c069feb71",
+      "tracked": true
+    },
+    {
+      "path": "backend/evals/semantic_scope_golden_v1.json",
+      "role": "human Tender #001 scope domain Golden",
+      "sha256": "ad9d44a67022fa1eaec3181799a88b93c4c6dd04572fff46f31c3ac0c244af86",
+      "tracked": true
+    },
+    {
+      "path": "backend/evals/technical_attribute_golden_v1.json",
+      "role": "human Tender #001 attribute Golden",
+      "sha256": "ad2e3707f5b7a2e53e44339108c14669d9697ad733af3527a8e40216dd7b991b",
+      "tracked": true
+    },
+    {
+      "path": "backend/evals/scope_quantity_golden_v1.json",
+      "role": "human Tender #001 quantity Golden",
+      "sha256": "de2327ca868f8b72bf6dd80f50a568807b567f92c4106d65f913b7ce263339e7",
+      "tracked": true
+    }
+  ],
+  "gate_closed": false,
+  "golden_approval": {
+    "approval_revision": "human-chat-b4-v1-approval-1",
+    "approval_source": "explicit human chat approval; model outputs excluded from truth",
+    "candidate_is_canonical": false,
+    "content_sha256": "885f9c623a07092d3a1880a1736517dd2917888b2435320e9fcaaedcfc082ef5",
+    "file_sha256": "60520abdb48862cf99763d40e355cc03f6e3771e4f73f1c438f7c00c069feb71",
+    "golden_id": "b4-human-structure-v1",
+    "pages": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "known_limitations": [
+    "Real positive Requirements/requested Evidence/Scope/quantity/attribute coverage not measured",
+    "Whole-tender review load and unnecessary review not measured",
+    "Vision full-page transcription FAILED/truncated",
+    "Real model load/render overhead and complete historical output budget not measured",
+    "Blind metrics collector needs generic cross-domain capture before corpus opening",
+    "Four reproduced preexisting005 fixture/expectation failures; no production correction made"
+  ],
+  "migration_required": false,
+  "phase4_boundaries": [
+    {
+      "boundary": "P1→P2",
+      "left_observed": true,
+      "left_outgoing_correct": true,
+      "observation_fabricated": false,
+      "partial_left_check": null,
+      "right_incoming_correct": false,
+      "right_observed": true,
+      "status": "INCORRECT"
+    },
+    {
+      "boundary": "P2→P3",
+      "left_observed": true,
+      "left_outgoing_correct": true,
+      "observation_fabricated": false,
+      "partial_left_check": null,
+      "right_incoming_correct": false,
+      "right_observed": true,
+      "status": "INCORRECT"
+    },
+    {
+      "boundary": "P3→P4",
+      "left_observed": true,
+      "left_outgoing_correct": false,
+      "observation_fabricated": false,
+      "partial_left_check": false,
+      "right_incoming_correct": null,
+      "right_observed": false,
+      "status": "UNASSESSABLE"
+    }
+  ],
+  "phase4_pages": [
+    {
+      "page": 1,
+      "status": "CORRECT"
+    },
+    {
+      "page": 2,
+      "status": "REVIEW_REQUIRED_CORRECT"
+    },
+    {
+      "page": 3,
+      "status": "REVIEW_REQUIRED_CORRECT"
+    }
+  ],
+  "production_code_changed": false,
+  "production_readiness_certified": false,
+  "provider_calls": 0,
+  "provider_configuration_evidence": [
+    {
+      "artifact": "di_r4a_tesseract_b4_p4_transcription.json",
+      "capability": "TRANSCRIPTION",
+      "configuration": {
+        "engine_version": "5.5.3",
+        "language": "spa+eng",
+        "previous_page_context": null,
+        "prompt_version": null,
+        "runtime_status": null,
+        "timeout_seconds": null,
+        "warnings": []
+      },
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "latency_ms": 1549,
+      "model": null,
+      "page_number": 4,
+      "provider": "TESSERACT",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+    },
+    {
+      "artifact": "di_r4a_vision_b4_p4_transcription.json",
+      "capability": "TRANSCRIPTION",
+      "configuration": {
+        "engine_version": null,
+        "language": null,
+        "previous_page_context": null,
+        "prompt_version": "vision-detail-transcription-2026-08-31-001",
+        "runtime_status": "FAILED",
+        "timeout_seconds": 180.0,
+        "warnings": [
+          "OUTPUT_TRUNCATED",
+          "DONE_REASON:length"
+        ]
+      },
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "latency_ms": 86592,
+      "model": "qwen3-vl:4b-instruct",
+      "page_number": 4,
+      "provider": "VISION",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+    },
+    {
+      "artifact": "di_r4a_vision_b4_p1_p3_structure.json",
+      "capability": "STRUCTURE",
+      "configuration": {
+        "engine_version": null,
+        "language": null,
+        "previous_page_context": null,
+        "prompt_version": "vision-structure-scope-2026-09-03-006",
+        "runtime_status": "COMPLETED",
+        "timeout_seconds": 180.0,
+        "warnings": [
+          "ANCHOR_TRUNCATED_TO_MAX_WORDS",
+          "NEW_ITEM_DERIVED_FROM_ITEM_START",
+          "HTTP_STATUS:200",
+          "DONE_REASON:stop"
+        ]
+      },
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "latency_ms": 35825,
+      "model": "qwen3-vl:4b-instruct",
+      "page_number": 1,
+      "provider": "VISION",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+    },
+    {
+      "artifact": "di_r4a_vision_b4_p1_p3_structure.json",
+      "capability": "STRUCTURE",
+      "configuration": {
+        "engine_version": null,
+        "language": null,
+        "previous_page_context": null,
+        "prompt_version": "vision-structure-scope-2026-09-03-006",
+        "runtime_status": "COMPLETED",
+        "timeout_seconds": 180.0,
+        "warnings": [
+          "ANCHOR_TRUNCATED_TO_MAX_WORDS",
+          "NEW_ITEM_DERIVED_FROM_ITEM_START",
+          "OPEN_ITEM_DERIVED_FROM_LAST_NEW_ITEM",
+          "HTTP_STATUS:200",
+          "DONE_REASON:stop"
+        ]
+      },
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "latency_ms": 35638,
+      "model": "qwen3-vl:4b-instruct",
+      "page_number": 2,
+      "provider": "VISION",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+    },
+    {
+      "artifact": "di_r4a_vision_b4_p1_p3_structure.json",
+      "capability": "STRUCTURE",
+      "configuration": {
+        "engine_version": null,
+        "language": null,
+        "previous_page_context": null,
+        "prompt_version": "vision-structure-scope-2026-09-03-006",
+        "runtime_status": "COMPLETED",
+        "timeout_seconds": 180.0,
+        "warnings": [
+          "NEW_ITEM_DERIVED_FROM_ITEM_START",
+          "OPEN_ITEM_DERIVED_FROM_LAST_NEW_ITEM",
+          "HTTP_STATUS:200",
+          "DONE_REASON:stop"
+        ]
+      },
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "latency_ms": 36923,
+      "model": "qwen3-vl:4b-instruct",
+      "page_number": 3,
+      "provider": "VISION",
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+    }
+  ],
+  "provider_viability": [
+    {
+      "capability": "TRANSCRIPTION",
+      "classification": "INSUFFICIENT_DATA",
+      "policy": "Primary acquisition on usable text pages, fidelity remains review-required; comprehensive runtime not measured",
+      "provider": "NATIVE"
+    },
+    {
+      "capability": "TRANSCRIPTION",
+      "classification": "OPERATIONALLY_VIABLE",
+      "latency_ms": [
+        1549
+      ],
+      "provider": "TESSERACT",
+      "scope": "Only measured B-4 P4 case; not whole-tender certification"
+    },
+    {
+      "canonical_status": "FAILED",
+      "capability": "TRANSCRIPTION",
+      "classification": "NOT_CURRENTLY_VIABLE",
+      "latency_ms": [
+        86592
+      ],
+      "model": "qwen3-vl:4b-instruct",
+      "normal_fallback_allowed_in_proposed_blind_plan": false,
+      "provider": "VISION"
+    },
+    {
+      "capability": "STRUCTURE",
+      "classification": "VIABLE_AS_BOUNDED_FALLBACK",
+      "latency_ms": [
+        35825,
+        35638,
+        36923
+      ],
+      "model": "qwen3-vl:4b-instruct",
+      "policy": "Human preauthorized bounded tasks with review; no perception accuracy certification",
+      "provider": "VISION"
+    }
+  ],
+  "readiness_dimensions": [
+    {
+      "blocking": false,
+      "dimension": "SAFETY",
+      "rationale": "All S01–S12 PASS for known adjudicated evidence",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "PERCEPTION QUALITY",
+      "rationale": "Coverage/accuracy not certified; safe review instead of automatic trust",
+      "status": "WARN"
+    },
+    {
+      "blocking": false,
+      "dimension": "ROUTING",
+      "rationale": "Neutral capabilities, lineage and provider conflict checks pass",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "PROVENANCE",
+      "rationale": "Typed durable v1/v2 and source locators verified",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "STRUCTURAL CONTINUITY",
+      "rationale": "Phase4 known unsafe errors and stale carry both zero",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "CRITICAL IDENTIFIERS",
+      "rationale": "Local fail-closed conflict propagation",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "DOMAIN PROPAGATION",
+      "rationale": "Contract integration passes; real positive domain coverage NOT_MEASURED and belongs to06V",
+      "status": "WARN"
+    },
+    {
+      "blocking": false,
+      "dimension": "OPERATIONAL VIABILITY",
+      "rationale": "Bounded local plan required; C02 must be satisfied before opening",
+      "status": "WARN"
+    },
+    {
+      "blocking": false,
+      "dimension": "REPRODUCIBILITY",
+      "rationale": "Evidence hashes/code known; C01/C03 complete capture and fixture debt must be satisfied before opening",
+      "status": "WARN"
+    },
+    {
+      "blocking": false,
+      "dimension": "BLIND-TEST INTEGRITY",
+      "rationale": "No corpus/expected-output inspection; new human authorization required",
+      "status": "PASS"
+    }
+  ],
+  "readiness_matrix": [
+    {
+      "blocking": false,
+      "dimension": "architecture convergence",
+      "evidence": "R.1/R.2/R.3/current tests",
+      "id": "G01",
+      "rationale": "Capacidades separadas y runtime neutral; no autoridad contractual automática.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "Requirements integration",
+      "evidence": "R.2, R.2a, R.3 tests",
+      "id": "G02",
+      "rationale": "Consumo DI, provenance durable, review e idempotencia sintéticos; cobertura real positiva no certificada.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "requested Evidence integration",
+      "evidence": "R.2 integration, R.3 CE tests",
+      "id": "G03",
+      "rationale": "Ruta Tender-side independiente de CompanyEvidence; no demuestra cobertura real positiva.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "Scope integration",
+      "evidence": "R.2 + ST10–ST13 + Phase 4 replay",
+      "id": "G04",
+      "rationale": "Estructura/transcripción independientes; ownership fail-closed.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "provenance durability",
+      "evidence": "R.2a 072 / R.3a tests",
+      "id": "G05",
+      "rationale": "JSONB tipado, historia, página/documento/versión/locator y lineage; no backfill especulativo.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "critical identifier safety",
+      "evidence": "R.3/R.3a tests",
+      "id": "G06",
+      "rationale": "Conflictos conservados sin precedencia de proveedor.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "structural continuity safety",
+      "evidence": "ST01–ST09 + Phase 4",
+      "id": "G07",
+      "rationale": "0 unsafe/0 stale; transición sustentada y recuperación independiente válidas.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "quantity binding safety",
+      "evidence": "ST11/HF22/R.3",
+      "id": "G08",
+      "rationale": "Binding inseguro no se promueve a owner confiable.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "attribute binding safety",
+      "evidence": "ST12/HF23/R.3",
+      "id": "G09",
+      "rationale": "Review del detalle heredada por atributo.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "FAILED provider result safety",
+      "evidence": "HF10/HF11 + Vision FAILED",
+      "id": "G10",
+      "rationale": "Truncación no produce transcripción canónica.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "reference/source conflict safety",
+      "evidence": "Phase 2/HF08/HF09",
+      "id": "G11",
+      "rationale": "REFERENCE_SOURCE_CONFLICT excluido; mantenimiento humano separado.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "DESELECTED lineage safety",
+      "evidence": "DI16/R.2",
+      "id": "G12",
+      "rationale": "No reingreso activo ni ocultamiento de historia.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "Golden integrity",
+      "evidence": "Bytes HEAD + hashes históricos + approved loader",
+      "id": "G13",
+      "rationale": "Aprobación humana identificada; candidato no canónico; modelos no generan verdad.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "production/calibration separation",
+      "evidence": "ST20 + búsqueda módulos runtime",
+      "id": "G14",
+      "rationale": "Sin imports/rutas Golden/reports/UUIDs B-4/ITEM_1/ITEM_2 en producción inspeccionada.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "Native operational viability",
+      "evidence": "415 observaciones almacenadas; 279 REVIEW_REQUIRED / 136 UNAVAILABLE",
+      "id": "G15",
+      "rationale": "Primera adquisición para páginas con texto utilizable; fidelidad/latencia real completas no medidas. No bloquea medirlas en 06.V.",
+      "status": "WARN"
+    },
+    {
+      "blocking": false,
+      "dimension": "OCR operational viability",
+      "evidence": "Tesseract P4 1.549 s / 7 filas",
+      "id": "G16",
+      "rationale": "Viable en el caso probado, sujeto a revisión; no generalizar a expediente ni Paddle. No bloquea 06.V controlado.",
+      "status": "WARN"
+    },
+    {
+      "blocking": true,
+      "dimension": "Vision transcription viability",
+      "evidence": "P4 FAILED, truncación, 86.592 s",
+      "id": "G17",
+      "rationale": "NOT_CURRENTLY_VIABLE en configuración probada; excluir fallback normal antes de primer pase. Condición C02.",
+      "status": "WARN"
+    },
+    {
+      "blocking": false,
+      "dimension": "Vision structure viability",
+      "evidence": "35.825/35.638/36.923 s; 1 correcta/2 protegidas",
+      "id": "G18",
+      "rationale": "VIABLE_AS_BOUNDED_FALLBACK con revisión; no calidad automática certificada. Sin tuning y sólo plan autorizado.",
+      "status": "WARN"
+    },
+    {
+      "blocking": false,
+      "dimension": "runtime observability",
+      "evidence": "Artifacts include provider/model/prompt/timeout/latency/hash",
+      "id": "G19",
+      "rationale": "Latencia de inferencia medida; overhead/load/budget histórico incompletos. Captura completa futura C03; no bloquea evaluar límite actual.",
+      "status": "WARN"
+    },
+    {
+      "blocking": false,
+      "dimension": "real-domain calibration coverage",
+      "evidence": "Replay: Requirements/Evidence/ScopeDetail/quantities/attributes=0",
+      "id": "G20",
+      "rationale": "Sin evidencia positiva real end-to-end; contratos sintéticos no equivalen a recall. Objetivo de 06.V.",
+      "status": "NOT_MEASURED"
+    },
+    {
+      "blocking": false,
+      "dimension": "review-load knowledge",
+      "evidence": "Sin medición adjudicada de todo el tender",
+      "id": "G21",
+      "rationale": "No afirmar carga aceptable; medir denominadores/revisión innecesaria en 06.V.",
+      "status": "NOT_MEASURED"
+    },
+    {
+      "blocking": false,
+      "dimension": "idempotence",
+      "evidence": "HF24/GS22/ST18/current tests",
+      "id": "G22",
+      "rationale": "Fingerprints/estados estables; IDs incidentales de segmentos regenerados.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "dimension": "isolated DB readiness",
+      "evidence": "test current/head 072; dev 071 sólo lectura",
+      "id": "G23",
+      "rationale": "Alembic reproducible; preparar DB nueva de validación, no importar datos de dev.",
+      "status": "PASS"
+    },
+    {
+      "blocking": true,
+      "dimension": "blind-run metrics readiness",
+      "evidence": "Production snapshots + bounded calibration harness",
+      "id": "G24",
+      "rationale": "Harness actual fija Tender #001/B-4; falta colector transversal/adjudicación con denominadores. C01 antes de abrir corpus, sin reglas específicas.",
+      "status": "WARN"
+    },
+    {
+      "blocking": false,
+      "dimension": "Tender #002 blindness intact",
+      "evidence": "Sólo whitelist de evidencia T001/code/tests; sin corpus ciego",
+      "id": "G25",
+      "rationale": "No preview, documentos, hashes, expected outputs ni fixtures T002.",
+      "status": "PASS"
+    }
+  ],
+  "real_models_executed": false,
+  "recommended_next_action": "Human acceptance of conditional gate; satisfy and freeze pre-open conditions before any explicit Tender002 authorization",
+  "safety": {
+    "known_adjudicated_unsafe_trusted_contractual_errors": 0,
+    "known_adjudicated_unsafe_trusted_structural_errors": 0,
+    "qualification": "5 known real observations, domain-positive coverage limited; not global production error rate",
+    "stale_carry_violations": 0,
+    "structural_correct_review_escalations": 2,
+    "structural_safe_misses": 2,
+    "transcription_safe_misses": 1
+  },
+  "safety_matrix": [
+    {
+      "blocking": false,
+      "criterion": "Known adjudicated unsafe contractual errors = 0",
+      "evidence": "Phase 2 transcription safety + Phase 4 structural adjudication; current focused tests",
+      "id": "S01",
+      "rationale": "Sólo los casos adjudicados conocidos; no certificación global de todas las páginas/dominios.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "criterion": "Unsafe structural errors = 0",
+      "evidence": "Phase 4 aggregate + GS15",
+      "id": "S02",
+      "rationale": "P2/P3 en revisión; P1 segura.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "criterion": "Stale carry = 0",
+      "evidence": "Phase 4 aggregate, HF21, ST06/ST07",
+      "id": "S03",
+      "rationale": "UNKNOWN no transporta salida confiable.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "criterion": "FAILED/truncated cannot become canonical",
+      "evidence": "HF10/HF11, failed Vision artifact",
+      "id": "S04",
+      "rationale": "Raw parcial se conserva sólo como diagnóstico.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "criterion": "Critical conflicts fail closed",
+      "evidence": "test_critical_identifier_propagation.py",
+      "id": "S05",
+      "rationale": "Review local y retiro de owner.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "criterion": "Provider preference does not resolve identity",
+      "evidence": "R.1/R.3a tests",
+      "id": "S06",
+      "rationale": "Canal/fecha no adjudican identidad contractual.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "criterion": "Unresolved structure removes ownership",
+      "evidence": "ST10 + Scope production guard",
+      "id": "S07",
+      "rationale": "Detail afectado: UNRESOLVED, sin IDs de owner confiables.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "criterion": "Quantity ownership protected",
+      "evidence": "ST11 + HF22 + R.3 CQ tests",
+      "id": "S08",
+      "rationale": "Derivado conserva review del detalle.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "criterion": "Attribute ownership protected",
+      "evidence": "ST12 + HF23 + R.3 CA tests",
+      "id": "S09",
+      "rationale": "Derivado conserva review del detalle.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "criterion": "Reference/source conflict is not adjudicated",
+      "evidence": "HF08/HF09/HF27 + Phase 2 fidelity",
+      "id": "S10",
+      "rationale": "Modelo disputado excluido de correcto/incorrecto.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "criterion": "DESELECTED cannot reenter discovery",
+      "evidence": "DI16 + R.2 deselection tests",
+      "id": "S11",
+      "rationale": "Historia conservada; discovery activo excluye lineage inactiva.",
+      "status": "PASS"
+    },
+    {
+      "blocking": false,
+      "criterion": "Invalid provenance fails closed",
+      "evidence": "R.2a/R.3a validation tests",
+      "id": "S12",
+      "rationale": "Versiones/shape/fuentes incompatibles rechazados; NULL legacy es ausencia explícita.",
+      "status": "PASS"
+    }
+  ],
+  "schema_changed": false,
+  "schema_version": "1",
+  "starting_head": "530621adee2124959c5677832af37ea615dfff3e",
+  "tender002_inspected": false,
+  "validation": {
+    "baseline_reproduction": {
+      "blocking_safety": false,
+      "classification": "Pre-existing stale 005 expectations/fixtures vs current006; no unsafe output trusted; maintenance debt explicitly disclosed, no edits",
+      "failed": 4,
+      "failures": [
+        "tests/test_documents.py::test_structure_scope_prompt_version_bumped_for_normalization_semantics",
+        "tests/test_documents.py::test_completed_old_structure_scope_analysis_is_not_reused_after_version_bump",
+        "tests/test_documents.py::test_vision_latest_summary_prefers_current_005_over_legacy",
+        "tests/test_documents.py::test_vision_latest_summary_derives_candidates_and_status_without_heavy_payload"
+      ],
+      "head": "530621adee2124959c5677832af37ea615dfff3e",
+      "seconds": 2.29,
+      "warnings": 6
+    },
+    "broad": {
+      "command": "RUN_LOCAL_OLLAMA_TESTS=0 DATABASE_URL=postgresql+psycopg://ceciliavalencia@localhost:5432/licitia_test /Users/ceciliavalencia/LiticIA/backend/.venv/bin/python -m pytest tests -m 'not local_ollama' -q --tb=short",
+      "deselected": 1,
+      "failed": 4,
+      "passed": 1672,
+      "seconds": 178.65,
+      "warnings": 7
+    },
+    "compileall": "PASS exit0",
+    "focused": {
+      "command": "DATABASE_URL=postgresql+psycopg://ceciliavalencia@localhost:5432/licitia_test /Users/ceciliavalencia/LiticIA/backend/.venv/bin/python -m pytest tests/test_document_intelligence.py tests/test_document_intelligence_compatibility.py tests/test_document_intelligence_integration.py tests/test_requirement_perception_provenance.py tests/test_cross_capability_provenance.py tests/test_critical_identifier_propagation.py tests/test_document_intelligence_calibration.py tests/test_document_intelligence_calibration_fidelity.py tests/test_document_intelligence_structural_golden.py tests/test_document_intelligence_structural_rescore.py tests/test_structural_trust_propagation.py -q --tb=short",
+      "failed": 0,
+      "passed": 300,
+      "seconds": 10.34,
+      "warnings": 6
+    },
+    "git_diff_check": "PASS exit0",
+    "git_status_summary": {
+      "historical_untracked_preserved": true,
+      "new_runtime_artifacts": [
+        "backend/reports/document_intelligence_r4b_readiness_gate.json",
+        "backend/reports/document_intelligence_r4b_readiness_gate.md"
+      ],
+      "staged_files": [],
+      "tracked_modified": [
+        "docs/roadmap.md"
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "payload": {
+    "calls": 1,
+    "capability": "TRANSCRIPTION",
+    "configuration": {
+      "attempt_reserved": 5,
+      "engine_version": "5.5.3",
+      "language": "spa+eng",
+      "plan": "34b7bf63fc5170d6a705a99c77b5e10c88d2118290e5edd4f9c0125eac329ae5"
+    },
+    "execution_event": true,
+    "id": "guard-535",
+    "latency_ms": 4405,
+    "model": null,
+    "page_id": "baaf11b0-eef4-4a2d-8299-8331a199ee7a",
+    "provider": "TESSERACT",
+    "source_method": "OCR",
+    "status": "COMPLETED",
+    "timeout": false,
+    "truncated": false
+  },
+  "sha256": "168fe3237e617f70d389302f78216fb7a4de817457149517b5bea8c65ed85481"
+}

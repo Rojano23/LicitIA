@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "restored_files_hash_verified": 2,
+  "backup_permissions": "0700 directories / 0600 files",
+  "backup": "/private/tmp/licitia-rc-h3-admin-backup",
+  "confidential_runtime_secrets_excluded": true,
+  "models_or_cloud_used": false
+}

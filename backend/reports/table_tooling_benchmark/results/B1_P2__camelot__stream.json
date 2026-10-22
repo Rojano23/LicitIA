@@ -1,0 +1,2734 @@
+{
+  "page": "B1_P2",
+  "tool": "camelot",
+  "configuration": "stream",
+  "parameters": {
+    "flavor": "stream"
+  },
+  "repeat_seconds": [
+    0.0244767919939477,
+    0.019407957996008918
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 520142848,
+  "warnings": [],
+  "errors": [],
+  "tables": [
+    {
+      "bbox_bottom_origin": [
+        64.664,
+        228.09171999999998,
+        560.82524,
+        676.5410866666667
+      ],
+      "bbox": [
+        64.664,
+        115.45891333333327,
+        560.82524,
+        563.90828
+      ],
+      "rows": 25,
+      "columns": 4,
+      "matrix": [
+        [
+          "1.2.",
+          "Forma de empaque:",
+          "",
+          ""
+        ],
+        [
+          "Los materiales deben entregarse con las diferentes cantidades de empaque:",
+          "",
+          "",
+          ""
+        ],
+        [
+          "",
+          "• \nPara la partida 01 y 02.",
+          "",
+          ""
+        ],
+        [
+          "",
+          "",
+          "Cada relevador de protección deberá entregarse en estuches o contenedores forrados de",
+          ""
+        ],
+        [
+          "",
+          "",
+          "hule espuma o material similar que garantice la integridad del equipo.",
+          ""
+        ],
+        [
+          "",
+          "",
+          "Deberá entregarse 2 juegos de cables de comunicación de cada puerto con que cuente el",
+          ""
+        ],
+        [
+          "",
+          "",
+          "relevador  de  igual  manera  deberá  entregar  el  software  de  libre  licencia  en  usb  para",
+          ""
+        ],
+        [
+          "",
+          "",
+          "windows 10 para la comunicación y configuración del relevador.",
+          ""
+        ],
+        [
+          "",
+          "D",
+          "eberá estar protegido mediante bolsa antiestática (ESD) o material equivalente, debido a",
+          ""
+        ],
+        [
+          "",
+          "",
+          "que contiene componentes electrónicos sensibles.",
+          ""
+        ],
+        [
+          "",
+          "D",
+          "eberá  incorporar  protección  contra  humedad,  mediante  bolsa  sellada  y,  cuando  sea",
+          ""
+        ],
+        [
+          "",
+          "necesario, material desecante.",
+          "",
+          ""
+        ],
+        [
+          "",
+          "L\nos  accesorios,  manuales,",
+          "conectores  y  demás",
+          "componentes  deberán  entregarse"
+        ],
+        [
+          "",
+          "",
+          "debidamente identificados y protegidos para evitar daños o pérdida.",
+          ""
+        ],
+        [
+          "",
+          "L",
+          "o anterior para asegurar que el equipo esté adecuadamente embalado para soportar, sin",
+          ""
+        ],
+        [
+          "",
+          "daños, \nla  manipulación  razonable  y",
+          "",
+          "las  condiciones  ambientales  correspondientes  al"
+        ],
+        [
+          "",
+          "",
+          "método o métodos de transporte conforme a la IEC 60255-1:2022 — Cláusula 8: Marking,",
+          ""
+        ],
+        [
+          "",
+          "labelling and packaging.",
+          "",
+          ""
+        ],
+        [
+          "1.3.",
+          "Entrega de los bienes.",
+          "",
+          ""
+        ],
+        [
+          "",
+          "",
+          "Los Bienes serán entregados en Almacén de bienes de consumo del Complejo Procesador",
+          ""
+        ],
+        [
+          "",
+          "",
+          "de Gas Cactus S/n, Ranchería San Miguel, segunda sección, Reforma, Chiapas, C.P. 29500,",
+          ""
+        ],
+        [
+          "",
+          "",
+          "área sobre la cual el PROVEEDOR entregará los Bienes. En días hábiles de lunes a viernes,",
+          ""
+        ],
+        [
+          "",
+          "",
+          "con  horario  de  8:00  a  14:00  horas,  responsable  de  la  recepción  de  los  bienes:  Moises",
+          ""
+        ],
+        [
+          "",
+          "",
+          "Alpizar Uribe, jefe del Almacén, Teléfono 9933103500, extensión 32750, correo electrónico:",
+          ""
+        ],
+        [
+          "",
+          "moises.alpizar@pemex.com",
+          "",
+          ""
+        ]
+      ],
+      "parser_report": {
+        "accuracy": 66.4,
+        "whitespace": 67.0,
+        "order": 1,
+        "page": 1,
+        "confidence": 0.2191
+      },
+      "cells": [
+        {
+          "row": 0,
+          "column": 0,
+          "text": "1.2. \n",
+          "bbox": [
+            70.824,
+            116.8316000000001,
+            102.62644,
+            129.47828000000004
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            662.52172,
+            102.62644,
+            675.1683999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "text": "Forma de empaque: \n",
+          "bbox": [
+            102.62644,
+            116.8316000000001,
+            255.41060000000002,
+            129.47828000000004
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            662.52172,
+            255.41060000000002,
+            675.1683999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            255.41060000000002,
+            116.8316000000001,
+            374.91121999999996,
+            129.47828000000004
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            662.52172,
+            374.91121999999996,
+            675.1683999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            116.8316000000001,
+            550.82524,
+            129.47828000000004
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            662.52172,
+            550.82524,
+            675.1683999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "text": "Los materiales deben entregarse con las diferentes cantidades de empaque:  \n",
+          "bbox": [
+            70.824,
+            129.47828000000004,
+            102.62644,
+            145.74494000000004
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            646.25506,
+            102.62644,
+            662.52172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            129.47828000000004,
+            255.41060000000002,
+            145.74494000000004
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            646.25506,
+            255.41060000000002,
+            662.52172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            255.41060000000002,
+            129.47828000000004,
+            374.91121999999996,
+            145.74494000000004
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            646.25506,
+            374.91121999999996,
+            662.52172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            129.47828000000004,
+            550.82524,
+            145.74494000000004
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            646.25506,
+            550.82524,
+            662.52172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            145.74494000000004,
+            102.62644,
+            163.31827999999996
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            628.68172,
+            102.62644,
+            646.25506
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "text": "• \nPara la partida 01 y 02. \n",
+          "bbox": [
+            102.62644,
+            145.74494000000004,
+            255.41060000000002,
+            163.31827999999996
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            628.68172,
+            255.41060000000002,
+            646.25506
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            255.41060000000002,
+            145.74494000000004,
+            374.91121999999996,
+            163.31827999999996
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            628.68172,
+            374.91121999999996,
+            646.25506
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            145.74494000000004,
+            550.82524,
+            163.31827999999996
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            628.68172,
+            550.82524,
+            646.25506
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            163.31827999999996,
+            102.62644,
+            177.89828
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            614.10172,
+            102.62644,
+            628.68172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            163.31827999999996,
+            255.41060000000002,
+            177.89828
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            614.10172,
+            255.41060000000002,
+            628.68172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "text": "Cada relevador de protección deberá entregarse en estuches o contenedores forrados de \n",
+          "bbox": [
+            255.41060000000002,
+            163.31827999999996,
+            374.91121999999996,
+            177.89828
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            614.10172,
+            374.91121999999996,
+            628.68172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            163.31827999999996,
+            550.82524,
+            177.89828
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            614.10172,
+            550.82524,
+            628.68172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            177.89828,
+            102.62644,
+            192.47828000000004
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            599.52172,
+            102.62644,
+            614.10172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            177.89828,
+            255.41060000000002,
+            192.47828000000004
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            599.52172,
+            255.41060000000002,
+            614.10172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 2,
+          "text": "hule espuma o material similar que garantice la integridad del equipo. \n",
+          "bbox": [
+            255.41060000000002,
+            177.89828,
+            374.91121999999996,
+            192.47828000000004
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            599.52172,
+            374.91121999999996,
+            614.10172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            177.89828,
+            550.82524,
+            192.47828000000004
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            599.52172,
+            550.82524,
+            614.10172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            192.47828000000004,
+            102.62644,
+            207.05827999999997
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            584.94172,
+            102.62644,
+            599.52172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            192.47828000000004,
+            255.41060000000002,
+            207.05827999999997
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            584.94172,
+            255.41060000000002,
+            599.52172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 2,
+          "text": "Deberá entregarse 2 juegos de cables de comunicación de cada puerto con que cuente el \n",
+          "bbox": [
+            255.41060000000002,
+            192.47828000000004,
+            374.91121999999996,
+            207.05827999999997
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            584.94172,
+            374.91121999999996,
+            599.52172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            192.47828000000004,
+            550.82524,
+            207.05827999999997
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            584.94172,
+            550.82524,
+            599.52172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            207.05827999999997,
+            102.62644,
+            221.6382799999999
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            570.3617200000001,
+            102.62644,
+            584.94172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            207.05827999999997,
+            255.41060000000002,
+            221.6382799999999
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            570.3617200000001,
+            255.41060000000002,
+            584.94172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 2,
+          "text": "relevador  de  igual  manera  deberá  entregar  el  software  de  libre  licencia  en  usb  para \n",
+          "bbox": [
+            255.41060000000002,
+            207.05827999999997,
+            374.91121999999996,
+            221.6382799999999
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            570.3617200000001,
+            374.91121999999996,
+            584.94172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            207.05827999999997,
+            550.82524,
+            221.6382799999999
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            570.3617200000001,
+            550.82524,
+            584.94172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            221.6382799999999,
+            102.62644,
+            243.55327999999997
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            548.44672,
+            102.62644,
+            570.3617200000001
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            221.6382799999999,
+            255.41060000000002,
+            243.55327999999997
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            548.44672,
+            255.41060000000002,
+            570.3617200000001
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 2,
+          "text": "windows 10 para la comunicación y configuración del relevador. \n",
+          "bbox": [
+            255.41060000000002,
+            221.6382799999999,
+            374.91121999999996,
+            243.55327999999997
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            548.44672,
+            374.91121999999996,
+            570.3617200000001
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            221.6382799999999,
+            550.82524,
+            243.55327999999997
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            548.44672,
+            550.82524,
+            570.3617200000001
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            243.55327999999997,
+            102.62644,
+            265.40828
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            526.59172,
+            102.62644,
+            548.44672
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 1,
+          "text": "  D\n",
+          "bbox": [
+            102.62644,
+            243.55327999999997,
+            255.41060000000002,
+            265.40828
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            526.59172,
+            255.41060000000002,
+            548.44672
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 2,
+          "text": "eberá estar protegido mediante bolsa antiestática (ESD) o material equivalente, debido a \n",
+          "bbox": [
+            255.41060000000002,
+            243.55327999999997,
+            374.91121999999996,
+            265.40828
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            526.59172,
+            374.91121999999996,
+            548.44672
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            243.55327999999997,
+            550.82524,
+            265.40828
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            526.59172,
+            550.82524,
+            548.44672
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            265.40828,
+            102.62644,
+            287.24828
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            504.75172,
+            102.62644,
+            526.59172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            265.40828,
+            255.41060000000002,
+            287.24828
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            504.75172,
+            255.41060000000002,
+            526.59172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 2,
+          "text": "que contiene componentes electrónicos sensibles. \n",
+          "bbox": [
+            255.41060000000002,
+            265.40828,
+            374.91121999999996,
+            287.24828
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            504.75172,
+            374.91121999999996,
+            526.59172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            265.40828,
+            550.82524,
+            287.24828
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            504.75172,
+            550.82524,
+            526.59172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            287.24828,
+            102.62644,
+            309.14828
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            482.85172,
+            102.62644,
+            504.75172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 1,
+          "text": "  D\n",
+          "bbox": [
+            102.62644,
+            287.24828,
+            255.41060000000002,
+            309.14828
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            482.85172,
+            255.41060000000002,
+            504.75172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 2,
+          "text": "eberá  incorporar  protección  contra  humedad,  mediante  bolsa  sellada  y,  cuando  sea \n",
+          "bbox": [
+            255.41060000000002,
+            287.24828,
+            374.91121999999996,
+            309.14828
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            482.85172,
+            374.91121999999996,
+            504.75172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            287.24828,
+            550.82524,
+            309.14828
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            482.85172,
+            550.82524,
+            504.75172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            309.14828,
+            102.62644,
+            331.04828
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            460.95172,
+            102.62644,
+            482.85172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 1,
+          "text": "necesario, material desecante. \n",
+          "bbox": [
+            102.62644,
+            309.14828,
+            255.41060000000002,
+            331.04828
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            460.95172,
+            255.41060000000002,
+            482.85172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            255.41060000000002,
+            309.14828,
+            374.91121999999996,
+            331.04828
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            460.95172,
+            374.91121999999996,
+            482.85172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            309.14828,
+            550.82524,
+            331.04828
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            460.95172,
+            550.82524,
+            482.85172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            331.04828,
+            102.62644,
+            352.94827999999995
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            439.05172000000005,
+            102.62644,
+            460.95172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 1,
+          "text": "  L\nos  accesorios,  manuales, \n",
+          "bbox": [
+            102.62644,
+            331.04828,
+            255.41060000000002,
+            352.94827999999995
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            439.05172000000005,
+            255.41060000000002,
+            460.95172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 2,
+          "text": "conectores  y  demás \n",
+          "bbox": [
+            255.41060000000002,
+            331.04828,
+            374.91121999999996,
+            352.94827999999995
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            439.05172000000005,
+            374.91121999999996,
+            460.95172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 3,
+          "text": "componentes  deberán  entregarse \n",
+          "bbox": [
+            374.91121999999996,
+            331.04828,
+            550.82524,
+            352.94827999999995
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            439.05172000000005,
+            550.82524,
+            460.95172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            352.94827999999995,
+            102.62644,
+            374.84828
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            417.15172,
+            102.62644,
+            439.05172000000005
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            352.94827999999995,
+            255.41060000000002,
+            374.84828
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            417.15172,
+            255.41060000000002,
+            439.05172000000005
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 2,
+          "text": "debidamente identificados y protegidos para evitar daños o pérdida. \n",
+          "bbox": [
+            255.41060000000002,
+            352.94827999999995,
+            374.91121999999996,
+            374.84828
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            417.15172,
+            374.91121999999996,
+            439.05172000000005
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            352.94827999999995,
+            550.82524,
+            374.84828
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            417.15172,
+            550.82524,
+            439.05172000000005
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 14,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            374.84828,
+            102.62644,
+            396.68827999999996
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            395.31172000000004,
+            102.62644,
+            417.15172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 14,
+          "column": 1,
+          "text": "  L\n",
+          "bbox": [
+            102.62644,
+            374.84828,
+            255.41060000000002,
+            396.68827999999996
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            395.31172000000004,
+            255.41060000000002,
+            417.15172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 14,
+          "column": 2,
+          "text": "o anterior para asegurar que el equipo esté adecuadamente embalado para soportar, sin \n",
+          "bbox": [
+            255.41060000000002,
+            374.84828,
+            374.91121999999996,
+            396.68827999999996
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            395.31172000000004,
+            374.91121999999996,
+            417.15172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 14,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            374.84828,
+            550.82524,
+            396.68827999999996
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            395.31172000000004,
+            550.82524,
+            417.15172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 15,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            396.68827999999996,
+            102.62644,
+            411.26828
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            380.73172,
+            102.62644,
+            395.31172000000004
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 15,
+          "column": 1,
+          "text": "daños, \nla  manipulación  razonable  y \n",
+          "bbox": [
+            102.62644,
+            396.68827999999996,
+            255.41060000000002,
+            411.26828
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            380.73172,
+            255.41060000000002,
+            395.31172000000004
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 15,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            255.41060000000002,
+            396.68827999999996,
+            374.91121999999996,
+            411.26828
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            380.73172,
+            374.91121999999996,
+            395.31172000000004
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 15,
+          "column": 3,
+          "text": "las  condiciones  ambientales  correspondientes  al \n",
+          "bbox": [
+            374.91121999999996,
+            396.68827999999996,
+            550.82524,
+            411.26828
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            380.73172,
+            550.82524,
+            395.31172000000004
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 16,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            411.26828,
+            102.62644,
+            425.85828
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            366.14172,
+            102.62644,
+            380.73172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 16,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            411.26828,
+            255.41060000000002,
+            425.85828
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            366.14172,
+            255.41060000000002,
+            380.73172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 16,
+          "column": 2,
+          "text": "método o métodos de transporte conforme a la IEC 60255-1:2022 — Cláusula 8: Marking, \n",
+          "bbox": [
+            255.41060000000002,
+            411.26828,
+            374.91121999999996,
+            425.85828
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            366.14172,
+            374.91121999999996,
+            380.73172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 16,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            411.26828,
+            550.82524,
+            425.85828
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            366.14172,
+            550.82524,
+            380.73172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 17,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            425.85828,
+            102.62644,
+            447.23494
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            344.76506,
+            102.62644,
+            366.14172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 17,
+          "column": 1,
+          "text": "labelling and packaging. \n",
+          "bbox": [
+            102.62644,
+            425.85828,
+            255.41060000000002,
+            447.23494
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            344.76506,
+            255.41060000000002,
+            366.14172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 17,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            255.41060000000002,
+            425.85828,
+            374.91121999999996,
+            447.23494
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            344.76506,
+            374.91121999999996,
+            366.14172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 17,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            425.85828,
+            550.82524,
+            447.23494
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            344.76506,
+            550.82524,
+            366.14172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 18,
+          "column": 0,
+          "text": "1.3. \n",
+          "bbox": [
+            70.824,
+            447.23494,
+            102.62644,
+            469.06827999999996
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            322.93172000000004,
+            102.62644,
+            344.76506
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 18,
+          "column": 1,
+          "text": " \nEntrega de los bienes. \n",
+          "bbox": [
+            102.62644,
+            447.23494,
+            255.41060000000002,
+            469.06827999999996
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            322.93172000000004,
+            255.41060000000002,
+            344.76506
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 18,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            255.41060000000002,
+            447.23494,
+            374.91121999999996,
+            469.06827999999996
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            322.93172000000004,
+            374.91121999999996,
+            344.76506
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 18,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            447.23494,
+            550.82524,
+            469.06827999999996
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            322.93172000000004,
+            550.82524,
+            344.76506
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 19,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            469.06827999999996,
+            102.62644,
+            483.22828
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            308.77172,
+            102.62644,
+            322.93172000000004
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 19,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            469.06827999999996,
+            255.41060000000002,
+            483.22828
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            308.77172,
+            255.41060000000002,
+            322.93172000000004
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 19,
+          "column": 2,
+          "text": "Los Bienes serán entregados en Almacén de bienes de consumo del Complejo Procesador \n",
+          "bbox": [
+            255.41060000000002,
+            469.06827999999996,
+            374.91121999999996,
+            483.22828
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            308.77172,
+            374.91121999999996,
+            322.93172000000004
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 19,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            469.06827999999996,
+            550.82524,
+            483.22828
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            308.77172,
+            550.82524,
+            322.93172000000004
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 20,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            483.22828,
+            102.62644,
+            497.80827999999997
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            294.19172000000003,
+            102.62644,
+            308.77172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 20,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            483.22828,
+            255.41060000000002,
+            497.80827999999997
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            294.19172000000003,
+            255.41060000000002,
+            308.77172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 20,
+          "column": 2,
+          "text": "de Gas Cactus S/n, Ranchería San Miguel, segunda sección, Reforma, Chiapas, C.P. 29500, \n",
+          "bbox": [
+            255.41060000000002,
+            483.22828,
+            374.91121999999996,
+            497.80827999999997
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            294.19172000000003,
+            374.91121999999996,
+            308.77172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 20,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            483.22828,
+            550.82524,
+            497.80827999999997
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            294.19172000000003,
+            550.82524,
+            308.77172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 21,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            497.80827999999997,
+            102.62644,
+            512.38828
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            279.61172,
+            102.62644,
+            294.19172000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 21,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            497.80827999999997,
+            255.41060000000002,
+            512.38828
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            279.61172,
+            255.41060000000002,
+            294.19172000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 21,
+          "column": 2,
+          "text": "área sobre la cual el PROVEEDOR entregará los Bienes. En días hábiles de lunes a viernes, \n",
+          "bbox": [
+            255.41060000000002,
+            497.80827999999997,
+            374.91121999999996,
+            512.38828
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            279.61172,
+            374.91121999999996,
+            294.19172000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 21,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            497.80827999999997,
+            550.82524,
+            512.38828
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            279.61172,
+            550.82524,
+            294.19172000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 22,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            512.38828,
+            102.62644,
+            526.9682799999999
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            265.03172000000006,
+            102.62644,
+            279.61172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 22,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            512.38828,
+            255.41060000000002,
+            526.9682799999999
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            265.03172000000006,
+            255.41060000000002,
+            279.61172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 22,
+          "column": 2,
+          "text": "con  horario  de  8:00  a  14:00  horas,  responsable  de  la  recepción  de  los  bienes:  Moises \n",
+          "bbox": [
+            255.41060000000002,
+            512.38828,
+            374.91121999999996,
+            526.9682799999999
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            265.03172000000006,
+            374.91121999999996,
+            279.61172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 22,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            512.38828,
+            550.82524,
+            526.9682799999999
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            265.03172000000006,
+            550.82524,
+            279.61172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 23,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            526.9682799999999,
+            102.62644,
+            541.60828
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            250.39172,
+            102.62644,
+            265.03172000000006
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 23,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            102.62644,
+            526.9682799999999,
+            255.41060000000002,
+            541.60828
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            250.39172,
+            255.41060000000002,
+            265.03172000000006
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 23,
+          "column": 2,
+          "text": "Alpizar Uribe, jefe del Almacén, Teléfono 9933103500, extensión 32750, correo electrónico: \n",
+          "bbox": [
+            255.41060000000002,
+            526.9682799999999,
+            374.91121999999996,
+            541.60828
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            250.39172,
+            374.91121999999996,
+            265.03172000000006
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 23,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            526.9682799999999,
+            550.82524,
+            541.60828
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            250.39172,
+            550.82524,
+            265.03172000000006
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 24,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            70.824,
+            541.60828,
+            102.62644,
+            568.42828
+          ],
+          "bbox_bottom_origin": [
+            70.824,
+            223.57172,
+            102.62644,
+            250.39172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 24,
+          "column": 1,
+          "text": "moises.alpizar@pemex.com \n \n",
+          "bbox": [
+            102.62644,
+            541.60828,
+            255.41060000000002,
+            568.42828
+          ],
+          "bbox_bottom_origin": [
+            102.62644,
+            223.57172,
+            255.41060000000002,
+            250.39172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 24,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            255.41060000000002,
+            541.60828,
+            374.91121999999996,
+            568.42828
+          ],
+          "bbox_bottom_origin": [
+            255.41060000000002,
+            223.57172,
+            374.91121999999996,
+            250.39172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 24,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            374.91121999999996,
+            541.60828,
+            550.82524,
+            568.42828
+          ],
+          "bbox_bottom_origin": [
+            374.91121999999996,
+            223.57172,
+            550.82524,
+            250.39172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        }
+      ]
+    },
+    {
+      "bbox_bottom_origin": [
+        67.304,
+        76.50572000000001,
+        567.7487600000001,
+        228.38108666666665
+      ],
+      "bbox": [
+        67.304,
+        563.6189133333334,
+        567.7487600000001,
+        715.49428
+      ],
+      "rows": 8,
+      "columns": 1,
+      "matrix": [
+        [
+          "2.  Otros requisitos que deberá incluir o indicar el participante como parte de su propuesta:"
+        ],
+        [
+          "2\n.1.  Presentar su propuesta conforme a lo solicitado en el presente anexo, que se detallen claramente"
+        ],
+        [
+          "las especificaciones de los bienes que se requieren, indicando el grupo y números de partida de"
+        ],
+        [
+          "que se trate, unidad de medida, cantidad, así mismo que manifieste el plazo, lugar y condiciones"
+        ],
+        [
+          "de entrega."
+        ],
+        [
+          "2.2.  Anexar a su propuesta técnica catálogos, fichas técnicas, dibujos o boletines técnicos emitidos por"
+        ],
+        [
+          "el  fabricante  de  los  bienes  propuestos,  indicando  la  marca  y  modelo  que  propone  para  cada"
+        ],
+        [
+          "posición, los cuales deben cumplir en su totalidad con las especificaciones y alcances solicitadas"
+        ]
+      ],
+      "parser_report": {
+        "accuracy": 100.0,
+        "whitespace": 0.0,
+        "order": 2,
+        "page": 1,
+        "confidence": 1.0
+      },
+      "cells": [
+        {
+          "row": 0,
+          "column": 0,
+          "text": " \n2.  Otros requisitos que deberá incluir o indicar el participante como parte de su propuesta: \n",
+          "bbox": [
+            60.0,
+            558.46828,
+            557.7487600000001,
+            591.18994
+          ],
+          "bbox_bottom_origin": [
+            60.0,
+            200.81006,
+            557.7487600000001,
+            233.53172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "text": "  2\n.1.  Presentar su propuesta conforme a lo solicitado en el presente anexo, que se detallen claramente \n",
+          "bbox": [
+            60.0,
+            591.18994,
+            557.7487600000001,
+            612.01828
+          ],
+          "bbox_bottom_origin": [
+            60.0,
+            179.98172,
+            557.7487600000001,
+            200.81006
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 0,
+          "text": "las especificaciones de los bienes que se requieren, indicando el grupo y números de partida de \n",
+          "bbox": [
+            60.0,
+            612.01828,
+            557.7487600000001,
+            625.63828
+          ],
+          "bbox_bottom_origin": [
+            60.0,
+            166.36172,
+            557.7487600000001,
+            179.98172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 0,
+          "text": "que se trate, unidad de medida, cantidad, así mismo que manifieste el plazo, lugar y condiciones \n",
+          "bbox": [
+            60.0,
+            625.63828,
+            557.7487600000001,
+            639.25828
+          ],
+          "bbox_bottom_origin": [
+            60.0,
+            152.74172,
+            557.7487600000001,
+            166.36172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 0,
+          "text": "de entrega. \n",
+          "bbox": [
+            60.0,
+            639.25828,
+            557.7487600000001,
+            659.24494
+          ],
+          "bbox_bottom_origin": [
+            60.0,
+            132.75506000000001,
+            557.7487600000001,
+            152.74172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 0,
+          "text": " \n2.2.  Anexar a su propuesta técnica catálogos, fichas técnicas, dibujos o boletines técnicos emitidos por \n",
+          "bbox": [
+            60.0,
+            659.24494,
+            557.7487600000001,
+            680.11828
+          ],
+          "bbox_bottom_origin": [
+            60.0,
+            111.88172,
+            557.7487600000001,
+            132.75506000000001
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 0,
+          "text": "el  fabricante  de  los  bienes  propuestos,  indicando  la  marca  y  modelo  que  propone  para  cada \n",
+          "bbox": [
+            60.0,
+            680.11828,
+            557.7487600000001,
+            693.73628
+          ],
+          "bbox_bottom_origin": [
+            60.0,
+            98.26372,
+            557.7487600000001,
+            111.88172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 0,
+          "text": "posición, los cuales deben cumplir en su totalidad con las especificaciones y alcances solicitadas \n",
+          "bbox": [
+            60.0,
+            693.73628,
+            557.7487600000001,
+            705.49428
+          ],
+          "bbox_bottom_origin": [
+            60.0,
+            86.50572000000001,
+            557.7487600000001,
+            98.26372
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        }
+      ]
+    }
+  ],
+  "repeat_structure_sha256": [
+    "7a3bc4c880e94e398e2b7558b34241e0a0dd82df2a97b0a7eac2b436f1122384",
+    "7a3bc4c880e94e398e2b7558b34241e0a0dd82df2a97b0a7eac2b436f1122384"
+  ]
+}

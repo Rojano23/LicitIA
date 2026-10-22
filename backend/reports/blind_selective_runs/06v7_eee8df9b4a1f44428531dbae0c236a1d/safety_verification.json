@@ -1,0 +1,31 @@
+{
+  "provider_calls": {
+    "OCR": 4,
+    "VISION": 4
+  },
+  "ocr_pages": 4,
+  "vision_pages": 2,
+  "vision_tasks": 3,
+  "ocr_attempts_per_fingerprint": 1,
+  "vision_max_attempts_observed": 2,
+  "vision_receipt_states": {
+    "COMPLETED": 2,
+    "FAILED": 1
+  },
+  "ocr_calls_remaining": 4,
+  "vision_calls_remaining": 0,
+  "registered_calls_matched_to_decisions": 8,
+  "unplanned_calls_observed": 0,
+  "guard_rejections": 0,
+  "calls_from_sufficient_plans": 0,
+  "all_ocr_calls_have_textual_deficit": true,
+  "all_vision_calls_have_explicit_visual_deficit": true,
+  "interpretation_failure_alone_authorized_call": false,
+  "source_receipt_identity_and_hash_checks": "PASS",
+  "runtime_storage_files_verified": 30,
+  "missing_manifest_refs": 0,
+  "structure_trusted": 0,
+  "stale_carry": 0,
+  "no_semantic_adjudication": true,
+  "limitations": "Operational identity/control-flow checks; no certification of semantic correctness or real-world recall; no manifests to exercise positive multispan verification"
+}

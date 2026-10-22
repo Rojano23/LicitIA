@@ -1,0 +1,20 @@
+{
+  "payload": {
+    "calls": 0,
+    "capability": "TRANSCRIPTION",
+    "configuration": {
+      "plan": "5c3b488988d03c3452330bc0a11180b54161ed86ea8d01d32a55b7a964465072"
+    },
+    "execution_event": true,
+    "id": "guard-1210",
+    "latency_ms": null,
+    "model": null,
+    "page_id": "618ab2b2-d289-4937-9088-bede8f944b9b",
+    "provider": "TESSERACT",
+    "source_method": "OCR",
+    "status": "BUDGET_EXHAUSTED",
+    "timeout": false,
+    "truncated": false
+  },
+  "sha256": "2c0ac40f4b8fcb89f5f8499e7dcbeae8d547ac291fee77eec6f1c59396b5ff22"
+}

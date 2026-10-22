@@ -1,0 +1,47 @@
+{
+  "alembic_revision": "20261013_req_perception_prov_072",
+  "database_name": "licitia_validation_06v",
+  "execution_policy": "AUTO",
+  "ocr": {
+    "engine": "TESSERACT",
+    "engine_version": "5.5.3",
+    "language": "es+en",
+    "max_calls": 8,
+    "max_image_bytes": 8388608,
+    "max_pixels": 8000000,
+    "timeout_seconds": 30,
+    "zoom": 2
+  },
+  "profile": "SELECTIVE_PERCEPTION",
+  "schema_version": "DI_BLIND_SELECTIVE_001",
+  "source_effect_llm_automatic": false,
+  "spatial_contracts": [
+    {
+      "requirement": "IMAGE_LAYOUT_RELATIONSHIP",
+      "task": "STRUCTURE_SCOPE"
+    },
+    {
+      "requirement": "IMAGE_LAYOUT_RELATIONSHIP",
+      "task": "DETAIL_TRANSCRIPTION"
+    }
+  ],
+  "task_policy_version": "blind-task-contracts-v1",
+  "vision": {
+    "base_url": "http://127.0.0.1:11434",
+    "detail_tokens": 1000,
+    "internal_json_retry": 0,
+    "max_attempts": 2,
+    "max_calls": 4,
+    "max_image_bytes": 8388608,
+    "max_pages": 4,
+    "max_pixels": 8000000,
+    "max_tasks": 4,
+    "model": "qwen3-vl:4b-instruct",
+    "model_manifest": "/Users/ceciliavalencia/.ollama/models/manifests/registry.ollama.ai/library/qwen3-vl/4b-instruct",
+    "model_revision": "ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b",
+    "provider": "OLLAMA",
+    "structure_tokens": 600,
+    "timeout_seconds": 60,
+    "zoom": 2
+  }
+}

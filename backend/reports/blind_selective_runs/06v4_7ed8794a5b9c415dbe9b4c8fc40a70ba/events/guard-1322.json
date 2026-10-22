@@ -1,0 +1,23 @@
+{
+  "payload": {
+    "calls": 0,
+    "capability": "STRUCTURE",
+    "configuration": {
+      "decision_only": true,
+      "fingerprint": "7d4a6e5813a34b5f57ea4ac51db104317eebf6b4af4617f7714970ce8c10c8c4",
+      "plan": "cda094a2a6c3043d4c8e0a5f1172fd4d95f5f5831aba542a8094010d3813f139",
+      "reason": "RUN_VISION_BUDGET_EXHAUSTED"
+    },
+    "execution_event": true,
+    "id": "guard-1322",
+    "latency_ms": null,
+    "model": null,
+    "page_id": "660a6ae0-9a8f-4a55-97b9-928cc52b014a",
+    "provider": "PLANNER",
+    "source_method": "VISION",
+    "status": "BUDGET_EXHAUSTED",
+    "timeout": false,
+    "truncated": false
+  },
+  "sha256": "7d65549786449dfbc57159ef080a887989e197307ba1d44ed3e375a30c3bd215"
+}

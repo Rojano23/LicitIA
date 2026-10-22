@@ -1,0 +1,26 @@
+{
+  "head": "0b04fc7677e670fb487683ac904d3c3a89daa373",
+  "tracked_clean": true,
+  "staging_empty": true,
+  "git_diff_check": "PASS",
+  "historical_files_checked": 4407,
+  "historical_changed": [],
+  "digital_configurations": 70,
+  "digital_repeated_extractions": 140,
+  "deterministic_configurations": 70,
+  "digital_errors": 0,
+  "paddle_repeated_local_inferences": 2,
+  "scripts_syntax": "PASS",
+  "product_dependencies_modified": false,
+  "database_writes": false,
+  "attempt8_rerun": false,
+  "attempt9_created": false,
+  "human_reference_confirmation": "B1_P1_CONFIRMED_WITH_USER_CORRECTION",
+  "paddle_runtime": {
+    "paddleocr": "3.7.0",
+    "paddlepaddle": "3.3.0",
+    "paddlex": "3.7.2"
+  },
+  "anexoc_second_item_reference": "UNVERIFIED_INDEPENDENT_CHECK_REQUIRED",
+  "reference_revision": "002"
+}

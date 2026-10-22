@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "kind": "REAL_PRIVATE_POSTGRES_GENERIC_API_ROUNDTRIP",
+  "scope_count": 2,
+  "quantity_count": 2,
+  "distinct_scope_parents": 2,
+  "human_scope_correction_preserved": true,
+  "source_and_manifests_preserved": true,
+  "ocr_vision_receipts_preserved": true,
+  "source_destination_passwords_different": true,
+  "db_reconnect_and_app_restart_verified": true,
+  "invalid_dump_restore_preserved_valid_current_state": true,
+  "provider_calls": 0,
+  "blind_corpus_used": false
+}

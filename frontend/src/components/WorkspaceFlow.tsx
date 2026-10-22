@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { workspaceApi, type ProcessingStatus, type WorkspaceRead, type WorkspaceSource } from "../api/workspace";
+import { workspaceApi, recoveryApi, type RetryRead, type ProcessingStatus, type WorkspaceRead, type WorkspaceSource } from "../api/workspace";
 import { ScopeReview } from "./ScopeReview";
 
 type Props = { apiUrl: string; tenderId: string; documents: readonly { id: string; original_filename: string }[] };
@@ -22,6 +22,8 @@ function Source({ source, apiUrl, tenderId }: { source: WorkspaceSource; apiUrl:
 export function WorkspaceFlow({ apiUrl, tenderId, documents }: Props) {
   const [data, setData] = useState<WorkspaceRead | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [recovery, setRecovery] = useState<RetryRead | null>(null);
+  const [recoveryError, setRecoveryError] = useState(false);
   const [busy, setBusy] = useState(false);
   const [reviewRevision, setReviewRevision] = useState(0);
   const generation = useRef(0);
@@ -43,6 +45,21 @@ export function WorkspaceFlow({ apiUrl, tenderId, documents }: Props) {
     const timer = window.setInterval(() => { void refresh(); }, 2000);
     return () => window.clearInterval(timer);
   }, [data?.processing.status, refresh]);
+  async function inspectRecovery() {
+    setRecovery(null); setRecoveryError(false);
+    try { const result = await recoveryApi.read(apiUrl, tenderId); if (mounted.current) setRecovery(result); }
+    catch { if (mounted.current) setRecoveryError(true); }
+  }
+  async function retry() {
+    if (!recovery?.eligible) return;
+    setBusy(true); setError(null);
+    try {
+      const result = await recoveryApi.retry(apiUrl, tenderId, recovery.fingerprint);
+      if (mounted.current) { generation.current++; setData(result); setReviewRevision(n => n + 1); setRecovery(null); }
+    } catch {
+      if (mounted.current) { await refresh(); setRecovery(null); setError("No se pudo reintentar de forma segura. Los datos pudieron cambiar; verifica la recuperación nuevamente. No se borró evidencia para habilitar el reintento."); }
+    } finally { if (mounted.current) setBusy(false); }
+  }
   async function process() {
     setBusy(true); setError(null);
     const request = ++generation.current;
@@ -63,7 +80,18 @@ export function WorkspaceFlow({ apiUrl, tenderId, documents }: Props) {
       <p>Se procesa evidencia disponible. OCR y análisis visual requieren sus acciones específicas cuando falta percepción; este paso no activa proveedores.</p>
       <button disabled={busy || data?.processing.status === "PROCESSING" || documents.length === 0} onClick={() => void process()}>Procesar documentos disponibles</button>{" "}
       <button disabled={busy} onClick={() => { void refresh(); setReviewRevision(n => n + 1); }}>Actualizar resultados</button>
+      <div>
+        <button disabled={busy || data?.processing.status === "PROCESSING"} onClick={() => void inspectRecovery()}>Verificar recuperación</button>{" "}
+        {recovery && <>
+          <p>{recovery.eligible ? "Reintento disponible: reutiliza evidencia compatible y conserva las revisiones. No ejecuta OCR ni análisis visual." : "Reintento no disponible: revisa originales, procedencia y estado con el administrador."}</p>
+          {recovery.provider_degraded && <p>Hay resultados de percepción fallidos o no disponibles. Se conserva la evidencia determinista válida; el proveedor debe revisarse por separado.</p>}
+          {recovery.reasons.length > 0 && <p>Diagnóstico: {recovery.reasons.join(", ")}</p>}
+          <button disabled={busy || !recovery.eligible} onClick={() => void retry()}>Reintentar de forma segura</button>
+        </>}
+        {recoveryError && <p role="alert">No se pudo verificar la recuperación; confirma que el backend y el almacenamiento estén disponibles.</p>}
+      </div>
       <p role="status">{busy ? "Procesando documentos" : data ? statuses[data.processing.status] : "Consultando estado"}</p>
+      {data?.processing.provider_degraded && <p>Percepción parcial o no disponible: la evidencia determinista válida permanece disponible y requiere revisión humana.</p>}
       {error && <p role="alert">{error} Los resultados visibles pueden estar desactualizados.</p>}
       {data && <>
         <h4>Alcance y cantidades</h4>

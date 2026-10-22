@@ -1,0 +1,517 @@
+{
+  "page": "BASES_P41",
+  "tool": "camelot",
+  "configuration": "auto",
+  "parameters": {
+    "flavor": "auto"
+  },
+  "repeat_seconds": [
+    0.3588281249976717,
+    0.3564487499825191
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 532873216,
+  "warnings": [],
+  "errors": [],
+  "tables": [
+    {
+      "bbox_bottom_origin": [
+        42.6,
+        153.98767999999998,
+        566.1704400000003,
+        417.6184
+      ],
+      "bbox": [
+        42.6,
+        374.3816,
+        566.1704400000003,
+        638.01232
+      ],
+      "rows": 18,
+      "columns": 1,
+      "matrix": [
+        [
+          "contratación arriba indicado, se entrega con carácter de confidencial:"
+        ],
+        [
+          "Documento \nTipo de Información (1)"
+        ],
+        [
+          "XXXXXXXX \nXXXXXXXXX"
+        ],
+        [
+          "Opción 2:"
+        ],
+        [
+          "(Nombre del Representante Legal), en representación de (especificar la Persona Física o Moral que participa), con"
+        ],
+        [
+          "fundamento en lo dispuesto en los artículos 112 y 115 de la Ley General de Transparencia y Acceso a la Información"
+        ],
+        [
+          "Pública y las Políticas y Lineamientos para la Protección de la Información Sensible de Petróleos Mexicanos, manifiesto"
+        ],
+        [
+          "que la información que integra la propuesta presentada para el procedimiento de contratación arriba indicado, NO se"
+        ],
+        [
+          "entrega con carácter de confidencial:"
+        ],
+        [
+          "Atentamente"
+        ],
+        [
+          "___________________________________"
+        ],
+        [
+          "[Nombre y firma de la persona física o Representante Legal/Administrador Único o de acuerdo al poder"
+        ],
+        [
+          "Notarial que lo faculta]"
+        ],
+        [
+          "NOTAS:"
+        ],
+        [
+          "(\n1) \nCONSULTAR LOS ARTÍCULOS 112 y 115 DE LA LEY GENERAL DE TRANSPARENCIA Y ACCESO A LA INFORMACIÓN PÚBLICA."
+        ],
+        [
+          "(2) \nEN CASO DE NO RELACIONAR DOCUMENTOS EN ESTE FORMATO, SE CONSIDERARÁ QUE NO LOS ENTREGA CON CARÁCTER"
+        ],
+        [
+          "CONFIDENCIAL."
+        ],
+        [
+          "(3) \nLA FALTA DE PRESENTACIÓN DE ESTE ESCRITO NO SERÁ CAUSA DE DESECHAMIENTO DE LA PROPUESTA."
+        ]
+      ],
+      "parser_report": {
+        "accuracy": 99.98,
+        "whitespace": 0.0,
+        "order": 1,
+        "page": 1,
+        "confidence": 0.9998
+      },
+      "cells": [
+        {
+          "row": 0,
+          "column": 0,
+          "text": "contratación arriba indicado, se entrega con carácter de confidencial: \n  \n",
+          "bbox": [
+            42.6,
+            374.3816,
+            566.1704400000003,
+            391.6016
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            400.3984,
+            566.1704400000003,
+            417.6184
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "text": "Documento \nTipo de Información (1) \n",
+          "bbox": [
+            42.6,
+            391.6016,
+            566.1704400000003,
+            411.2216
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            380.7784,
+            566.1704400000003,
+            400.3984
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 0,
+          "text": "XXXXXXXX \nXXXXXXXXX \n",
+          "bbox": [
+            42.6,
+            411.2216,
+            566.1704400000003,
+            431.50164
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            360.49836,
+            566.1704400000003,
+            380.7784
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 0,
+          "text": "  \nOpción 2: \n",
+          "bbox": [
+            42.6,
+            431.50164,
+            566.1704400000003,
+            450.17164
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            341.82836,
+            566.1704400000003,
+            360.49836
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 0,
+          "text": "(Nombre del Representante Legal), en representación de (especificar la Persona Física o Moral que participa), con \n",
+          "bbox": [
+            42.6,
+            450.17164,
+            566.1704400000003,
+            461.7016
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            330.2984,
+            566.1704400000003,
+            341.82836
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 0,
+          "text": "fundamento en lo dispuesto en los artículos 112 y 115 de la Ley General de Transparencia y Acceso a la Información \n",
+          "bbox": [
+            42.6,
+            461.7016,
+            566.1704400000003,
+            473.1616
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            318.8384,
+            566.1704400000003,
+            330.2984
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 0,
+          "text": "Pública y las Políticas y Lineamientos para la Protección de la Información Sensible de Petróleos Mexicanos, manifiesto \n",
+          "bbox": [
+            42.6,
+            473.1616,
+            566.1704400000003,
+            484.6216
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            307.3784,
+            566.1704400000003,
+            318.8384
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 0,
+          "text": "que la información que integra la propuesta presentada para el procedimiento de contratación arriba indicado, NO se \n",
+          "bbox": [
+            42.6,
+            484.6216,
+            566.1704400000003,
+            496.14160000000004
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            295.85839999999996,
+            566.1704400000003,
+            307.3784
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 0,
+          "text": "entrega con carácter de confidencial: \n \n",
+          "bbox": [
+            42.6,
+            496.14160000000004,
+            566.1704400000003,
+            512.2816
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            279.7184,
+            566.1704400000003,
+            295.85839999999996
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 0,
+          "text": "Atentamente \n \n",
+          "bbox": [
+            42.6,
+            512.2816,
+            566.1704400000003,
+            534.1216
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            257.8784,
+            566.1704400000003,
+            279.7184
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 0,
+          "text": "___________________________________ \n",
+          "bbox": [
+            42.6,
+            534.1216,
+            566.1704400000003,
+            551.3416
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            240.6584,
+            566.1704400000003,
+            257.8784
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 0,
+          "text": "[Nombre y firma de la persona física o Representante Legal/Administrador Único o de acuerdo al poder \n",
+          "bbox": [
+            42.6,
+            551.3416,
+            566.1704400000003,
+            562.8616
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            229.1384,
+            566.1704400000003,
+            240.6584
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 0,
+          "text": "Notarial que lo faculta] \n",
+          "bbox": [
+            42.6,
+            562.8616,
+            566.1704400000003,
+            578.8
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            213.2,
+            566.1704400000003,
+            229.1384
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 0,
+          "text": " \nNOTAS: \n",
+          "bbox": [
+            42.6,
+            578.8,
+            566.1704400000003,
+            592.6384
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            199.3616,
+            566.1704400000003,
+            213.2
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 14,
+          "column": 0,
+          "text": "  (\n1) \nCONSULTAR LOS ARTÍCULOS 112 y 115 DE LA LEY GENERAL DE TRANSPARENCIA Y ACCESO A LA INFORMACIÓN PÚBLICA. \n",
+          "bbox": [
+            42.6,
+            592.6384,
+            566.1704400000003,
+            611.07232
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            180.92768,
+            566.1704400000003,
+            199.3616
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 15,
+          "column": 0,
+          "text": "(2) \nEN CASO DE NO RELACIONAR DOCUMENTOS EN ESTE FORMATO, SE CONSIDERARÁ QUE NO LOS ENTREGA CON CARÁCTER \n",
+          "bbox": [
+            42.6,
+            611.07232,
+            566.1704400000003,
+            620.25232
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            171.74768,
+            566.1704400000003,
+            180.92768
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 16,
+          "column": 0,
+          "text": "CONFIDENCIAL. \n",
+          "bbox": [
+            42.6,
+            620.25232,
+            566.1704400000003,
+            629.43232
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            162.56768,
+            566.1704400000003,
+            171.74768
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 17,
+          "column": 0,
+          "text": "(3) \nLA FALTA DE PRESENTACIÓN DE ESTE ESCRITO NO SERÁ CAUSA DE DESECHAMIENTO DE LA PROPUESTA. \n",
+          "bbox": [
+            42.6,
+            629.43232,
+            566.1704400000003,
+            638.01232
+          ],
+          "bbox_bottom_origin": [
+            42.6,
+            153.98767999999998,
+            566.1704400000003,
+            162.56768
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        }
+      ]
+    }
+  ],
+  "repeat_structure_sha256": [
+    "a5f9e3f5a54e262582ef6bb12c414cc79ab096ae529cd526ca35497db7fab016",
+    "a5f9e3f5a54e262582ef6bb12c414cc79ab096ae529cd526ca35497db7fab016"
+  ]
+}

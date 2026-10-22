@@ -1,0 +1,2372 @@
+[
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "auto",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "hybrid",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "lattice_combined",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "lattice_raster",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "lattice_vector",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "network",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "stream",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "stream_split",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "pdfplumber",
+    "configuration": "lines",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "pdfplumber",
+    "configuration": "lines_strict",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "pdfplumber",
+    "configuration": "lines_text",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "pdfplumber",
+    "configuration": "text",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "pdfplumber",
+    "configuration": "text_lines",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "pdfplumber",
+    "configuration": "text_tolerance5",
+    "evaluations": [
+      {
+        "reference_table": "scanned_materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "auto",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0.9954813298061244,
+        "detected": true,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": [
+          3,
+          4
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": true,
+            "quantity_and_unit_in_correct_row": true,
+            "brand_literal_in_owned_description": true,
+            "part_number_literal_in_owned_description": true,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": true,
+            "quantity_and_unit_in_correct_row": true,
+            "brand_literal_in_owned_description": true,
+            "part_number_literal_in_owned_description": true,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0.9987066499470352,
+        "detected": true,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": [
+          11,
+          2
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "hybrid",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0.9954813298061244,
+        "detected": true,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": [
+          3,
+          4
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": true,
+            "quantity_and_unit_in_correct_row": true,
+            "brand_literal_in_owned_description": true,
+            "part_number_literal_in_owned_description": true,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": true,
+            "quantity_and_unit_in_correct_row": true,
+            "brand_literal_in_owned_description": true,
+            "part_number_literal_in_owned_description": true,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0.9987066499470352,
+        "detected": true,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": [
+          11,
+          2
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "lattice_combined",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0.9954813298061244,
+        "detected": true,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": [
+          3,
+          4
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": true,
+            "quantity_and_unit_in_correct_row": true,
+            "brand_literal_in_owned_description": true,
+            "part_number_literal_in_owned_description": true,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": true,
+            "quantity_and_unit_in_correct_row": true,
+            "brand_literal_in_owned_description": true,
+            "part_number_literal_in_owned_description": true,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0.9987066499470352,
+        "detected": true,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": [
+          11,
+          2
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "lattice_raster",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0.9954813298061244,
+        "detected": true,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": [
+          3,
+          4
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": true,
+            "quantity_and_unit_in_correct_row": true,
+            "brand_literal_in_owned_description": true,
+            "part_number_literal_in_owned_description": true,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": true,
+            "quantity_and_unit_in_correct_row": true,
+            "brand_literal_in_owned_description": true,
+            "part_number_literal_in_owned_description": true,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0.9987066499470352,
+        "detected": true,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": [
+          11,
+          2
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "lattice_vector",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0.9864854824991754,
+        "detected": true,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": [
+          3,
+          4
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": true,
+            "quantity_and_unit_in_correct_row": true,
+            "brand_literal_in_owned_description": true,
+            "part_number_literal_in_owned_description": true,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": true,
+            "quantity_and_unit_in_correct_row": true,
+            "brand_literal_in_owned_description": true,
+            "part_number_literal_in_owned_description": true,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0.9946949423564686,
+        "detected": true,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": [
+          11,
+          2
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "network",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "stream",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0.7607383678487035,
+        "detected": true,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": [
+          14,
+          5
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0.8948436145542843,
+        "detected": true,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": [
+          20,
+          2
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "stream_split",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0.7607383678487035,
+        "detected": true,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": [
+          14,
+          5
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0.8948436145542843,
+        "detected": true,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": [
+          20,
+          2
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "pdfplumber",
+    "configuration": "lines",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0.9864854824991754,
+        "detected": true,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": [
+          3,
+          4
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": true,
+            "quantity_and_unit_in_correct_row": true,
+            "brand_literal_in_owned_description": true,
+            "part_number_literal_in_owned_description": true,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": true,
+            "quantity_and_unit_in_correct_row": true,
+            "brand_literal_in_owned_description": true,
+            "part_number_literal_in_owned_description": true,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0.9946949423564682,
+        "detected": true,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": [
+          15,
+          9
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "pdfplumber",
+    "configuration": "lines_strict",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "pdfplumber",
+    "configuration": "lines_text",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0.7503209830161193,
+        "detected": true,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": [
+          20,
+          2
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0.9710418828773043,
+        "detected": true,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": [
+          39,
+          13
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "pdfplumber",
+    "configuration": "text",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0.17860673319488557,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": [
+          87,
+          6
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0.36077802562187244,
+        "detected": false,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": [
+          87,
+          6
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "pdfplumber",
+    "configuration": "text_lines",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0.29934427147294607,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": [
+          19,
+          6
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0.6058125610623128,
+        "detected": true,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": [
+          19,
+          6
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P1",
+    "tool": "pdfplumber",
+    "configuration": "text_tolerance5",
+    "evaluations": [
+      {
+        "reference_table": "materials",
+        "bbox_iou": 0.17860673319488557,
+        "detected": false,
+        "expected_shape": [
+          3,
+          4
+        ],
+        "actual_shape": [
+          55,
+          6
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": [
+          {
+            "item_id": "1",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          },
+          {
+            "item_id": "2",
+            "item_unique_in_correct_four_column_row": false,
+            "quantity_and_unit_in_correct_row": false,
+            "brand_literal_in_owned_description": false,
+            "part_number_literal_in_owned_description": false,
+            "note": "Part number is a literal source field; not automatically canonical model."
+          }
+        ]
+      },
+      {
+        "reference_table": "standards",
+        "bbox_iou": 0.36077802562187244,
+        "detected": false,
+        "expected_shape": [
+          11,
+          2
+        ],
+        "actual_shape": [
+          55,
+          6
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "auto",
+    "evaluations": [],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "hybrid",
+    "evaluations": [],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "lattice_combined",
+    "evaluations": [],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "lattice_raster",
+    "evaluations": [],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "lattice_vector",
+    "evaluations": [],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "network",
+    "evaluations": [],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "stream",
+    "evaluations": [],
+    "tables_outside_reference_regions": 2,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "stream_split",
+    "evaluations": [],
+    "tables_outside_reference_regions": 2,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "pdfplumber",
+    "configuration": "lines",
+    "evaluations": [],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "pdfplumber",
+    "configuration": "lines_strict",
+    "evaluations": [],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "pdfplumber",
+    "configuration": "lines_text",
+    "evaluations": [],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "pdfplumber",
+    "configuration": "text",
+    "evaluations": [],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "pdfplumber",
+    "configuration": "text_lines",
+    "evaluations": [],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "B1_P2",
+    "tool": "pdfplumber",
+    "configuration": "text_tolerance5",
+    "evaluations": [],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "auto",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0.11326797024199398,
+        "detected": false,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": [
+          18,
+          1
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "hybrid",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0.9819854664381009,
+        "detected": true,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": [
+          2,
+          2
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "lattice_combined",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0.9819854664381009,
+        "detected": true,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": [
+          2,
+          2
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "lattice_raster",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "lattice_vector",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0.9492032583583552,
+        "detected": true,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": [
+          2,
+          2
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "network",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0.11326797024199398,
+        "detected": false,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": [
+          18,
+          1
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "stream",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0.0,
+        "detected": false,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": [
+          7,
+          1
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 2,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "stream_split",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0.0,
+        "detected": false,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": [
+          7,
+          1
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 2,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "pdfplumber",
+    "configuration": "lines",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0.9372764515210109,
+        "detected": true,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": [
+          2,
+          6
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "pdfplumber",
+    "configuration": "lines_strict",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "pdfplumber",
+    "configuration": "lines_text",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0.7945635080655206,
+        "detected": true,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": [
+          3,
+          6
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "pdfplumber",
+    "configuration": "text",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0.041889198787259954,
+        "detected": false,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": [
+          62,
+          10
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "pdfplumber",
+    "configuration": "text_lines",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0.07837227954953205,
+        "detected": false,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": [
+          5,
+          9
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "pdfplumber",
+    "configuration": "text_tolerance5",
+    "evaluations": [
+      {
+        "reference_table": "confidentiality_form",
+        "bbox_iou": 0.041889198787259954,
+        "detected": false,
+        "expected_shape": [
+          2,
+          2
+        ],
+        "actual_shape": [
+          61,
+          10
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "auto",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.0,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          17,
+          3
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.9957108451078158,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          17,
+          3
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "hybrid",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.0,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          12,
+          3
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.9957108451078158,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          12,
+          3
+        ],
+        "logical_rows_correct": true,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "lattice_combined",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.0,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          17,
+          3
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.9957108451078158,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          17,
+          3
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "lattice_raster",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.0,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          17,
+          3
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.9957108451078158,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          17,
+          3
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "lattice_vector",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.0,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          17,
+          3
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.9940664181143031,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          17,
+          3
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": true,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "network",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.0,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          26,
+          1
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.7494187075324622,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          26,
+          1
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "stream",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.0,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          28,
+          4
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.9038399220059848,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          28,
+          4
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "stream_split",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.0,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          28,
+          4
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.9038399220059848,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          28,
+          4
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "pdfplumber",
+    "configuration": "lines",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.0,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          17,
+          7
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.9943055163518588,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          17,
+          7
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "pdfplumber",
+    "configuration": "lines_strict",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0,
+        "detected": false,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": null,
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "pdfplumber",
+    "configuration": "lines_text",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.0,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          7,
+          1
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.9854222205191426,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          53,
+          9
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 1,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "pdfplumber",
+    "configuration": "text",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.15468428897942021,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          67,
+          8
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.6106740097235968,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          67,
+          8
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "pdfplumber",
+    "configuration": "text_lines",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.16888454559129126,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          18,
+          8
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.6677479722614192,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          18,
+          8
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "pdfplumber",
+    "configuration": "text_tolerance5",
+    "evaluations": [
+      {
+        "reference_table": "weak_upper_form",
+        "bbox_iou": 0.15468428897942021,
+        "detected": false,
+        "expected_shape": [
+          4,
+          3
+        ],
+        "actual_shape": [
+          47,
+          8
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      },
+      {
+        "reference_table": "questionnaire",
+        "bbox_iou": 0.6106740097235968,
+        "detected": true,
+        "expected_shape": [
+          12,
+          3
+        ],
+        "actual_shape": [
+          47,
+          8
+        ],
+        "logical_rows_correct": false,
+        "columns_correct": false,
+        "item_fields": []
+      }
+    ],
+    "tables_outside_reference_regions": 0,
+    "literal_assessment": "Critical fields compared exactly modulo whitespace only; not a page-wide character-error-rate certification."
+  }
+]

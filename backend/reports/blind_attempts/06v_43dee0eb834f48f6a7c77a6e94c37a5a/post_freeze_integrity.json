@@ -1,0 +1,23 @@
+{
+  "attempt": 2,
+  "attempt1_freeze_verified": true,
+  "attempt2_freeze_verified": true,
+  "canonical_native_page_provenance": true,
+  "correctness": "NOT_ADJUDICATED",
+  "document_ids_hashes_originals_preserved": true,
+  "first_pass_sha256": "21f0d1e2e39e39f99ac5f1ad2fc0db51cebd9b774bff43f6b0c2b826b35979a0",
+  "historical_artifacts_checked": 63,
+  "historical_artifacts_unchanged": true,
+  "manual_semantic_inspection": false,
+  "provider_inference_calls": 0,
+  "run_id": "06v_43dee0eb834f48f6a7c77a6e94c37a5a",
+  "source_method_observations": {
+    "NATIVE": 502
+  },
+  "supported_documents_continued": true,
+  "unsupported_document_count": 1,
+  "unsupported_native_pages": 0,
+  "unsupported_native_perception_provenance_created": false,
+  "unsupported_remains_represented": true,
+  "unsupported_trusted_automatic": false
+}

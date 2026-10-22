@@ -1,0 +1,19 @@
+{
+  "compileall.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "full.log": "60bea82b55834000ee14e7318a0e5f968a5d8ee4be529992d121705b5d287a11",
+  "expanded.log": "3caafa11a9c9e90eac46a2d46d3972edcfaa55d2ad21104867a9f73f5e9ca1a0",
+  "diff_check.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "git_status.txt": "4fa5ef0740affd9d7a8b0ea0ba651d7cc4cc5229a2be596b324a493641e653a0",
+  "git_diff_check.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "implementation_versions.json": "be6b76e8e4f55e198750a78522a8c0ab43338e0bb29544aa8e9fc80259a91c3e",
+  "regression_results.json": "43b9fd6dec550778b10871f3a5bbac88f8f83b53358f1c0e7ee83123c71427e2",
+  "committed_files.json": "5a5d983c5d2707f3b2c9e688721a4dad8e8ed56548c1e4cd138779c932383063",
+  "schema.json": "0be4adf5d6b9f5cf7df04856d3a4ca1853a9adfa4fbcd7e249e32f013512aac8",
+  "git_diff_stat.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "commit_report.md": "8e667faa67fd6d55893263bbbd79ea593449ab8dbb1da80c7ea1050f8985353e",
+  "regression_focused.xml": "17b60aa70c5212e5d2f9ddc5c3a90da0cd18cdc0c73c77e466aab422774c832b",
+  "regression_expanded.xml": "3f74e8310599905b3a92fb11fe9a63ad4b4cf6e8fa9441b79ff742d1ad5b2fc7",
+  "focused.log": "d7082ce0125d629d68c42aee4795b848ca2dd48a4340b836ce04e2aad3ebb189",
+  "regression_full.xml": "dacd65a37dc8739a94f28ea716e1bca334d38253ec16d4e679615fa7509200c3",
+  "integrity.json": "f6f7745df9207ed933a2ddb6f9c1dd9bcb4f4e1f8dbae103f0b61b59311150bc"
+}

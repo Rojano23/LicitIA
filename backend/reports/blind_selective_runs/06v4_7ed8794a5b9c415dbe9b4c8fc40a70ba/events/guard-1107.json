@@ -1,0 +1,23 @@
+{
+  "payload": {
+    "calls": 0,
+    "capability": "TRANSCRIPTION",
+    "configuration": {
+      "decision_only": true,
+      "fingerprint": null,
+      "plan": "06349588ab35b63a078966e0dddba108f9e86326e6008b6a69dde74e80b200ab",
+      "reason": "TEXT_TASK_CONTRACT_REQUIRED"
+    },
+    "execution_event": true,
+    "id": "guard-1107",
+    "latency_ms": null,
+    "model": null,
+    "page_id": "4586bcc4-955c-4c1f-9e17-030b1fd4bed2",
+    "provider": "PLANNER",
+    "source_method": "OCR",
+    "status": "SKIPPED",
+    "timeout": false,
+    "truncated": false
+  },
+  "sha256": "a5fd93b35fa2810d88aff1c7bf6bf59401c015ac266f14bb63aeeb8f0d96b436"
+}

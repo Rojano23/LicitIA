@@ -1,0 +1,412 @@
+[
+  {
+    "fragment_id": "B1_P1_word_79",
+    "literal": "Partida",
+    "start": 616,
+    "end": 623,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_80",
+    "literal": "Descripción",
+    "start": 625,
+    "end": 636,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_81",
+    "literal": "Unidad",
+    "start": 638,
+    "end": 644,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_82",
+    "literal": "de",
+    "start": 645,
+    "end": 647,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_83",
+    "literal": "Medida",
+    "start": 649,
+    "end": 655,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_84",
+    "literal": "Cantidad",
+    "start": 657,
+    "end": 665,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_85",
+    "literal": "1",
+    "start": 667,
+    "end": 668,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_86",
+    "literal": "RELEVADOR",
+    "start": 670,
+    "end": 679,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_87",
+    "literal": "MULTILIN",
+    "start": 680,
+    "end": 688,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_88",
+    "literal": "No",
+    "start": 689,
+    "end": 691,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_89",
+    "literal": "F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+    "start": 692,
+    "end": 723,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_90",
+    "literal": "DESCRIPCION:",
+    "start": 725,
+    "end": 737,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_91",
+    "literal": "RELEVADOR",
+    "start": 738,
+    "end": 747,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_92",
+    "literal": "FABRICANTE/MARCA:",
+    "start": 749,
+    "end": 766,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_93",
+    "literal": "GE",
+    "start": 767,
+    "end": 769,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_94",
+    "literal": "MULTILIN",
+    "start": 770,
+    "end": 778,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_95",
+    "literal": "NUMERO",
+    "start": 780,
+    "end": 786,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_96",
+    "literal": "DE",
+    "start": 787,
+    "end": 789,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_97",
+    "literal": "PARTE:",
+    "start": 790,
+    "end": 796,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_98",
+    "literal": "F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+    "start": 797,
+    "end": 828,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_99",
+    "literal": "PZA",
+    "start": 830,
+    "end": 833,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_100",
+    "literal": "1",
+    "start": 835,
+    "end": 836,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_101",
+    "literal": "2",
+    "start": 838,
+    "end": 839,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_102",
+    "literal": "RELEVADOR",
+    "start": 841,
+    "end": 850,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_103",
+    "literal": "MULTILIN",
+    "start": 851,
+    "end": 859,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_104",
+    "literal": "No",
+    "start": 860,
+    "end": 862,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_105",
+    "literal": "L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+    "start": 863,
+    "end": 902,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_106",
+    "literal": "DESCRIPCION:",
+    "start": 904,
+    "end": 916,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_107",
+    "literal": "RELEVADOR",
+    "start": 917,
+    "end": 926,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_108",
+    "literal": "FABRICANTE/MARCA:",
+    "start": 928,
+    "end": 945,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_109",
+    "literal": "GE",
+    "start": 946,
+    "end": 948,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_110",
+    "literal": "MULTILIN",
+    "start": 949,
+    "end": 957,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_111",
+    "literal": "No.",
+    "start": 959,
+    "end": 962,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_112",
+    "literal": "PARTE:",
+    "start": 963,
+    "end": 969,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_113",
+    "literal": "L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+    "start": 970,
+    "end": 1009,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_114",
+    "literal": "PZA",
+    "start": 1011,
+    "end": 1014,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "B1_P1_word_115",
+    "literal": "2",
+    "start": 1016,
+    "end": 1017,
+    "offset_space": "PYMUPDF_RAW_PAGE_TEXT",
+    "page_text_sha256": "9e1e2ac7d77bf3b89f90cc8e09b35bcbb9482179dc28b7ec3f9cffa425351325"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_0",
+    "literal": "Unidad de",
+    "confidence": 0.9998530149459839,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_1",
+    "literal": "Partida",
+    "confidence": 0.9999693632125854,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_2",
+    "literal": "Descripción",
+    "confidence": 0.9998863339424133,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_3",
+    "literal": "Cantidad",
+    "confidence": 0.9999780654907227,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_4",
+    "literal": "Medida",
+    "confidence": 0.9999526143074036,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_5",
+    "literal": "RELEVADOR MULTILIN No F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+    "confidence": 0.9893574714660645,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_6",
+    "literal": "DESCRIPCION: RELEVADOR",
+    "confidence": 0.9987629055976868,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_7",
+    "literal": "1",
+    "confidence": 0.9997532963752747,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_8",
+    "literal": "PZA",
+    "confidence": 0.9998416900634766,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_9",
+    "literal": "1",
+    "confidence": 0.9997783303260803,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_10",
+    "literal": "FABRICANTE/MARCA: GE MULTILIN",
+    "confidence": 0.9949677586555481,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_11",
+    "literal": "NUMERO DE PARTE: F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+    "confidence": 0.9991843104362488,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_12",
+    "literal": "RELEVADOR MULTILIN No L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+    "confidence": 0.9992428421974182,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_13",
+    "literal": "DESCRIPCION: RELEVADOR",
+    "confidence": 0.9875878691673279,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_14",
+    "literal": "2",
+    "confidence": 0.9998482465744019,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_15",
+    "literal": "PZA",
+    "confidence": 0.999934196472168,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_16",
+    "literal": "2",
+    "confidence": 0.9998698234558105,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_17",
+    "literal": "FABRICANTE/MARCA: GE MULTILIN",
+    "confidence": 0.9979418516159058,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  },
+  {
+    "fragment_id": "ANEXOC_P1_ocr_0_18",
+    "literal": "No. PARTE: L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+    "confidence": 0.9980068802833557,
+    "status": "OCR_OBSERVATION_NOT_HUMAN_REFERENCE"
+  }
+]

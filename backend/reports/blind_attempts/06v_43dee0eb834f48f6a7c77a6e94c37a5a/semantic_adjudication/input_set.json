@@ -1,0 +1,109 @@
+{
+  "HEAD": "c1c6ff4870dc94009b10d62f47020ef6cdf9d580",
+  "first_pass_path": "/Users/ceciliavalencia/LiticIA/backend/reports/blind_attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/results/06v_43dee0eb834f48f6a7c77a6e94c37a5a/first_pass.json",
+  "first_pass_sha256": "21f0d1e2e39e39f99ac5f1ad2fc0db51cebd9b774bff43f6b0c2b826b35979a0",
+  "freeze_sha256": "ac217404caf1b316416ee03f111383cead3b6e87af59e5470b6367da8aad7412",
+  "historical_attempt2_files": {
+    "alembic_reset.log": "730d842a57544636365c497814cc8aa24427f1ce58d8fc5aed9f31c362c2405a",
+    "attempt1_database_export.dump": "9f0929fc99f3b094430eca99c095d74390b87632880a1e39df78a88c3a6b6983",
+    "attempt1_database_export.identity.json": "c074656700ac747b64b192b8de963bf4e3cfbe81189018f821ab52b2667f2bd0",
+    "attempt_freeze.json": "ac217404caf1b316416ee03f111383cead3b6e87af59e5470b6367da8aad7412",
+    "attempt_freeze.sha256": "2560b49d7afa7c250a250689e79779c14ce146bbf7dbdb758c06cc55352b0dac",
+    "compileall_regression.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "config.json": "e791486037f6499595c02f36aa74b55fe171600b25ae7866e2026d3e71e884cd",
+    "document_intelligence_06v_execution_log.json": "957fad512b1732cf25aa4f0c104dafdffa08923aa8551dae7db74fb393c1c2ee",
+    "document_intelligence_06v_execution_phases.json": "45e5c862749ca4397f915d6397d576d9a97301e82327f080ef25635661dbd6c4",
+    "document_intelligence_06v_first_pass.md": "e2fd0b6871e62d8993aab561b2b94ccd7600a7eb14187b21bf6811195f56b141",
+    "document_intelligence_06v_import_manifest.json": "4556971cab26448b7fa6d927224a6bfcb83b11b0c71f70c29bfabbea6dac8897",
+    "document_intelligence_06v_import_manifest.md": "2380b9af1ae0cd97d97d337259ddafa4e5445bf8d6d7a432b6b73c7b30de11ec",
+    "document_intelligence_06v_import_manifest.sha256": "5223f6c456340de0b24d6535e57e2f65500c5945c663b05de501f6e5098acf5e",
+    "document_intelligence_06v_run_identity.json": "9ac4d981c52f4b70c6d9cf81b9155a9f17cf3b0fe691a5c4ecfba5846a0da21e",
+    "document_intelligence_06v_run_identity.sha256": "0b03f8ba29a99979140e012ddf529502b6f7df550571b0641016110373dccc91",
+    "focused_regression.log": "9a3cd0e5fea32643938dddc7fd1f4bc0222437b5d2946d2a3f72574b30967d42",
+    "full_regression.log": "00cfa0894890a9b821fed6b581de0a04d333fadcc2f839a97cd3e5575c271274",
+    "historical_artifacts_before.json": "97c5889d845f1a990bb819413711a57db91b1ec522f87988ebafb9d8b65fe978",
+    "import/pre_import_identity.json": "3906b426d7e2f97615cb2799b09ad09b44f0ec2c64584801ee7bcb5b01e5ff86",
+    "import/source_inventory_pre_import.json": "25b3220c761c9cca0f1dda6475d767ced0f71d5a319c51c2c37ea2544a7368cf",
+    "operational_review.json": "70efa6520884ecd29d7eee33e1670a4cc5ef07967e455d4ea392c3be17726494",
+    "operational_review.md": "337eb98a6fb8d70a57aeac4e03790f3ee016f804bf07ada63b32710d29d6d6ff",
+    "pipeline_stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pipeline_stdout.json": "3cd858884c811f328afc93350a5fd640e285d3a30b4c3b07af1b8c9eaeb897dd",
+    "post_freeze_integrity.json": "b88a50aace6b77ea21d44bd7601d6719c9b8676901a8050db6640840782266d3",
+    "pre_import_identity.json": "1ac136241aad6f43ff305d45862f869bde669f8d7541b268eace9640872ff58a",
+    "regression_results.json": "93aec6fb0cd3149a174617a0d7e3c5c921e54eb621e5aa6c04bd571245890a4f",
+    "results/06v_43dee0eb834f48f6a7c77a6e94c37a5a/FROZEN.json": "e224ca8c509ce3120d17af4088d4c6d1adb70a5efa3fcd66ed6a5d67a3341f34",
+    "results/06v_43dee0eb834f48f6a7c77a6e94c37a5a/first_pass.json": "21f0d1e2e39e39f99ac5f1ad2fc0db51cebd9b774bff43f6b0c2b826b35979a0",
+    "results/06v_43dee0eb834f48f6a7c77a6e94c37a5a/first_pass.md": "54e21a8a9a9b5d2327bab5f5e328832e1cbe1e13cd1a0fdae40471457851dc13"
+  },
+  "originals": [
+    {
+      "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+      "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/620ccc6c-5073-41cd-95f0-1829a450af36/02. Bases Internacionales  ID-107478.pdf",
+      "sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "size_bytes": 1956514
+    },
+    {
+      "document_id": "02ee7c3d-6d7e-402f-9adf-663eabd27d0b",
+      "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/7b5f99df-9975-456f-80bc-04def01a5b17/2. Anexo_C.pdf",
+      "sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+      "size_bytes": 177466
+    },
+    {
+      "document_id": "5dbe08a3-6525-4995-a248-07901b3ee57c",
+      "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/77ff5055-44b7-4ddc-a938-4a27078b150e/1. Cuestionarios DD ANEXO.pdf",
+      "sha256": "7e4b94ae3130c1e1e46e1bc4ad89040a3d68351ab25b88c633a7c62bcd138670",
+      "size_bytes": 871097
+    },
+    {
+      "document_id": "a01c1c77-9da4-48af-a1f8-c342981b6c58",
+      "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/1b867cb1-cbed-4c67-8d1f-86abb4cfa982/4. Anexo PACMA.pdf",
+      "sha256": "0d6d8dbdc296109add69965efda636f97a1e759efbbaa1f188162350de2d8327",
+      "size_bytes": 860878
+    },
+    {
+      "document_id": "a72a4759-761f-470b-891d-1c7f387803b8",
+      "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/769aa789-0814-43d5-a34f-1f160aa58d55/5. MODELO DE CONTRATO PARA BIENES.pdf",
+      "sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+      "size_bytes": 678952
+    },
+    {
+      "document_id": "ade2f09f-4147-4f90-bb76-30f3977fc686",
+      "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/46fee4a0-477b-4e3a-a0fa-7bc0d39ae5d3/01. Convocatoria  ID-107478.pdf",
+      "sha256": "c5b8e39e09d66d288b097faad99cfab22c5a9c5573e8187c1d428d8ee5de075f",
+      "size_bytes": 943530
+    },
+    {
+      "document_id": "cffc9137-565f-4a7b-8470-6c8294038da4",
+      "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/25bea58d-3952-40a3-9af1-c9ad159767b9/2. Mecanismo GNR.pdf",
+      "sha256": "d0517f47b23c88593765876b11ea85a8fbc4ba7f1bc2fb9568c20bcaff00043f",
+      "size_bytes": 258291
+    },
+    {
+      "document_id": "d0e05bd1-c933-4259-a9c7-610aaadd28fe",
+      "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/25b38159-715f-458d-9287-0d4c466aa6ee/.DS_Store",
+      "sha256": "0c3c4c0b58647e4ca761e9fe61421b68208c9bc656714cd49c89031e85f20616",
+      "size_bytes": 6148
+    },
+    {
+      "document_id": "e0c592af-fe32-4ad3-97da-b08a7c91cfd5",
+      "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/1a80d43d-db37-4326-8825-aecfa77eedfa/1. Anexo_B1_Relevadores GE V2.pdf",
+      "sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+      "size_bytes": 298410
+    },
+    {
+      "document_id": "e493d850-421f-4643-aff7-108623c43583",
+      "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/92fa7d91-22c9-4351-a68f-a12a6fc6479c/3. Anexo CN Tipo 2.pdf",
+      "sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+      "size_bytes": 231613
+    },
+    {
+      "document_id": "f9ca92e2-b4b8-473d-81f5-69381d593914",
+      "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v-attempts/06v_43dee0eb834f48f6a7c77a6e94c37a5a/tenders/18a9459d-72e8-408b-89c8-81c8d35937f8/originals/845f6782-84fb-4a25-99fb-5729af2537f6/3. Anexo SSPA (Formato 4).pdf",
+      "sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+      "size_bytes": 247307
+    }
+  ],
+  "provider_calls": 0,
+  "run_id": "06v_43dee0eb834f48f6a7c77a6e94c37a5a",
+  "truth_authority": "AI_SOURCE_REVIEW_CANDIDATE_PENDING_HUMAN_APPROVAL"
+}

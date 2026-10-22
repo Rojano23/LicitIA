@@ -1,0 +1,68 @@
+{
+  "ir_observation_basis": "READ_ONLY_REPLAY_OF_CANONICAL_RECONSTRUCT_AT_FROZEN_FINAL_STATE; NOT historical creation events",
+  "ir_replayed_blocks": 0,
+  "ir_positive_item_identity": 0,
+  "ir_multiline": 0,
+  "ir_header_row": 0,
+  "ir_ocr_blocks": 0,
+  "ir_ambiguous": 0,
+  "ir_provisional_attribute_fields": 0,
+  "ir_provisional_quantity_fields": 0,
+  "replayed_sources": {
+    "NATIVE": 251,
+    "OCR": 4
+  },
+  "source_not_applicable": {
+    "VISION_STRUCTURE_ONLY": 2
+  },
+  "manifest_versions": {},
+  "schema_drift": {
+    "normalization_version": "ALEMBIC_INDEX_DRIFT_001",
+    "current_revision": [
+      "20261013_req_perception_prov_072"
+    ],
+    "head_revision": [
+      "20261013_req_perception_prov_072"
+    ],
+    "difference_count": 59,
+    "signature_sha256": "3abb0337a79b5faf56c2ced30e69d4482c47ab17e7e2fc925156ad59f760dde7",
+    "operations": {
+      "add_index": 55,
+      "remove_index": 4
+    }
+  },
+  "import_native": {
+    "tenders": 1,
+    "documents": 11,
+    "prepared": 10,
+    "unsupported": 1,
+    "failures": 0,
+    "processing_states": {
+      "PENDING": 1,
+      "TEXT_EXTRACTION_COMPLETE": 8,
+      "NO_NATIVE_TEXT": 2
+    },
+    "hidden_original_present": true,
+    "hidden_original_state": "PENDING"
+  },
+  "manifests_created_preserved": 0,
+  "manifests_verified": 0,
+  "manifest_refs_in_persisted_outputs": 0,
+  "missing_referenced_manifests": 0,
+  "manifest_integrity_failures": 0,
+  "native_pages": 253,
+  "persisted_ocr_rows": 4,
+  "persisted_vision_rows": 2,
+  "normalization_by_source": {
+    "NATIVE_PDF": 251,
+    "OCR": 4
+  },
+  "not_directly_measurable": [
+    "historical IR creation invocation count",
+    "all transient Scope candidates formed",
+    "candidate grounding accepted/rejected events",
+    "logical candidates before persistence",
+    "all transient child ownership rejections",
+    "OCR post-acquisition sufficiency for every textual task"
+  ]
+}

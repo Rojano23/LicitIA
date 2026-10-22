@@ -1,0 +1,22 @@
+{
+  "page": "ANEXOC_P1",
+  "tool": "camelot",
+  "configuration": "stream_split",
+  "parameters": {
+    "flavor": "stream",
+    "split_text": true
+  },
+  "repeat_seconds": [
+    0.004848915996262804,
+    0.00037404202157631516
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 532873216,
+  "warnings": [],
+  "errors": [],
+  "tables": [],
+  "repeat_structure_sha256": [
+    "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  ]
+}

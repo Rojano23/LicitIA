@@ -1,0 +1,32 @@
+{
+  "rh3": {
+    "tests": 25,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "core": {
+    "tests": 207,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "DI": {
+    "tests": 1153,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "API": {
+    "tests": 70,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "full": {
+    "tests": 2171,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "README.md": "b7ff73c24c069678eab8166c97e1b891398dbc18e09f3c875acc46c57655b61a",
+  "backend/app/local_recovery.py": "e563749604bc9b40d9de2584162a946296d1e9b7a9493dce5ba0f160d347422c",
+  "backend/app/main.py": "cf6df7cbf5b6c83a9e12574d773ccc20cdab5b4e27a5dc27d45d0b62ca5ae119",
+  "backend/app/workspace_flow.py": "6fe99cd2251548adc7dff5ff20082ee304efeb7d15e9348622a9b5f3f90c3281",
+  "backend/app/workspace_recovery.py": "d2c7f254fed7c398199b839a57adc296cbd9d64ce5fe7c9a6e276c077bd5e853",
+  "backend/scripts/licitia_local.py": "0c5b38dd7f7a17422e431a6feddfdd8b8cf95c9db25d3fc1128b7fe224b7efb0",
+  "backend/tests/test_local_recovery.py": "b76b059064c798b8fb464f05f0a64f422d517c3ac3d50cbb358c2614caadce45",
+  "backend/tests/test_workspace_recovery.py": "48fe1c009eea751d25e11c8c2b588c4efa917ae70719f474333674d9f6364255",
+  "docs/adr/0019-local-uat-deployment.md": "da3531845fa8f2a13fdde0425a5512b91f7ad96f223109ea50246f078794d347",
+  "docs/adr/0020-workspace-canonical-composition.md": "f1fee0532292359b8717d82fb1cd5a91821668a0825dc2ca699eaaae468f928a",
+  "docs/adr/0021-local-backup-restore-safe-retry.md": "6a0c764328bd7589c72e25016d293b00c38f089360ca3c9fb8dffed78b9b586b",
+  "docs/local-deployment.md": "9a5f27c0935f3d13dd563f657be2f6f08d2327d21241c5bc114eb25fd8365190",
+  "docs/roadmap.md": "0eae8018d17a42ab9462babfaff8dddd7a88efe30171a282909a552b6c7a1797",
+  "docs/uat-admin-quickstart.md": "87ead05202f451528e3b2a869f779816735061a4a63abda04f51f6eeada21804",
+  "docs/uat-capability-statement.md": "730de756b8dc139f8daede9311a6db593e48e728dbb49ff35deb5a33352c6776",
+  "docs/workspace-functional-flow.md": "c701b6b38aee6f0c5815bd8a3578078134642e5fe721fa2273dbe9c7677fe607",
+  "frontend/src/api/workspace.ts": "649316ec8ed0defb4299da29fa9c4c75b294fc45ec36e897993d274e8b6f4e5e",
+  "frontend/src/components/WorkspaceFlow.test.tsx": "4eae973795099ba975226dc4b0d7adad3a62d48c29213fbff6ec5732bd8afbc0",
+  "frontend/src/components/WorkspaceFlow.tsx": "a4fe6cd1904f5678af7a23699c46ea4e72f933489b3f0800653efd437605fbd3"
+}

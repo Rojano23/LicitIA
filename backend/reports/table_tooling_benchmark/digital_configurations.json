@@ -1,0 +1,58 @@
+{
+  "pdfplumber": {
+    "lines": {},
+    "lines_strict": {
+      "vertical_strategy": "lines_strict",
+      "horizontal_strategy": "lines_strict"
+    },
+    "text": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text"
+    },
+    "text_tolerance5": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text",
+      "snap_tolerance": 5,
+      "join_tolerance": 5,
+      "intersection_tolerance": 5
+    },
+    "lines_text": {
+      "vertical_strategy": "lines",
+      "horizontal_strategy": "text"
+    },
+    "text_lines": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "lines"
+    }
+  },
+  "camelot": {
+    "lattice_combined": {
+      "flavor": "lattice",
+      "engine": "combined"
+    },
+    "lattice_vector": {
+      "flavor": "lattice",
+      "engine": "vector"
+    },
+    "lattice_raster": {
+      "flavor": "lattice",
+      "engine": "raster"
+    },
+    "stream": {
+      "flavor": "stream"
+    },
+    "stream_split": {
+      "flavor": "stream",
+      "split_text": true
+    },
+    "network": {
+      "flavor": "network"
+    },
+    "hybrid": {
+      "flavor": "hybrid"
+    },
+    "auto": {
+      "flavor": "auto"
+    }
+  }
+}

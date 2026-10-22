@@ -1,0 +1,15 @@
+{
+  "alembic_revision": "20261013_req_perception_prov_072",
+  "code_manifest_sha256": "6ad0e80d613009511f58e036088213c23711b0adbcdf8d33fbc9412a5cff1bfd",
+  "config_sha256": "73d56599fc016a7b11bf43b4e5a9a58bbd008ae28410224c6b78e01c8743f9f2",
+  "database": "licitia_validation_06v",
+  "git_commit": "3c989fae39975ed89d185fe52af0f94ab4012497",
+  "import_manifest_path": "backend/reports/document_intelligence_06v_import_manifest.json",
+  "import_manifest_sha256": "89a0df37929d4a4f69df0a7b16d643fef472f9d6557fe3f92b56083053a2bd4d",
+  "pre_import_identity_path": "backend/reports/blind_runs/06v_6f6c60e697534a04abc3f922e698fef1/pre_import_identity.json",
+  "run_id": "06v_6f6c60e697534a04abc3f922e698fef1",
+  "schema_version": "DI_06V_RUN_IDENTITY_001",
+  "tender_id": "421da160-2a27-410b-b159-8f10eb99938d",
+  "v2_authorized_by_this_run": false,
+  "v2_executed": false
+}

@@ -1,0 +1,25 @@
+{
+  "authority": "USER_REFERENCE_CORRECTION",
+  "source": "Current user reply in chat",
+  "confirmed_source": "Anexo B-1 p.1",
+  "confirmed_items": [
+    {
+      "id": "1",
+      "quantity": "1",
+      "unit": "PZA",
+      "brand": "GE MULTILIN",
+      "model_prefix": "F60"
+    },
+    {
+      "id": "2",
+      "quantity": "2",
+      "unit": "PZA",
+      "brand": "GE MULTILIN",
+      "model_prefix": "L90"
+    }
+  ],
+  "not_authorized_as_confirmed_reference": "Do not assign second item to Anexo C p.1 without independent verification.",
+  "independent_anexoc_verification": "PENDING",
+  "full_part_number_suffix_human_confirmation": false,
+  "geometry_human_confirmation": false
+}

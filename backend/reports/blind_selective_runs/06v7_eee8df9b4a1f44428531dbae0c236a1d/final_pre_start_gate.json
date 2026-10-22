@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "ollama_version": {
+    "version": "0.23.3"
+  },
+  "model_digest": "ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b",
+  "documents": 11,
+  "code_head": "429bf2ff95043c6d74af379a22d85bdd85843340",
+  "history_files_verified": 1660
+}

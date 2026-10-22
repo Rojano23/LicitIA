@@ -1,0 +1,26 @@
+[
+  [
+    "rh3_final",
+    [
+      "/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_local_recovery.py",
+      "tests/test_workspace_recovery.py",
+      "-q",
+      "--junitxml=reports/rc_h3/rh3_final.xml"
+    ]
+  ],
+  [
+    "full_final",
+    [
+      "/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-q",
+      "-m",
+      "not local_ollama",
+      "--junitxml=reports/rc_h3/full_final.xml"
+    ]
+  ]
+]

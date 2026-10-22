@@ -1,0 +1,18 @@
+{
+  "head": "0b04fc7677e670fb487683ac904d3c3a89daa373",
+  "historical_files_verified": 4560,
+  "historical_mismatches": [],
+  "sealed_implementation_files_verified": 9,
+  "post_acceptance_changes": [],
+  "staged_files": [],
+  "tracked_changes": [
+    "backend/app/blind_selective_freeze.py",
+    "backend/app/native_table_relationships.py",
+    "backend/app/structured_evidence.py",
+    "backend/app/structured_evidence_grounding.py",
+    "backend/pyproject.toml",
+    "backend/requirements.txt"
+  ],
+  "protected_tracked_surfaces_unchanged": true,
+  "attempt_9_executed": false
+}

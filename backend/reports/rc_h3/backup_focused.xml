@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="13" time="3.153" timestamp="2026-10-21T19:26:25.369286-06:00" hostname="MacBook-Air-de-CECILIA.local"><testcase classname="tests.test_local_recovery" name="test_RH302_manifest_and_hidden_original_verify" time="0.676" /><testcase classname="tests.test_local_recovery" name="test_RH303_tamper_fails_verification" time="0.010" /><testcase classname="tests.test_local_recovery" name="test_RH311_schema_and_extra_missing_files_refused" time="0.010" /><testcase classname="tests.test_local_recovery" name="test_backup_rejects_incomplete_or_unsafe_bundle[extra]" time="0.012" /><testcase classname="tests.test_local_recovery" name="test_backup_rejects_incomplete_or_unsafe_bundle[missing]" time="0.013" /><testcase classname="tests.test_local_recovery" name="test_backup_rejects_incomplete_or_unsafe_bundle[symlink]" time="0.007" /><testcase classname="tests.test_local_recovery" name="test_backup_rejects_incomplete_or_unsafe_bundle[path_escape]" time="0.010" /><testcase classname="tests.test_local_recovery" name="test_backup_rejects_incomplete_or_unsafe_bundle[manifest_checksum]" time="0.006" /><testcase classname="tests.test_local_recovery" name="test_running_instance_and_launcher_lock_refused" time="0.001" /><testcase classname="tests.test_local_recovery" name="test_RH312_failed_swap_rolls_back_both_resources" time="0.003" /><testcase classname="tests.test_local_recovery" name="test_RH310_hard_process_exit_during_swap_is_recoverable" time="0.102" /><testcase classname="tests.test_local_recovery" name="test_RH311_corrupt_restore_never_touches_current_state" time="0.012" /><testcase classname="tests.test_local_recovery" name="test_RH301_RH304_RH305_RH306_RH307_real_backup_restore_roundtrip" time="2.131"><failure message="ValueError: RECOVERY_TOOL_FAILED_python">runtime = RuntimeConfig(root='/private/var/folders/ns/0hcdg6vs3qx_rq1w748jn_yw0000gn/T/pytest-of-ceciliavalencia/pytest-76/test_...-instruct', model_digest='ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b', provider_version='0.23.3')
+tmp_path = PosixPath('/private/var/folders/ns/0hcdg6vs3qx_rq1w748jn_yw0000gn/T/pytest-of-ceciliavalencia/pytest-76/test_RH301_RH304_RH305_RH306_R0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x1037bf230&gt;
+
+    def test_RH301_RH304_RH305_RH306_RH307_real_backup_restore_roundtrip(runtime,tmp_path,monkeypatch):
+        from sqlalchemy import create_engine
+        from sqlalchemy.engine import URL
+        from sqlalchemy.orm import Session
+        from fastapi.testclient import TestClient
+        from app.database import get_db
+        from app.main import app
+        from tests.test_native_table_bridge import pdf_table
+    
+        cluster=runtime.directory/'postgres'
+        with (runtime.directory/'password.tmp').open('w') as stream: stream.write(runtime.password)
+        try:
+            _run(['initdb','-D',cluster,'-U','licitia','--auth-local=scram-sha-256','--auth-host=scram-sha-256','--pwfile',runtime.directory/'password.tmp','--encoding=UTF8','--locale=C'])
+        finally: (runtime.directory/'password.tmp').unlink()
+    
+        @contextmanager
+        def application(config, env):
+            url=URL.create('postgresql+psycopg',username='licitia',password=config.password,database='licitia_uat',query={'host':env['PGHOST'],'port':env['PGPORT']})
+            engine=create_engine(url)
+            def session():
+                with Session(engine,autoflush=False) as db: yield db
+            app.dependency_overrides[get_db]=session
+            monkeypatch.setattr('app.main.get_licitia_data_root',lambda:config.directory/'data')
+            monkeypatch.setattr('app.document_structure_orchestrator.SessionLocal',lambda:Session(engine,autoflush=False))
+            try:
+                with TestClient(app) as client: yield client
+            finally:
+                app.dependency_overrides.pop(get_db,None); engine.dispose()
+    
+        def denied(*a,**kw): raise AssertionError('Recovery must not acquire perception')
+        monkeypatch.setattr('app.ocr.TesseractOCRProvider.recognize',denied)
+        monkeypatch.setattr('app.ocr.PaddleOCRProvider.recognize',denied)
+        monkeypatch.setattr('app.ollama_vision.OllamaVisionAssistClient',denied)
+        with private_postgres(runtime,cluster) as env:
+            _run(['createdb','licitia_uat'],env)
+            url=URL.create('postgresql+psycopg',username='licitia',password=runtime.password,database='licitia_uat',query={'host':env['PGHOST'],'port':env['PGPORT']})
+            migration_env={**env,'DATABASE_URL':url.render_as_string(hide_password=False)}
+&gt;           _run([sys.executable,'-m','alembic','-c',REPOSITORY/'backend/alembic.ini','upgrade','head'],migration_env)
+
+tests/test_local_recovery.py:175: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = ['/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python', '-m', 'alembic', '-c', PosixPath('/Users/ceciliavalencia/LiticIA/backend/alembic.ini'), 'upgrade', ...]
+env = {'APP_ENV': 'limited-uat', 'APP_HOST': '127.0.0.1', 'APP_PORT': '8000', 'CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS': '1', ...}
+
+    def _run(args, env=None):
+        # Never expose argv/DSN/password or document content in raised errors.
+        result = subprocess.run([str(a) for a in args], env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if result.returncode:
+&gt;           raise ValueError('RECOVERY_TOOL_FAILED_' + Path(str(args[0])).name)
+E           ValueError: RECOVERY_TOOL_FAILED_python
+
+app/local_recovery.py:150: ValueError</failure></testcase></testsuite></testsuites>

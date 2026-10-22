@@ -1,6 +1,6 @@
 # ADR-0020 — Composición canónica del Workspace provisional
 
-Estado: propuesta implementada para revisión arquitectónica (RC-H2).
+Estado: ACCEPTED RC-H2, commit `415669f3a42850971ef57bae031ce19a622340b4`.
 
 ## Contexto
 

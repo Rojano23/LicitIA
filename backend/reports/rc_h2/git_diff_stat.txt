@@ -1,0 +1,8 @@
+ backend/app/blind_selective_harness.py         | 23 +---------
+ backend/app/document_intelligence_blind_run.py | 61 +-------------------------
+ backend/app/main.py                            | 16 +++++++
+ docs/roadmap.md                                |  3 +-
+ docs/uat-capability-statement.md               |  2 +-
+ frontend/src/App.tsx                           |  4 +-
+ frontend/vite.config.js                        |  4 +-
+ 7 files changed, 25 insertions(+), 88 deletions(-)

@@ -1,0 +1,435 @@
+{
+  "ocr": [
+    {
+      "event_id": "guard-0",
+      "source": {
+        "label": "D11",
+        "document_id": "0983e259-d81c-4fb0-aec6-8b269090247a",
+        "document_sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+        "page": 1
+      },
+      "plan": "f591811b2ac538cbcf500d569a25e9538fcfce9006be0ba3f579d95431403f71",
+      "status": "COMPLETED",
+      "latency_ms": 2596,
+      "task": "OCR_TRANSCRIPTION",
+      "reasons": [
+        "OCR_ACQUIRED_REVIEW_REQUIRED"
+      ],
+      "approved_by_human": false,
+      "classification": "GENUINE_TEXTUAL_DEFICIT",
+      "value": "Recupera Formatos 6/7, condición de aplicabilidad y cinco días hábiles; Native vacío.",
+      "fidelity": "Parcial: numerales romanos y códigos dañados; orden de columnas separado. No reconstruir referencias externas desde OCR.",
+      "reconstruction": "El grid de requisitos no es tabla de partidas. Header roles y ownership no suministrados; IR0. Evidencia sí llega al adapter OCR.",
+      "downstream": "Sin nuevos Requirements ni Requested Evidence; pérdida en ruta de interpretación separada, no descarte del OCR."
+    },
+    {
+      "event_id": "guard-141",
+      "source": {
+        "label": "D02",
+        "document_id": "2e612124-b71f-48b8-be09-6322d4220421",
+        "document_sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+        "page": 1
+      },
+      "plan": "e3d667e9e6371a5923c7b078339672d93883c034c4559b7595dea33ae40789f7",
+      "status": "COMPLETED",
+      "latency_ms": 2211,
+      "task": "OCR_TRANSCRIPTION",
+      "reasons": [
+        "OCR_ACQUIRED_REVIEW_REQUIRED"
+      ],
+      "approved_by_human": false,
+      "classification": "GENUINE_TEXTUAL_DEFICIT",
+      "value": "Recupera dos modelos, marca, unidad y cantidades 1/2; Native vacío.",
+      "fidelity": "Modelos coinciden con la imagen; OCR pierde números de partida y deja PZA1/PZA2 al final, sin vínculos por fila.",
+      "reconstruction": "No convertir texto plano en filas por proximidad. IR ve OCR normalizado activo y retorna0 por forma no soportada.",
+      "downstream": "Scope/Attributes/Quantities0. La relación se confirma visualmente para adjudicación, no por el output productivo."
+    },
+    {
+      "event_id": "guard-1029",
+      "source": {
+        "label": "D01",
+        "document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 110
+      },
+      "plan": "f67e6a15e550c4b49997a912b4bf488474d8b941dd5c2781b3d52989e399fe86",
+      "status": "COMPLETED",
+      "latency_ms": 6947,
+      "task": "OCR_TRANSCRIPTION",
+      "reasons": [
+        "OCR_ACQUIRED_REVIEW_REQUIRED"
+      ],
+      "approved_by_human": false,
+      "classification": "GENUINE_TEXTUAL_DEFICIT",
+      "value": "Nuevo contenido del modelo de carta de crédito no visible en Native más allá del membrete.",
+      "fidelity": "Parcial: omite/revuelve parte de compromiso, monto y condición de disposiciones. No certifica carta emitida ni aplicabilidad automática.",
+      "reconstruction": "Prosa/plantilla condicional, no nueva partida. La ausencia de Scope por esta página no es por sí sola defecto.",
+      "downstream": "Texto útil para revisión de garantía; sin cambio en outputs31/43/8."
+    },
+    {
+      "event_id": "guard-1033",
+      "source": {
+        "label": "D01",
+        "document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 111
+      },
+      "plan": "051231bd625d14caf92b7583e0ee16ae1821a17de12c799a9949e9673e24b12d",
+      "status": "COMPLETED",
+      "latency_ms": 2324,
+      "task": "OCR_TRANSCRIPTION",
+      "reasons": [
+        "OCR_ACQUIRED_REVIEW_REQUIRED"
+      ],
+      "approved_by_human": false,
+      "classification": "GENUINE_TEXTUAL_DEFICIT",
+      "value": "Recupera prórroga por cierre bancario y firma de plantilla; antes sólo membrete.",
+      "fidelity": "Parcial: omite párrafo de jurisdicción y parte de la referencia ISP98 visible en original.",
+      "reconstruction": "Prosa de modelo, no bloque de ítem de compra. No justifica inventar owner.",
+      "downstream": "No cambio en outputs; persiste déficit de fidelidad textual de la adquisición."
+    }
+  ],
+  "vision": [
+    {
+      "event_id": "guard-4",
+      "source": {
+        "label": "D11",
+        "document_id": "0983e259-d81c-4fb0-aec6-8b269090247a",
+        "document_sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+        "page": 1
+      },
+      "plan": "4faf9bffc1a34d70f42ce3929b8446024a9d6f2f5b15cb6742a0dde936461f87",
+      "status": "COMPLETED",
+      "latency_ms": 44270,
+      "task": "STRUCTURE_SCOPE",
+      "reasons": [
+        "VISION_ACQUIRED_REVIEW_REQUIRED"
+      ],
+      "approved_by_human": false,
+      "failure_mode": "SEMANTIC_WRONG_ITEM_ROLE",
+      "semantic_usefulness": "107478 es No. de iniciativa, no partida. Anchor de objeto real pero owner inventado semánticamente; no trusted.",
+      "structured_input": false,
+      "capability_boundary": "STRUCTURE_SCOPE no es DETAIL_TRANSCRIPTION"
+    },
+    {
+      "event_id": "guard-6",
+      "source": {
+        "label": "D11",
+        "document_id": "0983e259-d81c-4fb0-aec6-8b269090247a",
+        "document_sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+        "page": 1
+      },
+      "plan": "c85fe7c1e054d0a80fdfe66fd421daf6c44f87dba24eab9cc13dafce2650926c",
+      "status": "FAILED",
+      "latency_ms": 60035,
+      "task": "DETAIL_TRANSCRIPTION",
+      "reasons": [
+        "VISION_PROVIDER_FAILED:['TIMEOUT:timed out']",
+        "PERSISTENT_TASK_EXHAUSTION"
+      ],
+      "approved_by_human": false,
+      "failure_mode": "TIMEOUT:timed out; no validated detail artifact",
+      "semantic_usefulness": "No evidencia de detalle consumible; no raw response completo preservado. No inferir truncación/JSON inválido.",
+      "structured_input": false
+    },
+    {
+      "event_id": "guard-8",
+      "source": {
+        "label": "D11",
+        "document_id": "0983e259-d81c-4fb0-aec6-8b269090247a",
+        "document_sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+        "page": 1
+      },
+      "plan": "c85fe7c1e054d0a80fdfe66fd421daf6c44f87dba24eab9cc13dafce2650926c",
+      "status": "FAILED",
+      "latency_ms": 60026,
+      "task": "DETAIL_TRANSCRIPTION",
+      "reasons": [
+        "VISION_PROVIDER_FAILED:['TIMEOUT:timed out']",
+        "PERSISTENT_TASK_EXHAUSTION"
+      ],
+      "approved_by_human": false,
+      "failure_mode": "TIMEOUT:timed out; no validated detail artifact",
+      "semantic_usefulness": "No evidencia de detalle consumible; no raw response completo preservado. No inferir truncación/JSON inválido.",
+      "structured_input": false
+    },
+    {
+      "event_id": "guard-145",
+      "source": {
+        "label": "D02",
+        "document_id": "2e612124-b71f-48b8-be09-6322d4220421",
+        "document_sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+        "page": 1
+      },
+      "plan": "2506a1ec751bbc5c1e915f08bbc0b1b274e1d8bb36f85a35b7f7acb43bdf2a68",
+      "status": "COMPLETED",
+      "latency_ms": 45418,
+      "task": "STRUCTURE_SCOPE",
+      "reasons": [
+        "VISION_ACQUIRED_REVIEW_REQUIRED"
+      ],
+      "approved_by_human": false,
+      "failure_mode": "PARTIAL_IDENTIFIER_FIDELITY",
+      "semantic_usefulness": "Reconoce filas1/2 del catálogo; F60 coincide, L90 cambia HLH por LLH en anchor/modelo. Útil como cue revisable, no identidad fiel.",
+      "structured_input": false,
+      "capability_boundary": "Dos salidas structure no incluyen detalle/raw_lines/parsed_supply_rows; no pueden alimentar IR de detalle por sí mismas"
+    }
+  ],
+  "eligible_plans": [
+    {
+      "method": "OCR",
+      "plan": "f591811b2ac538cbcf500d569a25e9538fcfce9006be0ba3f579d95431403f71",
+      "source": {
+        "label": "D11",
+        "document_id": "0983e259-d81c-4fb0-aec6-8b269090247a",
+        "document_sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+        "page": 1
+      },
+      "assessment": "Genuine textual region gap; not parser failure"
+    },
+    {
+      "method": "OCR",
+      "plan": "8b5b29a5fc1305c92b505e7bb0e9db97ff1e640ccd872f423a7c8009bd2996ff",
+      "source": {
+        "label": "D11",
+        "document_id": "0983e259-d81c-4fb0-aec6-8b269090247a",
+        "document_sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+        "page": 1
+      },
+      "assessment": "Genuine textual region gap; not parser failure"
+    },
+    {
+      "method": "OCR",
+      "plan": "79ba493366ef1c6bc25d3ee411f3015950648d13264ec73166db3126fd6e23b1",
+      "source": {
+        "label": "D11",
+        "document_id": "0983e259-d81c-4fb0-aec6-8b269090247a",
+        "document_sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+        "page": 1
+      },
+      "assessment": "Genuine textual region gap; not parser failure"
+    },
+    {
+      "method": "VISION",
+      "plan": "4faf9bffc1a34d70f42ce3929b8446024a9d6f2f5b15cb6742a0dde936461f87",
+      "source": {
+        "label": "D11",
+        "document_id": "0983e259-d81c-4fb0-aec6-8b269090247a",
+        "document_sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+        "page": 1
+      },
+      "task": "STRUCTURE_SCOPE",
+      "assessment": "Real grid/table spatial relationships; procurement-structure task semantically mismatched for SSPA",
+      "called": true
+    },
+    {
+      "method": "VISION",
+      "plan": "c85fe7c1e054d0a80fdfe66fd421daf6c44f87dba24eab9cc13dafce2650926c",
+      "source": {
+        "label": "D11",
+        "document_id": "0983e259-d81c-4fb0-aec6-8b269090247a",
+        "document_sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+        "page": 1
+      },
+      "task": "DETAIL_TRANSCRIPTION",
+      "assessment": "Real grid/table spatial relationships; procurement-structure task semantically mismatched for SSPA",
+      "called": true
+    },
+    {
+      "method": "OCR",
+      "plan": "e3d667e9e6371a5923c7b078339672d93883c034c4559b7595dea33ae40789f7",
+      "source": {
+        "label": "D02",
+        "document_id": "2e612124-b71f-48b8-be09-6322d4220421",
+        "document_sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+        "page": 1
+      },
+      "assessment": "Genuine textual region gap; not parser failure"
+    },
+    {
+      "method": "OCR",
+      "plan": "fa71ca20d3b9d744e5935cd18b00eda5a2d347dbaf9e39c6c320cc863e2ae452",
+      "source": {
+        "label": "D02",
+        "document_id": "2e612124-b71f-48b8-be09-6322d4220421",
+        "document_sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+        "page": 1
+      },
+      "assessment": "Genuine textual region gap; not parser failure"
+    },
+    {
+      "method": "OCR",
+      "plan": "42b06d02dc6b7a3b9a0a57af0031917db3114b10856966c1e9789a5d67e060f7",
+      "source": {
+        "label": "D02",
+        "document_id": "2e612124-b71f-48b8-be09-6322d4220421",
+        "document_sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+        "page": 1
+      },
+      "assessment": "Genuine textual region gap; not parser failure"
+    },
+    {
+      "method": "VISION",
+      "plan": "2506a1ec751bbc5c1e915f08bbc0b1b274e1d8bb36f85a35b7f7acb43bdf2a68",
+      "source": {
+        "label": "D02",
+        "document_id": "2e612124-b71f-48b8-be09-6322d4220421",
+        "document_sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+        "page": 1
+      },
+      "task": "STRUCTURE_SCOPE",
+      "assessment": "Real grid/table spatial relationships; procurement-structure task semantically mismatched for SSPA",
+      "called": true
+    },
+    {
+      "method": "VISION",
+      "plan": "738cb736cd2340b4c5e6df5dc3521cd873bb35fa4078d4eada121bf3e8a2e342",
+      "source": {
+        "label": "D02",
+        "document_id": "2e612124-b71f-48b8-be09-6322d4220421",
+        "document_sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+        "page": 1
+      },
+      "task": "DETAIL_TRANSCRIPTION",
+      "assessment": "Real grid/table spatial relationships; procurement-structure task semantically mismatched for SSPA",
+      "called": false
+    },
+    {
+      "method": "OCR",
+      "plan": "f67e6a15e550c4b49997a912b4bf488474d8b941dd5c2781b3d52989e399fe86",
+      "source": {
+        "label": "D01",
+        "document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 110
+      },
+      "assessment": "Genuine textual region gap; not parser failure"
+    },
+    {
+      "method": "OCR",
+      "plan": "ff5e5115323d47783c621544d4a959180fa346ae6187d8e1d0f2ff702ff7ab9c",
+      "source": {
+        "label": "D01",
+        "document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 110
+      },
+      "assessment": "Genuine textual region gap; not parser failure"
+    },
+    {
+      "method": "OCR",
+      "plan": "051231bd625d14caf92b7583e0ee16ae1821a17de12c799a9949e9673e24b12d",
+      "source": {
+        "label": "D01",
+        "document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 111
+      },
+      "assessment": "Genuine textual region gap; not parser failure"
+    },
+    {
+      "method": "OCR",
+      "plan": "84030e2380a61593e740c280342d75da4cb113bdb53f23c52c678f2a6e44407d",
+      "source": {
+        "label": "D01",
+        "document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 111
+      },
+      "assessment": "Genuine textual region gap; not parser failure"
+    },
+    {
+      "method": "VISION",
+      "plan": "01e98c5bd0c051e140d6ab004eac60ea0bf9e3f20c3551a24f4de9c5e8d5d6b0",
+      "source": {
+        "label": "D01",
+        "document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 110
+      },
+      "task": "STRUCTURE_SCOPE",
+      "assessment": "Real unread/partially recovered prose; independent spatial requirement NOT DEMONSTRATED by content",
+      "called": false
+    },
+    {
+      "method": "VISION",
+      "plan": "a27520094fe7db5548b70f0ca738a6e6ae79e9bcf7d0b12450a0ab8e9a31c2ea",
+      "source": {
+        "label": "D01",
+        "document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 110
+      },
+      "task": "DETAIL_TRANSCRIPTION",
+      "assessment": "Real unread/partially recovered prose; independent spatial requirement NOT DEMONSTRATED by content",
+      "called": false
+    },
+    {
+      "method": "VISION",
+      "plan": "6044c9a237a6f3b0625ccd50aa583673272a60922116ccd0c0a2a2b38198bcea",
+      "source": {
+        "label": "D01",
+        "document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 111
+      },
+      "task": "STRUCTURE_SCOPE",
+      "assessment": "Real unread/partially recovered prose; independent spatial requirement NOT DEMONSTRATED by content",
+      "called": false
+    },
+    {
+      "method": "VISION",
+      "plan": "f8902d56a5ec3caf3880501924a1f826d75d6744d59e4115e81f564cac97117a",
+      "source": {
+        "label": "D01",
+        "document_id": "95d930cb-6cc4-401b-a67a-9771b9c15672",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 111
+      },
+      "task": "DETAIL_TRANSCRIPTION",
+      "assessment": "Real unread/partially recovered prose; independent spatial requirement NOT DEMONSTRATED by content",
+      "called": false
+    }
+  ],
+  "eligibility_counts": {
+    "OCR": 10,
+    "VISION": 8
+  },
+  "sample": {
+    "active_text_sources": 255,
+    "ir_blocks": 0,
+    "legacy_candidates": 0,
+    "native_ocr_sources_with_geometry": 0,
+    "native_normalization_preserves_nonempty_line_count": true,
+    "sampled_page_tasks": 60,
+    "sampled_pages": 15,
+    "sample_classes": {
+      "correct avoidance": 46,
+      "interpretation limitation": 13,
+      "ambiguous": 1
+    },
+    "method": "Directed shape/document strata, not random; frozen plan identities matched; no global precision estimate",
+    "known_structure_safety": [
+      {
+        "label": "D01",
+        "page": 13,
+        "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "state": "REVIEW_REQUIRED",
+        "continuity": "UNKNOWN",
+        "outgoing_item_key": null,
+        "visual_adjudication": "Navigation/questionnaire, not procurement items"
+      },
+      {
+        "label": "D03",
+        "page": 12,
+        "source_sha256": "7e4b94ae3130c1e1e46e1bc4ad89040a3d68351ab25b88c633a7c62bcd138670",
+        "state": "REVIEW_REQUIRED",
+        "continuity": "UNKNOWN",
+        "outgoing_item_key": null,
+        "visual_adjudication": "Navigation/questionnaire, not procurement items"
+      }
+    ]
+  },
+  "global_planner_precision": null,
+  "global_recall": null
+}

@@ -1,0 +1,98 @@
+[
+  {
+    "model": "PP-DocLayout-S",
+    "revision": "8ac289e66575bb9bba6e15c53719d8b15cc9b3b2",
+    "file": "inference.json",
+    "size": 339876,
+    "sha256": "ac09e931895d4c442e5379ab3b7e9b583baf288e816ab7675ca519da9eb2a9d7",
+    "modelcard_license": "apache-2.0"
+  },
+  {
+    "model": "PP-DocLayout-S",
+    "revision": "8ac289e66575bb9bba6e15c53719d8b15cc9b3b2",
+    "file": "inference.pdiparams",
+    "size": 4804904,
+    "sha256": "491c3382d84ca04d2033afbee0c105942ed82fea392bb4a19170646adebe088a",
+    "modelcard_license": "apache-2.0"
+  },
+  {
+    "model": "PP-DocLayout-S",
+    "revision": "8ac289e66575bb9bba6e15c53719d8b15cc9b3b2",
+    "file": "inference.yml",
+    "size": 1579,
+    "sha256": "6f690098c438214c67822239a568f0bc2bbe97a8f02fba93e492d4f2c47523c3",
+    "modelcard_license": "apache-2.0"
+  },
+  {
+    "model": "SLANet_plus",
+    "revision": "bae6e5f8c3c4e7da0c0b7639fdf3228fe76184e2",
+    "file": "inference.json",
+    "size": 315660,
+    "sha256": "aba91cd956f4a1648b0f89df94c3cf8acaa066b47e2b689d109843b40d8545a2",
+    "modelcard_license": "apache-2.0"
+  },
+  {
+    "model": "SLANet_plus",
+    "revision": "bae6e5f8c3c4e7da0c0b7639fdf3228fe76184e2",
+    "file": "inference.pdiparams",
+    "size": 7666515,
+    "sha256": "012986b0e2bfe90410618bfb4b7cf4fcb6c978caefd84c63c2934f8387b09ab8",
+    "modelcard_license": "apache-2.0"
+  },
+  {
+    "model": "SLANet_plus",
+    "revision": "bae6e5f8c3c4e7da0c0b7639fdf3228fe76184e2",
+    "file": "inference.yml",
+    "size": 2035,
+    "sha256": "8a6372d3269a6f112fe13a2da7952a84da6e112c10a3146cbb43de5bd01d19fa",
+    "modelcard_license": "apache-2.0"
+  },
+  {
+    "model": "PP-OCRv5_mobile_det",
+    "revision": "0d63e78e2b680928f6b1747d76a08db6e645efb7",
+    "file": "inference.json",
+    "size": 229777,
+    "sha256": "05feef1acb00aa4cd7362b15f7f501fc4f99d7b1fa73c1c871e0c7b1504b0f5c",
+    "modelcard_license": "apache-2.0"
+  },
+  {
+    "model": "PP-OCRv5_mobile_det",
+    "revision": "0d63e78e2b680928f6b1747d76a08db6e645efb7",
+    "file": "inference.pdiparams",
+    "size": 4692937,
+    "sha256": "afa1820cb16c1fd0dad589d0f8b389139061c1ef6d68019685fd07be997dda5b",
+    "modelcard_license": "apache-2.0"
+  },
+  {
+    "model": "PP-OCRv5_mobile_det",
+    "revision": "0d63e78e2b680928f6b1747d76a08db6e645efb7",
+    "file": "inference.yml",
+    "size": 903,
+    "sha256": "98069072e1b6b37d727fd9d9f11725faa46d6ea0de012f2ed26caea011c37699",
+    "modelcard_license": "apache-2.0"
+  },
+  {
+    "model": "latin_PP-OCRv5_mobile_rec",
+    "revision": "ab2cd5cc5fa6309be2e5acdfe66eca2c2c127d57",
+    "file": "inference.json",
+    "size": 217712,
+    "sha256": "820b2ee8e5072de5156c3d55124c2b03c82ef278d59f453f857c0789bacb4da1",
+    "modelcard_license": "apache-2.0"
+  },
+  {
+    "model": "latin_PP-OCRv5_mobile_rec",
+    "revision": "ab2cd5cc5fa6309be2e5acdfe66eca2c2c127d57",
+    "file": "inference.pdiparams",
+    "size": 7965915,
+    "sha256": "53cdc8b481a7394bb108f96d0fb3432b0a8f392e22c7d18f06dbb2d42b8b25f9",
+    "modelcard_license": "apache-2.0"
+  },
+  {
+    "model": "latin_PP-OCRv5_mobile_rec",
+    "revision": "ab2cd5cc5fa6309be2e5acdfe66eca2c2c127d57",
+    "file": "inference.yml",
+    "size": 6817,
+    "sha256": "0bbe984570f597af3638e50bdf2e8276f3ab26a61966096538b3b0d1849f5c84",
+    "modelcard_license": "apache-2.0"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "head": "415669f3a42850971ef57bae031ce19a622340b4",
+  "staged_files": [],
+  "compileall": "PASS",
+  "git_diff_check": "PASS",
+  "new_file_whitespace": "PASS",
+  "implementation_hashes": "PASS",
+  "historical_integrity": "PASS",
+  "admin_restore_files": "PASS",
+  "new_migrations": [],
+  "rc_h3_committed": false,
+  "pushed": false
+}

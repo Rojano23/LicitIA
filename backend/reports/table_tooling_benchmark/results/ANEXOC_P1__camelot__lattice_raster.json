@@ -1,0 +1,22 @@
+{
+  "page": "ANEXOC_P1",
+  "tool": "camelot",
+  "configuration": "lattice_raster",
+  "parameters": {
+    "flavor": "lattice",
+    "engine": "raster"
+  },
+  "repeat_seconds": [
+    0.004022417007945478,
+    0.0003821669961325824
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 532873216,
+  "warnings": [],
+  "errors": [],
+  "tables": [],
+  "repeat_structure_sha256": [
+    "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  ]
+}

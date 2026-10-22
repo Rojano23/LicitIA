@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "head": "429bf2ff95043c6d74af379a22d85bdd85843340",
+  "first_pass_sha256": "90196c185f2083d3136c8c391048feebbf215d11355c563518ba06713b735fe2",
+  "historical_files_verified": 1660,
+  "preexisting_attempt7_files_verified": 1351,
+  "historical_mismatches": 0,
+  "attempt7_mismatches": 0,
+  "tracked_clean": true,
+  "staging_empty": true,
+  "diff_stat_empty": true,
+  "diff_check": "PASS",
+  "db_access": "SET TRANSACTION READ ONLY for each DB diagnostic",
+  "production_code_changed": false,
+  "tests_changed": false,
+  "providers_run": false,
+  "attempt_created": false,
+  "frozen_operational_evidence_changed": false,
+  "human_truth_persisted": false
+}

@@ -1,0 +1,246 @@
+{
+  "aggregate": {
+    "active_observations": 1,
+    "correct_review_required": 1,
+    "deselected_observations": 0,
+    "domain_engine_error_count": 0,
+    "domain_impact": {},
+    "domain_trust_assessed": 0,
+    "domain_trust_unassessed": 1,
+    "error_categories": {
+      "CORRECT_REVIEW_ESCALATION": 1,
+      "TRANSCRIPTION_OMISSION": 1
+    },
+    "labeled_observations": 1,
+    "measurements": {
+      "material_omissions": 14
+    },
+    "readiness_certified": false,
+    "safe_automatic_selections": 0,
+    "safe_misses": 1,
+    "stale_carry_violations": 0,
+    "transcription": {
+      "critical_tokens": {
+        "matched_observed_fraction": null,
+        "precision": null,
+        "recall": null
+      },
+      "numeric_tokens": {
+        "matched_observed_fraction": null,
+        "precision": null,
+        "recall": null
+      },
+      "units": {
+        "matched_observed_fraction": null,
+        "precision": null,
+        "recall": null
+      }
+    },
+    "unnecessary_review": 0,
+    "unsafe_auto_selections": 0,
+    "unsafe_trusted_contractual_errors": 0
+  },
+  "baseline_provider": "VISION",
+  "by_provider_capability": {
+    "VISION:TRANSCRIPTION": {
+      "active_observations": 1,
+      "correct_review_required": 1,
+      "deselected_observations": 0,
+      "domain_engine_error_count": 0,
+      "domain_impact": {},
+      "domain_trust_assessed": 0,
+      "domain_trust_unassessed": 1,
+      "error_categories": {
+        "CORRECT_REVIEW_ESCALATION": 1,
+        "TRANSCRIPTION_OMISSION": 1
+      },
+      "labeled_observations": 1,
+      "measurements": {
+        "material_omissions": 14
+      },
+      "readiness_certified": false,
+      "safe_automatic_selections": 0,
+      "safe_misses": 1,
+      "stale_carry_violations": 0,
+      "transcription": {
+        "critical_tokens": {
+          "matched_observed_fraction": null,
+          "precision": null,
+          "recall": null
+        },
+        "numeric_tokens": {
+          "matched_observed_fraction": null,
+          "precision": null,
+          "recall": null
+        },
+        "units": {
+          "matched_observed_fraction": null,
+          "precision": null,
+          "recall": null
+        }
+      },
+      "unnecessary_review": 0,
+      "unsafe_auto_selections": 0,
+      "unsafe_trusted_contractual_errors": 0
+    }
+  },
+  "capability": "TRANSCRIPTION",
+  "external_reference": "SNR-CAD-265-CA-S-2026",
+  "golden_references": [
+    {
+      "path": "/Users/ceciliavalencia/LiticIA/backend/evals/scope_quantity_golden_v1.json",
+      "sha256": "de2327ca868f8b72bf6dd80f50a568807b567f92c4106d65f913b7ce263339e7"
+    },
+    {
+      "path": "/Users/ceciliavalencia/LiticIA/backend/evals/semantic_scope_golden_v1.json",
+      "sha256": "ad9d44a67022fa1eaec3181799a88b93c4c6dd04572fff46f31c3ac0c244af86"
+    },
+    {
+      "path": "/Users/ceciliavalencia/LiticIA/backend/evals/technical_attribute_golden_v1.json",
+      "sha256": "ad2e3707f5b7a2e53e44339108c14669d9697ad733af3527a8e40216dd7b991b"
+    }
+  ],
+  "observations": [
+    {
+      "artifact_id": "external:fd5ad8c67cf8161e76b994dd97d21ccc77fa68bcf52c635e476e4cdc04e6f87b",
+      "attribute_bindings": [],
+      "capability": "TRANSCRIPTION",
+      "conflicts": [],
+      "continuity_status": null,
+      "critical_tokens": [],
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "domain_errors": [],
+      "domain_impact": [],
+      "domain_input_trusted": null,
+      "external_reference": "SNR-CAD-265-CA-S-2026",
+      "identifiers": {},
+      "latency_ms": 86592,
+      "lineage": "ACTIVE",
+      "model": "qwen3-vl:4b-instruct",
+      "notes": [
+        "EXTERNAL_ACQUISITION_NOT_PERSISTED",
+        "FIDELITY_NOT_CERTIFIED"
+      ],
+      "outgoing_item_key": null,
+      "page_number": 4,
+      "provenance": {
+        "continuity": null,
+        "image_sha256": "fd5ad8c67cf8161e76b994dd97d21ccc77fa68bcf52c635e476e4cdc04e6f87b",
+        "previous_page_context": null,
+        "prompt_version": "vision-detail-transcription-2026-08-31-001",
+        "raw_response_text": "{\n  \"source_page\": 4,\n  \"raw_lines\": [\n    {\n      \"raw_visible_text\": \"• MÓDULO DE ENTRADAS ANÁLOGICAS, MARCA: YOKOGAWA,\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"MODELO: AA143-H50/K4400 (1 PIEZA)\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• MÓDULO DE ENTRADAS DIGITALES, MARCA: YOKOGAWA, MODELO:\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"ADV159-P00 (1 PIEZA)\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• MÓDULO DE SALIDAS DIGITALES, MARCA: YOKOGAWA, MODELO:\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"ADV551-P60/D5A00 (1 PIEZA)\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• MÓDULO DE ENTRADAS DE RTD, MARCA: YOKOGAWA, MODELO:\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"AAR145-S50 (1 PIEZA)\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• FUENTE DE ALIMENTACIÓN DE 100-120VCA, MARCA: YOKOGAWA,\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"MODELO: PW481-50 (1 PIEZA)\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• MÓDULO DE COMUNICACIÓN ESB BUS, MARCA: YOKOGAWA,\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"MODELO: EC401-50 (2 PIEZAS)\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• BATERÍAS PARA CONTROLADOR AFV10D, MARCA: YOKOGAWA,\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"MODELO: S9129FA (4 PIEZAS).\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• EL PROVEEDOR DEBE CONTAR CON EL EQUIPO DE CÓMPUTO Y\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"SOFTWARE NECESARIO PARA LA EJECUCIÓN DE LOS SERVICIOS DE\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"MANTENIMIENTO, INCLUYENDO LOS MEDIOS DE TRANSPORTE Y\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"COMUNICACIÓN CON RADIOS A PRUEBA DE EXPLOSION, ASÍ COMO\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"EQUIPO DE CÓMPUTO PARA LA ELABORACIÓN E IMPRESIÓN DE\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"REPORTES DE SERVICIOS.\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• LIMPIEZA DEL ÁREA DE SERVICIO UTILIZADA Y ENTREGAR EL\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"EQUIPO OPERANDO SATISFACTORIAMENTE AL PERSONAL DEL\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"ÁREA OPERATIVA.\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• ELABORACIÓN Y ENTREGA DE REPORTE PROFESIONAL CON UNA\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"COPIA, EN MEDIO ELECTRÓNICO.\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"ENTREGABLE: LOS SISTEMAS OPERANDO A SATISFACCIÓN DE PEMEX.\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"FIRMAS DE RECIBIDO EL",
+        "runtime_status": "FAILED",
+        "structured_json": null,
+        "task": "DETAIL_TRANSCRIPTION",
+        "timeout_seconds": 180.0,
+        "warnings": [
+          "OUTPUT_TRUNCATED",
+          "DONE_REASON:length"
+        ]
+      },
+      "provider": "VISION",
+      "quantity_bindings": [],
+      "routing_status": "REVIEW_REQUIRED",
+      "structure": {},
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "text": ""
+    }
+  ],
+  "real_models_executed": true,
+  "results": [
+    {
+      "criticality": "CONTRACTUAL",
+      "domain_errors": [],
+      "domain_impact": [],
+      "error_category": [
+        "CORRECT_REVIEW_ESCALATION",
+        "TRANSCRIPTION_OMISSION"
+      ],
+      "error_origin": "PERCEPTION",
+      "expected": {
+        "attribute_bindings": [],
+        "critical_tokens": [],
+        "exhaustive_identifiers": false,
+        "expected_routing": null,
+        "file_sha256": "39d3618f0dea9fb0c00de28002f343e5b333765ad7d9f5a1d3b7159861c23ac7",
+        "human_label_status": "APPROVED",
+        "identifiers": {},
+        "identity": "sq_golden_case_001|sq_golden_case_002|sq_golden_case_004|sq_golden_case_005|sq_golden_case_006|sq_golden_case_007|sq_golden_case_008|sq_golden_case_011|ta_golden_case_001|ta_golden_case_002|ta_golden_case_003|ta_golden_case_004|ta_golden_case_005|ta_golden_case_006|ta_golden_case_007",
+        "material_fragments": [
+          "(1 PIEZA)",
+          "(2 PIEZAS)",
+          "(4 PIEZAS).",
+          "FUENTE DE ALIMENTACIÓN DE 100-120VCA",
+          "MARCA: YOKOGAWA",
+          "MODELO: AA143-H50/K4400",
+          "MODELO: AAR145-S50",
+          "MODELO: ADV159-P00",
+          "MODELO: ADV551-P60/D5A00",
+          "MODELO: EC401-50",
+          "MODELO: PW481-50",
+          "MODELO: S9129FA",
+          "MÓDULO DE COMUNICACIÓN ESB BUS",
+          "UNA COPIA"
+        ],
+        "numeric_tokens": [],
+        "quantity_bindings": [],
+        "structure": {},
+        "units": []
+      },
+      "measurements": {
+        "material_omissions": 14
+      },
+      "observed": {
+        "artifact_id": "external:fd5ad8c67cf8161e76b994dd97d21ccc77fa68bcf52c635e476e4cdc04e6f87b",
+        "attribute_bindings": [],
+        "capability": "TRANSCRIPTION",
+        "conflicts": [],
+        "continuity_status": null,
+        "critical_tokens": [],
+        "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+        "domain_errors": [],
+        "domain_impact": [],
+        "domain_input_trusted": null,
+        "external_reference": "SNR-CAD-265-CA-S-2026",
+        "identifiers": {},
+        "latency_ms": 86592,
+        "lineage": "ACTIVE",
+        "model": "qwen3-vl:4b-instruct",
+        "notes": [
+          "EXTERNAL_ACQUISITION_NOT_PERSISTED",
+          "FIDELITY_NOT_CERTIFIED"
+        ],
+        "outgoing_item_key": null,
+        "page_number": 4,
+        "provenance": {
+          "continuity": null,
+          "image_sha256": "fd5ad8c67cf8161e76b994dd97d21ccc77fa68bcf52c635e476e4cdc04e6f87b",
+          "previous_page_context": null,
+          "prompt_version": "vision-detail-transcription-2026-08-31-001",
+          "raw_response_text": "{\n  \"source_page\": 4,\n  \"raw_lines\": [\n    {\n      \"raw_visible_text\": \"• MÓDULO DE ENTRADAS ANÁLOGICAS, MARCA: YOKOGAWA,\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"MODELO: AA143-H50/K4400 (1 PIEZA)\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• MÓDULO DE ENTRADAS DIGITALES, MARCA: YOKOGAWA, MODELO:\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"ADV159-P00 (1 PIEZA)\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• MÓDULO DE SALIDAS DIGITALES, MARCA: YOKOGAWA, MODELO:\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"ADV551-P60/D5A00 (1 PIEZA)\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• MÓDULO DE ENTRADAS DE RTD, MARCA: YOKOGAWA, MODELO:\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"AAR145-S50 (1 PIEZA)\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• FUENTE DE ALIMENTACIÓN DE 100-120VCA, MARCA: YOKOGAWA,\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"MODELO: PW481-50 (1 PIEZA)\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• MÓDULO DE COMUNICACIÓN ESB BUS, MARCA: YOKOGAWA,\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"MODELO: EC401-50 (2 PIEZAS)\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• BATERÍAS PARA CONTROLADOR AFV10D, MARCA: YOKOGAWA,\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"MODELO: S9129FA (4 PIEZAS).\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• EL PROVEEDOR DEBE CONTAR CON EL EQUIPO DE CÓMPUTO Y\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"SOFTWARE NECESARIO PARA LA EJECUCIÓN DE LOS SERVICIOS DE\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"MANTENIMIENTO, INCLUYENDO LOS MEDIOS DE TRANSPORTE Y\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"COMUNICACIÓN CON RADIOS A PRUEBA DE EXPLOSION, ASÍ COMO\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"EQUIPO DE CÓMPUTO PARA LA ELABORACIÓN E IMPRESIÓN DE\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"REPORTES DE SERVICIOS.\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• LIMPIEZA DEL ÁREA DE SERVICIO UTILIZADA Y ENTREGAR EL\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"EQUIPO OPERANDO SATISFACTORIAMENTE AL PERSONAL DEL\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"ÁREA OPERATIVA.\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"• ELABORACIÓN Y ENTREGA DE REPORTE PROFESIONAL CON UNA\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"COPIA, EN MEDIO ELECTRÓNICO.\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"ENTREGABLE: LOS SISTEMAS OPERANDO A SATISFACCIÓN DE PEMEX.\",\n      \"uncertain\": false\n    },\n    {\n      \"raw_visible_text\": \"FIRMAS DE RECIBIDO EL",
+          "runtime_status": "FAILED",
+          "structured_json": null,
+          "task": "DETAIL_TRANSCRIPTION",
+          "timeout_seconds": 180.0,
+          "warnings": [
+            "OUTPUT_TRUNCATED",
+            "DONE_REASON:length"
+          ]
+        },
+        "provider": "VISION",
+        "quantity_bindings": [],
+        "routing_status": "REVIEW_REQUIRED",
+        "structure": {},
+        "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+        "text": ""
+      },
+      "review_surfaced": true,
+      "safe_misses": 1,
+      "stale_carry_violations": 0,
+      "status": "ERROR",
+      "unsafe_trusted_contractual_errors": 0
+    }
+  ],
+  "schema_version": "1",
+  "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba"
+}

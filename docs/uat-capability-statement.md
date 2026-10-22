@@ -7,7 +7,7 @@ LicitIA ofrece asistencia documental trazable; no garantiza extracción completa
 ## Qué puede probar el usuario
 
 - Importar y revisar originales/versiones y procesamiento unsupported.
-- Revisar Scope de tablas digitales elegibles con navegación a fuente; confirmar/corregir la descripción de Scope mediante revisión humana. Quantity se muestra ligada a su Scope, con fuente y estado automático, de solo lectura; su revisión/edición independiente queda pendiente P1 (RC-H3). Confirmar Scope no confirma Quantity.
+- Revisar Scope de tablas digitales elegibles con navegación a fuente; confirmar/corregir la descripción de Scope mediante revisión humana. Quantity se muestra ligada a su Scope, con fuente y estado automático, de solo lectura; su revisión/edición independiente permanece DEFERRED P1 tras evaluación RC-H3 y requiere contrato arquitectónico/migración aprobada. Confirmar Scope no confirma Quantity.
 - Usar Requirements como propuestas revisables, contrastadas contra originales y checklist humano.
 - Evaluar Requested Evidence como borrador incompleto de documentos/paquetes, nunca como inventario exhaustivo.
 - Probar provenance, revisión humana y surfacing de conflictos sin asumir que toda discrepancia es contractual.

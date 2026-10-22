@@ -1,0 +1,80 @@
+CASE sq_golden_case_001
+  mode=STRICT eval_status=PASS
+  discovery_status=DISCOVERED elapsed_ms=73075
+  quantities=expected:1 discovered:1 matched:1
+  missing_expected=0 unexpected_discovered=0
+  critical_leakage=0 grounding_errors:0 contract_validation_errors:0
+CASE sq_golden_case_002
+  mode=STRICT eval_status=PASS
+  discovery_status=DISCOVERED elapsed_ms=28106
+  quantities=expected:1 discovered:1 matched:1
+  missing_expected=0 unexpected_discovered=0
+  critical_leakage=0 grounding_errors:0 contract_validation_errors:0
+CASE sq_golden_case_003
+  mode=NO_QUANTITIES eval_status=PASS
+  discovery_status=NO_QUANTITIES elapsed_ms=8466
+  quantities=expected:0 discovered:0 matched:0
+  missing_expected=0 unexpected_discovered=0
+  critical_leakage=0 grounding_errors:0 contract_validation_errors:0
+CASE sq_golden_case_004
+  mode=STRICT eval_status=PASS
+  discovery_status=DISCOVERED elapsed_ms=18519
+  quantities=expected:1 discovered:1 matched:1
+  missing_expected=0 unexpected_discovered=0
+  critical_leakage=0 grounding_errors:0 contract_validation_errors:0
+CASE sq_golden_case_005
+  mode=STRICT eval_status=PASS
+  discovery_status=DISCOVERED elapsed_ms=9184
+  quantities=expected:1 discovered:1 matched:1
+  missing_expected=0 unexpected_discovered=0
+  critical_leakage=0 grounding_errors:0 contract_validation_errors:0
+CASE sq_golden_case_006
+  mode=STRICT eval_status=PASS
+  discovery_status=DISCOVERED elapsed_ms=8036
+  quantities=expected:1 discovered:1 matched:1
+  missing_expected=0 unexpected_discovered=0
+  critical_leakage=0 grounding_errors:0 contract_validation_errors:0
+CASE sq_golden_case_007
+  mode=STRICT eval_status=PASS
+  discovery_status=DISCOVERED elapsed_ms=8024
+  quantities=expected:1 discovered:1 matched:1
+  missing_expected=0 unexpected_discovered=0
+  critical_leakage=0 grounding_errors:0 contract_validation_errors:0
+CASE sq_golden_case_008
+  mode=STRICT eval_status=PASS
+  discovery_status=DISCOVERED elapsed_ms=9197
+  quantities=expected:1 discovered:1 matched:1
+  missing_expected=0 unexpected_discovered=0
+  critical_leakage=0 grounding_errors:0 contract_validation_errors:0
+CASE sq_golden_case_009
+  mode=NO_QUANTITIES eval_status=PASS
+  discovery_status=NO_QUANTITIES elapsed_ms=3814
+  quantities=expected:0 discovered:0 matched:0
+  missing_expected=0 unexpected_discovered=0
+  critical_leakage=0 grounding_errors:0 contract_validation_errors:0
+CASE sq_golden_case_010
+  mode=NO_QUANTITIES eval_status=PASS
+  discovery_status=NO_QUANTITIES elapsed_ms=3108
+  quantities=expected:0 discovered:0 matched:0
+  missing_expected=0 unexpected_discovered=0
+  critical_leakage=0 grounding_errors:0 contract_validation_errors:0
+CASE sq_golden_case_011
+  mode=STRICT eval_status=PASS
+  discovery_status=DISCOVERED elapsed_ms=9813
+  quantities=expected:1 discovered:1 matched:1
+  missing_expected=0 unexpected_discovered=0
+  critical_leakage=0 grounding_errors:0 contract_validation_errors:0
+
+AGGREGATE
+  cases_total=11
+  status_counts=PASS:11 FAIL:0 REVIEW_REQUIRED:0 UNLABELED:0 INVALID:0
+  discovery_status_distribution=
+    - DISCOVERED: 8
+    - NO_QUANTITIES: 3
+  quantities=expected:8 discovered:8 matched:8
+  deltas=missing_expected:0 unexpected_discovered:0
+  precision=1.0000 recall=1.0000
+  hard_negative=pass:3 total:3
+  mixed_context=pass:7 total:7
+  critical=technical_leakage:0 grounding_errors:0 contract_validation_errors:0 invalid_output:0
+  timing_ms=total:179410 avg:16303.82 max:73075

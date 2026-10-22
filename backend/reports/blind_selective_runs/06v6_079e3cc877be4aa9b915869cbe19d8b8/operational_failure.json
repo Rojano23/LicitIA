@@ -1,0 +1,29 @@
+{
+  "run_id": "06v6_079e3cc877be4aa9b915869cbe19d8b8",
+  "recorded_at": "2026-10-21T15:04:07.594985+00:00",
+  "phase": "FINAL_PRE_START_GATE",
+  "status": "STOPPED_BEFORE_EXECUTION_STARTED",
+  "error": "OPERATOR_IMPORT_INVENTORY_OMISSION",
+  "cause": "Hidden-file filter excluded .DS_Store from the canonical baseline corpus inventory",
+  "historical_documents": 11,
+  "imported_documents": 10,
+  "omitted_source_identity": {
+    "path": "/Users/ceciliavalencia/Documents/LicitIA/Reelevadores Elecricos/.DS_Store",
+    "size": 6148,
+    "sha256": "0c3c4c0b58647e4ca761e9fe61421b68208c9bc656714cd49c89031e85f20616"
+  },
+  "execution_started": false,
+  "provider_calls": 0,
+  "binding_immutable": true,
+  "repair_attempted": false,
+  "rerun_attempted": false,
+  "head": "429bf2ff95043c6d74af379a22d85bdd85843340",
+  "tracked_status": "",
+  "staging": "",
+  "diff_check_exit_code": 0,
+  "historical_integrity": {
+    "verified_files": 1627,
+    "mismatches": [],
+    "method": "SHA256_BYTES_ONLY_NO_SEMANTIC_INSPECTION"
+  }
+}

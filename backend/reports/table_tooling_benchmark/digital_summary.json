@@ -1,0 +1,1822 @@
+[
+  {
+    "page": "B1_P1",
+    "tool": "pdfplumber",
+    "configuration": "lines",
+    "parameters": {},
+    "repeat_seconds": [
+      0.10139725002227351,
+      0.09630408301018178
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 133349376,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "0d35cd911b15d09846efa8e808cf0bb35b80db4c3ff28909ed2a46a085b5c89b",
+      "0d35cd911b15d09846efa8e808cf0bb35b80db4c3ff28909ed2a46a085b5c89b"
+    ],
+    "table_shapes": [
+      [
+        3,
+        4
+      ],
+      [
+        15,
+        9
+      ]
+    ]
+  },
+  {
+    "page": "B1_P1",
+    "tool": "pdfplumber",
+    "configuration": "lines_strict",
+    "parameters": {
+      "vertical_strategy": "lines_strict",
+      "horizontal_strategy": "lines_strict"
+    },
+    "repeat_seconds": [
+      0.06755958401481621,
+      0.06827658400288783
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 144293888,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "B1_P1",
+    "tool": "pdfplumber",
+    "configuration": "text",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text"
+    },
+    "repeat_seconds": [
+      0.25673158300924115,
+      0.2670977919769939
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 149995520,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "5efa2b76b334fd4dd666dfe811f0ea5ef6a1fc5f2a7d50afe3b9720ce200eebb",
+      "5efa2b76b334fd4dd666dfe811f0ea5ef6a1fc5f2a7d50afe3b9720ce200eebb"
+    ],
+    "table_shapes": [
+      [
+        87,
+        6
+      ]
+    ]
+  },
+  {
+    "page": "B1_P1",
+    "tool": "pdfplumber",
+    "configuration": "text_tolerance5",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text",
+      "snap_tolerance": 5,
+      "join_tolerance": 5,
+      "intersection_tolerance": 5
+    },
+    "repeat_seconds": [
+      0.16449558298336342,
+      0.16716216699569486
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 149995520,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "3ec9501489a0803141d01ad5338275b923d2b440c7736d2a6c83e899883e919a",
+      "3ec9501489a0803141d01ad5338275b923d2b440c7736d2a6c83e899883e919a"
+    ],
+    "table_shapes": [
+      [
+        55,
+        6
+      ]
+    ]
+  },
+  {
+    "page": "B1_P1",
+    "tool": "pdfplumber",
+    "configuration": "lines_text",
+    "parameters": {
+      "vertical_strategy": "lines",
+      "horizontal_strategy": "text"
+    },
+    "repeat_seconds": [
+      0.13669391701114364,
+      0.13645800002268516
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 150994944,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "0488e449e098682cffa10c11c5486c2175422d43c908af08aa82420805c692a0",
+      "0488e449e098682cffa10c11c5486c2175422d43c908af08aa82420805c692a0"
+    ],
+    "table_shapes": [
+      [
+        20,
+        2
+      ],
+      [
+        39,
+        13
+      ]
+    ]
+  },
+  {
+    "page": "B1_P1",
+    "tool": "pdfplumber",
+    "configuration": "text_lines",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "lines"
+    },
+    "repeat_seconds": [
+      0.10098091600229964,
+      0.10052120801992714
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 161660928,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "db8f1368ca808aad2f5458f63cfbb2d2aaf1a75fcd0b7e1cfb6ebbeb50a236bd",
+      "db8f1368ca808aad2f5458f63cfbb2d2aaf1a75fcd0b7e1cfb6ebbeb50a236bd"
+    ],
+    "table_shapes": [
+      [
+        19,
+        6
+      ]
+    ]
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "lattice_combined",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "combined"
+    },
+    "repeat_seconds": [
+      1.3440355830243789,
+      0.3073504159983713
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 423854080,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "ab35e29a0912b138242b3374c4f4119621601a4d9e0a481d132505e20570d96a",
+      "ab35e29a0912b138242b3374c4f4119621601a4d9e0a481d132505e20570d96a"
+    ],
+    "table_shapes": [
+      [
+        3,
+        4
+      ],
+      [
+        11,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "lattice_vector",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "vector"
+    },
+    "repeat_seconds": [
+      0.033348208002280444,
+      0.026865457999520004
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 424361984,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "3861e0650f22d3073eab8c9392ec8523efff7f821741aec477c478802989b242",
+      "3861e0650f22d3073eab8c9392ec8523efff7f821741aec477c478802989b242"
+    ],
+    "table_shapes": [
+      [
+        3,
+        4
+      ],
+      [
+        11,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "lattice_raster",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "raster"
+    },
+    "repeat_seconds": [
+      0.3076247920107562,
+      0.3003011249820702
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 454279168,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "3b61f44d4ac1dc4f6cf5af779765e6475c81a1283717b60c9cc20aafa06e4077",
+      "3b61f44d4ac1dc4f6cf5af779765e6475c81a1283717b60c9cc20aafa06e4077"
+    ],
+    "table_shapes": [
+      [
+        3,
+        4
+      ],
+      [
+        11,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "stream",
+    "parameters": {
+      "flavor": "stream"
+    },
+    "repeat_seconds": [
+      0.03220083299675025,
+      0.027213749999646097
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 454672384,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "3f7b09eb1964d85ea445a1d7b629a18cd0f9cde558bfe5d46ddef2d432c634fe",
+      "3f7b09eb1964d85ea445a1d7b629a18cd0f9cde558bfe5d46ddef2d432c634fe"
+    ],
+    "table_shapes": [
+      [
+        14,
+        5
+      ],
+      [
+        20,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "stream_split",
+    "parameters": {
+      "flavor": "stream",
+      "split_text": true
+    },
+    "repeat_seconds": [
+      0.03288266700110398,
+      0.027271208993624896
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 454672384,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4ee4ea88ff8d7a39a2f8eb78e3023234cec31db0472aa9ca292c63ead9d14222",
+      "4ee4ea88ff8d7a39a2f8eb78e3023234cec31db0472aa9ca292c63ead9d14222"
+    ],
+    "table_shapes": [
+      [
+        14,
+        5
+      ],
+      [
+        20,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "network",
+    "parameters": {
+      "flavor": "network"
+    },
+    "repeat_seconds": [
+      0.03445170898339711,
+      0.02756783299264498
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 454672384,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "hybrid",
+    "parameters": {
+      "flavor": "hybrid"
+    },
+    "repeat_seconds": [
+      0.3588720839761663,
+      0.3093070830218494
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 464568320,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "ab35e29a0912b138242b3374c4f4119621601a4d9e0a481d132505e20570d96a",
+      "ab35e29a0912b138242b3374c4f4119621601a4d9e0a481d132505e20570d96a"
+    ],
+    "table_shapes": [
+      [
+        3,
+        4
+      ],
+      [
+        11,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "B1_P1",
+    "tool": "camelot",
+    "configuration": "auto",
+    "parameters": {
+      "flavor": "auto"
+    },
+    "repeat_seconds": [
+      0.6993584589799866,
+      0.6738792500109412
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 466042880,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "ab35e29a0912b138242b3374c4f4119621601a4d9e0a481d132505e20570d96a",
+      "ab35e29a0912b138242b3374c4f4119621601a4d9e0a481d132505e20570d96a"
+    ],
+    "table_shapes": [
+      [
+        3,
+        4
+      ],
+      [
+        11,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "B1_P2",
+    "tool": "pdfplumber",
+    "configuration": "lines",
+    "parameters": {},
+    "repeat_seconds": [
+      0.08883541700197384,
+      0.05329520799568854
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 468451328,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "6d9d299f67ee755944109b36d1d08bb02e7167ed258ff6000c35ec66df05273c",
+      "6d9d299f67ee755944109b36d1d08bb02e7167ed258ff6000c35ec66df05273c"
+    ],
+    "table_shapes": [
+      [
+        1,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "B1_P2",
+    "tool": "pdfplumber",
+    "configuration": "lines_strict",
+    "parameters": {
+      "vertical_strategy": "lines_strict",
+      "horizontal_strategy": "lines_strict"
+    },
+    "repeat_seconds": [
+      0.05052004198660143,
+      0.052248583000618964
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 468451328,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "B1_P2",
+    "tool": "pdfplumber",
+    "configuration": "text",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text"
+    },
+    "repeat_seconds": [
+      0.20770595798967406,
+      0.20685983300791122
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 468451328,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "9861c04b29e5904d44669823007afb3b74284cfffceebf2b7d0fa9fb3cd7f681",
+      "9861c04b29e5904d44669823007afb3b74284cfffceebf2b7d0fa9fb3cd7f681"
+    ],
+    "table_shapes": [
+      [
+        61,
+        7
+      ]
+    ]
+  },
+  {
+    "page": "B1_P2",
+    "tool": "pdfplumber",
+    "configuration": "text_tolerance5",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text",
+      "snap_tolerance": 5,
+      "join_tolerance": 5,
+      "intersection_tolerance": 5
+    },
+    "repeat_seconds": [
+      0.15645545898587443,
+      0.15590679200249724
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 468451328,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "3268335568f6e7b29b2256663e7ac4abdd66eff979f6275daa4ebe47acbf45d3",
+      "3268335568f6e7b29b2256663e7ac4abdd66eff979f6275daa4ebe47acbf45d3"
+    ],
+    "table_shapes": [
+      [
+        40,
+        7
+      ]
+    ]
+  },
+  {
+    "page": "B1_P2",
+    "tool": "pdfplumber",
+    "configuration": "lines_text",
+    "parameters": {
+      "vertical_strategy": "lines",
+      "horizontal_strategy": "text"
+    },
+    "repeat_seconds": [
+      0.05790041698492132,
+      0.05931283297832124
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 468451328,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "da907d84d48cf854523b08a1b2d8b451e8b962ccc3efc4fd3e8ffb227a9acfc0",
+      "da907d84d48cf854523b08a1b2d8b451e8b962ccc3efc4fd3e8ffb227a9acfc0"
+    ],
+    "table_shapes": [
+      [
+        3,
+        1
+      ]
+    ]
+  },
+  {
+    "page": "B1_P2",
+    "tool": "pdfplumber",
+    "configuration": "text_lines",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "lines"
+    },
+    "repeat_seconds": [
+      0.05626370900426991,
+      0.05545574999996461
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 468451328,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "lattice_combined",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "combined"
+    },
+    "repeat_seconds": [
+      0.3292199999850709,
+      0.30233479099115357
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 507396096,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "9b8ab6975a337d918d050e7dcbf0be34f99a8ccafce4bcfa1e4df6197ed6e593",
+      "9b8ab6975a337d918d050e7dcbf0be34f99a8ccafce4bcfa1e4df6197ed6e593"
+    ],
+    "table_shapes": [
+      [
+        1,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "lattice_vector",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "vector"
+    },
+    "repeat_seconds": [
+      0.023891708988230675,
+      0.019336917001055554
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 507396096,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "03bc9169433c198f05d03a0b03a608cd09428088c893aeccdfb23a88bbd60bcc",
+      "03bc9169433c198f05d03a0b03a608cd09428088c893aeccdfb23a88bbd60bcc"
+    ],
+    "table_shapes": [
+      [
+        1,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "lattice_raster",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "raster"
+    },
+    "repeat_seconds": [
+      0.3046807909850031,
+      0.32818662500358187
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 520142848,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "stream",
+    "parameters": {
+      "flavor": "stream"
+    },
+    "repeat_seconds": [
+      0.0244767919939477,
+      0.019407957996008918
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 520142848,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "7a3bc4c880e94e398e2b7558b34241e0a0dd82df2a97b0a7eac2b436f1122384",
+      "7a3bc4c880e94e398e2b7558b34241e0a0dd82df2a97b0a7eac2b436f1122384"
+    ],
+    "table_shapes": [
+      [
+        25,
+        4
+      ],
+      [
+        8,
+        1
+      ]
+    ]
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "stream_split",
+    "parameters": {
+      "flavor": "stream",
+      "split_text": true
+    },
+    "repeat_seconds": [
+      0.025928875023964792,
+      0.020991707977373153
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 520142848,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "515710ecdc37f36f8236c33a68aa25a178b36e698af9ddc4cc7fb387674f68b9",
+      "515710ecdc37f36f8236c33a68aa25a178b36e698af9ddc4cc7fb387674f68b9"
+    ],
+    "table_shapes": [
+      [
+        25,
+        4
+      ],
+      [
+        8,
+        1
+      ]
+    ]
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "network",
+    "parameters": {
+      "flavor": "network"
+    },
+    "repeat_seconds": [
+      0.027399749989854172,
+      0.022216958983335644
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 520142848,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "0437992ac32a51b9dc6b2dfe3727ee5f65a18345e51535882e6069875f11045f",
+      "0437992ac32a51b9dc6b2dfe3727ee5f65a18345e51535882e6069875f11045f"
+    ],
+    "table_shapes": [
+      [
+        21,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "hybrid",
+    "parameters": {
+      "flavor": "hybrid"
+    },
+    "repeat_seconds": [
+      0.3037297499831766,
+      0.30339333301526494
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 525139968,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "0adc8958ddc42b8313a2086cc168f898ef70bf5bf69d971ec0eaba09f713099a",
+      "0adc8958ddc42b8313a2086cc168f898ef70bf5bf69d971ec0eaba09f713099a"
+    ],
+    "table_shapes": [
+      [
+        21,
+        3
+      ]
+    ]
+  },
+  {
+    "page": "B1_P2",
+    "tool": "camelot",
+    "configuration": "auto",
+    "parameters": {
+      "flavor": "auto"
+    },
+    "repeat_seconds": [
+      0.4109222080151085,
+      0.42482370798825286
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 525139968,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "0437992ac32a51b9dc6b2dfe3727ee5f65a18345e51535882e6069875f11045f",
+      "0437992ac32a51b9dc6b2dfe3727ee5f65a18345e51535882e6069875f11045f"
+    ],
+    "table_shapes": [
+      [
+        21,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "pdfplumber",
+    "configuration": "lines",
+    "parameters": {},
+    "repeat_seconds": [
+      0.07483100000536069,
+      0.11207425000611693
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 525139968,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "d1b3029403c568fbdcf5b2ca0611697915d38c21966e5c0546eceaedf7a266c4",
+      "d1b3029403c568fbdcf5b2ca0611697915d38c21966e5c0546eceaedf7a266c4"
+    ],
+    "table_shapes": [
+      [
+        2,
+        6
+      ]
+    ]
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "pdfplumber",
+    "configuration": "lines_strict",
+    "parameters": {
+      "vertical_strategy": "lines_strict",
+      "horizontal_strategy": "lines_strict"
+    },
+    "repeat_seconds": [
+      0.0779783750185743,
+      0.0645913339976687
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 525139968,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "pdfplumber",
+    "configuration": "text",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text"
+    },
+    "repeat_seconds": [
+      0.28327683301176876,
+      0.2731888329726644
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 525139968,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "6be62522505f30fec319a6ae6d93ecde02d2d33e83cba8069f39c2ddc3c61d4c",
+      "6be62522505f30fec319a6ae6d93ecde02d2d33e83cba8069f39c2ddc3c61d4c"
+    ],
+    "table_shapes": [
+      [
+        62,
+        10
+      ]
+    ]
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "pdfplumber",
+    "configuration": "text_tolerance5",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text",
+      "snap_tolerance": 5,
+      "join_tolerance": 5,
+      "intersection_tolerance": 5
+    },
+    "repeat_seconds": [
+      0.2702532919938676,
+      0.26848220799001865
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 525139968,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "49deeda3e29e6d93c7d7b18fabad2b0452b96ae54489da71827960e13f8548ee",
+      "49deeda3e29e6d93c7d7b18fabad2b0452b96ae54489da71827960e13f8548ee"
+    ],
+    "table_shapes": [
+      [
+        61,
+        10
+      ]
+    ]
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "pdfplumber",
+    "configuration": "lines_text",
+    "parameters": {
+      "vertical_strategy": "lines",
+      "horizontal_strategy": "text"
+    },
+    "repeat_seconds": [
+      0.072854041995015,
+      0.1156793340051081
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 525139968,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "8c346c615c8e3c1ceb95824986d7a5415817e574f49f51efe5be5d97036a56ed",
+      "8c346c615c8e3c1ceb95824986d7a5415817e574f49f51efe5be5d97036a56ed"
+    ],
+    "table_shapes": [
+      [
+        3,
+        6
+      ]
+    ]
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "pdfplumber",
+    "configuration": "text_lines",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "lines"
+    },
+    "repeat_seconds": [
+      0.08419845800381154,
+      0.08391195800504647
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 525139968,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "20162d189224e2fe72d986ce29c8271cab02c9d5fbf20e104bfa9664a5f16577",
+      "20162d189224e2fe72d986ce29c8271cab02c9d5fbf20e104bfa9664a5f16577"
+    ],
+    "table_shapes": [
+      [
+        5,
+        9
+      ]
+    ]
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "lattice_combined",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "combined"
+    },
+    "repeat_seconds": [
+      0.26417529201717116,
+      0.26507529098307714
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 530497536,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "cf89f8bfd20142874a5fead3ee7462b5ee1d30deecf7d446b4a10b2f83ef6368",
+      "cf89f8bfd20142874a5fead3ee7462b5ee1d30deecf7d446b4a10b2f83ef6368"
+    ],
+    "table_shapes": [
+      [
+        2,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "lattice_vector",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "vector"
+    },
+    "repeat_seconds": [
+      0.028867665998404846,
+      0.024153417005436495
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 530497536,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "cb7863df09b4fba85ed54b51308a7fb85c13da074d0bac993a454fe8b0ee6b83",
+      "cb7863df09b4fba85ed54b51308a7fb85c13da074d0bac993a454fe8b0ee6b83"
+    ],
+    "table_shapes": [
+      [
+        2,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "lattice_raster",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "raster"
+    },
+    "repeat_seconds": [
+      0.26274454200756736,
+      0.2901000000128988
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "stream",
+    "parameters": {
+      "flavor": "stream"
+    },
+    "repeat_seconds": [
+      0.03066374998888932,
+      0.024803000007523224
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "aa7111f0ad73dee98222d8f44ed2e5a2bf155a6e72099be2dabbdef523452215",
+      "aa7111f0ad73dee98222d8f44ed2e5a2bf155a6e72099be2dabbdef523452215"
+    ],
+    "table_shapes": [
+      [
+        7,
+        1
+      ],
+      [
+        7,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "stream_split",
+    "parameters": {
+      "flavor": "stream",
+      "split_text": true
+    },
+    "repeat_seconds": [
+      0.028124207979999483,
+      0.024643625016324222
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "0421267f60b1b6c2b0963afc2a80f2536e07143df241f439fde7fe3530b3aa99",
+      "0421267f60b1b6c2b0963afc2a80f2536e07143df241f439fde7fe3530b3aa99"
+    ],
+    "table_shapes": [
+      [
+        7,
+        1
+      ],
+      [
+        7,
+        2
+      ]
+    ]
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "network",
+    "parameters": {
+      "flavor": "network"
+    },
+    "repeat_seconds": [
+      0.03224908301490359,
+      0.026029290980659425
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "a5f9e3f5a54e262582ef6bb12c414cc79ab096ae529cd526ca35497db7fab016",
+      "a5f9e3f5a54e262582ef6bb12c414cc79ab096ae529cd526ca35497db7fab016"
+    ],
+    "table_shapes": [
+      [
+        18,
+        1
+      ]
+    ]
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "hybrid",
+    "parameters": {
+      "flavor": "hybrid"
+    },
+    "repeat_seconds": [
+      0.2568304159794934,
+      0.26352837501326576
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "bc2098ffcc1756e810ca7dfbebc489545c02611a46618041afb7f2dc17e34505",
+      "bc2098ffcc1756e810ca7dfbebc489545c02611a46618041afb7f2dc17e34505"
+    ],
+    "table_shapes": [
+      [
+        2,
+        2
+      ],
+      [
+        18,
+        1
+      ]
+    ]
+  },
+  {
+    "page": "BASES_P41",
+    "tool": "camelot",
+    "configuration": "auto",
+    "parameters": {
+      "flavor": "auto"
+    },
+    "repeat_seconds": [
+      0.3588281249976717,
+      0.3564487499825191
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "a5f9e3f5a54e262582ef6bb12c414cc79ab096ae529cd526ca35497db7fab016",
+      "a5f9e3f5a54e262582ef6bb12c414cc79ab096ae529cd526ca35497db7fab016"
+    ],
+    "table_shapes": [
+      [
+        18,
+        1
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "pdfplumber",
+    "configuration": "lines",
+    "parameters": {},
+    "repeat_seconds": [
+      0.07826624999870546,
+      0.07683524998719804
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "c5ba2417b5c21ecc11e7e2214df4f4041b72c2a3def7a213683ad7253d8d8128",
+      "c5ba2417b5c21ecc11e7e2214df4f4041b72c2a3def7a213683ad7253d8d8128"
+    ],
+    "table_shapes": [
+      [
+        17,
+        7
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "pdfplumber",
+    "configuration": "lines_strict",
+    "parameters": {
+      "vertical_strategy": "lines_strict",
+      "horizontal_strategy": "lines_strict"
+    },
+    "repeat_seconds": [
+      0.05731083400314674,
+      0.057874999998603016
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "pdfplumber",
+    "configuration": "text",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text"
+    },
+    "repeat_seconds": [
+      0.19393116698483936,
+      0.2326904170040507
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "32800c1a301a8eea4b62b49e440c4715922c89ed6efc5406def28b27fb30fdba",
+      "32800c1a301a8eea4b62b49e440c4715922c89ed6efc5406def28b27fb30fdba"
+    ],
+    "table_shapes": [
+      [
+        67,
+        8
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "pdfplumber",
+    "configuration": "text_tolerance5",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text",
+      "snap_tolerance": 5,
+      "join_tolerance": 5,
+      "intersection_tolerance": 5
+    },
+    "repeat_seconds": [
+      0.15456516700214706,
+      0.1532573339936789
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "40be14c14555d3ff8511b56a45b2de6f77ad69a7e1dd5b3d11631d3d6889af64",
+      "40be14c14555d3ff8511b56a45b2de6f77ad69a7e1dd5b3d11631d3d6889af64"
+    ],
+    "table_shapes": [
+      [
+        47,
+        8
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "pdfplumber",
+    "configuration": "lines_text",
+    "parameters": {
+      "vertical_strategy": "lines",
+      "horizontal_strategy": "text"
+    },
+    "repeat_seconds": [
+      0.12437775000580586,
+      0.12262554198969156
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "5c49d97dc7453295761b743ad9dc312704fe17f1602388973335d7d91f17bea2",
+      "5c49d97dc7453295761b743ad9dc312704fe17f1602388973335d7d91f17bea2"
+    ],
+    "table_shapes": [
+      [
+        7,
+        1
+      ],
+      [
+        53,
+        9
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "pdfplumber",
+    "configuration": "text_lines",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "lines"
+    },
+    "repeat_seconds": [
+      0.09531391700147651,
+      0.09507362500880845
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "919f108f5dbe90e9d042af2ab54d71461f9c0aa810e2e020f694b6f97064efb1",
+      "919f108f5dbe90e9d042af2ab54d71461f9c0aa810e2e020f694b6f97064efb1"
+    ],
+    "table_shapes": [
+      [
+        18,
+        8
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "lattice_combined",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "combined"
+    },
+    "repeat_seconds": [
+      0.4712589170085266,
+      0.2597407909925096
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "9493d4694db4434d92270a46fb2fa5b32e03ddfc2dcb1a2e269bdec1ee848ee5",
+      "9493d4694db4434d92270a46fb2fa5b32e03ddfc2dcb1a2e269bdec1ee848ee5"
+    ],
+    "table_shapes": [
+      [
+        17,
+        3
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "lattice_vector",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "vector"
+    },
+    "repeat_seconds": [
+      0.026097958005266264,
+      0.022255500021856278
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "2ec6bc17902dac8d38b9da7145e46d5546d5e889e7737f3abc0ec3963fdce2e5",
+      "2ec6bc17902dac8d38b9da7145e46d5546d5e889e7737f3abc0ec3963fdce2e5"
+    ],
+    "table_shapes": [
+      [
+        17,
+        3
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "lattice_raster",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "raster"
+    },
+    "repeat_seconds": [
+      0.26592933299252763,
+      0.25622804200975224
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "3b6d3b6fc2283ac3240a7fe8a29c5e32f7341a7c195ab84d59e8f5c715d9b46b",
+      "3b6d3b6fc2283ac3240a7fe8a29c5e32f7341a7c195ab84d59e8f5c715d9b46b"
+    ],
+    "table_shapes": [
+      [
+        17,
+        3
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "stream",
+    "parameters": {
+      "flavor": "stream"
+    },
+    "repeat_seconds": [
+      0.026149417011765763,
+      0.021029541007010266
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "fa4dbe1d6a28c8daf5adb5b306717d195dca84f9c729c8d5d74baee12e0a5093",
+      "fa4dbe1d6a28c8daf5adb5b306717d195dca84f9c729c8d5d74baee12e0a5093"
+    ],
+    "table_shapes": [
+      [
+        28,
+        4
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "stream_split",
+    "parameters": {
+      "flavor": "stream",
+      "split_text": true
+    },
+    "repeat_seconds": [
+      0.026111500017577782,
+      0.021859625005163252
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "fd218c3bda0a5d26c582bf56a34fe402dd1c52087a0d391c3533d581b795e644",
+      "fd218c3bda0a5d26c582bf56a34fe402dd1c52087a0d391c3533d581b795e644"
+    ],
+    "table_shapes": [
+      [
+        28,
+        4
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "network",
+    "parameters": {
+      "flavor": "network"
+    },
+    "repeat_seconds": [
+      0.028831750008976087,
+      0.023022707988275215
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "10eba38fe2c7f8b4910d85169f51879f7ec8b828e5f7f11c3ac682ecc73f60a4",
+      "10eba38fe2c7f8b4910d85169f51879f7ec8b828e5f7f11c3ac682ecc73f60a4"
+    ],
+    "table_shapes": [
+      [
+        26,
+        1
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "hybrid",
+    "parameters": {
+      "flavor": "hybrid"
+    },
+    "repeat_seconds": [
+      0.2615065000136383,
+      0.2659588339738548
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "a2a2416906ea539a484b5b3bd6546b9523087ea6192452bc6125f115faa30bf4",
+      "a2a2416906ea539a484b5b3bd6546b9523087ea6192452bc6125f115faa30bf4"
+    ],
+    "table_shapes": [
+      [
+        12,
+        3
+      ]
+    ]
+  },
+  {
+    "page": "QUESTION_P12",
+    "tool": "camelot",
+    "configuration": "auto",
+    "parameters": {
+      "flavor": "auto"
+    },
+    "repeat_seconds": [
+      0.5807766670186538,
+      0.5807579159736633
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "9493d4694db4434d92270a46fb2fa5b32e03ddfc2dcb1a2e269bdec1ee848ee5",
+      "9493d4694db4434d92270a46fb2fa5b32e03ddfc2dcb1a2e269bdec1ee848ee5"
+    ],
+    "table_shapes": [
+      [
+        17,
+        3
+      ]
+    ]
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "pdfplumber",
+    "configuration": "lines",
+    "parameters": {},
+    "repeat_seconds": [
+      0.0019319170096423477,
+      0.0007623750134371221
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "pdfplumber",
+    "configuration": "lines_strict",
+    "parameters": {
+      "vertical_strategy": "lines_strict",
+      "horizontal_strategy": "lines_strict"
+    },
+    "repeat_seconds": [
+      0.0007347910141106695,
+      0.0007153749756980687
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "pdfplumber",
+    "configuration": "text",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text"
+    },
+    "repeat_seconds": [
+      0.000740250019589439,
+      0.0007216660014819354
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "pdfplumber",
+    "configuration": "text_tolerance5",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "text",
+      "snap_tolerance": 5,
+      "join_tolerance": 5,
+      "intersection_tolerance": 5
+    },
+    "repeat_seconds": [
+      0.000722833996405825,
+      0.0007837919984012842
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "pdfplumber",
+    "configuration": "lines_text",
+    "parameters": {
+      "vertical_strategy": "lines",
+      "horizontal_strategy": "text"
+    },
+    "repeat_seconds": [
+      0.0007357499853242189,
+      0.0006986669905018061
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "pdfplumber",
+    "configuration": "text_lines",
+    "parameters": {
+      "vertical_strategy": "text",
+      "horizontal_strategy": "lines"
+    },
+    "repeat_seconds": [
+      0.0007528339920099825,
+      0.0007023339858278632
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "lattice_combined",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "combined"
+    },
+    "repeat_seconds": [
+      0.004470040992600843,
+      0.0004631670017261058
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "lattice_vector",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "vector"
+    },
+    "repeat_seconds": [
+      0.0030955830006860197,
+      0.00046883299364708364
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "lattice_raster",
+    "parameters": {
+      "flavor": "lattice",
+      "engine": "raster"
+    },
+    "repeat_seconds": [
+      0.004022417007945478,
+      0.0003821669961325824
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "stream",
+    "parameters": {
+      "flavor": "stream"
+    },
+    "repeat_seconds": [
+      0.003259999997681007,
+      0.00034479101304896176
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "stream_split",
+    "parameters": {
+      "flavor": "stream",
+      "split_text": true
+    },
+    "repeat_seconds": [
+      0.004848915996262804,
+      0.00037404202157631516
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "network",
+    "parameters": {
+      "flavor": "network"
+    },
+    "repeat_seconds": [
+      0.0038076250057201833,
+      0.008159208984579891
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "hybrid",
+    "parameters": {
+      "flavor": "hybrid"
+    },
+    "repeat_seconds": [
+      0.004506165976636112,
+      0.0004414590075612068
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  },
+  {
+    "page": "ANEXOC_P1",
+    "tool": "camelot",
+    "configuration": "auto",
+    "parameters": {
+      "flavor": "auto"
+    },
+    "repeat_seconds": [
+      0.499818584008608,
+      0.425600457994733
+    ],
+    "deterministic": true,
+    "max_rss_bytes": 532873216,
+    "warnings": [],
+    "errors": [],
+    "repeat_structure_sha256": [
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    "table_shapes": []
+  }
+]

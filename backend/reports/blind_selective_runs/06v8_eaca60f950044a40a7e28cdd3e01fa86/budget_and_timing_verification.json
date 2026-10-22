@@ -1,0 +1,72 @@
+{
+  "receipts": [
+    {
+      "path": "vision-task-receipts-v1/ac834040bb4cc4b4f3d0c220ab9854c4c5f93e3d30f63d709d5894063c8dcb48.json",
+      "sha256": "64e52328892546dbc66d89065bc3dfea696dd84ebc0ac48f5ecb0e7a3e7d5961",
+      "attempts": 2,
+      "fingerprint": "1f773391599ab1495b1ffd4964666e6d9cf0f486023a42ed9f2422653c2b5723",
+      "kind": "vision-task-receipts-v1",
+      "error": "VISION_PROVIDER_FAILED:['TIMEOUT:timed out']"
+    },
+    {
+      "path": "vision-task-receipts-v1/570b55d2b54bbfa5624b89231a14e927d2d40b4b89572898441179ccf1f7b130.json",
+      "sha256": "26effab9e305d1be49ddc9a0e51c9ca5f6574dc5e0c5ce878dae9f8a659fe9e4",
+      "attempts": 1,
+      "fingerprint": "393320a40c838da1e8c2f7ca3e22fa69f8add80820536149fccaa3e75f31fadd",
+      "kind": "vision-task-receipts-v1",
+      "error": null
+    },
+    {
+      "path": "vision-task-receipts-v1/779c97fbc896faaa89fa09ed7aad702b5c10435708fd18037c37a9f4f3d5a6ef.json",
+      "sha256": "71bf4d9974d5c06b525a40c6e22fc88f1888a58e3d34a9c47a755678e4a6e7e8",
+      "attempts": 1,
+      "fingerprint": "bb48e74fb97a25d2052bc5bd4239f52c4c2602b43bddbd0f5e83bcee5ff99e34",
+      "kind": "vision-task-receipts-v1",
+      "error": null
+    },
+    {
+      "path": "ocr-task-receipts-v1/fef247a9908bd66656a9b033eba3c18008553d1267a19050abfca727f7c81fcf.json",
+      "sha256": "fb4502ce060162aa14068f1647fb2e3e7553f7adc434184fc451201188d4539d",
+      "attempts": 1,
+      "fingerprint": "1738005d09d6358b1e3599b7375dd90a32aaa89e21d53a3ba9423c21be722fbb",
+      "kind": "ocr-task-receipts-v1",
+      "error": null
+    },
+    {
+      "path": "ocr-task-receipts-v1/1766fe3cc98f598b6af27391e334ab3654adbfb73a770b899c4103b63157156c.json",
+      "sha256": "f69dbae5cf404ef64a5f1cf258fc155e24b8b3eff34c3fb651f9f91eb20cb454",
+      "attempts": 1,
+      "fingerprint": "8a23f63c7b665c059ea3e5921e2b239e20cdd677738e9636a791b018494f202f",
+      "kind": "ocr-task-receipts-v1",
+      "error": null
+    },
+    {
+      "path": "ocr-task-receipts-v1/c395410b0886d41bf830b221a7ab0e21f66de7bf74eeacf175897d7a9b6e73fd.json",
+      "sha256": "9dba633bd04998227a92e3f49f0e2d97dea1fe629d774a987df92788483a96a3",
+      "attempts": 1,
+      "fingerprint": "beb8b6a84d5b94a4e4253f9a5cd746e01fc5cacee7742360a59f5549f5961368",
+      "kind": "ocr-task-receipts-v1",
+      "error": null
+    },
+    {
+      "path": "ocr-task-receipts-v1/5410be381081f4154d3d09f83eaa3524c753c454048836a3b2f45f7e1fec61a0.json",
+      "sha256": "25452d9127fd90bdd59d802da0b7dc89593e629609d29db5cc8e7683eae3a2d1",
+      "attempts": 1,
+      "fingerprint": "52d04b4e5a28998d781a002bb77641e4cc4dca40ff91cbed3b48b8ab0bb17598",
+      "kind": "ocr-task-receipts-v1",
+      "error": null
+    }
+  ],
+  "ocr_acquisitions": 4,
+  "vision_fingerprints": 3,
+  "attempt_limits_unchanged": true,
+  "ocr_max_calls": 8,
+  "vision_max_calls": 4,
+  "ocr_timeout_seconds": 30,
+  "vision_timeout_seconds": 60,
+  "wall_clock_vision_outlier_ms": 923927,
+  "sleep_duration_seconds": 867,
+  "active_elapsed_seconds": "NOT_DIRECTLY_MEASURABLE",
+  "observed_issue": "ENVIRONMENT_SUSPENDED_DURING_PROVIDER_CALL",
+  "no_wall_clock_compensation": true
+}

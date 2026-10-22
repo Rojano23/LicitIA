@@ -1,0 +1,10 @@
+{
+  "pdfplumber": "0.11.10",
+  "camelot-py": "2.0.0",
+  "pdfminer.six": "20260107",
+  "playa-pdf": "1.1.0",
+  "pypdfium2": "5.14.0",
+  "opencv-python-headless": "5.0.0.93",
+  "pandas": "3.0.6",
+  "numpy": "2.5.4"
+}

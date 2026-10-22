@@ -1,0 +1,100 @@
+{
+  "page": "B1_P2",
+  "tool": "camelot",
+  "configuration": "lattice_vector",
+  "parameters": {
+    "flavor": "lattice",
+    "engine": "vector"
+  },
+  "repeat_seconds": [
+    0.023891708988230675,
+    0.019336917001055554
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 507396096,
+  "warnings": [],
+  "errors": [],
+  "tables": [
+    {
+      "bbox_bottom_origin": [
+        54.480000000000004,
+        693.82,
+        557.6200200000001,
+        723.6
+      ],
+      "bbox": [
+        54.480000000000004,
+        68.39999999999998,
+        557.6200200000001,
+        98.17999999999995
+      ],
+      "rows": 1,
+      "columns": 2,
+      "matrix": [
+        [
+          "Formato  4  Anexo \nSSPA",
+          "Requisitos de Seguridad, Salud en el Trabajo y Protección Ambiental (SSPA)  que \ndebe cumplir el proveedor o contratista durante la ejecución de un contrato."
+        ]
+      ],
+      "parser_report": {
+        "accuracy": 100.0,
+        "whitespace": 0.0,
+        "order": 1,
+        "page": 1,
+        "confidence": 1.0
+      },
+      "cells": [
+        {
+          "row": 0,
+          "column": 0,
+          "text": "Formato  4  Anexo \nSSPA \n",
+          "bbox": [
+            54.480000000000004,
+            68.39999999999998,
+            158.42000000000002,
+            98.17999999999995
+          ],
+          "bbox_bottom_origin": [
+            54.480000000000004,
+            693.82,
+            158.42000000000002,
+            723.6
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "text": "Requisitos de Seguridad, Salud en el Trabajo y Protección Ambiental (SSPA)  que \ndebe cumplir el proveedor o contratista durante la ejecución de un contrato. \n",
+          "bbox": [
+            158.42000000000002,
+            68.39999999999998,
+            557.6200200000001,
+            98.17999999999995
+          ],
+          "bbox_bottom_origin": [
+            158.42000000000002,
+            693.82,
+            557.6200200000001,
+            723.6
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        }
+      ]
+    }
+  ],
+  "repeat_structure_sha256": [
+    "03bc9169433c198f05d03a0b03a608cd09428088c893aeccdfb23a88bbd60bcc",
+    "03bc9169433c198f05d03a0b03a608cd09428088c893aeccdfb23a88bbd60bcc"
+  ]
+}

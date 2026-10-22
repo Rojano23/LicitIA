@@ -1,0 +1,638 @@
+{
+  "schema": "ATTEMPT8_OPERATIONAL_DERIVATION_001",
+  "first_pass_sha256": "9d8861ed64520a832e4dfaac7ce0dbbbcc5a5d0fbc894c98d850777aa4f4eaef",
+  "canonical_metrics": {
+    "first_pass": {
+      "conflicts_surfaced": 2,
+      "discovery_counts": {
+        "rejected_requirement_candidates": 0,
+        "requirement_candidates": 43
+      },
+      "documents_total": 11,
+      "domain_impact": {
+        "causal_error_impact": null,
+        "traceable_links": {
+          "PERCEPTION->REQUIREMENTS": 31,
+          "REQUIREMENTS->REQUESTED_EVIDENCE": 8
+        }
+      },
+      "domains": {
+        "ATTRIBUTES": {
+          "discovered": 0,
+          "rejected": 0,
+          "review_required": 0,
+          "review_required_rate": null,
+          "total": 0,
+          "trusted": 0,
+          "trusted_automatic_rate_unadjudicated": null,
+          "trusted_automatic_unadjudicated": 0,
+          "unavailable": 0,
+          "unavailable_rate": null,
+          "unresolved_binding": 0
+        },
+        "DOCUMENTS": {
+          "discovered": 11,
+          "rejected": 0,
+          "review_required": 0,
+          "review_required_rate": 0.0,
+          "total": 11,
+          "trusted": 8,
+          "trusted_automatic_rate_unadjudicated": 0.0,
+          "trusted_automatic_unadjudicated": 0,
+          "unavailable": 3,
+          "unavailable_rate": 0.2727272727272727,
+          "unresolved_binding": 0
+        },
+        "EFFECTS": {
+          "discovered": 0,
+          "rejected": 0,
+          "review_required": 0,
+          "review_required_rate": null,
+          "total": 0,
+          "trusted": 0,
+          "trusted_automatic_rate_unadjudicated": null,
+          "trusted_automatic_unadjudicated": 0,
+          "unavailable": 0,
+          "unavailable_rate": null,
+          "unresolved_binding": 0
+        },
+        "QUANTITIES": {
+          "discovered": 0,
+          "rejected": 0,
+          "review_required": 0,
+          "review_required_rate": null,
+          "total": 0,
+          "trusted": 0,
+          "trusted_automatic_rate_unadjudicated": null,
+          "trusted_automatic_unadjudicated": 0,
+          "unavailable": 0,
+          "unavailable_rate": null,
+          "unresolved_binding": 0
+        },
+        "REQUESTED_EVIDENCE": {
+          "discovered": 8,
+          "rejected": 0,
+          "review_required": 8,
+          "review_required_rate": 1.0,
+          "total": 8,
+          "trusted": 0,
+          "trusted_automatic_rate_unadjudicated": 0.0,
+          "trusted_automatic_unadjudicated": 0,
+          "unavailable": 0,
+          "unavailable_rate": 0.0,
+          "unresolved_binding": 0
+        },
+        "REQUIREMENTS": {
+          "discovered": 31,
+          "rejected": 0,
+          "review_required": 31,
+          "review_required_rate": 1.0,
+          "total": 31,
+          "trusted": 0,
+          "trusted_automatic_rate_unadjudicated": 0.0,
+          "trusted_automatic_unadjudicated": 0,
+          "unavailable": 0,
+          "unavailable_rate": 0.0,
+          "unresolved_binding": 0
+        },
+        "SCOPE": {
+          "discovered": 0,
+          "rejected": 0,
+          "review_required": 0,
+          "review_required_rate": null,
+          "total": 0,
+          "trusted": 0,
+          "trusted_automatic_rate_unadjudicated": null,
+          "trusted_automatic_unadjudicated": 0,
+          "unavailable": 0,
+          "unavailable_rate": null,
+          "unresolved_binding": 0
+        },
+        "STRUCTURE": {
+          "discovered": 253,
+          "rejected": 0,
+          "review_required": 253,
+          "review_required_rate": 1.0,
+          "total": 253,
+          "trusted": 0,
+          "trusted_automatic_rate_unadjudicated": 0.0,
+          "trusted_automatic_unadjudicated": 0,
+          "unavailable": 0,
+          "unavailable_rate": 0.0,
+          "unresolved_binding": 0
+        },
+        "VERSIONS": {
+          "discovered": 11,
+          "rejected": 0,
+          "review_required": 0,
+          "review_required_rate": 0.0,
+          "total": 11,
+          "trusted": 11,
+          "trusted_automatic_rate_unadjudicated": 0.0,
+          "trusted_automatic_unadjudicated": 0,
+          "unavailable": 0,
+          "unavailable_rate": 0.0,
+          "unresolved_binding": 0
+        }
+      },
+      "pages_total": 253,
+      "perception_availability": [
+        {
+          "capability": "STRUCTURE",
+          "channel": "NATIVE",
+          "count": 251,
+          "status": "REVIEW_REQUIRED"
+        },
+        {
+          "capability": "STRUCTURE",
+          "channel": "NATIVE",
+          "count": 2,
+          "status": "UNAVAILABLE"
+        },
+        {
+          "capability": "TRANSCRIPTION",
+          "channel": "NATIVE",
+          "count": 251,
+          "status": "REVIEW_REQUIRED"
+        },
+        {
+          "capability": "TRANSCRIPTION",
+          "channel": "NATIVE",
+          "count": 2,
+          "status": "UNAVAILABLE"
+        },
+        {
+          "capability": "STRUCTURE",
+          "channel": "OCR",
+          "count": 4,
+          "status": "REVIEW_REQUIRED"
+        },
+        {
+          "capability": "STRUCTURE",
+          "channel": "OCR",
+          "count": 249,
+          "status": "UNAVAILABLE"
+        },
+        {
+          "capability": "TRANSCRIPTION",
+          "channel": "OCR",
+          "count": 4,
+          "status": "REVIEW_REQUIRED"
+        },
+        {
+          "capability": "TRANSCRIPTION",
+          "channel": "OCR",
+          "count": 249,
+          "status": "UNAVAILABLE"
+        },
+        {
+          "capability": "STRUCTURE",
+          "channel": "VISION",
+          "count": 2,
+          "status": "REVIEW_REQUIRED"
+        },
+        {
+          "capability": "STRUCTURE",
+          "channel": "VISION",
+          "count": 251,
+          "status": "UNAVAILABLE"
+        },
+        {
+          "capability": "TRANSCRIPTION",
+          "channel": "VISION",
+          "count": 253,
+          "status": "UNAVAILABLE"
+        }
+      ],
+      "providers": [
+        {
+          "artifact_statuses": {},
+          "artifacts": 0,
+          "calls": 2,
+          "calls_measurement": "RECORDED",
+          "capability": "STRUCTURE",
+          "execution_events": 2,
+          "failure": 0,
+          "latencies_ms": [
+            30070,
+            35973
+          ],
+          "model": "qwen3-vl:4b-instruct",
+          "outcome_basis": "EXECUTION_EVENTS",
+          "provider": "OLLAMA",
+          "source_method": "VISION",
+          "statuses": {
+            "COMPLETED": 2
+          },
+          "success": 2,
+          "timeouts": 0,
+          "truncations": 0
+        },
+        {
+          "artifact_statuses": {},
+          "artifacts": 0,
+          "calls": 2,
+          "calls_measurement": "RECORDED",
+          "capability": "TRANSCRIPTION",
+          "execution_events": 2,
+          "failure": 2,
+          "latencies_ms": [
+            57805,
+            923927
+          ],
+          "model": "qwen3-vl:4b-instruct",
+          "outcome_basis": "EXECUTION_EVENTS",
+          "provider": "OLLAMA",
+          "source_method": "VISION",
+          "statuses": {
+            "FAILED": 2
+          },
+          "success": 0,
+          "timeouts": 0,
+          "truncations": 0
+        },
+        {
+          "artifact_statuses": {},
+          "artifacts": 0,
+          "calls": 0,
+          "calls_measurement": "RECORDED",
+          "capability": "STRUCTURE",
+          "execution_events": 4,
+          "failure": 0,
+          "latencies_ms": [],
+          "model": null,
+          "outcome_basis": "EXECUTION_EVENTS",
+          "provider": "PLANNER",
+          "source_method": "VISION",
+          "statuses": {
+            "BUDGET_EXHAUSTED": 2,
+            "COMPLETED": 2
+          },
+          "success": 2,
+          "timeouts": 0,
+          "truncations": 0
+        },
+        {
+          "artifact_statuses": {},
+          "artifacts": 0,
+          "calls": 0,
+          "calls_measurement": "RECORDED",
+          "capability": "TRANSCRIPTION",
+          "execution_events": 1257,
+          "failure": 0,
+          "latencies_ms": [],
+          "model": null,
+          "outcome_basis": "EXECUTION_EVENTS",
+          "provider": "PLANNER",
+          "source_method": "OCR",
+          "statuses": {
+            "COMPLETED": 4,
+            "REUSED": 6,
+            "SKIPPED": 1247
+          },
+          "success": 4,
+          "timeouts": 0,
+          "truncations": 0
+        },
+        {
+          "artifact_statuses": {},
+          "artifacts": 0,
+          "calls": 0,
+          "calls_measurement": "RECORDED",
+          "capability": "TRANSCRIPTION",
+          "execution_events": 6,
+          "failure": 2,
+          "latencies_ms": [],
+          "model": null,
+          "outcome_basis": "EXECUTION_EVENTS",
+          "provider": "PLANNER",
+          "source_method": "VISION",
+          "statuses": {
+            "BUDGET_EXHAUSTED": 3,
+            "FAILED": 2,
+            "RETRY_EXHAUSTED": 1
+          },
+          "success": 0,
+          "timeouts": 0,
+          "truncations": 0
+        },
+        {
+          "artifact_statuses": {
+            "COMPLETED": 251,
+            "UNAVAILABLE": 2
+          },
+          "artifacts": 253,
+          "calls": null,
+          "calls_measurement": "NOT_MEASURED",
+          "capability": "TRANSCRIPTION",
+          "execution_events": 0,
+          "failure": 2,
+          "latencies_ms": [],
+          "model": null,
+          "outcome_basis": "PERSISTED_ARTIFACTS",
+          "provider": "PyMuPDF",
+          "source_method": "NATIVE",
+          "statuses": {
+            "COMPLETED": 251,
+            "UNAVAILABLE": 2
+          },
+          "success": 251,
+          "timeouts": 0,
+          "truncations": 0
+        },
+        {
+          "artifact_statuses": {
+            "COMPLETED": 4
+          },
+          "artifacts": 4,
+          "calls": 4,
+          "calls_measurement": "RECORDED",
+          "capability": "TRANSCRIPTION",
+          "execution_events": 4,
+          "failure": 0,
+          "latencies_ms": [
+            980,
+            2150,
+            2285,
+            2431
+          ],
+          "model": null,
+          "outcome_basis": "EXECUTION_EVENTS",
+          "provider": "TESSERACT",
+          "source_method": "OCR",
+          "statuses": {
+            "COMPLETED": 4
+          },
+          "success": 4,
+          "timeouts": 0,
+          "truncations": 0
+        },
+        {
+          "artifact_statuses": {
+            "COMPLETED": 2
+          },
+          "artifacts": 2,
+          "calls": null,
+          "calls_measurement": "NOT_MEASURED",
+          "capability": "STRUCTURE",
+          "execution_events": 0,
+          "failure": 0,
+          "latencies_ms": [
+            30053,
+            35959
+          ],
+          "model": "qwen3-vl:4b-instruct",
+          "outcome_basis": "PERSISTED_ARTIFACTS",
+          "provider": "VISION",
+          "source_method": "VISION",
+          "statuses": {
+            "COMPLETED": 2
+          },
+          "success": 2,
+          "timeouts": 0,
+          "truncations": 0
+        }
+      ],
+      "review_queue": {
+        "by_domain": {
+          "REQUESTED_EVIDENCE": 8,
+          "REQUIREMENTS": 31,
+          "STRUCTURE": 253
+        },
+        "by_reason": {
+          "CURRENT_STRUCTURE_UNTRUSTWORTHY": 253,
+          "DOMAIN_REVIEW_REQUIRED": 8,
+          "FACT_REVIEW_REQUIRED": 31
+        },
+        "documents_affected": 10,
+        "pages_affected": 253,
+        "total": 292
+      },
+      "stale_carry_violations": 0,
+      "versions": {
+        "ACTIVE": 11
+      }
+    },
+    "post_adjudication": {
+      "attribute_unsafe_bindings": null,
+      "critical_identifier_conflicts_correctly_surfaced": null,
+      "quantity_unsafe_bindings": null,
+      "recall": null,
+      "safe_automatic_selections": null,
+      "safe_misses": null,
+      "trusted_correct": null,
+      "trusted_incorrect": null,
+      "unnecessary_review": null,
+      "unsafe_trusted_contractual_errors": null,
+      "unsafe_trusted_structural_errors": null
+    },
+    "schema_version": "DI_BLIND_METRICS_001"
+  },
+  "canonical_selective_metrics": {
+    "native": {
+      "documents_available": 8,
+      "pages_available": 251
+    },
+    "ocr": {
+      "interpretation_states": {
+        "NOT_ATTEMPTED": 257,
+        "UNRESOLVED": 1000
+      },
+      "native_sufficient": 996,
+      "ocr_avoided": 996,
+      "ocr_completed": 10,
+      "ocr_eligible": 10,
+      "ocr_executed": 4,
+      "ocr_execution_unknown": 0,
+      "ocr_failed": 0,
+      "ocr_unavailable": 0,
+      "pages": 253,
+      "perception_states": {
+        "INSUFFICIENT": 10,
+        "SUFFICIENT": 996,
+        "UNKNOWN": 251
+      },
+      "sufficiency_reasons": {
+        "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT": 996,
+        "REQUESTED_REGION_TEXT_NOT_COVERED": 10,
+        "TEXT_TASK_CONTRACT_REQUIRED": 251
+      },
+      "tasks": 1257,
+      "visual_pending": 0
+    },
+    "ocr_budget_exhausted": 0,
+    "ocr_exhausted": 0,
+    "ocr_reused": 6,
+    "ocr_states": {
+      "COMPLETED": 10,
+      "SKIPPED": 1247
+    },
+    "provenance_capabilities": {
+      "('NATIVE', 'STRUCTURE')": 253,
+      "('NATIVE', 'TRANSCRIPTION')": 253,
+      "('OCR', 'STRUCTURE')": 253,
+      "('OCR', 'TRANSCRIPTION')": 253,
+      "('VISION', 'STRUCTURE')": 253,
+      "('VISION', 'TRANSCRIPTION')": 253
+    },
+    "vision": {
+      "avoided": 0,
+      "budget_exhausted": 5,
+      "eligible": 8,
+      "executed": 4,
+      "failures": 2,
+      "interpretation_states": {
+        "AMBIGUOUS": 4,
+        "NOT_ATTEMPTED": 4
+      },
+      "needed": 8,
+      "pending": 8,
+      "perception_states": {
+        "VISUAL_REQUIRED": 8
+      },
+      "retries": 1,
+      "retry_exhausted": 1,
+      "reused": 0,
+      "sufficiency_reasons": {
+        "BOUND_REGION_EVIDENCE_REQUIRED": 8
+      },
+      "tasks": {
+        "DETAIL_TRANSCRIPTION": 6,
+        "STRUCTURE_SCOPE": 4
+      }
+    },
+    "vision_completed": 2,
+    "vision_states": {
+      "BUDGET_EXHAUSTED": 5,
+      "COMPLETED": 2,
+      "FAILED": 2,
+      "RETRY_EXHAUSTED": 1
+    }
+  },
+  "semantic_adjudication": false,
+  "snapshot_errors": [],
+  "import_native": {
+    "tenders": 1,
+    "documents": 11,
+    "document_statuses": {
+      "IMPORTED": 11
+    },
+    "pdf_documents": 10,
+    "unsupported": 1,
+    "native_pages": 253,
+    "page_statuses": {
+      "TEXT_EXTRACTED": 251,
+      "NO_TEXT": 2
+    }
+  },
+  "persisted": {
+    "scope": 0,
+    "attributes": 0,
+    "quantities": 0,
+    "review_required_scope": 0
+  },
+  "child_parent_integrity": {
+    "attributes_without_scope": 0,
+    "quantities_without_scope": 0
+  },
+  "manifests": {
+    "files": 0,
+    "verified": 0,
+    "errors": [],
+    "missing_references": [],
+    "scope_references": 0,
+    "scope_payload_errors": [],
+    "versions": {}
+  },
+  "schema_drift": {
+    "normalization_version": "ALEMBIC_INDEX_DRIFT_001",
+    "current_revision": [
+      "20261013_req_perception_prov_072"
+    ],
+    "head_revision": [
+      "20261013_req_perception_prov_072"
+    ],
+    "difference_count": 59,
+    "signature_sha256": "3abb0337a79b5faf56c2ced30e69d4482c47ab17e7e2fc925156ad59f760dde7",
+    "operations": {
+      "add_index": 55,
+      "remove_index": 4
+    }
+  },
+  "storage": {
+    "schema_version": "BLIND_STORAGE_ROOT_001",
+    "canonical_data_root": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v8_eaca60f950044a40a7e28cdd3e01fa86"
+  },
+  "input_documents_unchanged": true,
+  "persisted_ir_support_blocks": 0,
+  "persisted_table_blocks": 0,
+  "replay": {
+    "basis": "POST_FREEZE_READ_ONLY_PRODUCTION_RECONSTRUCTION_NOT_HISTORICAL_COUNTER",
+    "sources": {
+      "NATIVE": 251,
+      "OCR": 4,
+      "VISION_STRUCTURE_ONLY_EXCLUDED": 2
+    },
+    "blocks": 0,
+    "table_derived_blocks": 0,
+    "positive_item_identity": 0,
+    "multiline_blocks": 0,
+    "ambiguous_blocks": 0,
+    "relations": {},
+    "provisional_attribute_fields": 0,
+    "provisional_quantity_pairs": 0,
+    "errors": []
+  },
+  "table_bridge_historical_counters": {
+    "pages_evaluated": "NOT_DIRECTLY_MEASURABLE",
+    "ruled_tables_detected": "NOT_DIRECTLY_MEASURABLE",
+    "tables_rejected_ambiguous": "NOT_DIRECTLY_MEASURABLE",
+    "rows_reconstructed_total_instantiations": "NOT_DIRECTLY_MEASURABLE",
+    "scope_candidates_created": "NOT_DIRECTLY_MEASURABLE",
+    "grounding_accepted": "NOT_DIRECTLY_MEASURABLE",
+    "grounding_rejected": "NOT_DIRECTLY_MEASURABLE",
+    "reconciled_candidates": "NOT_DIRECTLY_MEASURABLE",
+    "provisional_attributes_total": "NOT_DIRECTLY_MEASURABLE",
+    "provisional_quantities_total": "NOT_DIRECTLY_MEASURABLE",
+    "child_ownership_rejections": "NOT_DIRECTLY_MEASURABLE",
+    "blocks_rejected": "NOT_DIRECTLY_MEASURABLE",
+    "evidence": "No historical per-table/candidate counters are persisted by the committed harness. Manifests measure retained proofs; replay measures final-state reconstruction only."
+  },
+  "provider_execution": {
+    "OCR": {
+      "calls": 4,
+      "pages": 4,
+      "tasks": 4,
+      "statuses": {
+        "COMPLETED": 4
+      },
+      "task_types": {
+        "TEXT": 4
+      }
+    },
+    "VISION": {
+      "calls": 4,
+      "pages": 2,
+      "tasks": 3,
+      "statuses": {
+        "COMPLETED": 2,
+        "FAILED": 2
+      },
+      "task_types": {
+        "STRUCTURE_SCOPE": 2,
+        "DETAIL_TRANSCRIPTION": 2
+      }
+    }
+  },
+  "safety": {
+    "provider_violations": [],
+    "guard_rejections": 0,
+    "interpretation_unresolved_sufficient_no_escalation": 996,
+    "calls_from_sufficient": 0
+  },
+  "historical_integrity": {
+    "checked": 3056,
+    "changed": []
+  },
+  "root_manifest_unchanged": true
+}

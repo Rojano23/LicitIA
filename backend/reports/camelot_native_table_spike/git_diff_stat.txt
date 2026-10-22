@@ -1,0 +1,7 @@
+ backend/app/blind_selective_freeze.py        |  6 +++++-
+ backend/app/native_table_relationships.py    | 26 +++++++++++++++-------
+ backend/app/structured_evidence.py           |  3 ++-
+ backend/app/structured_evidence_grounding.py | 32 ++++++++++++++++++++++------
+ backend/pyproject.toml                       |  1 +
+ backend/requirements.txt                     |  1 +
+ 6 files changed, 53 insertions(+), 16 deletions(-)

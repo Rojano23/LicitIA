@@ -1,0 +1,22 @@
+{
+  "page": "BASES_P41",
+  "tool": "camelot",
+  "configuration": "lattice_raster",
+  "parameters": {
+    "flavor": "lattice",
+    "engine": "raster"
+  },
+  "repeat_seconds": [
+    0.26274454200756736,
+    0.2901000000128988
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 532873216,
+  "warnings": [],
+  "errors": [],
+  "tables": [],
+  "repeat_structure_sha256": [
+    "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  ]
+}

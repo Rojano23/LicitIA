@@ -1,0 +1,25 @@
+2026-10-21 16:26:59 -0600 
+Assertion status system-wide:
+   BackgroundTask                 0
+   PreventDiskIdle                1
+   ApplePushServiceTask           0
+   UserIsActive                   1
+   PreventUserIdleDisplaySleep    0
+   PreventSystemSleep             0
+   ExternalMedia                  0
+   PreventUserIdleSystemSleep     1
+   NetworkClientActive            0
+Listed by owning process:
+   pid 159(WindowServer): [0x0002ebb600099e0b] 00:00:28 UserIsActive named: "com.apple.iohideventsystem.queue.tickle serviceID:1000452f6 service:AppleMultitouchDevice product:Apple Internal Keyboard / Trackpad eventType:11"  
+	Timeout will fire in 272 secs Action=TimeoutActionRelease
+   pid 52678(caffeinate): [0x0002f09a00019e71] 00:15:32 PreventUserIdleSystemSleep named: "caffeinate command-line tool"  
+	Details: caffeinate asserting forever
+	Localized=THE CAFFEINATE TOOL IS PREVENTING SLEEP.
+   pid 52678(caffeinate): [0x0002f09a00079e72] 00:15:32 PreventSystemSleep named: "caffeinate command-line tool"  
+	Details: caffeinate asserting forever
+	Localized=THE CAFFEINATE TOOL IS PREVENTING SLEEP.
+   pid 52678(caffeinate): [0x0002f09a000f9e73] 00:15:32 PreventDiskIdle named: "caffeinate command-line tool"  
+	Details: caffeinate asserting forever
+	Localized=THE CAFFEINATE TOOL IS PREVENTING SLEEP.
+   pid 103(powerd): [0x0002ebb600019e0c] 00:36:25 PreventUserIdleSystemSleep named: "Powerd - Prevent sleep while display is on"  
+No kernel assertions.

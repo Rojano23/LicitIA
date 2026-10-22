@@ -1,0 +1,1119 @@
+{
+  "summary": {
+    "active_text_sources": 255,
+    "ir_blocks": 0,
+    "legacy_candidates": 0,
+    "native_ocr_sources_with_geometry": 0,
+    "native_normalization_preserves_nonempty_line_count": true,
+    "sampled_page_tasks": 60,
+    "sampled_pages": 15,
+    "sample_classes": {
+      "correct avoidance": 46,
+      "interpretation limitation": 13,
+      "ambiguous": 1
+    },
+    "method": "Directed shape/document strata, not random; frozen plan identities matched; no global precision estimate",
+    "known_structure_safety": [
+      {
+        "label": "D01",
+        "page": 13,
+        "source_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "state": "REVIEW_REQUIRED",
+        "continuity": "UNKNOWN",
+        "outgoing_item_key": null,
+        "visual_adjudication": "Navigation/questionnaire, not procurement items"
+      },
+      {
+        "label": "D03",
+        "page": 12,
+        "source_sha256": "7e4b94ae3130c1e1e46e1bc4ad89040a3d68351ab25b88c633a7c62bcd138670",
+        "state": "REVIEW_REQUIRED",
+        "continuity": "UNKNOWN",
+        "outgoing_item_key": null,
+        "visual_adjudication": "Navigation/questionnaire, not procurement items"
+      }
+    ]
+  },
+  "records": [
+    {
+      "document_label": "D06",
+      "page": 1,
+      "task": "SCOPE",
+      "plan": "c36014ea0337cf6ac07ab937b7fa5edc73b7c69ccb61648bdf987c790a01957f",
+      "event_id": "guard-1182",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D06",
+      "page": 1,
+      "task": "ATTRIBUTES",
+      "plan": "51a50ebaae175579c7558d73a52be950907d8680ae316c1c106b56533599d1c0",
+      "event_id": "guard-1183",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D06",
+      "page": 1,
+      "task": "QUANTITIES",
+      "plan": "50b05d3e1bb9136c0332afa09756b10f9c48650dd998720466696a041bf195d6",
+      "event_id": "guard-1184",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D06",
+      "page": 1,
+      "task": "STRUCTURE",
+      "plan": "861d44147db6b4ccad4f4cbfa81aeac4a365c684d968242f44683db4a7737fd1",
+      "event_id": "guard-1181",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 13,
+      "task": "SCOPE",
+      "plan": "5ca99f5a102940f3243ba8a7bb3a3034b97912d308a62bdf411029f1206b9e20",
+      "event_id": "guard-545",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 13,
+      "task": "ATTRIBUTES",
+      "plan": "3f1c4741300b0c77697b5a4de0e081bc22ceba79b5322f6c4bcbe1d101d972ca",
+      "event_id": "guard-546",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 13,
+      "task": "QUANTITIES",
+      "plan": "c6e6d37566d1fa2430b1c578990a5828ddeda997ed4b88a9106eb4805b91cc1c",
+      "event_id": "guard-547",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 13,
+      "task": "STRUCTURE",
+      "plan": "b448b5736bf8a56010805b8d76f2b65b528fa55c9c3171f6fde9bc9559a46e3f",
+      "event_id": "guard-544",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 15,
+      "task": "SCOPE",
+      "plan": "b749b286d7b18919586852e198fec9001d45652c03a1b3bb2fe69bbbef231ca9",
+      "event_id": "guard-555",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Condiciones globales explícitas disponibles; faltan contratos de interpretación/owner, no texto."
+    },
+    {
+      "document_label": "D01",
+      "page": 15,
+      "task": "ATTRIBUTES",
+      "plan": "f1f26500ef7ce04f74b83e63bb0b65f0c17a5f2c448b55a4ff73bd191b739c4f",
+      "event_id": "guard-556",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Condiciones globales explícitas disponibles; faltan contratos de interpretación/owner, no texto."
+    },
+    {
+      "document_label": "D01",
+      "page": 15,
+      "task": "QUANTITIES",
+      "plan": "4f0935122b2fdf16afd2a05196168237ed59f1f962c928338db9f7ae3fcaf6a8",
+      "event_id": "guard-557",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 15,
+      "task": "STRUCTURE",
+      "plan": "a38707f97f85ac684bdf56484513cf1ad56c05fcbf14c979aced273f612497c7",
+      "event_id": "guard-554",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 41,
+      "task": "SCOPE",
+      "plan": "16a7bbb214b6e88fa57aa349ac74b892ea71419ed52374f3c193fcfafe6eae9e",
+      "event_id": "guard-685",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 41,
+      "task": "ATTRIBUTES",
+      "plan": "ed8d906606ce67a46d30024b22df454e2bc6d0c6eb6c614d78d6d6499493a6e0",
+      "event_id": "guard-686",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 41,
+      "task": "QUANTITIES",
+      "plan": "473691131fbc12a701190272f15ca46c0b329e5e1e4ead442fc6f27d8c6c3a90",
+      "event_id": "guard-687",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 41,
+      "task": "STRUCTURE",
+      "plan": "f7ba7ac9f4dab147864134ac99b73b545de188242b2829b64f230c9d2e79fc7d",
+      "event_id": "guard-684",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 51,
+      "task": "SCOPE",
+      "plan": "39b486a609bb2511adb12250d0f34a3aa9e51be9c0393ae021eaa5ad7fba2d88",
+      "event_id": "guard-735",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 51,
+      "task": "ATTRIBUTES",
+      "plan": "80ea9c74df68d05d60cdded3a7855c8fec05596d3f42768180692d93bf1232da",
+      "event_id": "guard-736",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 51,
+      "task": "QUANTITIES",
+      "plan": "dd77cb58257f98613a0b75dce2775d32e7dfbe4e14ba016d6d3593f464f4da27",
+      "event_id": "guard-737",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 51,
+      "task": "STRUCTURE",
+      "plan": "cf8514aa17e8ef4c9c001a455fd1240c622636b068545e0ae28896a37bc65bac",
+      "event_id": "guard-734",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 52,
+      "task": "SCOPE",
+      "plan": "164cf43e45298699030dd6285fbcee7db231a9a7e7feab33977006b2541abd4c",
+      "event_id": "guard-740",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 52,
+      "task": "ATTRIBUTES",
+      "plan": "f8d725159201e13ba187cc35bf74fd10152114abb65e6c601d8a9b84876dd8b5",
+      "event_id": "guard-741",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 52,
+      "task": "QUANTITIES",
+      "plan": "9e0d30f2e6f26ada743dcfc3e5e7565dfff23ba37718120b4a3c883fde329336",
+      "event_id": "guard-742",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 52,
+      "task": "STRUCTURE",
+      "plan": "d40b9c96bcec5288b8ba85df912111ffd05a71d2976ca7eed06d8d7025362be5",
+      "event_id": "guard-739",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 89,
+      "task": "SCOPE",
+      "plan": "5a689f9ffa6e2bdfafcb634db9ce33f29545d54c442ba6ffca516b76997a4a51",
+      "event_id": "guard-925",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 89,
+      "task": "ATTRIBUTES",
+      "plan": "3e017621881476f9e49d18c4dd830b0db0a039038e9cb2f2aec9be12f239fcfd",
+      "event_id": "guard-926",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 89,
+      "task": "QUANTITIES",
+      "plan": "bba83bdd146442b93bfe169d3a2f4bd99c48ce23e2f44439c988e4d4783f387d",
+      "event_id": "guard-927",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 89,
+      "task": "STRUCTURE",
+      "plan": "e35e9f5b309bfdf5c850a559b8d3481f24fa6fe90a48534567408455d5d64a37",
+      "event_id": "guard-924",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 96,
+      "task": "SCOPE",
+      "plan": "d524bb3533a7530d0ad3fb6e3da4898629cfb3ecbb691a1ba8a66f80588b5404",
+      "event_id": "guard-960",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 96,
+      "task": "ATTRIBUTES",
+      "plan": "5f4e5e341c863acf6717498f9ee1a8dbf8c6fab93794fd41dd27a433d91f3048",
+      "event_id": "guard-961",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 96,
+      "task": "QUANTITIES",
+      "plan": "288e587a438d38fd6838281f9c6b77fb3d77e64007690fb798cd8301e28e43fc",
+      "event_id": "guard-962",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D01",
+      "page": 96,
+      "task": "STRUCTURE",
+      "plan": "dd7475bf15b8a77a864e1f0af82856bd86e90df1be2142c442f2cd9da297bc2e",
+      "event_id": "guard-959",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D09",
+      "page": 1,
+      "task": "SCOPE",
+      "plan": "3b2ce58407365e2cc899600c03e89d19184823b2e732854c7de9835074c6e13b",
+      "event_id": "guard-1197",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Contenido material legible, pero formato/celda/referencia/prosa no admitidos por el reconstructor; OCR adicional no establece por sí solo ownership."
+    },
+    {
+      "document_label": "D09",
+      "page": 1,
+      "task": "ATTRIBUTES",
+      "plan": "e5edddffb2fa6693964e757d7efeb41ffe05a39e3b88925d13a10fd2087c74f5",
+      "event_id": "guard-1198",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Contenido material legible, pero formato/celda/referencia/prosa no admitidos por el reconstructor; OCR adicional no establece por sí solo ownership."
+    },
+    {
+      "document_label": "D09",
+      "page": 1,
+      "task": "QUANTITIES",
+      "plan": "0dd3c30b2c0c2ae0fc6ede9253455c0142db657b34963612cf7f3f2ee555eed6",
+      "event_id": "guard-1199",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Contenido material legible, pero formato/celda/referencia/prosa no admitidos por el reconstructor; OCR adicional no establece por sí solo ownership."
+    },
+    {
+      "document_label": "D09",
+      "page": 1,
+      "task": "STRUCTURE",
+      "plan": "1a28f9f37bb9549481ea6358f3bf5bf955a092d06ed0b18aa66bbd872acf0900",
+      "event_id": "guard-1196",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "ambiguous",
+      "note": "Texto de celdas recuperado, relación por fila no representada; no certificar suficiencia espacial, ni exigir OCR sólo por parser. La geometría original ofrece vía determinista fuera del contrato actual."
+    },
+    {
+      "document_label": "D09",
+      "page": 2,
+      "task": "SCOPE",
+      "plan": "3d03b17516ac2668afc0859ebae811374fc203054b2f37cbf0a1df974803b7e7",
+      "event_id": "guard-1202",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Contenido material legible, pero formato/celda/referencia/prosa no admitidos por el reconstructor; OCR adicional no establece por sí solo ownership."
+    },
+    {
+      "document_label": "D09",
+      "page": 2,
+      "task": "ATTRIBUTES",
+      "plan": "d42d71554182d1b619d459294d95584cc9db82e4b74043c062ee36e74d6213c5",
+      "event_id": "guard-1203",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Contenido material legible, pero formato/celda/referencia/prosa no admitidos por el reconstructor; OCR adicional no establece por sí solo ownership."
+    },
+    {
+      "document_label": "D09",
+      "page": 2,
+      "task": "QUANTITIES",
+      "plan": "8751b2ae287de07be4fcbf3c2303d6eae16ebbf7a3d33537394755e118200f48",
+      "event_id": "guard-1204",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Contenido material legible, pero formato/celda/referencia/prosa no admitidos por el reconstructor; OCR adicional no establece por sí solo ownership."
+    },
+    {
+      "document_label": "D09",
+      "page": 2,
+      "task": "STRUCTURE",
+      "plan": "30a1d780151ed2d27ddd22b2a076679e91b44f27ad31dcdede1670fe46268540",
+      "event_id": "guard-1201",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D09",
+      "page": 3,
+      "task": "SCOPE",
+      "plan": "3862a67763004068d602dfa5b0243fd3d66249f4fb087ee5b69e7ef87e40ead0",
+      "event_id": "guard-1207",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Contenido material legible, pero formato/celda/referencia/prosa no admitidos por el reconstructor; OCR adicional no establece por sí solo ownership."
+    },
+    {
+      "document_label": "D09",
+      "page": 3,
+      "task": "ATTRIBUTES",
+      "plan": "7ebd4f8211889c7e294b6d5c2f586505d0f8f2f6926bd719017a1ed42fe811a4",
+      "event_id": "guard-1208",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Contenido material legible, pero formato/celda/referencia/prosa no admitidos por el reconstructor; OCR adicional no establece por sí solo ownership."
+    },
+    {
+      "document_label": "D09",
+      "page": 3,
+      "task": "QUANTITIES",
+      "plan": "0bb9bf65e54995ff3139e74aeeb1e0cf0d29cd137ae5e902b9a223f2c13093d0",
+      "event_id": "guard-1209",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Contenido material legible, pero formato/celda/referencia/prosa no admitidos por el reconstructor; OCR adicional no establece por sí solo ownership."
+    },
+    {
+      "document_label": "D09",
+      "page": 3,
+      "task": "STRUCTURE",
+      "plan": "6ffcacefa77cf62a82975d7ad9b197be9d45db1ba8e24cb3a1d040c4395e84bb",
+      "event_id": "guard-1206",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D09",
+      "page": 4,
+      "task": "SCOPE",
+      "plan": "01824db991f07a188894ee16752239340665afc825f5c1ec61325ea3642309f5",
+      "event_id": "guard-1212",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Contenido material legible, pero formato/celda/referencia/prosa no admitidos por el reconstructor; OCR adicional no establece por sí solo ownership."
+    },
+    {
+      "document_label": "D09",
+      "page": 4,
+      "task": "ATTRIBUTES",
+      "plan": "75360eff941a5308b2b4e4568453ab4bd6e4ffc627bd992f732c5b4f3a1114e7",
+      "event_id": "guard-1213",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D09",
+      "page": 4,
+      "task": "QUANTITIES",
+      "plan": "1595a0f765fda883f0c90fd4f7349a0441bf13d2a6f1da609a8fb3dc538bbb51",
+      "event_id": "guard-1214",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "interpretation limitation",
+      "note": "Contenido material legible, pero formato/celda/referencia/prosa no admitidos por el reconstructor; OCR adicional no establece por sí solo ownership."
+    },
+    {
+      "document_label": "D09",
+      "page": 4,
+      "task": "STRUCTURE",
+      "plan": "c54fb055c0ff284f5a6e24408f0c9625ec3877c5f4d08bcf2cfbfc6ddbe9b797",
+      "event_id": "guard-1211",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D03",
+      "page": 12,
+      "task": "SCOPE",
+      "plan": "6177fe0855f9e6fe3b706f36020533c6eb7350fbe98d39772225aa5faea07ff8",
+      "event_id": "guard-1137",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D03",
+      "page": 12,
+      "task": "ATTRIBUTES",
+      "plan": "c27f1256bd2dc2c1a7f045d1713cce6004a1b617e9f113542be4f503d90989da",
+      "event_id": "guard-1138",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D03",
+      "page": 12,
+      "task": "QUANTITIES",
+      "plan": "2217e0bf393159949457ff1c2b5d8da6bfe999014caddc25b442b077fb190c9f",
+      "event_id": "guard-1139",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D03",
+      "page": 12,
+      "task": "STRUCTURE",
+      "plan": "b86d3857ba10e491251f78c52d55823352b6a0c76de689c137f6f8b021a12f14",
+      "event_id": "guard-1136",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D10",
+      "page": 1,
+      "task": "SCOPE",
+      "plan": "d08c5ca864d4d1626b299b3a8fed0906c2a77134723f2a07bb7abc686e84f703",
+      "event_id": "guard-1222",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D10",
+      "page": 1,
+      "task": "ATTRIBUTES",
+      "plan": "e7a0d04e5258da170f14f614745c8b6d00de95e93976f9f08c9bcdd0e3d8125f",
+      "event_id": "guard-1223",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D10",
+      "page": 1,
+      "task": "QUANTITIES",
+      "plan": "068c4c92e5ccb5914cb9269727c8ead1b67f7aa32c004d382697c552ed736169",
+      "event_id": "guard-1224",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D10",
+      "page": 1,
+      "task": "STRUCTURE",
+      "plan": "dd45fc76e754728302a275a67aecc9600458f652e7183177979a08c37e95782d",
+      "event_id": "guard-1221",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D05",
+      "page": 54,
+      "task": "SCOPE",
+      "plan": "c7f52eeefa1ffcd8a37f027d94a1fa47a969c769bf4c247047ebc161e5c19989",
+      "event_id": "guard-475",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D05",
+      "page": 54,
+      "task": "ATTRIBUTES",
+      "plan": "315e19c2f06fe7154ee4b905067be94c2d25a16289710a886e812140fdd0bc58",
+      "event_id": "guard-476",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D05",
+      "page": 54,
+      "task": "QUANTITIES",
+      "plan": "61dc27cb70deef82871fc4d932c2096e8e6edfa34988bc5e33b8d61fc00152d8",
+      "event_id": "guard-477",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "INTERPRETATION_UNRESOLVED_OR_UNSUPPORTED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    },
+    {
+      "document_label": "D05",
+      "page": 54,
+      "task": "STRUCTURE",
+      "plan": "d49f9b9782a2effa8b55bec499d6045695aaceeaf98584cd45a4e59d7c97c927",
+      "event_id": "guard-474",
+      "perception": {
+        "state": "SUFFICIENT",
+        "reason": "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT",
+        "source_method": "NATIVE"
+      },
+      "interpretation": {
+        "state": "UNRESOLVED",
+        "reason": "STRUCTURE_INTERPRETATION_UNRESOLVED"
+      },
+      "classification": "correct avoidance",
+      "note": "Texto legible suficiente para intentar esta tarea; contexto/índice/formato no justifica nueva adquisición por falta de candidato."
+    }
+  ]
+}

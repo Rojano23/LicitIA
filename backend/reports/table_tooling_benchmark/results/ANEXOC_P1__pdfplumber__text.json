@@ -1,0 +1,22 @@
+{
+  "page": "ANEXOC_P1",
+  "tool": "pdfplumber",
+  "configuration": "text",
+  "parameters": {
+    "vertical_strategy": "text",
+    "horizontal_strategy": "text"
+  },
+  "repeat_seconds": [
+    0.000740250019589439,
+    0.0007216660014819354
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 532873216,
+  "warnings": [],
+  "errors": [],
+  "tables": [],
+  "repeat_structure_sha256": [
+    "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  ]
+}

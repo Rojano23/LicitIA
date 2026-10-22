@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "expected": 11,
+  "imported_count": 11,
+  "exact_identity_match": true,
+  "all_originals_inside_root": true,
+  "hidden_original_present": true,
+  "baseline": "Attempt4 immutable input binding",
+  "binding_created_at_gate": false
+}

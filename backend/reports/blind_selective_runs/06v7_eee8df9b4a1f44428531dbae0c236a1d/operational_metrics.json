@@ -1,0 +1,370 @@
+{
+  "run_id": "06v7_eee8df9b4a1f44428531dbae0c236a1d",
+  "first_pass_sha256": "90196c185f2083d3136c8c391048feebbf215d11355c563518ba06713b735fe2",
+  "selective_metrics": {
+    "native": {
+      "documents_available": 8,
+      "pages_available": 251
+    },
+    "ocr": {
+      "interpretation_states": {
+        "NOT_ATTEMPTED": 257,
+        "UNRESOLVED": 1000
+      },
+      "native_sufficient": 996,
+      "ocr_avoided": 996,
+      "ocr_completed": 10,
+      "ocr_eligible": 10,
+      "ocr_executed": 4,
+      "ocr_execution_unknown": 0,
+      "ocr_failed": 0,
+      "ocr_unavailable": 0,
+      "pages": 253,
+      "perception_states": {
+        "INSUFFICIENT": 10,
+        "SUFFICIENT": 996,
+        "UNKNOWN": 251
+      },
+      "sufficiency_reasons": {
+        "CANONICAL_TEXT_READABLE_FOR_TASK_ATTEMPT": 996,
+        "REQUESTED_REGION_TEXT_NOT_COVERED": 10,
+        "TEXT_TASK_CONTRACT_REQUIRED": 251
+      },
+      "tasks": 1257,
+      "visual_pending": 0
+    },
+    "ocr_budget_exhausted": 0,
+    "ocr_exhausted": 0,
+    "ocr_reused": 6,
+    "ocr_states": {
+      "COMPLETED": 10,
+      "SKIPPED": 1247
+    },
+    "provenance_capabilities": {
+      "('NATIVE', 'STRUCTURE')": 253,
+      "('NATIVE', 'TRANSCRIPTION')": 253,
+      "('OCR', 'STRUCTURE')": 253,
+      "('OCR', 'TRANSCRIPTION')": 253,
+      "('VISION', 'STRUCTURE')": 253,
+      "('VISION', 'TRANSCRIPTION')": 253
+    },
+    "vision": {
+      "avoided": 0,
+      "budget_exhausted": 5,
+      "eligible": 8,
+      "executed": 4,
+      "failures": 2,
+      "interpretation_states": {
+        "AMBIGUOUS": 4,
+        "NOT_ATTEMPTED": 4
+      },
+      "needed": 8,
+      "pending": 8,
+      "perception_states": {
+        "VISUAL_REQUIRED": 8
+      },
+      "retries": 1,
+      "retry_exhausted": 1,
+      "reused": 0,
+      "sufficiency_reasons": {
+        "BOUND_REGION_EVIDENCE_REQUIRED": 8
+      },
+      "tasks": {
+        "DETAIL_TRANSCRIPTION": 6,
+        "STRUCTURE_SCOPE": 4
+      }
+    },
+    "vision_completed": 2,
+    "vision_states": {
+      "BUDGET_EXHAUSTED": 5,
+      "COMPLETED": 2,
+      "FAILED": 2,
+      "RETRY_EXHAUSTED": 1
+    }
+  },
+  "domain_counts": {
+    "ATTRIBUTES": {
+      "discovered": 0,
+      "rejected": 0,
+      "review_required": 0,
+      "review_required_rate": null,
+      "total": 0,
+      "trusted": 0,
+      "trusted_automatic_rate_unadjudicated": null,
+      "trusted_automatic_unadjudicated": 0,
+      "unavailable": 0,
+      "unavailable_rate": null,
+      "unresolved_binding": 0
+    },
+    "DOCUMENTS": {
+      "discovered": 11,
+      "rejected": 0,
+      "review_required": 0,
+      "review_required_rate": 0.0,
+      "total": 11,
+      "trusted": 8,
+      "trusted_automatic_rate_unadjudicated": 0.0,
+      "trusted_automatic_unadjudicated": 0,
+      "unavailable": 3,
+      "unavailable_rate": 0.2727272727272727,
+      "unresolved_binding": 0
+    },
+    "EFFECTS": {
+      "discovered": 0,
+      "rejected": 0,
+      "review_required": 0,
+      "review_required_rate": null,
+      "total": 0,
+      "trusted": 0,
+      "trusted_automatic_rate_unadjudicated": null,
+      "trusted_automatic_unadjudicated": 0,
+      "unavailable": 0,
+      "unavailable_rate": null,
+      "unresolved_binding": 0
+    },
+    "QUANTITIES": {
+      "discovered": 0,
+      "rejected": 0,
+      "review_required": 0,
+      "review_required_rate": null,
+      "total": 0,
+      "trusted": 0,
+      "trusted_automatic_rate_unadjudicated": null,
+      "trusted_automatic_unadjudicated": 0,
+      "unavailable": 0,
+      "unavailable_rate": null,
+      "unresolved_binding": 0
+    },
+    "REQUESTED_EVIDENCE": {
+      "discovered": 8,
+      "rejected": 0,
+      "review_required": 8,
+      "review_required_rate": 1.0,
+      "total": 8,
+      "trusted": 0,
+      "trusted_automatic_rate_unadjudicated": 0.0,
+      "trusted_automatic_unadjudicated": 0,
+      "unavailable": 0,
+      "unavailable_rate": 0.0,
+      "unresolved_binding": 0
+    },
+    "REQUIREMENTS": {
+      "discovered": 31,
+      "rejected": 0,
+      "review_required": 31,
+      "review_required_rate": 1.0,
+      "total": 31,
+      "trusted": 0,
+      "trusted_automatic_rate_unadjudicated": 0.0,
+      "trusted_automatic_unadjudicated": 0,
+      "unavailable": 0,
+      "unavailable_rate": 0.0,
+      "unresolved_binding": 0
+    },
+    "SCOPE": {
+      "discovered": 0,
+      "rejected": 0,
+      "review_required": 0,
+      "review_required_rate": null,
+      "total": 0,
+      "trusted": 0,
+      "trusted_automatic_rate_unadjudicated": null,
+      "trusted_automatic_unadjudicated": 0,
+      "unavailable": 0,
+      "unavailable_rate": null,
+      "unresolved_binding": 0
+    },
+    "STRUCTURE": {
+      "discovered": 253,
+      "rejected": 0,
+      "review_required": 253,
+      "review_required_rate": 1.0,
+      "total": 253,
+      "trusted": 0,
+      "trusted_automatic_rate_unadjudicated": 0.0,
+      "trusted_automatic_unadjudicated": 0,
+      "unavailable": 0,
+      "unavailable_rate": 0.0,
+      "unresolved_binding": 0
+    },
+    "VERSIONS": {
+      "discovered": 11,
+      "rejected": 0,
+      "review_required": 0,
+      "review_required_rate": 0.0,
+      "total": 11,
+      "trusted": 11,
+      "trusted_automatic_rate_unadjudicated": 0.0,
+      "trusted_automatic_unadjudicated": 0,
+      "unavailable": 0,
+      "unavailable_rate": 0.0,
+      "unresolved_binding": 0
+    }
+  },
+  "discovery_counts": {
+    "rejected_requirement_candidates": 0,
+    "requirement_candidates": 43
+  },
+  "versions": {
+    "ACTIVE": 11
+  },
+  "review_queue": {
+    "by_domain": {
+      "REQUESTED_EVIDENCE": 8,
+      "REQUIREMENTS": 31,
+      "STRUCTURE": 253
+    },
+    "by_reason": {
+      "CURRENT_STRUCTURE_UNTRUSTWORTHY": 253,
+      "DOMAIN_REVIEW_REQUIRED": 8,
+      "FACT_REVIEW_REQUIRED": 31
+    },
+    "documents_affected": 10,
+    "pages_affected": 253,
+    "total": 292
+  },
+  "conflicts": 2,
+  "stale_carry": 0,
+  "perception_availability": [
+    {
+      "capability": "STRUCTURE",
+      "channel": "NATIVE",
+      "count": 251,
+      "status": "REVIEW_REQUIRED"
+    },
+    {
+      "capability": "STRUCTURE",
+      "channel": "NATIVE",
+      "count": 2,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "capability": "TRANSCRIPTION",
+      "channel": "NATIVE",
+      "count": 251,
+      "status": "REVIEW_REQUIRED"
+    },
+    {
+      "capability": "TRANSCRIPTION",
+      "channel": "NATIVE",
+      "count": 2,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "capability": "STRUCTURE",
+      "channel": "OCR",
+      "count": 4,
+      "status": "REVIEW_REQUIRED"
+    },
+    {
+      "capability": "STRUCTURE",
+      "channel": "OCR",
+      "count": 249,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "capability": "TRANSCRIPTION",
+      "channel": "OCR",
+      "count": 4,
+      "status": "REVIEW_REQUIRED"
+    },
+    {
+      "capability": "TRANSCRIPTION",
+      "channel": "OCR",
+      "count": 249,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "capability": "STRUCTURE",
+      "channel": "VISION",
+      "count": 2,
+      "status": "REVIEW_REQUIRED"
+    },
+    {
+      "capability": "STRUCTURE",
+      "channel": "VISION",
+      "count": 251,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "capability": "TRANSCRIPTION",
+      "channel": "VISION",
+      "count": 253,
+      "status": "UNAVAILABLE"
+    }
+  ],
+  "execution_calls": {
+    "OCR": 4,
+    "VISION": 4
+  },
+  "call_states": {
+    "OCR:COMPLETED": 4,
+    "VISION:COMPLETED": 2,
+    "VISION:FAILED": 2
+  },
+  "decisions_by_assessment": [
+    [
+      "OCR",
+      "NATIVE",
+      "INSUFFICIENT",
+      10
+    ],
+    [
+      "OCR",
+      "NATIVE",
+      "SUFFICIENT",
+      996
+    ],
+    [
+      "OCR",
+      "NATIVE",
+      "UNKNOWN",
+      251
+    ],
+    [
+      "VISION",
+      "NATIVE",
+      "VISUAL_REQUIRED",
+      10
+    ]
+  ],
+  "decisions_by_pair": [
+    [
+      "OCR",
+      "INSUFFICIENT",
+      "NOT_ATTEMPTED",
+      6
+    ],
+    [
+      "OCR",
+      "INSUFFICIENT",
+      "UNRESOLVED",
+      4
+    ],
+    [
+      "OCR",
+      "SUFFICIENT",
+      "UNRESOLVED",
+      996
+    ],
+    [
+      "OCR",
+      "UNKNOWN",
+      "NOT_ATTEMPTED",
+      251
+    ],
+    [
+      "VISION",
+      "VISUAL_REQUIRED",
+      "AMBIGUOUS",
+      4
+    ],
+    [
+      "VISION",
+      "VISUAL_REQUIRED",
+      "NOT_ATTEMPTED",
+      6
+    ]
+  ],
+  "runtime_files": 30
+}

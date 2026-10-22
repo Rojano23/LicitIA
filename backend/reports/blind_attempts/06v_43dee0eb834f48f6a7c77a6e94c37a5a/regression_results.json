@@ -1,0 +1,51 @@
+[
+  {
+    "check": "focused",
+    "command": [
+      "/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_document_preparation_recovery.py",
+      "tests/test_documents.py",
+      "tests/test_document_intelligence.py",
+      "tests/test_document_structure_orchestrator.py",
+      "tests/test_document_intelligence_06v_preflight.py",
+      "tests/test_document_intelligence_integration.py",
+      "-m",
+      "not local_ollama",
+      "-q"
+    ],
+    "exit_code": 0,
+    "log_sha256": "9a3cd0e5fea32643938dddc7fd1f4bc0222437b5d2946d2a3f72574b30967d42",
+    "summary": "280 passed, 1 deselected, 7 warnings in 15.90s"
+  },
+  {
+    "check": "full",
+    "command": [
+      "/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python",
+      "-m",
+      "pytest",
+      "-m",
+      "not local_ollama",
+      "-q"
+    ],
+    "exit_code": 0,
+    "log_sha256": "00cfa0894890a9b821fed6b581de0a04d333fadcc2f839a97cd3e5575c271274",
+    "summary": "1729 passed, 1 deselected, 7 warnings in 98.78s (0:01:38)"
+  },
+  {
+    "check": "compileall",
+    "command": [
+      "/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python",
+      "-m",
+      "compileall",
+      "-q",
+      "/Users/ceciliavalencia/LiticIA/backend/app",
+      "/Users/ceciliavalencia/LiticIA/backend/scripts",
+      "/Users/ceciliavalencia/LiticIA/backend/tests"
+    ],
+    "exit_code": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "summary": null
+  }
+]

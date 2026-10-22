@@ -90,3 +90,35 @@ it("keeps failed processing visible after a process request fails", async () => 
   expect(await screen.findByRole("alert")).toHaveTextContent("No se pudo completar");
   expect(screen.getByText(/Falló el procesamiento/)).toBeInTheDocument();
 });
+
+it("offers explicit safe retry after recovery verification and submits the server fingerprint", async () => {
+  const { recoveryApi } = await import("../api/workspace");
+  vi.spyOn(recoveryApi, "read").mockResolvedValue({ eligible: true, fingerprint: "identity", reasons: [], effect: "REUSE_AVAILABLE_EVIDENCE", previous_results_preserved: true, provider_acquisition: false, provider_degraded: true });
+  vi.spyOn(recoveryApi, "retry").mockResolvedValue(data);
+  render(<WorkspaceFlow {...props} />);
+  await screen.findByText("Completado con revisión requerida");
+  fireEvent.click(screen.getByRole("button", { name: "Verificar recuperación" }));
+  const retry = await screen.findByRole("button", { name: "Reintentar de forma segura" });
+  expect(screen.getByText(/Se conserva la evidencia determinista válida/)).toBeInTheDocument();
+  expect(recoveryApi.retry).not.toHaveBeenCalled();
+  fireEvent.click(retry);
+  await waitFor(() => expect(recoveryApi.retry).toHaveBeenCalledWith(props.apiUrl, props.tenderId, "identity"));
+});
+it("keeps unsafe recovery blocked and preserves the diagnostic", async () => {
+  const { recoveryApi } = await import("../api/workspace");
+  vi.spyOn(recoveryApi, "read").mockResolvedValue({ eligible: false, fingerprint: "identity", reasons: ["ORIGINAL_CHANGED"], effect: "REUSE_AVAILABLE_EVIDENCE", previous_results_preserved: true, provider_acquisition: false, provider_degraded: false });
+  const retry = vi.spyOn(recoveryApi, "retry");
+  render(<WorkspaceFlow {...props} />);
+  fireEvent.click(screen.getByRole("button", { name: "Verificar recuperación" }));
+  expect(await screen.findByRole("button", { name: "Reintentar de forma segura" })).toBeDisabled();
+  expect(screen.getByText(/ORIGINAL_CHANGED/)).toBeInTheDocument();
+  expect(retry).not.toHaveBeenCalled();
+});
+it("shows recovery backend failure without offering an unverified retry", async () => {
+  const { recoveryApi } = await import("../api/workspace");
+  vi.spyOn(recoveryApi, "read").mockRejectedValue(new Error("offline"));
+  render(<WorkspaceFlow {...props} />);
+  fireEvent.click(screen.getByRole("button", { name: "Verificar recuperación" }));
+  expect(await screen.findByRole("alert")).toHaveTextContent("No se pudo verificar la recuperación");
+  expect(screen.queryByRole("button", { name: "Reintentar de forma segura" })).not.toBeInTheDocument();
+});

@@ -1,0 +1,1131 @@
+{
+  "aggregate": {
+    "correct_review_escalation": 2,
+    "false_starts": 1,
+    "group_identity_errors": 2,
+    "missed_closures": 1,
+    "missed_continuations": 2,
+    "pages_scored": 3,
+    "provider_conflicts": 0,
+    "safe_misses": 2,
+    "stale_carry_violations": 0,
+    "unsafe_trusted_structural_errors": 0
+  },
+  "approval_revision": "human-chat-b4-v1-approval-1",
+  "boundaries": [
+    {
+      "boundary": "P1→P2",
+      "left_observed": true,
+      "left_outgoing_correct": true,
+      "observation_fabricated": false,
+      "partial_left_check": null,
+      "right_incoming_correct": false,
+      "right_observed": true,
+      "status": "INCORRECT"
+    },
+    {
+      "boundary": "P2→P3",
+      "left_observed": true,
+      "left_outgoing_correct": true,
+      "observation_fabricated": false,
+      "partial_left_check": null,
+      "right_incoming_correct": false,
+      "right_observed": true,
+      "status": "INCORRECT"
+    },
+    {
+      "boundary": "P3→P4",
+      "left_observed": true,
+      "left_outgoing_correct": false,
+      "observation_fabricated": false,
+      "partial_left_check": false,
+      "right_incoming_correct": null,
+      "right_observed": false,
+      "status": "UNASSESSABLE"
+    }
+  ],
+  "golden_content_sha256": "885f9c623a07092d3a1880a1736517dd2917888b2435320e9fcaaedcfc082ef5",
+  "golden_file_sha256": "60520abdb48862cf99763d40e355cc03f6e3771e4f73f1c438f7c00c069feb71",
+  "golden_id": "b4-human-structure-v1",
+  "golden_pages": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "input_result_sha256": "e37b20c8badc558516e1335beebd5285532c09b08ed339f0711a0abb4abe5aed",
+  "pages": [
+    {
+      "correct_review_escalation": 0,
+      "dimensions": {
+        "boundary": true,
+        "closes": true,
+        "continues": true,
+        "group_identity": true,
+        "incoming": true,
+        "ordered_events": true,
+        "outgoing": true,
+        "starts": true
+      },
+      "errors": [],
+      "expected": {
+        "closes": [],
+        "continues": [],
+        "incoming": [],
+        "outgoing": [
+          "ITEM_1"
+        ],
+        "starts": [
+          "ITEM_1"
+        ]
+      },
+      "false_starts": [],
+      "latency_ms": 35825,
+      "missed_closures": [],
+      "missed_continuations": [],
+      "observed": {
+        "closes": [],
+        "continues": [],
+        "events": [
+          [
+            "STARTS",
+            "ITEM_1"
+          ],
+          [
+            "CONTINUES_OUT",
+            "ITEM_1"
+          ]
+        ],
+        "groups": [
+          "ITEM_1"
+        ],
+        "incoming": null,
+        "outgoing": "ITEM_1",
+        "starts": [
+          "ITEM_1"
+        ]
+      },
+      "page_number": 1,
+      "perception_provenance": {
+        "bounded_grounded": false,
+        "capability": "STRUCTURE",
+        "confidence": null,
+        "confidence_scale": null,
+        "contractual_authority": false,
+        "coordinates": null,
+        "critical_identifiers": [],
+        "diagnostics": [],
+        "generation_id": "1804bfed327235d48fdf75edd7099a1e0c0aa2da75e92afc00cb57ed2f68ce24",
+        "lineage": "ACTIVE",
+        "normalized_content_id": null,
+        "page": {
+          "document_id": "df89b070-80fc-456e-9e2f-96765252badd",
+          "document_page_id": "09b71c1f-f4a0-4a7b-a428-deadd588575b",
+          "document_version": "1",
+          "page_number": 1,
+          "tender_id": "a529c3ff-79b1-4a41-916d-e74462955f05"
+        },
+        "provider_metadata": [
+          [
+            "model",
+            "qwen3-vl:4b-instruct"
+          ]
+        ],
+        "quality": "RELIABLE",
+        "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+        "source_artifact_key": "vision-page-result:06c76561-e6f1-4fcd-ae9e-44098ec47d49",
+        "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+        "source_locator": "page:1",
+        "source_method": "VISION",
+        "source_page_result_id": "06c76561-e6f1-4fcd-ae9e-44098ec47d49",
+        "structural_state": {
+          "incoming_item_key": null,
+          "outgoing_item_key": "1",
+          "page_number": 1,
+          "provenance": {
+            "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+            "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+            "source_method": "VISION",
+            "source_page_result_id": "06c76561-e6f1-4fcd-ae9e-44098ec47d49"
+          },
+          "review_required": false,
+          "segments": [
+            {
+              "anchor_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE",
+              "has_deliverable": false,
+              "has_service": true,
+              "has_supply": false,
+              "item_identity": {
+                "components": [
+                  "1"
+                ],
+                "depth": 1,
+                "normalized_key": "1",
+                "parent_key": null,
+                "raw_label": "1",
+                "state": "DETERMINED"
+              },
+              "review_required": false,
+              "sequence": 0,
+              "starts_on_this_page": true
+            }
+          ],
+          "state_quality": "VALID",
+          "warnings": []
+        },
+        "text": "SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE"
+      },
+      "provider_conflicts": 0,
+      "raw_provider_surface": {
+        "closes": [],
+        "continues": [],
+        "events": [
+          [
+            "STARTS",
+            "ITEM_1"
+          ],
+          [
+            "CONTINUES_OUT",
+            "ITEM_1"
+          ]
+        ],
+        "groups": [
+          "ITEM_1"
+        ],
+        "incoming": null,
+        "outgoing": "ITEM_1",
+        "starts": [
+          "ITEM_1"
+        ]
+      },
+      "safe_misses": 0,
+      "source_page_hash": "ea80aa4c697d718a0b281d7bf174b90130eaa9c416f29c1c91a4c441845e2bb1",
+      "stale_carry_violations": 0,
+      "status": "CORRECT",
+      "trust_basis": {
+        "persisted_segment_review_required": false,
+        "routing": "RESOLVED"
+      },
+      "unsafe_trusted_structural_errors": 0
+    },
+    {
+      "correct_review_escalation": 1,
+      "dimensions": {
+        "boundary": false,
+        "closes": false,
+        "continues": false,
+        "group_identity": false,
+        "incoming": false,
+        "ordered_events": false,
+        "outgoing": true,
+        "starts": true
+      },
+      "errors": [
+        "CONTINUITY_ERROR",
+        "GROUP_IDENTITY_ERROR",
+        "MISSED_CLOSURE",
+        "MISSED_CONTINUATION",
+        "STRUCTURE_BOUNDARY_ERROR"
+      ],
+      "expected": {
+        "closes": [
+          "ITEM_1"
+        ],
+        "continues": [
+          "ITEM_1"
+        ],
+        "incoming": [
+          "ITEM_1"
+        ],
+        "outgoing": [
+          "ITEM_2"
+        ],
+        "starts": [
+          "ITEM_2"
+        ]
+      },
+      "false_starts": [],
+      "latency_ms": 35638,
+      "missed_closures": [
+        "ITEM_1"
+      ],
+      "missed_continuations": [
+        "ITEM_1"
+      ],
+      "observed": {
+        "closes": [],
+        "continues": [],
+        "events": [
+          [
+            "STARTS",
+            "ITEM_2"
+          ],
+          [
+            "CONTINUES_OUT",
+            "ITEM_2"
+          ]
+        ],
+        "groups": [
+          "ITEM_2"
+        ],
+        "incoming": null,
+        "outgoing": "ITEM_2",
+        "starts": [
+          "ITEM_2"
+        ]
+      },
+      "page_number": 2,
+      "perception_provenance": {
+        "bounded_grounded": false,
+        "capability": "STRUCTURE",
+        "confidence": null,
+        "confidence_scale": null,
+        "contractual_authority": false,
+        "coordinates": null,
+        "critical_identifiers": [],
+        "diagnostics": [],
+        "generation_id": "1804bfed327235d48fdf75edd7099a1e0c0aa2da75e92afc00cb57ed2f68ce24",
+        "lineage": "ACTIVE",
+        "normalized_content_id": null,
+        "page": {
+          "document_id": "df89b070-80fc-456e-9e2f-96765252badd",
+          "document_page_id": "cb15266a-063a-4ede-a494-ea5bd002a990",
+          "document_version": "1",
+          "page_number": 2,
+          "tender_id": "a529c3ff-79b1-4a41-916d-e74462955f05"
+        },
+        "provider_metadata": [
+          [
+            "model",
+            "qwen3-vl:4b-instruct"
+          ]
+        ],
+        "quality": "RELIABLE",
+        "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+        "source_artifact_key": "vision-page-result:6ca974dc-5338-4a99-9436-0caef3c5032f",
+        "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+        "source_locator": "page:2",
+        "source_method": "VISION",
+        "source_page_result_id": "6ca974dc-5338-4a99-9436-0caef3c5032f",
+        "structural_state": {
+          "incoming_item_key": null,
+          "outgoing_item_key": "2",
+          "page_number": 2,
+          "provenance": {
+            "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+            "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+            "source_method": "VISION",
+            "source_page_result_id": "6ca974dc-5338-4a99-9436-0caef3c5032f"
+          },
+          "review_required": false,
+          "segments": [
+            {
+              "anchor_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE",
+              "has_deliverable": false,
+              "has_service": true,
+              "has_supply": false,
+              "item_identity": {
+                "components": [
+                  "2"
+                ],
+                "depth": 1,
+                "normalized_key": "2",
+                "parent_key": null,
+                "raw_label": "2",
+                "state": "DETERMINED"
+              },
+              "review_required": false,
+              "sequence": 0,
+              "starts_on_this_page": true
+            }
+          ],
+          "state_quality": "VALID",
+          "warnings": []
+        },
+        "text": "SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE"
+      },
+      "provider_conflicts": 0,
+      "raw_provider_surface": {
+        "closes": [],
+        "continues": [],
+        "events": [
+          [
+            "STARTS",
+            "ITEM_2"
+          ]
+        ],
+        "groups": [
+          "ITEM_2"
+        ],
+        "incoming": null,
+        "outgoing": null,
+        "starts": [
+          "ITEM_2"
+        ]
+      },
+      "safe_misses": 1,
+      "source_page_hash": "a78371c7cae5b34b1c4482c551c98fbd69b6b9edb878b73ddee9ebdf549a0474",
+      "stale_carry_violations": 0,
+      "status": "REVIEW_REQUIRED_CORRECT",
+      "trust_basis": {
+        "persisted_segment_review_required": null,
+        "routing": "REVIEW_REQUIRED"
+      },
+      "unsafe_trusted_structural_errors": 0
+    },
+    {
+      "correct_review_escalation": 1,
+      "dimensions": {
+        "boundary": false,
+        "closes": true,
+        "continues": false,
+        "group_identity": false,
+        "incoming": false,
+        "ordered_events": false,
+        "outgoing": false,
+        "starts": false
+      },
+      "errors": [
+        "CONTINUITY_ERROR",
+        "FALSE_ITEM_START",
+        "GROUP_IDENTITY_ERROR",
+        "MISSED_CONTINUATION",
+        "STRUCTURE_BOUNDARY_ERROR"
+      ],
+      "expected": {
+        "closes": [],
+        "continues": [
+          "ITEM_2"
+        ],
+        "incoming": [
+          "ITEM_2"
+        ],
+        "outgoing": [
+          "ITEM_2"
+        ],
+        "starts": []
+      },
+      "false_starts": [
+        "ITEM_3"
+      ],
+      "latency_ms": 36923,
+      "missed_closures": [],
+      "missed_continuations": [
+        "ITEM_2"
+      ],
+      "observed": {
+        "closes": [],
+        "continues": [],
+        "events": [
+          [
+            "STARTS",
+            "ITEM_3"
+          ],
+          [
+            "CONTINUES_OUT",
+            "ITEM_3"
+          ]
+        ],
+        "groups": [
+          "ITEM_3"
+        ],
+        "incoming": null,
+        "outgoing": "ITEM_3",
+        "starts": [
+          "ITEM_3"
+        ]
+      },
+      "page_number": 3,
+      "perception_provenance": {
+        "bounded_grounded": false,
+        "capability": "STRUCTURE",
+        "confidence": null,
+        "confidence_scale": null,
+        "contractual_authority": false,
+        "coordinates": null,
+        "critical_identifiers": [],
+        "diagnostics": [],
+        "generation_id": "1804bfed327235d48fdf75edd7099a1e0c0aa2da75e92afc00cb57ed2f68ce24",
+        "lineage": "ACTIVE",
+        "normalized_content_id": null,
+        "page": {
+          "document_id": "df89b070-80fc-456e-9e2f-96765252badd",
+          "document_page_id": "f57148fc-caec-499b-a5e0-3704e7054b1a",
+          "document_version": "1",
+          "page_number": 3,
+          "tender_id": "a529c3ff-79b1-4a41-916d-e74462955f05"
+        },
+        "provider_metadata": [
+          [
+            "model",
+            "qwen3-vl:4b-instruct"
+          ]
+        ],
+        "quality": "RELIABLE",
+        "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+        "source_artifact_key": "vision-page-result:1c4cdb00-66c0-4134-a5c8-86f0adac3308",
+        "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+        "source_locator": "page:3",
+        "source_method": "VISION",
+        "source_page_result_id": "1c4cdb00-66c0-4134-a5c8-86f0adac3308",
+        "structural_state": {
+          "incoming_item_key": null,
+          "outgoing_item_key": "3",
+          "page_number": 3,
+          "provenance": {
+            "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+            "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+            "source_method": "VISION",
+            "source_page_result_id": "1c4cdb00-66c0-4134-a5c8-86f0adac3308"
+          },
+          "review_required": false,
+          "segments": [
+            {
+              "anchor_raw_text": "APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO",
+              "has_deliverable": true,
+              "has_service": true,
+              "has_supply": true,
+              "item_identity": {
+                "components": [
+                  "3"
+                ],
+                "depth": 1,
+                "normalized_key": "3",
+                "parent_key": null,
+                "raw_label": "3",
+                "state": "DETERMINED"
+              },
+              "review_required": false,
+              "sequence": 0,
+              "starts_on_this_page": true
+            }
+          ],
+          "state_quality": "VALID",
+          "warnings": []
+        },
+        "text": "APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO"
+      },
+      "provider_conflicts": 0,
+      "raw_provider_surface": {
+        "closes": [],
+        "continues": [],
+        "events": [
+          [
+            "STARTS",
+            "ITEM_3"
+          ]
+        ],
+        "groups": [
+          "ITEM_3"
+        ],
+        "incoming": null,
+        "outgoing": null,
+        "starts": [
+          "ITEM_3"
+        ]
+      },
+      "safe_misses": 1,
+      "source_page_hash": "87fe33b7c9ea727378687c6ccf500b95480e1d5c00cefad11437f53077409ef6",
+      "stale_carry_violations": 0,
+      "status": "REVIEW_REQUIRED_CORRECT",
+      "trust_basis": {
+        "persisted_segment_review_required": null,
+        "routing": "REVIEW_REQUIRED"
+      },
+      "unsafe_trusted_structural_errors": 0
+    }
+  ],
+  "production_code_changed": true,
+  "provider_calls": 0,
+  "provider_pages": [
+    1,
+    2,
+    3
+  ],
+  "readiness_certified": false,
+  "recommended_next_action": "ARCHITECT_REVIEW",
+  "replay": {
+    "attribute_count": 0,
+    "blocked_provider_attempts": 0,
+    "domain_trust": {
+      "assessed": 3,
+      "assessment_basis": "Human-approved B-4 structure Golden + actual isolated production replay",
+      "review_required_correct": 2,
+      "trusted_correct": 1,
+      "trusted_incorrect": 0,
+      "unassessed": 0
+    },
+    "fixture_document_id": "df89b070-80fc-456e-9e2f-96765252badd",
+    "fixture_tender_id": "a529c3ff-79b1-4a41-916d-e74462955f05",
+    "idempotent": true,
+    "incidental_segment_ids_stable": false,
+    "isolated_database": "licitia_test",
+    "limitations": [
+      "OCR semantic detail unsupported by default adapters; no new semantic provider installed",
+      "FAILED Vision cannot yield valid details, quantities or attributes",
+      "Production wrapper context reconstructed offline does not change original inference context",
+      "No comparison to historical dev artifacts; isolated batch sources only"
+    ],
+    "perception": [
+      {
+        "page": 1,
+        "routing": "UNAVAILABLE",
+        "sources": [
+          {
+            "bounded_grounded": false,
+            "capability": "TRANSCRIPTION",
+            "confidence": null,
+            "confidence_scale": null,
+            "contractual_authority": false,
+            "coordinates": null,
+            "critical_identifiers": [],
+            "diagnostics": [
+              "NO_INDEPENDENT_DETAIL_TRANSCRIPTION"
+            ],
+            "generation_id": "1804bfed327235d48fdf75edd7099a1e0c0aa2da75e92afc00cb57ed2f68ce24",
+            "lineage": "ACTIVE",
+            "normalized_content_id": null,
+            "page": {
+              "document_id": "df89b070-80fc-456e-9e2f-96765252badd",
+              "document_page_id": "09b71c1f-f4a0-4a7b-a428-deadd588575b",
+              "document_version": "1",
+              "page_number": 1,
+              "tender_id": "a529c3ff-79b1-4a41-916d-e74462955f05"
+            },
+            "provider_metadata": [
+              [
+                "model",
+                "qwen3-vl:4b-instruct"
+              ],
+              [
+                "prompt_version",
+                "vision-structure-scope-2026-09-03-006"
+              ]
+            ],
+            "quality": "UNAVAILABLE",
+            "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+            "source_artifact_key": "vision-page-result:06c76561-e6f1-4fcd-ae9e-44098ec47d49",
+            "source_contract_version": "vision-structure-scope-2026-09-03-006",
+            "source_locator": "page:1",
+            "source_method": "VISION",
+            "source_page_result_id": "06c76561-e6f1-4fcd-ae9e-44098ec47d49",
+            "structural_state": null,
+            "text": ""
+          }
+        ]
+      },
+      {
+        "page": 2,
+        "routing": "UNAVAILABLE",
+        "sources": [
+          {
+            "bounded_grounded": false,
+            "capability": "TRANSCRIPTION",
+            "confidence": null,
+            "confidence_scale": null,
+            "contractual_authority": false,
+            "coordinates": null,
+            "critical_identifiers": [],
+            "diagnostics": [
+              "NO_INDEPENDENT_DETAIL_TRANSCRIPTION"
+            ],
+            "generation_id": "1804bfed327235d48fdf75edd7099a1e0c0aa2da75e92afc00cb57ed2f68ce24",
+            "lineage": "ACTIVE",
+            "normalized_content_id": null,
+            "page": {
+              "document_id": "df89b070-80fc-456e-9e2f-96765252badd",
+              "document_page_id": "cb15266a-063a-4ede-a494-ea5bd002a990",
+              "document_version": "1",
+              "page_number": 2,
+              "tender_id": "a529c3ff-79b1-4a41-916d-e74462955f05"
+            },
+            "provider_metadata": [
+              [
+                "model",
+                "qwen3-vl:4b-instruct"
+              ],
+              [
+                "prompt_version",
+                "vision-structure-scope-2026-09-03-006"
+              ]
+            ],
+            "quality": "UNAVAILABLE",
+            "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+            "source_artifact_key": "vision-page-result:6ca974dc-5338-4a99-9436-0caef3c5032f",
+            "source_contract_version": "vision-structure-scope-2026-09-03-006",
+            "source_locator": "page:2",
+            "source_method": "VISION",
+            "source_page_result_id": "6ca974dc-5338-4a99-9436-0caef3c5032f",
+            "structural_state": null,
+            "text": ""
+          }
+        ]
+      },
+      {
+        "page": 3,
+        "routing": "UNAVAILABLE",
+        "sources": [
+          {
+            "bounded_grounded": false,
+            "capability": "TRANSCRIPTION",
+            "confidence": null,
+            "confidence_scale": null,
+            "contractual_authority": false,
+            "coordinates": null,
+            "critical_identifiers": [],
+            "diagnostics": [
+              "NO_INDEPENDENT_DETAIL_TRANSCRIPTION"
+            ],
+            "generation_id": "1804bfed327235d48fdf75edd7099a1e0c0aa2da75e92afc00cb57ed2f68ce24",
+            "lineage": "ACTIVE",
+            "normalized_content_id": null,
+            "page": {
+              "document_id": "df89b070-80fc-456e-9e2f-96765252badd",
+              "document_page_id": "f57148fc-caec-499b-a5e0-3704e7054b1a",
+              "document_version": "1",
+              "page_number": 3,
+              "tender_id": "a529c3ff-79b1-4a41-916d-e74462955f05"
+            },
+            "provider_metadata": [
+              [
+                "model",
+                "qwen3-vl:4b-instruct"
+              ],
+              [
+                "prompt_version",
+                "vision-structure-scope-2026-09-03-006"
+              ]
+            ],
+            "quality": "UNAVAILABLE",
+            "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+            "source_artifact_key": "vision-page-result:1c4cdb00-66c0-4134-a5c8-86f0adac3308",
+            "source_contract_version": "vision-structure-scope-2026-09-03-006",
+            "source_locator": "page:3",
+            "source_method": "VISION",
+            "source_page_result_id": "1c4cdb00-66c0-4134-a5c8-86f0adac3308",
+            "structural_state": null,
+            "text": ""
+          }
+        ]
+      },
+      {
+        "page": 4,
+        "routing": "UNAVAILABLE",
+        "sources": []
+      }
+    ],
+    "pre_golden_domain_trust": {
+      "assessed": 0,
+      "assessment_basis": "Actual production transcription review/rejection for approved p4 equipment; not proof of successful domain materialization",
+      "not_applicable": {
+        "Requirements": true,
+        "requested_Evidence": true
+      },
+      "review_required_correct": 0,
+      "review_required_unnecessary": 0,
+      "trusted_correct": 0,
+      "trusted_incorrect": 0,
+      "unassessed_structural_truth": 3
+    },
+    "production_contexts": [
+      {
+        "note": "Stored raw normalized by production parser under replay context; original inference not rerun",
+        "original_inference_context": null,
+        "page": 1,
+        "production_context": null
+      },
+      {
+        "note": "Stored raw normalized by production parser under replay context; original inference not rerun",
+        "original_inference_context": null,
+        "page": 2,
+        "production_context": {
+          "open_item_concept": null,
+          "open_item_number": "1",
+          "open_section": "ALCANCES"
+        }
+      },
+      {
+        "note": "Stored raw normalized by production parser under replay context; original inference not rerun",
+        "original_inference_context": null,
+        "page": 3,
+        "production_context": {
+          "open_item_concept": null,
+          "open_item_number": "2",
+          "open_section": "ALCANCES"
+        }
+      }
+    ],
+    "provider_calls": 0,
+    "quantity_count": 0,
+    "rendering_executed": false,
+    "replay_snapshots": [
+      {
+        "attribute_ids": [],
+        "candidate_ids": [],
+        "detail_ids": [],
+        "quantity_ids": [],
+        "segments": [
+          [
+            "08e85694-07ab-49a5-bd45-78fea497a30c",
+            1,
+            "1",
+            false,
+            "f4b14b2e76fc3347a48019511bb2615d33107ffce536e828dfcf0a66c2f8fd82"
+          ]
+        ]
+      },
+      {
+        "attribute_ids": [],
+        "candidate_ids": [],
+        "detail_ids": [],
+        "quantity_ids": [],
+        "segments": [
+          [
+            "8e993211-a135-4330-b202-3de7924a2566",
+            1,
+            "1",
+            false,
+            "f4b14b2e76fc3347a48019511bb2615d33107ffce536e828dfcf0a66c2f8fd82"
+          ]
+        ]
+      }
+    ],
+    "requested_evidence": {
+      "analyzer_version": "mvp-04.4",
+      "generated_at": "2026-10-14T04:27:43.533724Z",
+      "requirements": [],
+      "scope_note": "Interpretación realizada sobre los requisitos detectados en los documentos actualmente procesados.",
+      "summary": {
+        "conditional_count": 0,
+        "determined_count": 0,
+        "direct_verification_count": 0,
+        "evidence_expectation_count": 0,
+        "evidence_review_required_count": 0,
+        "evidence_type_counts": {},
+        "explicit_artifact_count": 0,
+        "mandatory_count": 0,
+        "requirement_count": 0,
+        "review_required_count": 0,
+        "unknown_applicability_count": 0,
+        "unspecified_evidence_count": 0
+      },
+      "tender_id": "a529c3ff-79b1-4a41-916d-e74462955f05"
+    },
+    "requirements": [],
+    "scope": {
+      "artifact_results": [
+        {
+          "adapter_name": null,
+          "adapter_version": null,
+          "candidate_count": 0,
+          "persisted_count": 0,
+          "review_required_count": 0,
+          "source_artifact_key": "vision-page-result:06c76561-e6f1-4fcd-ae9e-44098ec47d49",
+          "source_method": "VISION",
+          "status": "UNSUPPORTED"
+        },
+        {
+          "adapter_name": null,
+          "adapter_version": null,
+          "candidate_count": 0,
+          "persisted_count": 0,
+          "review_required_count": 0,
+          "source_artifact_key": "vision-page-result:6ca974dc-5338-4a99-9436-0caef3c5032f",
+          "source_method": "VISION",
+          "status": "UNSUPPORTED"
+        },
+        {
+          "adapter_name": null,
+          "adapter_version": null,
+          "candidate_count": 0,
+          "persisted_count": 0,
+          "review_required_count": 0,
+          "source_artifact_key": "vision-page-result:1c4cdb00-66c0-4134-a5c8-86f0adac3308",
+          "source_method": "VISION",
+          "status": "UNSUPPORTED"
+        }
+      ],
+      "artifacts_materialized": 0,
+      "artifacts_no_details": 0,
+      "artifacts_review_required": 0,
+      "artifacts_seen": 3,
+      "artifacts_supported": 0,
+      "artifacts_unsupported": 3,
+      "candidate_count": 0,
+      "document_id": "df89b070-80fc-456e-9e2f-96765252badd",
+      "execution_policy": "AVAILABLE_ONLY",
+      "pages_seen": 4,
+      "persisted_count": 0,
+      "review_required_count": 0,
+      "status": "NO_EVIDENCE",
+      "tender_id": "a529c3ff-79b1-4a41-916d-e74462955f05"
+    },
+    "source_document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+    "stale_carry_violations": 0,
+    "stored_deliveries": 3,
+    "structure": [
+      {
+        "candidates": [
+          {
+            "bounded_grounded": false,
+            "capability": "STRUCTURE",
+            "confidence": null,
+            "confidence_scale": null,
+            "contractual_authority": false,
+            "coordinates": null,
+            "critical_identifiers": [],
+            "diagnostics": [],
+            "generation_id": "1804bfed327235d48fdf75edd7099a1e0c0aa2da75e92afc00cb57ed2f68ce24",
+            "lineage": "ACTIVE",
+            "normalized_content_id": null,
+            "page": {
+              "document_id": "df89b070-80fc-456e-9e2f-96765252badd",
+              "document_page_id": "09b71c1f-f4a0-4a7b-a428-deadd588575b",
+              "document_version": "1",
+              "page_number": 1,
+              "tender_id": "a529c3ff-79b1-4a41-916d-e74462955f05"
+            },
+            "provider_metadata": [
+              [
+                "model",
+                "qwen3-vl:4b-instruct"
+              ]
+            ],
+            "quality": "RELIABLE",
+            "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+            "source_artifact_key": "vision-page-result:06c76561-e6f1-4fcd-ae9e-44098ec47d49",
+            "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+            "source_locator": "page:1",
+            "source_method": "VISION",
+            "source_page_result_id": "06c76561-e6f1-4fcd-ae9e-44098ec47d49",
+            "structural_state": {
+              "incoming_item_key": null,
+              "outgoing_item_key": "1",
+              "page_number": 1,
+              "provenance": {
+                "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+                "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+                "source_method": "VISION",
+                "source_page_result_id": "06c76561-e6f1-4fcd-ae9e-44098ec47d49"
+              },
+              "review_required": false,
+              "segments": [
+                {
+                  "anchor_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE",
+                  "has_deliverable": false,
+                  "has_service": true,
+                  "has_supply": false,
+                  "item_identity": {
+                    "components": [
+                      "1"
+                    ],
+                    "depth": 1,
+                    "normalized_key": "1",
+                    "parent_key": null,
+                    "raw_label": "1",
+                    "state": "DETERMINED"
+                  },
+                  "review_required": false,
+                  "sequence": 0,
+                  "starts_on_this_page": true
+                }
+              ],
+              "state_quality": "VALID",
+              "warnings": []
+            },
+            "text": "SERVICIO DE MANTENIMIENTO PREVENTIVO AL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE PLANTA DE PROCESO MTBE"
+          }
+        ],
+        "continuity": "VALID",
+        "continuity_diagnostics": [],
+        "outgoing_item_key": "1",
+        "page": 1,
+        "routing": "RESOLVED",
+        "stale_carry": false
+      },
+      {
+        "candidates": [
+          {
+            "bounded_grounded": false,
+            "capability": "STRUCTURE",
+            "confidence": null,
+            "confidence_scale": null,
+            "contractual_authority": false,
+            "coordinates": null,
+            "critical_identifiers": [],
+            "diagnostics": [],
+            "generation_id": "1804bfed327235d48fdf75edd7099a1e0c0aa2da75e92afc00cb57ed2f68ce24",
+            "lineage": "ACTIVE",
+            "normalized_content_id": null,
+            "page": {
+              "document_id": "df89b070-80fc-456e-9e2f-96765252badd",
+              "document_page_id": "cb15266a-063a-4ede-a494-ea5bd002a990",
+              "document_version": "1",
+              "page_number": 2,
+              "tender_id": "a529c3ff-79b1-4a41-916d-e74462955f05"
+            },
+            "provider_metadata": [
+              [
+                "model",
+                "qwen3-vl:4b-instruct"
+              ]
+            ],
+            "quality": "RELIABLE",
+            "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+            "source_artifact_key": "vision-page-result:6ca974dc-5338-4a99-9436-0caef3c5032f",
+            "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+            "source_locator": "page:2",
+            "source_method": "VISION",
+            "source_page_result_id": "6ca974dc-5338-4a99-9436-0caef3c5032f",
+            "structural_state": {
+              "incoming_item_key": null,
+              "outgoing_item_key": "2",
+              "page_number": 2,
+              "provenance": {
+                "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+                "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+                "source_method": "VISION",
+                "source_page_result_id": "6ca974dc-5338-4a99-9436-0caef3c5032f"
+              },
+              "review_required": false,
+              "segments": [
+                {
+                  "anchor_raw_text": "SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE",
+                  "has_deliverable": false,
+                  "has_service": true,
+                  "has_supply": false,
+                  "item_identity": {
+                    "components": [
+                      "2"
+                    ],
+                    "depth": 1,
+                    "normalized_key": "2",
+                    "parent_key": null,
+                    "raw_label": "2",
+                    "state": "DETERMINED"
+                  },
+                  "review_required": false,
+                  "sequence": 0,
+                  "starts_on_this_page": true
+                }
+              ],
+              "state_quality": "VALID",
+              "warnings": []
+            },
+            "text": "SERVICIO DE MANTENIMIENTO PREVENTIVO PARA EL SISTEMA DE CONTROL DISTRIBUIDO CENTUM DE LA PLANTA DE"
+          }
+        ],
+        "continuity": "UNKNOWN",
+        "continuity_diagnostics": [
+          "STRUCTURAL_BOUNDARY_CONFLICT"
+        ],
+        "outgoing_item_key": null,
+        "page": 2,
+        "routing": "REVIEW_REQUIRED",
+        "stale_carry": false
+      },
+      {
+        "candidates": [
+          {
+            "bounded_grounded": false,
+            "capability": "STRUCTURE",
+            "confidence": null,
+            "confidence_scale": null,
+            "contractual_authority": false,
+            "coordinates": null,
+            "critical_identifiers": [],
+            "diagnostics": [],
+            "generation_id": "1804bfed327235d48fdf75edd7099a1e0c0aa2da75e92afc00cb57ed2f68ce24",
+            "lineage": "ACTIVE",
+            "normalized_content_id": null,
+            "page": {
+              "document_id": "df89b070-80fc-456e-9e2f-96765252badd",
+              "document_page_id": "f57148fc-caec-499b-a5e0-3704e7054b1a",
+              "document_version": "1",
+              "page_number": 3,
+              "tender_id": "a529c3ff-79b1-4a41-916d-e74462955f05"
+            },
+            "provider_metadata": [
+              [
+                "model",
+                "qwen3-vl:4b-instruct"
+              ]
+            ],
+            "quality": "RELIABLE",
+            "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+            "source_artifact_key": "vision-page-result:1c4cdb00-66c0-4134-a5c8-86f0adac3308",
+            "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+            "source_locator": "page:3",
+            "source_method": "VISION",
+            "source_page_result_id": "1c4cdb00-66c0-4134-a5c8-86f0adac3308",
+            "structural_state": {
+              "incoming_item_key": null,
+              "outgoing_item_key": "3",
+              "page_number": 3,
+              "provenance": {
+                "source_analysis_id": "95171895-5610-4ad9-9dfb-5d139b86e7bb",
+                "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+                "source_method": "VISION",
+                "source_page_result_id": "1c4cdb00-66c0-4134-a5c8-86f0adac3308"
+              },
+              "review_required": false,
+              "segments": [
+                {
+                  "anchor_raw_text": "APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO",
+                  "has_deliverable": true,
+                  "has_service": true,
+                  "has_supply": true,
+                  "item_identity": {
+                    "components": [
+                      "3"
+                    ],
+                    "depth": 1,
+                    "normalized_key": "3",
+                    "parent_key": null,
+                    "raw_label": "3",
+                    "state": "DETERMINED"
+                  },
+                  "review_required": false,
+                  "sequence": 0,
+                  "starts_on_this_page": true
+                }
+              ],
+              "state_quality": "VALID",
+              "warnings": []
+            },
+            "text": "APLICAR PROCEDIMIENTOS DE MANTENIMIENTO RECOMENDADOS POR EL FABRICANTE DEL EQUIPO"
+          }
+        ],
+        "continuity": "UNKNOWN",
+        "continuity_diagnostics": [
+          "INSUFFICIENT_STRUCTURAL_BOUNDARY_EVIDENCE"
+        ],
+        "outgoing_item_key": null,
+        "page": 3,
+        "routing": "REVIEW_REQUIRED",
+        "stale_carry": false
+      },
+      {
+        "candidates": [],
+        "continuity": "UNKNOWN",
+        "continuity_diagnostics": [
+          "CURRENT_STRUCTURE_UNTRUSTWORTHY"
+        ],
+        "outgoing_item_key": null,
+        "page": 4,
+        "routing": "UNAVAILABLE",
+        "stale_carry": false
+      }
+    ],
+    "unsafe_trusted_contractual_errors": 0,
+    "unscored_structural_domain_assertions": [
+      {
+        "candidate_item_key": "1",
+        "page": 1,
+        "review_required": false,
+        "truth_status": "UNSCORED_DIAGNOSTIC"
+      }
+    ]
+  },
+  "schema_version": "1"
+}

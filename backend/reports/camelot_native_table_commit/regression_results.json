@@ -1,0 +1,14 @@
+{
+  "focused": {
+    "passed": 570,
+    "summary": "570 passed, 7 warnings in 92.46s (0:01:32)"
+  },
+  "expanded": {
+    "passed": 1153,
+    "summary": "1153 passed, 1 deselected, 8 warnings in 125.89s (0:02:05)"
+  },
+  "full": {
+    "passed": 2109,
+    "summary": "2109 passed, 1 deselected, 8 warnings in 194.23s (0:03:14)"
+  }
+}

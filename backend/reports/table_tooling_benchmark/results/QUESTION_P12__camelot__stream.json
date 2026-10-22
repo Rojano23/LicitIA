@@ -1,0 +1,2793 @@
+{
+  "page": "QUESTION_P12",
+  "tool": "camelot",
+  "configuration": "stream",
+  "parameters": {
+    "flavor": "stream"
+  },
+  "repeat_seconds": [
+    0.026149417011765763,
+    0.021029541007010266
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 532873216,
+  "warnings": [],
+  "errors": [],
+  "tables": [
+    {
+      "bbox_bottom_origin": [
+        102.46,
+        73.925,
+        518.498,
+        539.6010679611651
+      ],
+      "bbox": [
+        102.46,
+        252.39893203883491,
+        518.498,
+        718.075
+      ],
+      "rows": 28,
+      "columns": 4,
+      "matrix": [
+        [
+          "26.  Por favor describa las características de su programa de integridad o cumplimiento:",
+          "",
+          "",
+          ""
+        ],
+        [
+          "Característica",
+          "",
+          "Sí",
+          "No"
+        ],
+        [
+          "",
+          "1. ¿Cuenta con un código de ética?",
+          "",
+          ""
+        ],
+        [
+          "",
+          "2. ¿Cuenta con un código de conducta?",
+          "",
+          ""
+        ],
+        [
+          "",
+          "3. ¿Cuenta con una política anticorrupción?",
+          "",
+          ""
+        ],
+        [
+          "4.",
+          "¿Tiene algún otro documento que regule el comportamiento ético de",
+          "",
+          ""
+        ],
+        [
+          "",
+          "sus empleados?",
+          "",
+          ""
+        ],
+        [
+          "",
+          "5.  La política o los códigos que los regulan incluye(n) las siguientes",
+          "",
+          ""
+        ],
+        [
+          "",
+          "características:",
+          "",
+          ""
+        ],
+        [
+          "•",
+          "Transparencia en cuanto a donativos",
+          "",
+          ""
+        ],
+        [
+          "•",
+          "Son públicos.",
+          "",
+          ""
+        ],
+        [
+          "•",
+          "Son extensivos a sus grupos de interés, partes relacionadas,",
+          "",
+          ""
+        ],
+        [
+          "",
+          "proveedores y otros.",
+          "",
+          ""
+        ],
+        [
+          "•",
+          "Transparencia en cuanto aportaciones y contribuciones políticas",
+          "",
+          ""
+        ],
+        [
+          "•",
+          "Establecen expresamente la prohibición de ofrecer o recibir sobornos",
+          "",
+          ""
+        ],
+        [
+          "6.",
+          "Establecen expresamente la prohibición de ofrecer o recibir",
+          "",
+          ""
+        ],
+        [
+          "",
+          "incentivos de cualquier tipo (efectivo, especie, etc.) por trámite,",
+          "",
+          ""
+        ],
+        [
+          "",
+          "gestión o facilitación.",
+          "",
+          ""
+        ],
+        [
+          "7.",
+          "Establecen  expresamente  la  prohibición  de  realizar  operaciones  con",
+          "",
+          ""
+        ],
+        [
+          "",
+          "recursos  de  procedencia  o  destino \nilícito \n(Lavado  de  Dinero)  o",
+          "",
+          ""
+        ],
+        [
+          "",
+          "financiamiento al terrorismo.",
+          "",
+          ""
+        ],
+        [
+          "8.",
+          "¿Cuenta  con  un  manual  de  organización  y  procedimientos  que",
+          "",
+          ""
+        ],
+        [
+          "",
+          "describan las funciones y responsabilidades de las áreas?",
+          "",
+          ""
+        ],
+        [
+          "9.",
+          "¿Verifica el perfil ético de sus empleados antes de su contratación?",
+          "",
+          ""
+        ],
+        [
+          "",
+          "10.  ¿Brinda capacitación a su personal en temas relacionados al combate",
+          "",
+          ""
+        ],
+        [
+          "",
+          "a la corrupción?",
+          "",
+          ""
+        ],
+        [
+          "11.",
+          "¿Cuenta con  algún medio o mecanismo institucional para denunciar",
+          "",
+          ""
+        ],
+        [
+          "",
+          "Hechos de Corrupción?",
+          "",
+          ""
+        ]
+      ],
+      "parser_report": {
+        "accuracy": 97.48,
+        "whitespace": 63.39,
+        "order": 1,
+        "page": 1,
+        "confidence": 0.3569
+      },
+      "cells": [
+        {
+          "row": 0,
+          "column": 0,
+          "text": "26.  Por favor describa las características de su programa de integridad o cumplimiento: \n",
+          "bbox": [
+            56.64,
+            255.14,
+            126.911,
+            269.96900000000005
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            522.031,
+            126.911,
+            536.86
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            126.911,
+            255.14,
+            458.2015,
+            269.96900000000005
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            522.031,
+            458.2015,
+            536.86
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            458.2015,
+            255.14,
+            488.4535,
+            269.96900000000005
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            522.031,
+            488.4535,
+            536.86
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            488.4535,
+            255.14,
+            515.407,
+            269.96900000000005
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            522.031,
+            515.407,
+            536.86
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "text": "Característica \n",
+          "bbox": [
+            56.64,
+            269.96900000000005,
+            126.911,
+            291.1445
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            500.8555,
+            126.911,
+            522.031
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            126.911,
+            269.96900000000005,
+            458.2015,
+            291.1445
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            500.8555,
+            458.2015,
+            522.031
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "text": "Sí \n",
+          "bbox": [
+            458.2015,
+            269.96900000000005,
+            488.4535,
+            291.1445
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            500.8555,
+            488.4535,
+            522.031
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "text": "No \n",
+          "bbox": [
+            488.4535,
+            269.96900000000005,
+            515.407,
+            291.1445
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            500.8555,
+            515.407,
+            522.031
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            291.1445,
+            126.911,
+            314.0045
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            477.9955,
+            126.911,
+            500.8555
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "text": "1. ¿Cuenta con un código de ética?  \n",
+          "bbox": [
+            126.911,
+            291.1445,
+            458.2015,
+            314.0045
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            477.9955,
+            458.2015,
+            500.8555
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            291.1445,
+            488.4535,
+            314.0045
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            477.9955,
+            488.4535,
+            500.8555
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            291.1445,
+            515.407,
+            314.0045
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            477.9955,
+            515.407,
+            500.8555
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            314.0045,
+            126.911,
+            336.92449999999997
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            455.07550000000003,
+            126.911,
+            477.9955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "text": "2. ¿Cuenta con un código de conducta? \n",
+          "bbox": [
+            126.911,
+            314.0045,
+            458.2015,
+            336.92449999999997
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            455.07550000000003,
+            458.2015,
+            477.9955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            314.0045,
+            488.4535,
+            336.92449999999997
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            455.07550000000003,
+            488.4535,
+            477.9955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            314.0045,
+            515.407,
+            336.92449999999997
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            455.07550000000003,
+            515.407,
+            477.9955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            336.92449999999997,
+            126.911,
+            359.7845
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            432.2155,
+            126.911,
+            455.07550000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 1,
+          "text": "3. ¿Cuenta con una política anticorrupción? \n",
+          "bbox": [
+            126.911,
+            336.92449999999997,
+            458.2015,
+            359.7845
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            432.2155,
+            458.2015,
+            455.07550000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            336.92449999999997,
+            488.4535,
+            359.7845
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            432.2155,
+            488.4535,
+            455.07550000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            336.92449999999997,
+            515.407,
+            359.7845
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            432.2155,
+            515.407,
+            455.07550000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 0,
+          "text": "4. \n",
+          "bbox": [
+            56.64,
+            359.7845,
+            126.911,
+            377.60900000000004
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            414.39099999999996,
+            126.911,
+            432.2155
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 1,
+          "text": "¿Tiene algún otro documento que regule el comportamiento ético de \n",
+          "bbox": [
+            126.911,
+            359.7845,
+            458.2015,
+            377.60900000000004
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            414.39099999999996,
+            458.2015,
+            432.2155
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            359.7845,
+            488.4535,
+            377.60900000000004
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            414.39099999999996,
+            488.4535,
+            432.2155
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            359.7845,
+            515.407,
+            377.60900000000004
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            414.39099999999996,
+            515.407,
+            432.2155
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            377.60900000000004,
+            126.911,
+            390.0845
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            401.9155,
+            126.911,
+            414.39099999999996
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 1,
+          "text": "sus empleados? \n",
+          "bbox": [
+            126.911,
+            377.60900000000004,
+            458.2015,
+            390.0845
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            401.9155,
+            458.2015,
+            414.39099999999996
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            458.2015,
+            377.60900000000004,
+            488.4535,
+            390.0845
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            401.9155,
+            488.4535,
+            414.39099999999996
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            488.4535,
+            377.60900000000004,
+            515.407,
+            390.0845
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            401.9155,
+            515.407,
+            414.39099999999996
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            390.0845,
+            126.911,
+            402.92900000000003
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            389.07099999999997,
+            126.911,
+            401.9155
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 1,
+          "text": "5.  La política o los códigos que los regulan incluye(n) las siguientes \n",
+          "bbox": [
+            126.911,
+            390.0845,
+            458.2015,
+            402.92900000000003
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            389.07099999999997,
+            458.2015,
+            401.9155
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            458.2015,
+            390.0845,
+            488.4535,
+            402.92900000000003
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            389.07099999999997,
+            488.4535,
+            401.9155
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            488.4535,
+            390.0845,
+            515.407,
+            402.92900000000003
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            389.07099999999997,
+            515.407,
+            401.9155
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            402.92900000000003,
+            126.911,
+            417.0345
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            374.9655,
+            126.911,
+            389.07099999999997
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 1,
+          "text": "características: \n",
+          "bbox": [
+            126.911,
+            402.92900000000003,
+            458.2015,
+            417.0345
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            374.9655,
+            458.2015,
+            389.07099999999997
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            458.2015,
+            402.92900000000003,
+            488.4535,
+            417.0345
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            374.9655,
+            488.4535,
+            389.07099999999997
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            488.4535,
+            402.92900000000003,
+            515.407,
+            417.0345
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            374.9655,
+            515.407,
+            389.07099999999997
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 0,
+          "text": "• \n",
+          "bbox": [
+            56.64,
+            417.0345,
+            126.911,
+            436.54449999999997
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            355.45550000000003,
+            126.911,
+            374.9655
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 1,
+          "text": "Transparencia en cuanto a donativos \n",
+          "bbox": [
+            126.911,
+            417.0345,
+            458.2015,
+            436.54449999999997
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            355.45550000000003,
+            458.2015,
+            374.9655
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            417.0345,
+            488.4535,
+            436.54449999999997
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            355.45550000000003,
+            488.4535,
+            374.9655
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            417.0345,
+            515.407,
+            436.54449999999997
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            355.45550000000003,
+            515.407,
+            374.9655
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 0,
+          "text": "• \n",
+          "bbox": [
+            56.64,
+            436.54449999999997,
+            126.911,
+            459.4045
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            332.5955,
+            126.911,
+            355.45550000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 1,
+          "text": "Son públicos. \n",
+          "bbox": [
+            126.911,
+            436.54449999999997,
+            458.2015,
+            459.4045
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            332.5955,
+            458.2015,
+            355.45550000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            436.54449999999997,
+            488.4535,
+            459.4045
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            332.5955,
+            488.4535,
+            355.45550000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            436.54449999999997,
+            515.407,
+            459.4045
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            332.5955,
+            515.407,
+            355.45550000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 0,
+          "text": "• \n",
+          "bbox": [
+            56.64,
+            459.4045,
+            126.911,
+            477.22900000000004
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            314.77099999999996,
+            126.911,
+            332.5955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 1,
+          "text": "Son extensivos a sus grupos de interés, partes relacionadas, \n",
+          "bbox": [
+            126.911,
+            459.4045,
+            458.2015,
+            477.22900000000004
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            314.77099999999996,
+            458.2015,
+            332.5955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            459.4045,
+            488.4535,
+            477.22900000000004
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            314.77099999999996,
+            488.4535,
+            332.5955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            459.4045,
+            515.407,
+            477.22900000000004
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            314.77099999999996,
+            515.407,
+            332.5955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            477.22900000000004,
+            126.911,
+            489.7045
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            302.2955,
+            126.911,
+            314.77099999999996
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 1,
+          "text": "proveedores y otros. \n",
+          "bbox": [
+            126.911,
+            477.22900000000004,
+            458.2015,
+            489.7045
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            302.2955,
+            458.2015,
+            314.77099999999996
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            458.2015,
+            477.22900000000004,
+            488.4535,
+            489.7045
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            302.2955,
+            488.4535,
+            314.77099999999996
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            488.4535,
+            477.22900000000004,
+            515.407,
+            489.7045
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            302.2955,
+            515.407,
+            314.77099999999996
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 0,
+          "text": "• \n",
+          "bbox": [
+            56.64,
+            489.7045,
+            126.911,
+            507.58450000000005
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            284.41549999999995,
+            126.911,
+            302.2955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 1,
+          "text": "Transparencia en cuanto aportaciones y contribuciones políticas \n",
+          "bbox": [
+            126.911,
+            489.7045,
+            458.2015,
+            507.58450000000005
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            284.41549999999995,
+            458.2015,
+            302.2955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            489.7045,
+            488.4535,
+            507.58450000000005
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            284.41549999999995,
+            488.4535,
+            302.2955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            489.7045,
+            515.407,
+            507.58450000000005
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            284.41549999999995,
+            515.407,
+            302.2955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 14,
+          "column": 0,
+          "text": "• \n",
+          "bbox": [
+            56.64,
+            507.58450000000005,
+            126.911,
+            530.5045
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            261.4955,
+            126.911,
+            284.41549999999995
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 14,
+          "column": 1,
+          "text": "Establecen expresamente la prohibición de ofrecer o recibir sobornos \n",
+          "bbox": [
+            126.911,
+            507.58450000000005,
+            458.2015,
+            530.5045
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            261.4955,
+            458.2015,
+            284.41549999999995
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 14,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            507.58450000000005,
+            488.4535,
+            530.5045
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            261.4955,
+            488.4535,
+            284.41549999999995
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 14,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            507.58450000000005,
+            515.407,
+            530.5045
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            261.4955,
+            515.407,
+            284.41549999999995
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 15,
+          "column": 0,
+          "text": "6. \n",
+          "bbox": [
+            56.64,
+            530.5045,
+            126.911,
+            548.329
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            243.671,
+            126.911,
+            261.4955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 15,
+          "column": 1,
+          "text": "Establecen expresamente la prohibición de ofrecer o recibir \n",
+          "bbox": [
+            126.911,
+            530.5045,
+            458.2015,
+            548.329
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            243.671,
+            458.2015,
+            261.4955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 15,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            530.5045,
+            488.4535,
+            548.329
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            243.671,
+            488.4535,
+            261.4955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 15,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            530.5045,
+            515.407,
+            548.329
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            243.671,
+            515.407,
+            261.4955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 16,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            548.329,
+            126.911,
+            560.749
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            231.25100000000003,
+            126.911,
+            243.671
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 16,
+          "column": 1,
+          "text": "incentivos de cualquier tipo (efectivo, especie, etc.) por trámite, \n",
+          "bbox": [
+            126.911,
+            548.329,
+            458.2015,
+            560.749
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            231.25100000000003,
+            458.2015,
+            243.671
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 16,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            458.2015,
+            548.329,
+            488.4535,
+            560.749
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            231.25100000000003,
+            488.4535,
+            243.671
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 16,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            488.4535,
+            548.329,
+            515.407,
+            560.749
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            231.25100000000003,
+            515.407,
+            243.671
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 17,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            560.749,
+            126.911,
+            573.2245
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            218.77550000000002,
+            126.911,
+            231.25100000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 17,
+          "column": 1,
+          "text": "gestión o facilitación. \n",
+          "bbox": [
+            126.911,
+            560.749,
+            458.2015,
+            573.2245
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            218.77550000000002,
+            458.2015,
+            231.25100000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 17,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            458.2015,
+            560.749,
+            488.4535,
+            573.2245
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            218.77550000000002,
+            488.4535,
+            231.25100000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 17,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            488.4535,
+            560.749,
+            515.407,
+            573.2245
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            218.77550000000002,
+            515.407,
+            231.25100000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 18,
+          "column": 0,
+          "text": "7. \n",
+          "bbox": [
+            56.64,
+            573.2245,
+            126.911,
+            586.0840000000001
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            205.916,
+            126.911,
+            218.77550000000002
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 18,
+          "column": 1,
+          "text": "Establecen  expresamente  la  prohibición  de  realizar  operaciones  con \n",
+          "bbox": [
+            126.911,
+            573.2245,
+            458.2015,
+            586.0840000000001
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            205.916,
+            458.2015,
+            218.77550000000002
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 18,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            573.2245,
+            488.4535,
+            586.0840000000001
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            205.916,
+            488.4535,
+            218.77550000000002
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 18,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            573.2245,
+            515.407,
+            586.0840000000001
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            205.916,
+            515.407,
+            218.77550000000002
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 19,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            586.0840000000001,
+            126.911,
+            598.519
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            193.481,
+            126.911,
+            205.916
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 19,
+          "column": 1,
+          "text": "recursos  de  procedencia  o  destino \nilícito \n(Lavado  de  Dinero)  o \n",
+          "bbox": [
+            126.911,
+            586.0840000000001,
+            458.2015,
+            598.519
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            193.481,
+            458.2015,
+            205.916
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 19,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            458.2015,
+            586.0840000000001,
+            488.4535,
+            598.519
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            193.481,
+            488.4535,
+            205.916
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 19,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            488.4535,
+            586.0840000000001,
+            515.407,
+            598.519
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            193.481,
+            515.407,
+            205.916
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 20,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            598.519,
+            126.911,
+            610.9945
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            181.0055,
+            126.911,
+            193.481
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 20,
+          "column": 1,
+          "text": "financiamiento al terrorismo. \n",
+          "bbox": [
+            126.911,
+            598.519,
+            458.2015,
+            610.9945
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            181.0055,
+            458.2015,
+            193.481
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 20,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            458.2015,
+            598.519,
+            488.4535,
+            610.9945
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            181.0055,
+            488.4535,
+            193.481
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 20,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            488.4535,
+            598.519,
+            515.407,
+            610.9945
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            181.0055,
+            515.407,
+            193.481
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 21,
+          "column": 0,
+          "text": "8. \n",
+          "bbox": [
+            56.64,
+            610.9945,
+            126.911,
+            623.8389999999999
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            168.161,
+            126.911,
+            181.0055
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 21,
+          "column": 1,
+          "text": "¿Cuenta  con  un  manual  de  organización  y  procedimientos  que \n",
+          "bbox": [
+            126.911,
+            610.9945,
+            458.2015,
+            623.8389999999999
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            168.161,
+            458.2015,
+            181.0055
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 21,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            610.9945,
+            488.4535,
+            623.8389999999999
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            168.161,
+            488.4535,
+            181.0055
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 21,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            610.9945,
+            515.407,
+            623.8389999999999
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            168.161,
+            515.407,
+            181.0055
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 22,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            623.8389999999999,
+            126.911,
+            636.3145
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            155.68550000000002,
+            126.911,
+            168.161
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 22,
+          "column": 1,
+          "text": "describan las funciones y responsabilidades de las áreas? \n",
+          "bbox": [
+            126.911,
+            623.8389999999999,
+            458.2015,
+            636.3145
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            155.68550000000002,
+            458.2015,
+            168.161
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 22,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            458.2015,
+            623.8389999999999,
+            488.4535,
+            636.3145
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            155.68550000000002,
+            488.4535,
+            168.161
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 22,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            488.4535,
+            623.8389999999999,
+            515.407,
+            636.3145
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            155.68550000000002,
+            515.407,
+            168.161
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 23,
+          "column": 0,
+          "text": "9. \n",
+          "bbox": [
+            56.64,
+            636.3145,
+            126.911,
+            654.2545
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            137.7455,
+            126.911,
+            155.68550000000002
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 23,
+          "column": 1,
+          "text": "¿Verifica el perfil ético de sus empleados antes de su contratación? \n",
+          "bbox": [
+            126.911,
+            636.3145,
+            458.2015,
+            654.2545
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            137.7455,
+            458.2015,
+            155.68550000000002
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 23,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            636.3145,
+            488.4535,
+            654.2545
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            137.7455,
+            488.4535,
+            155.68550000000002
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 23,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            636.3145,
+            515.407,
+            654.2545
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            137.7455,
+            515.407,
+            155.68550000000002
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 24,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            654.2545,
+            126.911,
+            672.079
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            119.92099999999999,
+            126.911,
+            137.7455
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 24,
+          "column": 1,
+          "text": "10.  ¿Brinda capacitación a su personal en temas relacionados al combate \n",
+          "bbox": [
+            126.911,
+            654.2545,
+            458.2015,
+            672.079
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            119.92099999999999,
+            458.2015,
+            137.7455
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 24,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            654.2545,
+            488.4535,
+            672.079
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            119.92099999999999,
+            488.4535,
+            137.7455
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 24,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            654.2545,
+            515.407,
+            672.079
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            119.92099999999999,
+            515.407,
+            137.7455
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 25,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            672.079,
+            126.911,
+            684.5525
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            107.44749999999999,
+            126.911,
+            119.92099999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 25,
+          "column": 1,
+          "text": "a la corrupción? \n",
+          "bbox": [
+            126.911,
+            672.079,
+            458.2015,
+            684.5525
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            107.44749999999999,
+            458.2015,
+            119.92099999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 25,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            458.2015,
+            672.079,
+            488.4535,
+            684.5525
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            107.44749999999999,
+            488.4535,
+            119.92099999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 25,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            488.4535,
+            672.079,
+            515.407,
+            684.5525
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            107.44749999999999,
+            515.407,
+            119.92099999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 26,
+          "column": 0,
+          "text": "11. \n",
+          "bbox": [
+            56.64,
+            684.5525,
+            126.911,
+            697.395
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            94.60499999999999,
+            126.911,
+            107.44749999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 26,
+          "column": 1,
+          "text": "¿Cuenta con  algún medio o mecanismo institucional para denunciar \n",
+          "bbox": [
+            126.911,
+            684.5525,
+            458.2015,
+            697.395
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            94.60499999999999,
+            458.2015,
+            107.44749999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 26,
+          "column": 2,
+          "text": " \n",
+          "bbox": [
+            458.2015,
+            684.5525,
+            488.4535,
+            697.395
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            94.60499999999999,
+            488.4535,
+            107.44749999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 26,
+          "column": 3,
+          "text": " \n",
+          "bbox": [
+            488.4535,
+            684.5525,
+            515.407,
+            697.395
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            94.60499999999999,
+            515.407,
+            107.44749999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 27,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            56.64,
+            697.395,
+            126.911,
+            708.075
+          ],
+          "bbox_bottom_origin": [
+            56.64,
+            83.925,
+            126.911,
+            94.60499999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 27,
+          "column": 1,
+          "text": "Hechos de Corrupción? \n",
+          "bbox": [
+            126.911,
+            697.395,
+            458.2015,
+            708.075
+          ],
+          "bbox_bottom_origin": [
+            126.911,
+            83.925,
+            458.2015,
+            94.60499999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 27,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            458.2015,
+            697.395,
+            488.4535,
+            708.075
+          ],
+          "bbox_bottom_origin": [
+            458.2015,
+            83.925,
+            488.4535,
+            94.60499999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 27,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            488.4535,
+            697.395,
+            515.407,
+            708.075
+          ],
+          "bbox_bottom_origin": [
+            488.4535,
+            83.925,
+            515.407,
+            94.60499999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        }
+      ]
+    }
+  ],
+  "repeat_structure_sha256": [
+    "fa4dbe1d6a28c8daf5adb5b306717d195dca84f9c729c8d5d74baee12e0a5093",
+    "fa4dbe1d6a28c8daf5adb5b306717d195dca84f9c729c8d5d74baee12e0a5093"
+  ]
+}

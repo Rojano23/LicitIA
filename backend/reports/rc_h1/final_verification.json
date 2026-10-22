@@ -1,0 +1,71 @@
+{
+  "closure_commit": "6a5cfdf1666ab8608db350efd31dc6c9aa90b46c",
+  "head": "6a5cfdf1666ab8608db350efd31dc6c9aa90b46c",
+  "closure_subject": "docs: close mvp-06v and define limited uat readiness",
+  "committed_docs": [
+    "README.md",
+    "docs/architecture.md",
+    "docs/mvp-06v-closure.md",
+    "docs/release-candidate-limited-uat-readiness.md",
+    "docs/roadmap.md",
+    "docs/uat-capability-statement.md"
+  ],
+  "modified_rc_h1": [
+    ".env.example",
+    "README.md",
+    "backend/.env.example",
+    "backend/alembic.ini",
+    "backend/app/config.py",
+    "backend/pyproject.toml",
+    "backend/requirements.txt",
+    "docker-compose.yml",
+    "docs/roadmap.md",
+    "frontend/package-lock.json",
+    "frontend/package.json",
+    "frontend/vite.config.ts"
+  ],
+  "new_rc_h1": [
+    "backend/app/local_deployment.py",
+    "backend/requirements-rc-macos-arm64.lock",
+    "backend/runtime_guard/sitecustomize.py",
+    "backend/scripts/licitia_local.py",
+    "backend/tests/test_local_deployment.py",
+    "docs/adr/0019-local-uat-deployment.md",
+    "docs/local-deployment.md",
+    "docs/uat-admin-quickstart.md",
+    "frontend/.node-version"
+  ],
+  "staging_empty": true,
+  "rc_h1_committed": false,
+  "push": false,
+  "historical_files_verified": 4560,
+  "attempt9_related_preserved_files": 1381,
+  "private_services_stopped": true,
+  "no_domain_migration": true,
+  "no_semantic_engine_changes": true,
+  "no_provider_inference": true,
+  "regression": {
+    "new": "27 passed, 8 warnings in 1.95s",
+    "core": "205 passed, 1 skipped, 10 warnings in 14.99s",
+    "di": "1153 passed, 1 deselected, 8 warnings in 118.43s (0:01:58)",
+    "full": "2136 passed, 1 deselected, 11 warnings in 205.25s (0:03:25)",
+    "frontend": "78 passed (4 test files)",
+    "frontend_build": "PASS, clean copied frontend after npm ci --offline",
+    "compileall": "PASS app/scripts/tests + runtime_guard",
+    "diff_check": "PASS"
+  },
+  "success_gate": {
+    "A": "PASS_WITH_DOCUMENTED_PLATFORM_AND_REPRODUCTION_LIMITS",
+    "B": "PASS_WITH_DOCUMENTED_PLATFORM_AND_REPRODUCTION_LIMITS",
+    "C": "PASS_WITH_DOCUMENTED_PLATFORM_AND_REPRODUCTION_LIMITS",
+    "D": "PASS_WITH_DOCUMENTED_PLATFORM_AND_REPRODUCTION_LIMITS",
+    "E": "PASS_WITH_DOCUMENTED_PLATFORM_AND_REPRODUCTION_LIMITS",
+    "F": "PASS_WITH_DOCUMENTED_PLATFORM_AND_REPRODUCTION_LIMITS",
+    "G": "PASS_WITH_DOCUMENTED_PLATFORM_AND_REPRODUCTION_LIMITS",
+    "H": "PASS_WITH_DOCUMENTED_PLATFORM_AND_REPRODUCTION_LIMITS",
+    "I": "PASS_WITH_DOCUMENTED_PLATFORM_AND_REPRODUCTION_LIMITS",
+    "J": "PASS_WITH_DOCUMENTED_PLATFORM_AND_REPRODUCTION_LIMITS",
+    "K": "PASS_WITH_DOCUMENTED_PLATFORM_AND_REPRODUCTION_LIMITS"
+  },
+  "ready_for_commit_review": true
+}

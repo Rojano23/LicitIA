@@ -1,0 +1,176 @@
+{
+  "schema": "TABLE_BENCHMARK_REFERENCE_002",
+  "authority": "User-confirmed B1 p1 item/quantity/unit/brand/model-prefix reference only. Geometry, full literal suffixes and other pages remain separately proposed.",
+  "coordinate_system": "PDF points, origin top-left; bbox approximate visual reference only; never supplied to extractors",
+  "pages": {
+    "B1_P1": {
+      "tables": [
+        {
+          "name": "materials",
+          "bbox": [
+            49,
+            292,
+            568,
+            415
+          ],
+          "rows_including_header": 3,
+          "columns": [
+            "Partida",
+            "Descripción",
+            "Unidad de Medida",
+            "Cantidad"
+          ],
+          "procurement": true,
+          "items": [
+            {
+              "id": "1",
+              "quantity": "1",
+              "unit": "PZA",
+              "brand": "GE MULTILIN",
+              "model": "F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+              "model_prefix_human_confirmed": "F60",
+              "model_field_semantics": "Literal part number transcription; full suffix not separately human-confirmed; not canonical model assignment."
+            },
+            {
+              "id": "2",
+              "quantity": "2",
+              "unit": "PZA",
+              "brand": "GE MULTILIN",
+              "model": "L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+              "model_prefix_human_confirmed": "L90",
+              "model_field_semantics": "Literal part number transcription; full suffix not separately human-confirmed; not canonical model assignment."
+            }
+          ],
+          "human_confirmed_fields": [
+            "item_id",
+            "quantity",
+            "unit",
+            "brand",
+            "model_prefix"
+          ],
+          "geometry_status": "PROPOSED_VISUAL_NOT_HUMAN_CONFIRMED"
+        },
+        {
+          "name": "standards",
+          "bbox": [
+            54,
+            448,
+            558,
+            696
+          ],
+          "rows_including_header": 11,
+          "columns": [
+            "Norma / Estándar técnico / Código",
+            "Descripción"
+          ],
+          "procurement": false,
+          "row_labels": [
+            "IEC-60255",
+            "IEC-60255",
+            "IEC-60255",
+            "IEC-60068",
+            "IEC-61000",
+            "ISO9001:2015",
+            "NMX-J-625-21-1- ANCE-2020",
+            "NOM-003-SCT-2008.",
+            "IEC 61850-9-2LE",
+            "IEC 60255-1:2022"
+          ]
+        }
+      ]
+    },
+    "B1_P2": {
+      "tables": [],
+      "note": "Prose/list obligations, not a body data table; decorative header panel is not procurement."
+    },
+    "BASES_P41": {
+      "tables": [
+        {
+          "name": "confidentiality_form",
+          "bbox": [
+            42,
+            396,
+            547,
+            427
+          ],
+          "rows_including_header": 2,
+          "columns": [
+            "Documento",
+            "Tipo de Información (1)"
+          ],
+          "procurement": false,
+          "data": [
+            [
+              "XXXXXXXX",
+              "XXXXXXXXX"
+            ]
+          ]
+        }
+      ]
+    },
+    "QUESTION_P12": {
+      "tables": [
+        {
+          "name": "weak_upper_form",
+          "bbox": [
+            56,
+            124,
+            560,
+            230
+          ],
+          "rows_including_header": 4,
+          "columns": [
+            "Nombre del servidor público",
+            "Tipo de relación",
+            "Porcentaje de participación"
+          ],
+          "procurement": false,
+          "note": "Three blank form rows; one literal 5.00 in percentage column; not procurement quantity."
+        },
+        {
+          "name": "questionnaire",
+          "bbox": [
+            92,
+            272,
+            525,
+            709
+          ],
+          "rows_including_header": 12,
+          "columns": [
+            "Característica",
+            "Sí",
+            "No"
+          ],
+          "procurement": false,
+          "note": "11 questions; bullet list belongs to question5. Checkbox rectangles are not separate logical columns/items."
+        }
+      ]
+    },
+    "ANEXOC_P1": {
+      "tables": [
+        {
+          "name": "scanned_materials",
+          "bbox": [
+            39,
+            213,
+            560,
+            337
+          ],
+          "rows_including_header": 3,
+          "columns": [
+            "Partida",
+            "Descripción",
+            "Unidad de Medida",
+            "Cantidad"
+          ],
+          "procurement": true,
+          "reference_status": "PROPOSED_PHYSICAL_LAYOUT_ONLY_NOT_HUMAN_ITEM_TRUTH"
+        }
+      ],
+      "human_item_reference_status": "UNVERIFIED_INDEPENDENT_SOURCE_CHECK_REQUIRED",
+      "do_not_inherit_items_from": "B1_P1",
+      "note": "Anexo C extraction outputs are observations only. Second item is not assigned here as confirmed reference."
+    }
+  },
+  "confirmation_record": "reference_revision_002/user_correction.json"
+}

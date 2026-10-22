@@ -1,6 +1,6 @@
 # ADR 0019 — instancia local reproducible para UAT controlada
 
-Estado: implementado, pendiente de revisión arquitectónica RC-H1. Fecha2026-10-21.
+Estado: ACCEPTED RC-H1, commit `65b3465c35877408aafe15757d3e74aaddf10e36`. Fecha2026-10-21.
 
 Se mantiene PostgreSQL+filesystem y el proveedor local opcional; no nuevo servicio distribuido, schema o dominio. La primera plataforma es macOS arm64/Python3.13/PostgreSQL17. Se conserva pip/venv con lock de wheels/hashes específico de plataforma y npmci con package-lock. Se revisaron prácticas oficiales pip/PostgreSQL/Uvicorn enlazadas en docs/local-deployment.md antes de implementar el wrapper mínimo.
 

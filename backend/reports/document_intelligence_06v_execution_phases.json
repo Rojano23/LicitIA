@@ -1,0 +1,33 @@
+{
+  "blocked_provider_attempts": [],
+  "config_sha256": "73d56599fc016a7b11bf43b4e5a9a58bbd008ae28410224c6b78e01c8743f9f2",
+  "ended_at": "2026-10-14T06:53:16.524700+00:00",
+  "errors": [
+    "document_native_preparation:HTTPException:400: Only PDF documents can be extracted."
+  ],
+  "execution_status": "BLIND_RUN_EXECUTION_BLOCKER",
+  "git_commit": "3c989fae39975ed89d185fe52af0f94ab4012497",
+  "import_manifest_sha256": "89a0df37929d4a4f69df0a7b16d643fef472f9d6557fe3f92b56083053a2bd4d",
+  "metrics_collection_seconds": 0.142638,
+  "native_extraction_calls": 0,
+  "phases": [
+    {
+      "elapsed_seconds": 0.005322,
+      "ended_at": "2026-10-14T06:53:16.524565+00:00",
+      "exception": "400: Only PDF documents can be extracted.",
+      "exception_type": "HTTPException",
+      "phase": "document_native_preparation",
+      "started_at": "2026-10-14T06:53:16.519054+00:00",
+      "status": "BLOCKED"
+    }
+  ],
+  "provider_calls": {
+    "Ollama": 0,
+    "Qwen": 0,
+    "Tesseract_OCR": 0,
+    "Vision": 0
+  },
+  "run_id": "06v_6f6c60e697534a04abc3f922e698fef1",
+  "started_at": "2026-10-14T06:53:16.519030+00:00",
+  "tender_id": "421da160-2a27-410b-b159-8f10eb99938d"
+}

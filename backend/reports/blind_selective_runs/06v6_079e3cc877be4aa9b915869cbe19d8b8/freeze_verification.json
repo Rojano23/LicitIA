@@ -1,0 +1,8 @@
+{
+  "run_id": "06v6_079e3cc877be4aa9b915869cbe19d8b8",
+  "data_root": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v6_079e3cc877be4aa9b915869cbe19d8b8",
+  "pre_freeze_path": "/Users/ceciliavalencia/LiticIA/backend/reports/blind_selective_runs/06v6_079e3cc877be4aa9b915869cbe19d8b8/pre_execution.json",
+  "pre_freeze_sha256": "a827ef282726ab28f0d33370b78c171ea7ee466b548205205ce000b9cfcfcb30",
+  "profile_sha256": "a4e14ff90be7b66912ab51ac47b060a5a94a90fc38a9f35e37856d03303dfdc6",
+  "bootstrap_directory": "/Users/ceciliavalencia/LiticIA/backend/reports/blind_selective_runs/06v6_079e3cc877be4aa9b915869cbe19d8b8_bootstrap"
+}

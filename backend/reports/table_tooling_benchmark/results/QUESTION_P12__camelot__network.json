@@ -1,0 +1,725 @@
+{
+  "page": "QUESTION_P12",
+  "tool": "camelot",
+  "configuration": "network",
+  "parameters": {
+    "flavor": "network"
+  },
+  "repeat_seconds": [
+    0.028831750008976087,
+    0.023022707988275215
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 532873216,
+  "warnings": [],
+  "errors": [],
+  "tables": [
+    {
+      "bbox_bottom_origin": [
+        112.46,
+        96.285,
+        449.863,
+        516.571
+      ],
+      "bbox": [
+        112.46,
+        275.429,
+        449.863,
+        695.715
+      ],
+      "rows": 26,
+      "columns": 1,
+      "matrix": [
+        [
+          "Característica"
+        ],
+        [
+          "1. ¿Cuenta con un código de ética?"
+        ],
+        [
+          "2. ¿Cuenta con un código de conducta?"
+        ],
+        [
+          "3. ¿Cuenta con una política anticorrupción?"
+        ],
+        [
+          "4. \n¿Tiene algún otro documento que regule el comportamiento ético de"
+        ],
+        [
+          "sus empleados?"
+        ],
+        [
+          "5.  La política o los códigos que los regulan incluye(n) las siguientes"
+        ],
+        [
+          "características:"
+        ],
+        [
+          "• \nTransparencia en cuanto a donativos"
+        ],
+        [
+          "• \nSon públicos."
+        ],
+        [
+          "• \nSon extensivos a sus grupos de interés, partes relacionadas,"
+        ],
+        [
+          "proveedores y otros."
+        ],
+        [
+          "• \nTransparencia en cuanto aportaciones y contribuciones políticas"
+        ],
+        [
+          "• \nEstablecen expresamente la prohibición de ofrecer o recibir sobornos"
+        ],
+        [
+          "6. \nEstablecen expresamente la prohibición de ofrecer o recibir"
+        ],
+        [
+          "incentivos de cualquier tipo (efectivo, especie, etc.) por trámite,"
+        ],
+        [
+          "gestión o facilitación."
+        ],
+        [
+          "7. \nEstablecen  expresamente  la  prohibición  de  realizar  operaciones  con"
+        ],
+        [
+          "recursos  de  procedencia  o  destino \nilícito \n(Lavado  de  Dinero)  o"
+        ],
+        [
+          "financiamiento al terrorismo."
+        ],
+        [
+          "8. \n¿Cuenta  con  un  manual  de  organización  y  procedimientos  que"
+        ],
+        [
+          "describan las funciones y responsabilidades de las áreas?"
+        ],
+        [
+          "9. \n¿Verifica el perfil ético de sus empleados antes de su contratación?"
+        ],
+        [
+          "10.  ¿Brinda capacitación a su personal en temas relacionados al combate"
+        ],
+        [
+          "a la corrupción?"
+        ],
+        [
+          "11. \n¿Cuenta con  algún medio o mecanismo institucional para denunciar"
+        ]
+      ],
+      "parser_report": {
+        "accuracy": 99.73,
+        "whitespace": 0.0,
+        "order": 1,
+        "page": 1,
+        "confidence": 0.9973
+      },
+      "cells": [
+        {
+          "row": 0,
+          "column": 0,
+          "text": "Característica \n",
+          "bbox": [
+            112.46,
+            275.429,
+            449.863,
+            291.1445
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            500.8555,
+            449.863,
+            516.571
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "text": "1. ¿Cuenta con un código de ética?  \n",
+          "bbox": [
+            112.46,
+            291.1445,
+            449.863,
+            314.0045
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            477.9955,
+            449.863,
+            500.8555
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 0,
+          "text": "2. ¿Cuenta con un código de conducta? \n",
+          "bbox": [
+            112.46,
+            314.0045,
+            449.863,
+            336.92449999999997
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            455.07550000000003,
+            449.863,
+            477.9955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 0,
+          "text": "3. ¿Cuenta con una política anticorrupción? \n",
+          "bbox": [
+            112.46,
+            336.92449999999997,
+            449.863,
+            359.7845
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            432.2155,
+            449.863,
+            455.07550000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 0,
+          "text": "4. \n¿Tiene algún otro documento que regule el comportamiento ético de \n",
+          "bbox": [
+            112.46,
+            359.7845,
+            449.863,
+            377.60900000000004
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            414.39099999999996,
+            449.863,
+            432.2155
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 0,
+          "text": "sus empleados? \n",
+          "bbox": [
+            112.46,
+            377.60900000000004,
+            449.863,
+            390.0845
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            401.9155,
+            449.863,
+            414.39099999999996
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 0,
+          "text": "5.  La política o los códigos que los regulan incluye(n) las siguientes \n",
+          "bbox": [
+            112.46,
+            390.0845,
+            449.863,
+            402.92900000000003
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            389.07099999999997,
+            449.863,
+            401.9155
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 0,
+          "text": "características: \n",
+          "bbox": [
+            112.46,
+            402.92900000000003,
+            449.863,
+            417.0345
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            374.9655,
+            449.863,
+            389.07099999999997
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 0,
+          "text": "• \nTransparencia en cuanto a donativos \n",
+          "bbox": [
+            112.46,
+            417.0345,
+            449.863,
+            436.54449999999997
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            355.45550000000003,
+            449.863,
+            374.9655
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 0,
+          "text": "• \nSon públicos. \n",
+          "bbox": [
+            112.46,
+            436.54449999999997,
+            449.863,
+            459.4045
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            332.5955,
+            449.863,
+            355.45550000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 0,
+          "text": "• \nSon extensivos a sus grupos de interés, partes relacionadas, \n",
+          "bbox": [
+            112.46,
+            459.4045,
+            449.863,
+            477.22900000000004
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            314.77099999999996,
+            449.863,
+            332.5955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 0,
+          "text": "proveedores y otros. \n",
+          "bbox": [
+            112.46,
+            477.22900000000004,
+            449.863,
+            489.7045
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            302.2955,
+            449.863,
+            314.77099999999996
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 0,
+          "text": "• \nTransparencia en cuanto aportaciones y contribuciones políticas \n",
+          "bbox": [
+            112.46,
+            489.7045,
+            449.863,
+            507.58450000000005
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            284.41549999999995,
+            449.863,
+            302.2955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 0,
+          "text": "• \nEstablecen expresamente la prohibición de ofrecer o recibir sobornos \n",
+          "bbox": [
+            112.46,
+            507.58450000000005,
+            449.863,
+            530.5045
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            261.4955,
+            449.863,
+            284.41549999999995
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 14,
+          "column": 0,
+          "text": "6. \nEstablecen expresamente la prohibición de ofrecer o recibir \n",
+          "bbox": [
+            112.46,
+            530.5045,
+            449.863,
+            548.329
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            243.671,
+            449.863,
+            261.4955
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 15,
+          "column": 0,
+          "text": "incentivos de cualquier tipo (efectivo, especie, etc.) por trámite, \n",
+          "bbox": [
+            112.46,
+            548.329,
+            449.863,
+            560.749
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            231.25100000000003,
+            449.863,
+            243.671
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 16,
+          "column": 0,
+          "text": "gestión o facilitación. \n",
+          "bbox": [
+            112.46,
+            560.749,
+            449.863,
+            573.2245
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            218.77550000000002,
+            449.863,
+            231.25100000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 17,
+          "column": 0,
+          "text": "7. \nEstablecen  expresamente  la  prohibición  de  realizar  operaciones  con \n",
+          "bbox": [
+            112.46,
+            573.2245,
+            449.863,
+            586.0840000000001
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            205.916,
+            449.863,
+            218.77550000000002
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 18,
+          "column": 0,
+          "text": "recursos  de  procedencia  o  destino \nilícito \n(Lavado  de  Dinero)  o \n",
+          "bbox": [
+            112.46,
+            586.0840000000001,
+            449.863,
+            598.519
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            193.481,
+            449.863,
+            205.916
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 19,
+          "column": 0,
+          "text": "financiamiento al terrorismo. \n",
+          "bbox": [
+            112.46,
+            598.519,
+            449.863,
+            610.9945
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            181.0055,
+            449.863,
+            193.481
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 20,
+          "column": 0,
+          "text": "8. \n¿Cuenta  con  un  manual  de  organización  y  procedimientos  que \n",
+          "bbox": [
+            112.46,
+            610.9945,
+            449.863,
+            623.8389999999999
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            168.161,
+            449.863,
+            181.0055
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 21,
+          "column": 0,
+          "text": "describan las funciones y responsabilidades de las áreas? \n",
+          "bbox": [
+            112.46,
+            623.8389999999999,
+            449.863,
+            636.3145
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            155.68550000000002,
+            449.863,
+            168.161
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 22,
+          "column": 0,
+          "text": "9. \n¿Verifica el perfil ético de sus empleados antes de su contratación? \n",
+          "bbox": [
+            112.46,
+            636.3145,
+            449.863,
+            654.2545
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            137.7455,
+            449.863,
+            155.68550000000002
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 23,
+          "column": 0,
+          "text": "10.  ¿Brinda capacitación a su personal en temas relacionados al combate \n",
+          "bbox": [
+            112.46,
+            654.2545,
+            449.863,
+            672.079
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            119.92099999999999,
+            449.863,
+            137.7455
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 24,
+          "column": 0,
+          "text": "a la corrupción? \n",
+          "bbox": [
+            112.46,
+            672.079,
+            449.863,
+            684.5525
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            107.44749999999999,
+            449.863,
+            119.92099999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 25,
+          "column": 0,
+          "text": "11. \n¿Cuenta con  algún medio o mecanismo institucional para denunciar \n",
+          "bbox": [
+            112.46,
+            684.5525,
+            449.863,
+            695.715
+          ],
+          "bbox_bottom_origin": [
+            112.46,
+            96.285,
+            449.863,
+            107.44749999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        }
+      ]
+    }
+  ],
+  "repeat_structure_sha256": [
+    "10eba38fe2c7f8b4910d85169f51879f7ec8b828e5f7f11c3ac682ecc73f60a4",
+    "10eba38fe2c7f8b4910d85169f51879f7ec8b828e5f7f11c3ac682ecc73f60a4"
+  ]
+}

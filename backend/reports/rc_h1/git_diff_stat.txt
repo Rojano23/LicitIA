@@ -1,0 +1,13 @@
+ .env.example               | 18 ++++++++++++------
+ README.md                  |  1 +
+ backend/.env.example       | 16 ++++++++++++----
+ backend/alembic.ini        |  4 ++--
+ backend/app/config.py      |  4 ++--
+ backend/pyproject.toml     |  2 +-
+ backend/requirements.txt   |  2 +-
+ docker-compose.yml         |  4 ++--
+ docs/roadmap.md            |  1 +
+ frontend/package-lock.json |  4 ++++
+ frontend/package.json      | 11 ++++++++---
+ frontend/vite.config.ts    |  4 ++--
+ 12 files changed, 48 insertions(+), 23 deletions(-)

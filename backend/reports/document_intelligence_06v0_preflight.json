@@ -1,0 +1,474 @@
+{
+  "actual_run_guard": "Protected code dirty currently true; actual run refused until human acceptance/commit + clean pre-import identity + explicit Tender002 import authorization",
+  "blockers_for_preflight_review": [],
+  "code_commit_role": "PREFLIGHT_BASELINE + frozen source hashes; future actual HEAD captured before import and after run",
+  "code_manifest_sha256": "6ad0e80d613009511f58e036088213c23711b0adbcdf8d33fbc9412a5cff1bfd",
+  "conditions": [
+    {
+      "condition": "Generic cross-domain collector",
+      "evidence": "Typed snapshot + ORM read-only adapter + VF01–VF12/VF26–VF30 and positive quantity/attribute integration",
+      "id": "C01",
+      "status": "PASS"
+    },
+    {
+      "condition": "Bounded provider plan",
+      "evidence": "Typed manifest AVAILABLE_ONLY, zero OCR/Vision/LLM execution authorization; full-page Vision transcription not normal fallback",
+      "id": "C02",
+      "status": "PASS"
+    },
+    {
+      "condition": "Debt resolved + code/config identities",
+      "evidence": "Four stale tests updated only; broad1709green; 254 frozen code/protocol SHA identities + baseline1745c70; actual run captures future HEAD and refuses dirty code",
+      "future_requirement": "Accepted code must be committed/clean before pre-import identity; V.0 explicitly does not stage/commit/push",
+      "id": "C03",
+      "status": "PASS_FOR_PREFLIGHT_REVIEW"
+    },
+    {
+      "condition": "Dedicated validation database",
+      "evidence": "licitia_validation_06v created via existing Alembic; head072; seven corpus counts=0; dev071 untouched",
+      "id": "C04",
+      "status": "PASS"
+    },
+    {
+      "condition": "First-pass freeze before analysis",
+      "evidence": "Exclusive run directory, JSON/MD/FROZEN hashes, tamper verification, independent HumanTruth keyed to first-pass SHA and separate analysis identity",
+      "id": "C05",
+      "status": "PASS"
+    }
+  ],
+  "database": {
+    "attributes": 0,
+    "current": "20261013_req_perception_prov_072",
+    "dev_changed": false,
+    "dev_current": "20261012_alt_compliance_071",
+    "document_count": 0,
+    "existing_migrations_applied_only_to_new_db": true,
+    "head": "20261013_req_perception_prov_072",
+    "name": "licitia_validation_06v",
+    "new_migration_required": false,
+    "pages": 0,
+    "quantities": 0,
+    "requirements": 0,
+    "schema_change": false,
+    "scope_details": 0,
+    "tender_count": 0,
+    "test_current": "20261013_req_perception_prov_072",
+    "url": "postgresql+psycopg://ceciliavalencia@localhost:5432/licitia_validation_06v"
+  },
+  "evaluation_tooling_added": true,
+  "files": [
+    {
+      "path": "backend/app/document_intelligence_validation_metrics.py",
+      "sha256": "1d9a1c4a98ae0a85246a386ec15a4a912cca4e7f5681a2086535d2e1506cc38d"
+    },
+    {
+      "path": "backend/app/document_intelligence_blind_run.py",
+      "sha256": "0ab7471917177a52d397d7c8d709e51b13f4ca06c4eb8a227a9099034c39f6fb"
+    },
+    {
+      "path": "backend/scripts/run_document_intelligence_06v.py",
+      "sha256": "dc4fd447ffff786e6bb66f74eebb4e2d8acd157b5780d4348e0669a2bab823a4"
+    },
+    {
+      "path": "backend/evals/document_intelligence_06v_config_v1.json",
+      "sha256": "73d56599fc016a7b11bf43b4e5a9a58bbd008ae28410224c6b78e01c8743f9f2"
+    },
+    {
+      "path": "backend/tests/test_document_intelligence_06v_preflight.py",
+      "sha256": "08a848d4fdd6b2f3078dc63d29c3c037e9ac18ed64883a7f3016b86614c33106"
+    },
+    {
+      "path": "backend/tests/test_documents.py",
+      "sha256": "4e9c23a5089ed57e795eaa5b6ddf139e72af64aee5010c5fa6ab9f15e7ff9cc0"
+    },
+    {
+      "path": "docs/document-intelligence-06v-protocol.md",
+      "sha256": "fae0e245f5b32c5171d78c70a9c5139b351b08b0ffa1ec63bb22a2e15df66de9"
+    },
+    {
+      "path": "docs/roadmap.md",
+      "sha256": "8e5db137cf04c8885fd434dacaefe7c06bb8250e6855ceb356c3f17909a0260f"
+    }
+  ],
+  "first_pass_metric_set": [
+    "documents/pages/perception availability",
+    "canonical Requirements + discovery candidates separately",
+    "requested Evidence",
+    "Scope/details/owners",
+    "attributes/quantities/bindings",
+    "versions/effects/effective projection",
+    "review units by domain/reason/page/document",
+    "provider explicit event ledger + persisted artifact metadata",
+    "conflicts/stale carry",
+    "unadjudicated automation rates",
+    "traceable domain links"
+  ],
+  "known_limits": [
+    "Baseline first pass has no real providers authorized; eligible specialist needs new frozen plan before corpus opening",
+    "Absent persisted latency/call counts remain null; explicit ExecutionLog captures actual failed attempts later",
+    "Recall/safety correctness need independent human adjudication; not known in first pass",
+    "Collector does not run/import pipeline, and no real blind first-pass report has been produced"
+  ],
+  "manifest_path": "backend/evals/document_intelligence_06v_config_v1.json",
+  "manifest_sha256": "73d56599fc016a7b11bf43b4e5a9a58bbd008ae28410224c6b78e01c8743f9f2",
+  "post_adjudication_metric_set": [
+    "trusted_correct",
+    "trusted_incorrect",
+    "unsafe_trusted_contractual_errors",
+    "unsafe_trusted_structural_errors",
+    "safe_misses",
+    "unnecessary_review",
+    "critical_identifier_conflicts_correctly_surfaced",
+    "quantity_unsafe_bindings",
+    "attribute_unsafe_bindings",
+    "safe_automatic_selections",
+    "recall against unique human truth cases + explicit coverage"
+  ],
+  "preflight_identity": {
+    "code": {
+      "alembic_revision": "20261013_req_perception_prov_072",
+      "code_manifest_sha256": "6ad0e80d613009511f58e036088213c23711b0adbcdf8d33fbc9412a5cff1bfd",
+      "commit": "1745c70311e2e29fa1744aef693a35c8d8f16205",
+      "config_sha256": "73d56599fc016a7b11bf43b4e5a9a58bbd008ae28410224c6b78e01c8743f9f2",
+      "platform": "macOS-15.6.1-arm64-arm-64bit-Mach-O",
+      "preflight_baseline_commit": "1745c70311e2e29fa1744aef693a35c8d8f16205",
+      "protected_dirty": true,
+      "protected_status": [
+        " M backend/tests/test_documents.py",
+        "?? backend/app/document_intelligence_blind_run.py",
+        "?? backend/app/document_intelligence_validation_metrics.py",
+        "?? backend/evals/document_intelligence_06v_config_v1.json",
+        "?? backend/scripts/run_document_intelligence_06v.py",
+        "?? backend/tests/test_document_intelligence_06v_preflight.py",
+        "?? docs/document-intelligence-06v-protocol.md"
+      ],
+      "python_executable": "/Users/ceciliavalencia/LiticIA/backend/.venv/bin/python",
+      "python_version": "3.13.15",
+      "working_tree_status": [
+        " M backend/tests/test_documents.py",
+        " M docs/roadmap.md",
+        "?? MVP-06.3.4c-FINAL-SAFETY-REPORT.md",
+        "?? MVP-06.3.4c-HUMAN-LABELS-FINAL-REPORT.md",
+        "?? MVP-06.3.4c-PENDING-IDENTITY-FIX-REPORT.md",
+        "?? backend/GOLDEN_FINAL_REVIEW.txt",
+        "?? backend/MVP-06.3.4c-DIAGNOSTIC-OUTPUT-REPORT.txt",
+        "?? backend/MVP-06.3.4c-PHASE-4-FINAL-REPORT.txt",
+        "?? backend/MVP-06.3.4c-RUNNER-HOTFIX-REPORT.txt",
+        "?? backend/MVP-06.3.4c-TECHNICAL-CLOSURE-FINAL.txt",
+        "?? backend/MVP-06.4.4b-QWEN8B-BASELINE-002.txt",
+        "?? backend/MVP-06.4.4b-QWEN8B-BASELINE-003.txt",
+        "?? backend/PARENT_RECOVERY_AUDIT.txt",
+        "?? backend/SCOPE-SEMANTIC-CONTRACT-004-IMPLEMENTATION.txt",
+        "?? backend/app/document_intelligence_blind_run.py",
+        "?? backend/app/document_intelligence_validation_metrics.py",
+        "?? backend/evals/document_intelligence_06v_config_v1.json",
+        "?? backend/reports/b4_structural_golden_candidate_v1.json",
+        "?? backend/reports/b4_structural_golden_review_packet.md",
+        "?? backend/reports/b4_structural_golden_review_pages/page_1.png",
+        "?? backend/reports/b4_structural_golden_review_pages/page_2.png",
+        "?? backend/reports/b4_structural_golden_review_pages/page_3.png",
+        "?? backend/reports/b4_structural_golden_review_pages/page_4.png",
+        "?? backend/reports/di_r4a_available_structure.json",
+        "?? backend/reports/di_r4a_b4_structure_phase4_rescore.json",
+        "?? backend/reports/di_r4a_b4_structure_rescore.json",
+        "?? backend/reports/di_r4a_batch1_reanalysis.json",
+        "?? backend/reports/di_r4a_existing_vision_transcription.json",
+        "?? backend/reports/di_r4a_inventory.json",
+        "?? backend/reports/di_r4a_native_structure.json",
+        "?? backend/reports/di_r4a_native_transcription.json",
+        "?? backend/reports/di_r4a_ocr_structure.json",
+        "?? backend/reports/di_r4a_ocr_transcription.json",
+        "?? backend/reports/di_r4a_tesseract_b4_p4_transcription.json",
+        "?? backend/reports/di_r4a_vision_b4_p1_p3_structure.json",
+        "?? backend/reports/di_r4a_vision_b4_p4_transcription.json",
+        "?? backend/reports/document_intelligence_r2_architecture_review.md",
+        "?? backend/reports/document_intelligence_r3_review.md",
+        "?? backend/reports/document_intelligence_r4a_b4_structure_rescore.md",
+        "?? backend/reports/document_intelligence_r4a_batch1_reanalysis.md",
+        "?? backend/reports/document_intelligence_r4a_first_batch_analysis.json",
+        "?? backend/reports/document_intelligence_r4a_first_batch_analysis.md",
+        "?? backend/reports/document_intelligence_r4a_phase1.md",
+        "?? backend/reports/document_intelligence_r4a_phase4_structural_trust_hardening.md",
+        "?? backend/reports/document_intelligence_r4b_readiness_gate.json",
+        "?? backend/reports/document_intelligence_r4b_readiness_gate.md",
+        "?? backend/reports/source_effect_qwen8b_baseline_v1.json",
+        "?? backend/reports/source_effect_qwen8b_bounded_v3.json",
+        "?? backend/reports/source_effect_qwen8b_calibrated_v2.json",
+        "?? backend/reports/source_effect_qwen8b_fully_bounded_v4.json",
+        "?? backend/scripts/run_document_intelligence_06v.py",
+        "?? backend/tests/test_document_intelligence_06v_preflight.py",
+        "?? docs/document-intelligence-06v-protocol.md"
+      ]
+    },
+    "database": {
+      "database": "licitia_validation_06v",
+      "document_count": 0,
+      "revision": "20261013_req_perception_prov_072",
+      "tender_count": 0
+    },
+    "provider_calls": 0
+  },
+  "production_behavior_changed": false,
+  "provider_calls": 0,
+  "provider_policy": {
+    "detail_prompt_version": "vision-detail-transcription-2026-08-31-001",
+    "execution_policy": "AVAILABLE_ONLY",
+    "max_automatic_provider_calls": 0,
+    "models_allowed_bounded": [
+      {
+        "capability": "STRUCTURE",
+        "execution_authorized": false,
+        "model": "qwen3-vl:4b-instruct"
+      }
+    ],
+    "models_disallowed_automatic": [
+      {
+        "capability": "TRANSCRIPTION",
+        "model": "qwen3-vl:4b-instruct"
+      }
+    ],
+    "native": "PREFERRED_WHERE_SUFFICIENT_RELIABLE",
+    "ocr_execution_authorized": false,
+    "ocr_tesseract_eligible": true,
+    "provider_calls_authorized": 0,
+    "semantic_assist": "EXPLICIT_BOUNDED_GROUNDED_REVIEW_ONLY_NO_DEFAULT_PROVIDER",
+    "source_effect_llm_automatic": false,
+    "structure_prompt_version": "vision-structure-scope-2026-09-03-006",
+    "temperature": 0,
+    "vision_detail_output_tokens_recorded_only": 1000,
+    "vision_execution_authorized": false,
+    "vision_full_page_transcription_automatic": false,
+    "vision_max_pages_per_task": 4,
+    "vision_render_max_dimension_px": 2800,
+    "vision_render_max_image_bytes": 8388608,
+    "vision_render_zoom": 2.0,
+    "vision_retry_malformed_json": 0,
+    "vision_structure_eligible": true,
+    "vision_structure_output_tokens": 600,
+    "vision_structure_requires_grounding_review_and_explicit_authorization": true,
+    "vision_timeout_seconds": 180.0
+  },
+  "real_models_executed": false,
+  "recommendation": "READY_TO_AUTHORIZE_06V",
+  "recommended_next_action": "Human review/accept V.0, then explicitly authorize commit/freeze and only separately Tender002; do not execute corpus now",
+  "roadmap": {
+    "06.R": "CLOSED",
+    "06.R.4b": "CLOSED",
+    "06.V": "PROTECTED / NOT AUTHORIZED",
+    "06.V.0": "CURRENT"
+  },
+  "schema_version": "DI_06V_PREFLIGHT_001",
+  "stage_commit_push": false,
+  "starting_head": "1745c70311e2e29fa1744aef693a35c8d8f16205",
+  "tender002_authorization": false,
+  "tender002_inspected": false,
+  "test_debt": [
+    {
+      "current_behavior": "Constante006 existente desde el HEAD aceptado",
+      "disposition": "Misma aserción exacta, actualizada a vision-structure-scope-2026-09-03-006",
+      "final_result": "PASS",
+      "obsolete_expectation": "Constante requerida005",
+      "production_changed": false,
+      "test": "test_structure_scope_prompt_version_bumped_for_normalization_semantics"
+    },
+    {
+      "current_behavior": "Set004/006: reusa lógica de fingerprint y crea nueva revisión actual",
+      "disposition": "Se mantiene len=2, no reuso antiguo, IDs/status/versiones; sólo literal esperado actualizado",
+      "final_result": "PASS",
+      "obsolete_expectation": "Set de análisis004/005",
+      "production_changed": false,
+      "test": "test_completed_old_structure_scope_analysis_is_not_reused_after_version_bump"
+    },
+    {
+      "current_behavior": "Latest-summary selecciona únicamente current006",
+      "disposition": "Fixture/nombre/variable/aserciones versionadas a006; mismo ID/status/metadata",
+      "final_result": "PASS",
+      "obsolete_expectation": "Fixture005 considerado current; IDs005 frente a004",
+      "production_changed": false,
+      "test": "test_vision_latest_summary_prefers_current_005_over_legacy → test_vision_latest_summary_prefers_current_006_over_legacy"
+    },
+    {
+      "current_behavior": "Fixture006 y mismo contrato de resumen liviano",
+      "disposition": "Se conservan status/candidates/ausencia heavy payload y restantes aserciones",
+      "final_result": "PASS",
+      "obsolete_expectation": "Fixture005 que latest-summary006 no seleccionaba",
+      "production_changed": false,
+      "test": "test_vision_latest_summary_derives_candidates_and_status_without_heavy_payload"
+    }
+  ],
+  "validation": {
+    "broad": {
+      "command": "RUN_LOCAL_OLLAMA_TESTS=0 DATABASE_URL=postgresql+psycopg://ceciliavalencia@localhost:5432/licitia_test /Users/ceciliavalencia/LiticIA/backend/.venv/bin/python -m pytest tests -m 'not local_ollama' -q --tb=short",
+      "deselected": 1,
+      "failed": 0,
+      "passed": 1709,
+      "seconds": 110.45,
+      "warnings": 7
+    },
+    "compileall": "PASS exit0",
+    "final_note": "Final isolated CLI authorization guard revalidated in focused37 after full suite; no production runtime changes",
+    "focused": {
+      "command": "DATABASE_URL=postgresql+psycopg://ceciliavalencia@localhost:5432/licitia_test /Users/ceciliavalencia/LiticIA/backend/.venv/bin/python -m pytest tests/test_document_intelligence_06v_preflight.py tests/test_documents.py::test_structure_scope_prompt_version_bumped_for_normalization_semantics tests/test_documents.py::test_completed_old_structure_scope_analysis_is_not_reused_after_version_bump tests/test_documents.py::test_vision_latest_summary_prefers_current_006_over_legacy tests/test_documents.py::test_vision_latest_summary_derives_candidates_and_status_without_heavy_payload -q --tb=short",
+      "debt_cases": 4,
+      "extra_integration_cases": 3,
+      "failed": 0,
+      "passed": 37,
+      "seconds": 5.67,
+      "vf_cases": 30,
+      "warnings": 6
+    },
+    "git_diff_check": "PASS exit0"
+  },
+  "vf_matrix": [
+    {
+      "criterion": "Colector sin supuestos Tender",
+      "id": "VF01",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Separación first-pass/adjudicación",
+      "id": "VF02",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Requirements deterministas",
+      "id": "VF03",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Requested Evidence determinista",
+      "id": "VF04",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Scope determinista",
+      "id": "VF05",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Attributes deterministas",
+      "id": "VF06",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Quantities deterministas",
+      "id": "VF07",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Versiones/Source deterministas",
+      "id": "VF08",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Review/motivos/páginas deterministas",
+      "id": "VF09",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Telemetría explícita vs artifacts",
+      "id": "VF10",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Automatización no adjudicada",
+      "id": "VF11",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Unsafe trust null antes de verdad",
+      "id": "VF12",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Manifest tipado válido",
+      "id": "VF13",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Transcription Vision no automática",
+      "id": "VF14",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Structure Vision eligible/exec blocked/grounding-review",
+      "id": "VF15",
+      "result": "PASS"
+    },
+    {
+      "criterion": "SHA de HEAD capturado",
+      "id": "VF16",
+      "result": "PASS"
+    },
+    {
+      "criterion": "SHA de config capturado",
+      "id": "VF17",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Dirty code capturado y run rechazado",
+      "id": "VF18",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Serialización canónica determinista",
+      "id": "VF19",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Directorio de freeze exclusivo, no overwrite",
+      "id": "VF20",
+      "result": "PASS"
+    },
+    {
+      "criterion": "SHA first-pass emitido",
+      "id": "VF21",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Análisis separado/no overwrite",
+      "id": "VF22",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Revisión DB registrada",
+      "id": "VF23",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Validation DB real vacía detectable",
+      "id": "VF24",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Autorización requerida antes de corpus/DB",
+      "id": "VF25",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Cero providers en collector real sobre fixture",
+      "id": "VF26",
+      "result": "PASS"
+    },
+    {
+      "criterion": "IDs arbitrarios no cambian métricas",
+      "id": "VF27",
+      "result": "PASS"
+    },
+    {
+      "criterion": "No tuning antes de marcador/hash válido",
+      "id": "VF28",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Métricas operacionales sin verdad humana",
+      "id": "VF29",
+      "result": "PASS"
+    },
+    {
+      "criterion": "Adjudicación humana independiente posterior",
+      "id": "VF30",
+      "result": "PASS"
+    }
+  ]
+}

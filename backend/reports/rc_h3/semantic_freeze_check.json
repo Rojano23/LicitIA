@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "new_migrations": [],
+  "protected_unchanged": [
+    "backend/app/blind_selective_harness.py",
+    "backend/app/camelot_table_adapter.py",
+    "backend/app/canonical_materialization.py",
+    "backend/app/document_intelligence_blind_run.py",
+    "backend/app/document_perception_planner.py",
+    "backend/app/models.py",
+    "backend/app/native_preparation.py",
+    "backend/app/ollama_vision.py",
+    "backend/app/selective_ocr_executor.py",
+    "backend/app/selective_vision_executor.py",
+    "backend/app/structured_evidence_grounding.py"
+  ],
+  "changed_files": [
+    "README.md",
+    "backend/app/local_recovery.py",
+    "backend/app/main.py",
+    "backend/app/workspace_flow.py",
+    "backend/app/workspace_recovery.py",
+    "backend/scripts/licitia_local.py",
+    "backend/tests/test_local_recovery.py",
+    "backend/tests/test_workspace_recovery.py",
+    "docs/adr/0019-local-uat-deployment.md",
+    "docs/adr/0020-workspace-canonical-composition.md",
+    "docs/adr/0021-local-backup-restore-safe-retry.md",
+    "docs/local-deployment.md",
+    "docs/roadmap.md",
+    "docs/uat-admin-quickstart.md",
+    "docs/uat-capability-statement.md",
+    "docs/workspace-functional-flow.md",
+    "frontend/src/api/workspace.ts",
+    "frontend/src/components/WorkspaceFlow.test.tsx",
+    "frontend/src/components/WorkspaceFlow.tsx"
+  ],
+  "blind_execution": false
+}

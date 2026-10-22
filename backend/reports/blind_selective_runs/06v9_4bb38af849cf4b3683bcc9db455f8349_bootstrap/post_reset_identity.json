@@ -1,0 +1,23 @@
+{
+  "database": {
+    "database": "licitia_validation_06v",
+    "revision": "20261013_req_perception_prov_072",
+    "tender_count": 0,
+    "document_count": 0
+  },
+  "drift": {
+    "normalization_version": "ALEMBIC_INDEX_DRIFT_001",
+    "current_revision": [
+      "20261013_req_perception_prov_072"
+    ],
+    "head_revision": [
+      "20261013_req_perception_prov_072"
+    ],
+    "difference_count": 59,
+    "signature_sha256": "3abb0337a79b5faf56c2ced30e69d4482c47ab17e7e2fc925156ad59f760dde7",
+    "operations": {
+      "add_index": 55,
+      "remove_index": 4
+    }
+  }
+}

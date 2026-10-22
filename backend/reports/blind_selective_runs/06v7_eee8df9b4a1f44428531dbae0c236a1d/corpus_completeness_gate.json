@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "expected": 11,
+  "source_count": 11,
+  "imported_count": 11,
+  "exact_identity_match": true,
+  "hidden_original_present": true,
+  "all_originals_inside_root": true,
+  "comparison_fields": [
+    "filename",
+    "sha256",
+    "size",
+    "mime"
+  ],
+  "baseline": "Attempt #4 immutable input binding",
+  "binding_created_at_gate": false
+}

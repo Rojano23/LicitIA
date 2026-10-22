@@ -1,0 +1,13 @@
+{
+  "command": "pmset -g log; filtered 2026-10-21 11:* Sleep/Wake",
+  "exit_code": 0,
+  "matched_lines": [
+    "2026-10-21 11:00:04 -0600 Wake                \tWake from Deep Idle [CDNVA] : due to smc.70070000 trackpadkeyboard SMC.OutboxNotEmpty/HID Activity Using BATT (Charge:100%)           ",
+    "2026-10-21 11:00:04 -0600 Kernel Client Acks  \tDelays to Wake notifications: [RTBuddy(ANS2) driver is slow(msg: SetState to 2)(99 ms)] [AppleConvergedIPCOLYBTControl driver is slow(msg: SetState to 1)(119 ms)] [AppleMultiFunctionManager driver is slow(msg: SetState to 1)(122 ms)] [RTBuddy(ANS2) driver is slow(msg: SetState to 2)(98 ms)] [AppleConvergedIPCOLYBTControl driver is slow(msg: SetState to 1)(116 ms)] [AppleMultiFunctionManager driver is slow(msg: SetState to 1)(117 ms)] [RTBuddy(ANS2) driver is slow(msg: SetState to 2)(95 ms)] [AppleConvergedIPCOLYBTControl driver is slow(msg: SetState to 1)(120 ms)] [AppleMultiFunctionManager driver is slow(msg: SetState to 1)(121 ms)]           ",
+    "2026-10-21 11:37:19 -0600 Sleep               \tEntering Sleep state due to 'Idle Sleep':TCPKeepAlive=active Using Batt (Charge:100%) 867 secs  ",
+    "2026-10-21 11:37:21 -0600 Wake Requests       \t[process=mDNSResponder request=Maintenance deltaSecs=7198 wakeAt=2026-10-21 13:37:20 info=\"upkeep wake\"] [*process=dasd request=SleepService deltaSecs=931 wakeAt=2026-10-21 11:52:53 info=\"com.apple.dasd:501:com.apple.cache_delete.CriticalPurge\"] [process=powerd request=TCPKATurnOff deltaSecs=316858 wakeAt=2026-10-25 03:38:19] [process=powerd request=CSPNEvaluation deltaSecs=7241 wakeAt=2026-10-21 13:38:02] [process=powerd request=UserWake deltaSecs=22708 wakeAt=2026-10-21 17:55:50 info=\"com.apple.alarm.user-invisible-com.apple.osanalytics.hardhighengagementtimer,92\"]           ",
+    "2026-10-21 11:37:21 -0600 PM Client Acks      \tDelays to Sleep notifications: [PLSleepWakeAgent is slow(251 ms)] [com.apple.audio.MacAudio is slow(266 ms)] [AirPort configd plug-in is slow(661 ms)] [com.apple.bluetooth.sleep is slow(1594 ms)]           ",
+    "2026-10-21 11:51:46 -0600 Wake                \tWake from Deep Idle [CDNVA] : due to smc.70070000 trackpadkeyboard SMC.OutboxNotEmpty/UserActivity Assertion Using BATT (Charge:100%)           ",
+    "2026-10-21 11:51:46 -0600 Kernel Client Acks  \tDelays to Wake notifications: [RTBuddy(ANS2) driver is slow(msg: SetState to 2)(98 ms)] [AppleConvergedIPCOLYBTControl driver is slow(msg: SetState to 1)(229 ms)] [AppleMultiFunctionManager driver is slow(msg: SetState to 1)(279 ms)]           "
+  ]
+}

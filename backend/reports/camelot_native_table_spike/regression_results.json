@@ -1,0 +1,17 @@
+{
+  "focused": {
+    "tests": 570,
+    "failures": 0,
+    "summary": "570 passed, 7 warnings in 90.70s (0:01:30)"
+  },
+  "expanded": {
+    "tests": 1153,
+    "failures": 0,
+    "summary": "1153 passed, 1 deselected, 8 warnings in 126.55s (0:02:06)"
+  },
+  "full": {
+    "tests": 2109,
+    "failures": 0,
+    "summary": "2109 passed, 1 deselected, 8 warnings in 197.59s (0:03:17)"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "head": "0b04fc7677e670fb487683ac904d3c3a89daa373",
+  "tracked_clean": true,
+  "staging_empty": true,
+  "diff_check": "PASS",
+  "historical_files_checked": 3056,
+  "historical_changed": 0,
+  "runtime_files_checked": 30,
+  "runtime_changed": 0,
+  "schema_drift": {
+    "normalization_version": "ALEMBIC_INDEX_DRIFT_001",
+    "current_revision": [
+      "20261013_req_perception_prov_072"
+    ],
+    "head_revision": [
+      "20261013_req_perception_prov_072"
+    ],
+    "difference_count": 59,
+    "signature_sha256": "3abb0337a79b5faf56c2ced30e69d4482c47ab17e7e2fc925156ad59f760dde7",
+    "operations": {
+      "add_index": 55,
+      "remove_index": 4
+    }
+  },
+  "ocr_receipts_verified": 4,
+  "vision_receipts_verified": 3,
+  "first_pass_sha256": "9d8861ed64520a832e4dfaac7ce0dbbbcc5a5d0fbc894c98d850777aa4f4eaef",
+  "canonical_status": "FROZEN",
+  "canonical_blocked_marker": false,
+  "release_gate_status": "FAILED_PRESERVED_FOR_REVIEW",
+  "blocker": "ENVIRONMENT_SUSPENSION_DURING_VISION_CALL_WALL_CLOCK_TIMEOUT_NOT_CERTIFIED",
+  "semantic_adjudication": false,
+  "rerun": false,
+  "code_change": false,
+  "push": false
+}

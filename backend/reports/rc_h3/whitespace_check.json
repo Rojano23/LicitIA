@@ -1,0 +1,11 @@
+{
+  "tracked_diff": "PASS",
+  "new_files_checked": [
+    "backend/app/local_recovery.py",
+    "backend/app/workspace_recovery.py",
+    "backend/tests/test_local_recovery.py",
+    "backend/tests/test_workspace_recovery.py",
+    "docs/adr/0021-local-backup-restore-safe-retry.md"
+  ],
+  "new_file_whitespace": "PASS"
+}

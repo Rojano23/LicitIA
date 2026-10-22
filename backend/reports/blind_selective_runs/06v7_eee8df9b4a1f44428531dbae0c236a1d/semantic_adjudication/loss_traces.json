@@ -1,0 +1,85 @@
+[
+  {
+    "id": "T1",
+    "source": "D09 B-1 p1, tabla de equipos",
+    "evidence": "Modelos F60/L90, GE MULTILIN, PZA y cantidades1/2 visibles. Native conserva texto pero no cells/words/bboxes en payload.",
+    "normalization": "63 líneas no vacías antes/después; cero pipes/tabs antes y después. No pérdida de saltos causada por normalización.",
+    "entry": "structured_evidence.py:148–154: delimiter=None -> cells=[] -> header no establecido. p1 líneas19–23 son encabezados separados. L173–176 rechaza Partida sin número y luego1/2 sin prefijo; no se llega al validador de cantidades.",
+    "first_loss": "SOURCE_RELATION_REPRESENTATION_TO_RECONSTRUCTION_ENTRY",
+    "candidate": 0,
+    "grounding": "NOT_REACHED",
+    "materialization": 0,
+    "diagnostic": "reconstruction_diagnostic.json / D09_p1_NATIVE.txt",
+    "secondary": "Unidad de Medida es header partido y distinto de alias simple unidad; FABRICANTE/MARCA y NUMERO DE PARTE no son los field labels de fixtures. La rama table acepta noun description como OTHER/review; el verbo de acción no es el primer bloqueo aquí."
+  },
+  {
+    "id": "T2",
+    "source": "D09 B-1 p2, accesorios/embalaje",
+    "evidence": "Referencia Para la partida01y02; 2 juegos por puerto, softwareUSB Windows10, ESD/humedad.",
+    "normalization": "Prosa y numerales de sección preservados, sin indentación relacional ni anchor ITEM nuevo.",
+    "entry": "No header delimitado; _ITEM.match no acepta Para la partida... ni Cada relevador.../Deberá entregarse... como boundary de nuevo item. El requerimiento depende de referencia a owners existentes, no de fabricar un ítem1.2.",
+    "first_loss": "RECONSTRUCTION_REFERENCE_AND_PROSE_SEGMENTATION",
+    "candidate": 0,
+    "grounding": "NOT_REACHED",
+    "materialization": 0,
+    "secondary": "Sin block no hay fields provisionales; cantidades por puerto no permiten inferir número de puertos ni total de cables."
+  },
+  {
+    "id": "T3",
+    "source": "D09 B-1 p3, marcado/aviso",
+    "evidence": "48h de aviso y marcado de centro/contrato con10mm aparecen literalmente.",
+    "normalization": "2.7 y viñetas conservados como texto; son secciones, no identidad de partida.",
+    "entry": "Header no reconocido y _ITEM anclado no acepta sección/viñeta con referencia a bienes existentes. No se ejecuta binding de atributo10mm.",
+    "first_loss": "RECONSTRUCTION_EXISTING_ITEM_APPLICABILITY",
+    "candidate": 0,
+    "grounding": "NOT_REACHED",
+    "materialization": 0
+  },
+  {
+    "id": "T4",
+    "source": "D09 B-1 p4, documentación/2juegos",
+    "evidence": "3.4 Contrato impreso (2juegos), documentación y fichas visibles.",
+    "normalization": "get_text(text) entrega3.3/3.4 después de firma/metadata aunque visualmente están arriba; normalizer conserva ese orden.",
+    "entry": "No fila ni ITEM rotulado; 3.4 es sección. Se pierde en segmentación/entrada antes de fields cantidad/unidad, no en persistir el hijo.",
+    "first_loss": "SOURCE_READING_ORDER_AND_RECONSTRUCTION_ENTRY",
+    "candidate": 0,
+    "grounding": "NOT_REACHED",
+    "materialization": 0
+  },
+  {
+    "id": "T5",
+    "source": "D02 catálogo p1, imagen/OCR",
+    "evidence": "Native vacío; OCR recupera descripciones y paresPZA1/PZA2 pero pierde ids de fila y asociación espacial.",
+    "normalization": "OCR activo/normalizado, offsets NORMALIZED_TEXT e identidad de generación validados; no word/cell geometry.",
+    "entry": "Header Partida Descripción Medida separado/incompleto, sin delimitador; _ITEM no puede ligar números ausentes. Vision reconoce1/2 en STRUCTURE pero ese contrato no aporta literal detail ni valida row-to-value relationships.",
+    "first_loss": "OCR_RELATION_INFORMATION_ABSENT_AND_RECONSTRUCTION_ENTRY",
+    "candidate": 0,
+    "grounding": "NOT_REACHED",
+    "materialization": 0,
+    "secondary": "No unir automáticamente anchors Vision a cantidades OCR por proximidad. La lectura visual humana confirma1PZA F60/2PZA L90, con provenance separada."
+  },
+  {
+    "id": "T6",
+    "source": "D11 SSPA p1, grid de aplicabilidad",
+    "evidence": "Formatos6/7 y cinco días hábiles después de entrega del requerimiento, no necesariamente de bienes.",
+    "normalization": "OCR pone comentario de plazo antes de Formatos6y7; columnas sin relación tipada.",
+    "entry": "Tabla no procurement item/description/quantity/unit; los roles de la fila no satisfacen el esquema. Vision107478 confunde iniciativa con partida. STRUCTURE no se convierte en detalle.",
+    "first_loss": "DOMAIN_ROLE_AND_TABLE_RELATION_CONTRACT",
+    "candidate": 0,
+    "grounding": "NOT_REACHED",
+    "materialization": 0,
+    "secondary": "Obligación pertenece a Requirements/Requested Evidence. IR Scope0 en esta forma no demuestra por sí mismo defecto de Scope ni autoriza ampliar ese engine."
+  },
+  {
+    "id": "T7",
+    "source": "D01 Bases pp15–16, condiciones globales",
+    "evidence": "60días desde formalización, precios fijos y moneda permitida existen en Native.",
+    "normalization": "Texto suficiente y fiel para revisión; fuente literal/provenance disponible.",
+    "entry": "Reconstrucción sólo entra mediante item local; numerales2.1/3.1/3.2 no constituyen ítems. El Core sí permite TENDER_WIDE; no existe puente de estas condiciones al bloque actual.",
+    "first_loss": "RECONSTRUCTION_TENDER_WIDE_ENTRY_LIMITATION",
+    "candidate": 0,
+    "grounding": "NOT_REACHED",
+    "materialization": 0,
+    "secondary": "Persistir un Scope padre de equipos no descubre por sí solo atributos de plazo/precio/moneda; vocabulario child por defecto también acotado."
+  }
+]

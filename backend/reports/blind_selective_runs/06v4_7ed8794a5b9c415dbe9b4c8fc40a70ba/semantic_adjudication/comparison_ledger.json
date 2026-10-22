@@ -1,0 +1,1502 @@
+{
+  "documents": [
+    {
+      "canonical_locator": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba/tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/6319237e-421f-4f35-b297-be5d791d6b61/.DS_Store",
+      "document_id": "ed32da6f-8b04-4366-9895-037f01175ec4",
+      "mime": "application/octet-stream",
+      "original_filename": ".DS_Store",
+      "sha256": "0c3c4c0b58647e4ca761e9fe61421b68208c9bc656714cd49c89031e85f20616",
+      "size": 6148,
+      "stored_relative_path": "tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/6319237e-421f-4f35-b297-be5d791d6b61/.DS_Store",
+      "tender_id": "4a0ac86b-a47e-4448-9f15-a6eff3ff43cf",
+      "label": "D08"
+    },
+    {
+      "canonical_locator": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba/tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/76f74fc3-3829-4533-8de6-323a95b96da5/01. Convocatoria  ID-107478.pdf",
+      "document_id": "b3359ffa-4d6f-4baa-8950-c5332f32e04b",
+      "mime": "application/pdf",
+      "original_filename": "01. Convocatoria  ID-107478.pdf",
+      "sha256": "c5b8e39e09d66d288b097faad99cfab22c5a9c5573e8187c1d428d8ee5de075f",
+      "size": 943530,
+      "stored_relative_path": "tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/76f74fc3-3829-4533-8de6-323a95b96da5/01. Convocatoria  ID-107478.pdf",
+      "tender_id": "4a0ac86b-a47e-4448-9f15-a6eff3ff43cf",
+      "label": "D06"
+    },
+    {
+      "canonical_locator": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba/tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/816947b6-2055-49e2-a070-96f0626a022a/02. Bases Internacionales  ID-107478.pdf",
+      "document_id": "f0398c63-aa35-4762-bbfa-88f8741f7344",
+      "mime": "application/pdf",
+      "original_filename": "02. Bases Internacionales  ID-107478.pdf",
+      "sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+      "size": 1956514,
+      "stored_relative_path": "tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/816947b6-2055-49e2-a070-96f0626a022a/02. Bases Internacionales  ID-107478.pdf",
+      "tender_id": "4a0ac86b-a47e-4448-9f15-a6eff3ff43cf",
+      "label": "D01"
+    },
+    {
+      "canonical_locator": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba/tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/d322d4a8-bb48-4845-8c1f-5fd4a40790a5/1. Anexo_B1_Relevadores GE V2.pdf",
+      "document_id": "0f4fc40f-d218-4a03-b633-57b4d6cb041c",
+      "mime": "application/pdf",
+      "original_filename": "1. Anexo_B1_Relevadores GE V2.pdf",
+      "sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+      "size": 298410,
+      "stored_relative_path": "tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/d322d4a8-bb48-4845-8c1f-5fd4a40790a5/1. Anexo_B1_Relevadores GE V2.pdf",
+      "tender_id": "4a0ac86b-a47e-4448-9f15-a6eff3ff43cf",
+      "label": "D09"
+    },
+    {
+      "canonical_locator": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba/tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/d1dea287-457a-4739-be61-573595f38a96/1. Cuestionarios DD ANEXO.pdf",
+      "document_id": "8d06a65e-351c-46cc-9885-75382c5e1d20",
+      "mime": "application/pdf",
+      "original_filename": "1. Cuestionarios DD ANEXO.pdf",
+      "sha256": "7e4b94ae3130c1e1e46e1bc4ad89040a3d68351ab25b88c633a7c62bcd138670",
+      "size": 871097,
+      "stored_relative_path": "tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/d1dea287-457a-4739-be61-573595f38a96/1. Cuestionarios DD ANEXO.pdf",
+      "tender_id": "4a0ac86b-a47e-4448-9f15-a6eff3ff43cf",
+      "label": "D03"
+    },
+    {
+      "canonical_locator": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba/tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/86d20f86-ed61-45ff-a9b4-5d04b49018fd/2. Anexo_C.pdf",
+      "document_id": "ba230a26-487e-4b89-9a85-a8f85feb0c1b",
+      "mime": "application/pdf",
+      "original_filename": "2. Anexo_C.pdf",
+      "sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+      "size": 177466,
+      "stored_relative_path": "tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/86d20f86-ed61-45ff-a9b4-5d04b49018fd/2. Anexo_C.pdf",
+      "tender_id": "4a0ac86b-a47e-4448-9f15-a6eff3ff43cf",
+      "label": "D02"
+    },
+    {
+      "canonical_locator": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba/tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/f82994af-ba81-43c8-87fb-dc38aa2f79f0/2. Mecanismo GNR.pdf",
+      "document_id": "19017f7a-a49b-48d4-adef-f713be254179",
+      "mime": "application/pdf",
+      "original_filename": "2. Mecanismo GNR.pdf",
+      "sha256": "d0517f47b23c88593765876b11ea85a8fbc4ba7f1bc2fb9568c20bcaff00043f",
+      "size": 258291,
+      "stored_relative_path": "tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/f82994af-ba81-43c8-87fb-dc38aa2f79f0/2. Mecanismo GNR.pdf",
+      "tender_id": "4a0ac86b-a47e-4448-9f15-a6eff3ff43cf",
+      "label": "D07"
+    },
+    {
+      "canonical_locator": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba/tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/f9db484e-367a-4a03-99ea-669e7ec0fd11/3. Anexo CN Tipo 2.pdf",
+      "document_id": "8d607c81-a729-4963-a375-6a68b236c534",
+      "mime": "application/pdf",
+      "original_filename": "3. Anexo CN Tipo 2.pdf",
+      "sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+      "size": 231613,
+      "stored_relative_path": "tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/f9db484e-367a-4a03-99ea-669e7ec0fd11/3. Anexo CN Tipo 2.pdf",
+      "tender_id": "4a0ac86b-a47e-4448-9f15-a6eff3ff43cf",
+      "label": "D10"
+    },
+    {
+      "canonical_locator": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba/tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/11ac18e9-e3db-4713-a171-8cae82db0c5a/3. Anexo SSPA (Formato 4).pdf",
+      "document_id": "860fbcdb-1011-4bdf-b692-0c24a841efc4",
+      "mime": "application/pdf",
+      "original_filename": "3. Anexo SSPA (Formato 4).pdf",
+      "sha256": "f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074",
+      "size": 247307,
+      "stored_relative_path": "tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/11ac18e9-e3db-4713-a171-8cae82db0c5a/3. Anexo SSPA (Formato 4).pdf",
+      "tender_id": "4a0ac86b-a47e-4448-9f15-a6eff3ff43cf",
+      "label": "D11"
+    },
+    {
+      "canonical_locator": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba/tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/eb1373a8-b2dd-49ac-94a6-a7267d9a329b/4. Anexo PACMA.pdf",
+      "document_id": "f6295a63-7d5d-4c69-b6be-9d6ccddc61aa",
+      "mime": "application/pdf",
+      "original_filename": "4. Anexo PACMA.pdf",
+      "sha256": "0d6d8dbdc296109add69965efda636f97a1e759efbbaa1f188162350de2d8327",
+      "size": 860878,
+      "stored_relative_path": "tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/eb1373a8-b2dd-49ac-94a6-a7267d9a329b/4. Anexo PACMA.pdf",
+      "tender_id": "4a0ac86b-a47e-4448-9f15-a6eff3ff43cf",
+      "label": "D04"
+    },
+    {
+      "canonical_locator": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v4_7ed8794a5b9c415dbe9b4c8fc40a70ba/tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/514f0ad1-0bdb-41c8-ab6f-16c8cf5e9f80/5. MODELO DE CONTRATO PARA BIENES.pdf",
+      "document_id": "92497301-4585-42fc-a992-aad791163e79",
+      "mime": "application/pdf",
+      "original_filename": "5. MODELO DE CONTRATO PARA BIENES.pdf",
+      "sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+      "size": 678952,
+      "stored_relative_path": "tenders/4a0ac86b-a47e-4448-9f15-a6eff3ff43cf/originals/514f0ad1-0bdb-41c8-ab6f-16c8cf5e9f80/5. MODELO DE CONTRATO PARA BIENES.pdf",
+      "tender_id": "4a0ac86b-a47e-4448-9f15-a6eff3ff43cf",
+      "label": "D05"
+    }
+  ],
+  "requirements": [
+    {
+      "prior_label": "R01",
+      "prior_id": "06e579c9-1243-4499-9e3e-36038789b05f",
+      "current_id": "f3585204-74fe-4409-8bf3-e0991416d974",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "assessment": "La obligación de declarar CN sí existe, sin porcentaje mínimo. El encabezado no conserva Formato 3, plazo ni acuses (§5.1); no equivale al manifiesto de origen de bienes.",
+      "source": {
+        "document_id": "e493d850-421f-4643-aff7-108623c43583",
+        "document_label": "D10",
+        "document_name": "3. Anexo CN Tipo 2.pdf",
+        "document_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+        "page": 1,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R02",
+      "prior_id": "0e62445c-0f2b-496b-afeb-cef2c7fc115c",
+      "current_id": "04b2bdd3-0834-444e-8ac1-7a1e8dd61d40",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Condicional a consorcio: cada integrante entrega Anexo 3/DD-8. No convertirlo en requisito de toda participación individual.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 78,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R03",
+      "prior_id": "15cff57b-f1ef-4f5d-b60b-3367c2b24215",
+      "current_id": "99010e10-4ebc-49e0-ae96-2bf3980ea302",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "assessment": "D05 es modelo sin completar: instrucción al redactor y Anexo en blanco; no acredita una obligación adoptada ni su aplicabilidad.",
+      "source": {
+        "document_id": "a72a4759-761f-470b-891d-1c7f387803b8",
+        "document_label": "D05",
+        "document_name": "5. MODELO DE CONTRATO PARA BIENES.pdf",
+        "document_sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+        "page": 15,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R04",
+      "prior_id": "27c544fb-0864-4cd4-a4db-7b19fae25822",
+      "current_id": "9cda38b4-1f47-487a-9fb3-822d54803c6b",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "assessment": "Excepción válida de no desechamiento del DA-5; NO es obligación positiva de presentar un documento. Conservar como criterio/exención, no como obligación autónoma.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 41,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R05",
+      "prior_id": "333fd8a5-fd98-411c-9b1f-731f7dbfe8f3",
+      "current_id": "d4935c82-be4e-48b7-9fbf-feed2f567661",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "assessment": "Obligación real pero “presente documento” queda sin identidad autónoma: DA-13, aceptación de e.firma. Falta el objeto documental en canonical_text.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 50,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R06",
+      "prior_id": "391e4c93-7ba6-4800-ac66-a7ea7fff9f49",
+      "current_id": "592bf8b4-139f-4084-917d-dd9787332aef",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Considerar bases finales/modificaciones aplicables es regla real; no demuestra que existan modificaciones ni un Source Effect específico.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 18,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R07",
+      "prior_id": "3ca82ed7-36f1-4e8d-b11f-0715a4376886",
+      "current_id": "39926a03-9b13-4dff-b02d-7eef91bfb6c2",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Alta inicial SISCEP tras comunicación: condición y cuenta/contraseña conservadas.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 9,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R08",
+      "prior_id": "49684e07-e5b0-4911-a635-87a45ab69df7",
+      "current_id": "b0f37a9f-f07d-49de-9f76-d68995b6ff30",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "assessment": "Regla de la CONVOCANTE sobre PMR, no obligación autónoma del licitante. Además corta “Negociación de la” y pierde continuación p98.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 97,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R09",
+      "prior_id": "49c60937-8d1f-419a-8b15-bac938f5863e",
+      "current_id": "40c9ee9d-2657-4a75-95bf-0b19630eb51f",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "assessment": "Condicional real, pero “presente documento” en p72 es continuación de DD-2 (p71). No unificarla semánticamente con el manifiesto de origen p53–54 sólo por texto igual.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 72,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R10",
+      "prior_id": "5b8da589-a34f-4b2c-a740-94f6dd025ecd",
+      "current_id": "48d2b5e6-5051-47ea-ac57-3d719d300ea3",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Aceptación del Acuerdo de Participante en SISCEP es real, aunque el inicio del fragmento arrastra una referencia de sección.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 9,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R11",
+      "prior_id": "5d7faff7-8c45-42e2-805d-df2c594e3866",
+      "current_id": "e02489e4-47a6-4241-b256-363543dd4398",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "assessment": "Instrucción de soporte condicionada a dudas; no acredita documentación de elegibilidad ni obligación técnica/comercial autónoma.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 18,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R12",
+      "prior_id": "612bd92d-561e-45d6-aad5-995f081dabd4",
+      "current_id": "f879f159-a795-4032-9d8f-fdbb841c50b9",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Firma de última hoja por facultado, donde se solicite; no significa que cualquier persona o firma por ausencia sea válida.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R13",
+      "prior_id": "616d57e6-c3ee-4d6f-9fa1-a921a2c7b876",
+      "current_id": "74a27370-60df-4318-8ac1-82f7d2080593",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Sobre1 comercial PDF/ZIP hasta100MB y documentos D-1: regla de presentación real; no lista todas sus evidencias.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R14",
+      "prior_id": "62e3ad43-9a1d-4778-bde2-84e768899c31",
+      "current_id": "f8ce8c76-311f-4cd8-97fc-1c87b161a6e2",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Sobre1 técnico PDF/ZIP hasta100MB y D-3: regla real; no sustituye catálogo de obligaciones de B-1.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R15",
+      "prior_id": "821f3ddc-24ca-4806-91e8-3eb374281def",
+      "current_id": "611ccf21-ae70-4405-bbca-3875315b20aa",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "DA-3 membretado y firmado real. Su mera mención no extrae por separado identificación, actas y poderes exigidos en la tabla.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 87,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R16",
+      "prior_id": "84d8fbdd-88b4-4a84-858b-aa3424624a3c",
+      "current_id": "3640d72c-4514-4820-9252-17c9c1ab684e",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "assessment": "Nota de modelo para cláusula de financiamiento >500 millones; D01 p14 dice Fuentes de Financiamiento No Aplica. Texto localizado real, aplicabilidad como obligación del Tender no sustentada.",
+      "source": {
+        "document_id": "a72a4759-761f-470b-891d-1c7f387803b8",
+        "document_label": "D05",
+        "document_name": "5. MODELO DE CONTRATO PARA BIENES.pdf",
+        "document_sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+        "page": 54,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R17",
+      "prior_id": "89c98a21-f2fb-4cac-8255-98d7a0e50d21",
+      "current_id": "0c55f8a9-1b44-468e-8527-0e4a13ded794",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "assessment": "Presentación electrónica real, pero corta antes de enumerar los sobres y elimina 9. del ordinal 9.2; no es evidencia documental específica.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R18",
+      "prior_id": "968f5ed1-e00a-4ec8-b0ee-8e4c64edd40a",
+      "current_id": "a6d67971-03fa-4cf1-b7b1-6e3cacd4c74d",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "assessment": "Encabezado “Otros requisitos...” sin los numerales 2.1–2.8. No expresa una obligación verificable por sí solo.",
+      "source": {
+        "document_id": "e0c592af-fe32-4ad3-97da-b08a7c91cfd5",
+        "document_label": "D09",
+        "document_name": "1. Anexo_B1_Relevadores GE V2.pdf",
+        "document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "page": 2,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R19",
+      "prior_id": "98e66b74-822c-4b2e-b276-de6d7c9accc6",
+      "current_id": "ff7d7fd2-e68c-4c1d-9ade-172a560b60d6",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Corregir/re-enviar DA-1 si discrepa del SISCEP: requisito condicional real; el resto del párrafo fija consecuencia/plazo no conservados aquí.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 9,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R20",
+      "prior_id": "9bee03a8-65b8-4488-9b6c-8b6ac6ce9b9f",
+      "current_id": "4ee70ac5-fb29-4480-b3db-0875375bdcf9",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "assessment": "Instrucción para redactar acuerdos referenciales/preparatorios, no el contrato puntual de D01 p15. Categoría EXPERIENCE tampoco está sustentada.",
+      "source": {
+        "document_id": "a72a4759-761f-470b-891d-1c7f387803b8",
+        "document_label": "D05",
+        "document_name": "5. MODELO DE CONTRATO PARA BIENES.pdf",
+        "document_sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+        "page": 15,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R21",
+      "prior_id": "aa1f93bf-31eb-40fc-b92e-3dcc61d00179",
+      "current_id": "b414fd66-55df-4f18-b5e4-9e30a88590ae",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "assessment": "Obligación del servidor público de levantar acta. Actor no es el participante; corte inicial “1,2 y3” pierde el contexto de sobres.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 21,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R22",
+      "prior_id": "b36d4067-3826-450b-bcdf-a9e444d3662e",
+      "current_id": "36025725-621d-4e24-8c46-cc10c8b0a16a",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Sobre3 DD PDF/ZIP hasta100MB y anexo DD: obligación real; no implica extracción de sus documentos individuales.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 20,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R23",
+      "prior_id": "b441a0be-1a40-4ca5-a43e-ee2109bda71f",
+      "current_id": "9ff6d936-351c-4fe0-9ff6-c856020f946d",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "assessment": "Regla real de desempate; omite del texto autónomo el supuesto de empate previo. No aplicar siempre a todos los participantes.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 100,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R24",
+      "prior_id": "b93900d2-75ca-46cf-957e-f9d16a169d39",
+      "current_id": "c06df2aa-9b69-4081-b9e7-104d2603def3",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Firma autógrafa por facultado DA-3 en propuesta técnica, al menos última hoja. Solapa parcialmente R12, con alcance técnico más específico.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 93,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R25",
+      "prior_id": "c070594b-506e-442a-9f51-65bd4ee81482",
+      "current_id": "5a6c8b0c-fa51-4b82-b67a-351547eadf60",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Fotografías actualizadas DD-12 realmente solicitadas. No aparecen como Requested Evidence individual en los ocho emitidos.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 82,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R26",
+      "prior_id": "c37f3047-96e3-4487-8a39-931c7f3ffaf1",
+      "current_id": "764e613a-a5bb-4b59-bf04-63c2e26a3f62",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Aritmética correcta y corrección sin cambiar unitarios: criterio económico real, no permiso para fijar precio automáticamente.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 96,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R27",
+      "prior_id": "cc93193e-2bae-476f-8e24-2c38fc9e4949",
+      "current_id": "a5e8a317-f5ee-4afe-9ba3-63fa4b7dd1e5",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Reutilizar cuenta existente en los supuestos de RI/RC: condición alternativa a R07, no duplicado exacto.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 9,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R28",
+      "prior_id": "ceca7886-7d7c-4ac1-a2fc-e6ed98ba74d5",
+      "current_id": "099640eb-9d5a-41d2-812e-69773c065f61",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "assessment": "Corta en “estén en otro”, omite la traducción simple y la conformidad completa; categoría PERSONNEL no corresponde a documentación técnica/idioma.",
+      "source": {
+        "document_id": "e0c592af-fe32-4ad3-97da-b08a7c91cfd5",
+        "document_label": "D09",
+        "document_name": "1. Anexo_B1_Relevadores GE V2.pdf",
+        "document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "page": 3,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R29",
+      "prior_id": "dbcfa05e-7635-4acf-b66f-25231371dca5",
+      "current_id": "bddbceb8-6ee9-46ba-a1a2-b3d344de24d9",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "assessment": "Congruencia de propuesta y soportes real; PERSONNEL es clasificación incorrecta. El defecto es categorización, no falta de respaldo textual.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 94,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R30",
+      "prior_id": "e167fdb1-8840-4e5e-8f34-ef01ca4ad221",
+      "current_id": "3d3be949-16c6-4567-bf65-b44ec29796e2",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "assessment": "Certificado e.firma/SAT por integrante de consorcio; corte A.C. pierde la identificación completa del emisor y la relación e.firma.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 50,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    },
+    {
+      "prior_label": "R31",
+      "prior_id": "ed560568-e01c-43c2-803e-956174e6305f",
+      "current_id": "e1524376-6244-431b-9e85-6fd26fec2c16",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "assessment": "Sobre2 económico PDF/ZIP hasta100MB y D-4: regla real; D-4 es criterio de evaluación, no el nombre de un único formato a entregar.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      },
+      "canonical_text_unchanged": true,
+      "category_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED",
+      "primary_excerpt_unchanged": true
+    }
+  ],
+  "requested_evidence": [
+    {
+      "prior_label": "E01",
+      "prior_id": "0c5a44cf-d717-4a31-a820-e1c6b22ebd9b",
+      "current_id": "56994d60-7437-4008-b938-7adb44d2aaed",
+      "classification": "CONTEXT_NOT_DOCUMENT",
+      "assessment": "Mecánica de sobres, no documento autónomo. Solapa paquetes E02/E04/E06/E08; no contar como cinco documentos distintos.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      },
+      "semantic_fields_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED"
+    },
+    {
+      "prior_label": "E02",
+      "prior_id": "43f11605-14fa-4c0d-89c9-ebf544b402d8",
+      "current_id": "d5982028-be4f-4926-b375-5b1172730683",
+      "classification": "SUPPORTED_BUT_INCOMPLETE",
+      "assessment": "Propuesta económica real. Descripción cortada antes de referencia completa; falta DE-1 y sus campos. FORM sólo cubre el componente de formato, no todo el paquete.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      },
+      "semantic_fields_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED"
+    },
+    {
+      "prior_label": "E03",
+      "prior_id": "4c4d3da3-4144-42f3-a852-ffae76d0fba9",
+      "current_id": "f6aba220-3601-407f-8789-b333476339d5",
+      "classification": "CONTEXT_NOT_DOCUMENT",
+      "assessment": "Mención/instrucción de modelo con Anexo en blanco. La obligación real de DT-1 condicional se sustenta en D01 pp16/93, no en haber completado ese espacio de D05.",
+      "source": {
+        "document_id": "a72a4759-761f-470b-891d-1c7f387803b8",
+        "document_label": "D05",
+        "document_name": "5. MODELO DE CONTRATO PARA BIENES.pdf",
+        "document_sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+        "page": 15,
+        "section": null
+      },
+      "semantic_fields_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED"
+    },
+    {
+      "prior_label": "E04",
+      "prior_id": "70226a92-58c0-4eb3-a0dd-e67aac50611f",
+      "current_id": "fa84e005-57cd-4f02-a1e2-c5c867d96fd7",
+      "classification": "SUPPORTED_BUT_INCOMPLETE",
+      "assessment": "Documentación DD real, pero FORM es demasiado estrecho para paquete de documentos. Omite inventario DD-1…DD-14 y condiciones.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 20,
+        "section": null
+      },
+      "semantic_fields_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED"
+    },
+    {
+      "prior_label": "E05",
+      "prior_id": "70c0c14b-4aa7-47c4-b4e5-b6596182591e",
+      "current_id": "c885c2ee-fbd5-4d9f-9f1e-a6de7178624a",
+      "classification": "SUPPORTED_DOCUMENT",
+      "assessment": "Documento DA-3 realmente requerido; página y fragmento correctos. Registro genérico DOCUMENT válido; anexos específicos no se materializan por nombrar el formato.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 87,
+        "section": null
+      },
+      "semantic_fields_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED"
+    },
+    {
+      "prior_label": "E06",
+      "prior_id": "87bc451c-e9f6-4730-be69-2779391a9bfe",
+      "current_id": "51bb2713-c2f9-4aff-9071-9837f0754fd6",
+      "classification": "SUPPORTED_BUT_INCOMPLETE",
+      "assessment": "Paquete comercial real; FORM es demasiado estrecho. Corte pierde D-1 y no enumera documentos exigidos.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      },
+      "semantic_fields_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED"
+    },
+    {
+      "prior_label": "E07",
+      "prior_id": "ea60dedd-0c4f-4f3f-8c1a-f8bfc9c1619f",
+      "current_id": "699dee62-14e8-47e9-801a-fe1d8ea73270",
+      "classification": "SUPPORTED_BUT_INCOMPLETE",
+      "assessment": "CERTIFICATE sí corresponde al certificado e.firma, pero “EMITIDO POR EL A” está truncado y no identifica SAT/A.C. ni certificado completo.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 50,
+        "section": null
+      },
+      "semantic_fields_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED"
+    },
+    {
+      "prior_label": "E08",
+      "prior_id": "ea8b257b-b343-43ff-a408-f22b3de8c9a9",
+      "current_id": "6c4f2251-cb85-4ff5-93dc-effe84fccb6b",
+      "classification": "SUPPORTED_BUT_INCOMPLETE",
+      "assessment": "Propuesta técnica real; texto cortado y sin lista DT-9, DT-11, catálogos/cartas. No considerar una evidencia satisfecha por existencia de este registro.",
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      },
+      "semantic_fields_unchanged": true,
+      "machine_state": "REVIEW_REQUIRED"
+    }
+  ],
+  "candidates": [
+    {
+      "prior_label": "C01",
+      "current_id": "79cd958f-916e-4f55-854b-194156b7f9ee",
+      "prior_id": "072d8626-a201-4e41-a93d-318d297ecd77",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C02",
+      "current_id": "9050d539-e234-40d7-b9a3-6355ed0aa289",
+      "prior_id": "08db8df5-4462-4199-8d21-8077dfc8ad77",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 9,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C03",
+      "current_id": "1da57502-b55f-4ce3-a957-4c3207ad0ab6",
+      "prior_id": "0c0c7c02-9dcd-4f12-b400-8a97a1a0a681",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 82,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C04",
+      "current_id": "83e2d395-a35e-49f6-aa34-7a6eb28fdff4",
+      "prior_id": "0c83ddb2-ac97-4061-b4aa-36cdb5abfb88",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "a72a4759-761f-470b-891d-1c7f387803b8",
+        "document_label": "D05",
+        "document_name": "5. MODELO DE CONTRATO PARA BIENES.pdf",
+        "document_sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+        "page": 15,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C05",
+      "current_id": "1d9dfcfb-f479-44ca-ba34-1cc761533bf4",
+      "prior_id": "0deab145-9e17-41e3-a163-9c0b553c75d1",
+      "classification": "REPEATED_HEADER_OCCURRENCE",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "e493d850-421f-4643-aff7-108623c43583",
+        "document_label": "D10",
+        "document_name": "3. Anexo CN Tipo 2.pdf",
+        "document_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+        "page": 10,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C06",
+      "current_id": "52b9b171-d653-4a41-8200-5248ec7e7aa3",
+      "prior_id": "1223eb17-289f-4d26-bdb6-3ce4dc18720b",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "a72a4759-761f-470b-891d-1c7f387803b8",
+        "document_label": "D05",
+        "document_name": "5. MODELO DE CONTRATO PARA BIENES.pdf",
+        "document_sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+        "page": 54,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C07",
+      "current_id": "434b22ac-200e-487f-b1c0-aa0086c8e275",
+      "prior_id": "123c4283-ee8d-4cfb-b73e-3d0c7485817a",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C08",
+      "current_id": "6cbe3a10-46a1-4dc9-923f-713567d38f9a",
+      "prior_id": "1a1deaca-c0b4-4eaa-86de-c4123781fde1",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 72,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C09",
+      "current_id": "18c002f1-106d-4c7c-ba7d-3206994ba1d5",
+      "prior_id": "1e796e01-4154-4546-a88d-7c421aba4fb2",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 9,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C10",
+      "current_id": "967dfdb0-9fd6-4fea-b1ae-097730e6b2a5",
+      "prior_id": "218b77ec-5301-4193-93a6-87bd0e2e83b2",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C11",
+      "current_id": "b82d5554-f99e-449d-ac2e-7be652437e37",
+      "prior_id": "23db4bc3-148b-4deb-beb9-8f12627546cb",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "e0c592af-fe32-4ad3-97da-b08a7c91cfd5",
+        "document_label": "D09",
+        "document_name": "1. Anexo_B1_Relevadores GE V2.pdf",
+        "document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "page": 2,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C12",
+      "current_id": "4e391ccd-395d-4fb5-8667-65bf557b25e0",
+      "prior_id": "3ff41e93-519e-4871-a899-f7bade776bee",
+      "classification": "REPEATED_HEADER_OCCURRENCE",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "e493d850-421f-4643-aff7-108623c43583",
+        "document_label": "D10",
+        "document_name": "3. Anexo CN Tipo 2.pdf",
+        "document_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+        "page": 8,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C13",
+      "current_id": "aad0965c-ac97-4bfb-90b0-2e121fde2e41",
+      "prior_id": "46f33501-1f11-4485-83e8-132eee75f0ea",
+      "classification": "REPEATED_HEADER_OCCURRENCE",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "e493d850-421f-4643-aff7-108623c43583",
+        "document_label": "D10",
+        "document_name": "3. Anexo CN Tipo 2.pdf",
+        "document_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+        "page": 9,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C14",
+      "current_id": "0b73306e-0f8e-4b32-934e-a18f29164730",
+      "prior_id": "5da417a7-9897-4121-8fea-9ca82292375f",
+      "classification": "DUPLICATE_CONTEXT_OCCURRENCE",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 89,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C15",
+      "current_id": "0ac7c46f-695d-4c34-815c-44664ba19637",
+      "prior_id": "644b77f9-d4fc-48a1-85b1-9bf1e93490f1",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 21,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C16",
+      "current_id": "7b0872a1-0bbe-4b4e-b51b-d932a972b7d1",
+      "prior_id": "6528aae4-2757-4f33-aecb-5d4d859b5a80",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 93,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C17",
+      "current_id": "2044d51b-c791-4b84-8a0c-57891c14302e",
+      "prior_id": "656d0cdb-57bc-44fc-a176-73a62001aea3",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 50,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C18",
+      "current_id": "e114557f-4ce2-4a5d-9c96-ebb64039e090",
+      "prior_id": "69c2b8b7-00b4-40cf-ac2e-30276109014b",
+      "classification": "REPEATED_HEADER_OCCURRENCE",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "e493d850-421f-4643-aff7-108623c43583",
+        "document_label": "D10",
+        "document_name": "3. Anexo CN Tipo 2.pdf",
+        "document_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+        "page": 6,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C19",
+      "current_id": "6a160265-9b87-4147-af05-3b1cb57a6ba0",
+      "prior_id": "70d0dd2b-1c23-42bf-89ae-0bd85d01f493",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "e0c592af-fe32-4ad3-97da-b08a7c91cfd5",
+        "document_label": "D09",
+        "document_name": "1. Anexo_B1_Relevadores GE V2.pdf",
+        "document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "page": 1,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C20",
+      "current_id": "b8775193-572b-476a-82f0-4ad35fe1a9d9",
+      "prior_id": "73777880-ca38-497b-95bb-df6e5c00c7d8",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 9,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C21",
+      "current_id": "5be5822e-3fce-41cc-9217-5e06705675e7",
+      "prior_id": "77b33ba0-d3fc-4dbe-84f7-554b27b1f3a6",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 100,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C22",
+      "current_id": "d5460650-c416-4e62-9b00-8b87166ed41c",
+      "prior_id": "79926f0d-1458-4aca-8efe-c9f31a375c1f",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 94,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C23",
+      "current_id": "d88b560e-0d2b-45aa-9df1-7a18361156f7",
+      "prior_id": "95017461-b1a4-47ed-93af-c8bc8bb89684",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C24",
+      "current_id": "7c81862f-3f63-4f7c-b06e-61058d6e2e4d",
+      "prior_id": "9cfde3c3-56cb-47ba-ab44-0dfe453ae759",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 19,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C25",
+      "current_id": "015a120e-5368-495e-8396-0e1d3fc3213a",
+      "prior_id": "9f63955e-7690-48c7-ab0d-0f48cd8f249d",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 20,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C26",
+      "current_id": "337db4e6-0d0e-4eb3-9b5f-5b2d233ff4f8",
+      "prior_id": "a70e5d64-b30b-45b5-a592-120920d43f88",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 18,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C27",
+      "current_id": "b4523734-e1e9-4ed8-bc80-9a7796899654",
+      "prior_id": "a893319b-0d81-44f5-9256-68d5eca06a3d",
+      "classification": "REPEATED_HEADER_OCCURRENCE",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "e493d850-421f-4643-aff7-108623c43583",
+        "document_label": "D10",
+        "document_name": "3. Anexo CN Tipo 2.pdf",
+        "document_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+        "page": 11,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C28",
+      "current_id": "e66da09a-0a2f-4729-a160-67c3fef22733",
+      "prior_id": "ad791a3b-7982-4270-90e8-76a0c539cfee",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 78,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C29",
+      "current_id": "132f8423-8c51-46d9-829d-1de19f3f429b",
+      "prior_id": "af3d3a60-bed0-4508-afbb-456cd7525681",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 18,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C30",
+      "current_id": "8d89793e-5eb4-4be4-b591-1ca210e6a0df",
+      "prior_id": "b1a44505-2142-45f8-833e-df60b1f894a3",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 97,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C31",
+      "current_id": "a328d6ed-320a-4b69-9461-59583aa2042e",
+      "prior_id": "b24f40b2-8d95-4b0e-b899-4b499bc73e18",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 87,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C32",
+      "current_id": "39cca73f-5ace-4e0a-b968-1396e1340837",
+      "prior_id": "b705ae17-2893-4f97-a2a4-d8142108eae3",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 88,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C33",
+      "current_id": "87125eab-bbb3-4ed2-bc79-fb53cb3f6db2",
+      "prior_id": "cb4b8707-03b3-4473-9eeb-aad087a6c7c8",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 54,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C34",
+      "current_id": "747eddaa-2c1f-48ed-8e35-12f51e15b9a9",
+      "prior_id": "d6a6f395-e8f9-4d1e-b880-66ff4e5b85b3",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "e493d850-421f-4643-aff7-108623c43583",
+        "document_label": "D10",
+        "document_name": "3. Anexo CN Tipo 2.pdf",
+        "document_sha256": "e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e",
+        "page": 1,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C35",
+      "current_id": "3d6c39bc-bdec-47f8-a26e-55c7e0e7b810",
+      "prior_id": "dd222117-76cc-4e75-b62d-f99be4e03240",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 41,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C36",
+      "current_id": "2154d8ce-8e79-4999-b4b9-7a89eccbf607",
+      "prior_id": "de7d9362-6515-4c12-8f1b-0b8d77e86dd2",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 49,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C37",
+      "current_id": "52ab22e6-4b64-45a9-9223-dc69ca38b6ab",
+      "prior_id": "e6eec74b-fbbc-44f2-bf65-181e6209f8b3",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 50,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C38",
+      "current_id": "0c8b62e2-d718-407e-b1ff-04b88ed3aa61",
+      "prior_id": "e8a8b5bc-bcd7-47d6-aabc-e06f63ae580c",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 93,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C39",
+      "current_id": "f5c91463-3288-4780-a7ba-4ed644fc324d",
+      "prior_id": "ee286b5e-1e17-4ef5-96f7-28aa7ccf1ac9",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 96,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C40",
+      "current_id": "905121b6-04d2-4e25-bc70-d5f7109c1318",
+      "prior_id": "f325106b-7acd-4ef6-bea1-9c8cf26a831a",
+      "classification": "SUPPORTED_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 9,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C41",
+      "current_id": "81ac9958-e1a7-46a4-a719-043cce520a7d",
+      "prior_id": "f40030cd-ceb3-4353-8871-723929b370ce",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "e0c592af-fe32-4ad3-97da-b08a7c91cfd5",
+        "document_label": "D09",
+        "document_name": "1. Anexo_B1_Relevadores GE V2.pdf",
+        "document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+        "page": 3,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C42",
+      "current_id": "b1bc9ae6-7e6a-4da9-b77d-ad638fe3b492",
+      "prior_id": "fc4b3c0f-3c6d-4281-90d0-2713240aa0ba",
+      "classification": "SUPPORTED_WITH_DEFECT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+        "document_label": "D01",
+        "document_name": "02. Bases Internacionales  ID-107478.pdf",
+        "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+        "page": 94,
+        "section": null
+      }
+    },
+    {
+      "prior_label": "C43",
+      "current_id": "bb9fc9ab-6abd-44ac-a3f5-b55889d54610",
+      "prior_id": "ffe5dd3e-8cf9-45ee-903f-45f2963c48c8",
+      "classification": "CONTEXT_NOT_STANDALONE_BIDDER_REQUIREMENT",
+      "text_unchanged": true,
+      "source": {
+        "document_id": "a72a4759-761f-470b-891d-1c7f387803b8",
+        "document_label": "D05",
+        "document_name": "5. MODELO DE CONTRATO PARA BIENES.pdf",
+        "document_sha256": "ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5",
+        "page": 15,
+        "section": null
+      }
+    }
+  ],
+  "source_set_equal_by_sha256": true
+}

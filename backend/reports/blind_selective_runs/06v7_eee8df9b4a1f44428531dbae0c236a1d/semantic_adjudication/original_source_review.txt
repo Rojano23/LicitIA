@@ -1,0 +1,1127 @@
+=== D09 1. Anexo_B1_Relevadores GE V2.pdf p1 SHA 4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208 ===
+ 
+1 
+ 
+Dirección de Transformación Energética 
+Subdirección de Proceso de Gas y Derivados 
+Complejo Procesador de Gas Cactus. 
+ 
+ 
+Anexo B-1  
+Especificaciones particulares o técnicas 
+Objeto de la Contratación: Relevadores de protección marca General Electric 
+ 
+El participante debe incluir en su propuesta técnica las especificaciones, alcances y requerimientos 
+que se indican en los siguientes numerales:  
+ 
+1. El participante deberá cumplir e incluir en su propuesta técnica las siguientes especificaciones técnicas 
+y alcances: 
+1.1. 
+Especificaciones técnicas de los productos y cantidades requeridas: 
+ 
+ 
+Partida 
+Descripción 
+Unidad de 
+Medida 
+Cantidad 
+1 
+RELEVADOR MULTILIN No F60-U03-HKH-F8L-H6L-M6B-P6B-W7K 
+DESCRIPCION: RELEVADOR 
+FABRICANTE/MARCA: GE MULTILIN 
+NUMERO DE PARTE: F60-U03-HKH-F8L-H6L-M6B-P6B-W7K 
+PZA 
+1 
+2 
+RELEVADOR MULTILIN No L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K 
+DESCRIPCION: RELEVADOR 
+FABRICANTE/MARCA: GE MULTILIN 
+No. PARTE: L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K 
+PZA 
+2 
+ 
+1.1.1. Normas aplicables vigentes que deberán cumplirse para este requerimiento. 
+Norma / Estándar 
+técnico / Código 
+Descripción 
+IEC-60255 
+Relevadores de medición y equipos de protección. 
+IEC-60255 
+26 requerimientos de compatibilidad electromagnética. 
+IEC-60255 
+27 requerimientos de seguridad del producto. 
+IEC-60068 
+Pruebas ambientales. 
+IEC-61000 
+Compatibilidad electromagnética. 
+ISO9001:2015 
+Requerimientos de gestión de calidad. 
+NMX-J-625-21-1-
+ANCE-2020 
+Relevadores eléctricos-parte 21: pruebas de vibración, choque, golpes y sísmicas en 
+relevadores de medición y equipos de protección-sección 1: pruebas de 
+vibración (sinusoidales) 
+NOM-003-SCT-
+2008. 
+Características de las etiquetas de envases y embalajes, destinadas al transporte de 
+substancias, materiales y residuos peligrosos 
+IEC 61850-9-2LE 
+Guía de implementación para la interfaz digital de transformadores de 
+instrumentos usando IEC 61850-9-2 
+IEC 60255-1:2022 
+Cláusula 8: Marking, labelling and packaging 
+25 de agosto de 2026 
+
+
+=== D09 1. Anexo_B1_Relevadores GE V2.pdf p2 SHA 4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208 ===
+ 
+2 
+ 
+Formato 4 Anexo 
+SSPA 
+Requisitos de Seguridad, Salud en el Trabajo y Protección Ambiental (SSPA) que 
+debe cumplir el proveedor o contratista durante la ejecución de un contrato. 
+ 
+ 
+ 
+ 
+1.2. 
+Forma de empaque: 
+Los materiales deben entregarse con las diferentes cantidades de empaque:  
+• 
+Para la partida 01 y 02. 
+Cada relevador de protección deberá entregarse en estuches o contenedores forrados de 
+hule espuma o material similar que garantice la integridad del equipo. 
+Deberá entregarse 2 juegos de cables de comunicación de cada puerto con que cuente el 
+relevador de igual manera deberá entregar el software de libre licencia en usb para 
+windows 10 para la comunicación y configuración del relevador. 
+ 
+Deberá estar protegido mediante bolsa antiestática (ESD) o material equivalente, debido a 
+que contiene componentes electrónicos sensibles. 
+ 
+Deberá incorporar protección contra humedad, mediante bolsa sellada y, cuando sea 
+necesario, material desecante. 
+ 
+Los accesorios, manuales, conectores y demás componentes deberán entregarse 
+debidamente identificados y protegidos para evitar daños o pérdida. 
+ 
+Lo anterior para asegurar que el equipo esté adecuadamente embalado para soportar, sin 
+daños, la manipulación razonable y las condiciones ambientales correspondientes al 
+método o métodos de transporte conforme a la IEC 60255-1:2022 — Cláusula 8: Marking, 
+labelling and packaging. 
+ 
+1.3. 
+Entrega de los bienes. 
+Los Bienes serán entregados en Almacén de bienes de consumo del Complejo Procesador 
+de Gas Cactus S/n, Ranchería San Miguel, segunda sección, Reforma, Chiapas, C.P. 29500, 
+área sobre la cual el PROVEEDOR entregará los Bienes. En días hábiles de lunes a viernes, 
+con horario de 8:00 a 14:00 horas, responsable de la recepción de los bienes: Moises 
+Alpizar Uribe, jefe del Almacén, Teléfono 9933103500, extensión 32750, correo electrónico: 
+moises.alpizar@pemex.com 
+ 
+2. Otros requisitos que deberá incluir o indicar el participante como parte de su propuesta: 
+ 
+2.1. Presentar su propuesta conforme a lo solicitado en el presente anexo, que se detallen claramente 
+las especificaciones de los bienes que se requieren, indicando el grupo y números de partida de 
+que se trate, unidad de medida, cantidad, así mismo que manifieste el plazo, lugar y condiciones 
+de entrega. 
+ 
+2.2. Anexar a su propuesta técnica catálogos, fichas técnicas, dibujos o boletines técnicos emitidos por 
+el fabricante de los bienes propuestos, indicando la marca y modelo que propone para cada 
+posición, los cuales deben cumplir en su totalidad con las especificaciones y alcances solicitadas 
+
+
+=== D09 1. Anexo_B1_Relevadores GE V2.pdf p3 SHA 4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208 ===
+ 
+3 
+ 
+en el presente anexo, las partidas deberán estar claramente identificadas en los catálogos, fichas 
+técnicas y dibujos. 
+ 
+2.3. La propuesta técnica, fichas técnicas, catálogos, dibujos o boletines técnicos y demás 
+documentación que forma parte de su propuesta deberán estar en idioma español en caso de que 
+los documentos adjuntos, tales como folletos, fichas técnicas u hojas de datos estén en otro 
+idioma, deberá adjuntarse una traducción simple al español y deben cumplir en su totalidad con 
+las especificaciones y alcances solicitadas en el presente anexo.  
+ 
+2.4. En la evaluación técnica se verificará que las características, especificaciones y alcance de los 
+bienes propuestos por los participantes cumplan en su totalidad con las características, 
+especificaciones y alcance de los bienes solicitados en el presente anexo. 
+ 
+2.5. Formato 4 del Anexo de SSPA relativo a Requisitos de Seguridad, Salud y Protección Ambiental e 
+incluir carta compromiso donde manifieste que, en caso de resultar ganador, cumplirá todos los 
+requisitos que se indican en dicho formato. 
+ 
+2.6. Carta compromiso donde manifieste que todos los componentes que oferta son totalmente 
+nuevo, compatibles entre sí y tienen un ensamble correcto. 
+ 
+2.7. En la propuesta técnica, el participante debe adjuntar manifiesto en el que se compromete que en 
+caso de resultar adjudicado cumplirá con lo siguiente: 
+ 
+• 
+Informar a Pemex la fecha y hora estimada de entrega con 48 horas de anticipación, para 
+programar la recepción en el centro de trabajo. 
+• 
+Se compromete que, en caso de resultar ganador, entregará cada uno de los bienes 
+grabados o marcados con los siguientes datos: 
+ 
+I. 
+Iniciales del nombre del Centro de Trabajo: C.P.G. Cactus. 
+II. 
+Número de contrato 
+ 
+El marcado puede ser con letra de golpe con el tamaño de letra de 10 milímetros como 
+mínimo o por medio de micro percusión con un tamaño de letra de 10 milímetros como 
+mínimo. 
+2.8. 
+Carta compromiso donde manifieste que en caso de resultar ganador cumplirá todos los 
+requisitos que se indican en el Formato 4 del Anexo de SSPA relativo a Requisitos de Seguridad, 
+Salud y Protección Ambiental. 
+ 
+3. En su propuesta técnica el participante debe entregar carta compromiso en la que manifieste 
+que en caso de resultar ganador la documentación mínima con la que acompañará las entregas 
+de los bienes será la siguiente: 
+ 
+3.1 Carta original del fabricante en la que adjunte los certificados de calidad de los productos 
+suministrados, especificando la composición química y las pruebas de resistencia mecánica 
+
+
+=== D09 1. Anexo_B1_Relevadores GE V2.pdf p4 SHA 4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208 ===
+ 
+4 
+ 
+3.2 Copia de nota de remisión donde indique la descripción y especificaciones de los bienes 
+suministrados 
+ 
+La información y especificaciones que se indiquen en la documentación que forme parte de la propuesta 
+técnica, deben ser congruentes entre sí y con la propuesta técnica presentada, así mismo debe cumplir con 
+las especificaciones y requisitos técnicos solicitados en el presente Anexo. En caso de que exista cualquier 
+diferencia entre la propuesta y la documentación adjunta, será motivo de descalificación de la propuesta 
+técnica. 
+ 
+ 
+ 
+Elabora: Ing. José del Carmen de la Cruz García, Coordinador del Taller de Mantenimiento Eléctrico. 
+ 
+Revisa y Suscribe: Ing. Alfonso Priego Rivero, Subgerente de Confiabilidad y Mantenimiento. 
+ 
+ 
+(Este documento se firma electrónicamente con la e-Firma y se puede verificar en el portal https://valide.pemex.com) 
+ 
+ 
+ESTE DOCUMENTO PUEDE SER VERIFICADO EN https://valide.pemex.com
+Firmado por: DE LA CRUZ GARCIA JOSE DEL CARMEN RFC: CUGC790612BM4 Fecha: 25-08-2026 16:43:15 Certificado: 
+00001000000724321637 
+Firma: 
+MyQ+7mkoBhPmm2ix8hvaQ+ZLX9gFfvN7e78ibApHwM3TU0/S0/pXhdjOZUxyc05Pzw9YMoi5g3LuKvZ0UHudsL06lTEYHYlhmgE02fKmWkCInwON+lFI
+NXRvFl+WS4pQtNcJxIMkcT3uBdUQ7R4/QXfn7Ea2Nsm7ABGEWam+QVfUXCOJgvpO/pgqPSi3o2SLrMzJlUn1KMksJSzpCgiqtC95UFdWous8dko1LClx
+c1REIOtOQcN8mLLSjepCtfaC9BKmcrgSkTy7/hSAciRGypBymH6CiYobzP+p4MyWJgRKWrx+WuTMeo4Bl4wypZZyN1Isrrlw5BXcUly5mguJuw== 
+Documento: 4. Anexo_B1_Relevadores GE.pdf 
+GUID Paquete: a7a8deff-acee-4a97-b655-5d6390236f08 GUID Documento: 7003d3b7-4079-4e90-998d-c7465091a104
+3.3 Fichas o Boletines técnicos de cada bien a suministrar 
+3.4 Contrato impreso (2 juegos). 
+
+
+=== D02 2. Anexo_C.pdf p1 SHA 996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2 ===
+
+
+=== D11 3. Anexo SSPA (Formato 4).pdf p1 SHA f94397fcdf557d9234b5b49327854ba93da35c36b38327f84b03113a781d5074 ===
+
+
+=== D01 02. Bases Internacionales  ID-107478.pdf p13 SHA 7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8 ===
+ 
+ 
+Número de procedimiento de contratación: 
+DTE-CAI-B-GCTEL-4-107478-255-26-1 
+Bases de Contratación 
+ 
+13 
+_________________________________________________________________________________________ 
+ 
+Versión junio 2026 
+ 
+SECCIÓN III 
+REGLAS DE PARTICIPACIÓN 
+ 
+ 
+Número 
+Concepto 
+1. 
+Descripción general de los Bienes. 
+2. 
+Plazo, vigencia, lugar y condición de entrega, tipo y modalidad de contrato; ejercicios fiscales.  
+3. 
+Condiciones de precio, moneda en que se cotizará, condiciones de pago, anticipo, idioma, 
+subcontratación y consorcios. 
+4. 
+Visita al sitio. No Aplica   
+5. 
+Presentación de muestras o pruebas. No Aplica   
+6. 
+Precalificación. No Aplica   
+7. 
+Aclaraciones de dudas a las Bases de Contratación. 
+8. 
+Modificaciones a las Bases de Contratación. 
+9. 
+Preparación de las propuestas. 
+10. 
+Presentación y Apertura de Propuestas. 
+11. 
+Evaluación de las propuestas (Requisitos a cumplir).  
+12. 
+Criterios de Adjudicación. 
+13. 
+Aceptabilidad de Precio, Desempate y Adjudicación. 
+14. 
+Causales de desechamiento. 
+15. 
+Debida Diligencia. 
+16. 
+Fallo y Resultado del Concurso. 
+17. 
+Formalización del contrato. 
+18. 
+Cancelación y/o Suspensión del procedimiento de contratación. 
+19. 
+Concurso desierto. 
+20. 
+Recurso de Reconsideración. 
+21. 
+Información confidencial o reservada de los participantes. 
+
+
+=== D01 02. Bases Internacionales  ID-107478.pdf p15 SHA 7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8 ===
+ 
+ 
+Número de procedimiento de contratación: 
+DTE-CAI-B-GCTEL-4-107478-255-26-1 
+Bases de Contratación 
+ 
+15 
+_________________________________________________________________________________________ 
+ 
+Versión junio 2026 
+ 
+1.- Descripción general de los Bienes  : 
+ 
+“Relevadores de protección marca General Electric”  
+ 
+Las especificaciones técnicas, unidades de medida, cantidades del contrato y demás alcances, se describen en la 
+Sección IV Información técnica del Proyecto de estas Bases de Contratación. 
+ 
+2.- Plazo, vigencia, lugar y condición de entrega, tipo y modalidad de contrato; ejercicios fiscales. 
+ 
+2.1 Plazo de entrega de los Bienes: 
+ 
+El plazo de entrega de los bienes es de 60 (sesenta) días naturales, contados a partir de la fecha de la formalización 
+del contrato. 
+ 
+2.2 Vigencia del contrato: 
+  
+La vigencia del contrato inicia a partir de la fecha de firma y concluye hasta la formalización del finiquito del contrato. 
+ 
+2.3 Lugar y condición de entrega de los Bienes:  
+ 
+Los Bienes serán entregados en Almacén de bienes de consumo del Complejo Procesador de Gas Cactus 
+ubicados en la zona geográfica de Calle S/n, Ranchería San Miguel, segunda sección, Reforma, Chiapas, C.P. 
+29500, área sobre la cual el PROVEEDOR entregará los Bienes. 
+ 
+Condición de entrega de los Bienes: 
+ 
+➢ Proveedores Nacionales: DDP Delivery Duty Paid "Entrega Derechos Pagados" (Incoterms 2020), destino final. 
+ 
+➢ Proveedores Extranjeros: DAP Delivered at Place "Entrega en lugar de destino convenido" (Incoterms 2020), 
+destino final. 
+ 
+2.4 Tipo y modalidad de contrato: 
+ 
+Tipo de contrato: Bienes 
+ 
+Forma de adjudicar: Por el total de las partidas  
+ 
+Modalidad de contrato: Contrato Puntual de Bienes  
+ 
+2.5 Ejercicios fiscales: 
+ 
+El contrato que resulte de este concurso abarcará el ejercicio fiscal: 2026 
+ 
+3.- Condiciones de precio, moneda en que se cotizará, condiciones de pago, anticipo, idioma, subcontratación 
+y consorcios: 
+ 
+3.1 Condiciones de precio: 
+ 
+Los precios serán fijos. 
+ 
+Los precios deberán cotizarse sin incluir el impuesto al valor agregado (I.V.A.), éste se deberá incorporar hasta la 
+facturación.  
+ 
+Los precios deberán calcularse y expresarse con dos decimales redondeados. 
+
+
+=== D01 02. Bases Internacionales  ID-107478.pdf p41 SHA 7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8 ===
+ 
+ 
+Número de procedimiento de contratación: 
+DTE-CAI-B-GCTEL-4-107478-255-26-1 
+Bases de Contratación 
+ 
+41 
+_________________________________________________________________________________________ 
+ 
+Versión junio 2026 
+ 
+DOCUMENTO DA-5 
+ 
+MANIFIESTO DE CONFIDENCIALIDAD 
+ 
+(En papel membretado del participante) 
+ 
+Lugar y fecha________________________________ 
+ 
+Petróleos Mexicanos 
+Dirección de Administración y Servicios 
+Subdirección de Abastecimiento  
+Coordinación de Abastecimiento para Procesos Industriales, Transformación Energética y Logística 
+Gerencia de Contrataciones para Transformación Energética y Logística 
+ 
+P r e s e n t e 
+ 
+Concurso Abierto Electrónico No. DTE-CAI-B-GCTEL-4-107478-255-26-1 
+ 
+Objeto: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC”  
+ 
+Opción 1: 
+(Nombre del Representante Legal), en representación de (especificar la Persona Física o Moral que participa), con 
+fundamento en lo dispuesto en los artículos 112 y 115 de la Ley General de Transparencia y Acceso a la Información 
+Pública y las Políticas y Lineamientos para la Protección de la Información Sensible de Petróleos Mexicanos, manifiesto 
+que la información que se enlista más adelante y que integran la propuesta presentada para el procedimiento de 
+contratación arriba indicado, se entrega con carácter de confidencial: 
+  
+Documento 
+Tipo de Información (1) 
+XXXXXXXX 
+XXXXXXXXX 
+  
+Opción 2: 
+(Nombre del Representante Legal), en representación de (especificar la Persona Física o Moral que participa), con 
+fundamento en lo dispuesto en los artículos 112 y 115 de la Ley General de Transparencia y Acceso a la Información 
+Pública y las Políticas y Lineamientos para la Protección de la Información Sensible de Petróleos Mexicanos, manifiesto 
+que la información que integra la propuesta presentada para el procedimiento de contratación arriba indicado, NO se 
+entrega con carácter de confidencial: 
+ 
+Atentamente 
+ 
+___________________________________ 
+[Nombre y firma de la persona física o Representante Legal/Administrador Único o de acuerdo al poder 
+Notarial que lo faculta] 
+ 
+NOTAS: 
+ 
+(1) 
+CONSULTAR LOS ARTÍCULOS 112 y 115 DE LA LEY GENERAL DE TRANSPARENCIA Y ACCESO A LA INFORMACIÓN PÚBLICA. 
+(2) 
+EN CASO DE NO RELACIONAR DOCUMENTOS EN ESTE FORMATO, SE CONSIDERARÁ QUE NO LOS ENTREGA CON CARÁCTER 
+CONFIDENCIAL. 
+(3) 
+LA FALTA DE PRESENTACIÓN DE ESTE ESCRITO NO SERÁ CAUSA DE DESECHAMIENTO DE LA PROPUESTA. 
+ 
+NOTA: EN CASO DE PROPUESTA CONJUNTA (CONSORCIO) EL PRESENTE DOCUMENTO DEBERÁ ENTREGARSE DEBIDAMENTE 
+REQUISITADO POR CADA UNA DE LAS PERSONAS QUE FORMAN EL CONSORCIO. 
+ 
+ 
+
+
+=== D01 02. Bases Internacionales  ID-107478.pdf p51 SHA 7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8 ===
+ 
+ 
+Número de procedimiento de contratación: 
+DTE-CAI-B-GCTEL-4-107478-255-26-1 
+Bases de Contratación 
+ 
+51 
+_________________________________________________________________________________________ 
+ 
+Versión junio 2026 
+ 
+ANEXAR LA CAPTURA DE PANTALLA DEL CERTIFICADO DEL REPRESENTANTE LEGAL/PERSONA FÍSICA QUIEN FIRMARÍA EL 
+CONTRATO CORRESPONDIENTE, COMO SE MUESTRA A CONTINUACIÓN 
+EJEMPLO: 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== D01 02. Bases Internacionales  ID-107478.pdf p52 SHA 7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8 ===
+ 
+ 
+Número de procedimiento de contratación: 
+DTE-CAI-B-GCTEL-4-107478-255-26-1 
+Bases de Contratación 
+ 
+52 
+_________________________________________________________________________________________ 
+ 
+Versión junio 2026 
+ 
+DOCUMENTO DA-14 
+ 
+MANIFIESTO DE FORMALIZACIÓN DEL ACUERDO COMERCIAL CON LA E-FIRMA EN LA PLATAFORMA DE 
+FIRMA ELECTRÓNICA AVANZADA 
+ 
+(En papel membretado del participante) 
+ 
+ Lugar y fecha________________________________ 
+ 
+Petróleos Mexicanos 
+Dirección de Administración y Servicios 
+Subdirección de Abastecimiento  
+Coordinación de Abastecimiento para Procesos Industriales, Transformación Energética y Logística 
+Gerencia de Contrataciones para Transformación Energética y Logística 
+ 
+P r e s e n t e 
+ 
+Concurso Abierto Electrónico No. DTE-CAI-B-GCTEL-4-107478-255-26-1 
+ 
+Objeto: “RELEVADORES DE PROTECCIÓN MARCA GENERAL ELECTRIC”  
+ 
+Yo (indicar nombre representante legal/administrador único /apoderado) en mi carácter de Representante 
+Legal/Administrador Único/Apoderado de (especificar la Persona Física o Moral que participa), manifiesto bajo protesta 
+de decir verdad, en caso de ser adjudicada mi representada, no rechazará continuar con el proceso vía electrónica de 
+la formalización del acuerdo comercial mediante e-Firma en la plataforma de la firma electrónica avanzada. 
+ 
+Protesto lo necesario 
+ 
+__________________________________________________ 
+[Nombre y firma de la persona física o Representante Legal/Administrador Único o de acuerdo al poder 
+Notarial que lo faculta] 
+ 
+NOTA: EN CASO DE PROPUESTA CONJUNTA (CONSORCIO) EL PRESENTE DOCUMENTO DEBERÁ ENTREGARSE DEBIDAMENTE 
+REQUISITADO POR CADA UNA DE LAS PERSONAS QUE FORMAN EL CONSORCIO 
+ 
+NOTA: EL RECHAZO DE CONTINUAR CON LA FORMALIZACIÓN DEL ACUERDO COMERCIAL IMPEDIRÁ LA FORMALIZACIÓN DEL 
+CONTRATO RESPECTIVO Y SE CONSIDERARÁ COMO CAUSA IMPUTABLE A EL MISMO. 
+ 
+EN CASO DE ESTAR DADO DE ALTA EN LA E-FIRMA, DEBERÁ DE ADJUNTAR LA SIGUIENTE PANTALLA DEL 
+PORTAL 
+ 
+ 
+ 
+
+
+=== D01 02. Bases Internacionales  ID-107478.pdf p89 SHA 7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8 ===
+ 
+ 
+Número de procedimiento de contratación: 
+DTE-CAI-B-GCTEL-4-107478-255-26-1 
+Bases de Contratación 
+ 
+89 
+_________________________________________________________________________________________ 
+ 
+Versión junio 2026 
+ 
+DOCUMENTO REQUERIDO 
+CRITERIO DE EVALUACIÓN: 
+MOTIVO DE INCUMPLIMIENTO 
+Manifiesto de no encontrarse en algún supuesto 
+de los artículos 79 fracción VI de la Ley 
+EPEPM,10 de las DGC, 49 fracción IX de la 
+LGRA. 
+persona física o Representante Legal / 
+Administrador Único / Apoderado que 
+participa. 
+Apoderado que participa y/o NO 
+contemple 
+toda 
+la 
+información 
+requerida en el mismo. 
+• En caso de consorcio (propuesta 
+conjunta) se revisará que se incluya la 
+documentación de cada uno de los 
+integrantes que conforman el consorcio 
+(propuesta 
+conjunta) 
+conforme 
+lo 
+anterior. 
+• Que NO presenten el manifiesto 
+los/algunos integrantes del consorcio 
+y/o NO contemple toda la información 
+requerida en el mismo.  
+Documento DA-5 
+Manifiesto de Confidencialidad 
+ 
+La falta de presentación de este escrito no será 
+causa de desechamiento de la propuesta. 
+• Se revisará que se anexe en hoja 
+membretada del participante con toda 
+la información requerida firmado por la 
+persona física o Representante Legal / 
+Administrador Único / Apoderado que 
+participa. 
+• Que NO presente documento firmado 
+por la persona física o Representante 
+Legal 
+/ 
+Administrador 
+Único 
+/ 
+Apoderado que participa y/o NO 
+contemple 
+toda 
+la 
+información 
+requerida en el mismo. 
+• En caso de consorcio (propuesta 
+conjunta) se revisará y verificará que se 
+incluya el documento de cada uno de 
+los integrantes que conforman el 
+consorcio (propuesta conjunta). 
+• En el caso de consorcio (propuesta 
+conjunta) que NO presenten el 
+documento en forma individual por 
+cada una de las personas que formen 
+parte de este, y/o que NO cumplan 
+con 
+los 
+requisitos 
+y 
+criterios 
+requeridos en el mismo. 
+Documento DA-6 
+Manifiesto de regulaciones para prevenir 
+hechos de corrupción. 
+ 
+• Se 
+revisará 
+que 
+se 
+anexe 
+preferentemente en hoja membretada 
+del participante con toda la información 
+requerida firmado por la persona física 
+o Representante Legal / Administrador 
+Único / Apoderado que participa. 
+• Que NO presente documento firmado 
+por la persona física o Representante 
+Legal 
+/ 
+Administrador 
+Único 
+/ 
+Apoderado que participa y/o NO 
+contemple 
+toda 
+la 
+información 
+requerida en el mismo. 
+• En caso de consorcio (propuesta 
+conjunta) se revisará y verificará que se 
+incluya el documento de cada uno de 
+los integrantes que conforman el 
+consorcio (propuesta conjunta). 
+• En el caso de consorcio (propuesta 
+conjunta) que NO presenten el 
+documento en forma individual por 
+cada una de las personas que formen 
+parte de este, y/o que NO cumplan 
+con 
+los 
+requisitos 
+y 
+criterios 
+requeridos en el mismo. 
+Documento DA-7 
+Anuencia para que las autoridades fiscales y 
+laborales compartan información con Petróleos 
+Mexicanos. 
+• Se 
+revisará 
+que 
+se 
+anexe 
+preferentemente en hoja membretada 
+del participante con toda la información 
+requerida firmado por la persona física 
+o Representante Legal / Administrador 
+Único / Apoderado que participa. 
+• Que NO presente documento firmado 
+por la persona física o Representante 
+Legal 
+/ 
+Administrador 
+Único 
+/ 
+Apoderado que participa y/o NO 
+contemple 
+toda 
+la 
+información 
+requerida en el mismo. 
+• En caso de consorcio (propuesta 
+conjunta) se revisará y verificará que se 
+incluya el documento de cada uno de 
+los integrantes que conforman el 
+consorcio (propuesta conjunta). 
+• En el caso de consorcio (propuesta 
+conjunta) que NO presenten el 
+documento en forma individual por 
+cada una de las personas que formen 
+parte de este, y/o que NO cumplan 
+con 
+los 
+requisitos 
+y 
+criterios 
+requeridos en el mismo. 
+Documento DA-8 
+Manifiesto de no tener relaciones familiares sin 
+límite de grado con la Presidenta Constitucional 
+de los Estados Unidos Mexicanos. 
+ 
+• Se 
+revisará 
+que 
+se 
+anexe 
+preferentemente en hoja membretada 
+del participante con toda la información 
+requerida firmado por la persona física 
+o Representante Legal / Administrador 
+Único / Apoderado que participa. 
+• Que NO presente documento firmado 
+por la persona física o Representante 
+Legal 
+/ 
+Administrador 
+Único 
+/ 
+Apoderado que participa y/o NO 
+contemple 
+toda 
+la 
+información 
+requerida en el mismo. 
+ 
+• Que la persona física o moral que 
+participa tenga relaciones familiares 
+sin límite de grado con la Presidenta 
+
+
+=== D01 02. Bases Internacionales  ID-107478.pdf p96 SHA 7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8 ===
+ 
+ 
+Número de procedimiento de contratación: 
+DTE-CAI-B-GCTEL-4-107478-255-26-1 
+Bases de Contratación 
+ 
+96 
+_________________________________________________________________________________________ 
+ 
+Versión junio 2026 
+ 
+DOCUMENTO 
+CRITERIOS DE EVALUACIÓN 
+MOTIVOS DE INCUMPLIMIENTO 
+las mismas especificaciones y alcances técnicos, así 
+como condiciones y términos de entrega. 
+técnicos, así como condiciones y términos de 
+entrega. 
+Que cotice todas las partidas del total de las partidas.  Que NO cotice alguna de las partidas del total de 
+las partidas.  
+ 
+La comparación de los precios unitarios / importes de las propuestas económicas se hará en moneda nacional, en cuyo 
+caso se utilizará el tipo de cambio para solventar obligaciones denominadas en moneda extranjera, pagaderas en la 
+República Mexicana que publique el Banco de México en su portal electrónico en la fecha en que se haya llevado a 
+cabo el evento de presentación y apertura de propuestas, en la siguiente liga: SIE - Mercado cambiario 
+ 
+Ejemplo: 
+Si el evento de presentación y apertura de propuestas fue el 28 de abril de 2024, el tipo de cambio que se utilizará será: 
+19.5723 
+ 
+ 
+ 
+CONSIDERACIONES PARA LA EVALUACIÓN 
+ 
+1. Las operaciones o cálculos aritméticos se deberán realizar correctamente, en caso de que en el Anexo DE-1 de 
+la(s) PROPUESTA(S) alguna operación o calculo aritmético, presente un ERROR ARITMÉTICO y por ende, su 
+resultado sea equivocado, la CONVOCANTE podrá efectuar las correcciones correspondientes, efectuando 
+adecuadamente la operación o calculo aritmético erróneamente realizado, sin modificar los precios unitarios. El 
+importe resultante será el considerado para la evaluación. 
+ 
+2. En caso de que el PARTICIPANTE oferte un precio unitario sin decimales, o con sólo un decimal, la CONVOCANTE 
+considerará para fines de evaluación que el PARTICIPANTE está ofertando los decimales o el segundo decimal, en 
+su caso, en cero. (ejemplo: precio ofertado 5.2, el precio que considerará la CONVOCANTE será 5.20). 
+ 
+3. En caso de que el PARTICIPANTE oferte un precio unitario con más de dos decimales, la CONVOCANTE 
+considerará para fines de evaluación el valor redondeado hacia arriba al segundo decimal. (ejemplo: precio ofertado 
+5.2398, precio que considerará la CONVOCANTE 5.24). 
+ 
+NOTA: CONFORME A LO ESTABLECIDO EN EL ARTÍCULO 20 INCISO XIV DE LAS DGC, NUMERAL IV.12.9 TERCER PÁRRAFO DE LAS PyLA Y 
+A LO INDICADO EN EL PUNTO 28 DE LAS BASES DE CONTRATACIÓN VERSIÓN FINAL, DURANTE EL PERIODO DE EVALUACIÓN, LA 
+CONVOCANTE PODRÁ SOLICITAR A LOS PARTICIPANTES ACLARACIONES O CORRECCIONES. 
+ 
+
+
+=== D01 02. Bases Internacionales  ID-107478.pdf p110 SHA 7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8 ===
+ 
+ 
+Número de procedimiento de contratación: 
+DTE-CAI-B-GCTEL-4-107478-255-26-1 
+Bases de Contratación 
+ 
+110 
+_________________________________________________________________________________________ 
+ 
+Versión junio 2026 
+ 
+ 
+
+
+=== D01 02. Bases Internacionales  ID-107478.pdf p111 SHA 7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8 ===
+ 
+ 
+Número de procedimiento de contratación: 
+DTE-CAI-B-GCTEL-4-107478-255-26-1 
+Bases de Contratación 
+ 
+111 
+_________________________________________________________________________________________ 
+ 
+Versión junio 2026 
+ 
+ 
+ 
+ 
+ 
+
+
+=== D03 1. Cuestionarios DD ANEXO.pdf p12 SHA 7e4b94ae3130c1e1e46e1bc4ad89040a3d68351ab25b88c633a7c62bcd138670 ===
+ 
+Políticas y Lineamientos para el Desarrollo de la Debida Diligencia 
+en Petróleos Mexicanos, sus Empresas Productivas Subsidiarias y, 
+en su caso, Empresas Filiales, en materia de Ética e Integridad 
+Corporativa 
+ 
+Página 12 de 20 
+Nombre del servidor pÚblico 
+ 
+Tipo de relación (Accioniste, Inversionista, 
+Socio etc.) 
+ 
+Porcentaje de 
+participación 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+26. Por favor describa las características de su programa de integridad o cumplimiento: 
+Característica 
+Sí 
+No 
+1. ¿Cuenta con un código de ética?  
+ 
+ 
+2. ¿Cuenta con un código de conducta? 
+ 
+ 
+3. ¿Cuenta con una política anticorrupción? 
+ 
+ 
+4. 
+¿Tiene algún otro documento que regule el comportamiento ético de 
+sus empleados? 
+ 
+ 
+5. La política o los códigos que los regulan incluye(n) las siguientes 
+características: 
+• 
+Transparencia en cuanto a donativos 
+ 
+ 
+• 
+Son públicos. 
+ 
+ 
+• 
+Son extensivos a sus grupos de interés, partes relacionadas, 
+proveedores y otros. 
+ 
+ 
+• 
+Transparencia en cuanto aportaciones y contribuciones políticas 
+ 
+ 
+• 
+Establecen expresamente la prohibición de ofrecer o recibir sobornos 
+ 
+ 
+6. 
+Establecen expresamente la prohibición de ofrecer o recibir 
+incentivos de cualquier tipo (efectivo, especie, etc.) por trámite, 
+gestión o facilitación. 
+ 
+ 
+7. 
+Establecen expresamente la prohibición de realizar operaciones con 
+recursos de procedencia o destino ilícito (Lavado de Dinero) o 
+financiamiento al terrorismo. 
+ 
+ 
+8. 
+¿Cuenta con un manual de organización y procedimientos que 
+describan las funciones y responsabilidades de las áreas? 
+ 
+ 
+9. 
+¿Verifica el perfil ético de sus empleados antes de su contratación? 
+ 
+ 
+10. ¿Brinda capacitación a su personal en temas relacionados al combate 
+a la corrupción? 
+ 
+ 
+11. ¿Cuenta con algún medio o mecanismo institucional para denunciar 
+Hechos de Corrupción? 
+ 
+ 
+5.00
+
+
+=== D05 5. MODELO DE CONTRATO PARA BIENES.pdf p54 SHA ee9dabcabf257972489d4da5818334a2af0f3a0e4a22dd12b2e90c400c8391a5 ===
+29 de julio de 2025 
+54 
+Los ajustes por incumplimiento de los Indicadores Clave de Desempeño que medirán el cumplimiento de las 
+Cédulas asignadas se calcularán conforme a lo establecido en el Anexo “PACMA” denominado Programa de 
+Apoyo a la Comunidad y Medio Ambiente. 
+ 
+El incumplimiento de seis o más veces el mismo ICD durante el plazo del Contrato será causal de Rescisión. 
+ 
+NOTA: PARA CONTRATOS QUE DE ORIGEN EL MONTO O PRESUPUESTO MÍNIMO, SEA IGUAL O SUPERIOR A 100 MILLONES DE 
+PESOS. 
+El PROVEEDOR se obliga al cumplimiento de las disposiciones, términos y alcances previstos en el Anexo 
+“PACMA” denominado Programa de Apoyo a la Comunidad y Medio Ambiente. 
+ 
+La aportación que le corresponda en términos del citado Anexo será destinada a programas, obras o acciones 
+que contribuyan al desarrollo humano y a la sustentabilidad ambiental de las comunidades, así como para obtener 
+la Licencia Social para Operar, aplicándose preferentemente en el área de influencia de los Bienes o en donde 
+PEMEX lo determine. 
+ 
+El PROVEEDOR deberá designar una Persona como enlace para efectos de atender todo lo relacionado con 
+esa cláusula y el Anexo “PACMA”. 
+ 
+Los ajustes por incumplimiento de los Indicadores Clave de Desempeño que medirán el cumplimiento de las 
+cédulas asignadas se calcularán conforme a lo establecido en el Anexo “PACMA” denominado Programa de 
+Apoyo a la Comunidad y Medio Ambiente.  
+ 
+En caso de que las Partes acuerden ampliaciones al monto del Contrato, el PROVEEDOR se obliga a aportar el 
+porcentaje que corresponda en términos del Anexo “PACMA” denominado Programa de Apoyo a la Comunidad 
+y Medio Ambiente respecto del monto ampliado.  
+ 
+El incumplimiento de seis o más veces el mismo ICD durante el plazo del Contrato será causal de Rescisión. 
+ 
+(EN CASO DE APLICAR). 
+50. FUENTES DE FINANCIAMIENTO 
+ 
+ESTA CLÁUSULA DEBE INCLUIRSE EN LOS CONTRATOS QUE SE CELEBREN A SOLICITUD DE LAS ÁREAS PERTENECIENTES A 
+LAS LÍNEAS DE NEGOCIO DE EXPLORACIÓN Y EXTRACCIÓN, PROCESOS INDUSTRIALES, TRANSFORMACIÓN ENERGÉTICA, Y 
+LOGÍSTICA Y SALVAGUARDIA ESTRATÉGICA, CUYO MONTO TOTAL (LA SUMA DEL MONTO EN PESOS Y EL EQUIVALENTE EN 
+PESOS DEL MONTO COTIZADO EN OTRA DIVISA) SEA SUPERIOR A 500 MILLONES DE PESOS, EXCEPTO EN AQUELLOS 
+CONTRATOS EN QUE LOS PROVEEDORES O CONTRATISTAS CUENTEN CON UN ESQUEMA FINANCIADO. 
+ 
+PARA DETERMINAR EL IMPORTE EQUIVALENTE EN PESOS, DEL MONTO COTIZADO EN OTRA DIVISA, SE DEBERÁ UTILIZAR EL 
+TIPO DE CAMBIO VIGENTE PARA SOLVENTAR OBLIGACIONES DENOMINADAS EN MONEDA EXTRANJERA, PAGADERAS EN LA 
+REPÚBLICA MEXICANA, QUE EL BANCO DE MÉXICO DETERMINE Y PUBLIQUE EN EL DIARIO OFICIAL DE LA FEDERACIÓN EN 
+LA FECHA DEL ACTO DE PRESENTACIÓN Y APERTURA DE PROPOSICIONES. 
+ 
+El PROVEEDOR reconoce que PEMEX podrá hacer uso de recursos provenientes de financiamiento, con el 
+objeto de financiar los pagos que deriven del Contrato. El PROVEEDOR conoce y se obliga a informar 
+oportunamente a sus proveedores y Subcontratistas, sobre los requisitos relacionados con la Documentación 
+Requerida por las Fuentes de Financiamiento, para garantizar el cumplimiento de lo establecido en esta cláusula. 
+ 
+La “Cédula sobre el País de Origen de los Bienes y/o Servicios”, presentada con anterioridad a la Fecha de 
+Suscripción del Contrato, se integra al Contrato como Anexo “____”, en la inteligencia de que PEMEX podrá 
+solicitar al PROVEEDOR cualquier aclaración o información adicional relativa a la cédula a que se refiere esta 
+cláusula, durante el plazo del Contrato. Asimismo, en caso de que la información contemplada en dicha cédula 
+llegara a modificarse durante el plazo del Contrato, el PROVEEDOR se obliga a hacerla del conocimiento de 
+PEMEX, una vez que tenga conocimiento de la modificación, lo que no implicará realizar una modificación al 
+Contrato.  
+ 
+El PROVEEDOR se obliga a entregar al área responsable (“Módulo de Financiamiento”) de PEMEX la 
+Documentación Requerida por las Fuentes de Financiamiento (documentos o documentos electrónicos), que, en 
+su caso, corresponda, la cual se deberá presentar de conformidad con los requisitos establecidos en el Anexo 
+
+
+=== D10 3. Anexo CN Tipo 2.pdf p1 SHA e0958d05fbe305f768b3b156a0c26517de1400e61a314ebcfda346ab93e7836e ===
+ 
+Anexo CN – Tipo 2 
+1  
+Versión 4.0 
+ 
+Este Anexo aplica en procedimientos de contratación en los que NO 
+se exige cumplir con un porcentaje de contenido nacional, pero sí se 
+requiere que el Participante/Contratista/Proveedor presente 
+declaraciones periódicas de contenido nacional que cumplan con los 
+requerimientos de la Secretaría de Economía. 
+Anexo CN 
+ 
+Contenido Nacional en las Contrataciones de Bienes, Obras, Servicios y Arrendamientos 
+relacionados con Asignaciones o Contratos para la Exploración y Extracción de Hidrocarburos, o 
+Permisos en la Industria de Hidrocarburos 
+- Anexo tipo 2 - 
+ 
+1. Ámbito de aplicación 
+1.1. Este Anexo aplica en las contrataciones que se realicen mediante concursos abiertos, 
+invitaciones restringidas o adjudicaciones directas, principalmente de carácter internacional 
+que se celebren bajo la cobertura de los Tratados de Libre Comercio suscritos por los Estados 
+Unidos Mexicanos con otros países, que tengan por objeto actividades relacionadas con 
+Asignaciones, Contratos para la Exploración y Extracción o Permisos en la Industria de los 
+Hidrocarburos en donde la contratación no califica como proyecto integrado mayor o proyecto 
+llave en mano y, por lo tanto, no se requiere el cumplimiento de un porcentaje mínimo de 
+contenido nacional. 
+1.2. Aun 
+cuando 
+no 
+se 
+requiera 
+el 
+cumplimiento 
+de 
+contenido 
+nacional, 
+el 
+Participante/Contratista/Proveedor se obliga a presentar declaraciones periódicas del 
+contenido nacional real alcanzado, en los plazos, medios y formas que se establezcan en el 
+contrato que en su caso se celebre o en las disposiciones jurídicas aplicables en la materia. 
+1.3. Este Anexo también aplica en los Contratos Específicos que deriven de una Alianza Contractual 
+o de un Nuevo Modelo de Abastecimiento. 
+2. Marco normativo de referencia  
+2.1. Ley de Hidrocarburos y su Reglamento. 
+2.2. Ley de Petróleos Mexicanos y su Reglamento. 
+2.3. Disposiciones Generales de Contratación para Petróleos Mexicanos y sus Empresas 
+Productivas Subsidiarias. 
+2.4.  “Acuerdo por el que se establece la Metodología para la Medición del Contenido Nacional en 
+Asignaciones y Contratos para la Exploración y Extracción de Hidrocarburos, así como para los 
+permisos en la Industria de Hidrocarburos”, publicado por la Secretaría de Economía en el 
+Diario Oficial de la Federación el 13 de noviembre de 2014 y su modificación de fecha 16 de 
+julio de 2015 (en adelante “la Metodología”). 
+2.5. “Acuerdo por el que se establecen las disposiciones para que los asignatarios, contratistas y 
+permisionarios proporcionen información sobre contenido nacional en las actividades que 
+realicen en la industria de hidrocarburos”, publicado por la Secretaría de Economía en el Diario 
+Oficial de la Federación el 26 de mayo de 2017 y su modificación de fecha 23 de enero de 
+2020. 
+2.6.  “Acuerdo por el que se establecen las disposiciones para la verificación del cumplimiento de 
+las obligaciones de contenido nacional de Asignatarios y Contratistas, respecto de las 
+actividades de Exploración y Extracción que realicen en territorio nacional”, en adelante el 
+“Acuerdo de Verificación”, publicado por la Secretaría de Economía en el Diario Oficial de la 
+Federación el 23 de enero de 2020. 
+2.7. El Participante/Contratista/Proveedor deberá considerar el marco normativo en materia de 
+contenido nacional que establezca la autoridad competente. 
+
+
+=== D06 01. Convocatoria  ID-107478.pdf p1 SHA c5b8e39e09d66d288b097faad99cfab22c5a9c5573e8187c1d428d8ee5de075f ===
+ 
+Versión enero 2026 
+ 
+ 
+ 
+ 
+Petróleos Mexicanos 
+Dirección de Administración y Servicios 
+Subdirección de Abastecimiento 
+Coordinación de Abastecimiento para Procesos Industriales, Transformación Energética y Logística 
+Gerencia de Contrataciones para Transformación Energética y Logística 
+Ciudad de México a 26 de agosto de 2026 
+ 
+CONVOCATORIA 
+ 
+Petróleos Mexicanos, a través de la Gerencia de Contrataciones para Transformación Energética y Logística, adscrita a la Coordinación de Abastecimiento 
+para Procesos Industriales, Transformación Energética y Logística  dependiente de la Subdirección de Abastecimiento de la Dirección de Administración 
+y Servicios, con fundamento en los artículos 134 de la Constitución Política de los Estados Unidos Mexicanos, 78 y 80 párrafos primero, segundo y tercero, 
+y Transitorio Decimo Primero de la Ley de la Empresa Pública del Estado, Petróleos Mexicanos (Ley EPEPM), así como 13, 19 y 20 de las Disposiciones 
+Generales de Contratación para Petróleos Mexicanos y sus Empresas Productivas Subsidiarias (DGC), convoca a los interesados a participar en el 
+Concurso Abierto Electrónico Internacional, con fundamento en el numeral IV.7 segundo párrafo literal c. y IV.12.2 de las Políticas y Lineamientos para 
+Abastecimiento, número de procedimiento DTE-CAI-B-GCTEL-4-107478-255-26-1 cuyo objeto es la contratación de los bienes consistentes en 
+“Relevadores de Protección Marca General Electric”, de acuerdo con lo siguiente: 
+ 
+• Fechas relevantes del Procedimiento de Contratación de acuerdo con el siguiente cronograma: 
+ 
+Evento 
+Fecha propuesta 
+Publicación de la convocatoria y bases de contratación. 
+26 de agosto de 2026 
+Límite para la recepción del Documento DA-1 “Manifiesto de 
+interés en participar”. 
+Evento de aclaraciones de dudas hasta el 31 de agosto de 2026, 10:00 horas. 
+Evento presentación y apertura de propuestas técnica, comercial y económica hasta 
+15 de septiembre de 2026, 10:00 horas. 
+Recepción de aclaraciones de dudas a las bases. 
+1 de septiembre 2026, 10:00 horas. 
+Evento de aclaraciones de dudas a las bases. 
+4 de septiembre de 2026, 16:00 horas. 
+Publicación de la versión final de las bases. 
+7 de septiembre de 2026 
+Presentación y apertura de propuestas. 
+17 de septiembre de 2026, 10:00 horas. 
+Fallo y notificación de resultado. 
+2 de octubre de 2026 
+• Este concurso abierto se llevará a cabo a través de medios electrónicos en el Sistema de Contrataciones Electrónicas de Pemex (SISCEP). 
+• Los plazos, fechas y horarios aquí señalados, podrán ser modificados, haciéndolo del conocimiento de los interesados, a través de las Actas derivadas 
+de los eventos del procedimiento y comunicadas a los participantes a través del Portal de Internet de Petróleos Mexicanos (Portal) en 
+http://www.pemex.com/procura/procedimientos-de-contratacion/concursosabiertos/Paginas/default.aspx y en el SISCEP. 
+• Para el presente procedimiento no se acepta que miembros de la familia de la Presidenta Constitucional, Doctora Claudia Sheinbaum Pardo o 
+particulares usen su nombre o hagan gestiones, realicen trámites o lleven a cabo negocios con el gobierno, en cumplimiento al comunicado de fecha 
+2 de octubre de 2024. 
+• En términos de la Ley Federal de Transparencia y Acceso a la información Pública, los participantes podrán señalar en su propuesta los documentos 
+que contengan información confidencial o reservada, siempre que tengan derecho de clasificar la información de conformidad con las disposiciones 
+aplicables. 
+• Para la substanciación del procedimiento de contratación, en mi carácter de Gerente de Contrataciones para Transformación Energética y Logística, y 
+con fundamento en lo dispuesto por los artículos 23, fracción III; 27, fracción VIII, numeral 1, inciso d), subinciso ii); 232, fracción IV y Cuarto Transitorio 
+del Estatuto Orgánico de la Empresa Pública del Estado Petróleos Mexicanos, publicado en el Diario Oficial de la Federación el treinta de mayo de dos 
+mil veinticinco, el cual entró en vigor a partir del primero de junio de dos mil veinticinco y su modificación publicada mediante aviso el doce de 
+septiembre de dos mil veinticinco en el citado medio de comunicación oficial; se hace constar que he delegado o podré delegar la suscripción de 
+eventos de trámite, los cuales surtirán plenos efectos jurídicos. Por lo que, quien participe voluntariamente en el procedimiento de contratación acepta 
+dichos términos e implícitamente estas representaciones. 
+• Pueden participar, personas físicas o morales de nacionalidad mexicana o de cualquier otra, que no se encuentren impedidas en términos de los 
+artículos 79 fracción VI de la Ley EPEPM, 10 de las DGC y 49 2fracción IX de la Ley General de Responsabilidades Administrativas. 
+• Las Bases de Contratación estarán a disposición de los interesados a partir de la publicación de la convocatoria en el Portal y en caso de estar 
+interesados en participar, deberán remitir el Documento DA-1 en la fecha y hora establecida en el cronograma de eventos de las bases de contratación; 
+mediante 
+el 
+cual 
+expresen 
+su 
+interés 
+en 
+participar 
+a 
+la 
+siguiente 
+dirección 
+electrónica: 
+email2workspace-
+prod+PEMEX+WS5846360186+vi7f@ansmtp.ariba.com, indicando el nombre de la empresa en el asunto del correo y marcando copia a las siguientes 
+direcciones de correo electrónico: blanca.veronica.hernandez@pemex.com y edgar.cesar.arceo@pemex.com 
+• El idioma en que las ofertas o las solicitudes de participación deberán presentarse es en español. 
+ 
+ 
+GUID del Paquete: 0ff6ae16-0b86-48cf-a4f8-07cce50bd77c	
+|	
+GUID del Documento: dd5ca2ad-a53d-438a-b26e-3e2a10afd893

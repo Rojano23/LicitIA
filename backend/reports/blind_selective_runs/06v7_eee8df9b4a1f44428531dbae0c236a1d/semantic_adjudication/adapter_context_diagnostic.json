@@ -1,0 +1,101 @@
+[
+  {
+    "label": "D01",
+    "page": 110,
+    "method": "OCR",
+    "artifact_key": "ocr-result:b19beca7-aec3-41e0-a989-edf42f06602b",
+    "context_class": "ScopeDetailEvidenceArtifact",
+    "selected_adapter": "OcrScopeDetailAdapter",
+    "legacy_candidate_count": 0,
+    "next_composite_branch_condition": "not candidates == True",
+    "read_only_context": true
+  },
+  {
+    "label": "D01",
+    "page": 111,
+    "method": "OCR",
+    "artifact_key": "ocr-result:accd1a8c-c9cb-4ebd-b49c-95e48139b18d",
+    "context_class": "ScopeDetailEvidenceArtifact",
+    "selected_adapter": "OcrScopeDetailAdapter",
+    "legacy_candidate_count": 0,
+    "next_composite_branch_condition": "not candidates == True",
+    "read_only_context": true
+  },
+  {
+    "label": "D09",
+    "page": 1,
+    "method": "NATIVE",
+    "artifact_key": "native-page:4d7153fb-315b-4721-a3d8-e4ccf8a9da57",
+    "context_class": "ScopeDetailEvidenceArtifact",
+    "selected_adapter": "NativeScopeDetailAdapter",
+    "legacy_candidate_count": 0,
+    "next_composite_branch_condition": "not candidates == True",
+    "read_only_context": true
+  },
+  {
+    "label": "D09",
+    "page": 2,
+    "method": "NATIVE",
+    "artifact_key": "native-page:efe85d87-f5df-4692-9803-6d026a08de99",
+    "context_class": "ScopeDetailEvidenceArtifact",
+    "selected_adapter": "NativeScopeDetailAdapter",
+    "legacy_candidate_count": 0,
+    "next_composite_branch_condition": "not candidates == True",
+    "read_only_context": true
+  },
+  {
+    "label": "D09",
+    "page": 3,
+    "method": "NATIVE",
+    "artifact_key": "native-page:62f0ba2a-a848-4c85-9112-632b6793ca6f",
+    "context_class": "ScopeDetailEvidenceArtifact",
+    "selected_adapter": "NativeScopeDetailAdapter",
+    "legacy_candidate_count": 0,
+    "next_composite_branch_condition": "not candidates == True",
+    "read_only_context": true
+  },
+  {
+    "label": "D09",
+    "page": 4,
+    "method": "NATIVE",
+    "artifact_key": "native-page:a58e7383-a2f0-4e31-afe9-461642aaf906",
+    "context_class": "ScopeDetailEvidenceArtifact",
+    "selected_adapter": "NativeScopeDetailAdapter",
+    "legacy_candidate_count": 0,
+    "next_composite_branch_condition": "not candidates == True",
+    "read_only_context": true
+  },
+  {
+    "label": "D09",
+    "page": 5,
+    "method": "NATIVE",
+    "artifact_key": "native-page:8d6c5b06-e5f2-41ab-8681-6dffe39e7f02",
+    "context_class": "ScopeDetailEvidenceArtifact",
+    "selected_adapter": "NativeScopeDetailAdapter",
+    "legacy_candidate_count": 0,
+    "next_composite_branch_condition": "not candidates == True",
+    "read_only_context": true
+  },
+  {
+    "label": "D02",
+    "page": 1,
+    "method": "OCR",
+    "artifact_key": "ocr-result:8be0828d-cf74-4540-9209-38c46aa820d4",
+    "context_class": "ScopeDetailEvidenceArtifact",
+    "selected_adapter": "OcrScopeDetailAdapter",
+    "legacy_candidate_count": 0,
+    "next_composite_branch_condition": "not candidates == True",
+    "read_only_context": true
+  },
+  {
+    "label": "D11",
+    "page": 1,
+    "method": "OCR",
+    "artifact_key": "ocr-result:32cf00ba-4ca3-442e-b8eb-d2664f56193a",
+    "context_class": "ScopeDetailEvidenceArtifact",
+    "selected_adapter": "OcrScopeDetailAdapter",
+    "legacy_candidate_count": 0,
+    "next_composite_branch_condition": "not candidates == True",
+    "read_only_context": true
+  }
+]

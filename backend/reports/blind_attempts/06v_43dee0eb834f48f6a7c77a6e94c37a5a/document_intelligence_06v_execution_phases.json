@@ -1,0 +1,175 @@
+{
+  "blocked_provider_attempts": [],
+  "config_sha256": "e791486037f6499595c02f36aa74b55fe171600b25ae7866e2026d3e71e884cd",
+  "ended_at": "2026-10-14T22:04:08.522256+00:00",
+  "errors": [],
+  "execution_status": "COMPLETE",
+  "git_commit": "c1c6ff4870dc94009b10d62f47020ef6cdf9d580",
+  "import_manifest_sha256": "4556971cab26448b7fa6d927224a6bfcb83b11b0c71f70c29bfabbea6dac8897",
+  "metrics_collection_seconds": 0.972118,
+  "native_extraction_calls": 10,
+  "phases": [
+    {
+      "elapsed_seconds": 3.849872,
+      "ended_at": "2026-10-14T22:03:57.675024+00:00",
+      "phase": "document_native_preparation",
+      "started_at": "2026-10-14T22:03:53.825168+00:00",
+      "status": "COMPLETE"
+    },
+    {
+      "elapsed_seconds": 6.881495,
+      "ended_at": "2026-10-14T22:04:04.556622+00:00",
+      "phase": "DI_routing",
+      "started_at": "2026-10-14T22:03:57.675308+00:00",
+      "status": "COMPLETE"
+    },
+    {
+      "elapsed_seconds": 1.915326,
+      "ended_at": "2026-10-14T22:04:06.472353+00:00",
+      "phase": "Requirements",
+      "started_at": "2026-10-14T22:04:04.556962+00:00",
+      "status": "COMPLETE"
+    },
+    {
+      "elapsed_seconds": 0.254797,
+      "ended_at": "2026-10-14T22:04:06.727554+00:00",
+      "phase": "requested_Evidence",
+      "started_at": "2026-10-14T22:04:06.472655+00:00",
+      "status": "COMPLETE"
+    },
+    {
+      "elapsed_seconds": 1.336085,
+      "ended_at": "2026-10-14T22:04:08.063964+00:00",
+      "phase": "Scope",
+      "started_at": "2026-10-14T22:04:06.727814+00:00",
+      "status": "COMPLETE"
+    },
+    {
+      "elapsed_seconds": 0.0022,
+      "ended_at": "2026-10-14T22:04:08.067328+00:00",
+      "phase": "Attributes",
+      "started_at": "2026-10-14T22:04:08.064988+00:00",
+      "status": "COMPLETE"
+    },
+    {
+      "elapsed_seconds": 0.001374,
+      "ended_at": "2026-10-14T22:04:08.069206+00:00",
+      "phase": "Quantities",
+      "started_at": "2026-10-14T22:04:08.067483+00:00",
+      "status": "COMPLETE"
+    },
+    {
+      "elapsed_seconds": 0.448326,
+      "ended_at": "2026-10-14T22:04:08.517762+00:00",
+      "phase": "Versions_Effective_Source",
+      "started_at": "2026-10-14T22:04:08.069340+00:00",
+      "status": "COMPLETE"
+    },
+    {
+      "elapsed_seconds": 0.00367,
+      "ended_at": "2026-10-14T22:04:08.521894+00:00",
+      "phase": "Review",
+      "started_at": "2026-10-14T22:04:08.518080+00:00",
+      "status": "COMPLETE"
+    }
+  ],
+  "preparation_results": [
+    {
+      "capability": "NATIVE_PDF_TRANSCRIPTION",
+      "document_id": "015617b1-91fe-41e4-a7bf-befd1246d971",
+      "page_count": 119,
+      "reason": "NATIVE_PREPARATION_COMPLETE",
+      "reused": false,
+      "status": "PREPARED"
+    },
+    {
+      "capability": "NATIVE_PDF_TRANSCRIPTION",
+      "document_id": "02ee7c3d-6d7e-402f-9adf-663eabd27d0b",
+      "page_count": 1,
+      "reason": "NATIVE_PREPARATION_COMPLETE",
+      "reused": false,
+      "status": "PREPARED"
+    },
+    {
+      "capability": "NATIVE_PDF_TRANSCRIPTION",
+      "document_id": "5dbe08a3-6525-4995-a248-07901b3ee57c",
+      "page_count": 20,
+      "reason": "NATIVE_PREPARATION_COMPLETE",
+      "reused": false,
+      "status": "PREPARED"
+    },
+    {
+      "capability": "NATIVE_PDF_TRANSCRIPTION",
+      "document_id": "a01c1c77-9da4-48af-a1f8-c342981b6c58",
+      "page_count": 26,
+      "reason": "NATIVE_PREPARATION_COMPLETE",
+      "reused": false,
+      "status": "PREPARED"
+    },
+    {
+      "capability": "NATIVE_PDF_TRANSCRIPTION",
+      "document_id": "a72a4759-761f-470b-891d-1c7f387803b8",
+      "page_count": 55,
+      "reason": "NATIVE_PREPARATION_COMPLETE",
+      "reused": false,
+      "status": "PREPARED"
+    },
+    {
+      "capability": "NATIVE_PDF_TRANSCRIPTION",
+      "document_id": "ade2f09f-4147-4f90-bb76-30f3977fc686",
+      "page_count": 3,
+      "reason": "NATIVE_PREPARATION_COMPLETE",
+      "reused": false,
+      "status": "PREPARED"
+    },
+    {
+      "capability": "NATIVE_PDF_TRANSCRIPTION",
+      "document_id": "cffc9137-565f-4a7b-8470-6c8294038da4",
+      "page_count": 12,
+      "reason": "NATIVE_PREPARATION_COMPLETE",
+      "reused": false,
+      "status": "PREPARED"
+    },
+    {
+      "capability": "NATIVE_PDF_TRANSCRIPTION",
+      "document_id": "d0e05bd1-c933-4259-a9c7-610aaadd28fe",
+      "page_count": 0,
+      "reason": "UNSUPPORTED_NATIVE_CAPABILITY",
+      "reused": false,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "capability": "NATIVE_PDF_TRANSCRIPTION",
+      "document_id": "e0c592af-fe32-4ad3-97da-b08a7c91cfd5",
+      "page_count": 5,
+      "reason": "NATIVE_PREPARATION_COMPLETE",
+      "reused": false,
+      "status": "PREPARED"
+    },
+    {
+      "capability": "NATIVE_PDF_TRANSCRIPTION",
+      "document_id": "e493d850-421f-4643-aff7-108623c43583",
+      "page_count": 11,
+      "reason": "NATIVE_PREPARATION_COMPLETE",
+      "reused": false,
+      "status": "PREPARED"
+    },
+    {
+      "capability": "NATIVE_PDF_TRANSCRIPTION",
+      "document_id": "f9ca92e2-b4b8-473d-81f5-69381d593914",
+      "page_count": 1,
+      "reason": "NATIVE_PREPARATION_COMPLETE",
+      "reused": false,
+      "status": "PREPARED"
+    }
+  ],
+  "provider_calls": {
+    "Ollama": 0,
+    "Qwen": 0,
+    "Tesseract_OCR": 0,
+    "Vision": 0
+  },
+  "run_id": "06v_43dee0eb834f48f6a7c77a6e94c37a5a",
+  "started_at": "2026-10-14T22:03:53.825146+00:00",
+  "tender_id": "18a9459d-72e8-408b-89c8-81c8d35937f8"
+}

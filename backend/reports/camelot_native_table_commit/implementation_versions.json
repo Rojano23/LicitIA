@@ -1,0 +1,37 @@
+{
+  "camelot_native_table": "camelot-native-table-proof-v1",
+  "camelot_config": "d972dbdfc2f8379d0fbf6fcd0e35195b1b8f4bb47be237ef5bdb38db92cea663",
+  "camelot_configuration": {
+    "flavor": "lattice",
+    "engine": "combined",
+    "backend": "pdfium",
+    "resolution": 300,
+    "use_fallback": false,
+    "parallel": false,
+    "suppress_stdout": true
+  },
+  "camelot_dependencies": {
+    "camelot-py": "2.0.0",
+    "playa-pdf": "1.1.0",
+    "pypdfium2": "5.13.0",
+    "opencv-python-headless": "5.0.0.93",
+    "numpy": "2.3.5",
+    "pandas": "3.0.5",
+    "PyMuPDF": "1.28.2"
+  },
+  "native_table_relationships": "native-table-relationships-v1",
+  "perception_sufficiency": "perception-sufficiency-v2",
+  "planner": "blind-task-contracts-v1",
+  "ocr_fingerprint": "selective-ocr-v1",
+  "vision_fingerprint": "selective-vision-v1",
+  "vision_task_version": 1,
+  "logical_scope": "scope-logical-v2",
+  "structured_evidence": "structured-evidence-v1",
+  "structured_manifest": "STRUCTURED_EVIDENCE_001",
+  "structural_policy": "mvp-06.V.4a-structural-identity-v2",
+  "structure_prompt": "vision-structure-scope-2026-09-03-006",
+  "detail_prompt": "vision-detail-transcription-2026-08-31-001",
+  "prompt_implementation_sha256": "68b1dc3b54ca61efa28155d4e350940f54544b6d2af0e48cd3290403784d0173",
+  "structure_schema_sha256": "37df21811cd9429d162963ffb5e51df5f4c52f91f255e8f598f7359dea6b9dbf",
+  "detail_schema_sha256": "ec566f8775de7454d90d4040db355e859f085afbf70071b9e3a56ccbcd917952"
+}

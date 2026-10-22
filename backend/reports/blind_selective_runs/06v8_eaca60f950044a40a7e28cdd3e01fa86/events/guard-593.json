@@ -1,0 +1,22 @@
+{
+  "payload": {
+    "calls": 1,
+    "capability": "STRUCTURE",
+    "configuration": {
+      "model_revision": "ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b",
+      "plan": "cab8959610a47dad2a05d528cb08d7f4ab52ad2bad013868013fd27315ebaa1c",
+      "task": "STRUCTURE_SCOPE"
+    },
+    "execution_event": true,
+    "id": "guard-593",
+    "latency_ms": 30070,
+    "model": "qwen3-vl:4b-instruct",
+    "page_id": "22b9b53d-fe26-434a-8645-c48cdeeaa5a9",
+    "provider": "OLLAMA",
+    "source_method": "VISION",
+    "status": "COMPLETED",
+    "timeout": false,
+    "truncated": false
+  },
+  "sha256": "28953b8b14dc00e0934119a2bb6d5b40f04b418485f1157e6bbbd4ab8938b55d"
+}

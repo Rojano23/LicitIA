@@ -1,0 +1,10 @@
+{
+  "state": "READY",
+  "detail": "LOCAL_PROVIDER_METADATA_VERIFIED",
+  "provider": "OLLAMA",
+  "runtime_expected": "0.23.3",
+  "model": "qwen3-vl:4b-instruct",
+  "model_digest": "ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b",
+  "inference_calls": 0,
+  "installation_or_service_changes": false
+}

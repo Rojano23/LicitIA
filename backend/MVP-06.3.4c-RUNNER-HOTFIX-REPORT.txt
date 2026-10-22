@@ -1,0 +1,266 @@
+========================================================================================================================
+MVP-06.3.4c CALIBRATION RUNNER HOTFIX REPORT
+========================================================================================================================
+Date: 2026-09-07T21:57:57.520123
+Status: FIXED & TESTED
+No Ollama execution in this session (deterministic tests only)
+
+========================================================================================================================
+1. ROOT CAUSE ANALYSIS
+========================================================================================================================
+
+PROBLEM:
+  When user executed:
+    cd /Users/ceciliavalencia/LiticIA/backend
+    .venv/bin/python scripts/run_scope_semantic_golden.py --model qwen3:8b
+
+  Runtime error:
+    Case 1: EXCEPTION
+    Error: 'tuple' object has no attribute 'status'
+
+ROOT CAUSE:
+  The runner was architecturally incorrect:
+
+    BROKEN CODE:
+      provider_result = provider.discover(fragment)
+      # provider_result is tuple[DiscoveredScopeObligation]
+
+      SemanticGoldenEvaluator.evaluate(golden_case, provider_result)
+      # evaluator expects ScopeSemanticDiscoveryResult with .status attribute
+      # tuple has NO .status attribute → AttributeError
+
+ARCHITECTURAL VIOLATION:
+  The runner called provider.discover() DIRECTLY, bypassing the
+  provider-neutral orchestration layer that exists in:
+
+    app/scope_semantic_discovery.py:discover_scope_semantics()
+
+  This layer handles:
+    • Provider tuple → ScopeSemanticDiscoveryResult conversion
+    • Provider selection and validation
+    • Exception handling and error mapping
+    • Obligation normalization and deduplication
+    • Domain validation
+    • Evidence grounding
+    • Status determination (DISCOVERED vs NO_OBLIGATIONS vs REVIEW_REQUIRED)
+
+========================================================================================================================
+2. SOLUTION: ORCHESTRATION LAYER WIRING
+========================================================================================================================
+
+CORRECT ARCHITECTURE:
+  The runner must use the existing neutral discovery orchestration:
+
+  FIXED CODE:
+    from app.scope_semantic_discovery import discover_scope_semantics
+
+    # Call neutral orchestration (not provider directly)
+    provider_result = discover_scope_semantics(
+        fragment=fragment,
+        providers=[provider]
+    )
+    # Returns ScopeSemanticDiscoveryResult with .status, .candidates, .errors
+
+    SemanticGoldenEvaluator.evaluate(golden_case, provider_result)
+    # evaluator now receives proper ScopeSemanticDiscoveryResult
+
+ORCHESTRATION SIGNATURE:
+  def discover_scope_semantics(
+      fragment: ScopeSemanticSourceFragment,
+      *,
+      providers: Sequence[ScopeSemanticDiscoveryProvider],
+  ) -> ScopeSemanticDiscoveryResult:
+
+  Input:  ScopeSemanticSourceFragment + provider(s)
+  Output: ScopeSemanticDiscoveryResult (structured, validated)
+
+========================================================================================================================
+3. RUNNER CODE CHANGES
+========================================================================================================================
+
+FILE: scripts/run_scope_semantic_golden.py
+
+CHANGE 1: Added import
+  OLD:
+    from app.scope_semantic_discovery import (
+        SCOPE_SEMANTIC_DISCOVERY_STATUS_DISCOVERED,
+        SCOPE_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT,
+        SCOPE_SEMANTIC_DISCOVERY_STATUS_NO_OBLIGATIONS,
+        SCOPE_SEMANTIC_DISCOVERY_STATUS_REVIEW_REQUIRED,
+        ScopeSemanticSourceFragment,
+    )
+
+  NEW:
+    from app.scope_semantic_discovery import (
+        SCOPE_SEMANTIC_DISCOVERY_STATUS_DISCOVERED,
+        SCOPE_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT,
+        SCOPE_SEMANTIC_DISCOVERY_STATUS_NO_OBLIGATIONS,
+        SCOPE_SEMANTIC_DISCOVERY_STATUS_REVIEW_REQUIRED,
+        ScopeSemanticSourceFragment,
+        discover_scope_semantics,  # ← ADDED
+    )
+
+CHANGE 2: Fixed _evaluate_case function
+  OLD (lines ~135-160):
+    try:
+        provider_result = provider.discover(fragment)  # ✗ Returns tuple
+        provider_status = SCOPE_SEMANTIC_DISCOVERY_STATUS_DISCOVERED
+    except Exception as exc:
+        provider_status = SCOPE_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT
+        provider_result = None
+
+    if provider_result is None:  # ✗ Tries to wrap tuple in result obj
+        from app.scope_semantic_discovery import ScopeSemanticDiscoveryResult
+        provider_result = ScopeSemanticDiscoveryResult(
+            status=SCOPE_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT,
+            candidates=(),
+            errors=(str(exc),),
+        )
+
+  NEW (lines ~135-160):
+    try:
+        provider_result = discover_scope_semantics(  # ✓ Neutral orchestration
+            fragment=fragment,
+            providers=[provider]  # ✓ Pass provider in list
+        )
+    except Exception as exc:
+        from app.scope_semantic_discovery import ScopeSemanticDiscoveryResult
+
+        provider_result = ScopeSemanticDiscoveryResult(  # ✓ Proper exception handling
+            provider_name=provider.provider_name,
+            provider_version=provider.provider_version,
+            contract_version=provider.contract_version,
+            candidate_count=0,
+            review_required_count=0,
+            status=SCOPE_SEMANTIC_DISCOVERY_STATUS_INVALID_OUTPUT,
+            candidates=(),
+            errors=(str(exc),),
+        )
+
+VERIFICATION:
+  ✓ provider.discover(tuple) is no longer called directly
+  ✓ Neutral discover_scope_semantics() orchestration is always used
+  ✓ Return value always has .status, .candidates, .errors attributes
+  ✓ Exception handling uses proper ScopeSemanticDiscoveryResult construction
+
+========================================================================================================================
+4. DETERMINISTIC REGRESSION TESTS
+========================================================================================================================
+
+FILE: tests/test_run_scope_semantic_golden.py (NEW)
+PURPOSE: Prevent this architectural violation from recurring
+
+TEST 1: test_provider_tuple_result_through_neutral_engine
+  Mocks a provider that returns a tuple (provider-level interface)
+  Verifies discover_scope_semantics() correctly converts tuple to
+  ScopeSemanticDiscoveryResult with proper .status attribute
+  ✓ PASSED: 'tuple' AttributeError cannot happen
+
+TEST 2: test_empty_tuple_provider_through_neutral_engine
+  Mocks a provider returning empty tuple
+  Verifies neutral engine produces NO_OBLIGATIONS status correctly
+  Proves empty provider response does not raise AttributeError
+  ✓ PASSED: Empty results map correctly
+
+TEST 3: test_neutral_engine_result_works_with_evaluator
+  Integration test: provider tuple → neutral orchestration →
+  ScopeSemanticDiscoveryResult → SemanticGoldenEvaluator
+  Verifies full pipeline accepts orchestrated results
+  ✓ PASSED: Full flow works correctly
+
+========================================================================================================================
+5. TEST RESULTS
+========================================================================================================================
+
+FOCUSED TEST SUITE (includes runner regression tests):
+  test_scope_semantic_golden.py:           18 PASSED
+  test_ollama_scope_semantic_provider.py:  21 PASSED
+  test_scope_semantic_discovery.py:         7 PASSED
+  test_run_scope_semantic_golden.py:        3 PASSED (NEW)
+  ─────────────────────────────────────────────────
+  TOTAL: 49 PASSED (0 failed, 0 skipped, 0 errors)
+  Execution time: 1.33s
+
+COMPILATION:
+  ✓ app/: CLEAN (no syntax errors)
+  ✓ scripts/: CLEAN (no syntax errors)
+
+GIT STATUS:
+  ✓ git diff --check: CLEAN (no whitespace issues)
+  ✓ git status: Working tree only, no staging, no commits
+  ✓ Modified files (untracked):
+    - scripts/run_scope_semantic_golden.py (hotfix applied)
+    - tests/test_run_scope_semantic_golden.py (regression tests)
+
+STRUCTURAL VALIDATION:
+  ✓ Runner imports successful
+  ✓ Golden JSON loads: 12 cases
+  ✓ Case conversion successful
+  ✓ Provider construction successful
+  ✓ Neutral orchestration imported and ready
+  ✓ Runner correctly wired:
+    1. Provider-neutral discover_scope_semantics() orchestration used
+    2. ScopeSemanticDiscoveryResult (not tuple) to evaluator
+    3. Proper exception handling in orchestration layer
+
+========================================================================================================================
+6. EXACT MACOS TERMINAL CALIBRATION COMMAND (UNCHANGED)
+========================================================================================================================
+
+Ready to execute (user will run manually from Terminal):
+
+cd /Users/ceciliavalencia/LiticIA/backend && \
+.venv/bin/python scripts/run_scope_semantic_golden.py --model qwen3:8b
+
+Expected output:
+  Case 1-12: individual evaluation results with:
+    - Expected/discovered/matched obligation counts
+    - PASS/FAIL/REVIEW_REQUIRED/INVALID status
+    - Recall/precision metrics
+    - Missing/unexpected obligation indices
+  Summary:
+    - PASS/FAIL/REVIEW_REQUIRED/INVALID aggregate counts
+    - Total recall/precision
+    - Defect counts (missing, unexpected, mixed-domain)
+
+========================================================================================================================
+7. NO OLLAMA EXECUTION
+========================================================================================================================
+
+This hotfix session:
+  ✗ Did NOT run qwen3:8b (Ollama)
+  ✓ Used deterministic regression tests only
+  ✓ Verified structural wiring without model inference
+
+User will execute real calibration separately:
+  Next step: Run calibration command from Terminal with qwen3:8b
+
+========================================================================================================================
+8. DELIVERABLES CHECKLIST
+========================================================================================================================
+
+✓ Root cause identified and documented
+✓ Architectural violation explained
+✓ Runner hotfix implemented (2 code sections)
+✓ Neutral orchestration layer correctly wired
+✓ provider.discover() no longer passed directly to evaluator
+✓ Exception handling improved with proper result construction
+✓ 3 deterministic regression tests added
+✓ Tuple-return provider test proves bug fix
+✓ Empty tuple → NO_OBLIGATIONS test added
+✓ Integration test: provider → orchestration → evaluator
+✓ All 49 focused tests PASSED (18+21+7+3)
+✓ Python compilation CLEAN
+✓ Git status CLEAN
+✓ Unchanged macOS calibration command provided
+✓ No staging, no commits, no pushes
+✓ No Ollama execution (deterministic tests only)
+
+========================================================================================================================
+END OF HOTFIX REPORT
+========================================================================================================================
+
+MVP-06.3.4c CALIBRATION RUNNER HOTFIX COMPLETE
+STATUS: READY TO RETRY QWEN3:8B CALIBRATION
+ARCHITECTURAL VIOLATION: FIXED
+REGRESSION PREVENTION: TESTED

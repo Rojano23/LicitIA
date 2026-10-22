@@ -1,0 +1,2785 @@
+{
+  "page": "B1_P1",
+  "tool": "camelot",
+  "configuration": "stream_split",
+  "parameters": {
+    "flavor": "stream",
+    "split_text": true
+  },
+  "repeat_seconds": [
+    0.03288266700110398,
+    0.027271208993624896
+  ],
+  "deterministic": true,
+  "max_rss_bytes": 454672384,
+  "warnings": [],
+  "errors": [],
+  "tables": [
+    {
+      "bbox_bottom_origin": [
+        65.384,
+        368.313,
+        553.52,
+        522.2209438202248
+      ],
+      "bbox": [
+        65.384,
+        269.77905617977524,
+        553.52,
+        423.687
+      ],
+      "rows": 14,
+      "columns": 5,
+      "matrix": [
+        [
+          "1.1.",
+          "Especificaciones técnicas de",
+          "los productos y cantidades requ",
+          "eridas:",
+          ""
+        ],
+        [
+          "",
+          "",
+          "",
+          "Unidad de",
+          ""
+        ],
+        [
+          "Partida",
+          "",
+          "Descripción",
+          "",
+          "Cantidad"
+        ],
+        [
+          "",
+          "",
+          "",
+          "Medida",
+          ""
+        ],
+        [
+          "",
+          "RELEVADOR MULTILIN No F60-",
+          "U03-HKH-F8L-H6L-M6B-P6B-W7K",
+          "",
+          ""
+        ],
+        [
+          "",
+          "DESCRIPCION: RELEVADOR",
+          "",
+          "",
+          ""
+        ],
+        [
+          "1",
+          "",
+          "",
+          "PZA",
+          "1"
+        ],
+        [
+          "",
+          "FABRICANTE/MARCA: GE MULT",
+          "ILIN",
+          "",
+          ""
+        ],
+        [
+          "",
+          "NUMERO DE PARTE: F60-U03-H",
+          "KH-F8L-H6L-M6B-P6B-W7K",
+          "",
+          ""
+        ],
+        [
+          "",
+          "RELEVADOR MULTILIN No L90-",
+          "U03-HLH-F8L-H6E-LXX-NXX-S6A-U6",
+          "K-W7K",
+          ""
+        ],
+        [
+          "",
+          "DESCRIPCION: RELEVADOR",
+          "",
+          "",
+          ""
+        ],
+        [
+          "2",
+          "",
+          "",
+          "PZA",
+          "2"
+        ],
+        [
+          "",
+          "FABRICANTE/MARCA: GE MULT",
+          "ILIN",
+          "",
+          ""
+        ],
+        [
+          "",
+          "No. PARTE: L90-U03-HLH-F8L-H",
+          "6E-LXX-NXX-S6A-U6K-W7K",
+          "",
+          ""
+        ]
+      ],
+      "parser_report": {
+        "accuracy": 86.78,
+        "whitespace": 57.14,
+        "order": 1,
+        "page": 1,
+        "confidence": 0.3719
+      },
+      "cells": [
+        {
+          "row": 0,
+          "column": 0,
+          "text": "1.1. \n",
+          "bbox": [
+            61.44,
+            269.38160000000005,
+            104.27199999999999,
+            287.64764
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            504.35236,
+            104.27199999999999,
+            522.6184
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "text": "Especificaciones técnicas de\n",
+          "bbox": [
+            104.27199999999999,
+            269.38160000000005,
+            241.1,
+            287.64764
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            504.35236,
+            241.1,
+            522.6184
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "text": " los productos y cantidades requ\n",
+          "bbox": [
+            241.1,
+            269.38160000000005,
+            391.185,
+            287.64764
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            504.35236,
+            391.185,
+            522.6184
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "text": "eridas: \n",
+          "bbox": [
+            391.185,
+            269.38160000000005,
+            505.45,
+            287.64764
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            504.35236,
+            505.45,
+            522.6184
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 4,
+          "text": "",
+          "bbox": [
+            505.45,
+            269.38160000000005,
+            561.2800000000001,
+            287.64764
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            504.35236,
+            561.2800000000001,
+            522.6184
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            61.44,
+            287.64764,
+            104.27199999999999,
+            302.387
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            489.613,
+            104.27199999999999,
+            504.35236
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            104.27199999999999,
+            287.64764,
+            241.1,
+            302.387
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            489.613,
+            241.1,
+            504.35236
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            241.1,
+            287.64764,
+            391.185,
+            302.387
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            489.613,
+            391.185,
+            504.35236
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "text": "Unidad de\n",
+          "bbox": [
+            391.185,
+            287.64764,
+            505.45,
+            302.387
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            489.613,
+            505.45,
+            504.35236
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 4,
+          "text": " \n",
+          "bbox": [
+            505.45,
+            287.64764,
+            561.2800000000001,
+            302.387
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            489.613,
+            561.2800000000001,
+            504.35236
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 0,
+          "text": "Partida \n",
+          "bbox": [
+            61.44,
+            302.387,
+            104.27199999999999,
+            307.907
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            484.093,
+            104.27199999999999,
+            489.613
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            104.27199999999999,
+            302.387,
+            241.1,
+            307.907
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            484.093,
+            241.1,
+            489.613
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "text": "Descripción \n",
+          "bbox": [
+            241.1,
+            302.387,
+            391.185,
+            307.907
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            484.093,
+            391.185,
+            489.613
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            391.185,
+            302.387,
+            505.45,
+            307.907
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            484.093,
+            505.45,
+            489.613
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 4,
+          "text": "Cantidad \n",
+          "bbox": [
+            505.45,
+            302.387,
+            561.2800000000001,
+            307.907
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            484.093,
+            561.2800000000001,
+            489.613
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            61.44,
+            307.907,
+            104.27199999999999,
+            316.787
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            475.213,
+            104.27199999999999,
+            484.093
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            104.27199999999999,
+            307.907,
+            241.1,
+            316.787
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            475.213,
+            241.1,
+            484.093
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            241.1,
+            307.907,
+            391.185,
+            316.787
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            475.213,
+            391.185,
+            484.093
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "text": "Medida \n",
+          "bbox": [
+            391.185,
+            307.907,
+            505.45,
+            316.787
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            475.213,
+            505.45,
+            484.093
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 4,
+          "text": "",
+          "bbox": [
+            505.45,
+            307.907,
+            561.2800000000001,
+            316.787
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            475.213,
+            561.2800000000001,
+            484.093
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            61.44,
+            316.787,
+            104.27199999999999,
+            329.027
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            462.973,
+            104.27199999999999,
+            475.213
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 1,
+          "text": "RELEVADOR MULTILIN No F60-\n",
+          "bbox": [
+            104.27199999999999,
+            316.787,
+            241.1,
+            329.027
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            462.973,
+            241.1,
+            475.213
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 2,
+          "text": "U03-HKH-F8L-H6L-M6B-P6B-W7K \n",
+          "bbox": [
+            241.1,
+            316.787,
+            391.185,
+            329.027
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            462.973,
+            391.185,
+            475.213
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            391.185,
+            316.787,
+            505.45,
+            329.027
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            462.973,
+            505.45,
+            475.213
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 4,
+          "text": "",
+          "bbox": [
+            505.45,
+            316.787,
+            561.2800000000001,
+            329.027
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            462.973,
+            561.2800000000001,
+            475.213
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            61.44,
+            329.027,
+            104.27199999999999,
+            338.207
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            453.793,
+            104.27199999999999,
+            462.973
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 1,
+          "text": "DESCRIPCION: RELEVADOR \n",
+          "bbox": [
+            104.27199999999999,
+            329.027,
+            241.1,
+            338.207
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            453.793,
+            241.1,
+            462.973
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            241.1,
+            329.027,
+            391.185,
+            338.207
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            453.793,
+            391.185,
+            462.973
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            391.185,
+            329.027,
+            505.45,
+            338.207
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            453.793,
+            505.45,
+            462.973
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 4,
+          "text": "",
+          "bbox": [
+            505.45,
+            329.027,
+            561.2800000000001,
+            338.207
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            453.793,
+            561.2800000000001,
+            462.973
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 0,
+          "text": "1 \n",
+          "bbox": [
+            61.44,
+            338.207,
+            104.27199999999999,
+            344.327
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            447.673,
+            104.27199999999999,
+            453.793
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            104.27199999999999,
+            338.207,
+            241.1,
+            344.327
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            447.673,
+            241.1,
+            453.793
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            241.1,
+            338.207,
+            391.185,
+            344.327
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            447.673,
+            391.185,
+            453.793
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 3,
+          "text": "PZA \n",
+          "bbox": [
+            391.185,
+            338.207,
+            505.45,
+            344.327
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            447.673,
+            505.45,
+            453.793
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 4,
+          "text": "1 \n",
+          "bbox": [
+            505.45,
+            338.207,
+            561.2800000000001,
+            344.327
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            447.673,
+            561.2800000000001,
+            453.793
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            61.44,
+            344.327,
+            104.27199999999999,
+            353.567
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            438.433,
+            104.27199999999999,
+            447.673
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 1,
+          "text": "FABRICANTE/MARCA: GE MULT\n",
+          "bbox": [
+            104.27199999999999,
+            344.327,
+            241.1,
+            353.567
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            438.433,
+            241.1,
+            447.673
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 2,
+          "text": "ILIN \n",
+          "bbox": [
+            241.1,
+            344.327,
+            391.185,
+            353.567
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            438.433,
+            391.185,
+            447.673
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            391.185,
+            344.327,
+            505.45,
+            353.567
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            438.433,
+            505.45,
+            447.673
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 4,
+          "text": "",
+          "bbox": [
+            505.45,
+            344.327,
+            561.2800000000001,
+            353.567
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            438.433,
+            561.2800000000001,
+            447.673
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            61.44,
+            353.567,
+            104.27199999999999,
+            366.10699999999997
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            425.89300000000003,
+            104.27199999999999,
+            438.433
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 1,
+          "text": "NUMERO DE PARTE: F60-U03-H\n",
+          "bbox": [
+            104.27199999999999,
+            353.567,
+            241.1,
+            366.10699999999997
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            425.89300000000003,
+            241.1,
+            438.433
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 2,
+          "text": "KH-F8L-H6L-M6B-P6B-W7K \n",
+          "bbox": [
+            241.1,
+            353.567,
+            391.185,
+            366.10699999999997
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            425.89300000000003,
+            391.185,
+            438.433
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            391.185,
+            353.567,
+            505.45,
+            366.10699999999997
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            425.89300000000003,
+            505.45,
+            438.433
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 4,
+          "text": "",
+          "bbox": [
+            505.45,
+            353.567,
+            561.2800000000001,
+            366.10699999999997
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            425.89300000000003,
+            561.2800000000001,
+            438.433
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            61.44,
+            366.10699999999997,
+            104.27199999999999,
+            378.587
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            413.413,
+            104.27199999999999,
+            425.89300000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 1,
+          "text": "RELEVADOR MULTILIN No L90-\n",
+          "bbox": [
+            104.27199999999999,
+            366.10699999999997,
+            241.1,
+            378.587
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            413.413,
+            241.1,
+            425.89300000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 2,
+          "text": "U03-HLH-F8L-H6E-LXX-NXX-S6A-U6\n",
+          "bbox": [
+            241.1,
+            366.10699999999997,
+            391.185,
+            378.587
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            413.413,
+            391.185,
+            425.89300000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 3,
+          "text": "K-W7K \n",
+          "bbox": [
+            391.185,
+            366.10699999999997,
+            505.45,
+            378.587
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            413.413,
+            505.45,
+            425.89300000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 4,
+          "text": "",
+          "bbox": [
+            505.45,
+            366.10699999999997,
+            561.2800000000001,
+            378.587
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            413.413,
+            561.2800000000001,
+            425.89300000000003
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            61.44,
+            378.587,
+            104.27199999999999,
+            387.767
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            404.233,
+            104.27199999999999,
+            413.413
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 1,
+          "text": "DESCRIPCION: RELEVADOR \n",
+          "bbox": [
+            104.27199999999999,
+            378.587,
+            241.1,
+            387.767
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            404.233,
+            241.1,
+            413.413
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            241.1,
+            378.587,
+            391.185,
+            387.767
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            404.233,
+            391.185,
+            413.413
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            391.185,
+            378.587,
+            505.45,
+            387.767
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            404.233,
+            505.45,
+            413.413
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 4,
+          "text": "",
+          "bbox": [
+            505.45,
+            378.587,
+            561.2800000000001,
+            387.767
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            404.233,
+            561.2800000000001,
+            413.413
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 0,
+          "text": "2 \n",
+          "bbox": [
+            61.44,
+            387.767,
+            104.27199999999999,
+            393.887
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            398.113,
+            104.27199999999999,
+            404.233
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            104.27199999999999,
+            387.767,
+            241.1,
+            393.887
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            398.113,
+            241.1,
+            404.233
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 2,
+          "text": "",
+          "bbox": [
+            241.1,
+            387.767,
+            391.185,
+            393.887
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            398.113,
+            391.185,
+            404.233
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 3,
+          "text": "PZA \n",
+          "bbox": [
+            391.185,
+            387.767,
+            505.45,
+            393.887
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            398.113,
+            505.45,
+            404.233
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 4,
+          "text": "2 \n",
+          "bbox": [
+            505.45,
+            387.767,
+            561.2800000000001,
+            393.887
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            398.113,
+            561.2800000000001,
+            404.233
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            61.44,
+            393.887,
+            104.27199999999999,
+            403.067
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            388.933,
+            104.27199999999999,
+            398.113
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 1,
+          "text": "FABRICANTE/MARCA: GE MULT\n",
+          "bbox": [
+            104.27199999999999,
+            393.887,
+            241.1,
+            403.067
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            388.933,
+            241.1,
+            398.113
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 2,
+          "text": "ILIN \n",
+          "bbox": [
+            241.1,
+            393.887,
+            391.185,
+            403.067
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            388.933,
+            391.185,
+            398.113
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            391.185,
+            393.887,
+            505.45,
+            403.067
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            388.933,
+            505.45,
+            398.113
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 4,
+          "text": "",
+          "bbox": [
+            505.45,
+            393.887,
+            561.2800000000001,
+            403.067
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            388.933,
+            561.2800000000001,
+            398.113
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            61.44,
+            403.067,
+            104.27199999999999,
+            422.40799999999996
+          ],
+          "bbox_bottom_origin": [
+            61.44,
+            369.59200000000004,
+            104.27199999999999,
+            388.933
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 1,
+          "text": "No. PARTE: L90-U03-HLH-F8L-H\n",
+          "bbox": [
+            104.27199999999999,
+            403.067,
+            241.1,
+            422.40799999999996
+          ],
+          "bbox_bottom_origin": [
+            104.27199999999999,
+            369.59200000000004,
+            241.1,
+            388.933
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 2,
+          "text": "6E-LXX-NXX-S6A-U6K-W7K \n",
+          "bbox": [
+            241.1,
+            403.067,
+            391.185,
+            422.40799999999996
+          ],
+          "bbox_bottom_origin": [
+            241.1,
+            369.59200000000004,
+            391.185,
+            388.933
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 3,
+          "text": "",
+          "bbox": [
+            391.185,
+            403.067,
+            505.45,
+            422.40799999999996
+          ],
+          "bbox_bottom_origin": [
+            391.185,
+            369.59200000000004,
+            505.45,
+            388.933
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 4,
+          "text": "",
+          "bbox": [
+            505.45,
+            403.067,
+            561.2800000000001,
+            422.40799999999996
+          ],
+          "bbox_bottom_origin": [
+            505.45,
+            369.59200000000004,
+            561.2800000000001,
+            388.933
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        }
+      ]
+    },
+    {
+      "bbox_bottom_origin": [
+        51.08,
+        104.34172000000001,
+        564.70352,
+        358.95966382022476
+      ],
+      "bbox": [
+        51.08,
+        433.04033617977524,
+        564.70352,
+        687.65828
+      ],
+      "rows": 20,
+      "columns": 2,
+      "matrix": [
+        [
+          "Norma  /  Estándar",
+          ""
+        ],
+        [
+          "",
+          "Descripción"
+        ],
+        [
+          "técnico / Código",
+          ""
+        ],
+        [
+          "IEC-60255",
+          "Relevadores de medición y equipos de protección."
+        ],
+        [
+          "IEC-60255",
+          "26 requerimientos de compatibilidad electromagnética."
+        ],
+        [
+          "IEC-60255",
+          "27 requerimientos de seguridad del producto."
+        ],
+        [
+          "IEC-60068",
+          "Pruebas ambientales."
+        ],
+        [
+          "IEC-61000",
+          "Compatibilidad electromagnética."
+        ],
+        [
+          "ISO9001:2015",
+          "Requerimientos de gestión de calidad."
+        ],
+        [
+          "",
+          "Relevadores eléctricos-parte 21: pruebas de vibración, choque, golpes y sísmicas en"
+        ],
+        [
+          "NMX-J-625-21-1-",
+          ""
+        ],
+        [
+          "",
+          "relevadores \nde  medición \ny equipos \nde \nprotección-sección \n1: \npruebas \nde"
+        ],
+        [
+          "ANCE-2020",
+          ""
+        ],
+        [
+          "",
+          "vibración (sinusoidales)"
+        ],
+        [
+          "NOM-003-SCT-",
+          "Características de las etiquetas de envases y embalajes, destinadas al transporte de"
+        ],
+        [
+          "2008.",
+          "substancias, materiales y residuos peligrosos"
+        ],
+        [
+          "",
+          "Guía \nde \nimplementación \npara \nla \ninterfaz \ndigital \nde \ntransformadores \nde"
+        ],
+        [
+          "IEC 61850-9-2LE",
+          ""
+        ],
+        [
+          "",
+          "instrumentos usando IEC 61850-9-2"
+        ],
+        [
+          "IEC 60255-1:2022",
+          "Cláusula 8: Marking, labelling and packaging"
+        ]
+      ],
+      "parser_report": {
+        "accuracy": 99.97,
+        "whitespace": 27.5,
+        "order": 2,
+        "page": 1,
+        "confidence": 0.7248
+      },
+      "cells": [
+        {
+          "row": 0,
+          "column": 0,
+          "text": "Norma  /  Estándar \n",
+          "bbox": [
+            59.88,
+            452.26828,
+            154.2548,
+            460.60828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            331.39172,
+            154.2548,
+            339.73172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "text": "  \n",
+          "bbox": [
+            154.2548,
+            452.26828,
+            554.70352,
+            460.60828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            331.39172,
+            554.70352,
+            339.73172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            59.88,
+            460.60828,
+            154.2548,
+            467.38828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            324.61172,
+            154.2548,
+            331.39172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "text": "Descripción \n",
+          "bbox": [
+            154.2548,
+            460.60828,
+            554.70352,
+            467.38828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            324.61172,
+            554.70352,
+            331.39172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 0,
+          "text": "técnico / Código \n",
+          "bbox": [
+            59.88,
+            467.38828,
+            154.2548,
+            478.72828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            313.27172,
+            154.2548,
+            324.61172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            154.2548,
+            467.38828,
+            554.70352,
+            478.72828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            313.27172,
+            554.70352,
+            324.61172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 0,
+          "text": "IEC-60255 \n",
+          "bbox": [
+            59.88,
+            478.72828,
+            154.2548,
+            495.40828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            296.59172,
+            154.2548,
+            313.27172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "text": "Relevadores de medición y equipos de protección. \n",
+          "bbox": [
+            154.2548,
+            478.72828,
+            554.70352,
+            495.40828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            296.59172,
+            554.70352,
+            313.27172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 0,
+          "text": "IEC-60255 \n",
+          "bbox": [
+            59.88,
+            495.40828,
+            154.2548,
+            512.92828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            279.07172,
+            154.2548,
+            296.59172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 4,
+          "column": 1,
+          "text": "26 requerimientos de compatibilidad electromagnética. \n",
+          "bbox": [
+            154.2548,
+            495.40828,
+            554.70352,
+            512.92828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            279.07172,
+            554.70352,
+            296.59172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 0,
+          "text": "IEC-60255 \n",
+          "bbox": [
+            59.88,
+            512.92828,
+            154.2548,
+            530.38828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            261.61172,
+            154.2548,
+            279.07172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 5,
+          "column": 1,
+          "text": "27 requerimientos de seguridad del producto. \n",
+          "bbox": [
+            154.2548,
+            512.92828,
+            554.70352,
+            530.38828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            261.61172,
+            554.70352,
+            279.07172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 0,
+          "text": "IEC-60068 \n",
+          "bbox": [
+            59.88,
+            530.38828,
+            154.2548,
+            547.8482799999999
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            244.15172,
+            154.2548,
+            261.61172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 6,
+          "column": 1,
+          "text": "Pruebas ambientales. \n",
+          "bbox": [
+            154.2548,
+            530.38828,
+            554.70352,
+            547.8482799999999
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            244.15172,
+            554.70352,
+            261.61172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 0,
+          "text": "IEC-61000 \n",
+          "bbox": [
+            59.88,
+            547.8482799999999,
+            154.2548,
+            565.36828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            226.63172,
+            154.2548,
+            244.15172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 7,
+          "column": 1,
+          "text": "Compatibilidad electromagnética. \n",
+          "bbox": [
+            154.2548,
+            547.8482799999999,
+            554.70352,
+            565.36828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            226.63172,
+            554.70352,
+            244.15172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 0,
+          "text": "ISO9001:2015 \n",
+          "bbox": [
+            59.88,
+            565.36828,
+            154.2548,
+            582.04828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            209.95172,
+            154.2548,
+            226.63172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 8,
+          "column": 1,
+          "text": "Requerimientos de gestión de calidad. \n",
+          "bbox": [
+            154.2548,
+            565.36828,
+            554.70352,
+            582.04828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            209.95172,
+            554.70352,
+            226.63172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            59.88,
+            582.04828,
+            154.2548,
+            593.38828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            198.61172,
+            154.2548,
+            209.95172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 9,
+          "column": 1,
+          "text": "Relevadores eléctricos-parte 21: pruebas de vibración, choque, golpes y sísmicas en \n",
+          "bbox": [
+            154.2548,
+            582.04828,
+            554.70352,
+            593.38828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            198.61172,
+            554.70352,
+            209.95172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 0,
+          "text": "NMX-J-625-21-1-\n",
+          "bbox": [
+            59.88,
+            593.38828,
+            154.2548,
+            600.18328
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            191.81671999999998,
+            154.2548,
+            198.61172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 10,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            154.2548,
+            593.38828,
+            554.70352,
+            600.18328
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            191.81671999999998,
+            554.70352,
+            198.61172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            59.88,
+            600.18328,
+            154.2548,
+            606.97828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            185.02172,
+            154.2548,
+            191.81671999999998
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 11,
+          "column": 1,
+          "text": "relevadores \nde  medición \ny equipos \nde \nprotección-sección \n1: \npruebas \nde \n",
+          "bbox": [
+            154.2548,
+            600.18328,
+            554.70352,
+            606.97828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            185.02172,
+            554.70352,
+            191.81671999999998
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 0,
+          "text": "ANCE-2020 \n",
+          "bbox": [
+            59.88,
+            606.97828,
+            154.2548,
+            613.81828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            178.18171999999998,
+            154.2548,
+            185.02172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 12,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            154.2548,
+            606.97828,
+            554.70352,
+            613.81828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            178.18171999999998,
+            554.70352,
+            185.02172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            59.88,
+            613.81828,
+            154.2548,
+            624.31828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            167.68171999999998,
+            154.2548,
+            178.18171999999998
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 13,
+          "column": 1,
+          "text": "vibración (sinusoidales) \n",
+          "bbox": [
+            154.2548,
+            613.81828,
+            554.70352,
+            624.31828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            167.68171999999998,
+            554.70352,
+            178.18171999999998
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 14,
+          "column": 0,
+          "text": "NOM-003-SCT-\n",
+          "bbox": [
+            59.88,
+            624.31828,
+            154.2548,
+            638.1782800000001
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            153.82171999999997,
+            154.2548,
+            167.68171999999998
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 14,
+          "column": 1,
+          "text": "Características de las etiquetas de envases y embalajes, destinadas al transporte de \n",
+          "bbox": [
+            154.2548,
+            624.31828,
+            554.70352,
+            638.1782800000001
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            153.82171999999997,
+            554.70352,
+            167.68171999999998
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 15,
+          "column": 0,
+          "text": "2008. \n",
+          "bbox": [
+            59.88,
+            638.1782800000001,
+            154.2548,
+            652.03828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            139.96171999999999,
+            154.2548,
+            153.82171999999997
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 15,
+          "column": 1,
+          "text": "substancias, materiales y residuos peligrosos \n",
+          "bbox": [
+            154.2548,
+            638.1782800000001,
+            554.70352,
+            652.03828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            139.96171999999999,
+            554.70352,
+            153.82171999999997
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 16,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            59.88,
+            652.03828,
+            154.2548,
+            662.47828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            129.52172,
+            154.2548,
+            139.96171999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 16,
+          "column": 1,
+          "text": "Guía \nde \nimplementación \npara \nla \ninterfaz \ndigital \nde \ntransformadores \nde \n",
+          "bbox": [
+            154.2548,
+            652.03828,
+            554.70352,
+            662.47828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            129.52172,
+            554.70352,
+            139.96171999999999
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 17,
+          "column": 0,
+          "text": "IEC 61850-9-2LE \n",
+          "bbox": [
+            59.88,
+            662.47828,
+            154.2548,
+            669.25828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            122.74172,
+            154.2548,
+            129.52172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 17,
+          "column": 1,
+          "text": "",
+          "bbox": [
+            154.2548,
+            662.47828,
+            554.70352,
+            669.25828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            122.74172,
+            554.70352,
+            129.52172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 18,
+          "column": 0,
+          "text": "",
+          "bbox": [
+            59.88,
+            669.25828,
+            154.2548,
+            680.41828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            111.58172,
+            154.2548,
+            122.74172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 18,
+          "column": 1,
+          "text": "instrumentos usando IEC 61850-9-2 \n",
+          "bbox": [
+            154.2548,
+            669.25828,
+            554.70352,
+            680.41828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            111.58172,
+            554.70352,
+            122.74172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 19,
+          "column": 0,
+          "text": "IEC 60255-1:2022 \n",
+          "bbox": [
+            59.88,
+            680.41828,
+            154.2548,
+            693.49828
+          ],
+          "bbox_bottom_origin": [
+            59.88,
+            98.50172,
+            154.2548,
+            111.58172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        },
+        {
+          "row": 19,
+          "column": 1,
+          "text": "Cláusula 8: Marking, labelling and packaging \n",
+          "bbox": [
+            154.2548,
+            680.41828,
+            554.70352,
+            693.49828
+          ],
+          "bbox_bottom_origin": [
+            154.2548,
+            98.50172,
+            554.70352,
+            111.58172
+          ],
+          "borders": {
+            "left": true,
+            "right": true,
+            "top": true,
+            "bottom": true
+          }
+        }
+      ]
+    }
+  ],
+  "repeat_structure_sha256": [
+    "4ee4ea88ff8d7a39a2f8eb78e3023234cec31db0472aa9ca292c63ead9d14222",
+    "4ee4ea88ff8d7a39a2f8eb78e3023234cec31db0472aa9ca292c63ead9d14222"
+  ]
+}

@@ -1,0 +1,230 @@
+
+=== D09 PAGE 1 ===
+ 
+1 
+ 
+Dirección de Transformación Energética 
+Subdirección de Proceso de Gas y Derivados 
+Complejo Procesador de Gas Cactus. 
+ 
+ 
+Anexo B-1  
+Especificaciones particulares o técnicas 
+Objeto de la Contratación: Relevadores de protección marca General Electric 
+ 
+El participante debe incluir en su propuesta técnica las especificaciones, alcances y requerimientos 
+que se indican en los siguientes numerales:  
+ 
+1. El participante deberá cumplir e incluir en su propuesta técnica las siguientes especificaciones técnicas 
+y alcances: 
+1.1. 
+Especificaciones técnicas de los productos y cantidades requeridas: 
+ 
+ 
+Partida 
+Descripción 
+Unidad de 
+Medida 
+Cantidad 
+1 
+RELEVADOR MULTILIN No F60-U03-HKH-F8L-H6L-M6B-P6B-W7K 
+DESCRIPCION: RELEVADOR 
+FABRICANTE/MARCA: GE MULTILIN 
+NUMERO DE PARTE: F60-U03-HKH-F8L-H6L-M6B-P6B-W7K 
+PZA 
+1 
+2 
+RELEVADOR MULTILIN No L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K 
+DESCRIPCION: RELEVADOR 
+FABRICANTE/MARCA: GE MULTILIN 
+No. PARTE: L90-U03-HLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K 
+PZA 
+2 
+ 
+1.1.1. Normas aplicables vigentes que deberán cumplirse para este requerimiento. 
+Norma / Estándar 
+técnico / Código 
+Descripción 
+IEC-60255 
+Relevadores de medición y equipos de protección. 
+IEC-60255 
+26 requerimientos de compatibilidad electromagnética. 
+IEC-60255 
+27 requerimientos de seguridad del producto. 
+IEC-60068 
+Pruebas ambientales. 
+IEC-61000 
+Compatibilidad electromagnética. 
+ISO9001:2015 
+Requerimientos de gestión de calidad. 
+NMX-J-625-21-1-
+ANCE-2020 
+Relevadores eléctricos-parte 21: pruebas de vibración, choque, golpes y sísmicas en 
+relevadores de medición y equipos de protección-sección 1: pruebas de 
+vibración (sinusoidales) 
+NOM-003-SCT-
+2008. 
+Características de las etiquetas de envases y embalajes, destinadas al transporte de 
+substancias, materiales y residuos peligrosos 
+IEC 61850-9-2LE 
+Guía de implementación para la interfaz digital de transformadores de 
+instrumentos usando IEC 61850-9-2 
+IEC 60255-1:2022 
+Cláusula 8: Marking, labelling and packaging 
+25 de agosto de 2026 
+
+=== D09 PAGE 2 ===
+ 
+2 
+ 
+Formato 4 Anexo 
+SSPA 
+Requisitos de Seguridad, Salud en el Trabajo y Protección Ambiental (SSPA) que 
+debe cumplir el proveedor o contratista durante la ejecución de un contrato. 
+ 
+ 
+ 
+ 
+1.2. 
+Forma de empaque: 
+Los materiales deben entregarse con las diferentes cantidades de empaque:  
+• 
+Para la partida 01 y 02. 
+Cada relevador de protección deberá entregarse en estuches o contenedores forrados de 
+hule espuma o material similar que garantice la integridad del equipo. 
+Deberá entregarse 2 juegos de cables de comunicación de cada puerto con que cuente el 
+relevador de igual manera deberá entregar el software de libre licencia en usb para 
+windows 10 para la comunicación y configuración del relevador. 
+ 
+Deberá estar protegido mediante bolsa antiestática (ESD) o material equivalente, debido a 
+que contiene componentes electrónicos sensibles. 
+ 
+Deberá incorporar protección contra humedad, mediante bolsa sellada y, cuando sea 
+necesario, material desecante. 
+ 
+Los accesorios, manuales, conectores y demás componentes deberán entregarse 
+debidamente identificados y protegidos para evitar daños o pérdida. 
+ 
+Lo anterior para asegurar que el equipo esté adecuadamente embalado para soportar, sin 
+daños, la manipulación razonable y las condiciones ambientales correspondientes al 
+método o métodos de transporte conforme a la IEC 60255-1:2022 — Cláusula 8: Marking, 
+labelling and packaging. 
+ 
+1.3. 
+Entrega de los bienes. 
+Los Bienes serán entregados en Almacén de bienes de consumo del Complejo Procesador 
+de Gas Cactus S/n, Ranchería San Miguel, segunda sección, Reforma, Chiapas, C.P. 29500, 
+área sobre la cual el PROVEEDOR entregará los Bienes. En días hábiles de lunes a viernes, 
+con horario de 8:00 a 14:00 horas, responsable de la recepción de los bienes: Moises 
+Alpizar Uribe, jefe del Almacén, Teléfono 9933103500, extensión 32750, correo electrónico: 
+moises.alpizar@pemex.com 
+ 
+2. Otros requisitos que deberá incluir o indicar el participante como parte de su propuesta: 
+ 
+2.1. Presentar su propuesta conforme a lo solicitado en el presente anexo, que se detallen claramente 
+las especificaciones de los bienes que se requieren, indicando el grupo y números de partida de 
+que se trate, unidad de medida, cantidad, así mismo que manifieste el plazo, lugar y condiciones 
+de entrega. 
+ 
+2.2. Anexar a su propuesta técnica catálogos, fichas técnicas, dibujos o boletines técnicos emitidos por 
+el fabricante de los bienes propuestos, indicando la marca y modelo que propone para cada 
+posición, los cuales deben cumplir en su totalidad con las especificaciones y alcances solicitadas 
+
+=== D09 PAGE 3 ===
+ 
+3 
+ 
+en el presente anexo, las partidas deberán estar claramente identificadas en los catálogos, fichas 
+técnicas y dibujos. 
+ 
+2.3. La propuesta técnica, fichas técnicas, catálogos, dibujos o boletines técnicos y demás 
+documentación que forma parte de su propuesta deberán estar en idioma español en caso de que 
+los documentos adjuntos, tales como folletos, fichas técnicas u hojas de datos estén en otro 
+idioma, deberá adjuntarse una traducción simple al español y deben cumplir en su totalidad con 
+las especificaciones y alcances solicitadas en el presente anexo.  
+ 
+2.4. En la evaluación técnica se verificará que las características, especificaciones y alcance de los 
+bienes propuestos por los participantes cumplan en su totalidad con las características, 
+especificaciones y alcance de los bienes solicitados en el presente anexo. 
+ 
+2.5. Formato 4 del Anexo de SSPA relativo a Requisitos de Seguridad, Salud y Protección Ambiental e 
+incluir carta compromiso donde manifieste que, en caso de resultar ganador, cumplirá todos los 
+requisitos que se indican en dicho formato. 
+ 
+2.6. Carta compromiso donde manifieste que todos los componentes que oferta son totalmente 
+nuevo, compatibles entre sí y tienen un ensamble correcto. 
+ 
+2.7. En la propuesta técnica, el participante debe adjuntar manifiesto en el que se compromete que en 
+caso de resultar adjudicado cumplirá con lo siguiente: 
+ 
+• 
+Informar a Pemex la fecha y hora estimada de entrega con 48 horas de anticipación, para 
+programar la recepción en el centro de trabajo. 
+• 
+Se compromete que, en caso de resultar ganador, entregará cada uno de los bienes 
+grabados o marcados con los siguientes datos: 
+ 
+I. 
+Iniciales del nombre del Centro de Trabajo: C.P.G. Cactus. 
+II. 
+Número de contrato 
+ 
+El marcado puede ser con letra de golpe con el tamaño de letra de 10 milímetros como 
+mínimo o por medio de micro percusión con un tamaño de letra de 10 milímetros como 
+mínimo. 
+2.8. 
+Carta compromiso donde manifieste que en caso de resultar ganador cumplirá todos los 
+requisitos que se indican en el Formato 4 del Anexo de SSPA relativo a Requisitos de Seguridad, 
+Salud y Protección Ambiental. 
+ 
+3. En su propuesta técnica el participante debe entregar carta compromiso en la que manifieste 
+que en caso de resultar ganador la documentación mínima con la que acompañará las entregas 
+de los bienes será la siguiente: 
+ 
+3.1 Carta original del fabricante en la que adjunte los certificados de calidad de los productos 
+suministrados, especificando la composición química y las pruebas de resistencia mecánica 
+
+=== D09 PAGE 4 ===
+ 
+4 
+ 
+3.2 Copia de nota de remisión donde indique la descripción y especificaciones de los bienes 
+suministrados 
+ 
+La información y especificaciones que se indiquen en la documentación que forme parte de la propuesta 
+técnica, deben ser congruentes entre sí y con la propuesta técnica presentada, así mismo debe cumplir con 
+las especificaciones y requisitos técnicos solicitados en el presente Anexo. En caso de que exista cualquier 
+diferencia entre la propuesta y la documentación adjunta, será motivo de descalificación de la propuesta 
+técnica. 
+ 
+ 
+ 
+Elabora: Ing. José del Carmen de la Cruz García, Coordinador del Taller de Mantenimiento Eléctrico. 
+ 
+Revisa y Suscribe: Ing. Alfonso Priego Rivero, Subgerente de Confiabilidad y Mantenimiento. 
+ 
+ 
+(Este documento se firma electrónicamente con la e-Firma y se puede verificar en el portal https://valide.pemex.com) 
+ 
+ 
+ESTE DOCUMENTO PUEDE SER VERIFICADO EN https://valide.pemex.com
+Firmado por: DE LA CRUZ GARCIA JOSE DEL CARMEN RFC: CUGC790612BM4 Fecha: 25-08-2026 16:43:15 Certificado: 
+00001000000724321637 
+Firma: 
+MyQ+7mkoBhPmm2ix8hvaQ+ZLX9gFfvN7e78ibApHwM3TU0/S0/pXhdjOZUxyc05Pzw9YMoi5g3LuKvZ0UHudsL06lTEYHYlhmgE02fKmWkCInwON+lFI
+NXRvFl+WS4pQtNcJxIMkcT3uBdUQ7R4/QXfn7Ea2Nsm7ABGEWam+QVfUXCOJgvpO/pgqPSi3o2SLrMzJlUn1KMksJSzpCgiqtC95UFdWous8dko1LClx
+c1REIOtOQcN8mLLSjepCtfaC9BKmcrgSkTy7/hSAciRGypBymH6CiYobzP+p4MyWJgRKWrx+WuTMeo4Bl4wypZZyN1Isrrlw5BXcUly5mguJuw== 
+Documento: 4. Anexo_B1_Relevadores GE.pdf 
+GUID Paquete: a7a8deff-acee-4a97-b655-5d6390236f08 GUID Documento: 7003d3b7-4079-4e90-998d-c7465091a104
+3.3 Fichas o Boletines técnicos de cada bien a suministrar 
+3.4 Contrato impreso (2 juegos). 
+
+=== D09 PAGE 5 ===
+Firmante 2:
+Firmado por: PRIEGO RIVERO ALFONSO RFC: PIRA720515FH2 Fecha: 25-08-2026 17:35:27 Certificado: 00001000000715945501
+Firma: 
+iYkYbLf5RxwnPrDpvPahZvFjVzTN8ECirWzE/54DMEHIX3G4KIKL3hlHcJMpmlIIuIoV5JoBGvnWoH5BfX4qghmwfqlXKuTHG5BsTsVp7MYDT1eGJhkNT4nSuvDJjXgzC
+qVIXDd8YE3llLFU4wRyuFz56b9WiwzJ3oHBSbY7ULgjTZd4hSJGvoBaNVJicM+n/gCxm6YKNnSrl3rdkanD0L24LmX6I3sRuax87Ofyz0AU76tUHTwg6UmdHRNR9nXanW
+QHgnyS076+7UhqrV4EItZ1IoVvjA89oSkHr3/s3jCK0ODdI+227mYNPE3Mj2T3B54r7Hn3V2hTzOTDthg1Lw==
+Documento: 4. Anexo_B1_Relevadores GE.pdf
+GUID Paquete: a7a8deff-acee-4a97-b655-5d6390236f08 GUID Documento: 7003d3b7-4079-4e90-998d-c7465091a104

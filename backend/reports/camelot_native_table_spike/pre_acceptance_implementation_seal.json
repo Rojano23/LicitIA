@@ -1,0 +1,56 @@
+{
+  "source_hashes": {
+    "app/camelot_table_contract.py": "ea1bbc7dc16248af9c7ec1fd87e724b5e303895dbd2f78f32a6f93f7de79a937",
+    "app/camelot_table_adapter.py": "0f6ceb70938445b13fc41fafb8cdec6bad8529959d117b23e2d88017f6c8b589",
+    "app/camelot_table_worker.py": "6c83570645a86e7d3feadc336729f1308f2acc0965cc2015854548541a63946f",
+    "app/native_table_relationships.py": "b3ec8ac4def797aa4dd95eddab8b098e717c605e4907c5dd633294728d6bc092",
+    "app/structured_evidence.py": "87fa1d4531b5348664fef869224c0e73043ca49a577b7ac6e315c4ad78086611",
+    "app/structured_evidence_grounding.py": "ce57ef5fd91548fda8cbbb89e4da55ef1444941bfa1edfc0b90a51f2d4e15577",
+    "app/blind_selective_freeze.py": "1a34276cabd0b4e571176b931c13dab50ef37219f2b8e7f768fed0e5275466fb",
+    "requirements.txt": "b8be8cbb3738dd04b5f0a977583956ed5c14329762199bf4c34092a7dfbf043d",
+    "pyproject.toml": "e16d81b0d983d090bc0c25433813ea78f50a563fe0f7d28ad40d4733be639cda"
+  },
+  "configuration": {
+    "flavor": "lattice",
+    "engine": "combined",
+    "backend": "pdfium",
+    "resolution": 300,
+    "use_fallback": false,
+    "parallel": false,
+    "suppress_stdout": true
+  },
+  "config_sha256": "d972dbdfc2f8379d0fbf6fcd0e35195b1b8f4bb47be237ef5bdb38db92cea663",
+  "proof_policy": "camelot-native-table-proof-v1",
+  "dependencies": [
+    [
+      "camelot-py",
+      "2.0.0"
+    ],
+    [
+      "playa-pdf",
+      "1.1.0"
+    ],
+    [
+      "pypdfium2",
+      "5.13.0"
+    ],
+    [
+      "opencv-python-headless",
+      "5.0.0.93"
+    ],
+    [
+      "numpy",
+      "2.3.5"
+    ],
+    [
+      "pandas",
+      "3.0.5"
+    ],
+    [
+      "PyMuPDF",
+      "1.28.2"
+    ]
+  ],
+  "generic_validation": "ct_rt_verified.xml:54passed",
+  "no_tuning_after_acceptance": true
+}

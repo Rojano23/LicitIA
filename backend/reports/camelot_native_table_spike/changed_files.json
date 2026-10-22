@@ -1,0 +1,18 @@
+{
+  "modified": [
+    "backend/app/blind_selective_freeze.py",
+    "backend/app/native_table_relationships.py",
+    "backend/app/structured_evidence.py",
+    "backend/app/structured_evidence_grounding.py",
+    "backend/pyproject.toml",
+    "backend/requirements.txt"
+  ],
+  "new": [
+    "backend/app/camelot_table_contract.py",
+    "backend/app/camelot_table_adapter.py",
+    "backend/app/camelot_table_worker.py",
+    "backend/tests/test_camelot_native_table.py",
+    "docs/adr/0018-camelot-native-table-relationship-proof.md",
+    "docs/camelot-table-dependency.md"
+  ]
+}

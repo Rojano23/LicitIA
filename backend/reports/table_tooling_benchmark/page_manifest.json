@@ -1,0 +1,62 @@
+[
+  {
+    "key": "B1_P1",
+    "label": "D09",
+    "original_path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v7_eee8df9b4a1f44428531dbae0c236a1d/tenders/823d87da-f5b0-40e8-acac-1fcb4e551c67/originals/ac0cb1a8-bac4-4f89-b012-8eed8a4bb67e/1. Anexo_B1_Relevadores GE V2.pdf",
+    "document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 1,
+    "width": 612.0,
+    "height": 792.0,
+    "native_text_characters": 2038,
+    "images": 2,
+    "vector_drawings": 165
+  },
+  {
+    "key": "B1_P2",
+    "label": "D09",
+    "original_path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v7_eee8df9b4a1f44428531dbae0c236a1d/tenders/823d87da-f5b0-40e8-acac-1fcb4e551c67/originals/ac0cb1a8-bac4-4f89-b012-8eed8a4bb67e/1. Anexo_B1_Relevadores GE V2.pdf",
+    "document_sha256": "4c5c09719046f8e8a84b929cfc8a930eb9d700938a5e6c88d0f21ae457d00208",
+    "page": 2,
+    "width": 612.0,
+    "height": 792.0,
+    "native_text_characters": 2624,
+    "images": 1,
+    "vector_drawings": 17
+  },
+  {
+    "key": "BASES_P41",
+    "label": "D01",
+    "original_path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v7_eee8df9b4a1f44428531dbae0c236a1d/tenders/823d87da-f5b0-40e8-acac-1fcb4e551c67/originals/5016326e-a05e-4cfa-98a4-d33f2c9a630d/02. Bases Internacionales  ID-107478.pdf",
+    "document_sha256": "7ffad7029cf8660bdf124c6797846186bf1b1aa80b064ea24d5fd4a9d6ca12a8",
+    "page": 41,
+    "width": 612.0,
+    "height": 792.0,
+    "native_text_characters": 2609,
+    "images": 1,
+    "vector_drawings": 43
+  },
+  {
+    "key": "QUESTION_P12",
+    "label": "D03",
+    "original_path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v7_eee8df9b4a1f44428531dbae0c236a1d/tenders/823d87da-f5b0-40e8-acac-1fcb4e551c67/originals/9d5b5ad7-e695-4651-b18e-807eb63e89c0/1. Cuestionarios DD ANEXO.pdf",
+    "document_sha256": "7e4b94ae3130c1e1e46e1bc4ad89040a3d68351ab25b88c633a7c62bcd138670",
+    "page": 12,
+    "width": 612.0,
+    "height": 792.0,
+    "native_text_characters": 1857,
+    "images": 1,
+    "vector_drawings": 367
+  },
+  {
+    "key": "ANEXOC_P1",
+    "label": "D02",
+    "original_path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v7_eee8df9b4a1f44428531dbae0c236a1d/tenders/823d87da-f5b0-40e8-acac-1fcb4e551c67/originals/005b95ed-4f4b-49ea-9566-f164044acc8d/2. Anexo_C.pdf",
+    "document_sha256": "996323b5fd6afac365fd811713da63c9964f4a4925df339b5fc8e1a885b579d2",
+    "page": 1,
+    "width": 595.275634765625,
+    "height": 842.3900756835938,
+    "native_text_characters": 0,
+    "images": 1,
+    "vector_drawings": 0
+  }
+]

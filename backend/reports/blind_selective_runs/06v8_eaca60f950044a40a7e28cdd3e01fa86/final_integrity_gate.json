@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "run_id": "06v8_eaca60f950044a40a7e28cdd3e01fa86",
+  "head": "0b04fc7677e670fb487683ac904d3c3a89daa373",
+  "corpus_exact": true,
+  "originals_verified": 11,
+  "historical_files_verified": 3056,
+  "profile_sha256": "a4e14ff90be7b66912ab51ac47b060a5a94a90fc38a9f35e37856d03303dfdc6",
+  "pre_freeze_sha256": "89c46af142874ff9e7ef159a2e61d5f043dac256c361c893e2cfc5b2caccad28",
+  "input_binding_sha256": "e9483a1208dfb1f58bc4e3654c11eda347e752f71ba56b4e8c17a3bb0face621",
+  "storage": {
+    "schema_version": "BLIND_STORAGE_ROOT_001",
+    "canonical_data_root": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v8_eaca60f950044a40a7e28cdd3e01fa86"
+  },
+  "provider_readiness": "PASS",
+  "inference_calls_before_start": 0
+}

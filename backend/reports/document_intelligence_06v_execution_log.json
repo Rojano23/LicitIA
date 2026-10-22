@@ -1,0 +1,10 @@
+{
+  "ended_at": "2026-10-14T06:53:16.524700Z",
+  "errors": [
+    "document_native_preparation:HTTPException:400: Only PDF documents can be extracted."
+  ],
+  "providers": [],
+  "run_id": "06v_6f6c60e697534a04abc3f922e698fef1",
+  "schema_version": "DI_BLIND_EXECUTION_LOG_001",
+  "started_at": "2026-10-14T06:53:16.519030Z"
+}

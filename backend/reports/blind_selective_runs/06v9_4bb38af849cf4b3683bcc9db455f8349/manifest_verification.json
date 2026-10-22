@@ -1,0 +1,12 @@
+[
+  {
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v9_4bb38af849cf4b3683bcc9db455f8349/provenance/structured-evidence-v1/0d5e4442ac675b1a473128551920816ab1509953164199de05842b4bf0b20f28.json",
+    "sha256": "0d5e4442ac675b1a473128551920816ab1509953164199de05842b4bf0b20f28",
+    "blocks": 1
+  },
+  {
+    "path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data-validation-06v9_4bb38af849cf4b3683bcc9db455f8349/provenance/structured-evidence-v1/659cc2dcb365ebebde555141cdf7bccaeafaf8c144035fdcb2d49140914f9070.json",
+    "sha256": "659cc2dcb365ebebde555141cdf7bccaeafaf8c144035fdcb2d49140914f9070",
+    "blocks": 1
+  }
+]

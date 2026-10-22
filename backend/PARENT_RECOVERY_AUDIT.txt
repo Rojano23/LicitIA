@@ -1,0 +1,53 @@
+==================================================================================================================================
+GOLDEN SET — EXACT PARENT RECOVERY AUDIT
+==================================================================================================================================
+
+Total Cases: 16
+Date: 2026-09-07
+Database: licitia_dev
+
+==================================================================================================================================
+RECOVERY AUDIT TABLE
+==================================================================================================================================
+Case ID                                  | Status     | Recovery | Start  | End    | Length   | SHA256 Match  
+----------------------------------------------------------------------------------------------------------------------------------
+golden_tender_candidate_006              | APPROVED   | NO       | 167    | 763    | 466      | NO            
+golden_tender_candidate_009              | APPROVED   | YES      | 0      | 610    | 610      | YES           
+golden_tender_candidate_010              | APPROVED   | YES      | 612    | 941    | 329      | YES           
+golden_tender_pending_01_ca4ada03_227_763 | PENDING    | YES      | 227    | 763    | 536      | YES           
+golden_tender_pending_02_ca4ada03_130_222 | PENDING    | YES      | 130    | 222    | 92       | YES           
+golden_tender_pending_03_ca4ada03_226_984 | PENDING    | YES      | 226    | 984    | 758      | YES           
+golden_tender_pending_04_ca4ada03_226_427 | PENDING    | YES      | 226    | 427    | 201      | YES           
+golden_tender_pending_05_ca4ada03_686_971 | PENDING    | YES      | 686    | 971    | 285      | YES           
+golden_tender_pending_06_ca4ada03_975_1199 | PENDING    | YES      | 975    | 1199   | 224      | YES           
+golden_tender_pending_07_ca4ada03_446_585 | PENDING    | YES      | 446    | 585    | 139      | YES           
+golden_tender_pending_08_ca4ada03_656_1102 | PENDING    | YES      | 656    | 1102   | 446      | YES           
+golden_tender_pending_09_ca4ada03_1106_1366 | PENDING    | YES      | 1106   | 1366   | 260      | YES           
+golden_tender_pending_10_ca4ada03_889_993 | PENDING    | YES      | 889    | 993    | 104      | YES           
+golden_tender_pending_11_ca4ada03_1198_1302 | PENDING    | YES      | 1198   | 1302   | 104      | YES           
+golden_tender_pending_12_ca4ada03_1570_1649 | PENDING    | YES      | 1570   | 1649   | 79       | YES           
+golden_tender_pending_13_ca4ada03_198_400 | PENDING    | YES      | 198    | 400    | 202      | YES           
+----------------------------------------------------------------------------------------------------------------------------------
+
+                                                        VALIDATION SUMMARY                                                        
+==================================================================================================================================
+Total Cases:              16
+  APPROVED:               3
+  PENDING:                13
+
+Exact Parent Recovery:
+  PASSED:                 15/16
+  FAILED:                 1/16
+
+✗ FAILURES (cases cannot be recovered):
+  - golden_tender_candidate_006: start=167, end=763
+
+✗ RECOVERY AUDIT FAILED
+
+SHA256 Hash Validation:
+  VALID:                  15/16
+✓ All character offsets are valid
+
+                                                           FINAL RESULT                                                           
+==================================================================================================================================
+✗ AUDIT FAILED — See errors above

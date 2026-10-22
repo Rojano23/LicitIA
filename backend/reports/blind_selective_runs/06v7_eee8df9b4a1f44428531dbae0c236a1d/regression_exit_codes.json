@@ -1,0 +1,14 @@
+[
+  {
+    "group": "focused",
+    "exit_code": 0
+  },
+  {
+    "group": "expanded",
+    "exit_code": 0
+  },
+  {
+    "group": "full",
+    "exit_code": 0
+  }
+]

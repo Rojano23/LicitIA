@@ -1,0 +1,152 @@
+{
+  "trusted_structures": 0,
+  "historical_cases": [
+    {
+      "filename": "02. Bases Internacionales  ID-107478.pdf",
+      "page": 13,
+      "state": "REVIEW_REQUIRED",
+      "continuity": {
+        "diagnostics": [
+          "CURRENT_STRUCTURE_UNTRUSTWORTHY"
+        ],
+        "evidence": null,
+        "outgoing_item_key": null,
+        "page": {
+          "document_id": "d426ed6f-b8bb-45e0-9de3-23b81a943584",
+          "document_page_id": "1547e4f8-d51e-4778-a613-30d6e995b4d8",
+          "document_version": "1",
+          "page_number": 13,
+          "tender_id": "2868761c-eba4-4dac-81fb-c8d8112ebd28"
+        },
+        "status": "UNKNOWN",
+        "structural_state": null
+      }
+    },
+    {
+      "filename": "1. Cuestionarios DD ANEXO.pdf",
+      "page": 12,
+      "state": "REVIEW_REQUIRED",
+      "continuity": {
+        "diagnostics": [
+          "CURRENT_STRUCTURE_UNTRUSTWORTHY"
+        ],
+        "evidence": null,
+        "outgoing_item_key": null,
+        "page": {
+          "document_id": "eeae19c7-747c-4d4b-b0e7-a17b2232bbbe",
+          "document_page_id": "6d22b079-a1ee-4daa-9a86-4b10ffbc340b",
+          "document_version": "1",
+          "page_number": 12,
+          "tender_id": "2868761c-eba4-4dac-81fb-c8d8112ebd28"
+        },
+        "status": "UNKNOWN",
+        "structural_state": null
+      }
+    }
+  ],
+  "vision_raw": [
+    {
+      "filename": "2. Anexo_C.pdf",
+      "page": 1,
+      "state": "REVIEW_REQUIRED",
+      "structural_state": {
+        "incoming_item_key": null,
+        "outgoing_item_key": null,
+        "page_number": 1,
+        "provenance": {
+          "source_analysis_id": "69b68956-7561-44ed-b081-1820ed885cfd",
+          "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+          "source_method": "VISION",
+          "source_page_result_id": "c2fab6cf-e21e-45eb-a4e8-d60ae3ddc43e"
+        },
+        "review_required": true,
+        "segments": [
+          {
+            "anchor_raw_text": "RELEVADOR MULTILIN No F60-U03-HKH-F8L-H6L-M6B-P6B-W7K",
+            "has_deliverable": true,
+            "has_service": false,
+            "has_supply": true,
+            "item_identity": {
+              "components": [
+                "1"
+              ],
+              "depth": 1,
+              "normalized_key": "1",
+              "parent_key": null,
+              "raw_label": "1",
+              "state": "DETERMINED"
+            },
+            "review_required": true,
+            "sequence": 0,
+            "starts_on_this_page": true
+          },
+          {
+            "anchor_raw_text": "RELEVADOR MULTILIN No L90-U03-LLH-F8L-H6E-LXX-NXX-S6A-U6K-W7K",
+            "has_deliverable": true,
+            "has_service": false,
+            "has_supply": true,
+            "item_identity": {
+              "components": [
+                "2"
+              ],
+              "depth": 1,
+              "normalized_key": "2",
+              "parent_key": null,
+              "raw_label": "2",
+              "state": "DETERMINED"
+            },
+            "review_required": true,
+            "sequence": 1,
+            "starts_on_this_page": true
+          }
+        ],
+        "state_quality": "UNKNOWN",
+        "warnings": [
+          "STRUCTURAL_STATE_UNRESOLVED"
+        ]
+      }
+    },
+    {
+      "filename": "02. Bases Internacionales  ID-107478.pdf",
+      "page": 110,
+      "state": "REVIEW_REQUIRED",
+      "structural_state": {
+        "incoming_item_key": null,
+        "outgoing_item_key": null,
+        "page_number": 110,
+        "provenance": {
+          "source_analysis_id": "e6f19ba5-dd66-40fd-b359-3c0077057fdc",
+          "source_contract_version": "VISION_STRUCTURE_SCOPE_005",
+          "source_method": "VISION",
+          "source_page_result_id": "615b78f9-98be-4434-9530-b2632685f640"
+        },
+        "review_required": true,
+        "segments": [
+          {
+            "anchor_raw_text": "MODELO DE CARTA DE CRÉDITO STANDBY QUE DEBERÁN PRESENTAR LOS PROVEEDORES O CONTRATISTAS Y MODELO",
+            "has_deliverable": false,
+            "has_service": true,
+            "has_supply": false,
+            "item_identity": {
+              "components": [
+                "1"
+              ],
+              "depth": 1,
+              "normalized_key": "1",
+              "parent_key": null,
+              "raw_label": "1",
+              "state": "DETERMINED"
+            },
+            "review_required": true,
+            "sequence": 0,
+            "starts_on_this_page": true
+          }
+        ],
+        "state_quality": "UNKNOWN",
+        "warnings": [
+          "STRUCTURAL_STATE_UNRESOLVED"
+        ]
+      }
+    }
+  ]
+}

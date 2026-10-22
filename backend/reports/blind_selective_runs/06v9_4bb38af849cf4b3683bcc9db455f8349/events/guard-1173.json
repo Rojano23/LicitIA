@@ -1,0 +1,32 @@
+{
+  "payload": {
+    "calls": 0,
+    "capability": "STRUCTURE",
+    "configuration": {
+      "decision_only": true,
+      "fingerprint": "0d9a516ca94d003ffa6bbc40c97775d702bae2c7723c942c3347e0132e2e0618",
+      "interpretation_assessment": {
+        "reason": "NO_TEXT_EVIDENCE",
+        "state": "NOT_ATTEMPTED"
+      },
+      "perception_assessment": {
+        "reason": "BOUND_REGION_EVIDENCE_REQUIRED",
+        "source_method": "NATIVE",
+        "state": "VISUAL_REQUIRED"
+      },
+      "plan": "1fc80cd185b2a134928916f366dbb6d1c135289d4846d27bb948184dc6382010",
+      "reason": "RUN_VISION_BUDGET_EXHAUSTED"
+    },
+    "execution_event": true,
+    "id": "guard-1173",
+    "latency_ms": null,
+    "model": null,
+    "page_id": "d94e5a3d-e0ef-4e2f-b81f-4cf119d2c40a",
+    "provider": "PLANNER",
+    "source_method": "VISION",
+    "status": "BUDGET_EXHAUSTED",
+    "timeout": false,
+    "truncated": false
+  },
+  "sha256": "2464f5029744a73a50ba8827877361dff0113424902b8df5652b96b9bcbeb1d0"
+}

@@ -1,0 +1,121 @@
+[
+  {
+    "page": "B1_P1",
+    "v6d_ir_blocks": 0,
+    "rows_recovered": 0,
+    "columns_in_ir": 0,
+    "quantity_pairs": 0,
+    "attribute_fields": 0,
+    "header_shape_gate": true,
+    "original_geometry_available": true,
+    "raw_pymupdf_lines_strict_probe": [
+      {
+        "bbox": [
+          49.49999952316284,
+          292.3219787597656,
+          567.1599731445312,
+          414.0980163574219
+        ],
+        "rows": 3,
+        "columns": 4
+      },
+      {
+        "bbox": [
+          54.46000146865845,
+          448.30999755859375,
+          557.6400273640951,
+          695.5760091145834
+        ],
+        "rows": 11,
+        "columns": 2
+      }
+    ],
+    "errors": [],
+    "native_artifacts_on_selected_page": 1
+  },
+  {
+    "page": "B1_P2",
+    "v6d_ir_blocks": 0,
+    "rows_recovered": 0,
+    "columns_in_ir": 0,
+    "quantity_pairs": 0,
+    "attribute_fields": 0,
+    "header_shape_gate": false,
+    "original_geometry_available": true,
+    "raw_pymupdf_lines_strict_probe": [
+      {
+        "bbox": [
+          54.36000156402588,
+          68.32002766927083,
+          557.7400360107422,
+          98.25998942057292
+        ],
+        "rows": 1,
+        "columns": 2
+      }
+    ],
+    "errors": [],
+    "native_artifacts_on_selected_page": 1
+  },
+  {
+    "page": "BASES_P41",
+    "v6d_ir_blocks": 0,
+    "rows_recovered": 0,
+    "columns_in_ir": 0,
+    "quantity_pairs": 0,
+    "attribute_fields": 0,
+    "header_shape_gate": false,
+    "original_geometry_available": true,
+    "raw_pymupdf_lines_strict_probe": [
+      {
+        "bbox": [
+          42.439998626708984,
+          396.25002034505206,
+          546.1399739583334,
+          426.0900065104167
+        ],
+        "rows": 2,
+        "columns": 2
+      }
+    ],
+    "errors": [],
+    "native_artifacts_on_selected_page": 1
+  },
+  {
+    "page": "QUESTION_P12",
+    "v6d_ir_blocks": 0,
+    "rows_recovered": 0,
+    "columns_in_ir": 0,
+    "quantity_pairs": 0,
+    "attribute_fields": 0,
+    "header_shape_gate": false,
+    "original_geometry_available": true,
+    "raw_pymupdf_lines_strict_probe": [
+      {
+        "bbox": [
+          92.89066971672906,
+          271.7900390625,
+          523.9140804515165,
+          708.635986328125
+        ],
+        "rows": 17,
+        "columns": 7
+      }
+    ],
+    "errors": [],
+    "native_artifacts_on_selected_page": 1
+  },
+  {
+    "page": "ANEXOC_P1",
+    "v6d_ir_blocks": 0,
+    "rows_recovered": 0,
+    "columns_in_ir": 0,
+    "quantity_pairs": 0,
+    "attribute_fields": 0,
+    "header_shape_gate": false,
+    "original_geometry_available": false,
+    "raw_pymupdf_lines_strict_probe": [],
+    "errors": [],
+    "native_artifacts_on_selected_page": 0
+  }
+]

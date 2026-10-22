@@ -1,0 +1,72 @@
+{
+  "camelot/auto": {
+    "median_seconds": 0.4627095210016705,
+    "max_seconds": 0.6993584589799866,
+    "peak_process_rss_mib": 508.1875
+  },
+  "camelot/hybrid": {
+    "median_seconds": 0.26474360449356027,
+    "max_seconds": 0.3588720839761663,
+    "peak_process_rss_mib": 508.1875
+  },
+  "camelot/lattice_combined": {
+    "median_seconds": 0.28370504098711535,
+    "max_seconds": 1.3440355830243789,
+    "peak_process_rss_mib": 508.1875
+  },
+  "camelot/lattice_raster": {
+    "median_seconds": 0.2780146665027132,
+    "max_seconds": 0.32818662500358187,
+    "peak_process_rss_mib": 508.1875
+  },
+  "camelot/lattice_vector": {
+    "median_seconds": 0.024022562996833585,
+    "max_seconds": 0.033348208002280444,
+    "peak_process_rss_mib": 508.1875
+  },
+  "camelot/network": {
+    "median_seconds": 0.0267145204852568,
+    "max_seconds": 0.03445170898339711,
+    "peak_process_rss_mib": 508.1875
+  },
+  "camelot/stream": {
+    "median_seconds": 0.02463989600073546,
+    "max_seconds": 0.03220083299675025,
+    "peak_process_rss_mib": 508.1875
+  },
+  "camelot/stream_split": {
+    "median_seconds": 0.025286250020144507,
+    "max_seconds": 0.03288266700110398,
+    "peak_process_rss_mib": 508.1875
+  },
+  "pdfplumber/lines": {
+    "median_seconds": 0.07755074999295175,
+    "max_seconds": 0.11207425000611693,
+    "peak_process_rss_mib": 508.1875
+  },
+  "pdfplumber/lines_strict": {
+    "median_seconds": 0.05759291700087488,
+    "max_seconds": 0.0779783750185743,
+    "peak_process_rss_mib": 508.1875
+  },
+  "pdfplumber/lines_text": {
+    "median_seconds": 0.09426668800006155,
+    "max_seconds": 0.13669391701114364,
+    "peak_process_rss_mib": 508.1875
+  },
+  "pdfplumber/text": {
+    "median_seconds": 0.22019818749686237,
+    "max_seconds": 0.28327683301176876,
+    "peak_process_rss_mib": 508.1875
+  },
+  "pdfplumber/text_lines": {
+    "median_seconds": 0.084055208004429,
+    "max_seconds": 0.10098091600229964,
+    "peak_process_rss_mib": 508.1875
+  },
+  "pdfplumber/text_tolerance5": {
+    "median_seconds": 0.15618112549418584,
+    "max_seconds": 0.2702532919938676,
+    "peak_process_rss_mib": 508.1875
+  }
+}

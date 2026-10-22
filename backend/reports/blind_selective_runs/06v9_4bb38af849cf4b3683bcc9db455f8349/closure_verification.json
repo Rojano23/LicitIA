@@ -1,0 +1,20 @@
+{
+  "status": "OPERATIONAL_PASS",
+  "head": "14097f428e2185152aae1b671485244f1656fb07",
+  "tracked_clean": true,
+  "staging_empty": true,
+  "historical_files_verified": 4560,
+  "frozen_data_artifacts_verified": 32,
+  "provider_calls": {
+    "ocr": 4,
+    "vision": 4
+  },
+  "regression": {
+    "focused": "570 passed, 7 warnings in 149.03s (0:02:29)",
+    "expanded": "1153 passed, 1 deselected, 8 warnings in 138.27s (0:02:18)",
+    "full": "2109 passed, 1 deselected, 8 warnings in 184.70s (0:03:04)",
+    "compileall": "PASS",
+    "diff_check": "PASS"
+  },
+  "semantic_adjudication": false
+}

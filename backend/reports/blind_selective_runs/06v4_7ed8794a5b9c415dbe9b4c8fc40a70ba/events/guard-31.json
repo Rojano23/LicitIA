@@ -1,0 +1,23 @@
+{
+  "payload": {
+    "calls": 0,
+    "capability": "STRUCTURE",
+    "configuration": {
+      "decision_only": true,
+      "fingerprint": "862afc7bce07eeb7f5016c1cc53c865fc199ad4d5799f739194db27bc9127b7d",
+      "plan": "60eaddd93a4dba45a8f2194aaaec257977bf1b5265254e8fd92099db89417fd0",
+      "reason": "VISION_PROVIDER_FAILED:['TIMEOUT:timed out']"
+    },
+    "execution_event": true,
+    "id": "guard-31",
+    "latency_ms": null,
+    "model": null,
+    "page_id": "3e9cb852-a3f9-4176-b7f8-1edda60ce987",
+    "provider": "PLANNER",
+    "source_method": "VISION",
+    "status": "FAILED",
+    "timeout": false,
+    "truncated": false
+  },
+  "sha256": "23144fe3ddc68bce0921e9f9868eaabaffb151d3d74f83598d8086ac085f7268"
+}

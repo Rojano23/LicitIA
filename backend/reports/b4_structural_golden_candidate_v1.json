@@ -1,0 +1,411 @@
+{
+  "approval_status": "PENDING",
+  "approved_by_human": false,
+  "artifact_kind": "HUMAN_REVIEW_CANDIDATE",
+  "canonical_golden": false,
+  "golden_id": "b4-structure-candidate-v1",
+  "pages": [
+    {
+      "approval_revision": null,
+      "approval_status": "PENDING",
+      "approved_by_human": false,
+      "boundary_events": [
+        {
+          "event_type": "STARTS",
+          "group": "ITEM_1",
+          "human_note": "Visible 1. beside MTBE 1 concept",
+          "locator": "page:1|table:first-item-row|partida-column",
+          "order": 1
+        },
+        {
+          "event_type": "CONTINUES_OUT",
+          "group": "ITEM_1",
+          "human_note": "Scope continues onto next page",
+          "locator": "page:1|table:bottom-open-row",
+          "order": 2
+        }
+      ],
+      "closes_item": {
+        "groups": [],
+        "state": "NONE"
+      },
+      "continues_item": {
+        "groups": [],
+        "state": "NONE"
+      },
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_version": "1",
+      "golden_id": "b4-structure-candidate-v1",
+      "human_note": "Inicio visible 1. en columna PARTIDA, concepto MTBE 1; fila alcanza el borde inferior y sigue en p2.",
+      "incoming_group": {
+        "groups": [],
+        "state": "NONE"
+      },
+      "outgoing_group": {
+        "groups": [
+          "ITEM_1"
+        ],
+        "state": "KNOWN"
+      },
+      "page_number": 1,
+      "representation_contract": "PNG full page, PyMuPDF 1.28.2, zoom 1.5, alpha false",
+      "schema_version": "1",
+      "source_document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "source_page_hash": "ea80aa4c697d718a0b281d7bf174b90130eaa9c416f29c1c91a4c441845e2bb1",
+      "source_path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data/tenders/decd32ae-2c1f-4520-89bc-d845c986a7ba/originals/284bea2c-9302-4ae7-b652-0ce4932fd177/ANEXO B-4.pdf",
+      "source_representation": "/Users/ceciliavalencia/LiticIA/backend/reports/b4_structural_golden_review_pages/page_1.png",
+      "starts_item": {
+        "groups": [
+          "ITEM_1"
+        ],
+        "state": "KNOWN"
+      },
+      "structural_review_expected": false,
+      "supporting_references": [
+        {
+          "authority": "HUMAN_APPROVED",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/evals/semantic_scope_golden_v1.json",
+          "scope": "Execution obligations approved on p1; no structural labels",
+          "sha256": "ad9d44a67022fa1eaec3181799a88b93c4c6dd04572fff46f31c3ac0c244af86"
+        },
+        {
+          "authority": "HUMAN_APPROVED",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/evals/scope_quantity_golden_v1.json",
+          "scope": "Quantity excerpts on p4; no structural labels",
+          "sha256": "de2327ca868f8b72bf6dd80f50a568807b567f92c4106d65f913b7ce263339e7"
+        },
+        {
+          "authority": "HUMAN_APPROVED",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/evals/technical_attribute_golden_v1.json",
+          "scope": "Attribute excerpts on p4; no structural labels",
+          "sha256": "ad2e3707f5b7a2e53e44339108c14669d9697ad733af3527a8e40216dd7b991b"
+        },
+        {
+          "authority": "HUMAN_REFERENCE_NONCANONICAL",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data/tenders/decd32ae-2c1f-4520-89bc-d845c986a7ba/originals/284bea2c-9302-4ae7-b652-0ce4932fd177/ANEXO B-4.pdf",
+          "scope": "Authoritative original; structural interpretation requires explicit approval",
+          "sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311"
+        }
+      ],
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "uncertainty": "No incertidumbre visual principal; confirmar NONE de entrada. MTBE 1 en concepto es planta, no otra partida.",
+      "visible_item_identifiers": [
+        {
+          "group": "ITEM_1",
+          "locator": "page:1|table:partida-column",
+          "raw": "1."
+        }
+      ]
+    },
+    {
+      "approval_revision": null,
+      "approval_status": "PENDING",
+      "approved_by_human": false,
+      "boundary_events": [
+        {
+          "event_type": "CONTINUES_IN",
+          "group": "ITEM_1",
+          "human_note": "",
+          "locator": "page:2|table:top-continuation",
+          "order": 1
+        },
+        {
+          "event_type": "CONTINUES",
+          "group": "ITEM_1",
+          "human_note": "",
+          "locator": "page:2|table:upper-block",
+          "order": 2
+        },
+        {
+          "event_type": "CLOSES",
+          "group": "ITEM_1",
+          "human_note": "Structural closure only, not execution/compliance",
+          "locator": "page:2|table:horizontal-separator-above-item-2",
+          "order": 3
+        },
+        {
+          "event_type": "STARTS",
+          "group": "ITEM_2",
+          "human_note": "",
+          "locator": "page:2|table:bottom-row|partida-column",
+          "order": 4
+        },
+        {
+          "event_type": "CONTINUES_OUT",
+          "group": "ITEM_2",
+          "human_note": "",
+          "locator": "page:2|table:bottom-open-row",
+          "order": 5
+        }
+      ],
+      "closes_item": {
+        "groups": [
+          "ITEM_1"
+        ],
+        "state": "KNOWN"
+      },
+      "continues_item": {
+        "groups": [
+          "ITEM_1"
+        ],
+        "state": "KNOWN"
+      },
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_version": "1",
+      "golden_id": "b4-structure-candidate-v1",
+      "human_note": "Bloque superior sin nueva etiqueta continúa 1 desde p1 y termina con entregable/firmas; separador horizontal abre fila 2. Asfaltos al final, con alcance que sigue en p3.",
+      "incoming_group": {
+        "groups": [
+          "ITEM_1"
+        ],
+        "state": "KNOWN"
+      },
+      "outgoing_group": {
+        "groups": [
+          "ITEM_2"
+        ],
+        "state": "KNOWN"
+      },
+      "page_number": 2,
+      "representation_contract": "PNG full page, PyMuPDF 1.28.2, zoom 1.5, alpha false",
+      "schema_version": "1",
+      "source_document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "source_page_hash": "a78371c7cae5b34b1c4482c551c98fbd69b6b9edb878b73ddee9ebdf549a0474",
+      "source_path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data/tenders/decd32ae-2c1f-4520-89bc-d845c986a7ba/originals/284bea2c-9302-4ae7-b652-0ce4932fd177/ANEXO B-4.pdf",
+      "source_representation": "/Users/ceciliavalencia/LiticIA/backend/reports/b4_structural_golden_review_pages/page_2.png",
+      "starts_item": {
+        "groups": [
+          "ITEM_2"
+        ],
+        "state": "KNOWN"
+      },
+      "structural_review_expected": false,
+      "supporting_references": [
+        {
+          "authority": "HUMAN_APPROVED",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/evals/semantic_scope_golden_v1.json",
+          "scope": "Execution obligations approved on p1; no structural labels",
+          "sha256": "ad9d44a67022fa1eaec3181799a88b93c4c6dd04572fff46f31c3ac0c244af86"
+        },
+        {
+          "authority": "HUMAN_APPROVED",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/evals/scope_quantity_golden_v1.json",
+          "scope": "Quantity excerpts on p4; no structural labels",
+          "sha256": "de2327ca868f8b72bf6dd80f50a568807b567f92c4106d65f913b7ce263339e7"
+        },
+        {
+          "authority": "HUMAN_APPROVED",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/evals/technical_attribute_golden_v1.json",
+          "scope": "Attribute excerpts on p4; no structural labels",
+          "sha256": "ad2e3707f5b7a2e53e44339108c14669d9697ad733af3527a8e40216dd7b991b"
+        },
+        {
+          "authority": "HUMAN_REFERENCE_NONCANONICAL",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data/tenders/decd32ae-2c1f-4520-89bc-d845c986a7ba/originals/284bea2c-9302-4ae7-b652-0ce4932fd177/ANEXO B-4.pdf",
+          "scope": "Authoritative original; structural interpretation requires explicit approval",
+          "sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311"
+        }
+      ],
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "uncertainty": "Confirmar CLOSES como límite del bloque anterior. No significa finalización contractual del servicio. No hay 1. repetido visible aquí; incoming proviene del original p1.",
+      "visible_item_identifiers": [
+        {
+          "group": "ITEM_2",
+          "locator": "page:2|table:bottom-row|partida-column",
+          "raw": "2."
+        }
+      ]
+    },
+    {
+      "approval_revision": null,
+      "approval_status": "PENDING",
+      "approved_by_human": false,
+      "boundary_events": [
+        {
+          "event_type": "CONTINUES_IN",
+          "group": "ITEM_2",
+          "human_note": "",
+          "locator": "page:3|table:top-continuation",
+          "order": 1
+        },
+        {
+          "event_type": "CONTINUES",
+          "group": "ITEM_2",
+          "human_note": "",
+          "locator": "page:3|table:body",
+          "order": 2
+        },
+        {
+          "event_type": "CONTINUES_OUT",
+          "group": "ITEM_2",
+          "human_note": "",
+          "locator": "page:3|table:bottom-open-row",
+          "order": 3
+        }
+      ],
+      "closes_item": {
+        "groups": [],
+        "state": "NONE"
+      },
+      "continues_item": {
+        "groups": [
+          "ITEM_2"
+        ],
+        "state": "KNOWN"
+      },
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_version": "1",
+      "golden_id": "b4-structure-candidate-v1",
+      "human_note": "La tabla retoma el alcance de la fila 2 iniciada en p2; no tiene nuevo número en columna PARTIDA ni separador de nueva partida. P4 retoma la lista de equipos.",
+      "incoming_group": {
+        "groups": [
+          "ITEM_2"
+        ],
+        "state": "KNOWN"
+      },
+      "outgoing_group": {
+        "groups": [
+          "ITEM_2"
+        ],
+        "state": "KNOWN"
+      },
+      "page_number": 3,
+      "representation_contract": "PNG full page, PyMuPDF 1.28.2, zoom 1.5, alpha false",
+      "schema_version": "1",
+      "source_document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "source_page_hash": "87fe33b7c9ea727378687c6ccf500b95480e1d5c00cefad11437f53077409ef6",
+      "source_path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data/tenders/decd32ae-2c1f-4520-89bc-d845c986a7ba/originals/284bea2c-9302-4ae7-b652-0ce4932fd177/ANEXO B-4.pdf",
+      "source_representation": "/Users/ceciliavalencia/LiticIA/backend/reports/b4_structural_golden_review_pages/page_3.png",
+      "starts_item": {
+        "groups": [],
+        "state": "NONE"
+      },
+      "structural_review_expected": false,
+      "supporting_references": [
+        {
+          "authority": "HUMAN_APPROVED",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/evals/semantic_scope_golden_v1.json",
+          "scope": "Execution obligations approved on p1; no structural labels",
+          "sha256": "ad9d44a67022fa1eaec3181799a88b93c4c6dd04572fff46f31c3ac0c244af86"
+        },
+        {
+          "authority": "HUMAN_APPROVED",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/evals/scope_quantity_golden_v1.json",
+          "scope": "Quantity excerpts on p4; no structural labels",
+          "sha256": "de2327ca868f8b72bf6dd80f50a568807b567f92c4106d65f913b7ce263339e7"
+        },
+        {
+          "authority": "HUMAN_APPROVED",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/evals/technical_attribute_golden_v1.json",
+          "scope": "Attribute excerpts on p4; no structural labels",
+          "sha256": "ad2e3707f5b7a2e53e44339108c14669d9697ad733af3527a8e40216dd7b991b"
+        },
+        {
+          "authority": "HUMAN_REFERENCE_NONCANONICAL",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data/tenders/decd32ae-2c1f-4520-89bc-d845c986a7ba/originals/284bea2c-9302-4ae7-b652-0ce4932fd177/ANEXO B-4.pdf",
+          "scope": "Authoritative original; structural interpretation requires explicit approval",
+          "sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311"
+        }
+      ],
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "uncertainty": "El 3 del pie es número de página; no se propone como identificador de partida. Confirmar continuidad de 2 usando p2 y p4.",
+      "visible_item_identifiers": []
+    },
+    {
+      "approval_revision": null,
+      "approval_status": "PENDING",
+      "approved_by_human": false,
+      "boundary_events": [
+        {
+          "event_type": "CONTINUES_IN",
+          "group": "ITEM_2",
+          "human_note": "",
+          "locator": "page:4|table:top-continuation",
+          "order": 1
+        },
+        {
+          "event_type": "CONTINUES",
+          "group": "ITEM_2",
+          "human_note": "",
+          "locator": "page:4|table:body",
+          "order": 2
+        },
+        {
+          "event_type": "CLOSES",
+          "group": "ITEM_2",
+          "human_note": "Document-local structural closure; no external contractual inference",
+          "locator": "page:4|table:end-above-document-signatures",
+          "order": 3
+        }
+      ],
+      "closes_item": {
+        "groups": [
+          "ITEM_2"
+        ],
+        "state": "KNOWN"
+      },
+      "continues_item": {
+        "groups": [
+          "ITEM_2"
+        ],
+        "state": "KNOWN"
+      },
+      "document_id": "acf31750-1d8d-4a0c-910c-fc3743930c57",
+      "document_version": "1",
+      "golden_id": "b4-structure-candidate-v1",
+      "human_note": "La lista de equipos continúa desde p3; termina el bloque con entregable/firmas del servicio. La tabla cierra antes de ELABORA/REVISA/APRUEBA y el documento no tiene otra página.",
+      "incoming_group": {
+        "groups": [
+          "ITEM_2"
+        ],
+        "state": "KNOWN"
+      },
+      "outgoing_group": {
+        "groups": [],
+        "state": "NONE"
+      },
+      "page_number": 4,
+      "representation_contract": "PNG full page, PyMuPDF 1.28.2, zoom 1.5, alpha false",
+      "schema_version": "1",
+      "source_document_sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311",
+      "source_page_hash": "ea42337fe661b9185d27d97ddcea9be9de095a7f05452839e126fdb23a34350b",
+      "source_path": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data/tenders/decd32ae-2c1f-4520-89bc-d845c986a7ba/originals/284bea2c-9302-4ae7-b652-0ce4932fd177/ANEXO B-4.pdf",
+      "source_representation": "/Users/ceciliavalencia/LiticIA/backend/reports/b4_structural_golden_review_pages/page_4.png",
+      "starts_item": {
+        "groups": [],
+        "state": "NONE"
+      },
+      "structural_review_expected": false,
+      "supporting_references": [
+        {
+          "authority": "HUMAN_APPROVED",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/evals/semantic_scope_golden_v1.json",
+          "scope": "Execution obligations approved on p1; no structural labels",
+          "sha256": "ad9d44a67022fa1eaec3181799a88b93c4c6dd04572fff46f31c3ac0c244af86"
+        },
+        {
+          "authority": "HUMAN_APPROVED",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/evals/scope_quantity_golden_v1.json",
+          "scope": "Quantity excerpts on p4; no structural labels",
+          "sha256": "de2327ca868f8b72bf6dd80f50a568807b567f92c4106d65f913b7ce263339e7"
+        },
+        {
+          "authority": "HUMAN_APPROVED",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/evals/technical_attribute_golden_v1.json",
+          "scope": "Attribute excerpts on p4; no structural labels",
+          "sha256": "ad2e3707f5b7a2e53e44339108c14669d9697ad733af3527a8e40216dd7b991b"
+        },
+        {
+          "authority": "HUMAN_REFERENCE_NONCANONICAL",
+          "identity": "/Users/ceciliavalencia/LiticIA/backend/.licitia-data/tenders/decd32ae-2c1f-4520-89bc-d845c986a7ba/originals/284bea2c-9302-4ae7-b652-0ce4932fd177/ANEXO B-4.pdf",
+          "scope": "Authoritative original; structural interpretation requires explicit approval",
+          "sha256": "5b1ecdcf6ab0ec6a1008bf41554367dc3a917fce2a79b197a5289193362ba311"
+        }
+      ],
+      "tender_id": "decd32ae-2c1f-4520-89bc-d845c986a7ba",
+      "uncertainty": "Confirmar CLOSES/NONE de salida sólo en este documento de cuatro páginas; no implica que la partida no tenga alcance en otros anexos. El 4 del pie no es partida.",
+      "visible_item_identifiers": []
+    }
+  ],
+  "schema_version": "1"
+}
