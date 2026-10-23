@@ -1,6 +1,6 @@
 # ADR-0034 — Monitoring y handoff humano Discovery→Tender
 
-Estado: M10-C autorizado para implementación/revisión. Fecha:2026-10-23.
+Estado: M10-C ACCEPTED, commit `4a4a62938c8651bed9ec8b69e66f398635992dce`. Fecha:2026-10-23.
 M10-B ACCEPTED BOUNDED SCOPE (`100caf0`); Compras MX restringido no bloquea MVP-10.
 
 ## Esquema079 propuesto antes de migrar
@@ -64,3 +64,18 @@ previo y originales permanecen. Fallo parcial no se representa como importación
 Compras MX scan/preview/create/import automatizados rechazados antes de red. Manual Tender
 creation/import siguen disponibles e independientes. No PoW, token/browser bypass ni datasets
 sustitutos. No DI/OCR/Vision/LLM/Requirements/Scope/Bid Readiness automáticos.
+
+
+## Corrección de cierre M10-D — contexto histórico de perfil
+
+La auditoría Phase30 detectó que reevaluar un Profile mutable no reconstruye el match al
+crear Tender. Se captura opcionalmente su ID/revisión/configuración tipada y match determinista
+con SHA en Link.context existente, junto con los campos fuente usados para matching. El evento
+TENDER_CREATED conserva ID/revisión/SHA de ese contexto; no duplica la configuración completa.
+Preview/binding incorpora el contexto; modificación del perfil requiere nueva confirmación.
+Request sólo acepta profile_id, nunca una explicación/decisión de relevancia del cliente como
+verdad canónica. El servidor evalúa el mismo matcher. Sin perfil seleccionado se registra null;
+vínculos legacy se muestran LEGACY_NOT_CAPTURED, sin reconstrucción retroactiva inventada.
+Un match falso no bloquea la decisión humana. Perfil/keywords quedan locales, nunca se envían
+al portal. El contexto capturado sobrevive edición/borrado del perfil y backup/restore.
+Sin migración080, fuente nueva, análisis automático ni cambio a las reglas del matcher.

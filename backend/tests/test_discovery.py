@@ -2,6 +2,7 @@
 from copy import deepcopy
 from datetime import datetime,timezone,timedelta
 from pathlib import Path
+import os
 from uuid import uuid4
 import json,socket
 import httpx,pytest
@@ -105,7 +106,7 @@ def test_m10a11_12_13_14_15_16_17_22_55_56_complete_large_pagination_and_matchin
     assert len(statements)<100,{'sql':len(statements)}
     repeated=run_scan(db,'PEMEX',request(),a);assert repeated['metrics']['new']==0
     assert db.scalar(select(func.count()).select_from(DiscoveryOpportunity))==217
-    Path('reports/m10_c/pemex_large_fixture.json').write_text(json.dumps({'unique':217,'raw':218,'pages':3,'sql_statements':len(statements),
+    (Path(os.environ.get('LICITIA_DISCOVERY_REPORT_ROOT','reports/m10_c'))/'pemex_large_fixture.json').write_text(json.dumps({'unique':217,'raw':218,'pages':3,'sql_statements':len(statements),
         'match_last_page':'EVENT-217','duplicate':1,'result':'PASS'},indent=2)+'\n');a.close()
 
 

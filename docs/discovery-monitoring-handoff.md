@@ -1,7 +1,7 @@
 # Discovery M10-C — monitoreo y handoff humano
 
 M10-B ACCEPTED — BOUNDED SCOPE, commit `100caf07ec0ca503145a6b25242591cb6d38f38a`.
-M10-C permanece sin stage/commit/push. [ADR-0034](adr/0034-discovery-monitoring-handoff.md),
+M10-C ACCEPTED, commit `4a4a62938c8651bed9ec8b69e66f398635992dce`; sin push. [ADR-0034](adr/0034-discovery-monitoring-handoff.md),
 Alembic `20261023_discovery_079`. Sin dependencias nuevas ni cambios semánticos MVP-01–09.
 
 ## Workflow
@@ -118,3 +118,11 @@ M10-D recomendado: validación cross-source de completitud, cambios/handoff/vers
 reintentos y límites públicos; opt-ins vivos acotados autorizados por separado, cierre gates
 MVP-10. Compras MX deferred no bloquea cierre ni autoriza bypass. Scheduler/installer/branding
 permanecen fuera de este slice.
+
+
+M10-D corrige auditoría del perfil al crear Tender. GET tender-preview admite profile_id
+opcional; POST handoff envía ese ID, y binding incluye su revisión/configuración/match/SHA
+evaluados por servidor. Link.context guarda el snapshot; evento TENDER_CREATED apunta a su SHA.
+Se preserva aunque el perfil cambie. Ninguna coincidencia es una decisión obligatoria ni se
+transmite al portal. Sin selección, perfil null; vínculos previos no capturados se identifican
+LEGACY_NOT_CAPTURED. No se repara historia ni se agrega esquema.

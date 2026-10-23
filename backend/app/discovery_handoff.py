@@ -5,9 +5,9 @@ from contextlib import contextmanager
 from sqlalchemy import select,text
 from sqlalchemy.dialects.postgresql import insert
 from fastapi import HTTPException
-from app.discovery_contract import fingerprint,PublicDocument
+from app.discovery_contract import fingerprint,PublicDocument,Profile,Opportunity,match_profile
 from app.discovery_registry import require_available,adapter_for
-from app.discovery_models import DiscoveryOpportunity as Opp,DiscoverySourceDocument as Doc,DiscoveryTenderLink as Link,DiscoveryImportReceipt as Receipt
+from app.discovery_models import DiscoveryOpportunity as Opp,DiscoverySourceDocument as Doc,DiscoveryTenderLink as Link,DiscoveryImportReceipt as Receipt,DiscoveryProfile as StoredProfile
 from app.discovery_monitoring import event,save_events
 from app.tender_creation import create_record
 from app.models import Tender,TenderDocument
@@ -28,18 +28,33 @@ def opportunity(db,oid):
 
 def receipt_view(row):return {k:getattr(row,k) for k in ['id','source_document_id','tender_identity','tender_document_id','metadata_fingerprint','sha256','source_url','source_name','downloaded_at','result']}
 
-def preview(db,oid):
+def profile_context(db,row,profile_id):
+    if profile_id is None:return None
+    stored=db.get(StoredProfile,str(profile_id))
+    if stored is None:raise HTTPException(404,'DISCOVERY_PROFILE_NOT_FOUND')
+    configuration=Profile.model_validate(stored.configuration)
+    captured={'id':stored.id,'revision':stored.revision,'configuration':configuration.model_dump(mode='json'),
+        'match':match_profile(configuration,row.source_id,Opportunity.model_validate(row.representation))}
+    return {**captured,'sha256':fingerprint(captured)}
+
+def preview(db,oid,profile_id=None):
     row=opportunity(db,oid);docs=list(db.scalars(select(Doc).where(Doc.opportunity_id==oid,Doc.active.is_(True)).order_by(Doc.id)))
     link=db.get(Link,oid);receipts=list(db.scalars(select(Receipt).where(Receipt.opportunity_id==oid).order_by(Receipt.downloaded_at)))
     latest={r.source_document_id:r for r in receipts}
-    binding=fingerprint([row.id,row.revision,row.fingerprint,[(d.id,d.fingerprint) for d in docs],link.tender_identity if link else None])
+    captured=profile_context(db,row,profile_id)
+    binding_parts=[row.id,row.revision,row.fingerprint,[(d.id,d.fingerprint) for d in docs],link.tender_identity if link else None]
+    if captured is not None:binding_parts.append(['PROFILE',captured['sha256']])
+    binding=fingerprint(binding_parts)
     linked=db.get(Tender,link.tender_id) if link and link.tender_id else None
-    context={k:row.representation.get(k) for k in ['external_id','procedure_number','title','description','published_date','business_area','contracting_area','public_url','source_status']}
+    context={k:row.representation.get(k) for k in ['external_id','procedure_number','title','description','published_date','business_area','contracting_area','public_url','source_status','event_type','supply_type']}
     return {'opportunity_id':oid,'source_id':row.source_id,'source_fingerprint':row.fingerprint,'binding':binding,
         'internal_state':row.internal_state,'suggested_title':linked.title if linked else row.representation['title'] if len(row.representation['title'])<=255 else None,
         'context':context,'documents':[{'id':d.id,'external_id':d.external_id,'name':d.name,'public_url':d.public_url,'metadata_fingerprint':d.fingerprint,
             'observed_at':d.observed_at,'last_import':receipt_view(latest[d.id]) if d.id in latest else None} for d in docs],
         'linked_tender':{'id':link.tender_identity,'available':link.tender_id is not None} if link else None,
+        'profile_context':captured,
+        'creation_profile_context':link.context.get('profile_context') if link else None,
+        'creation_profile_status':('CAPTURED' if link.context.get('profile_context') else 'NO_PROFILE_SELECTED' if 'profile_context' in link.context else 'LEGACY_NOT_CAPTURED') if link else None,
         'selection_default':'NONE','analysis_automatic':False}
 
 def result(db,link,documents=None,already=False):
@@ -55,7 +70,7 @@ async def handoff(db,oid,request,importer,*,tender_id=None,adapter=None):
         if link and (not link.tender_id or not db.get(Tender,link.tender_id)):raise HTTPException(409,'LINKED_TENDER_DELETED_NO_AUTOMATIC_RECREATION')
         if tender_id is None and link:return result(db,link,already=True)
         if tender_id is not None and (not link or link.tender_id!=tender_id):raise HTTPException(409,'DISCOVERY_TENDER_LINK_MISMATCH')
-        current=preview(db,oid)
+        current=preview(db,oid,request.profile_id)
         if request.expected_binding!=current['binding']:raise HTTPException(409,'DISCOVERY_PREVIEW_STALE')
         if not link and row.internal_state=='DISCARDED':raise HTTPException(409,'REVIEW_DISCARDED_OPPORTUNITY_FIRST')
         available={d['id']:d for d in current['documents']}
@@ -70,9 +85,9 @@ async def handoff(db,oid,request,importer,*,tender_id=None,adapter=None):
             if not title:raise HTTPException(422,'TENDER_TITLE_REQUIRED_255_MAX')
             tender=create_record(db,title,external_reference=row.representation.get('procedure_number') or row.external_id,commit=False)
             link=Link(opportunity_id=oid,tender_id=tender.id,tender_identity=tender.id,
-                context={**current['context'],'source_id':row.source_id,'source_fingerprint':row.fingerprint},created_at=datetime.now(timezone.utc))
+                context={**current['context'],'source_id':row.source_id,'source_fingerprint':row.fingerprint,'profile_context':current['profile_context']},created_at=datetime.now(timezone.utc))
             db.add(link);previous=row.internal_state;row.internal_state='IMPORTED';row.revision+=1
-            save_events(db,[event(row.source_id,oid,'TENDER_CREATED',row.fingerprint,row.fingerprint,{'tender_id':tender.id,'previous_state':previous,'state':'IMPORTED','selected_document_ids':[str(d.document_id) for d in request.documents]},'Tender creado por decisión humana explícita',actor=request.actor)])
+            save_events(db,[event(row.source_id,oid,'TENDER_CREATED',row.fingerprint,row.fingerprint,{'tender_id':tender.id,'previous_state':previous,'state':'IMPORTED','profile_id':current['profile_context']['id'] if current['profile_context'] else None,'profile_revision':current['profile_context']['revision'] if current['profile_context'] else None,'profile_snapshot_sha256':current['profile_context']['sha256'] if current['profile_context'] else None,'selected_document_ids':[str(d.document_id) for d in request.documents]},'Tender creado por decisión humana explícita',actor=request.actor)])
             db.commit()
         owned=adapter is None
         if not request.documents:return result(db,link)

@@ -2,6 +2,7 @@
 from copy import deepcopy
 from datetime import date
 from pathlib import Path
+import os
 from urllib.parse import parse_qs
 from uuid import uuid4
 import json
@@ -75,7 +76,7 @@ def test_cfe_three_batch_large_late_profile_dedup_and_bounded_sql(offline):
     assert matches['total']==1 and matches['items'][0]['external_id']=='217'
     assert a.observation['listing_requests']==1 and a.observation['detail_requests']==218
     assert a.observation['batch_count']==3 and m['areas']['public']['source_reported_total'] is None
-    (Path('reports/m10_c')/'cfe_large_fixture.json').write_text(json.dumps({'raw_rows':218,'unique':217,'batches':3,'duplicates':1,'sql_statements':len(statements),'last_batch_profile_match':'217','result':'PASS'},indent=2)+'\n')
+    (Path(os.environ.get('LICITIA_DISCOVERY_REPORT_ROOT','reports/m10_c'))/'cfe_large_fixture.json').write_text(json.dumps({'raw_rows':218,'unique':217,'batches':3,'duplicates':1,'sql_statements':len(statements),'last_batch_profile_match':'217','result':'PASS'},indent=2)+'\n')
     a.close()
 
 

@@ -147,6 +147,7 @@ class DocumentChoice(Contract):
     refresh:bool=False
 
 class HandoffRequest(Contract):
+    profile_id:UUID|None=None
     confirm:Literal[True]
     expected_binding:str=Field(pattern=r'^[a-f0-9]{64}$')
     title:str|None=Field(default=None,min_length=1,max_length=255)

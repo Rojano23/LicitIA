@@ -537,3 +537,12 @@ usa Core Tender y el importador canónico mediante un gateway inyectado; importa
 retienen Tender/éxitos y reportan cada fallo. No corre análisis. Locks por fuente/Opportunity,
 preview con fingerprint, enlace único/tombstone y receipts hacen seguros los reintentos.
 Cambios de fuente nunca reescriben evidencia Tender. [ADR-0034](adr/0034-discovery-monitoring-handoff.md).
+
+
+M10-D audita el mismo dominio/servicios/APIs neutrales y valida extremo a extremo ambos
+adapters con fixtures, cambios, handoff y downstream canónico, instalación/upgrade079 y
+restore/retry. Sin nuevas funciones mayores, dependencias ni migración080.
+Corrección M10-D: el perfil/match usado al confirmar se captura en el contexto JSON local
+del vínculo y su SHA en auditoría, para conservar historia ante cambios de Profile.
+[Auditoría, alcance y límites finales](discovery-closure.md). Compras MX conserva la restricción
+aceptada; su futura habilitación requiere interfaz oficial autorizada, no rediseño del dominio.

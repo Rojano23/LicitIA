@@ -469,7 +469,7 @@ El usuario puede generar un paquete de revisión final que conserva corresponden
 
 ## MVP-10 — Discovery / Public Procurement Monitor
 
-**MVP-10 OPEN — M10-A ACCEPTED (`d9e9735`); M10-B ACCEPTED — BOUNDED SCOPE (`100caf07`); M10-C implementado y validado, listo para revisión arquitectónica.**
+**MVP-10 CLOSED — M10-D gates A–T PASS, listo para revisión de cierre. M10-A ACCEPTED (`d9e9735`); M10-B ACCEPTED — BOUNDED SCOPE (`100caf07`); M10-C ACCEPTED (`4a4a62938c8651bed9ec8b69e66f398635992dce`).**
 [CFE y restricción de automatización Compras MX](discovery-cfe.md), [ADR-0033](adr/0033-discovery-cfe-source-restrictions.md).
 CFE ADAPTER COMPLETE sobre Core genérico; backend 2452 passed / 3 opt-ins excluidos,
 frontend 168 passed / build PASS; live46 únicos/5 batches/364 referencias; sin binarios. Compras MX **DEFERRED — SOURCE AUTOMATION RESTRICTED**:
@@ -486,8 +486,10 @@ MVP-09 CLOSED / M9-D ACCEPTED, commit `6467646d6f8738fb8d0a9f6fe5d97de81a4fc348`
   Sin ampliar soporte institucional de Tender Analysis.
 - M10-C: monitoreo/cambios/document tracking y Create Tender explícito humano, migración079.
   [Contrato](discovery-monitoring-handoff.md), [ADR-0034](adr/0034-discovery-monitoring-handoff.md).
-  MANUAL SCAN ONLY FOR PRIVATE BETA. Sin stage/commit/push hasta revisión arquitectónica.
-- M10-D: validación cross-source y cierre.
+  MANUAL SCAN ONLY FOR PRIVATE BETA. M10-C comprometido, sin push.
+- M10-D: validación cross-source/cierre, gates A–T PASS; corrección acotada de auditoría del perfil, sin080.
+  [Cierre, evidencias y límites](discovery-closure.md). M10-D sin stage/commit/push, listo para revisión.
+  No M10-E. PEMEX/CFE Discovery soportados; Compras MX automatizado diferido.
 
 Discovery es opcional, sin Tender automático ni DI/OCR/Vision/LLM; sin scheduler/notificaciones
 ni UI final en M10-A. No M9-E. Sólo adquisición pública usa Internet; intereses y datos locales.

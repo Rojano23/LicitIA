@@ -1,6 +1,6 @@
 # ADR-0032 — Discovery independiente y adapter público PEMEX
 
-Estado: M10-A autorizado para implementación y revisión. Fecha:2026-10-22.
+Estado: M10-A ACCEPTED, commit `d9e9735`. Decisión:2026-10-22.
 
 ## Decisión y límites
 

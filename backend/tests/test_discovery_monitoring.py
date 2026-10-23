@@ -3,6 +3,7 @@ from collections import Counter
 from copy import deepcopy
 from dataclasses import replace
 from pathlib import Path
+import os
 from uuid import uuid4
 import json
 import pytest
@@ -120,7 +121,7 @@ def test_large_change_fixture_exact_counts_and_batched_database(offline):
     counts=Counter(e.category for e in events(db,out['id']))
     assert counts=={'NEW_OPPORTUNITY':20,'METADATA_CHANGED':15,'SOURCE_STATUS_CHANGED':10,'DOCUMENT_ADDED':45,'NO_LONGER_OBSERVED':5},counts
     assert len(statements)<75,len(statements)
-    (Path('reports/m10_c')/'large_changes.json').write_text(json.dumps({'status':out['status'],'existing':200,'observed':215,'events':dict(counts),'sql_statements':len(statements)},indent=2))
+    (Path(os.environ.get('LICITIA_DISCOVERY_REPORT_ROOT','reports/m10_c'))/'large_changes.json').write_text(json.dumps({'status':out['status'],'existing':200,'observed':215,'events':dict(counts),'sql_statements':len(statements)},indent=2))
 
 
 def test_ack_rejects_cross_opportunity_and_source_status_never_changes_workflow(offline):

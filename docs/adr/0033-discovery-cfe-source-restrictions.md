@@ -1,6 +1,6 @@
 # ADR-0033 — CFE en Discovery y fuentes con automatización restringida
 
-Estado: implementación M10-B autorizada para revisión (2026-10-23).
+Estado: M10-B ACCEPTED — BOUNDED SCOPE, commit `100caf07` (2026-10-23).
 
 CFE usa el contrato DiscoveryAdapter y Opportunity genéricos, tablas078 y semántica
 ScanRun existente. Un registro de adapters/capacidades sustituye wiring PEMEX exclusivo;

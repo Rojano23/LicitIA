@@ -29,7 +29,8 @@ export const discoveryApi={
 export type Change={id:string;category:string;origin:string;detected_at:string;summary:string;changed_fields:Record<string,unknown>;acknowledged_at:string|null};
 export type History={items:Change[];total:number;offset:number;limit:number};
 export type Receipt={tender_document_id:string;sha256:string;source_url:string;downloaded_at:string};
-export type Preview={opportunity_id:string;source_id:string;source_fingerprint:string;binding:string;internal_state:string;suggested_title:string|null;context:Record<string,string|null>;documents:{id:string;name:string;public_url:string;metadata_fingerprint:string;last_import:Receipt|null}[];linked_tender:{id:string;available:boolean}|null;selection_default:string;analysis_automatic:boolean};
+export type CapturedProfile={id:string;revision:number;configuration:Omit<Profile,'id'|'revision'>;match:Match;sha256:string};
+export type Preview={profile_context?:CapturedProfile|null;creation_profile_context?:CapturedProfile|null;creation_profile_status?:string|null;opportunity_id:string;source_id:string;source_fingerprint:string;binding:string;internal_state:string;suggested_title:string|null;context:Record<string,string|null>;documents:{id:string;name:string;public_url:string;metadata_fingerprint:string;last_import:Receipt|null}[];linked_tender:{id:string;available:boolean}|null;selection_default:string;analysis_automatic:boolean};
 export type Choice={document_id:string;conflict_action:'NONE'|'NEW_REVISION'|'IMPORT_INDEPENDENT';revision_of_document_id:string|null;refresh:boolean};
 export type Handoff={tender_id:string;tender_available:boolean;already_created:boolean;documents_status:string;analysis_started:boolean;documents:{source_document_id:string;status:string;document_id?:string;error_code?:string;error_type?:string}[]};
 export type Counters={new_opportunities:number;changed_opportunities:number;followed_with_changes:number;unread_changes:number;new_documents:number};
@@ -37,8 +38,8 @@ export const monitoringApi={
  summary:async(base:string)=>(await axios.get<Counters>(`${base}/discovery/monitoring/summary`)).data,
  get:async(base:string,id:string,profileId?:string)=>(await axios.get<Opportunity>(`${base}/discovery/opportunities/${id}`,{params:{profile_id:profileId}})).data,
  history:async(base:string,id:string,offset=0)=>(await axios.get<History>(`${base}/discovery/opportunities/${id}/changes`,{params:{offset,limit:100}})).data,
- preview:async(base:string,id:string)=>(await axios.get<Preview>(`${base}/discovery/opportunities/${id}/tender-preview`)).data,
+ preview:async(base:string,id:string,profileId?:string)=>(await axios.get<Preview>(`${base}/discovery/opportunities/${id}/tender-preview`,{params:{profile_id:profileId}})).data,
  follow:async(base:string,row:Opportunity)=>(await axios.patch<Opportunity>(`${base}/discovery/opportunities/${row.id}/following`,{following:!row.watching,expected_revision:row.revision})).data,
  acknowledge:async(base:string,id:string,ids:string[])=>axios.post(`${base}/discovery/opportunities/${id}/changes/acknowledge`,{change_ids:ids}),
- handoff:async(base:string,preview:Preview,title:string,documents:Choice[])=>(await axios.post<Handoff>(preview.linked_tender?`${base}/discovery/opportunities/${preview.opportunity_id}/tenders/${preview.linked_tender.id}/documents`:`${base}/discovery/opportunities/${preview.opportunity_id}/create-tender`,{confirm:true,expected_binding:preview.binding,title:title||null,documents})).data,
+ handoff:async(base:string,preview:Preview,title:string,documents:Choice[])=>(await axios.post<Handoff>(preview.linked_tender?`${base}/discovery/opportunities/${preview.opportunity_id}/tenders/${preview.linked_tender.id}/documents`:`${base}/discovery/opportunities/${preview.opportunity_id}/create-tender`,{confirm:true,expected_binding:preview.binding,profile_id:preview.profile_context?.id??null,title:title||null,documents})).data,
 };

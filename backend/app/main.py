@@ -3786,9 +3786,9 @@ def discovery_follow_endpoint(opportunity_id:str,payload:FollowRequest,db:Sessio
     return get_opportunity(db,opportunity_id)
 
 @app.get('/discovery/opportunities/{opportunity_id}/tender-preview')
-def discovery_tender_preview_endpoint(opportunity_id:str,db:Session=Depends(get_db)):
+def discovery_tender_preview_endpoint(opportunity_id:str,profile_id:str|None=None,db:Session=Depends(get_db)):
     from app.discovery_handoff import preview
-    return preview(db,opportunity_id)
+    return preview(db,opportunity_id,profile_id)
 
 async def _discovery_canonical_import(db,tender_id,downloaded,conflict_action,revision_id):
     from starlette.datastructures import Headers

@@ -2,6 +2,7 @@
 from contextlib import contextmanager
 from dataclasses import replace
 from pathlib import Path
+import os
 import json,sys
 import httpx
 from sqlalchemy import create_engine,select
@@ -66,4 +67,4 @@ def test_discovery_workflow_history_link_receipt_and_original_roundtrip(runtime,
                 coverage=db.scalar(select(DiscoveryCoverage));assert coverage_before==(coverage.scope_sha,coverage.opportunity_id,coverage.present)
                 assert db.get(DiscoveryTenderLink,oid).tender_id==body['tender_id']
             original=next((target.directory/'data').rglob('Bases.pdf'));assert original.read_bytes()==PDF
-    Path('reports/m10_c/backup_restore.json').write_text(json.dumps({'status':'PASS','real_private_postgres':True,'workflow':True,'watching':True,'history_ack':True,'coverage':True,'link':True,'receipt_provenance':True,'original_sha_verified':True,'offline':True},indent=2))
+    (Path(os.environ.get('LICITIA_DISCOVERY_REPORT_ROOT','reports/m10_c'))/'backup_restore.json').write_text(json.dumps({'status':'PASS','real_private_postgres':True,'workflow':True,'watching':True,'history_ack':True,'coverage':True,'link':True,'receipt_provenance':True,'original_sha_verified':True,'offline':True},indent=2))

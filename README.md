@@ -24,8 +24,10 @@ Las secciones MVP-01 siguientes conservan la línea base histórica; el estado v
 Compras MX DEFERRED — SOURCE AUTOMATION RESTRICTED, sin bypass.
 Discovery opcional, separado de Tender Analysis.
 [M10-C monitoreo/handoff](docs/discovery-monitoring-handoff.md): seguimiento, cambios deterministas
-y creación/importación explícita de Tender, migración079; en revisión, sin stage/commit/push.
+y creación/importación explícita de Tender, migración079; ACCEPTED, commit `4a4a629`, sin push.
 MANUAL SCAN ONLY FOR PRIVATE BETA.
+[MVP-10 CLOSED — M10-D](docs/discovery-closure.md): gates A–T PASS, cierre listo para revisión;
+PEMEX/CFE soportados, Compras MX automatizado diferido. Sin renaming/UI final en este slice.
 
 ## Principio rector
 
