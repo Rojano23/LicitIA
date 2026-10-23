@@ -1,3 +1,4 @@
+import {DiscoveryView} from "./components/DiscoveryView";
 import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { CompanyEvidenceLibrary } from "./components/CompanyEvidenceLibrary";
@@ -3767,6 +3768,7 @@ function App() {
 
   return (
     <div style={{ maxWidth: 1200, margin: "40px auto", padding: "0 20px", fontFamily: "sans-serif" }}>
+      <details><summary>Discovery público (opcional)</summary><DiscoveryView apiUrl={API_URL}/></details>
       <style>{`
         .pdf-viewer {
           width: 100%;

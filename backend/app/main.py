@@ -6,7 +6,7 @@ import mimetypes
 import os
 import shutil
 import tempfile
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 from uuid import uuid4
 from collections.abc import Callable
@@ -3691,3 +3691,75 @@ def proposal_export_file_endpoint(tender_id: str, version_id: str, request_id: s
     from app.proposal_exports import artifact_file
     path, name, mime = artifact_file(db, tender_id, version_id, request_id, artifact_type)
     return FileResponse(path, filename=name, media_type=mime)
+
+# Independent local Discovery; no Tender Analysis dependency.
+from app.discovery_contract import ScanRequest,SourceSettings,Profile as DiscoveryProfileRequest,ProfileUpdate,WorkflowUpdate
+
+@app.get('/discovery/sources')
+def discovery_sources_endpoint(db:Session=Depends(get_db)):
+    from app.discovery import list_sources
+    return list_sources(db)
+
+@app.get('/discovery/sources/{source_id}')
+def discovery_source_endpoint(source_id:str,db:Session=Depends(get_db)):
+    from app.discovery import get_source,source_view
+    return source_view(get_source(db,source_id))
+
+@app.patch('/discovery/sources/{source_id}')
+def discovery_source_update_endpoint(source_id:str,payload:SourceSettings,db:Session=Depends(get_db)):
+    from app.discovery import configure_source
+    return configure_source(db,source_id,payload)
+
+@app.post('/discovery/sources/{source_id}/scans')
+def discovery_scan_endpoint(source_id:str,payload:ScanRequest,db:Session=Depends(get_db)):
+    from app.discovery import run_scan
+    return run_scan(db,source_id,payload)
+
+@app.get('/discovery/scans/{scan_id}')
+def discovery_scan_get_endpoint(scan_id:str,db:Session=Depends(get_db)):
+    from app.discovery import get_scan
+    return get_scan(db,scan_id)
+
+@app.get('/discovery/scans')
+def discovery_scan_list_endpoint(source_id:str|None=None,limit:int=Query(20,ge=1,le=100),offset:int=Query(0,ge=0),db:Session=Depends(get_db)):
+    from app.discovery import scan_view
+    from app.discovery_models import DiscoveryScanRun
+    query=select(DiscoveryScanRun)
+    if source_id:query=query.where(DiscoveryScanRun.source_id==source_id)
+    return [scan_view(r) for r in db.scalars(query.order_by(DiscoveryScanRun.started_at.desc(),DiscoveryScanRun.id).offset(offset).limit(limit))]
+
+@app.get('/discovery/profiles')
+def discovery_profiles_endpoint(limit:int=Query(100,ge=1,le=200),offset:int=Query(0,ge=0),db:Session=Depends(get_db)):
+    from app.discovery import profile_view
+    from app.discovery_models import DiscoveryProfile
+    return [profile_view(r) for r in db.scalars(select(DiscoveryProfile).order_by(DiscoveryProfile.name,DiscoveryProfile.id).offset(offset).limit(limit))]
+
+@app.post('/discovery/profiles')
+def discovery_profile_create_endpoint(payload:DiscoveryProfileRequest,db:Session=Depends(get_db)):
+    from app.discovery import save_profile
+    return save_profile(db,payload)
+
+@app.patch('/discovery/profiles/{profile_id}')
+def discovery_profile_update_endpoint(profile_id:str,payload:ProfileUpdate,db:Session=Depends(get_db)):
+    from app.discovery import save_profile
+    return save_profile(db,payload,profile_id)
+
+@app.get('/discovery/opportunities')
+def discovery_opportunities_endpoint(source:str|None=None,area:str|None=None,published_from:date|None=None,published_to:date|None=None,
+        event_type:str|None=None,supply_type:str|None=None,source_status:str|None=None,internal_state:str|None=None,
+        search:str|None=Query(None,max_length=200),profile_id:str|None=None,matched_only:bool=False,
+        limit:int=Query(50,ge=1,le=200),offset:int=Query(0,ge=0),db:Session=Depends(get_db)):
+    from app.discovery import list_opportunities
+    return list_opportunities(db,source=source,area=area,published_from=published_from,published_to=published_to,
+        event_type=event_type,supply_type=supply_type,source_status=source_status,internal_state=internal_state,
+        search=search,profile_id=profile_id,matched_only=matched_only,limit=limit,offset=offset)
+
+@app.get('/discovery/opportunities/{opportunity_id}')
+def discovery_opportunity_endpoint(opportunity_id:str,db:Session=Depends(get_db)):
+    from app.discovery import get_opportunity
+    return get_opportunity(db,opportunity_id)
+
+@app.patch('/discovery/opportunities/{opportunity_id}/state')
+def discovery_workflow_endpoint(opportunity_id:str,payload:WorkflowUpdate,db:Session=Depends(get_db)):
+    from app.discovery import change_workflow
+    return change_workflow(db,opportunity_id,payload)

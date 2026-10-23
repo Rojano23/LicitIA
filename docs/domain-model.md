@@ -731,3 +731,10 @@ ExportRequest identifica generación idempotente; manifest y receipt versionados
 identidad, hashes y archivos bajo storage. No entidad SQL nueva ni cambio a077. Históricos
 FROZEN se exportan sin reconstrucción desde Requirement/Evidence mutable.
 [Contrato de exports](proposal-document-exports.md).
+
+Discovery (078) agrega Source, Profile, Opportunity, ScanRun y SourceDocument genéricos.
+Sin FK/creación de Tender; namespace source+external ID, fingerprint actual/anterior,
+first_seen/last_seen separados de published_date. Source status literal separado de estado
+interno humano. Documentos son referencias metadata, no importados. Batch/terminal/total
+sostienen estado SUCCESS/PARTIAL/FAILED y explican límites de matching local.
+[Contrato Discovery](discovery-core-pemex.md).

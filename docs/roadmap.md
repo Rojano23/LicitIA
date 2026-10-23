@@ -467,6 +467,26 @@ El usuario puede generar un paquete de revisión final que conserva corresponden
 
 ---
 
+## MVP-10 — Discovery / Public Procurement Monitor
+
+**MVP-10 OPEN — M10-A implementado y validado para revisión; sin stage/commit/push.**
+MVP-09 CLOSED / M9-D ACCEPTED, commit `6467646d6f8738fb8d0a9f6fe5d97de81a4fc348`.
+[Contrato M10-A](discovery-core-pemex.md), [ADR-0032](adr/0032-discovery-core-pemex.md), Alembic078.
+
+- M10-A: Discovery Core neutral, contrato adapter, PEMEX multiárea, recorrido completo,
+  perfiles deterministas, idempotencia/auditoría, metadata documental y vista independiente.
+- M10-B: adapters CFE + Compras MX, sin ampliar Tender Analysis institucional sin aprobación.
+- M10-C: monitoreo/cambios/document tracking y Create Tender explícito humano.
+- M10-D: validación cross-source y cierre.
+
+Discovery es opcional, sin Tender automático ni DI/OCR/Vision/LLM; sin scheduler/notificaciones
+ni UI final en M10-A. No M9-E. Sólo adquisición pública usa Internet; intereses y datos locales.
+Futuro producto público **RX23 TuScope**: MVP-10 CLOSED → rename/identidad → UI final → pruebas
+internas con Tenders reales → demos controladas → instalador Windows → Private Beta externa.
+No renaming de código/repositorio en este slice.
+
+---
+
 ## Gates transversales
 
 No cerrar un MVP si falla alguno:

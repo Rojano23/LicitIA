@@ -3410,3 +3410,6 @@ class ProposalComposition(Base):
     content: Mapped[dict] = mapped_column(JSON, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+
+# Register source-neutral Discovery tables for Alembic metadata; no Tender coupling.
+from app.discovery_models import DiscoverySource, DiscoveryProfile, DiscoveryOpportunity, DiscoveryScanRun, DiscoverySourceDocument

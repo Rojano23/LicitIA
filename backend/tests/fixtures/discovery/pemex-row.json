@@ -1,0 +1,14 @@
+{
+  "__metadata": {"type": "SP.Data.SanitizedPublicListItem"},
+  "Id": 1,
+  "Title": "SYNTHETIC-EVENT-1",
+  "descripcion": "Suministro de válvulas de prueba",
+  "inicio": "2026-10-01T00:00:00Z",
+  "tipoevento": "Nacional",
+  "tiposuministro": "Bienes",
+  "areacontratante": null,
+  "AttachmentFiles": {"results": [{
+    "FileName": "Bases.pdf",
+    "ServerRelativeUrl": "/procura/procedimientos-de-contratacion/concursosabiertos/Lists/Concursoseinvitaciones/Attachments/1/Bases.pdf"
+  }]}
+}

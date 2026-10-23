@@ -76,6 +76,7 @@ No certifica recall semántico, estética institucional ni performance de modelo
 Gates A–P y comandos/conteos finales: `backend/reports/m9_d/final_report.md`.
 No nueva migración; Alembic077. M9-D aceptado y commit autorizado; sin push.
 
-MVP-10 Discovery recomendado: acordar usuarios y escenarios de revisión/paquete de entrega,
-criterios de aceptación y límites de confidencialidad, reutilizando versiones/export existentes.
-No abre automáticamente UI final, cloud, firma, AI writing ni soporte institucional adicional.
+MVP-10 Discovery fue aprobado posteriormente como monitor opcional de contratación pública,
+independiente de Tender Analysis/Proposal Builder. [Contrato M10-A](discovery-core-pemex.md).
+No abre automáticamente UI final, cloud, firma, AI writing ni soporte institucional adicional
+para Tender Analysis. La creación explícita de Tender corresponde a M10-C.

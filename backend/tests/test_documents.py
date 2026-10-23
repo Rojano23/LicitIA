@@ -1401,8 +1401,19 @@ def test_document_classification_candidate_and_functional_scores_are_stable_afte
 
     rerun = _classify(tender_id, document_id)
     assert rerun["classification_status"] == "CONFIRMED"
-    assert rerun["candidate_scores"] == first_candidates
-    assert rerun["functional_tags"] == first_tags
+    # The API orders by descending score, with no tie-break contract. Preserve
+    # every entry/score (including duplicate detection), without relying on DB
+    # relationship iteration order among equally scored classifications.
+    for payload in (first, rerun):
+        for key in ("candidate_scores", "functional_tags"):
+            scores = [item["score"] for item in payload[key]]
+            assert scores == sorted(scores, reverse=True)
+    assert sorted(rerun["candidate_scores"], key=lambda item: (item["type"], item["score"])) == sorted(
+        first_candidates, key=lambda item: (item["type"], item["score"])
+    )
+    assert sorted(rerun["functional_tags"], key=lambda item: (item["tag"], item["score"])) == sorted(
+        first_tags, key=lambda item: (item["tag"], item["score"])
+    )
 
 
 def test_legacy_candidate_tags_are_cleaned_up_into_candidates() -> None:

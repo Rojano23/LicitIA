@@ -1,7 +1,7 @@
 # LicitIA
 
 **Estado:** MVP-08 CLOSED — gates A–L PASS; M8-D ACCEPTED (`2bcd556`); MVP-09 M9-A ACCEPTED (`1c48667`); M9-B/C ACCEPTED; MVP-09 CLOSED — gates A–P PASS, M9-D ACCEPTED. MVP-06.V y MVP-07 cerrados; operación local LIMITED UAT.
-**Nombre:** LicitIA es interno; nombre público futuro pendiente. Primera distribución RX23 Digital local/on-premise; sin cambio de marca en MVP-09.
+**Nombre:** LicitIA es interno; futuro producto público RX23 TuScope; renaming posterior a MVP-10 CLOSED. Primera distribución RX23 Digital local/on-premise; sin cambio de marca en MVP-09.
 **Versión de definición:** v0.1  
 **Perfil institucional inicial:** PEMEX / SNR — Concursos Abiertos  
 **Arquitectura de producto:** On-Premise / Local-first
@@ -18,6 +18,9 @@ El motor de validación MVP-06.V quedó cerrado por aceptación arquitectónica 
 - [Instalación local RC-H1](docs/local-deployment.md) y [quickstart del administrador](docs/uat-admin-quickstart.md) — RC-H1 aceptado (`65b3465`); RC-H2 aceptado (`415669f`). [Flujo Workspace](docs/workspace-functional-flow.md). RC-H3 backup/restore/retry aceptado (`6fab761`); sin tag RC. [MVP-07 M7-A](docs/commercial-foundation.md): fundación comercial aceptada arquitectónicamente (M7-A ACCEPTED, `6d30509`). [Matriz M7-B](docs/commercial-matrix.md) aceptada arquitectónicamente (M7-B ACCEPTED, `faa238d`). [Round trip M7-C](docs/commercial-spreadsheet-roundtrip.md): aceptado arquitectónicamente (M7-C ACCEPTED, `d22cf3e`). [Cierre comercial M7-D](docs/commercial-readiness.md): MVP-07 CLOSED — M7-D ACCEPTED (`49bc60d`), cierre arquitectónico formal. [M8-A Bid Readiness](docs/bid-readiness.md): aceptado funcionalmente y gate de rendimiento validado (`8431338`). [M8-B seguimiento humano](docs/readiness-workflow.md): aceptado (`db3325c`). [M8-C board operacional](docs/readiness-board.md): aceptado (`748dda6`). [M8-D snapshot/handoff](docs/proposal-readiness-snapshot.md): MVP-08 CLOSED / M8-D ACCEPTED (`2bcd556`). [M9-A ProposalVersion](docs/proposal-version-foundation.md): ACCEPTED (`1c48667`). [M9-B composición](docs/proposal-composition.md): ACCEPTED; reproducibilidad PASS (`ba2e143`). [M9-C exports](docs/proposal-document-exports.md): ACCEPTED (`49c36ab`), sin push. [M9-D cierre](docs/proposal-builder-closure.md): gates A–P PASS; M9-D ACCEPTED.
 
 Las secciones MVP-01 siguientes conservan la línea base histórica; el estado vigente se consulta en los documentos anteriores y el roadmap.
+
+[M10-A Discovery](docs/discovery-core-pemex.md): Core + adapter PEMEX implementados para revisión,
+sin commit. Discovery opcional, separado de Tender Analysis.
 
 ## Principio rector
 

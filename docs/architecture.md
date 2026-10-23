@@ -515,3 +515,12 @@ preservados; renderers puros locales sin Session. Allowlist externa excluye cost
 Historia, manifiesto y receipt en storage/proposal-exports-v1, publicación atómica y checksums,
 sin migración078; RC-H3 respalda metadata y binarios. [ADR-0031](adr/0031-proposal-document-exports.md),
 [contrato/API](proposal-document-exports.md). Export no modifica fuentes ni recalcula precios.
+
+## 28. Discovery M10-A
+
+Fuente pública → adapter → Opportunity normalizada → Core/persistencia → perfil determinista
+local → revisión humana. Independiente de Tender Analysis, sin creación/importación automática
+ni engines/LLM. Un adapter PEMEX configurado por cuatro áreas, JSON público SharePoint con
+continuaciones propias; Core comprueba cobertura por batch/área y falla PARTIAL/FAILED.
+Commits por página, upserts e identidad source+evento, auditoría y UI interna separada.
+[ADR-0032](adr/0032-discovery-core-pemex.md), [contrato](discovery-core-pemex.md), Alembic078.
