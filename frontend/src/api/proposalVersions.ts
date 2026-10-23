@@ -11,7 +11,7 @@ export const versionsApi={
  get:async(base:string,tender:string,id:string)=>(await axios.get<ProposalVersion>(`${route(base,tender)}/${id}`)).data,
  create:async(base:string,tender:string,payload:CreateVersion)=>(await axios.post<ProposalVersion>(route(base,tender),payload)).data,
  update:async(base:string,tender:string,value:ProposalVersion,configuration:ProposalConfig,actor:string|null)=>(await axios.patch<ProposalVersion>(`${route(base,tender)}/${value.id}`,{expected_edit_revision:value.edit_revision,configuration,actor_label:actor})).data,
- freeze:async(base:string,tender:string,value:ProposalVersion,warnings:boolean,stale:boolean,actor:string|null)=>(await axios.post<ProposalVersion>(`${route(base,tender)}/${value.id}/freeze`,{expected_edit_revision:value.edit_revision,acknowledge_warnings:warnings,acknowledge_stale:stale,actor_label:actor})).data,
+ freeze:async(base:string,tender:string,value:ProposalVersion,warnings:boolean,stale:boolean,actor:string|null,compositionRevision?:number,compositionAck=false)=>(await axios.post<ProposalVersion>(`${route(base,tender)}/${value.id}/freeze`,{expected_edit_revision:value.edit_revision,acknowledge_warnings:warnings,acknowledge_stale:stale,actor_label:actor,expected_composition_revision:compositionRevision,acknowledge_composition_review:compositionAck})).data,
  source:async(base:string,tender:string,id:string)=>(await axios.get<{state:"CURRENT"|"SOURCE_SNAPSHOT_STALE"}>(`${route(base,tender)}/${id}/source-state`)).data,
  history:async(base:string,tender:string,id:string)=>(await axios.get<ProposalEvent[]>(`${route(base,tender)}/${id}/history`,{params:{limit:25}})).data,
 };

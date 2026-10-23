@@ -69,6 +69,8 @@ class UpdateProposal(Contract):
 
 
 class FreezeProposal(Contract):
+    expected_composition_revision: int | None=Field(default=None,ge=1,strict=True)
+    acknowledge_composition_review: bool=False
     expected_edit_revision: int=Field(ge=1,strict=True)
     acknowledge_warnings: bool=False
     acknowledge_stale: bool=False
@@ -146,6 +148,9 @@ def _verified(db,row):
         if row.content_contract!='proposal-builder-v1':raise ValueError('PROPOSAL_CONTRACT_UNSUPPORTED')
         if row.state=='FROZEN' and digest(frozen_envelope(row))!=row.frozen_sha256:raise ValueError('FROZEN_PROPOSAL_HASH_MISMATCH')
     except (ValueError,TypeError,KeyError) as exc:raise HTTPException(409,'PROPOSAL_INTEGRITY_FAILURE') from exc
+    if row.state=='FROZEN':
+        from app.proposal_composition import verify_frozen
+        verify_frozen(db,row)
     return snapshot
 
 
@@ -238,12 +243,18 @@ def freeze_version(db,tender_id,version_id,request):
     row=_row(db,tender_id,version_id,lock=True);snapshot=_verified(db,row)
     request_hash=digest(request.model_dump(mode='json'))
     if row.state=='FROZEN':
-        if row.freeze_acknowledgements['request_sha256']==request_hash:return _view(db,row,snapshot)
+        compatible_hashes={request_hash}
+        if 'composition_sha256' not in row.freeze_acknowledgements and request.expected_composition_revision is None and not request.acknowledge_composition_review:
+            # Retry of an already-frozen M9-A request retains its original byte contract.
+            compatible_hashes.add(digest(request.model_dump(mode='json',exclude={'expected_composition_revision','acknowledge_composition_review'})))
+        if row.freeze_acknowledgements['request_sha256'] in compatible_hashes:return _view(db,row,snapshot)
         raise HTTPException(409,'FROZEN_PROPOSAL_IMMUTABLE')
     _editable(db,row,request.expected_edit_revision)
     state=_confirm(db,tender_id,snapshot,request)
+    from app.proposal_composition import freeze_precheck
+    composition_receipt=freeze_precheck(db,row,snapshot,request)
     row.state='FROZEN';row.frozen_at=datetime.now(timezone.utc);row.updated_at=row.frozen_at;row.frozen_actor_label=request.actor_label
-    row.freeze_acknowledgements={'request_sha256':request_hash,'warnings':request.acknowledge_warnings,'stale':request.acknowledge_stale,'source_state':state}
+    row.freeze_acknowledgements={'request_sha256':request_hash,'warnings':request.acknowledge_warnings,'stale':request.acknowledge_stale,'source_state':state,**composition_receipt}
     row.edit_revision+=1;row.frozen_sha256=digest(frozen_envelope(row));db.flush()
     _event(db,row,'FROZEN',request.actor_label,{'frozen_sha256':row.frozen_sha256,'source_state':state})
     return _view(db,row,snapshot)

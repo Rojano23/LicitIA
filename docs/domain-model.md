@@ -714,3 +714,14 @@ lineal, configuración tipada DRAFT/FROZEN, revisión optimista y freeze hash; P
 conserva CREATED/CONFIGURED/FROZEN/SUPERSEDED sin modificar frozen anterior. Input DTO
 `proposal-builder-v1` reutiliza handoff M8-D, sin duplicar fuentes ni calcular valores.
 [Contrato](proposal-version-foundation.md), Alembic076.
+
+M9-B: ProposalComposition (077) es overlay por ProposalVersion, PK/FK RESTRICT;
+contrato `proposal-composition-v1`, revisión optimista, respuestas por tipo+ID canónico,
+secciones y contenido humano tipados. Freeze vincula hash del overlay; triggers protegen
+último DRAFT y versiones frozen/históricas. Reconciliación marca SOURCE_CHANGED para revisión.
+No duplica fuentes/precios ni modifica readiness. [Contrato](proposal-composition.md).
+
+Gate M9-B: ProposalComposition.content.sources conserva el literal de Requirement/Requested
+Evidence consumido por esa versión, tipo/ID, referencias, fingerprint y hash; no es nueva
+fuente canónica. La fuente actual es mutable, así que no se usa para renderizar frozen.
+Representaciones legacy sin literal no se reparan retrospectivamente. Sin nueva migración.

@@ -3387,7 +3387,7 @@ class ProposalVersionEvent(Base):
     __table_args__ = (
         UniqueConstraint('version_id','sequence',name='uq_proposal_event_sequence'),
         CheckConstraint('sequence > 0',name='ck_proposal_event_sequence'),
-        CheckConstraint("action IN ('CREATED','CONFIGURED','FROZEN','SUPERSEDED')",name='ck_proposal_event_action'),
+        CheckConstraint("action IN ('CREATED','CONFIGURED','FROZEN','SUPERSEDED','COMPOSITION_INITIALIZED','COMPOSITION_UPDATED')",name='ck_proposal_event_action'),
     )
     id: Mapped[str] = mapped_column(String(36),primary_key=True)
     version_id: Mapped[str] = mapped_column(String(36),ForeignKey('proposal_versions.id',ondelete='RESTRICT'),nullable=False)
@@ -3396,3 +3396,17 @@ class ProposalVersionEvent(Base):
     actor_label: Mapped[str | None] = mapped_column(String(200))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True),nullable=False)
     details: Mapped[dict] = mapped_column(JSON,nullable=False)
+
+
+class ProposalComposition(Base):
+    __tablename__ = 'proposal_compositions'
+    __table_args__ = (
+        CheckConstraint('revision > 0', name='ck_composition_revision'),
+        CheckConstraint("contract_version = 'proposal-composition-v1'", name='ck_composition_contract'),
+    )
+    version_id: Mapped[str] = mapped_column(String(36), ForeignKey('proposal_versions.id', ondelete='RESTRICT'), primary_key=True)
+    contract_version: Mapped[str] = mapped_column(String(32), nullable=False)
+    revision: Mapped[int] = mapped_column(Integer, nullable=False)
+    content: Mapped[dict] = mapped_column(JSON, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)

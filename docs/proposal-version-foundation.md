@@ -1,7 +1,7 @@
 # MVP-09 M9-A — dominio de propuesta y versiones
 
 MVP-08 CLOSED / M8-D ACCEPTED, commit `2bcd556b6b785412a5cf24b81d2ccac770e995a4`.
-M9-A implementado para revisión, sin stage/commit/push. LicitIA sigue como nombre interno;
+M9-A ACCEPTED, commit `1c48667e32ecb108355e281c687ff45710bdb02a`, sin push. LicitIA sigue como nombre interno;
 producto público futuro por definir, distribución inicial RX23 Digital local/on-premise.
 No renaming ni UI final. [ADR-0029](adr/0029-proposal-version-foundation.md) documentó076
 antes de implementación; [revisión open source](proposal-builder-open-source-review.md).
@@ -127,3 +127,10 @@ UI final, renderer/editor rico o generación de prosa. Outputs futuros deben ser
 M9-B recomendado: composición determinista de secciones/matrices con source IDs y overlays
 humanos, ligada a versión DRAFT/freeze; diseñar contrato tipado sin producir archivos aún.
 M9-C añadirá export editable y manifiesto de outputs tras selección de dependencias/licencias.
+
+## Evolución M9-B
+
+M9-A ACCEPTED, commit `1c48667e32ecb108355e281c687ff45710bdb02a`, sin push.
+M9-B añade [composición](proposal-composition.md) en077: todo freeze nuevo requiere
+composición inicializada, revisión explícita y completitud. Frozen históricos sin overlay
+conservan el hash M9-A. No se modificó076 ni el envelope histórico.

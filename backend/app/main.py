@@ -3621,3 +3621,38 @@ def proposal_version_audit_endpoint(tender_id: str,version_id: str,limit: int=Qu
                                     before_sequence: int | None=Query(None,ge=1),db: Session = Depends(get_proposal_db)):
     from app.proposal_versions import version_history
     return version_history(db,tender_id,version_id,limit=limit,before_sequence=before_sequence)
+
+
+from app.proposal_composition import Initialize as CompositionInitialize, ChangeResponses, ChangeSettings
+
+
+@app.get('/tenders/{tender_id}/proposal-versions/{version_id}/composition')
+def proposal_composition_get_endpoint(tender_id: str, version_id: str, section: str | None = None,
+        offset: int = Query(0, ge=0), limit: int = Query(50, ge=1, le=200), db: Session = Depends(get_proposal_db)):
+    from app.proposal_composition import projection
+    return projection(db, tender_id, version_id, section=section, offset=offset, limit=limit)
+
+
+@app.post('/tenders/{tender_id}/proposal-versions/{version_id}/composition/initialize')
+def proposal_composition_initialize_endpoint(tender_id: str, version_id: str, payload: CompositionInitialize, db: Session = Depends(get_proposal_db)):
+    from app.proposal_composition import initialize
+    return _proposal_write(db, lambda: initialize(db, tender_id, version_id, payload))
+
+
+@app.patch('/tenders/{tender_id}/proposal-versions/{version_id}/composition/responses')
+def proposal_composition_responses_endpoint(tender_id: str, version_id: str, payload: ChangeResponses, db: Session = Depends(get_proposal_db)):
+    from app.proposal_composition import change_responses
+    return _proposal_write(db, lambda: change_responses(db, tender_id, version_id, payload))
+
+
+@app.patch('/tenders/{tender_id}/proposal-versions/{version_id}/composition/settings')
+def proposal_composition_settings_endpoint(tender_id: str, version_id: str, payload: ChangeSettings, db: Session = Depends(get_proposal_db)):
+    from app.proposal_composition import change_settings
+    return _proposal_write(db, lambda: change_settings(db, tender_id, version_id, payload))
+
+
+@app.get('/tenders/{tender_id}/proposal-versions/{version_id}/composition/summary')
+def proposal_composition_summary_endpoint(tender_id: str, version_id: str, db: Session = Depends(get_proposal_db)):
+    from app.proposal_composition import projection
+    value = projection(db, tender_id, version_id, limit=1)
+    return {'initialized': value['initialized'], 'summary': value.get('summary'), 'revision': value.get('revision')}

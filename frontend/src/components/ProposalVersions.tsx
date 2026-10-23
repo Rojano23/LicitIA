@@ -1,12 +1,15 @@
+import {ProposalComposition} from "./ProposalComposition";
+import type {Composition} from "../api/proposalComposition";
 import {useEffect,useRef,useState} from "react";
 import {versionsApi,type ProposalVersion,type ProposalConfig,type VersionPage,type CreateVersion,type ProposalEvent} from "../api/proposalVersions";
 export function ProposalVersions({apiUrl,tenderId,disabled}:{apiUrl:string;tenderId:string;disabled:boolean}){
  const [page,setPage]=useState<VersionPage|null>(null),[selected,setSelected]=useState<ProposalVersion|null>(null),[config,setConfig]=useState<ProposalConfig|null>(null);
  const [snapshot,setSnapshot]=useState(""),[actor,setActor]=useState(""),[warnings,setWarnings]=useState(false),[stale,setStale]=useState(false),[confirmFreeze,setConfirmFreeze]=useState(false);
  const [source,setSource]=useState<string|null>(null),[history,setHistory]=useState<ProposalEvent[]>([]),[busy,setBusy]=useState(false),[error,setError]=useState(false);
+ const [composition,setComposition]=useState<Composition|null>(null),[compositionAck,setCompositionAck]=useState(false);
  const pending=useRef<CreateVersion|null>(null),mounted=useRef(true);useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;};},[]);
  async function run(work:()=>Promise<void>){setBusy(true);setError(false);try{await work();}catch{if(mounted.current)setError(true);}finally{if(mounted.current)setBusy(false);}}
- function adopt(value:ProposalVersion){if(!mounted.current)return;setSelected(value);setConfig(value.configuration);setSource(null);setHistory([]);setConfirmFreeze(false);}
+ function adopt(value:ProposalVersion){if(!mounted.current)return;setSelected(value);setConfig(value.configuration);setSource(null);setHistory([]);setConfirmFreeze(false);setComposition(null);setCompositionAck(false);}
  async function list(before?:string){await run(async()=>{const value=await versionsApi.list(apiUrl,tenderId,before);if(mounted.current)setPage(value);});}
  async function inspect(id:string){await run(async()=>{const value=await versionsApi.get(apiUrl,tenderId,id);adopt(value);});}
  async function create(revision:boolean){if(revision&&!selected)return;await run(async()=>{
@@ -35,11 +38,13 @@ export function ProposalVersions({apiUrl,tenderId,disabled}:{apiUrl:string;tende
  <label>Referencia del participante <input maxLength={200} value={config.bidder_reference??""} onChange={e=>setConfig({...config,bidder_reference:e.target.value||null})}/></label>
  <label>Presentación de monedas <select value={config.currency_presentation} onChange={e=>setConfig({...config,currency_presentation:e.target.value as ProposalConfig["currency_presentation"]})}><option>BY_CURRENCY</option><option>ORIGINAL</option></select></label>
  <label>Notas de propuesta <textarea maxLength={4000} value={config.notes??""} onChange={e=>setConfig({...config,notes:e.target.value||null})}/></label>
- <p>Secciones genéricas: {selected.sections.map(s=>s.type).join(" · ")}. Inclusión/orden configurables por API; composición en M9-B.</p>
+ <p>Secciones genéricas: {selected.sections.map(s=>s.type).join(" · ")}. Disposición y respuestas disponibles en el compositor.</p>
  <button onClick={()=>void run(async()=>adopt(await versionsApi.update(apiUrl,tenderId,selected,config,actor||null)))}>Guardar configuración de propuesta</button></fieldset>
- <label><input type="checkbox" disabled={disabled||busy||!editable} checked={confirmFreeze} onChange={e=>setConfirmFreeze(e.target.checked)}/>Confirmo congelar esta configuración; después requerirá una nueva revisión</label>
+ <ProposalComposition key={selected.id} apiUrl={apiUrl} tenderId={tenderId} versionId={selected.id} editable={!!editable} disabled={disabled||busy} onState={setComposition}/>
+ <label><input type="checkbox" disabled={disabled||busy||!editable} checked={compositionAck} onChange={e=>setCompositionAck(e.target.checked)}/>Acepto las revisiones intencionales de composición</label>
+ <label><input type="checkbox" disabled={disabled||busy||!editable} checked={confirmFreeze} onChange={e=>setConfirmFreeze(e.target.checked)}/>Confirmo congelar esta versión y toda su composición; después requerirá una nueva revisión</label>
  {dirty&&<p>Guarda la configuración antes de congelar esta versión.</p>}
- <button disabled={disabled||busy||!editable||!confirmFreeze||dirty} onClick={()=>void run(async()=>adopt(await versionsApi.freeze(apiUrl,tenderId,selected,warnings,stale,actor||null)))}>Congelar versión de propuesta</button>
+ <button disabled={disabled||busy||!editable||!confirmFreeze||dirty||!composition?.initialized||!!composition.summary?.hard_incomplete.length||!!composition.summary?.blocking_review.length||!!(composition.summary?.acknowledgeable_review.length&&!compositionAck)} onClick={()=>void run(async()=>adopt(await versionsApi.freeze(apiUrl,tenderId,selected,warnings,stale,actor||null,composition?.revision,compositionAck)))}>Congelar versión de propuesta</button>
  <button disabled={disabled||busy} onClick={()=>void run(async()=>{const events=await versionsApi.history(apiUrl,tenderId,selected.id);if(mounted.current)setHistory(events);})}>Consultar auditoría de propuesta</button>
  {history.map(e=><p key={e.sequence}>{e.sequence} · {e.action} · {e.created_at} · {e.actor_label??"Actor no declarado"}</p>)}
  <a href={`${apiUrl}/tenders/${tenderId}/proposal-versions/${selected.id}/inputs`} target="_blank" rel="noreferrer">Consultar input canónico de esta versión</a></>}

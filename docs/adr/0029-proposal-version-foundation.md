@@ -1,6 +1,6 @@
 # ADR-0029 — M9-A: versiones de propuesta ligadas a snapshot
 
-Estado: implementación autorizada para revisión. Schema documentado antes de076.
+Estado: aceptado arquitectónicamente; M9-A commit `1c48667e32ecb108355e281c687ff45710bdb02a`, sin push. Schema documentado antes de076.
 MVP-08 CLOSED / M8-D ACCEPTED (`2bcd556`). Sin M8-E. LicitIA es nombre interno; primera
 salida comercial local/on-premise bajo RX23 Digital; sin renaming ni diseño UI final.
 

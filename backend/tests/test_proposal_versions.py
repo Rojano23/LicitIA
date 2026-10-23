@@ -16,13 +16,26 @@ from tests.test_readiness_work import read
 def create(c,t,snapshot,**changes):
     payload={'request_id':str(uuid4()),'snapshot_id':snapshot['payload']['snapshot_id'],'acknowledge_warnings':True,**changes}
     response=c.post(f'/tenders/{t}/proposal-versions',json=payload)
+    if response.status_code!=200:
+        from pathlib import Path
+        import json
+        Path('reports/m9_b').mkdir(parents=True,exist_ok=True)
+        Path('reports/m9_b/fixture_diagnostic.json').write_text(json.dumps({'response':response.text,'snapshot':snapshot,'current':evaluate(c,t)},indent=2))
     assert response.status_code==200,response.text
     return response.json(),payload
 
 
 @pytest.fixture
 def ready(complete):
-    c,t,db,m=complete;snapshot,_=create_snapshot(c,t)
+    c,t,db,m=complete
+    current=evaluate(c,t)
+    if current['projection']['eligibility'] not in {'ELIGIBLE','ELIGIBLE_WITH_WARNINGS'}:
+        from pathlib import Path
+        import json
+        Path('reports/m9_b').mkdir(parents=True,exist_ok=True)
+        Path('reports/m9_b/fixture_ready_diagnostic.json').write_text(json.dumps(current,indent=2))
+    assert current['projection']['eligibility'] in {'ELIGIBLE','ELIGIBLE_WITH_WARNINGS'},current
+    snapshot,_=create_snapshot(c,t,current)
     return c,t,db,m,snapshot
 
 
@@ -73,7 +86,9 @@ def test_m9a07_13_14_15_16_17_revision_and_freeze(ready):
     assert update.status_code==200,update.text
     draft=update.json();assert draft['edit_revision']==2 and draft['configuration']['title']=='Propuesta humana'
     assert c.patch(route,json={'expected_edit_revision':1,'configuration':config}).status_code==409
-    payload={'expected_edit_revision':2,'acknowledge_warnings':True,'actor_label':'Responsable'}
+    from tests.test_proposal_composition import finish
+    composition=finish(c,t,draft)
+    payload={'expected_edit_revision':2,'expected_composition_revision':composition['revision'],'acknowledge_warnings':True,'actor_label':'Responsable'}
     frozen=c.post(route+'/freeze',json=payload);assert frozen.status_code==200,frozen.text
     frozen=frozen.json();assert frozen['state']=='FROZEN' and frozen['frozen_sha256']
     assert c.post(route+'/freeze',json=payload).json()==frozen
@@ -85,7 +100,7 @@ def test_m9a07_13_14_15_16_17_revision_and_freeze(ready):
     second,_=create(c,t,newer,proposal_id=first['proposal_id'],previous_version_id=first['id'])
     assert second['version']==2 and second['previous_version_id']==first['id'] and second['configuration']==config
     old=read(c,route);assert old['frozen_sha256']==frozen['frozen_sha256'] and old['configuration']==config and not old['is_latest']
-    audit=read(c,route+'/history');assert [e['action'] for e in audit]==['SUPERSEDED','FROZEN','CONFIGURED','CREATED']
+    audit=read(c,route+'/history');assert [e['action'] for e in audit if not e['action'].startswith('COMPOSITION_')]==['SUPERSEDED','FROZEN','CONFIGURED','CREATED']
     page=read(c,f'/tenders/{t}/proposal-versions?limit=1');assert page['items'][0]['id']==second['id']
     assert read(c,f"/tenders/{t}/proposal-versions?limit=1&before_id={page['next_before_id']}")['items'][0]['id']==first['id']
 
@@ -126,7 +141,9 @@ def test_section_validation_and_append_only_events(ready):
 
 def test_frozen_hash_detects_in_memory_tamper(ready):
     c,t,db,m,snapshot=ready;value,_=create(c,t,snapshot);route=f"/tenders/{t}/proposal-versions/{value['id']}"
-    assert c.post(route+'/freeze',json={'expected_edit_revision':1,'acknowledge_warnings':True}).status_code==200
+    from tests.test_proposal_composition import finish
+    composition=finish(c,t,value)
+    assert c.post(route+'/freeze',json={'expected_edit_revision':1,'expected_composition_revision':composition['revision'],'acknowledge_warnings':True}).status_code==200
     row=db.get(ProposalVersion,value['id']);row.configuration={**row.configuration,'title':'Tampered'}
     assert c.get(route+'/inputs').status_code==409
     db.expire(row)

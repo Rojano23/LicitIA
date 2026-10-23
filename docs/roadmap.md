@@ -429,13 +429,13 @@ memoria siguen como límites. M8-D aceptado y comprometido; sin M8-E.
 
 ### Estado y slices
 
-**MVP-09 OPEN — M9-A implementado para revisión, sin stage/commit/push.** [Contrato](proposal-version-foundation.md),
+**MVP-09 OPEN — M9-A ACCEPTED, commit `1c48667e32ecb108355e281c687ff45710bdb02a`, sin push. M9-B FUNCTIONALLY ACCEPTED; gate de reproducibilidad PASS, commit autorizado.** [Contrato](proposal-version-foundation.md),
 [ADR-0029](adr/0029-proposal-version-foundation.md), Alembic076. Revisión open source de referencia,
 sin dependencias nuevas. LicitIA es nombre interno; futura distribución RX23 Digital local/on-premise,
 sin renaming ni UI final.
 
 - M9-A: Proposal/Version, snapshot binding, configuración DRAFT, freeze/hash/audit/revisión.
-- M9-B: composición determinista de secciones/matrices (pendiente).
+- M9-B: composición determinista de secciones/matrices, respuestas humanas separadas, reconciliación por identidad/fingerprint, completitud y freeze precheck. FUNCTIONALLY ACCEPTED; captura de literales por versión validada, sin nueva migración; [contrato](proposal-composition.md), [ADR-0030](adr/0030-proposal-composition.md), Alembic077.
 - M9-C: exports editables/paquete (pendiente).
 - M9-D: validación, trazabilidad y cierre (pendiente).
 

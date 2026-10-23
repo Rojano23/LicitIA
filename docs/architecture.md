@@ -495,3 +495,15 @@ aparte, sin mutar snapshot. No ProposalVersion ni generación. [ADR-0028](adr/00
 Proposal/Version/Event en076, DRAFT/FROZEN, binding fijo, auditoría append-only y hash frozen.
 Freshness aparte; no renderer, DI, cálculo comercial o dependencia LLM.
 [ADR-0029](adr/0029-proposal-version-foundation.md), [contrato](proposal-version-foundation.md).
+
+## 26. Composición M9-B
+
+`proposal_composition.py` deriva sólo el snapshot verificado de ProposalVersion; overlay humano
+local persistido en077. No consulta fuentes mutables para componer ni llama proveedores.
+Paginación por sección, bulk explícito acotado, auditoría append-only de cambios, reconciliación
+por ID/fingerprint y precheck de freeze. Históricos M9-A conservan verificación original.
+[ADR-0030](adr/0030-proposal-composition.md).
+
+El gate de reproducibilidad M9-B materializa inputs textuales en el JSON de077 al inicializar,
+con fingerprint igual al snapshot. No rediseña M8-D ni vuelve a extraer documentos. Lectura y
+render posterior sólo consumen versión preservada; frozen legacy no recibe backfill mutable.
