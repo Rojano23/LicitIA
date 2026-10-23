@@ -1,6 +1,8 @@
 # LicitIA
 
-**Estado:** MVP-08 CLOSED — gates A–L PASS; M8-D ACCEPTED (`2bcd556`); MVP-09 M9-A ACCEPTED (`1c48667`); M9-B/C ACCEPTED; MVP-09 CLOSED — gates A–P PASS, M9-D ACCEPTED. MVP-06.V y MVP-07 cerrados; operación local LIMITED UAT.
+**Estado vigente:** MVP-01 through MVP-10 CLOSED. Implementación funcional MVP terminada; siguiente fase: RX23 TuScope Product UI / UX. [Especificación UI-R0](docs/RX23_TUSCOPE_PRODUCT_UI_RECONCILIATION_v1.md).
+
+**Detalle histórico:** MVP-08 CLOSED — gates A–L PASS; M8-D ACCEPTED (`2bcd556`); MVP-09 M9-A ACCEPTED (`1c48667`); M9-B/C ACCEPTED; MVP-09 CLOSED — gates A–P PASS, M9-D ACCEPTED. MVP-06.V y MVP-07 cerrados; operación local LIMITED UAT.
 **Nombre:** LicitIA es interno; futuro producto público RX23 TuScope; renaming posterior a MVP-10 CLOSED. Primera distribución RX23 Digital local/on-premise; sin cambio de marca en MVP-09.
 **Versión de definición:** v0.1  
 **Perfil institucional inicial:** PEMEX / SNR — Concursos Abiertos  
@@ -26,7 +28,7 @@ Discovery opcional, separado de Tender Analysis.
 [M10-C monitoreo/handoff](docs/discovery-monitoring-handoff.md): seguimiento, cambios deterministas
 y creación/importación explícita de Tender, migración079; ACCEPTED, commit `4a4a629`, sin push.
 MANUAL SCAN ONLY FOR PRIVATE BETA.
-[MVP-10 CLOSED — M10-D](docs/discovery-closure.md): gates A–T PASS, cierre listo para revisión;
+[MVP-10 CLOSED — M10-D](docs/discovery-closure.md): M10-D ACCEPTED; gates A–T PASS;
 PEMEX/CFE soportados, Compras MX automatizado diferido. Sin renaming/UI final en este slice.
 
 ## Principio rector

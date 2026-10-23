@@ -1,6 +1,8 @@
 # LicitIA — Product UI Blueprint v0.1
 
-**Estado:** Draft aprobado como guía de producto  
+**Estado:** Guía histórica aprobada; reconciliada para MVP-01–10 por [UI-R0 v1](RX23_TUSCOPE_PRODUCT_UI_RECONCILIATION_v1.md). La propuesta UI-R0 requiere revisión arquitectónica.
+
+**Estado histórico:** Draft aprobado como guía de producto
 **Fecha:** 2026-08-28  
 **Alcance:** Primer MVP single-user  
 **Referencia:** Trabajo acumulado hasta cierre de MVP-02 — Document Intelligence Foundation

@@ -1,3 +1,16 @@
+# Estado vigente — cierre funcional y Product UI / UX
+
+**MVP-01 through MVP-10 CLOSED.** Cierre arquitectónico formal; M10-D ACCEPTED.
+Commit M10-D: `8668fb240db70564bab26d420609e42819a4f3ab` (`fix(discovery): preserve handoff provenance and close mvp-10`).
+No M10-E ni MVP-11. El cierre funcional no declara terminada la UI ni lista una Beta externa.
+
+Siguiente fase: **RX23 TuScope Product UI / UX**. UI-R0 entrega únicamente auditoría y
+[especificación canónica](RX23_TUSCOPE_PRODUCT_UI_RECONCILIATION_v1.md), pendiente de revisión arquitectónica.
+UI-R1–R7 son slices propuestos, no implementados/autorizados por este documento.
+Después de UI final: pruebas reales del product owner → demos controladas → correcciones →
+instalador Windows → Private Beta externa instalada. Sin nuevas fuentes/backend/IA ahora.
+El detalle siguiente conserva la secuencia histórica de implementación y aceptación.
+
 # LicitIA — Roadmap v0.1
 
 ## Filosofía del roadmap
