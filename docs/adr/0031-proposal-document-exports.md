@@ -1,6 +1,6 @@
 # ADR-0031 — Exports locales sobre composición preservada
 
-Estado: implementación autorizada para revisión M9-C, después del gate/commit M9-B.
+Estado: ACCEPTED M9-C, commit49c36ab; gate de reproducibilidad M9-B preservado.
 
 ## Autoridad
 

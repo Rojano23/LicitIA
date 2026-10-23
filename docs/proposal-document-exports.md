@@ -1,6 +1,7 @@
 # M9-C — Proposal Document Exports
 
-Implementación para revisión arquitectónica; MVP-09 permanece abierto. M9-B aceptado y
+M9-C ACCEPTED, commit `49c36ab39c3a697fcc993e64be98960045bb400b`, sin push.
+Cierre MVP-09 sujeto a [gates M9-D](proposal-builder-closure.md). M9-B aceptado y
 comprometido en `ba2e1437d72753292e88990ec61622da7753bc4b`. [ADR-0031](adr/0031-proposal-document-exports.md).
 
 ## Contrato y autoridad
