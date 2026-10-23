@@ -507,3 +507,11 @@ por ID/fingerprint y precheck de freeze. Históricos M9-A conservan verificació
 El gate de reproducibilidad M9-B materializa inputs textuales en el JSON de077 al inicializar,
 con fingerprint igual al snapshot. No rediseña M8-D ni vuelve a extraer documentos. Lectura y
 render posterior sólo consumen versión preservada; frozen legacy no recibe backfill mutable.
+
+## 27. Exports M9-C
+
+`proposal_exports.py` construye el DTO `proposal-export-v1` desde snapshot/composición
+preservados; renderers puros locales sin Session. Allowlist externa excluye costos internos.
+Historia, manifiesto y receipt en storage/proposal-exports-v1, publicación atómica y checksums,
+sin migración078; RC-H3 respalda metadata y binarios. [ADR-0031](adr/0031-proposal-document-exports.md),
+[contrato/API](proposal-document-exports.md). Export no modifica fuentes ni recalcula precios.

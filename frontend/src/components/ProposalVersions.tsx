@@ -1,3 +1,4 @@
+import {ProposalExports} from "./ProposalExports";
 import {ProposalComposition} from "./ProposalComposition";
 import type {Composition} from "../api/proposalComposition";
 import {useEffect,useRef,useState} from "react";
@@ -45,6 +46,7 @@ export function ProposalVersions({apiUrl,tenderId,disabled}:{apiUrl:string;tende
  <label><input type="checkbox" disabled={disabled||busy||!editable} checked={confirmFreeze} onChange={e=>setConfirmFreeze(e.target.checked)}/>Confirmo congelar esta versión y toda su composición; después requerirá una nueva revisión</label>
  {dirty&&<p>Guarda la configuración antes de congelar esta versión.</p>}
  <button disabled={disabled||busy||!editable||!confirmFreeze||dirty||!composition?.initialized||!!composition.summary?.hard_incomplete.length||!!composition.summary?.blocking_review.length||!!(composition.summary?.acknowledgeable_review.length&&!compositionAck)} onClick={()=>void run(async()=>adopt(await versionsApi.freeze(apiUrl,tenderId,selected,warnings,stale,actor||null,composition?.revision,compositionAck)))}>Congelar versión de propuesta</button>
+ <ProposalExports key={`exports:${selected.id}`} apiUrl={apiUrl} tenderId={tenderId} version={selected} compositionRevision={composition?.revision??null} disabled={disabled||busy||dirty||!composition?.initialized}/>
  <button disabled={disabled||busy} onClick={()=>void run(async()=>{const events=await versionsApi.history(apiUrl,tenderId,selected.id);if(mounted.current)setHistory(events);})}>Consultar auditoría de propuesta</button>
  {history.map(e=><p key={e.sequence}>{e.sequence} · {e.action} · {e.created_at} · {e.actor_label??"Actor no declarado"}</p>)}
  <a href={`${apiUrl}/tenders/${tenderId}/proposal-versions/${selected.id}/inputs`} target="_blank" rel="noreferrer">Consultar input canónico de esta versión</a></>}

@@ -3656,3 +3656,38 @@ def proposal_composition_summary_endpoint(tender_id: str, version_id: str, db: S
     from app.proposal_composition import projection
     value = projection(db, tender_id, version_id, limit=1)
     return {'initialized': value['initialized'], 'summary': value.get('summary'), 'revision': value.get('revision')}
+
+
+from app.proposal_export_contract import ExportRequest
+
+
+@app.post('/tenders/{tender_id}/proposal-versions/{version_id}/exports')
+def proposal_export_create_endpoint(tender_id: str, version_id: str, payload: ExportRequest, db: Session = Depends(get_proposal_db)):
+    from app.proposal_exports import create_export
+    return create_export(db, tender_id, version_id, payload)
+
+
+@app.get('/tenders/{tender_id}/proposal-versions/{version_id}/exports')
+def proposal_export_list_endpoint(tender_id: str, version_id: str, limit: int = Query(20, ge=1, le=50),
+        before_id: str | None = None, db: Session = Depends(get_proposal_db)):
+    from app.proposal_exports import list_exports
+    return list_exports(db, tender_id, version_id, limit=limit, before_id=before_id)
+
+
+@app.get('/tenders/{tender_id}/proposal-versions/{version_id}/exports/{request_id}')
+def proposal_export_metadata_endpoint(tender_id: str, version_id: str, request_id: str, db: Session = Depends(get_proposal_db)):
+    from app.proposal_exports import export_metadata
+    return export_metadata(db, tender_id, version_id, request_id)
+
+
+@app.post('/tenders/{tender_id}/proposal-versions/{version_id}/exports/{request_id}/verify')
+def proposal_export_verify_endpoint(tender_id: str, version_id: str, request_id: str, db: Session = Depends(get_proposal_db)):
+    from app.proposal_exports import verify_export
+    return verify_export(db, tender_id, version_id, request_id)
+
+
+@app.get('/tenders/{tender_id}/proposal-versions/{version_id}/exports/{request_id}/files/{artifact_type}')
+def proposal_export_file_endpoint(tender_id: str, version_id: str, request_id: str, artifact_type: str, db: Session = Depends(get_proposal_db)):
+    from app.proposal_exports import artifact_file
+    path, name, mime = artifact_file(db, tender_id, version_id, request_id, artifact_type)
+    return FileResponse(path, filename=name, media_type=mime)

@@ -725,3 +725,9 @@ Gate M9-B: ProposalComposition.content.sources conserva el literal de Requiremen
 Evidence consumido por esa versión, tipo/ID, referencias, fingerprint y hash; no es nueva
 fuente canónica. La fuente actual es mutable, así que no se usa para renderizar frozen.
 Representaciones legacy sin literal no se reparan retrospectivamente. Sin nueva migración.
+
+M9-C: ExportContent es DTO externo derivado de ProposalVersion/snapshot/composición preservados.
+ExportRequest identifica generación idempotente; manifest y receipt versionados conservan
+identidad, hashes y archivos bajo storage. No entidad SQL nueva ni cambio a077. Históricos
+FROZEN se exportan sin reconstrucción desde Requirement/Evidence mutable.
+[Contrato de exports](proposal-document-exports.md).

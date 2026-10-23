@@ -8,6 +8,8 @@ dependencies = [
   "pytesseract==0.3.13",
   "camelot-py==2.0.0",
   "openpyxl==3.1.5",
+  "python-docx==1.2.0",
+  "reportlab==5.1.0",
 ]
 
 [tool.pytest.ini_options]
