@@ -27,7 +27,7 @@ beforeEach(() => {
 it("workspace selection exposes Scope Review beside canonical items without automatic writes", async () => {
   const user = userEvent.setup();
   render(<App />);
-  expect(screen.getByRole("heading", { name: "LicitIA — Tender Workspace" })).toBeVisible();
+  expect(screen.getByRole("heading", { name: "RX23 TuScope — Licitaciones" })).toBeVisible();
   expect(screen.getByRole("heading", { name: /Biblioteca empresarial/ })).toBeVisible();
   expect(screen.queryByRole("heading", { name: "Revisión de alcance" })).not.toBeInTheDocument();
   await user.click(await screen.findByRole("button", { name: /Licitación sintética de interfaz/ }));
@@ -36,7 +36,7 @@ it("workspace selection exposes Scope Review beside canonical items without auto
   expect(window.localStorage.getItem("licitia_selected_tender_id")).toBe(tender.id);
   expect(axios.get).not.toHaveBeenCalledWith("http://localhost:8000/tenders/tender-1/scope-review");
   await user.click(screen.getByRole("button", { name: "Abrir revisión de alcance" }));
-  await screen.findByRole("heading", { name: "Lo que LicitIA encontró" });
+  await screen.findByRole("heading", { name: "Lo que RX23 TuScope encontró" });
   expect(within(screen.getByLabelText("Detalle de alcance")).getByText("numeral 4.2")).toBeVisible();
   expect(axios.post).not.toHaveBeenCalled();
 });

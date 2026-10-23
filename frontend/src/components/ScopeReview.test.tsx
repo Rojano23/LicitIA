@@ -30,7 +30,7 @@ async function open() {
   return user;
 }
 async function loaded() {
-  await screen.findByRole("heading", { name: "Lo que LicitIA encontró" });
+  await screen.findByRole("heading", { name: "Lo que RX23 TuScope encontró" });
 }
 function seed(item: ScopeReviewItem) {
   queue = [item];
@@ -96,8 +96,8 @@ describe("MVP-06.6.3 Human Scope Review", () => {
     const region = within(detailRegion());
     expect(region.getByText("Requiere revisión", { selector: "strong" })).toBeVisible();
     expect(region.getByText("Sin revisión humana")).toBeVisible();
-    expect(region.getByText("LicitIA originalmente requirió revisión.")).toBeVisible();
-    expect(region.getByText("LicitIA marcó este hallazgo para revisión humana.")).toBeVisible();
+    expect(region.getByText("RX23 TuScope originalmente requirió revisión.")).toBeVisible();
+    expect(region.getByText("RX23 TuScope marcó este hallazgo para revisión humana.")).toBeVisible();
   });
 
   it("UI05 confirmation sends exact fingerprint/revision and optional note", async () => {
@@ -154,7 +154,7 @@ describe("MVP-06.6.3 Human Scope Review", () => {
     const user = await open(); await loaded();
     await user.click(screen.getByRole("button", { name: "Corregir" }));
     await user.click(screen.getByRole("button", { name: "Guardar corrección" }));
-    expect(await screen.findByText("Decisión guardada. El estado mostrado fue recalculado por LicitIA.")).toBeVisible();
+    expect(await screen.findByText("Decisión guardada. El estado mostrado fue recalculado por RX23 TuScope.")).toBeVisible();
     expect(within(detailRegion()).getByText("Descripción recalculada por el backend")).toBeVisible();
     expect(screen.getByRole("button", { name: /Inspeccionar equipo scope-1.*Corregido/ })).toBeVisible();
     expect(screen.getByText("Aplicable actualmente · Revisión actual")).toBeVisible();
@@ -243,11 +243,11 @@ describe("MVP-06.6.3 Human Scope Review", () => {
     queue.push(confirmed(scopeItem("human-resolved"))); details.set("human-resolved", queue[1]);
     const user = await open(); await loaded();
     expect(within(detailRegion()).getByText("Sin revisión requerida")).toBeVisible();
-    expect(screen.getByText("LicitIA no requirió revisión automática.")).toBeVisible();
+    expect(screen.getByText("RX23 TuScope no requirió revisión automática.")).toBeVisible();
     await user.click(screen.getByRole("button", { name: /Inspeccionar equipo human-resolved/ }));
     expect(await screen.findByText("La decisión humana resolvió la revisión del hallazgo.")).toBeVisible();
     expect(within(detailRegion()).getByText("Confirmado")).toBeVisible();
-    expect(screen.getByText("LicitIA originalmente requirió revisión.")).toBeVisible();
+    expect(screen.getByText("RX23 TuScope originalmente requirió revisión.")).toBeVisible();
   });
 
   it("UI16 shows loading for queue and detail", async () => {
@@ -395,7 +395,7 @@ describe("Scope Review lifecycle and recovery", () => {
   it("closing and reopening reads persisted state again", async () => {
     const user = await open(); await loaded();
     await user.click(screen.getByRole("button", { name: "Cerrar revisión de alcance" }));
-    expect(screen.queryByRole("heading", { name: "Lo que LicitIA encontró" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Lo que RX23 TuScope encontró" })).not.toBeInTheDocument();
     seed(confirmed(scopeItem()));
     await user.click(screen.getByRole("button", { name: "Abrir revisión de alcance" }));
     await loaded();

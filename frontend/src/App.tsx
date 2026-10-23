@@ -1495,7 +1495,9 @@ type TenderComplianceReview = {
 const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
-function App() {
+export type WorkspaceContext = { id: string; title: string; reference: string | null; status: string };
+type AppProps = { embedded?: boolean; requestedTenderId?: string; onTenderOpen?: (id: string) => void; onContext?: (context: WorkspaceContext | null) => void; onAvailability?: (state: "loading" | "ready" | "error") => void };
+function App({ embedded = false, requestedTenderId, onTenderOpen, onContext, onAvailability }: AppProps = {}) {
   const [tenders, setTenders] = useState<Tender[]>([]);
   const [selectedTenderId, setSelectedTenderId] = useState<string | null>(null);
   const [documents, setDocuments] = useState<TenderDocument[]>([]);
@@ -1631,11 +1633,13 @@ function App() {
   ];
 
   const loadTenders = async () => {
+    onAvailability?.("loading");
     try {
       const response = await axios.get<Tender[]>(`${API_URL}/tenders`);
       setTenders(response.data);
+      onAvailability?.("ready");
 
-      const storedTenderId = window.localStorage.getItem(SELECTED_TENDER_STORAGE_KEY);
+      const storedTenderId = requestedTenderId ?? window.localStorage.getItem(SELECTED_TENDER_STORAGE_KEY);
       const isStoredTenderValid = storedTenderId && response.data.some((tender) => tender.id === storedTenderId);
 
       if (storedTenderId && isStoredTenderValid) {
@@ -1646,14 +1650,27 @@ function App() {
       window.localStorage.removeItem(SELECTED_TENDER_STORAGE_KEY);
       setSelectedTenderId(null);
     } catch (err) {
-      setError("Unable to load tenders from the backend.");
+      onAvailability?.("error");
+      setError("No se pudieron consultar las licitaciones. Verifica el servicio local y vuelve a abrir esta vista.");
     }
   };
 
   const handleSelectTender = (tenderId: string) => {
     setSelectedTenderId(tenderId);
     window.localStorage.setItem(SELECTED_TENDER_STORAGE_KEY, tenderId);
+    onTenderOpen?.(tenderId);
   };
+
+  useEffect(() => {
+    if (requestedTenderId) {
+      setSelectedTenderId(tenders.some(t => t.id === requestedTenderId) ? requestedTenderId : null);
+      if (tenders.some(t => t.id === requestedTenderId)) window.localStorage.setItem(SELECTED_TENDER_STORAGE_KEY, requestedTenderId);
+    }
+  }, [requestedTenderId, tenders]);
+  useEffect(() => {
+    const tender = tenders.find(t => t.id === selectedTenderId);
+    onContext?.(tender ? { id: tender.id, title: tender.title, reference: tender.external_reference, status: tender.status } : null);
+  }, [selectedTenderId, tenders, onContext]);
 
   const loadDocuments = async (tenderId: string) => {
     const requestId = ++documentRequestRef.current;
@@ -1797,7 +1814,7 @@ function App() {
     setError("");
 
     if (!title.trim()) {
-      setError("Tender title is required.");
+      setError("Escribe el título de la licitación.");
       return;
     }
 
@@ -1815,7 +1832,7 @@ function App() {
       setExternalReference("");
       await loadTenders();
     } catch (err) {
-      setError("Unable to create the Tender.");
+      setError("No se pudo crear la licitación. Verifica los datos y el servicio local.");
     } finally {
       setLoading(false);
     }
@@ -3767,8 +3784,8 @@ function App() {
   };
 
   return (
-    <div style={{ maxWidth: 1200, margin: "40px auto", padding: "0 20px", fontFamily: "sans-serif" }}>
-      <details><summary>Discovery público (opcional)</summary><DiscoveryView apiUrl={API_URL} onOpenTender={id=>{handleSelectTender(id);void loadTenders();}}/></details>
+    <div className={embedded ? "legacy-workspace" : undefined} style={embedded ? undefined : { maxWidth: 1200, margin: "40px auto", padding: "0 20px", fontFamily: "sans-serif" }}>
+      {!embedded && <details><summary>Discovery público (opcional)</summary><DiscoveryView apiUrl={API_URL} onOpenTender={id=>{handleSelectTender(id);void loadTenders();}}/></details>}
       <style>{`
         .pdf-viewer {
           width: 100%;
@@ -3790,13 +3807,13 @@ function App() {
           text-align: center;
         }
       `}</style>
-      <h1>LicitIA — Tender Workspace</h1>
+      {!embedded && <h1>RX23 TuScope — Licitaciones</h1>}
 
-      <CompanyEvidenceLibrary apiUrl={API_URL} />
+      {!embedded && <CompanyEvidenceLibrary apiUrl={API_URL} />}
 
-      <div style={{ display: "grid", gridTemplateColumns: "370px 1fr", gap: 24 }}>
+      <div className="legacy-tender-picker" style={{ display: "grid", gridTemplateColumns: "370px 1fr", gap: 24 }}>
         <section style={{ border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
-          <h2>Create Tender</h2>
+          <h2>Crear licitación</h2>
           <form onSubmit={handleSubmit}>
             <div style={{ display: "grid", gap: 12 }}>
               <label>
@@ -3850,10 +3867,10 @@ function App() {
         </section>
 
         <section style={{ border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
-          <h2>Existing Tenders</h2>
+          <h2>Licitaciones guardadas</h2>
 
           {tenders.length === 0 ? (
-            <p>No tenders created yet.</p>
+            <p>Aún no hay licitaciones. Crea una para agregar sus documentos.</p>
           ) : (
             <div style={{ display: "grid", gap: 12 }}>
               {tenders.map((tender) => {
@@ -3903,7 +3920,7 @@ function App() {
       {selectedTenderId && (
         <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-            <h2 style={{ margin: 0 }}>Estado del expediente</h2>
+            <h2 style={{ margin: 0 }} id="workspace-resumen">Estado del expediente</h2>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               <button type="button" onClick={() => selectedTenderId && void loadTenderStateSnapshot(selectedTenderId)} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
                 {stateSnapshotLoading ? "Actualizando snapshot..." : "Actualizar snapshot"}
@@ -4692,7 +4709,7 @@ function App() {
 
           <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#f8fafc" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <h3 style={{ margin: 0 }}>Requisitos normalizados</h3>
+              <h3 style={{ margin: 0 }} id="workspace-requisitos">Requisitos normalizados</h3>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 <button type="button" onClick={() => void handleNormalizeRequirements()} style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", fontWeight: 700 }}>
                   {requirementsLoading ? "Normalizando..." : "Normalizar requisitos"}
@@ -4987,7 +5004,7 @@ function App() {
                     <div>
                       <div style={{ fontSize: 14, color: "#0f172a", fontWeight: 700 }}>Evidencia candidata por requisito</div>
                       <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
-                        LicitIA propone evidencias que podrían ser relevantes para cada requisito. Una asociación confirmada indica que la evidencia es pertinente para evaluar el requisito; no significa que el requisito esté cumplido.
+                        RX23 TuScope propone evidencias que podrían ser relevantes para cada requisito. Una asociación confirmada indica que la evidencia es pertinente para evaluar el requisito; no significa que el requisito esté cumplido.
                       </div>
                     </div>
                     <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
@@ -5163,7 +5180,7 @@ function App() {
                       <div>
                         <div style={{ fontSize: 14, color: "#0f172a", fontWeight: 700 }}>Evaluación automática de soporte documental</div>
                         <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
-                          La evaluación automática indica qué tan bien la evidencia disponible soporta cada requisito según reglas determinísticas de LicitIA. No constituye la decisión final de cumplimiento. La decisión final corresponde al operador.
+                          La evaluación automática indica qué tan bien la evidencia disponible soporta cada requisito según reglas determinísticas de RX23 TuScope. No constituye la decisión final de cumplimiento. La decisión final corresponde al operador.
                         </div>
                       </div>
                       <button
@@ -5369,7 +5386,7 @@ function App() {
           <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#f8fafc" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
               <div>
-                <div style={{ fontSize: 14, color: "#0f172a", fontWeight: 700 }}>Matriz de cumplimiento y pendientes</div>
+                <div id="workspace-cumplimiento" style={{ fontSize: 14, color: "#0f172a", fontWeight: 700 }}>Matriz de cumplimiento y pendientes</div>
                 <div style={{ marginTop: 4, fontSize: 12, color: "#52607a" }}>
                   Composición read-only de requisito, evidencia, asociación, evaluación automática y decisión humana.
                 </div>
@@ -6090,7 +6107,7 @@ function App() {
 
       {selectedTenderId && (
         <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
-          <h2>Import Documents</h2>
+          <h2 id="workspace-documentos">Import Documents</h2>
           <p style={{ color: "#52607a", marginTop: -4 }}>
             Select a Tender and import multiple files or an entire folder. Duplicates are detected by SHA-256.
           </p>

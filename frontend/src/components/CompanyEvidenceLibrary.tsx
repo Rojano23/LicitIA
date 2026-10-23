@@ -807,7 +807,7 @@ export function CompanyEvidenceLibrary({ apiUrl }: Props) {
                   <div>
                     <div style={{ fontWeight: 700 }}>Evidencia del documento</div>
                     <div style={{ fontSize: 12, color: "#6b5a2b", marginTop: 4 }}>
-                      La evidencia describe lo que el documento puede demostrar. Validarla confirma que LicitIA interpretó correctamente el documento. No significa que la empresa cumpla un requisito de la licitación.
+                      La evidencia describe lo que el documento puede demostrar. Validarla confirma que RX23 TuScope interpretó correctamente el documento. No significa que la empresa cumpla un requisito de la licitación.
                     </div>
                   </div>
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>

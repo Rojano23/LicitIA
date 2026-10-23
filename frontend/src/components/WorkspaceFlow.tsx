@@ -99,11 +99,11 @@ export function WorkspaceFlow({ apiUrl, tenderId, documents }: Props) {
       {data?.processing.provider_degraded && <p>Percepción parcial o no disponible: la evidencia determinista válida permanece disponible y requiere revisión humana.</p>}
       {error && <p role="alert">{error} Los resultados visibles pueden estar desactualizados.</p>}
       {data && <>
-        <ReadinessBoard key={`work:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/>
-        <ProposalVersions key={`proposal:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/>
+        <div id="workspace-preparacion"><ReadinessBoard key={`work:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/></div>
+        <div id="workspace-propuesta"><ProposalVersions key={`proposal:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/></div>
         <BidReadinessInspection key={`readiness:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/>
-        <CommercialMatrix key={tenderId} apiUrl={apiUrl} tenderId={tenderId} />
-        <h4>Alcance y cantidades</h4>
+        <div id="workspace-comercial"><CommercialMatrix key={tenderId} apiUrl={apiUrl} tenderId={tenderId} /></div>
+        <h4 id="workspace-partidas">Alcance y cantidades</h4>
         <p>Las cantidades son de solo lectura y conservan su estado automático. Confirmar el alcance no confirma sus cantidades. La corrección independiente de cantidades está pendiente (P1). Después de revisar el alcance, usa Actualizar resultados para consultar la decisión vigente.</p>
         {data.scopes.length === 0 && <p>Sin resultados de alcance. Esto no confirma ausencia de obligaciones.</p>}
         {data.scopes.map(scope => <article key={scope.scope_detail_id} aria-label={`Alcance ${scope.candidate_item_key ?? scope.scope_detail_id}`}>

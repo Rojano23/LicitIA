@@ -30,7 +30,7 @@ const sourceLabels: Record<string, string> = {
   SUPPLEMENTED: "Ubicación complementada",
 };
 const diagnosticLabels: Record<string, string> = {
-  FACT_REVIEW_REQUIRED: "LicitIA marcó este hallazgo para revisión humana.",
+  FACT_REVIEW_REQUIRED: "RX23 TuScope marcó este hallazgo para revisión humana.",
   SOURCE_DOCUMENT_MISSING: "No se encuentra el documento fuente.",
   SOURCE_DOCUMENT_REVIEW_REQUIRED: "La vigencia del documento fuente requiere revisión.",
   SOURCE_LOCATOR_REVIEW_REQUIRED: "Los efectos sobre esta ubicación documental requieren revisión.",
@@ -50,7 +50,7 @@ const historyLabels: Record<ScopeReviewHistoryEntry["reason"], string> = {
   TARGET_REMOVED: "Histórica: registro regenerado o retirado",
 };
 const conflictMessages: Record<string, string> = {
-  SCOPE_REVIEW_TARGET_STALE: "La información de este alcance cambió desde que la abriste. LicitIA actualizará la información antes de que tomes una decisión.",
+  SCOPE_REVIEW_TARGET_STALE: "La información de este alcance cambió desde que la abriste. RX23 TuScope actualizará la información antes de que tomes una decisión.",
   SCOPE_REVIEW_REVISION_CONFLICT: "Este alcance fue revisado mientras lo tenías abierto. Se actualizará la revisión más reciente.",
   SCOPE_SOURCE_NOT_REVIEWABLE: "La fuente ya no permite revisar este alcance. Se actualizará la información para mostrar el motivo.",
 };
@@ -208,7 +208,7 @@ function ScopeReviewPanel({ apiUrl, tenderId, documents }: Props) {
       setDecision(null);
       setNote("");
       setDescription("");
-      setFeedback("Decisión guardada. El estado mostrado fue recalculado por LicitIA.");
+      setFeedback("Decisión guardada. El estado mostrado fue recalculado por RX23 TuScope.");
     } catch (error: unknown) {
       if (!alive.current) return;
       const failure = scopeReviewError(error);
@@ -263,7 +263,7 @@ function ScopeReviewPanel({ apiUrl, tenderId, documents }: Props) {
                   onClick={() => setSelectedId(item.scope_detail_id)}>
                   <span className="scope-review-queue-description">{machineForDisplay(item)?.description ?? "Registro histórico sin descripción"}</span>
                   <span>{itemLabel(item)}</span>
-                  {item.current && <small>{item.current.machine_review_required ? "LicitIA solicitó revisión" : "LicitIA no solicitó revisión"}</small>}
+                  {item.current && <small>{item.current.machine_review_required ? "RX23 TuScope solicitó revisión" : "RX23 TuScope no solicitó revisión"}</small>}
                   {!item.reviewable && <small>{blockReason(item)}</small>}
                 </button>
               </li>
@@ -275,10 +275,10 @@ function ScopeReviewPanel({ apiUrl, tenderId, documents }: Props) {
           {detailError && <div role="alert"><p>{detailError}</p><button type="button" onClick={() => void refresh()}>Reintentar detalle</button></div>}
           {!selectedId && !queueLoading && <p>Selecciona un elemento para revisar sus fuentes y decisiones.</p>}
           {detail && machine && <>
-            <h4>Lo que LicitIA encontró</h4>
+            <h4>Lo que RX23 TuScope encontró</h4>
             {!detail.current && <p className="scope-review-warning">Evidencia histórica del registro retirado; no es un hallazgo vigente.</p>}
             <p>{machine.description}</p>
-            <p>{detail.current ? (detail.current.machine_review_required ? "LicitIA originalmente requirió revisión." : "LicitIA no requirió revisión automática.")
+            <p>{detail.current ? (detail.current.machine_review_required ? "RX23 TuScope originalmente requirió revisión." : "RX23 TuScope no requirió revisión automática.")
               : (machine.review_required ? "El hallazgo histórico requería revisión." : "El hallazgo histórico no requería revisión.")}</p>
             {detail.current && <ul>{detail.current.source_projection.diagnostics.map((diagnostic, index) => (
               <li key={`${diagnostic.code}:${index}`}>{diagnosticLabels[diagnostic.code] ?? "Hay una observación documental que requiere atención."}

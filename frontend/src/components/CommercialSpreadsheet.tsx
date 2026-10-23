@@ -21,10 +21,10 @@ export function CommercialSpreadsheet({apiUrl,tenderId,disabled,onBusyChange,onA
   async function inspect() {
     if(!file) return;
     clear();
-    if(file.size>5*1024*1024 || !/\.(xlsx|csv)$/i.test(file.name)) {setError("Usa un archivo LicitIA XLSX o CSV UTF-8 de máximo 5 MiB.");return;}
+    if(file.size>5*1024*1024 || !/\.(xlsx|csv)$/i.test(file.name)) {setError("Usa un archivo RX23 TuScope XLSX o CSV UTF-8 de máximo 5 MiB.");return;}
     state(true);
     try {const next=await exchangeApi.stage(apiUrl,tenderId,file,replace,currency);if(mounted.current) setPreview(next);}
-    catch {if(mounted.current) setError("No se pudo validar el archivo. Usa un export LicitIA vigente, conserva IDs/headers/metadata y pega valores en lugar de fórmulas. El archivo no se aplicó.");}
+    catch {if(mounted.current) setError("No se pudo validar el archivo. Usa un export RX23 TuScope vigente, conserva IDs/headers/metadata y pega valores en lugar de fórmulas. El archivo no se aplicó.");}
     finally {if(mounted.current) state(false);}
   }
   async function apply() {
