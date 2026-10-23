@@ -528,3 +528,12 @@ Commits por página, upserts e identidad source+evento, auditoría y UI interna 
 M10-B acotado registra CFE y capacidades de fuentes diferidas sin ramas institucionales en
 traversal/perfiles. Compras MX restringido en factory/config/API, sin adquisición ni bypass.
 [ADR-0033](adr/0033-discovery-cfe-source-restrictions.md), [contrato CFE](discovery-cfe.md).
+
+
+M10-C agrega monitoreo determinista con cobertura por consulta completa + versión del adapter.
+Sólo SUCCESS global autoriza inferencia negativa; commits de páginas parciales conservan
+observaciones positivas sin bajas. Seguir una Opportunity no crea Tender. Handoff explícito
+usa Core Tender y el importador canónico mediante un gateway inyectado; importaciones parciales
+retienen Tender/éxitos y reportan cada fallo. No corre análisis. Locks por fuente/Opportunity,
+preview con fingerprint, enlace único/tombstone y receipts hacen seguros los reintentos.
+Cambios de fuente nunca reescriben evidencia Tender. [ADR-0034](adr/0034-discovery-monitoring-handoff.md).

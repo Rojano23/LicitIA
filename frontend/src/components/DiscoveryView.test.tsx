@@ -2,7 +2,7 @@ import {render,screen,fireEvent,waitFor} from '@testing-library/react';
 import {vi,describe,it,expect,beforeEach} from 'vitest';
 import {DiscoveryView} from './DiscoveryView';
 import {discoveryApi} from '../api/discovery';
-vi.mock('../api/discovery',()=>({discoveryApi:{sources:vi.fn(),profiles:vi.fn(),scans:vi.fn(),scan:vi.fn(),list:vi.fn(),state:vi.fn(),saveProfile:vi.fn(),configure:vi.fn()}}));
+vi.mock('../api/discovery',()=>({monitoringApi:{summary:vi.fn().mockResolvedValue({new_opportunities:1,changed_opportunities:0,followed_with_changes:0,unread_changes:0,new_documents:0})},discoveryApi:{sources:vi.fn(),profiles:vi.fn(),scans:vi.fn(),scan:vi.fn(),list:vi.fn(),state:vi.fn(),saveProfile:vi.fn(),configure:vi.fn()}}));
 const source={id:'PEMEX',name:'PEMEX Concursos Abiertos',enabled:true,last_scan_state:null,last_error:null,areas:[{key:'support',label:'Soporte'}],configuration:{areas:['support']}};
 const row={id:'o1',source_id:'PEMEX',external_id:'EVENT-1',title:'Válvula',description:'Válvula',business_area:'Soporte',published_date:'2026-10-01',event_type:'Nacional',supply_type:'Bienes',source_status:null,internal_state:'NEW',revision:1,document_count:2,public_url:'https://www.pemex.com/public',first_seen:'2026-10-22',last_seen:'2026-10-22',match:{matched:true,include_hits:[{term:'válvula',matched_text:'Válvula',field:'title',kind:'EXACT'}],exclude_hits:[],restrictions:[]}};
 beforeEach(()=>{vi.clearAllMocks();vi.mocked(discoveryApi.sources).mockResolvedValue([source]);vi.mocked(discoveryApi.profiles).mockResolvedValue([]);vi.mocked(discoveryApi.scans).mockResolvedValue([]);vi.mocked(discoveryApi.list).mockResolvedValue({items:[row],total:1,limit:50,offset:0});});
@@ -62,4 +62,18 @@ it('conserva perfil con varias fuentes al cambiar fuente de adquisición',async(
  expect(screen.getByLabelText('Restringir perfil a PEMEX')).toBeChecked();expect(screen.getByLabelText('Restringir perfil a CFE')).toBeChecked();
  fireEvent.change(screen.getByLabelText('Fuente para scan'),{target:{value:'CFE'}});fireEvent.click(screen.getByText('Guardar perfil'));
  await waitFor(()=>expect(discoveryApi.saveProfile).toHaveBeenCalledWith('',expect.objectContaining({source_ids:['PEMEX','CFE'],business_areas:['CFE Empresa Sintética']}),'multi',2));
+});
+
+it('restringe handoff según capability de cualquier fuente, sin depender del nombre institucional',async()=>{
+ const deferred={...source,id:'SYNTHETIC_RESTRICTED',name:'Fuente restringida sintética',capabilities:{automation_status:'DEFERRED_SOURCE_AUTOMATION_RESTRICTED'}};
+ vi.mocked(discoveryApi.sources).mockResolvedValue([source,deferred]);vi.mocked(discoveryApi.list).mockResolvedValue({items:[{...row,source_id:deferred.id}],total:1,limit:50,offset:0});
+ await open();fireEvent.click(screen.getByText('Consultar oportunidades locales'));await screen.findByText('EVENT-1');expect(screen.getByText('Revisar / Create Tender')).toBeDisabled();
+});
+
+it('combina Following con cambios e Imported y abre únicamente el Tender vinculado',async()=>{
+ const onOpen=vi.fn();vi.mocked(discoveryApi.list).mockResolvedValue({items:[{...row,internal_state:'IMPORTED',watching:true,unread_document_changes:1,linked_tender:{id:'canonical-t',available:true}}],total:1,limit:50,offset:0});
+ render(<DiscoveryView apiUrl="" onOpenTender={onOpen}/>);fireEvent.click(screen.getByText('Consultar fuentes Discovery'));await screen.findByText('PEMEX Concursos Abiertos');
+ fireEvent.click(screen.getByLabelText('Following'));fireEvent.click(screen.getByLabelText('Changes detected sin leer'));fireEvent.change(screen.getByLabelText('Estado interno'),{target:{value:'IMPORTED'}});
+ fireEvent.click(screen.getByText('Consultar oportunidades locales'));await screen.findByText('EVENT-1');expect(discoveryApi.list).toHaveBeenLastCalledWith('',expect.objectContaining({following:true,unread_only:true,internal_state:'IMPORTED'}));
+ expect(screen.getByLabelText('Estado interno EVENT-1')).toBeDisabled();fireEvent.click(screen.getByText('Open Tender'));expect(onOpen).toHaveBeenCalledWith('canonical-t');expect(screen.getByText(/1 documentales/)).toBeInTheDocument();
 });

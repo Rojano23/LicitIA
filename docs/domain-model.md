@@ -743,3 +743,14 @@ M10-B: procedure_number opcional en representación JSON Opportunity distingue n
 de external_id opaco. Es genérico, significativo para fingerprint/búsqueda; ausente preserva
 hash PEMEX anterior. Sin migración/tabla nueva. Restricción de automatización vive en
 capabilities de Source; no crea un workflow institucional. [Contrato CFE](discovery-cfe.md).
+
+
+Discovery M10-C (079): Opportunity añade watching independiente y last_scan_id; SourceDocument
+añade active/last_scan_id conservando metadata histórica. Change registra diffs de campos,
+scan/source/parent, fingerprints, autor humano y acknowledgement. Coverage(source/query/version
+hash + Opportunity) limita ausencias/reapariciones a consultas completas comparables.
+TenderLink tiene Opportunity única, Tender canónico nullable y su identidad histórica inmutable
+si se elimina Tender. ImportReceipt conserva Opportunity/document identity, metadata fingerprint,
+SHA-256, URL/nombre, fecha y documento canónico; sobrevive eliminación del Tender/documento.
+IMPORTED sólo se establece tras creación explícita del Tender; no implica análisis ni importación
+completa de archivos. [Contrato](discovery-monitoring-handoff.md).

@@ -520,17 +520,9 @@ def create_tender(payload: TenderCreate, db: Session = Depends(get_db)) -> Tende
     if not cleaned_title:
         raise HTTPException(status_code=400, detail="Tender title is required")
 
-    tender = Tender(
-        title=cleaned_title,
-        institution_profile=(payload.institution_profile.strip() if payload.institution_profile else None),
-        external_reference=(payload.external_reference.strip() if payload.external_reference else None),
-        status="DRAFT",
-    )
+    from app.tender_creation import create_record
+    return create_record(db,cleaned_title,payload.institution_profile,payload.external_reference)
 
-    db.add(tender)
-    db.commit()
-    db.refresh(tender)
-    return tender
 
 
 @app.get("/tenders", response_model=list[TenderRead])
@@ -3747,19 +3739,72 @@ def discovery_profile_update_endpoint(profile_id:str,payload:ProfileUpdate,db:Se
 @app.get('/discovery/opportunities')
 def discovery_opportunities_endpoint(source:str|None=None,area:str|None=None,published_from:date|None=None,published_to:date|None=None,
         event_type:str|None=None,supply_type:str|None=None,source_status:str|None=None,internal_state:str|None=None,
-        search:str|None=Query(None,max_length=200),profile_id:str|None=None,matched_only:bool=False,
+        search:str|None=Query(None,max_length=200),profile_id:str|None=None,matched_only:bool=False,following:bool=False,unread_only:bool=False,
         limit:int=Query(50,ge=1,le=200),offset:int=Query(0,ge=0),db:Session=Depends(get_db)):
     from app.discovery import list_opportunities
     return list_opportunities(db,source=source,area=area,published_from=published_from,published_to=published_to,
         event_type=event_type,supply_type=supply_type,source_status=source_status,internal_state=internal_state,
-        search=search,profile_id=profile_id,matched_only=matched_only,limit=limit,offset=offset)
+        search=search,profile_id=profile_id,matched_only=matched_only,following=following,unread_only=unread_only,limit=limit,offset=offset)
 
 @app.get('/discovery/opportunities/{opportunity_id}')
-def discovery_opportunity_endpoint(opportunity_id:str,db:Session=Depends(get_db)):
+def discovery_opportunity_endpoint(opportunity_id:str,profile_id:str|None=None,db:Session=Depends(get_db)):
     from app.discovery import get_opportunity
-    return get_opportunity(db,opportunity_id)
+    return get_opportunity(db,opportunity_id,profile_id)
 
 @app.patch('/discovery/opportunities/{opportunity_id}/state')
 def discovery_workflow_endpoint(opportunity_id:str,payload:WorkflowUpdate,db:Session=Depends(get_db)):
     from app.discovery import change_workflow
     return change_workflow(db,opportunity_id,payload)
+
+
+from app.discovery_contract import AcknowledgeRequest,FollowRequest,HandoffRequest
+
+@app.get('/discovery/monitoring/summary')
+def discovery_monitoring_summary_endpoint(db:Session=Depends(get_db)):
+    from app.discovery_monitoring import summary
+    return summary(db)
+
+@app.get('/discovery/opportunities/{opportunity_id}/changes')
+def discovery_changes_endpoint(opportunity_id:str,limit:int=Query(100,ge=1,le=200),offset:int=Query(0,ge=0),db:Session=Depends(get_db)):
+    from app.discovery_monitoring import changes
+    return changes(db,opportunity_id,limit,offset)
+
+@app.post('/discovery/opportunities/{opportunity_id}/changes/acknowledge')
+def discovery_acknowledge_endpoint(opportunity_id:str,payload:AcknowledgeRequest,db:Session=Depends(get_db)):
+    from app.discovery_monitoring import acknowledge
+    return acknowledge(db,opportunity_id,[str(v) for v in payload.change_ids],payload.actor)
+
+@app.patch('/discovery/opportunities/{opportunity_id}/following')
+def discovery_follow_endpoint(opportunity_id:str,payload:FollowRequest,db:Session=Depends(get_db)):
+    from app.discovery_monitoring import workflow
+    from app.discovery import get_opportunity
+    from app.discovery_models import DiscoveryOpportunity
+    row=db.get(DiscoveryOpportunity,opportunity_id)
+    if row is None:raise HTTPException(404,'DISCOVERY_OPPORTUNITY_NOT_FOUND')
+    workflow(db,row,row.internal_state,payload.expected_revision,watch=payload.following)
+    db.commit();db.refresh(row)
+    return get_opportunity(db,opportunity_id)
+
+@app.get('/discovery/opportunities/{opportunity_id}/tender-preview')
+def discovery_tender_preview_endpoint(opportunity_id:str,db:Session=Depends(get_db)):
+    from app.discovery_handoff import preview
+    return preview(db,opportunity_id)
+
+async def _discovery_canonical_import(db,tender_id,downloaded,conflict_action,revision_id):
+    from starlette.datastructures import Headers
+    upload=UploadFile(file=downloaded.file,filename=downloaded.filename,headers=Headers({'content-type':downloaded.content_type}))
+    results=await import_documents(tender_id,files=[upload],source_relative_paths=None,
+        conflict_action=conflict_action,revision_of_document_id=revision_id,db=db)
+    return results[0].model_dump(mode='json')
+
+@app.post('/discovery/opportunities/{opportunity_id}/create-tender')
+async def discovery_create_tender_endpoint(opportunity_id:str,payload:HandoffRequest,db:Session=Depends(get_db)):
+    from app.discovery_handoff import handoff
+    async def ingest(*args):return await _discovery_canonical_import(db,*args)
+    return await handoff(db,opportunity_id,payload,ingest)
+
+@app.post('/discovery/opportunities/{opportunity_id}/tenders/{tender_id}/documents')
+async def discovery_add_documents_endpoint(opportunity_id:str,tender_id:str,payload:HandoffRequest,db:Session=Depends(get_db)):
+    from app.discovery_handoff import handoff
+    async def ingest(*args):return await _discovery_canonical_import(db,*args)
+    return await handoff(db,opportunity_id,payload,ingest,tender_id=tender_id)

@@ -469,22 +469,24 @@ El usuario puede generar un paquete de revisión final que conserva corresponden
 
 ## MVP-10 — Discovery / Public Procurement Monitor
 
-**MVP-10 OPEN — M10-A ACCEPTED (`d9e9735`); M10-B acotado implementado y validado para revisión.**
+**MVP-10 OPEN — M10-A ACCEPTED (`d9e9735`); M10-B ACCEPTED — BOUNDED SCOPE (`100caf07`); M10-C implementado y validado, listo para revisión arquitectónica.**
 [CFE y restricción de automatización Compras MX](discovery-cfe.md), [ADR-0033](adr/0033-discovery-cfe-source-restrictions.md).
 CFE ADAPTER COMPLETE sobre Core genérico; backend 2452 passed / 3 opt-ins excluidos,
 frontend 168 passed / build PASS; live46 únicos/5 batches/364 referencias; sin binarios. Compras MX **DEFERRED — SOURCE AUTOMATION RESTRICTED**:
 no PoW/bypass, cookies de navegador ni parser especulativo. Acceso manual no autoriza automatización.
-No se declara completo el plan original de dos adapters. Sin migración 079 ni dependencias nuevas;
-M10-B permanece sin stage/commit/push hasta aceptación arquitectónica.
+No se declara completo el plan original de dos adapters. M10-B sin migración adicional ni dependencias nuevas;
+M10-B comprometido por aceptación arquitectónica; sin push.
 MVP-09 CLOSED / M9-D ACCEPTED, commit `6467646d6f8738fb8d0a9f6fe5d97de81a4fc348`.
 [Contrato M10-A](discovery-core-pemex.md), [ADR-0032](adr/0032-discovery-core-pemex.md), Alembic078.
 
 - M10-A: Discovery Core neutral, contrato adapter, PEMEX multiárea, recorrido completo,
   perfiles deterministas, idempotencia/auditoría, metadata documental y vista independiente.
-- M10-B: CFE + declaración/guard de restricción Compras MX; revisión acotada autorizada.
+- M10-B: CFE + declaración/guard de restricción Compras MX; aceptado y comprometido.
   Futuro adapter Compras MX requiere interfaz oficial automatizable documentada y autorizada.
   Sin ampliar soporte institucional de Tender Analysis.
-- M10-C: monitoreo/cambios/document tracking y Create Tender explícito humano.
+- M10-C: monitoreo/cambios/document tracking y Create Tender explícito humano, migración079.
+  [Contrato](discovery-monitoring-handoff.md), [ADR-0034](adr/0034-discovery-monitoring-handoff.md).
+  MANUAL SCAN ONLY FOR PRIVATE BETA. Sin stage/commit/push hasta revisión arquitectónica.
 - M10-D: validación cross-source y cierre.
 
 Discovery es opcional, sin Tender automático ni DI/OCR/Vision/LLM; sin scheduler/notificaciones

@@ -62,7 +62,7 @@ def get_scan(db,scan_id):
     if row is None:raise HTTPException(404,'DISCOVERY_SCAN_NOT_FOUND')
     return scan_view(row)
 
-def persist_batch(db,source,rows,seen):
+def persist_batch(db,source,rows,seen,scan_id=None):
     stamp=now();values=[];documents=[];counts={'new':0,'updated':0,'unchanged':0,'duplicates':0,'conflicting_duplicates':0}
     accepted=[]
     for row in rows:
@@ -73,28 +73,31 @@ def persist_batch(db,source,rows,seen):
             continue
         seen[key]=fp;accepted.append(row)
     if not accepted:return counts
-    existing={r.external_id:r.fingerprint for r in db.scalars(select(DiscoveryOpportunity).where(
+    existing={r.external_id:r for r in db.scalars(select(DiscoveryOpportunity).where(
         DiscoveryOpportunity.source_id==source,DiscoveryOpportunity.external_id.in_([r.external_id for r in accepted])))}
+    from app.discovery_monitoring import observed,save_events
+    events=observed(db,source,scan_id,accepted,existing) if scan_id else []
     for row in accepted:
         fp=row.source_fingerprint;key=row.external_id;oid=identity(source,key)
-        counts['new' if key not in existing else 'unchanged' if existing[key]==fp else 'updated']+=1
+        counts['new' if key not in existing else 'unchanged' if existing[key].fingerprint==fp else 'updated']+=1
         values.append(dict(id=oid,source_id=source,external_id=key,business_area=row.business_area,published_date=row.published_date,
-            representation=row.model_dump(mode='json'),fingerprint=fp,first_seen=stamp,last_seen=stamp,internal_state='NEW',revision=1))
+            representation=row.model_dump(mode='json'),fingerprint=fp,first_seen=stamp,last_seen=stamp,internal_state='NEW',revision=1,last_scan_id=scan_id))
         for doc in row.documents:
             documents.append(dict(id=identity(source,key+'\0document:'+doc.external_id),opportunity_id=oid,
-                external_id=doc.external_id,name=doc.name,public_url=doc.public_url,fingerprint=fingerprint(doc.model_dump()),observed_at=stamp))
+                external_id=doc.external_id,name=doc.name,public_url=doc.public_url,fingerprint=fingerprint(doc.model_dump()),observed_at=stamp,active=True,last_scan_id=scan_id))
     table=DiscoveryOpportunity;statement=insert(table).values(values);incoming=statement.excluded
     changed=table.fingerprint!=incoming.fingerprint
     db.execute(statement.on_conflict_do_update(index_elements=['source_id','external_id'],set_={
         'representation':incoming.representation,'business_area':incoming.business_area,'published_date':incoming.published_date,
-        'fingerprint':incoming.fingerprint,'last_seen':incoming.last_seen,
+        'fingerprint':incoming.fingerprint,'last_seen':incoming.last_seen,'last_scan_id':incoming.last_scan_id,
         'previous_fingerprint':case((changed,table.fingerprint),else_=table.previous_fingerprint),
         'last_changed':case((changed,stamp),else_=table.last_changed),'revision':table.revision+case((changed,1),else_=0)}))
     # Bounded chunks avoid PostgreSQL parameter limits when a page has many attachments.
     for start in range(0,len(documents),500):
         statement=insert(DiscoverySourceDocument).values(documents[start:start+500]);incoming=statement.excluded
         db.execute(statement.on_conflict_do_update(index_elements=['opportunity_id','external_id'],set_={
-            'name':incoming.name,'public_url':incoming.public_url,'fingerprint':incoming.fingerprint,'observed_at':incoming.observed_at}))
+            'name':incoming.name,'public_url':incoming.public_url,'fingerprint':incoming.fingerprint,'observed_at':incoming.observed_at,'active':True,'last_scan_id':incoming.last_scan_id}))
+    counts['change_events']=save_events(db,events)
     return counts
 
 
@@ -155,7 +158,7 @@ def run_scan(db,source,request,adapter=None):
                     if len(seen)+len(batch.rows)>MAX_UNIQUE:issue(area,'UNIQUE_RECORD_LIMIT');break
                     added_keys={row.external_id for row in batch.rows if row.external_id not in seen}
                     try:
-                        counts=persist_batch(db,source,batch.rows,seen)
+                        counts=persist_batch(db,source,batch.rows,seen,run_id)
                         if counts['conflicting_duplicates']:issue(area,'CONFLICTING_DUPLICATE_REPRESENTATION',count=counts['conflicting_duplicates'])
                         pending_metrics=deepcopy(metrics)
                         for field in ['new','updated','unchanged','duplicates']:pending_metrics[field]+=counts[field]
@@ -190,6 +193,15 @@ def run_scan(db,source,request,adapter=None):
                 if detail['status']=='RUNNING':detail['status']='PARTIAL' if detail['unique_records'] else 'FAILED'
         finally:
             if owned:adapter.close()
+        if status=='SUCCESS':
+            try:
+                from app.discovery_monitoring import complete
+                complete(db,source,run_id,request.query,adapter.version)
+            except Exception as exc:
+                db.rollback();issue('CORE','MONITORING_FINALIZATION_FAILED',error_type=type(exc).__name__)
+                status='PARTIAL' if seen else 'FAILED'
+        from app.discovery_models import DiscoveryChange
+        metrics['change_events']=db.scalar(select(func.count()).select_from(DiscoveryChange).where(DiscoveryChange.scan_run_id==run_id))
         run=db.get(DiscoveryScanRun,run_id);run.metrics=metrics;run.status=status;run.finished_at=now()
         configured=db.get(DiscoverySource,source);configured.last_scan_state=status
         configured.last_error=None if status=='SUCCESS' else 'DISCOVERY_INCOMPLETE_SEE_SCAN_DIAGNOSTICS'
@@ -213,15 +225,18 @@ def save_profile(db,request,profile_id=None):
 def opportunity_view(row,profile=None):
     value=Opportunity.model_validate(row.representation)
     return {'id':row.id,'source_id':row.source_id,**value.model_dump(mode='json'),'internal_state':row.internal_state,
-        'first_seen':row.first_seen,'last_seen':row.last_seen,'source_fingerprint':row.fingerprint,
+        'watching':row.watching,'first_seen':row.first_seen,'last_seen':row.last_seen,'source_fingerprint':row.fingerprint,
         'previous_fingerprint':row.previous_fingerprint,'last_changed':row.last_changed,'revision':row.revision,
         'document_count':len(value.documents),'documents_state':'REFERENCES_DISCOVERED_NOT_DOWNLOADED',
         'match':match_profile(profile,row.source_id,value) if profile else None}
 
 def list_opportunities(db,*,source=None,area=None,published_from=None,published_to=None,event_type=None,supply_type=None,
-        source_status=None,internal_state=None,search=None,profile_id=None,matched_only=False,limit=50,offset=0):
+        source_status=None,internal_state=None,search=None,profile_id=None,matched_only=False,limit=50,offset=0,following=False,unread_only=False):
     if not 1<=limit<=200 or offset<0:raise HTTPException(422,'INVALID_DISCOVERY_PAGE')
+    from app.discovery_monitoring import unread_exists,enrich
     query=select(DiscoveryOpportunity)
+    if following:query=query.where(DiscoveryOpportunity.watching.is_(True))
+    if unread_only:query=query.where(unread_exists())
     if source:query=query.where(DiscoveryOpportunity.source_id==source)
     if area:query=query.where(or_(DiscoveryOpportunity.business_area==area,DiscoveryOpportunity.representation['contracting_area'].as_string()==area))
     if published_from:query=query.where(DiscoveryOpportunity.published_date>=published_from)
@@ -252,19 +267,24 @@ def list_opportunities(db,*,source=None,area=None,published_from=None,published_
             if matched_only and not value['match']['matched']:continue
             if offset<=total<offset+limit:items.append(value)
             total+=1
-        return {'items':items,'total':total,'limit':limit,'offset':offset,'match_scope':'ALL_LOCAL_FILTERED_RESULTS_SCAN_COMPLETENESS_REPORTED_SEPARATELY'}
+        return {'items':enrich(db,items),'total':total,'limit':limit,'offset':offset,'match_scope':'ALL_LOCAL_FILTERED_RESULTS_SCAN_COMPLETENESS_REPORTED_SEPARATELY'}
     total=db.scalar(select(func.count()).select_from(query.order_by(None).subquery()))
-    return {'items':[opportunity_view(r) for r in db.scalars(query.offset(offset).limit(limit))],'total':total,'limit':limit,'offset':offset}
+    return {'items':enrich(db,[opportunity_view(r) for r in db.scalars(query.offset(offset).limit(limit))]),'total':total,'limit':limit,'offset':offset}
 
-def get_opportunity(db,opportunity_id):
+def get_opportunity(db,opportunity_id,profile_id=None):
     row=db.get(DiscoveryOpportunity,opportunity_id)
     if row is None:raise HTTPException(404,'DISCOVERY_OPPORTUNITY_NOT_FOUND')
-    return opportunity_view(row)
+    from app.discovery_monitoring import enrich
+    profile=None
+    if profile_id:
+        stored=db.get(DiscoveryProfile,profile_id)
+        if stored is None:raise HTTPException(404,'DISCOVERY_PROFILE_NOT_FOUND')
+        profile=Profile.model_validate(stored.configuration)
+    return enrich(db,[opportunity_view(row,profile)])[0]
 
 def change_workflow(db,opportunity_id,request):
     row=db.get(DiscoveryOpportunity,opportunity_id)
     if not row:raise HTTPException(404,'DISCOVERY_OPPORTUNITY_NOT_FOUND')
-    result=db.execute(update(DiscoveryOpportunity).where(DiscoveryOpportunity.id==opportunity_id,DiscoveryOpportunity.revision==request.expected_revision)
-        .values(internal_state=request.internal_state,revision=DiscoveryOpportunity.revision+1))
-    if result.rowcount!=1:raise HTTPException(409,'DISCOVERY_OPPORTUNITY_STALE')
-    db.commit();db.refresh(row);return opportunity_view(row)
+    from app.discovery_monitoring import workflow
+    workflow(db,row,request.internal_state,request.expected_revision)
+    db.commit();db.refresh(row);return get_opportunity(db,opportunity_id)

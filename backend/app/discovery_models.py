@@ -38,10 +38,12 @@ class DiscoveryOpportunity(Base):
     first_seen:Mapped[datetime]=mapped_column(DateTime(timezone=True))
     last_seen:Mapped[datetime]=mapped_column(DateTime(timezone=True))
     last_changed:Mapped[datetime|None]=mapped_column(DateTime(timezone=True))
+    watching:Mapped[bool]=mapped_column(Boolean,default=False,server_default='false')
+    last_scan_id:Mapped[str|None]=mapped_column(ForeignKey('discovery_scan_runs.id',ondelete='SET NULL'),index=True)
     internal_state:Mapped[str]=mapped_column(String(16),default='NEW')
     revision:Mapped[int]=mapped_column(Integer,default=1)
     __table_args__=(UniqueConstraint('source_id','external_id',name='uq_discovery_identity'),
-        CheckConstraint("internal_state IN ('NEW','REVIEW','FOLLOWING','DISCARDED')",name='ck_discovery_internal_state'),
+        CheckConstraint("internal_state IN ('NEW','REVIEW','FOLLOWING','DISCARDED','IMPORTED')",name='ck_discovery_internal_state'),
         Index('ix_discovery_source_date','source_id','published_date'),Index('ix_discovery_workflow','internal_state'))
 
 class DiscoveryScanRun(Base):
@@ -68,5 +70,55 @@ class DiscoverySourceDocument(Base):
     name:Mapped[str]=mapped_column(String(500))
     public_url:Mapped[str]=mapped_column(String(2000))
     fingerprint:Mapped[str]=mapped_column(String(64))
+    active:Mapped[bool]=mapped_column(Boolean,default=True,server_default='true')
+    last_scan_id:Mapped[str|None]=mapped_column(ForeignKey('discovery_scan_runs.id',ondelete='SET NULL'),index=True)
     observed_at:Mapped[datetime]=mapped_column(DateTime(timezone=True))
     __table_args__=(UniqueConstraint('opportunity_id','external_id',name='uq_discovery_document'),)
+
+class DiscoveryChange(Base):
+    __tablename__='discovery_changes'
+    id:Mapped[str]=mapped_column(String(36),primary_key=True)
+    event_key:Mapped[str]=mapped_column(String(64),unique=True)
+    opportunity_id:Mapped[str]=mapped_column(ForeignKey('discovery_opportunities.id',ondelete='CASCADE'))
+    source_id:Mapped[str]=mapped_column(ForeignKey('discovery_sources.id',ondelete='RESTRICT'))
+    scan_run_id:Mapped[str|None]=mapped_column(ForeignKey('discovery_scan_runs.id',ondelete='SET NULL'))
+    category:Mapped[str]=mapped_column(String(40))
+    origin:Mapped[str]=mapped_column(String(10))
+    detected_at:Mapped[datetime]=mapped_column(DateTime(timezone=True))
+    previous_fingerprint:Mapped[str|None]=mapped_column(String(64))
+    current_fingerprint:Mapped[str|None]=mapped_column(String(64))
+    changed_fields:Mapped[dict]=mapped_column(JSON)
+    summary:Mapped[str]=mapped_column(String(2000))
+    actor:Mapped[str|None]=mapped_column(String(160))
+    acknowledged_at:Mapped[datetime|None]=mapped_column(DateTime(timezone=True))
+    __table_args__=(Index('ix_discovery_change_parent_time','opportunity_id','detected_at'),Index('ix_discovery_change_unread','opportunity_id','acknowledged_at'))
+
+class DiscoveryCoverage(Base):
+    __tablename__='discovery_coverage'
+    scope_sha:Mapped[str]=mapped_column(String(64),primary_key=True)
+    opportunity_id:Mapped[str]=mapped_column(ForeignKey('discovery_opportunities.id',ondelete='CASCADE'),primary_key=True)
+    present:Mapped[bool]=mapped_column(Boolean)
+    last_scan_id:Mapped[str]=mapped_column(ForeignKey('discovery_scan_runs.id',ondelete='RESTRICT'))
+
+class DiscoveryTenderLink(Base):
+    __tablename__='discovery_tender_links'
+    opportunity_id:Mapped[str]=mapped_column(ForeignKey('discovery_opportunities.id',ondelete='CASCADE'),primary_key=True)
+    tender_id:Mapped[str|None]=mapped_column(ForeignKey('tenders.id',ondelete='SET NULL'),unique=True)
+    tender_identity:Mapped[str]=mapped_column(String(36),unique=True)
+    context:Mapped[dict]=mapped_column(JSON)
+    created_at:Mapped[datetime]=mapped_column(DateTime(timezone=True))
+
+class DiscoveryImportReceipt(Base):
+    __tablename__='discovery_import_receipts'
+    id:Mapped[str]=mapped_column(String(36),primary_key=True)
+    opportunity_id:Mapped[str]=mapped_column(ForeignKey('discovery_opportunities.id',ondelete='CASCADE'),index=True)
+    source_document_id:Mapped[str]=mapped_column(ForeignKey('discovery_source_documents.id',ondelete='RESTRICT'))
+    tender_identity:Mapped[str]=mapped_column(String(36))
+    tender_document_id:Mapped[str]=mapped_column(String(36))
+    metadata_fingerprint:Mapped[str]=mapped_column(String(64))
+    sha256:Mapped[str]=mapped_column(String(64))
+    source_url:Mapped[str]=mapped_column(String(2000))
+    source_name:Mapped[str]=mapped_column(String(500))
+    downloaded_at:Mapped[datetime]=mapped_column(DateTime(timezone=True))
+    result:Mapped[str]=mapped_column(String(32))
+    __table_args__=(UniqueConstraint('opportunity_id','source_document_id','metadata_fingerprint','sha256',name='uq_discovery_import_receipt'),)

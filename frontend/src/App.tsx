@@ -3768,7 +3768,7 @@ function App() {
 
   return (
     <div style={{ maxWidth: 1200, margin: "40px auto", padding: "0 20px", fontFamily: "sans-serif" }}>
-      <details><summary>Discovery público (opcional)</summary><DiscoveryView apiUrl={API_URL}/></details>
+      <details><summary>Discovery público (opcional)</summary><DiscoveryView apiUrl={API_URL} onOpenTender={id=>{handleSelectTender(id);void loadTenders();}}/></details>
       <style>{`
         .pdf-viewer {
           width: 100%;

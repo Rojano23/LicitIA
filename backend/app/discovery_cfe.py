@@ -52,6 +52,9 @@ class CFEProcurementAdapter:
             headers={'User-Agent':'LicitIA-Discovery/1.0 public-metadata'})
         self.pacing=pacing;self.last_request=0.;self.tokens=None;self.snapshot=None;self.query_hash=None;self.expected_offset=0
         self.observation={'http_requests':0,'listing_requests':0,'detail_requests':0,'array_rows':None,'batch_count':0}
+    def download(self,document):
+        from app.discovery_downloads import download
+        return download(self.client,document,lambda url:public_url(url,document=True))
     def close(self):
         self.client.close();self.tokens=None;self.snapshot=None
     @staticmethod
@@ -59,7 +62,7 @@ class CFEProcurementAdapter:
         return {'public':True,'automation_status':'AVAILABLE','acquisition':'PUBLIC_FORM_JSON_HTML',
             'pagination':'FULL_ARRAY_LOCAL_BATCHES','source_filters':['published_from','published_to','event_type'],'local_acquisition_filters':['supply_type'],
             'reported_total':'NOT_PUBLISHED','documents':'PUBLIC_DETAIL_HTML_REFERENCES_ONLY','detail_lookup':'PUBLIC_POST',
-            'binary_download':False,'max_page_size':200,'max_response_bytes':MAX_RESPONSE,'max_array_rows':MAX_ROWS,
+            'binary_download':False,'explicit_document_import':True,'max_page_size':200,'max_response_bytes':MAX_RESPONSE,'max_array_rows':MAX_ROWS,
             'requires_date_pair':True,'snapshot_consistency':'BEST_EFFORT','date_timezone':'America/Mexico_City'}
     def request(self,method,path,*,data=None,mime='html'):
         url=public_url(path)

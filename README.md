@@ -20,9 +20,12 @@ El motor de validación MVP-06.V quedó cerrado por aceptación arquitectónica 
 Las secciones MVP-01 siguientes conservan la línea base histórica; el estado vigente se consulta en los documentos anteriores y el roadmap.
 
 [M10-A Discovery](docs/discovery-core-pemex.md): ACCEPTED, commit `d9e9735`; sin push.
-[M10-B acotado](docs/discovery-cfe.md): CFE validado, listo para revisión arquitectónica;
+[M10-B acotado](docs/discovery-cfe.md): ACCEPTED — BOUNDED SCOPE, commit `100caf07`;
 Compras MX DEFERRED — SOURCE AUTOMATION RESTRICTED, sin bypass.
 Discovery opcional, separado de Tender Analysis.
+[M10-C monitoreo/handoff](docs/discovery-monitoring-handoff.md): seguimiento, cambios deterministas
+y creación/importación explícita de Tender, migración079; en revisión, sin stage/commit/push.
+MANUAL SCAN ONLY FOR PRIVATE BETA.
 
 ## Principio rector
 

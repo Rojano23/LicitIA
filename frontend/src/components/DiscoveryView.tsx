@@ -1,6 +1,9 @@
+import {DiscoveryDetail} from './DiscoveryDetail';
+import {monitoringApi,type Counters} from '../api/discovery';
 import {useRef,useState,useEffect} from 'react';
 import {discoveryApi,type Source,type Profile,type Page,type Scan,type SourceQuery} from '../api/discovery';
-export function DiscoveryView({apiUrl}:{apiUrl:string}){
+export function DiscoveryView({apiUrl,onOpenTender}:{apiUrl:string;onOpenTender?:(id:string)=>void}){
+ const [detail,setDetail]=useState<string|null>(null),[following,setFollowing]=useState(false),[unread,setUnread]=useState(false),[counters,setCounters]=useState<Counters|null>(null);
  const [sources,setSources]=useState<Source[]>([]),[sourceId,setSource]=useState('PEMEX'),[areas,setAreas]=useState<string[]>([]);
  const [listSource,setListSource]=useState(''),[localArea,setLocalArea]=useState(''),[sourceStatus,setSourceStatus]=useState('');
  const [profiles,setProfiles]=useState<Profile[]>([]),[profileId,setProfile]=useState(''),[matched,setMatched]=useState(false);
@@ -13,11 +16,12 @@ export function DiscoveryView({apiUrl}:{apiUrl:string}){
  const mounted=useRef(true),pending=useRef<{id:string;source:string;query:SourceQuery}|null>(null);
  useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;};},[]);
  const source=sources.find(s=>s.id===sourceId);
- const restricted=source?.capabilities?.automation_status==='DEFERRED_SOURCE_AUTOMATION_RESTRICTED';
+ const isRestricted=(id:string)=>sources.find(s=>s.id===id)?.capabilities?.automation_status==='DEFERRED_SOURCE_AUTOMATION_RESTRICTED';
+ const restricted=isRestricted(sourceId);
  const invalidDates=!!source?.capabilities?.requires_date_pair&&!!dateFrom!==!!dateTo;
- async function run(action:()=>Promise<void>){setBusy(true);setError('');try{await action();}catch{if(mounted.current)setError('No se pudo completar la acción. Revisa el estado de la fuente y los diagnósticos; no se creó ningún Tender.');}finally{if(mounted.current)setBusy(false);}}
+ async function run(action:()=>Promise<void>){setBusy(true);setError('');try{await action();}catch{if(mounted.current)setError('No se pudo completar la acción. Revisa el estado de la fuente y los diagnósticos; consulta el vínculo antes de reintentar una creación de Tender.');}finally{if(mounted.current)setBusy(false);}}
  async function list(offset=0){const result=await discoveryApi.list(apiUrl,{source:listSource||undefined,area:localArea||undefined,source_status:sourceStatus||undefined,
-  search:search||undefined,profile_id:profileId||undefined,matched_only:matched&&!!profileId,internal_state:state||undefined,
+  search:search||undefined,profile_id:profileId||undefined,matched_only:matched&&!!profileId,following,unread_only:unread,internal_state:state||undefined,
   published_from:dateFrom||undefined,published_to:dateTo||undefined,event_type:eventType||undefined,supply_type:supply||undefined,offset,limit:50});if(mounted.current)setPage(result);}
  async function refresh(){const [s,p,r]=await Promise.all([discoveryApi.sources(apiUrl),discoveryApi.profiles(apiUrl),discoveryApi.scans(apiUrl,sourceId)]);if(mounted.current){setSources(s);setProfiles(p);setScans(r);if(!areas.length)setAreas(s.find(v=>v.id===sourceId)?.configuration.areas??[]);}}
  function chooseProfile(id:string){setProfile(id);const p=profiles.find(p=>p.id===id);setName(p?.name??'');setInclude(p?.include_keywords.join('\n')??'');setExclude(p?.exclude_keywords.join('\n')??'');setSynonyms(Object.entries(p?.synonyms??{}).map(([key,values])=>`${key}=${values.join('|')}`).join('\n'));setActive(p?.active??true);setProfileSources(p?.source_ids??[]);setProfileAreas(p?.business_areas.join('\n')??'');}
@@ -63,15 +67,19 @@ export function DiscoveryView({apiUrl}:{apiUrl:string}){
  <label>Área o entidad (valor exacto)<input value={localArea} onChange={e=>setLocalArea(e.target.value)}/></label>
  <label>Buscar procedimiento, descripción o área<input value={search} onChange={e=>setSearch(e.target.value)}/></label>
  <label>Estado fuente (valor literal)<input value={sourceStatus} onChange={e=>setSourceStatus(e.target.value)}/></label>
- <label>Estado interno<select value={state} onChange={e=>setState(e.target.value)}><option value="">Todos</option>{['NEW','REVIEW','FOLLOWING','DISCARDED'].map(v=><option key={v}>{v}</option>)}</select></label>
+ <label>Estado interno<select value={state} onChange={e=>setState(e.target.value)}><option value="">Todos</option>{['NEW','REVIEW','FOLLOWING','DISCARDED','IMPORTED'].map(v=><option key={v}>{v}</option>)}</select></label>
  <label><input type="checkbox" checked={matched} onChange={e=>setMatched(e.target.checked)}/>Sólo coincidencias del perfil</label>
- <button disabled={busy} onClick={()=>void run(()=>list())}>Consultar oportunidades locales</button>
+ <label><input type="checkbox" checked={following} onChange={e=>setFollowing(e.target.checked)}/>Following</label>
+ <label><input type="checkbox" checked={unread} onChange={e=>setUnread(e.target.checked)}/>Changes detected sin leer</label>
+ <button disabled={busy} onClick={()=>void run(async()=>{await list();setCounters(await monitoringApi.summary(apiUrl));})}>Consultar oportunidades locales</button>
+ {counters&&<p>Nuevas {counters.new_opportunities} · Cambiadas {counters.changed_opportunities} · En seguimiento con cambios {counters.followed_with_changes} · Cambios sin leer {counters.unread_changes} · Nuevos documentos {counters.new_documents}</p>}
  {page&&<><p>{page.total} oportunidades locales. Un scan PARTIAL no certifica cobertura completa del portal.</p>
  <table><thead><tr>{['Fuente / Evento','Descripción','Publicado / Área','Evento / Suministro','Estado fuente','Estado interno','Coincidencias','Documentos'].map(h=><th key={h}>{h}</th>)}</tr></thead><tbody>
  {page.items.map(row=><tr key={row.id}><td>{row.source_id} · <a href={row.public_url} target="_blank" rel="noreferrer">{row.procedure_number??row.external_id}</a>{row.procedure_number&&<small> · ID {row.external_id} · abrir portal público</small>}{row.internal_state==='NEW'?' · NEW':''}</td><td>{row.title}</td><td>{row.published_date??'Sin fecha'} · {row.business_area}{row.contracting_area?` · ${row.contracting_area}`:''}</td><td>{row.event_type??'—'} · {row.supply_type??'—'}</td><td>{row.source_status??'No publicado'}</td>
- <td><select aria-label={`Estado interno ${row.external_id}`} disabled={busy} value={row.internal_state} onChange={e=>{const next=e.target.value;void run(async()=>{await discoveryApi.state(apiUrl,row,next);await list(page.offset);});}}>{['NEW','REVIEW','FOLLOWING','DISCARDED'].map(v=><option key={v}>{v}</option>)}</select></td>
- <td>{row.match&&<>{row.match.matched?'Matched profile':'Sin coincidencia'}{row.match.include_hits.map((h,i)=><p key={`i${i}`}>{h.kind}: {h.term} → {h.matched_text} ({h.field})</p>)}{row.match.exclude_hits.map((h,i)=><p key={`e${i}`}>Excluido: {h.term} ({h.field})</p>)}{row.match.restrictions.join(', ')}</>}</td><td>{row.document_count} referencias descubiertas; sin descargar</td></tr>)}
+ <td><select aria-label={`Estado interno ${row.external_id}`} disabled={busy||row.internal_state==='IMPORTED'} value={row.internal_state} onChange={e=>{const next=e.target.value;void run(async()=>{await discoveryApi.state(apiUrl,row,next);await list(page.offset);});}}>{(row.internal_state==='IMPORTED'?['IMPORTED']:['NEW','REVIEW','FOLLOWING','DISCARDED']).map(v=><option key={v}>{v}</option>)}</select></td>
+ <td>{row.match&&<>{row.match.matched?'Matched profile':'Sin coincidencia'}{row.match.include_hits.map((h,i)=><p key={`i${i}`}>{h.kind}: {h.term} → {h.matched_text} ({h.field})</p>)}{row.match.exclude_hits.map((h,i)=><p key={`e${i}`}>Excluido: {h.term} ({h.field})</p>)}{row.match.restrictions.join(', ')}</>}</td><td>{row.document_count} referencias descubiertas · {row.unread_changes??0} cambios sin leer · {row.unread_document_changes??0} documentales{row.source_changes_available?' · Source changed':''}<button disabled={busy||isRestricted(row.source_id)} onClick={()=>setDetail(row.id)}>Revisar / Create Tender</button>{row.linked_tender&&<span>{row.linked_tender.available?<button onClick={()=>onOpenTender?.(row.linked_tender!.id)} disabled={!onOpenTender}>Open Tender</button>:'Tender eliminado; vínculo conservado'}</span>}</td></tr>)}
  </tbody></table><button disabled={busy||page.offset===0} onClick={()=>void run(()=>list(Math.max(0,page.offset-50)))}>Página anterior</button><button disabled={busy||page.offset+page.limit>=page.total} onClick={()=>void run(()=>list(page.offset+50))}>Página siguiente</button></>}
+ {detail&&<DiscoveryDetail key={`${detail}:${profileId}`} apiUrl={apiUrl} id={detail} profileId={profileId||undefined} onOpenTender={onOpenTender} onChanged={async()=>{await list(page?.offset??0);setCounters(await monitoringApi.summary(apiUrl));}}/>}
  </>}{busy&&<p role="status">Procesando solicitud Discovery; las adquisiciones pueden recorrer varias páginas.</p>}{error&&<p role="alert">{error}</p>}
  </section>;
 }

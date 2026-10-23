@@ -102,6 +102,7 @@ class DiscoveryAdapter(Protocol):
     areas:dict[str,dict]
     def fetch(self,query:SourceQuery,area:str,cursor:str|None)->Batch:...
     def close(self)->None:...
+    def download(self,document:PublicDocument):...
     def capabilities(self)->dict:...
 
 
@@ -129,3 +130,31 @@ def match_profile(profile:Profile,source_id:str,opportunity:Opportunity):
     if not profile.active:restrictions.append('PROFILE_INACTIVE')
     return {'matched':not restrictions and not excluded and (bool(included) or not profile.include_keywords),
         'policy':'ANY_INCLUDE_EXCLUDE_WINS','include_hits':included,'exclude_hits':excluded,'restrictions':restrictions,'score':None}
+
+
+class AcknowledgeRequest(Contract):
+    change_ids:list[UUID]=Field(min_length=1,max_length=200)
+    actor:str=Field(default='LOCAL_USER',min_length=1,max_length=160)
+
+class FollowRequest(Contract):
+    following:bool
+    expected_revision:int=Field(ge=1,strict=True)
+
+class DocumentChoice(Contract):
+    document_id:UUID
+    conflict_action:Literal['NONE','NEW_REVISION','IMPORT_INDEPENDENT']='NONE'
+    revision_of_document_id:UUID|None=None
+    refresh:bool=False
+
+class HandoffRequest(Contract):
+    confirm:Literal[True]
+    expected_binding:str=Field(pattern=r'^[a-f0-9]{64}$')
+    title:str|None=Field(default=None,min_length=1,max_length=255)
+    documents:list[DocumentChoice]=Field(default_factory=list,max_length=1000)
+    actor:str=Field(default='LOCAL_USER',min_length=1,max_length=160)
+    @model_validator(mode='after')
+    def unique_documents(self):
+        if len({d.document_id for d in self.documents})!=len(self.documents):raise ValueError('DUPLICATE_SOURCE_DOCUMENT')
+        for d in self.documents:
+            if (d.conflict_action=='NEW_REVISION')!=(d.revision_of_document_id is not None):raise ValueError('REVISION_TARGET_REQUIRED_ONLY_FOR_REVISION')
+        return self

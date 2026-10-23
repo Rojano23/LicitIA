@@ -47,11 +47,14 @@ class PEMEXConcursosAdapter:
         self.client=httpx.Client(timeout=httpx.Timeout(30,connect=10),follow_redirects=False,transport=transport,
             headers={'Accept':'application/json;odata=verbose','User-Agent':'LicitIA-Discovery/1.0 public-metadata'})
         self.pacing=pacing;self.last_request=0.0
+    def download(self,document):
+        from app.discovery_downloads import download
+        return download(self.client,document,public_url)
     def close(self):self.client.close()
     @staticmethod
     def capabilities():return {'public':True,'acquisition':'SHAREPOINT_PUBLIC_JSON','pagination':'ODATA_NEXT_SKIPTOKEN',
         'source_filters':['published_from','published_to','event_type','supply_type'],'documents':'METADATA_ONLY',
-        'binary_download':False,'snapshot_consistency':'BEST_EFFORT','max_page_size':200,'reported_total':'WHEN_PRESENT_ONLY'}
+        'binary_download':False,'explicit_document_import':True,'snapshot_consistency':'BEST_EFFORT','max_page_size':200,'reported_total':'WHEN_PRESENT_ONLY'}
     def endpoint(self,area):
         return HOST+PREFIX+"/_api/web/GetList('"+PREFIX+'/Lists/'+AREAS[area]['list']+"')/items"
     def first_url(self,query,area):
