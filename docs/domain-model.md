@@ -738,3 +738,8 @@ first_seen/last_seen separados de published_date. Source status literal separado
 interno humano. Documentos son referencias metadata, no importados. Batch/terminal/total
 sostienen estado SUCCESS/PARTIAL/FAILED y explican límites de matching local.
 [Contrato Discovery](discovery-core-pemex.md).
+
+M10-B: procedure_number opcional en representación JSON Opportunity distingue número humano
+de external_id opaco. Es genérico, significativo para fingerprint/búsqueda; ausente preserva
+hash PEMEX anterior. Sin migración/tabla nueva. Restricción de automatización vive en
+capabilities de Source; no crea un workflow institucional. [Contrato CFE](discovery-cfe.md).

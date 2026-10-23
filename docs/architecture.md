@@ -524,3 +524,7 @@ ni engines/LLM. Un adapter PEMEX configurado por cuatro áreas, JSON público Sh
 continuaciones propias; Core comprueba cobertura por batch/área y falla PARTIAL/FAILED.
 Commits por página, upserts e identidad source+evento, auditoría y UI interna separada.
 [ADR-0032](adr/0032-discovery-core-pemex.md), [contrato](discovery-core-pemex.md), Alembic078.
+
+M10-B acotado registra CFE y capacidades de fuentes diferidas sin ramas institucionales en
+traversal/perfiles. Compras MX restringido en factory/config/API, sin adquisición ni bypass.
+[ADR-0033](adr/0033-discovery-cfe-source-restrictions.md), [contrato CFE](discovery-cfe.md).

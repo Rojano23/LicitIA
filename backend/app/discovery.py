@@ -8,27 +8,26 @@ from sqlalchemy.dialects.postgresql import insert
 from fastapi import HTTPException
 from app.discovery_models import DiscoverySource,DiscoveryProfile,DiscoveryOpportunity,DiscoverySourceDocument,DiscoveryScanRun
 from app.discovery_contract import Profile,Opportunity,fingerprint,identity,match_profile
-from app.discovery_pemex import PEMEXConcursosAdapter,AREAS
+from app.discovery_registry import SOURCES,definition,require_available,adapter_for
 
 MAX_BATCHES=2000
 MAX_UNIQUE=100000
 
 def now():return datetime.now(timezone.utc)
-def adapter_for(source):
-    if source!='PEMEX':raise HTTPException(422,'UNSUPPORTED_DISCOVERY_SOURCE')
-    return PEMEXConcursosAdapter()
-
 def bootstrap(db):
-    db.execute(insert(DiscoverySource).values(id='PEMEX',name='PEMEX Concursos Abiertos',base_url='https://www.pemex.com',
-        adapter_version=PEMEXConcursosAdapter.version,enabled=True,configuration={'areas':list(AREAS)}).on_conflict_do_nothing())
+    for source,spec in SOURCES.items():
+        db.execute(insert(DiscoverySource).values(id=source,name=spec.name,base_url=spec.base_url,
+            adapter_version=spec.version,enabled=spec.available,configuration={'areas':list(spec.areas)}).on_conflict_do_nothing())
     db.flush()
 
 def source_view(row):
-    return {'id':row.id,'source_type':'PUBLIC_PROCUREMENT','name':row.name,'base_url':row.base_url,'enabled':row.enabled,
-        'adapter_version':row.adapter_version,'configuration':row.configuration,'last_scan_state':row.last_scan_state,
+    spec=SOURCES.get(row.id)
+    return {'id':row.id,'source_type':'PUBLIC_PROCUREMENT','name':row.name,'base_url':row.base_url,
+        'enabled':row.enabled and (spec.available if spec else False),'adapter_version':row.adapter_version,
+        'configuration':row.configuration,'last_scan_state':row.last_scan_state,
         'last_successful_scan':row.last_successful_scan,'last_error':row.last_error,
-        'capabilities':PEMEXConcursosAdapter.capabilities() if row.id=='PEMEX' else {},
-        'areas':[{'key':k,**v} for k,v in AREAS.items()] if row.id=='PEMEX' else []}
+        'capabilities':spec.capabilities if spec else {},
+        'areas':[{'key':k,**v} for k,v in spec.areas.items()] if spec else []}
 
 def list_sources(db):
     bootstrap(db);db.commit();return [source_view(s) for s in db.scalars(select(DiscoverySource).order_by(DiscoverySource.id))]
@@ -40,7 +39,9 @@ def get_source(db,source):
 
 def configure_source(db,source,request):
     row=get_source(db,source)
-    if source!='PEMEX' or set(request.areas)-set(AREAS) or len(set(request.areas))!=len(request.areas):raise HTTPException(422,'UNSUPPORTED_SOURCE_AREAS')
+    spec=definition(source)
+    if request.enabled:require_available(source)
+    if set(request.areas)-set(spec.areas) or len(set(request.areas))!=len(request.areas):raise HTTPException(422,'UNSUPPORTED_SOURCE_AREAS')
     row.enabled=request.enabled;row.configuration={'areas':request.areas};db.commit();return source_view(row)
 
 @contextmanager
@@ -99,6 +100,7 @@ def persist_batch(db,source,rows,seen):
 
 def run_scan(db,source,request,adapter=None):
     configured=get_source(db,source)
+    if source in SOURCES:require_available(source)
     if not configured.enabled:raise HTTPException(409,'DISCOVERY_SOURCE_DISABLED')
     if set(request.query.areas)-set(configured.configuration['areas']):raise HTTPException(422,'AREA_NOT_ENABLED')
     request_hash=fingerprint(request.model_dump(mode='json'))
@@ -221,7 +223,7 @@ def list_opportunities(db,*,source=None,area=None,published_from=None,published_
     if not 1<=limit<=200 or offset<0:raise HTTPException(422,'INVALID_DISCOVERY_PAGE')
     query=select(DiscoveryOpportunity)
     if source:query=query.where(DiscoveryOpportunity.source_id==source)
-    if area:query=query.where(DiscoveryOpportunity.business_area==area)
+    if area:query=query.where(or_(DiscoveryOpportunity.business_area==area,DiscoveryOpportunity.representation['contracting_area'].as_string()==area))
     if published_from:query=query.where(DiscoveryOpportunity.published_date>=published_from)
     if published_to:query=query.where(DiscoveryOpportunity.published_date<=published_to)
     if internal_state:query=query.where(DiscoveryOpportunity.internal_state==internal_state)
@@ -230,6 +232,9 @@ def list_opportunities(db,*,source=None,area=None,published_from=None,published_
     if search:
         escaped=search.replace('\\','\\\\').replace('%','\\%').replace('_','\\_')
         query=query.where(or_(DiscoveryOpportunity.external_id.ilike('%'+escaped+'%',escape='\\'),
+            DiscoveryOpportunity.representation['procedure_number'].as_string().ilike('%'+escaped+'%',escape='\\'),
+            DiscoveryOpportunity.representation['contracting_area'].as_string().ilike('%'+escaped+'%',escape='\\'),
+            DiscoveryOpportunity.business_area.ilike('%'+escaped+'%',escape='\\'),
             DiscoveryOpportunity.representation['title'].as_string().ilike('%'+escaped+'%',escape='\\'),
             DiscoveryOpportunity.representation['description'].as_string().ilike('%'+escaped+'%',escape='\\')))
     profile=None

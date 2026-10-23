@@ -57,7 +57,7 @@ def adapter(pages,*,fail=None):
 
 
 def test_m10a01_02_05_23_24_28_29_normalization_and_source(offline):
-    c,db=offline;s=c.get('/discovery/sources').json();assert len(s)==1 and len(s[0]['areas'])==4
+    c,db=offline;s=c.get('/discovery/sources').json();assert len(s)==3 and len(next(x for x in s if x['id']=='PEMEX')['areas'])==4
     a,calls=adapter({'support':[[raw(1,tipoevento=None)]]});out=run_scan(db,'PEMEX',request(),a)
     assert out['status']=='SUCCESS';item=list_opportunities(db)['items'][0]
     assert item['external_id']=='EVENT-1' and item['event_type'] is None and item['source_status'] is None
@@ -105,7 +105,7 @@ def test_m10a11_12_13_14_15_16_17_22_55_56_complete_large_pagination_and_matchin
     assert len(statements)<100,{'sql':len(statements)}
     repeated=run_scan(db,'PEMEX',request(),a);assert repeated['metrics']['new']==0
     assert db.scalar(select(func.count()).select_from(DiscoveryOpportunity))==217
-    Path('reports/m10_a/large_fixture.json').write_text(json.dumps({'unique':217,'raw':218,'pages':3,'sql_statements':len(statements),
+    Path('reports/m10_b/cfe_pemex_large_fixture.json').write_text(json.dumps({'unique':217,'raw':218,'pages':3,'sql_statements':len(statements),
         'match_last_page':'EVENT-217','duplicate':1,'result':'PASS'},indent=2)+'\n');a.close()
 
 

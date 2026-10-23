@@ -19,6 +19,7 @@ class PublicDocument(Contract):
     public_url:str=Field(max_length=2000)
 
 class Opportunity(Contract):
+    procedure_number:str|None=Field(default=None,min_length=1,max_length=200)
     external_id:str=Field(min_length=1,max_length=200)
     business_area:str=Field(min_length=1,max_length=120)
     contracting_area:str|None=Field(default=None,max_length=300)
@@ -40,7 +41,7 @@ class Opportunity(Contract):
     @property
     def source_fingerprint(self):
         # Raw parser diagnostics are not source meaning.
-        return fingerprint(self.model_dump(mode='json',exclude={'raw_metadata'}))
+        return fingerprint(self.model_dump(mode='json',exclude={'raw_metadata'} | ({'procedure_number'} if self.procedure_number is None else set())))
 
 class SourceQuery(Contract):
     areas:list[str]=Field(min_length=1,max_length=20)

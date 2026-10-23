@@ -1,8 +1,8 @@
 # M10-A — Discovery Core y adapter PEMEX
 
-Implementación para revisión arquitectónica. M9-D ACCEPTED, commit
-`6467646d6f8738fb8d0a9f6fe5d97de81a4fc348`; MVP-09 CLOSED. M10-A validado y sin stage/commit/push. Backend2422 passed/2opt-ins excluidos;
-frontend164 passed/build PASS;32 pruebas focused offline y smoke live PASS.
+M10-A ACCEPTED, commit `d9e9735ef97ad23f0b42b9c3aa3498ae60f71052` (sin push). M9-D ACCEPTED, commit
+`6467646d6f8738fb8d0a9f6fe5d97de81a4fc348`; MVP-09 CLOSED. M10-A validado. Backend 2422 passed / 2 opt-ins excluidos;
+frontend 164 passed/build PASS; 32 pruebas focused offline y smoke live PASS.
 078 sólo aplicado en licitia_test/clusters efímeros, no en dev/producción.
 Futuro nombre público **RX23 TuScope**; repositorio/código conservan LicitIA.
 [ADR-0032](adr/0032-discovery-core-pemex.md), esquema078 documentado antes de migración.
@@ -170,3 +170,9 @@ Industrial44/3/385; Logística1/1/13. Total60 únicos,6batches,445 referencias,0
 4áreas SUCCESS, todas terminales. Total de fuente NULL; no inventar conteo remoto independiente.
 La fixture217únicos/218filas/3pages usa37sentencias SQL, no query por campo/término/entidad.
 No certifica exhaustividad de otros filtros ni estabilidad futura del portal.
+
+## Aceptación M10-A y siguiente slice
+
+M10-A ACCEPTED; commit `d9e9735ef97ad23f0b42b9c3aa3498ae60f71052`, sin push.
+[M10-B acotado](discovery-cfe.md) agrega CFE vía registry genérico; Compras MX queda
+DEFERRED — SOURCE AUTOMATION RESTRICTED. PEMEX conserva su adapter y fingerprints previos.

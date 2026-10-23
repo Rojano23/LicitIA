@@ -19,8 +19,10 @@ El motor de validación MVP-06.V quedó cerrado por aceptación arquitectónica 
 
 Las secciones MVP-01 siguientes conservan la línea base histórica; el estado vigente se consulta en los documentos anteriores y el roadmap.
 
-[M10-A Discovery](docs/discovery-core-pemex.md): Core + adapter PEMEX implementados para revisión,
-sin commit. Discovery opcional, separado de Tender Analysis.
+[M10-A Discovery](docs/discovery-core-pemex.md): ACCEPTED, commit `d9e9735`; sin push.
+[M10-B acotado](docs/discovery-cfe.md): CFE validado, listo para revisión arquitectónica;
+Compras MX DEFERRED — SOURCE AUTOMATION RESTRICTED, sin bypass.
+Discovery opcional, separado de Tender Analysis.
 
 ## Principio rector
 
