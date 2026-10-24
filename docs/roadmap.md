@@ -10,7 +10,8 @@ Siguiente fase: **RX23 TuScope Product UI / UX**. UI-R0 entrega únicamente audi
 [UI-R2 Inicio/Discovery](ui-r2-inicio-discovery.md) + [UI-R2.1](ui-r2-1-visual-polish.md): **ACCEPTED**, commit `1d73dcd1738162ed5e0edbf2993a9415d247f170`; sin push.
 [UI-R3 Licitaciones/Resumen/Documentos](ui-r3-implementation.md): **ARCHITECTURE/FUNCTIONAL/VISUAL PASS**, commit `935dce1017195f69c1fb74138571b1c8583d037f`; sin push.
 [UI-R4 Requisitos/Cumplimiento/Partidas](ui-r4-implementation.md): **ARCHITECTURE/FUNCTIONAL/VISUAL PASS**, commit `0915e83a4173a14653df089b302d30aa2c7a7a13`; sin push.
-[UI-R5 Comercial/Preparación/Propuesta](ui-r5-implementation.md): superficies con aprobación visual; sidebar contraíble implementado y validado (77 focused UI-R5 +25 shell,280 frontend,10 sidebar browser y regresiones R5/R4/R3/R2 verdes). Pendiente revisión final UI-R5; sin stage/commit/push. Los101 API pertenecen a la validación previa, sin cambios backend. UI-R6–R7 no implementados.
+[UI-R5 Comercial/Preparación/Propuesta + sidebar](ui-r5-implementation.md): **ARCHITECTURE/FUNCTIONAL/VISUAL/SIDEBAR PASS**, commit `de29deb3306d261dc40e9e5c15a4617ee5666748`; sin push.
+[UI-R6 Mi empresa/Reportes/Configuración/Diagnóstico](ui-r6-implementation.md): implementado y validado, pendiente revisión arquitectónica/visual; sin stage/commit/push. UI-R7 no implementado.
 Después de UI final: pruebas reales del product owner → demos controladas → correcciones →
 instalador Windows → Private Beta externa instalada. Sin nuevas fuentes/backend/IA ahora.
 El detalle siguiente conserva la secuencia histórica de implementación y aceptación.

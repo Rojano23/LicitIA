@@ -12,7 +12,10 @@ vi.mock('../App', () => ({ default: ({ onContext, requestedTenderId }: { onConte
  return <section aria-label="Workspace de prueba"><input aria-label="Decisión local de prueba" value={value} onChange={e=>setValue(e.target.value)}/><div id="workspace-propuesta">Versiones existentes</div></section>;
 } }));
 vi.mock('../components/DiscoveryView', () => ({ DiscoveryView: () => {useEffect(()=>{reads.discovery();},[]);return <p>Discovery existente</p>;} }));
-vi.mock('../components/CompanyEvidenceLibrary', () => ({ CompanyEvidenceLibrary: () => <p>Biblioteca existente</p> }));
+vi.mock('../components/CompanyView', () => ({ CompanyView: () => <p>Biblioteca existente</p> }));
+vi.mock('../components/ReportsView',()=>({ReportsView:()=> <p>Catálogo de reportes existente</p>}));
+vi.mock('../components/SettingsView',()=>({SettingsView:()=> <a href="#/configuracion/diagnostico">Abrir Diagnóstico</a>}));
+vi.mock('../components/DiagnosticsView',()=>({DiagnosticsView:({onOpenTools}:{onOpenTools:()=>void})=><button onClick={onOpenTools}>Abrir herramientas del expediente</button>}));
 vi.mock('../components/InicioView',()=>({InicioView:()=> <p>Inicio sin adquisición de prueba</p>}));
 vi.mock('../components/TenderProductViews',()=>({TenderListView:()=>null,TenderProductWorkspace:()=>null}));
 import ProductApp from '../ProductApp';
@@ -23,9 +26,9 @@ describe('UI-R1 shell / routing',()=>{
   render(<ProductApp/>);expect(document.title).toBe('RX23 TuScope');expect(screen.getByRole('link',{name:'RX23 TuScope — Inicio'})).toBeVisible();
   expect(screen.getByRole('heading',{level:1,name:'Inicio'})).toBeVisible();expect(reads.workspace).not.toHaveBeenCalled();expect(reads.discovery).not.toHaveBeenCalled();
   route('/mi-empresa');expect(await screen.findByText('Biblioteca existente')).toBeVisible();
-  route('/reportes');expect(await screen.findByText('No hay un reporte global habilitado.',{exact:false})).toBeVisible();
-  route('/configuracion');expect(await screen.findByRole('link',{name:'Abrir diagnóstico del expediente'})).toBeVisible();
-  route('/configuracion/diagnostico');expect(await screen.findByLabelText('Workspace de prueba')).toBeVisible();
+  route('/reportes');expect(await screen.findByText('Catálogo de reportes existente',{exact:false})).toBeVisible();
+  route('/configuracion');expect(await screen.findByRole('link',{name:'Abrir Diagnóstico'})).toBeVisible();
+  route('/configuracion/diagnostico');await userEvent.click(await screen.findByText('Abrir herramientas del expediente'));expect(await screen.findByLabelText('Workspace de prueba')).toBeVisible();
   route('/missing');expect(await screen.findByRole('heading',{name:'Esta dirección no está disponible'})).toBeVisible();
  });
  it('UIR1-06/07/11/13–16/29–31: contexto conserva identidad y borrador; no remonta por tab',async()=>{
@@ -34,6 +37,7 @@ describe('UI-R1 shell / routing',()=>{
   // Core routes are tested with the real product views in CommercialProduct/TenderRouting.
 
   expect(screen.getByRole('navigation',{name:'Navegación principal'})).not.toHaveTextContent('Partidas');
+  await user.click(screen.getByText('Abrir herramientas del expediente'));
   await user.type(screen.getByLabelText('Decisión local de prueba'),'precio pendiente');const count=reads.workspace.mock.calls.length;
   route('/configuracion');expect(await screen.findByRole('heading',{level:1,name:'Configuración'})).toBeVisible();
   expect(screen.getByLabelText('Decisión local de prueba')).toHaveValue('precio pendiente');expect(reads.workspace).toHaveBeenCalledTimes(count);

@@ -1,0 +1,11 @@
+import axios from 'axios';
+import {beforeEach,it,expect,vi} from 'vitest';
+import {companyApi} from './company';
+import {readDiagnostics,diagnosticSummary} from './diagnostics';
+import {companyDocument} from '../test/supportFixtures';
+beforeEach(()=>vi.restoreAllMocks());
+it('company documents reject foreign ownership and encode identity segments',async()=>{const get=vi.spyOn(axios,'get').mockResolvedValue({data:[companyDocument()]});await expect(companyApi.documents('/api','foreign',false)).rejects.toThrow('CONTEXT');await expect(companyApi.documents('/api','a/b',false)).rejects.toThrow();expect(get.mock.calls[1][0]).toBe('/api/companies/a%2Fb/documents');});
+it('company evidence rejects cross-document result',async()=>{vi.spyOn(axios,'get').mockResolvedValue({data:{evidence:[{company_id:'c',company_document_id:'foreign'}]}});await expect(companyApi.evidence('/api','c','a')).rejects.toThrow('CONTEXT');});
+it('import correlation rejects malformed/multiple or mismatched results',async()=>{vi.spyOn(axios,'post').mockResolvedValue({data:[{filename:'other.pdf'}]});await expect(companyApi.import('/api','c',new File(['A'],'A.pdf'))).rejects.toThrow('IDENTITY');});
+it('diagnostics allowlist discards secrets, paths, URLs and free-form reasons before display or copy',async()=>{vi.spyOn(axios,'get').mockImplementation(async(url:string)=>({data:url.endsWith('/health')?{status:'ok',secret:'TOP_SECRET'}:url.endsWith('/ocr/providers')?[{status:'AVAILABLE',status_reason:'TOP_SECRET'}]:url.endsWith('/vision/providers')?{runtime_available:true,model_available:false,base_url:'TOP_SECRET',configured_model:'TOP_SECRET',provider_status_reason:'TOP_SECRET'}:[{id:'PEMEX',enabled:true,name:'TOP_SECRET'}]}));const value=await readDiagnostics('/api');expect(JSON.stringify(value)).not.toContain('TOP_SECRET');expect(diagnosticSummary(value)).not.toContain('TOP_SECRET');expect(value.ocr).toEqual({available:1,total:1});});
+it('diagnostic grouped reads tolerate service failures without suppressing successful groups',async()=>{vi.spyOn(axios,'get').mockImplementation(async(url:string)=>{if(url.endsWith('/health'))return{data:{status:'ok'}};throw new Error('unavailable');});const value=await readDiagnostics('/api');expect(value).toEqual({api:true,ocr:null,vision:null,sources:null});});

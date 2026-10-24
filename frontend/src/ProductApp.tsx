@@ -1,3 +1,7 @@
+import {CompanyView} from './components/CompanyView';
+import {ReportsView} from './components/ReportsView';
+import {SettingsView} from './components/SettingsView';
+import {DiagnosticsView} from './components/DiagnosticsView';
 import {CommercialView} from "./components/CommercialView";
 import {ReadinessView} from "./components/ReadinessView";
 import {ProposalVersions} from "./components/ProposalVersions";
@@ -9,7 +13,6 @@ import {InicioView} from './components/InicioView';
 import {TenderListView,TenderProductWorkspace} from './components/TenderProductViews';
 import type {Tender} from './api/tenders';
 import Workspace, { type WorkspaceContext } from './App';
-import { CompanyEvidenceLibrary } from './components/CompanyEvidenceLibrary';
 import { DiscoveryView } from './components/DiscoveryView';
 import { AppShell, TenderContextNav } from './ui/AppShell';
 import { EmptyState, ErrorState, LoadingState, Notice, PageHeader } from './ui/primitives';
@@ -25,6 +28,7 @@ export default function ProductApp() {
   const previous = useRef(route);
   const acceptedHash = useRef(window.location.hash);
   const legacyVisited = useRef(false);
+  const [diagnosticToolsOpened,setDiagnosticToolsOpened]=useState(false);
   const listVisited = useRef(false);
   if(route.page==='licitaciones'&&!route.tenderId)listVisited.current=true;
   const [productTender,setProductTender]=useState<WorkspaceContext|null>(null);
@@ -35,7 +39,7 @@ export default function ProductApp() {
   if(isCore&&route.tenderId){if(engineeringVisited.current.tenderId!==route.tenderId)engineeringVisited.current={tenderId:route.tenderId,sections:new Set()};if(['requisitos','cumplimiento','partidas','comercial','preparacion','propuesta'].includes(route.section??''))engineeringVisited.current.sections.add(route.section!);}
   const isLegacy = route.page === 'diagnostico' || route.page === 'licitaciones' && !!route.tenderId && !isCore;
   if(isCore)coreRoute.current={id:route.tenderId!,section:route.section!,documentId:route.documentId,pageNumber:route.pageNumber};
-  if(isLegacy){legacyVisited.current=true;if(route.tenderId)legacyId.current=route.tenderId;else if(coreRoute.current)legacyId.current=coreRoute.current.id;}
+  if(isLegacy&&diagnosticToolsOpened){legacyVisited.current=true;if(route.tenderId)legacyId.current=route.tenderId;else if(coreRoute.current)legacyId.current=coreRoute.current.id;}
   const productContext = useCallback((value:Tender|null)=>{if(value)window.localStorage.setItem('licitia_selected_tender_id',value.id);setProductTender(value?{id:value.id,title:value.title,reference:value.external_reference,status:value.status}:null);},[]);
   const discoveryRoute = useRef(route);
   if(route.page==='discovery')discoveryRoute.current=route;
@@ -75,7 +79,7 @@ export default function ProductApp() {
   }, [route]);
   const selectedContext = isCore ? productTender : context;
   const tender = route.tenderId && selectedContext?.id === route.tenderId ? selectedContext : null;
-  const workspaceVisible = isLegacy;
+  const workspaceVisible = isLegacy&&diagnosticToolsOpened;
   const workspaceVisited = legacyVisited.current;
   return <AppShell route={route}>
     <PageHeader title={tender ? tender.title : titles[route.page]} context={tender ? <>{tender.reference || 'Sin referencia'} · {tender.status === 'DRAFT' ? 'Borrador' : tender.status === 'ACTIVE' ? 'Activa' : tender.status === 'ARCHIVED' ? 'Archivada' : 'Estado por revisar'}</> : undefined} />
@@ -90,10 +94,10 @@ export default function ProductApp() {
     {engineeringVisited.current.sections.has('propuesta')&&<div className="proposal-product" hidden={!isCore||route.section!=='propuesta'}><ProposalVersions key={engineeringVisited.current.tenderId} apiUrl={API_URL} tenderId={engineeringVisited.current.tenderId} disabled={false} product/></div>}
     {route.page === 'inicio' && <InicioView apiUrl={API_URL}/>}
     {visited.has('discovery') && <div hidden={route.page !== 'discovery'}><DiscoveryView apiUrl={API_URL} onOpenTender={openTender} view={discoveryRoute.current.view} opportunityId={discoveryRoute.current.opportunityId} scanId={discoveryRoute.current.scanId} scanSource={discoveryRoute.current.scanSource} filterRequest={discoveryRoute.current} /></div>}
-    {visited.has('empresa') && <div hidden={route.page !== 'empresa'}><CompanyEvidenceLibrary apiUrl={API_URL} /></div>}
-    {route.page === 'reportes' && <EmptyState title="Los archivos se generan en cada licitación" action={<a href="#/licitaciones">Elegir licitación</a>}>Usa Comercial para sus archivos de intercambio y Propuesta para DOCX, XLSX, PDF o ZIP. No hay un reporte global habilitado.</EmptyState>}
-    {route.page === 'configuracion' && <section className="ui-surface"><h2>Herramientas locales</h2><p>La configuración de fuentes y consultas permanece en Discovery durante esta transición.</p><a href="#/discovery">Abrir Discovery</a><p><a href="#/configuracion/diagnostico">Abrir diagnóstico del expediente</a></p><p>Las copias de seguridad y restauraciones se administran con las herramientas locales documentadas. Esta pantalla no modifica la base de datos.</p></section>}
-    {route.page === 'diagnostico' && <Notice>Vista técnica existente del expediente. Selecciona una licitación para consultar fuentes, versiones, lectura y auditorías. Los análisis requieren una acción explícita.</Notice>}
+    {visited.has('empresa') && <div hidden={route.page !== 'empresa'}><CompanyView embedded apiUrl={API_URL} /></div>}
+    {visited.has('reportes')&&<div hidden={route.page!=='reportes'}><ReportsView embedded apiUrl={API_URL}/></div>}
+    {visited.has('configuracion')&&<div hidden={route.page!=='configuracion'}><SettingsView embedded apiUrl={API_URL}/></div>}
+    {visited.has('diagnostico')&&<div hidden={route.page!=='diagnostico'}><DiagnosticsView embedded apiUrl={API_URL} toolsOpened={diagnosticToolsOpened} onOpenTools={()=>setDiagnosticToolsOpened(v=>!v)}/></div>}
     {route.page === 'not-found' && <EmptyState title="Esta dirección no está disponible" action={<a href="#/">Volver a Inicio</a>}>Usa la navegación para elegir una sección del producto.</EmptyState>}
     {workspaceVisited && <div id="legacy-content" hidden={!workspaceVisible}><Workspace embedded processingActive={workspaceVisible} requestedTenderId={legacyId.current ?? context?.id} onTenderOpen={openTender} onContext={contextChange} onAvailability={setAvailability} /></div>}
     {route.page === 'licitaciones' && !route.tenderId && context && <p><a href={tenderHref(context.id)}>Continuar en {context.title}</a></p>}
