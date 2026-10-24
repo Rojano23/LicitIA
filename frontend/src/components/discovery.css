@@ -1,0 +1,113 @@
+.product-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-4); }
+.product-toolbar p { margin: 0; color: var(--text-secondary); max-width: 75ch; }
+.product-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; margin: var(--space-3) 0; }
+.metric-strip { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--space-4); margin-bottom: var(--space-6); }
+.metric-link { display: grid; gap: var(--space-1); padding: var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-standard); background: var(--bg-surface); color: var(--text-primary); text-decoration: none; }
+.metric-link:hover { border-color: var(--action); }
+.metric-link strong { font-size: var(--font-page); line-height: 1.2; font-variant-numeric: tabular-nums; }
+.metric-link small { color: var(--text-secondary); }
+.inicio-product h2 { font-size: var(--font-section); margin: var(--space-4) 0 var(--space-3); }
+.inicio-product h3 { font-size: var(--font-body); margin-bottom: var(--space-2); }
+.attention-list { padding: 0; margin: 0; list-style: none; }
+.attention-list li { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); padding: var(--space-3) 0; border-bottom: 1px solid var(--border-subtle); }
+.attention-list p { margin: var(--space-1) 0; color: var(--text-secondary); }
+.attention-list a { flex-shrink: 0; }
+.source-strip { display: flex; gap: var(--space-4); flex-wrap: wrap; padding: var(--space-2) 0; margin-bottom: var(--space-3); border-bottom: 1px solid var(--border-subtle); }
+.source-strip > span { display: flex; flex-direction: column; gap: var(--space-1); }
+.source-strip small { color: var(--text-secondary); }
+.discovery-filters { display: flex; gap: var(--space-3); align-items: end; flex-wrap: wrap; margin-bottom: var(--space-3); }
+.discovery-product label { display: inline-flex; flex-direction: column; gap: var(--space-1); font-size: var(--font-secondary); }
+.discovery-product label:has(input[type=checkbox]) { flex-direction: row; align-items: center; }
+.discovery-product input:not([type=checkbox]), .discovery-product select, .discovery-product textarea { min-height: 36px; max-width: 100%; padding: var(--space-2); border: 1px solid var(--border-normal); border-radius: var(--radius-standard); background: var(--bg-surface); color: var(--text-primary); }
+.discovery-product textarea { min-height: 80px; }
+.secondary-controls { margin: var(--space-3) 0; border: 1px solid var(--border-subtle); padding: var(--space-3); background: var(--bg-surface); }
+.secondary-controls summary, .row-actions summary { cursor: pointer; min-height: 28px; }
+.secondary-controls[open] > summary { margin-bottom: var(--space-3); }
+.secondary-controls > label, .secondary-controls > .ui-button, .secondary-controls fieldset label { margin: var(--space-2); }
+.secondary-controls fieldset { display: flex; gap: var(--space-3); flex-wrap: wrap; border: 1px solid var(--border-subtle); }
+.opportunities-table { min-width: 1120px; table-layout: fixed; }
+.opportunities-table th:nth-child(1) { width: 140px; }
+.opportunities-table th:nth-child(2) { width: 260px; }
+.opportunities-table th:nth-child(3) { width: 145px; }
+.opportunities-table th:nth-child(4) { width: 140px; }
+.opportunities-table th:nth-child(5) { width: 150px; }
+.opportunities-table th:nth-child(6) { width: 125px; }
+.opportunities-table th:nth-child(7) { width: 155px; }
+.opportunities-table td { vertical-align: top; overflow-wrap: anywhere; }
+.opportunities-table .description-link { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-align: left; padding: 0; min-height: 0; font-weight: 400; width: 100%; }
+.opportunities-table small { display: block; }
+.row-actions { display: grid; gap: var(--space-2); }
+.action-list { display: grid; gap: var(--space-2); padding-top: var(--space-2); }
+.opportunity-detail { border: 1px solid var(--border-subtle); background: var(--bg-surface); padding: var(--space-4); margin: var(--space-4) 0; overflow-wrap: anywhere; }
+.opportunity-detail pre { overflow: auto; max-width: 100%; white-space: pre-wrap; }
+.opportunity-detail .ui-button { margin: var(--space-1); }
+.opportunity-detail ul, .opportunity-detail ol { padding-left: var(--space-6); }
+@media(max-width:767px) { .metric-strip { grid-template-columns: 1fr; } .attention-list li { flex-wrap: wrap; } .discovery-filters label { width: 100%; } }
+
+.discovery-product .ui-table-shell { max-height: 56vh; }
+
+.opportunity-detail label:has(input:not([type=checkbox])) { display: flex; max-width: 640px; margin: var(--space-3) 0; }
+.opportunity-detail label:has(input:not([type=checkbox])) input { width: 100%; }
+/* Keep the primary row action reachable while other columns scroll locally. */
+.opportunities-table th:last-child, .opportunities-table td:last-child { position: sticky; right: 0; background: var(--bg-surface); border-left: 1px solid var(--border-subtle); z-index: 1; }
+.opportunities-table th:last-child { background: var(--bg-secondary); z-index: 2; }
+
+/* UI-R2.1: local visual hierarchy only; shared tokens and behavior remain unchanged. */
+.inicio-product .metric-strip { gap: var(--space-3); margin-bottom: var(--space-6); }
+.inicio-product .metric-link { padding: var(--space-3) var(--space-4); gap: var(--space-1); border-top: 2px solid var(--border-normal); }
+.inicio-product .metric-link > span { font-weight: 600; color: var(--text-secondary); }
+.inicio-product .metric-link > strong { font-size: 1.75rem; letter-spacing: -.02em; }
+.inicio-product .metric-link small { font-size: var(--font-secondary); }
+.inicio-attention, .inicio-recent { border-top: 1px solid var(--border-normal); padding-top: var(--space-3); margin-top: var(--space-6); }
+.inicio-product .inicio-attention h2, .inicio-product .inicio-recent h2 { margin-top: 0; }
+.inicio-attention > h3 { color: var(--text-secondary); font-weight: 600; }
+.inicio-attention > .ui-secondary { font-size: var(--font-secondary); max-width: 95ch; }
+.inicio-product .attention-list li { padding: var(--space-3); background: var(--bg-surface); border-left: 3px solid var(--border-subtle); }
+.inicio-product .attention-list--opportunities li { border-left-color: var(--info); }
+.inicio-product .attention-list--scans li { border-left-color: var(--warning); }
+.inicio-product .attention-list li strong { font-weight: 600; }
+.inicio-product .attention-list li p { font-size: var(--font-secondary); }
+.inicio-product .attention-list li > a { padding: var(--space-2); font-weight: 600; text-underline-offset: 3px; }
+.inicio-recent .ui-table-shell { margin-bottom: var(--space-2); }
+
+.discovery-product .source-strip { gap: var(--space-3) var(--space-6); padding: var(--space-3) 0; margin-bottom: var(--space-4); align-items: baseline; }
+.discovery-product .source-strip small { font-size: var(--font-secondary); }
+.discovery-product > .discovery-filters { padding: var(--space-3); background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-standard); }
+.discovery-product .discovery-filters > label { gap: var(--space-2); color: var(--text-secondary); font-weight: 500; }
+.discovery-product .discovery-filters input, .discovery-product .discovery-filters select { color: var(--text-primary); font-weight: 400; }
+.discovery-product > .secondary-controls > summary { color: var(--text-secondary); font-weight: 600; }
+.discovery-product > .ui-secondary { font-size: var(--font-secondary); margin: var(--space-4) 0 var(--space-2); }
+.discovery-product .opportunities-table td { padding-top: var(--space-3); padding-bottom: var(--space-3); }
+.discovery-product .opportunities-table .opportunity-pending-changes { border-left: 2px solid var(--warning); background: var(--warning-bg); }
+.discovery-product .row-primary-action { border-color: var(--action); color: var(--action); }
+.discovery-product .row-actions summary { color: var(--text-secondary); font-size: var(--font-secondary); padding: var(--space-1) 0; }
+.discovery-product .row-actions .action-list { border-top: 1px solid var(--border-subtle); }
+.discovery-product .results-pagination { padding: var(--space-2) 0; margin-top: var(--space-2); border-bottom: 1px solid var(--border-subtle); }
+
+.discovery-product .opportunity-detail { padding: var(--space-4) var(--space-6); }
+.opportunity-detail h3 { margin: var(--space-3) 0 var(--space-4); font-size: var(--font-section); }
+.opportunity-detail .detail-section { padding: var(--space-4) 0; border-top: 1px solid var(--border-subtle); }
+.opportunity-detail .detail-section > h4 { margin: 0 0 var(--space-3); font-size: 1rem; line-height: 1.5; font-weight: 600; }
+.opportunity-detail .detail-public > h4 { max-width: 90ch; }
+.opportunity-detail .detail-section p { margin: var(--space-2) 0; line-height: 1.5; }
+.opportunity-detail .detail-section details { margin: var(--space-2) 0; }
+.opportunity-detail .detail-section summary { color: var(--text-secondary); min-height: 28px; cursor: pointer; }
+.opportunity-detail .detail-change-summary { border-left: 3px solid var(--info); padding: var(--space-2) var(--space-3); background: var(--bg-secondary); }
+.opportunity-detail .detail-history > ol { margin: var(--space-3) 0; padding-left: var(--space-6); }
+.opportunity-detail .detail-history > ol > li { border-bottom: 1px solid var(--border-subtle); padding: var(--space-2) var(--space-1); }
+.opportunity-detail .detail-history > p { font-size: var(--font-secondary); color: var(--text-secondary); }
+.opportunity-detail .detail-handoff { border-top-color: var(--border-normal); }
+.opportunity-detail .handoff-selection { margin-top: var(--space-4); }
+.opportunity-detail h5 { margin: 0 0 var(--space-2); font-size: var(--font-body); font-weight: 600; }
+.opportunity-detail .handoff-selection > ul { margin: var(--space-3) 0; padding-left: var(--space-6); }
+.opportunity-detail .handoff-selection > ul > li { padding: var(--space-2) 0; border-bottom: 1px solid var(--border-subtle); }
+.opportunity-detail .handoff-confirmation { border-left: 3px solid var(--border-normal); background: var(--bg-secondary); padding: var(--space-3) var(--space-4); margin-top: var(--space-4); display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-3); }
+.opportunity-detail .handoff-confirmation > h5 { flex-basis: 100%; margin-bottom: 0; }
+.opportunity-detail .handoff-confirmation > label { flex: 1 1 300px; }
+.opportunity-detail .handoff-confirmation > [role=status] { flex-basis: 100%; }
+@media(max-width:767px) {
+  .discovery-product > .discovery-filters { align-items: stretch; }
+  .discovery-product > .discovery-filters > .ui-button { align-self: flex-start; }
+  .discovery-product .opportunity-detail { padding: var(--space-3); }
+  .opportunity-detail .handoff-confirmation { padding: var(--space-3); }
+}

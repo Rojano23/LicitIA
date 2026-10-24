@@ -18,15 +18,15 @@ beforeEach(()=>{
  vi.mocked(monitoringApi.history).mockResolvedValue({items:[{id:'change',category:'DOCUMENT_ADDED',origin:'SOURCE',detected_at:'now',summary:'New document available',changed_fields:{},acknowledged_at:null}],total:1,offset:0,limit:100});
  vi.mocked(monitoringApi.handoff).mockImplementation(async()=>{row={...row,internal_state:'IMPORTED',linked_tender:{id:'canonical-tender',available:true}};return {tender_id:'canonical-tender',tender_available:true,already_created:false,documents_status:'COMPLETE_SELECTION',documents:[{source_document_id:'document',status:'IMPORTED'}],analysis_started:false};});
 });
-it('recorre scan/perfil/follow/detalle/selección/confirmación/Open Tender sin creación automática',async()=>{
- const open=vi.fn();render(<DiscoveryView apiUrl="" onOpenTender={open}/>);fireEvent.click(screen.getByText('Consultar fuentes Discovery'));await screen.findByText('PEMEX público');
- fireEvent.change(screen.getByLabelText('Perfil'),{target:{value:'profile'}});fireEvent.click(screen.getByLabelText('Sólo coincidencias del perfil'));fireEvent.click(screen.getByText('Ejecutar scan manual'));
+it('recorre scan/perfil/follow/detalle/selección/confirmación/Abrir licitación sin creación automática',async()=>{
+ const open=vi.fn();render(<DiscoveryView apiUrl="" onOpenTender={open}/>);fireEvent.click(screen.getByText('Actualizar fuentes y perfiles locales'));await screen.findByText('PEMEX público');
+ fireEvent.change(screen.getByLabelText('Perfil de búsqueda'),{target:{value:'profile'}});fireEvent.click(screen.getByLabelText('Sólo coincidencias del perfil'));fireEvent.click(screen.getByText('Consultar fuente ahora'));
  await screen.findByText('EVENT');expect(monitoringApi.handoff).not.toHaveBeenCalled();expect(discoveryApi.list).toHaveBeenLastCalledWith('',expect.objectContaining({profile_id:'profile',matched_only:true}));
  await waitFor(()=>expect(screen.getByLabelText('Estado interno EVENT')).not.toBeDisabled());fireEvent.change(screen.getByLabelText('Estado interno EVENT'),{target:{value:'FOLLOWING'}});
- await waitFor(()=>expect(discoveryApi.state).toHaveBeenCalled());await waitFor(()=>expect(screen.getByText('Revisar / Create Tender')).not.toBeDisabled());fireEvent.click(screen.getByText('Revisar / Create Tender'));
- await screen.findByText(/New document available/);expect(screen.getByLabelText('Bases.pdf')).not.toBeChecked();expect(screen.getByText('Create Tender',{selector:'button'})).toBeDisabled();
- fireEvent.click(screen.getByLabelText('Bases.pdf'));fireEvent.click(screen.getByLabelText(/Confirmo crear Tender/));fireEvent.click(screen.getByText('Create Tender',{selector:'button'}));
- await screen.findByText(/análisis no iniciado/);await waitFor(()=>expect(screen.getAllByText('Open Tender').length).toBeGreaterThan(0));fireEvent.click(screen.getAllByText('Open Tender')[0]);expect(open).toHaveBeenCalledWith('canonical-tender');expect(monitoringApi.handoff).toHaveBeenCalledTimes(1);
+ await waitFor(()=>expect(discoveryApi.state).toHaveBeenCalled());await waitFor(()=>expect(screen.getByText('Revisar')).not.toBeDisabled());fireEvent.click(screen.getByText('Revisar'));
+ await screen.findByText(/Nuevo documento/);expect(screen.getByLabelText('Bases.pdf')).not.toBeChecked();expect(screen.getByText('Crear licitación',{selector:'button'})).toBeDisabled();
+ fireEvent.click(screen.getByLabelText('Bases.pdf'));fireEvent.click(screen.getByLabelText(/Confirmo crear licitación/));fireEvent.click(screen.getByText('Crear licitación',{selector:'button'}));
+ await screen.findByText(/análisis no iniciado/);await waitFor(()=>expect(screen.getAllByText('Abrir licitación').length).toBeGreaterThan(0));fireEvent.click(screen.getAllByText('Abrir licitación')[0]);expect(open).toHaveBeenCalledWith('canonical-tender');expect(monitoringApi.handoff).toHaveBeenCalledTimes(1);
 });
 it('muestra metadata HTML/script como texto y no construye elementos ejecutables',async()=>{
  row={...row,title:'<script>malicious()</script>',description:'<img src=x onerror=malicious()>'};render(<DiscoveryDetail apiUrl="" id={row.id} onChanged={async()=>{}}/>);

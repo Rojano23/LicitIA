@@ -13,6 +13,7 @@ vi.mock('../App', () => ({ default: ({ onContext, requestedTenderId }: { onConte
 } }));
 vi.mock('../components/DiscoveryView', () => ({ DiscoveryView: () => {useEffect(()=>{reads.discovery();},[]);return <p>Discovery existente</p>;} }));
 vi.mock('../components/CompanyEvidenceLibrary', () => ({ CompanyEvidenceLibrary: () => <p>Biblioteca existente</p> }));
+vi.mock('../components/InicioView',()=>({InicioView:()=> <p>Inicio sin adquisición de prueba</p>}));
 import ProductApp from '../ProductApp';
 function route(path:string) { window.history.replaceState(null,'',`/#${path}`); fireEvent(window,new HashChangeEvent('hashchange')); }
 beforeEach(()=>{route('/'); reads.workspace.mockClear();reads.discovery.mockClear();});

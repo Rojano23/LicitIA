@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import {InicioView} from './components/InicioView';
 import Workspace, { type WorkspaceContext } from './App';
 import { CompanyEvidenceLibrary } from './components/CompanyEvidenceLibrary';
 import { DiscoveryView } from './components/DiscoveryView';
@@ -14,6 +15,8 @@ export default function ProductApp() {
   const [context, setContext] = useState<WorkspaceContext | null>(null);
   const [visited, setVisited] = useState(() => new Set([route.page]));
   const previous = useRef(route);
+  const discoveryRoute = useRef(route);
+  if(route.page==='discovery')discoveryRoute.current=route;
   const contextChange = useCallback((value: WorkspaceContext | null) => setContext(value), []);
   const openTender = useCallback((id: string) => { window.location.hash = tenderHref(id); }, []);
   useEffect(() => {
@@ -51,8 +54,8 @@ export default function ProductApp() {
   return <AppShell route={route}>
     <PageHeader title={tender ? tender.title : titles[route.page]} context={tender ? <>{tender.reference || 'Sin referencia'} · {tender.status === 'DRAFT' ? 'Borrador' : tender.status === 'ACTIVE' ? 'Activa' : tender.status === 'ARCHIVED' ? 'Archivada' : 'Estado por revisar'}</> : undefined} />
     {route.tenderId && <><TenderContextNav id={route.tenderId} section={route.section} /><Notice>Consulta los documentos y resultados del expediente. La revisión y las decisiones finales permanecen bajo tu control.</Notice>{!tender && (availability === "error" ? <ErrorState /> : availability === "loading" ? <LoadingState>Consultando la licitación…</LoadingState> : <EmptyState title="La licitación no está disponible" action={<a href="#/licitaciones">Elegir otra licitación</a>}>Verifica que siga disponible en este equipo.</EmptyState>)}</>}
-    {route.page === 'inicio' && <EmptyState title="Continúa tu trabajo" action={<a className="ui-button ui-button--primary" href="#/licitaciones">Abrir licitaciones</a>}>Puedes trabajar con tus expedientes o consultar oportunidades públicas en Discovery. Elige una licitación para continuar con sus documentos y pendientes.</EmptyState>}
-    {visited.has('discovery') && <div hidden={route.page !== 'discovery'}><DiscoveryView apiUrl={API_URL} onOpenTender={openTender} /></div>}
+    {route.page === 'inicio' && <InicioView apiUrl={API_URL}/>}
+    {visited.has('discovery') && <div hidden={route.page !== 'discovery'}><DiscoveryView apiUrl={API_URL} onOpenTender={openTender} view={discoveryRoute.current.view} opportunityId={discoveryRoute.current.opportunityId} scanId={discoveryRoute.current.scanId} scanSource={discoveryRoute.current.scanSource} filterRequest={discoveryRoute.current} /></div>}
     {visited.has('empresa') && <div hidden={route.page !== 'empresa'}><CompanyEvidenceLibrary apiUrl={API_URL} /></div>}
     {route.page === 'reportes' && <EmptyState title="Los archivos se generan en cada licitación" action={<a href="#/licitaciones">Elegir licitación</a>}>Usa Comercial para sus archivos de intercambio y Propuesta para DOCX, XLSX, PDF o ZIP. No hay un reporte global habilitado.</EmptyState>}
     {route.page === 'configuracion' && <section className="ui-surface"><h2>Herramientas locales</h2><p>La configuración de fuentes y consultas permanece en Discovery durante esta transición.</p><a href="#/discovery">Abrir Discovery</a><p><a href="#/configuracion/diagnostico">Abrir diagnóstico del expediente</a></p><p>Las copias de seguridad y restauraciones se administran con las herramientas locales documentadas. Esta pantalla no modifica la base de datos.</p></section>}

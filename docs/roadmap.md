@@ -6,8 +6,9 @@ No M10-E ni MVP-11. El cierre funcional no declara terminada la UI ni lista una 
 
 Siguiente fase: **RX23 TuScope Product UI / UX**. UI-R0 entrega únicamente auditoría y
 [especificación canónica](RX23_TUSCOPE_PRODUCT_UI_RECONCILIATION_v1.md), **UI-R0 ACCEPTED**, commit `8b51215`.
-[UI-R1 shell/navegación/tokens](ui-r1-app-shell.md): implementado y validado, sin stage/commit/push, listo para revisión visual/arquitectónica.
-UI-R1 fue autorizado por decisión arquitectónica; UI-R2–R7 siguen propuestos y no implementados.
+[UI-R1 shell/navegación/tokens](ui-r1-app-shell.md): **UI-R1 ACCEPTED**, commit `d0398f17f4b46c4a74046513aaced1451ad52951`; sin push.
+[UI-R2 Inicio/Discovery](ui-r2-inicio-discovery.md): implementado y validado, sin stage/commit/push; listo para revisión arquitectónica y visual.
+UI-R1 y UI-R2 fueron autorizados por decisión arquitectónica; UI-R3–R7 siguen propuestos y no implementados.
 Después de UI final: pruebas reales del product owner → demos controladas → correcciones →
 instalador Windows → Private Beta externa instalada. Sin nuevas fuentes/backend/IA ahora.
 El detalle siguiente conserva la secuencia histórica de implementación y aceptación.
