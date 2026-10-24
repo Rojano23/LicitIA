@@ -8,8 +8,9 @@ Siguiente fase: **RX23 TuScope Product UI / UX**. UI-R0 entrega únicamente audi
 [especificación canónica](RX23_TUSCOPE_PRODUCT_UI_RECONCILIATION_v1.md), **UI-R0 ACCEPTED**, commit `8b51215`.
 [UI-R1 shell/navegación/tokens](ui-r1-app-shell.md): **UI-R1 ACCEPTED**, commit `d0398f17f4b46c4a74046513aaced1451ad52951`; sin push.
 [UI-R2 Inicio/Discovery](ui-r2-inicio-discovery.md) + [UI-R2.1](ui-r2-1-visual-polish.md): **ACCEPTED**, commit `1d73dcd1738162ed5e0edbf2993a9415d247f170`; sin push.
-[UI-R3 Licitaciones/Resumen/Documentos](ui-r3-implementation.md): diseño aprobado (`ed3e1a2ce208f761de4869eae8e252477125afa8`), implementación validada pendiente de revisión arquitectónica/visual; sin stage/commit/push del runtime.
-UI-R1–R3 autorizados por decisión arquitectónica; UI-R4–R7 siguen propuestos y no implementados.
+[UI-R3 Licitaciones/Resumen/Documentos](ui-r3-implementation.md): **ARCHITECTURE/FUNCTIONAL/VISUAL PASS**, commit `935dce1017195f69c1fb74138571b1c8583d037f`; sin push.
+[UI-R4 Requisitos/Cumplimiento/Partidas](ui-r4-implementation.md): implementado y validado, pendiente de aceptación arquitectónica/visual; sin stage/commit/push.
+UI-R1–R4 autorizados por decisión arquitectónica; UI-R5–R7 siguen propuestos y no implementados.
 Después de UI final: pruebas reales del product owner → demos controladas → correcciones →
 instalador Windows → Private Beta externa instalada. Sin nuevas fuentes/backend/IA ahora.
 El detalle siguiente conserva la secuencia histórica de implementación y aceptación.
