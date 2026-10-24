@@ -1,5 +1,6 @@
+import {DocumentImports} from './components/DocumentImports';
 import {DiscoveryView} from "./components/DiscoveryView";
-import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { CompanyEvidenceLibrary } from "./components/CompanyEvidenceLibrary";
 import { WorkspaceFlow } from "./components/WorkspaceFlow";
@@ -59,26 +60,6 @@ type DocumentPage = {
   status: string;
   extracted_at: string;
   ocr_results: PageOcrResult[];
-};
-
-type ImportResult = {
-  filename: string;
-  source_relative_path: string | null;
-  status: string;
-  message: string | null;
-  document_id: string | null;
-  stored_relative_path: string | null;
-  sha256: string | null;
-  revision_of_document_id: string | null;
-  revision_number: number | null;
-  is_current: boolean | null;
-};
-
-type PendingConflict = {
-  file: File;
-  sourceRelativePath: string | null;
-  filename: string;
-  candidates: TenderDocument[];
 };
 
 type OcrProvider = {
@@ -1496,8 +1477,8 @@ const API_URL = "http://localhost:8000";
 const SELECTED_TENDER_STORAGE_KEY = "licitia_selected_tender_id";
 
 export type WorkspaceContext = { id: string; title: string; reference: string | null; status: string };
-type AppProps = { embedded?: boolean; requestedTenderId?: string; onTenderOpen?: (id: string) => void; onContext?: (context: WorkspaceContext | null) => void; onAvailability?: (state: "loading" | "ready" | "error") => void };
-function App({ embedded = false, requestedTenderId, onTenderOpen, onContext, onAvailability }: AppProps = {}) {
+type AppProps = { processingActive?: boolean; embedded?: boolean; requestedTenderId?: string; onTenderOpen?: (id: string) => void; onContext?: (context: WorkspaceContext | null) => void; onAvailability?: (state: "loading" | "ready" | "error") => void };
+function App({ processingActive = true, embedded = false, requestedTenderId, onTenderOpen, onContext, onAvailability }: AppProps = {}) {
   const [tenders, setTenders] = useState<Tender[]>([]);
   const [selectedTenderId, setSelectedTenderId] = useState<string | null>(null);
   const [documents, setDocuments] = useState<TenderDocument[]>([]);
@@ -1508,10 +1489,6 @@ function App({ embedded = false, requestedTenderId, onTenderOpen, onContext, onA
   const [loading, setLoading] = useState(false);
   const [documentsLoading, setDocumentsLoading] = useState(false);
   const [documentsError, setDocumentsError] = useState<string | null>(null);
-  const [importing, setImporting] = useState(false);
-  const [importResults, setImportResults] = useState<ImportResult[]>([]);
-  const [pendingConflict, setPendingConflict] = useState<PendingConflict | null>(null);
-  const [selectedRevisionTargetId, setSelectedRevisionTargetId] = useState<string>("");
   const [selectedDocumentId, setSelectedDocumentId] = useState<string | null>(null);
   const [documentPages, setDocumentPages] = useState<DocumentPage[]>([]);
   const [documentPagesLoading, setDocumentPagesLoading] = useState(false);
@@ -1838,118 +1815,30 @@ function App({ embedded = false, requestedTenderId, onTenderOpen, onContext, onA
     }
   };
 
-  const resolveConflict = async (action: "IMPORT_INDEPENDENT" | "NEW_REVISION") => {
-    if (!selectedTenderId || !pendingConflict) {
-      return;
-    }
-
-    setImporting(true);
-    setError("");
-
-    try {
-      const formData = new FormData();
-      formData.append("files", pendingConflict.file);
-      if (pendingConflict.sourceRelativePath) {
-        formData.append("source_relative_paths", pendingConflict.sourceRelativePath);
-      }
-      formData.append("conflict_action", action);
-
-      if (action === "NEW_REVISION") {
-        if (!selectedRevisionTargetId) {
-          setError("Debe seleccionar un documento actual para crear una revisión.");
-          return;
-        }
-        formData.append("revision_of_document_id", selectedRevisionTargetId);
-      }
-
-      const response = await axios.post<ImportResult[]>(`${API_URL}/tenders/${selectedTenderId}/documents/import`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      setImportResults(response.data);
-      setPendingConflict(null);
-      setSelectedRevisionTargetId("");
-      await loadDocuments(selectedTenderId);
-      await loadTenderStateSnapshot(selectedTenderId);
-    } catch (err) {
-      setError("No se pudo resolver el conflicto del documento.");
-    } finally {
-      setImporting(false);
-    }
-  };
-
-  const handleImport = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (!selectedTenderId) {
-      setError("Select a Tender before importing documents.");
-      return;
-    }
-
-    const selectedFiles = Array.from(event.target.files ?? []);
-    if (selectedFiles.length === 0) {
-      return;
-    }
-
-    setImporting(true);
-    setError("");
-
-    try {
-      const formData = new FormData();
-      const relativePaths: string[] = [];
-
-      selectedFiles.forEach((file) => {
-        const relativePath = (file as File & { webkitRelativePath?: string }).webkitRelativePath || "";
-        formData.append("files", file);
-        relativePaths.push(relativePath);
-      });
-
-      relativePaths.forEach((item) => formData.append("source_relative_paths", item));
-
-      const response = await axios.post<ImportResult[]>(`${API_URL}/tenders/${selectedTenderId}/documents/import`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      const conflicts = response.data.filter((result) => result.status === "NAME_CONFLICT");
-      if (conflicts.length > 0 && selectedFiles.length > 0) {
-        const conflictFile = selectedFiles[0];
-        const candidates = documents.filter((document) => document.original_filename === conflicts[0].filename);
-        setPendingConflict({
-          file: conflictFile,
-          sourceRelativePath: relativePaths[0] || null,
-          filename: conflicts[0].filename,
-          candidates,
-        });
-        if (candidates[0]) {
-          setSelectedRevisionTargetId(candidates[0].id);
-        }
-      }
-
-      setImportResults(response.data);
-      await loadDocuments(selectedTenderId);
-      await loadTenderStateSnapshot(selectedTenderId);
-    } catch (err) {
-      setError("Unable to import the selected documents.");
-    } finally {
-      setImporting(false);
-      event.target.value = "";
-    }
-  };
-
   const selectedDocument = documents.find((document) => document.id === selectedDocumentId) ?? null;
   const selectedDocumentUrl =
     selectedTenderId && selectedDocumentId ? `${API_URL}/tenders/${selectedTenderId}/documents/${selectedDocumentId}/content` : null;
   const selectedPage = documentPages.find((page) => page.page_number === selectedPageNumber) ?? null;
 
+  const pageContextRef = useRef('');
+  pageContextRef.current = `${selectedTenderId}:${selectedDocumentId}`;
+  const pageRequestRef = useRef(0);
+  useEffect(()=>{setDocumentPages([]);setSelectedPageNumber(null);},[selectedTenderId,selectedDocumentId]);
   const loadDocumentPages = async (tenderId: string, documentId: string) => {
+    const request=++pageRequestRef.current;
+    const current=()=>request===pageRequestRef.current&&pageContextRef.current===`${tenderId}:${documentId}`;
     setDocumentPagesLoading(true);
     try {
       const response = await axios.get<DocumentPage[]>(`${API_URL}/tenders/${tenderId}/documents/${documentId}/pages`);
+      if(!current())return;
       setDocumentPages(response.data);
       setSelectedPageNumber(response.data[0]?.page_number ?? null);
     } catch (err) {
+      if(!current())return;
       setDocumentPages([]);
       setSelectedPageNumber(null);
     } finally {
-      setDocumentPagesLoading(false);
+      if(current())setDocumentPagesLoading(false);
     }
   };
 
@@ -4202,7 +4091,7 @@ function App({ embedded = false, requestedTenderId, onTenderOpen, onContext, onA
             )}
           </div>
 
-          <WorkspaceFlow key={selectedTenderId} apiUrl={API_URL} tenderId={selectedTenderId} documents={documents} />
+          <WorkspaceFlow key={selectedTenderId} apiUrl={API_URL} tenderId={selectedTenderId} documents={documents} active={processingActive} />
           <TechnicalAlternatives key={`alternatives:${selectedTenderId}`} apiUrl={API_URL} tenderId={selectedTenderId} documents={documents} />
 
           <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 10, padding: 12, background: "#f8fafc" }}>
@@ -6105,70 +5994,7 @@ function App({ embedded = false, requestedTenderId, onTenderOpen, onContext, onA
         </section>
       )}
 
-      {selectedTenderId && (
-        <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>
-          <h2 id="workspace-documentos">Import Documents</h2>
-          <p style={{ color: "#52607a", marginTop: -4 }}>
-            Select a Tender and import multiple files or an entire folder. Duplicates are detected by SHA-256.
-          </p>
-          <label style={{ display: "inline-block", marginTop: 12 }}>
-            <input type="file" multiple onChange={handleImport} style={{ display: "block" }} />
-          </label>
-          <div style={{ marginTop: 12, color: "#52607a" }}>{importing ? "Importing..." : "Ready to import."}</div>
-
-          {pendingConflict && (
-            <div style={{ marginTop: 16, border: "1px solid #d9e1ec", borderRadius: 12, background: "#fff8e7", padding: 16 }}>
-              <h3 style={{ marginTop: 0 }}>Conflicto de documento</h3>
-              <p style={{ margin: "8px 0" }}>
-                Ya existe un documento con el mismo nombre, pero el contenido es diferente. Archivo: <strong>{pendingConflict.filename}</strong>
-              </p>
-
-              {pendingConflict.candidates.length > 0 && (
-                <div style={{ marginTop: 12 }}>
-                  <label style={{ display: "block", marginBottom: 6, fontWeight: 600 }}>Selecciona la revisión actual para registrar la nueva revisión</label>
-                  <select
-                    value={selectedRevisionTargetId}
-                    onChange={(event) => setSelectedRevisionTargetId(event.target.value)}
-                    style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #cfd8e3" }}
-                  >
-                    {pendingConflict.candidates.map((candidate) => (
-                      <option key={candidate.id} value={candidate.id}>
-                        {candidate.original_filename} • Rev {candidate.revision_number} • {candidate.is_current ? "Vigente" : "Sustituido"}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 16 }}>
-                <button type="button" onClick={() => void resolveConflict("IMPORT_INDEPENDENT")} style={{ padding: "10px 14px", borderRadius: 8, border: "none", background: "#1b5bd8", color: "#fff", fontWeight: 700 }}>
-                  Importar como documento independiente
-                </button>
-                <button type="button" onClick={() => void resolveConflict("NEW_REVISION")} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
-                  Registrar como nueva revisión
-                </button>
-                <button type="button" onClick={() => setPendingConflict(null)} style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #cfd8e3", background: "#fff", color: "#1a1a1a", fontWeight: 700 }}>
-                  Cancelar
-                </button>
-              </div>
-            </div>
-          )}
-
-          {importResults.length > 0 && (
-            <div style={{ marginTop: 16, display: "grid", gap: 8 }}>
-              {importResults.map((result, index) => (
-                <div key={`${result.filename}-${index}`} style={{ border: "1px solid #e8edf2", borderRadius: 10, padding: 12, background: "#f8fafc" }}>
-                  <div style={{ fontWeight: 700 }}>{result.filename}</div>
-                  <div style={{ fontSize: 12, color: "#52607a", marginTop: 6 }}>
-                    {result.status} • {result.message || "No message"}
-                  </div>
-                  {result.sha256 && <div style={{ fontSize: 12, color: "#52607a" }}>SHA-256: {result.sha256}</div>}
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-      )}
+      {selectedTenderId && <section id="workspace-documentos"><DocumentImports key={selectedTenderId} apiUrl={API_URL} tenderId={selectedTenderId} documents={documents} onImported={()=>{void loadDocuments(selectedTenderId);void loadTenderStateSnapshot(selectedTenderId);}}/></section>}
 
       {selectedTenderId ? (
         <section style={{ marginTop: 24, border: "1px solid #d9e1ec", borderRadius: 12, padding: 20, background: "#fff" }}>

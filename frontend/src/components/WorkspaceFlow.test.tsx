@@ -122,3 +122,14 @@ it("shows recovery backend failure without offering an unverified retry", async 
   expect(await screen.findByRole("alert")).toHaveTextContent("No se pudo verificar la recuperación");
   expect(screen.queryByRole("button", { name: "Reintentar de forma segura" })).not.toBeInTheDocument();
 });
+
+it("UIR3 processing-only composition does not mount downstream domains and pauses reads when inactive", async () => {
+ const view=render(<WorkspaceFlow {...props} processingOnly active={false}/>);
+ expect(workspaceApi.read).not.toHaveBeenCalled();
+ expect(screen.queryByText('Alcance y cantidades')).not.toBeInTheDocument();
+ expect(screen.queryByText('Abrir revisión de alcance')).not.toBeInTheDocument();
+ view.rerender(<WorkspaceFlow {...props} processingOnly active/>);
+ await screen.findByText('Completado con revisión requerida');
+ expect(workspaceApi.read).toHaveBeenCalledTimes(1);
+ expect(screen.queryByText('Alcance y cantidades')).not.toBeInTheDocument();
+});

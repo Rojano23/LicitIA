@@ -1,0 +1,17 @@
+import axios from 'axios';
+export type Tender = {id:string;title:string;institution_profile:string|null;external_reference:string|null;status:string;created_at:string;updated_at:string};
+export type TenderDocument = {id:string;tender_id:string;original_filename:string;source_relative_path:string|null;stored_relative_path:string;mime_type:string|null;file_size_bytes:number;sha256:string;status:string;processing_status?:string;page_count?:number;revision_of_document_id:string|null;revision_number:number;is_current:boolean;imported_at:string};
+export type DocumentPage = {id:string;document_id:string;page_number:number;text:string;extraction_method:string;ocr_results?:{id:string;text:string;status:string}[]};
+export type ImportResult = {filename:string;status:string;message?:string|null;document_id:string|null;sha256?:string|null};
+export const tenderStatus = (value:string) => ({DRAFT:'Borrador',ACTIVE:'Activa',ARCHIVED:'Archivada'}[value]??'Estado por revisar');
+export const extractionStatus = (value?:string) => ({PENDING:'Sin extraer texto',TEXT_EXTRACTION_COMPLETE:'Texto extraído',TEXT_EXTRACTION_PARTIAL:'Texto parcial',TEXT_EXTRACTION_FAILED:'Falló la extracción',NO_NATIVE_TEXT:'Sin texto nativo'}[value??'PENDING']??'Estado por revisar');
+export const documentPath = (base:string,tender:string,document:string) => `${base}/tenders/${encodeURIComponent(tender)}/documents/${encodeURIComponent(document)}`;
+export const tendersApi = {
+ list:async(base:string)=>(await axios.get<Tender[]>(`${base}/tenders`)).data,
+ read:async(base:string,id:string)=>{const data=(await axios.get<Tender>(`${base}/tenders/${encodeURIComponent(id)}`)).data;if(data.id!==id)throw new Error('TENDER_CONTEXT_MISMATCH');return data;},
+ create:async(base:string,input:{title:string;external_reference:string|null;institution_profile:string|null})=>(await axios.post<Tender>(`${base}/tenders`,input)).data,
+ documents:async(base:string,id:string)=>{const data=(await axios.get<TenderDocument[]>(`${base}/tenders/${encodeURIComponent(id)}/documents`)).data;if(!Array.isArray(data)||data.some(d=>d.tender_id!==id))throw new Error('DOCUMENT_CONTEXT_MISMATCH');return data;},
+ pages:async(base:string,tender:string,document:string)=>{const data=(await axios.get<DocumentPage[]>(`${documentPath(base,tender,document)}/pages`)).data;if(!Array.isArray(data)||data.some(p=>p.document_id!==document||!Number.isInteger(p.page_number)||p.page_number<1||typeof p.text!=='string'))throw new Error('INVALID_PAGES');return data;},
+ content:async(base:string,tender:string,document:string)=>{const response=await axios.get<Blob>(`${documentPath(base,tender,document)}/content`,{responseType:'blob'});if(!(response.data instanceof Blob)||!(await response.data.slice(0,5).text()).startsWith('%PDF-'))throw new Error('INVALID_PDF');return response.data;},
+ import:async(base:string,tender:string,file:File,action='NONE',target?:string)=>{const data=new FormData();data.append('files',file);data.append('source_relative_paths',file.webkitRelativePath||'');data.append('conflict_action',action);if(target)data.append('revision_of_document_id',target);const result=(await axios.post<ImportResult[]>(`${base}/tenders/${encodeURIComponent(tender)}/documents/import`,data)).data;if(!Array.isArray(result)||result.length!==1||result[0].filename!==file.name)throw new Error('INVALID_IMPORT_RESULT');return result[0];},
+};

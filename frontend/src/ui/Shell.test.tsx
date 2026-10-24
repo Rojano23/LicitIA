@@ -14,6 +14,7 @@ vi.mock('../App', () => ({ default: ({ onContext, requestedTenderId }: { onConte
 vi.mock('../components/DiscoveryView', () => ({ DiscoveryView: () => {useEffect(()=>{reads.discovery();},[]);return <p>Discovery existente</p>;} }));
 vi.mock('../components/CompanyEvidenceLibrary', () => ({ CompanyEvidenceLibrary: () => <p>Biblioteca existente</p> }));
 vi.mock('../components/InicioView',()=>({InicioView:()=> <p>Inicio sin adquisición de prueba</p>}));
+vi.mock('../components/TenderProductViews',()=>({TenderListView:()=>null,TenderProductWorkspace:()=>null}));
 import ProductApp from '../ProductApp';
 function route(path:string) { window.history.replaceState(null,'',`/#${path}`); fireEvent(window,new HashChangeEvent('hashchange')); }
 beforeEach(()=>{route('/'); reads.workspace.mockClear();reads.discovery.mockClear();});
@@ -28,7 +29,7 @@ describe('UI-R1 shell / routing',()=>{
   route('/missing');expect(await screen.findByRole('heading',{name:'Esta dirección no está disponible'})).toBeVisible();
  });
  it('UIR1-06/07/11/13–16/29–31: contexto conserva identidad y borrador; no remonta por tab',async()=>{
-  const user=userEvent.setup();render(<ProductApp/>);route('/discovery');expect(await screen.findByText('Discovery existente')).toBeVisible();route('/licitaciones/synthetic/resumen');
+  const user=userEvent.setup();render(<ProductApp/>);route('/discovery');expect(await screen.findByText('Discovery existente')).toBeVisible();route('/licitaciones/synthetic/partidas');
   expect(await screen.findByRole('heading',{level:1,name:'Expediente de prueba'})).toBeVisible();
   expect(within(screen.getByRole('navigation',{name:'Secciones de la licitación'})).getAllByRole('link')).toHaveLength(8);
   expect(screen.getByRole('navigation',{name:'Navegación principal'})).not.toHaveTextContent('Partidas');

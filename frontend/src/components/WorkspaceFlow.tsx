@@ -7,7 +7,7 @@ import { CommercialMatrix } from "./CommercialMatrix";
 import { CommercialLine } from "./CommercialLine";
 import { ScopeReview } from "./ScopeReview";
 
-type Props = { apiUrl: string; tenderId: string; documents: readonly { id: string; original_filename: string }[] };
+type Props = { apiUrl: string; tenderId: string; documents: readonly { id: string; original_filename: string }[]; processingOnly?: boolean; active?: boolean };
 const statuses: Record<ProcessingStatus, string> = {
   NOT_PROCESSED: "Sin procesar", PROCESSING: "Procesando documentos", COMPLETED: "Procesamiento completado",
   COMPLETED_REVIEW_REQUIRED: "Completado con revisión requerida", PARTIAL: "Resultado parcial: hay documentos sin texto suficiente o no compatibles",
@@ -24,7 +24,7 @@ function Source({ source, apiUrl, tenderId }: { source: WorkspaceSource; apiUrl:
     <blockquote>{source.excerpt}</blockquote><p>{source.method} · {source.locator}</p>
   </details>;
 }
-export function WorkspaceFlow({ apiUrl, tenderId, documents }: Props) {
+export function WorkspaceFlow({ apiUrl, tenderId, documents, processingOnly = false, active = true }: Props) {
   const [data, setData] = useState<WorkspaceRead | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [recovery, setRecovery] = useState<RetryRead | null>(null);
@@ -44,12 +44,12 @@ export function WorkspaceFlow({ apiUrl, tenderId, documents }: Props) {
     }
   }, [apiUrl, tenderId]);
   const documentKey = documents.map(d => d.id).join(",");
-  useEffect(() => { void refresh(); }, [refresh, documentKey]);
+  useEffect(() => { if(active)void refresh(); }, [refresh, documentKey, active]);
   useEffect(() => {
-    if (data?.processing.status !== "PROCESSING") return;
+    if (!active || data?.processing.status !== "PROCESSING") return;
     const timer = window.setInterval(() => { void refresh(); }, 2000);
     return () => window.clearInterval(timer);
-  }, [data?.processing.status, refresh]);
+  }, [data?.processing.status, refresh, active]);
   async function inspectRecovery() {
     setRecovery(null); setRecoveryError(false);
     try { const result = await recoveryApi.read(apiUrl, tenderId); if (mounted.current) setRecovery(result); }
@@ -98,7 +98,7 @@ export function WorkspaceFlow({ apiUrl, tenderId, documents }: Props) {
       <p role="status">{busy ? "Procesando documentos" : data ? statuses[data.processing.status] : "Consultando estado"}</p>
       {data?.processing.provider_degraded && <p>Percepción parcial o no disponible: la evidencia determinista válida permanece disponible y requiere revisión humana.</p>}
       {error && <p role="alert">{error} Los resultados visibles pueden estar desactualizados.</p>}
-      {data && <>
+      {data && !processingOnly && <>
         <div id="workspace-preparacion"><ReadinessBoard key={`work:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/></div>
         <div id="workspace-propuesta"><ProposalVersions key={`proposal:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/></div>
         <BidReadinessInspection key={`readiness:${tenderId}:${reviewRevision}:${documentKey}`} apiUrl={apiUrl} tenderId={tenderId} disabled={busy || data.processing.status === "PROCESSING"}/>
@@ -135,6 +135,6 @@ export function WorkspaceFlow({ apiUrl, tenderId, documents }: Props) {
         </details>
       </>}
     </section>
-    <ScopeReview key={reviewRevision} apiUrl={apiUrl} tenderId={tenderId} documents={documents} />
+    {!processingOnly && <ScopeReview key={reviewRevision} apiUrl={apiUrl} tenderId={tenderId} documents={documents} />}
   </>;
 }
