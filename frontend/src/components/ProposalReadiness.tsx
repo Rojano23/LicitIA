@@ -1,6 +1,7 @@
+import {commercialLabel as label} from "../ui/commercialPresentation";
 import {useEffect,useRef,useState} from "react";
 import {proposalApi,type Evaluation,type Snapshot,type SnapshotHistory,type SnapshotRequest} from "../api/proposalReadiness";
-export function ProposalReadiness({apiUrl,tenderId,disabled}:{apiUrl:string;tenderId:string;disabled:boolean}){
+export function ProposalReadiness({apiUrl,tenderId,disabled,product=false}:{apiUrl:string;tenderId:string;disabled:boolean;product?:boolean}){
  const [data,setData]=useState<Evaluation|null>(null),[history,setHistory]=useState<SnapshotHistory|null>(null),[created,setCreated]=useState<Snapshot|null>(null);
  const [ack,setAck]=useState(false),[actor,setActor]=useState(""),[busy,setBusy]=useState(false),[error,setError]=useState(false);
  const pending=useRef<SnapshotRequest|null>(null),mounted=useRef(true);
@@ -11,22 +12,22 @@ export function ProposalReadiness({apiUrl,tenderId,disabled}:{apiUrl:string;tend
  const snapshot=await proposalApi.create(apiUrl,tenderId,request);if(mounted.current){setCreated(snapshot);pending.current=null;setData(null);setHistory(null);}
  }catch{if(mounted.current)setError(true);}finally{if(mounted.current)setBusy(false);}}
  const allowed=data&&["ELIGIBLE","ELIGIBLE_WITH_WARNINGS"].includes(data.projection.eligibility);
- return <section aria-label="Preparación de snapshot para propuesta"><h5>Preparación para Proposal Builder</h5>
+ return <section aria-label="Preparación de snapshot para propuesta"><h5>Captura de preparación para propuesta</h5>
  <p>Snapshot inmutable de información rastreada; no genera propuesta ni certifica cumplimiento. El Tender sigue editable.</p>
  <button disabled={disabled||busy} onClick={()=>void inspect()}>Evaluar preparación e historial</button>
- {data&&<><p>Elegibilidad de propuesta: {data.projection.eligibility} · Estado fuente: {data.projection.readiness_status}</p><p>{data.projection.notice}</p>
+ {data&&<><p>Elegibilidad de propuesta: {product?label(data.projection.eligibility):data.projection.eligibility} · Estado fuente: {product?label(data.projection.readiness_status):data.projection.readiness_status}</p><p>{data.projection.notice}</p>
  <p>Se muestran hasta 50 señales; el board permite consultar las demás por página.</p>
  <p>{data.projection.rows.length} filas elegibles; {data.projection.blockers.length} bloqueos/faltantes; {data.projection.reviews.length} revisiones; {data.projection.warnings.length} advertencias.</p>
- {[...data.projection.blockers,...data.projection.reviews,...data.projection.warnings].slice(0,50).map(i=><p key={i.id}>{i.dimension} · {i.code} · {i.entity_type}: {i.entity_id}</p>)}
- {data.projection.accepted_risks.slice(0,50).map(r=><p key={r.issue_id}>Riesgo aceptado: {r.issue_id} · {r.note}</p>)}
+ <details><summary>Señales de la captura</summary>{[...data.projection.blockers,...data.projection.reviews,...data.projection.warnings].slice(0,50).map(i=><p key={i.id}>{i.dimension} · {i.code} · {i.entity_type}: {i.entity_id}</p>)}
+ </details>{data.projection.accepted_risks.slice(0,50).map(r=><p key={r.issue_id}>Riesgo aceptado: {r.issue_id} · {r.note}</p>)}
  <fieldset disabled={disabled||busy||pending.current!==null}><legend>Confirmación del snapshot</legend>
  <label>Actor declarado para snapshot <input maxLength={200} value={actor} onChange={e=>setActor(e.target.value)}/></label>
  <label><input type="checkbox" checked={ack} onChange={e=>setAck(e.target.checked)}/>Confirmo las advertencias y riesgos visibles para este handoff</label></fieldset>
  <button disabled={disabled||busy||!allowed||data.projection.warnings.length>0&&!ack} onClick={()=>void create()}>Crear snapshot explícito</button>
  {!allowed&&<p>Resuelve los datos o revisiones fuente antes de crear un snapshot preparado. Quantity permanece de sólo lectura.</p>}
  </>}
- {created&&<p>Snapshot creado: {created.payload.snapshot_id} · SHA-256: {created.payload_sha256}. Consulta el historial para verificar CURRENT/STALE.</p>}
- {history&&<><h5>Historial de snapshots (20 por página)</h5>{history.items.map(s=><p key={s.snapshot_id}>{s.created_at} · {s.eligibility} · {s.state} · <a href={`${apiUrl}/tenders/${tenderId}/proposal-readiness/snapshots/${s.snapshot_id}/handoff`} target="_blank" rel="noreferrer">Handoff {s.snapshot_id}</a></p>)}
+ {created&&!product&&<p>Snapshot creado: {created.payload.snapshot_id} · SHA-256: {created.payload_sha256}. Consulta el historial para verificar CURRENT/STALE.</p>}{created&&product&&<><p>Captura creada. Consulta el historial para comprobar si hay cambios posteriores.</p><details><summary>Integridad de captura</summary><p>{created.payload.snapshot_id} · SHA-256: {created.payload_sha256}</p></details></>}
+ {history&&<><h5>Historial de snapshots (20 por página)</h5>{history.items.map(s=><p key={s.snapshot_id}>{s.created_at} · {product?label(s.eligibility):s.eligibility} · {product?label(s.state):s.state} · <a href={`${apiUrl}/tenders/${tenderId}/proposal-readiness/snapshots/${s.snapshot_id}/handoff`} target="_blank" rel="noreferrer">Handoff {s.snapshot_id}</a></p>)}
  {history.next_before_id&&<button disabled={disabled||busy} onClick={()=>void inspect(history.next_before_id??undefined)}>Más snapshots anteriores</button>}</>}
  {error&&<p role="alert">No se pudo evaluar o crear el snapshot. Reintentar creación conserva la misma solicitud; si el contexto cambió, vuelve a evaluar antes de confirmar.</p>}
  </section>;

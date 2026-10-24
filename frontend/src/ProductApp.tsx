@@ -1,3 +1,6 @@
+import {CommercialView} from "./components/CommercialView";
+import {ReadinessView} from "./components/ReadinessView";
+import {ProposalVersions} from "./components/ProposalVersions";
 import {RequirementsView} from './components/RequirementsView';
 import {ComplianceView} from './components/ComplianceView';
 import {ItemsView} from './components/ItemsView';
@@ -27,9 +30,9 @@ export default function ProductApp() {
   const [productTender,setProductTender]=useState<WorkspaceContext|null>(null);
   const coreRoute = useRef<{id:string;section:string;documentId?:string;pageNumber?:number}|null>(null);
   const legacyId = useRef<string|undefined>(undefined);
-  const isCore = route.page === 'licitaciones' && !!route.tenderId && (['resumen','documentos','requisitos','cumplimiento','partidas'].includes(route.section??''));
+  const isCore = route.page === 'licitaciones' && !!route.tenderId && (['resumen','documentos','requisitos','cumplimiento','partidas','comercial','preparacion','propuesta'].includes(route.section??''));
   const engineeringVisited=useRef<{tenderId:string;sections:Set<string>}>({tenderId:'',sections:new Set()});
-  if(isCore&&route.tenderId){if(engineeringVisited.current.tenderId!==route.tenderId)engineeringVisited.current={tenderId:route.tenderId,sections:new Set()};if(['requisitos','cumplimiento','partidas'].includes(route.section??''))engineeringVisited.current.sections.add(route.section!);}
+  if(isCore&&route.tenderId){if(engineeringVisited.current.tenderId!==route.tenderId)engineeringVisited.current={tenderId:route.tenderId,sections:new Set()};if(['requisitos','cumplimiento','partidas','comercial','preparacion','propuesta'].includes(route.section??''))engineeringVisited.current.sections.add(route.section!);}
   const isLegacy = route.page === 'diagnostico' || route.page === 'licitaciones' && !!route.tenderId && !isCore;
   if(isCore)coreRoute.current={id:route.tenderId!,section:route.section!,documentId:route.documentId,pageNumber:route.pageNumber};
   if(isLegacy){legacyVisited.current=true;if(route.tenderId)legacyId.current=route.tenderId;else if(coreRoute.current)legacyId.current=coreRoute.current.id;}
@@ -54,7 +57,7 @@ export default function ProductApp() {
     document.title = 'RX23 TuScope';
     if (previous.current !== route) document.getElementById('page-title')?.focus();
     previous.current = route;
-    if (!route.section || ['resumen','documentos','requisitos','cumplimiento','partidas'].includes(route.section)) return;
+    if (!route.section || ['resumen','documentos','requisitos','cumplimiento','partidas','comercial','preparacion','propuesta'].includes(route.section)) return;
     // Transitional sections keep the existing workspace mounted: navigation never reruns a pipeline.
     const seek = () => {
       const target = document.getElementById(`workspace-${route.section}`);
@@ -82,6 +85,9 @@ export default function ProductApp() {
     {engineeringVisited.current.sections.has('requisitos')&&<div className="engineering-route" hidden={!isCore||route.section!=='requisitos'}><RequirementsView key={engineeringVisited.current.tenderId} apiUrl={API_URL} tenderId={engineeringVisited.current.tenderId} initialRequirement={route.requirementId}/></div>}
     {engineeringVisited.current.sections.has('cumplimiento')&&<div className="engineering-route" hidden={!isCore||route.section!=='cumplimiento'}><ComplianceView key={engineeringVisited.current.tenderId} apiUrl={API_URL} tenderId={engineeringVisited.current.tenderId} initialRequirement={route.requirementId}/></div>}
     {engineeringVisited.current.sections.has('partidas')&&<div className="engineering-route" hidden={!isCore||route.section!=='partidas'}><ItemsView key={engineeringVisited.current.tenderId} apiUrl={API_URL} tenderId={engineeringVisited.current.tenderId}/></div>}
+    {engineeringVisited.current.sections.has('comercial')&&<div hidden={!isCore||route.section!=='comercial'}><CommercialView initialScope={route.scopeId} key={engineeringVisited.current.tenderId} apiUrl={API_URL} tenderId={engineeringVisited.current.tenderId}/></div>}
+    {engineeringVisited.current.sections.has('preparacion')&&<div hidden={!isCore||route.section!=='preparacion'}><ReadinessView key={engineeringVisited.current.tenderId} apiUrl={API_URL} tenderId={engineeringVisited.current.tenderId}/></div>}
+    {engineeringVisited.current.sections.has('propuesta')&&<div className="proposal-product" hidden={!isCore||route.section!=='propuesta'}><ProposalVersions key={engineeringVisited.current.tenderId} apiUrl={API_URL} tenderId={engineeringVisited.current.tenderId} disabled={false} product/></div>}
     {route.page === 'inicio' && <InicioView apiUrl={API_URL}/>}
     {visited.has('discovery') && <div hidden={route.page !== 'discovery'}><DiscoveryView apiUrl={API_URL} onOpenTender={openTender} view={discoveryRoute.current.view} opportunityId={discoveryRoute.current.opportunityId} scanId={discoveryRoute.current.scanId} scanSource={discoveryRoute.current.scanSource} filterRequest={discoveryRoute.current} /></div>}
     {visited.has('empresa') && <div hidden={route.page !== 'empresa'}><CompanyEvidenceLibrary apiUrl={API_URL} /></div>}

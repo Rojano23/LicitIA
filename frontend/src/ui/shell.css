@@ -77,3 +77,21 @@ button, input, select, textarea { font: inherit; }
   .main-workspace { padding: var(--space-4); }
   .ui-page-header h1 { font-size: 1.5rem; }
 }
+/* Desktop width is owned by the shell; feature children retain their identity. */
+.navigation-icon {width:20px;height:20px;flex:0 0 20px;}
+.global-sidebar nav a,.sidebar-utility a {display:flex;align-items:center;gap:12px;}
+.sidebar-utility .sidebar-label {padding:0;font-size:inherit;}
+.ui-button.sidebar-toggle {background:transparent;color:var(--text-inverse);border-color:var(--text-muted);justify-content:flex-start;}
+.global-sidebar {gap:20px;}
+@media(min-width:1024px) {
+ .app-shell.is-sidebar-collapsed {--sidebar-width:64px;}
+ .is-sidebar-collapsed .main-workspace {max-width:calc(var(--page-max) + 196px);}
+ .is-sidebar-collapsed .global-sidebar {padding:24px 8px;}
+ .is-sidebar-collapsed .product-mark {padding:8px 0;justify-content:center;}
+ .is-sidebar-collapsed .product-mark strong,.is-sidebar-collapsed .sidebar-label,.is-sidebar-collapsed .sidebar-section-label {display:none;}
+ .is-sidebar-collapsed .global-sidebar nav a,.is-sidebar-collapsed .sidebar-utility a {justify-content:center;padding:12px 8px;}
+ .is-sidebar-collapsed .sidebar-toggle {justify-content:center;width:100%;padding:8px;}
+}
+@media(max-width:1023px) {
+ .ui-button.sidebar-toggle {display:none;}
+}

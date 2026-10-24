@@ -1,0 +1,30 @@
+.commercial-product,.readiness-product,.proposal-product {min-width:0;max-width:100%;}
+.financial-scroll {overflow:auto;max-height:56vh;margin-block:1rem;border:1px solid var(--border-subtle);}
+.financial-scroll table {width:100%;border-collapse:collapse;min-width:850px;}
+.financial-scroll th {position:sticky;top:0;background:var(--bg-surface);text-align:left;z-index:1;}
+.financial-scroll td,.financial-scroll th {padding:.65rem .75rem;border-bottom:1px solid var(--border-subtle);vertical-align:top;}
+.financial-scroll td:first-child {max-width:25rem;}
+.financial-scroll td p {margin:.25rem 0;}
+.financial-scroll .numeric {text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.commercial-product small {display:block;color:var(--text-muted);font-size:.8rem;margin-block:.3rem;}
+.commercial-detail,.commercial-tools,.readiness-product details,.proposal-product details {border-top:1px solid var(--border-subtle);padding-block:1rem;margin-top:.8rem;}
+.commercial-product fieldset,.readiness-product fieldset,.proposal-product fieldset {border:1px solid var(--border-subtle);padding:1rem;margin-block:1rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:end;min-width:0;}
+.commercial-product label,.readiness-product label,.proposal-product label {display:inline-flex;flex-direction:column;gap:.3rem;max-width:100%;}
+.commercial-product input,.commercial-product select,.commercial-product textarea,.readiness-product input,.readiness-product select,.readiness-product textarea,.proposal-product input,.proposal-product select,.proposal-product textarea {max-width:100%;}
+.commercial-product button,.readiness-product button,.proposal-product button {margin:.3rem .4rem .3rem 0;}
+.commercial-product pre,.readiness-product pre,.proposal-product pre {white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%;font-size:.8rem;}
+.proposal-product table,.readiness-product table {border-collapse:collapse;width:100%;}
+.proposal-product th,.proposal-product td,.readiness-product th,.readiness-product td {text-align:left;padding:.65rem;border-bottom:1px solid var(--border-subtle);vertical-align:top;}
+.proposal-product article,.readiness-product article {border-top:1px solid var(--border-subtle);padding-block:.8rem;}
+.proposal-product p,.readiness-product p,.commercial-product p {overflow-wrap:anywhere;}
+@media(max-width:800px){.commercial-product fieldset,.readiness-product fieldset,.proposal-product fieldset {flex-direction:column;align-items:stretch;} }
+:is(.commercial-product,.readiness-product,.proposal-product) button {border:1px solid var(--border-normal);border-radius:var(--radius-standard);background:var(--bg-surface);color:var(--action);padding:.45rem .7rem;cursor:pointer;}
+:is(.commercial-product,.readiness-product,.proposal-product) button:disabled {opacity:.55;cursor:default;}
+:is(.commercial-product,.readiness-product,.proposal-product) button:hover:not(:disabled){background:var(--bg-hover);}
+:is(.commercial-product,.readiness-product,.proposal-product) input,:is(.commercial-product,.readiness-product,.proposal-product) select,:is(.commercial-product,.readiness-product,.proposal-product) textarea {border:1px solid var(--border-normal);border-radius:var(--radius-standard);background:var(--bg-surface);padding:.4rem;min-height:34px;}
+:is(.commercial-product,.readiness-product,.proposal-product) input[type=checkbox] {min-height:auto;}
+:is(.commercial-product,.readiness-product,.proposal-product) [role=alert] {border-left:3px solid var(--danger);padding:.6rem .8rem;color:var(--danger);}
+:is(.commercial-product,.readiness-product,.proposal-product) summary {cursor:pointer;color:var(--text-secondary);font-weight:600;}
+.proposal-product .artifact-table {overflow:auto;}
+.proposal-product .artifact-table table {min-width:520px;}
+.proposal-product .artifact-table details {border:0;margin:0;padding:0;max-width:180px;overflow-wrap:anywhere;}

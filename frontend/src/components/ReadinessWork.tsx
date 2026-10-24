@@ -1,18 +1,19 @@
+import {commercialLabel as label} from "../ui/commercialPresentation";
 import {useEffect,useRef,useState} from "react";
 import {workApi,type WorkItem,type WorkRead,type Workflow,type WorkEvent} from "../api/readinessWork";
-export function WorkRow({item,apiUrl,tenderId,disabled,onSaved}:{item:WorkItem;apiUrl:string;tenderId:string;disabled:boolean;onSaved:()=>Promise<void>}){
+export function WorkRow({item,apiUrl,tenderId,disabled,onSaved,product=false}:{product?:boolean;item:WorkItem;apiUrl:string;tenderId:string;disabled:boolean;onSaved:()=>Promise<void>}){
  const [state,setState]=useState<Workflow>(item.workflow_status),[note,setNote]=useState(item.note??""),[owner,setOwner]=useState(item.owner??""),[actor,setActor]=useState("");
  const [busy,setBusy]=useState(false),[error,setError]=useState(false),[history,setHistory]=useState<WorkEvent[]|null>(null);
  const mounted=useRef(true);useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;};},[]);
  async function save(){setBusy(true);setError(false);try{await workApi.update(apiUrl,tenderId,item,{workflow_status:state,note:note||null,owner:owner||null,actor_label:actor||null});await onSaved();}catch{if(mounted.current)setError(true);}finally{if(mounted.current)setBusy(false);}}
  async function inspect(){setBusy(true);setError(false);try{const result=await workApi.history(apiUrl,tenderId,item.id);if(mounted.current)setHistory(result);}catch{if(mounted.current)setError(true);}finally{if(mounted.current)setBusy(false);}}
  const states:Workflow[]=item.accepted_risk_allowed?["OPEN","IN_REVIEW","RESOLVED","ACCEPTED_RISK","NOT_APPLICABLE"]:["OPEN","IN_REVIEW","RESOLVED"];
- return <article><p>{item.dimension} · {item.issue?.severity??"Histórico"} · {item.code} · {item.lifecycle}</p><p>{item.entity_type}: {item.entity_id} · {item.issue?.summary}</p>
+ return <article>{product?<><p>{label(item.dimension)} · {label(item.issue?.severity)}</p><details><summary>Identidad y contexto técnico</summary><p>{item.code} · {item.lifecycle} · {item.entity_type}: {item.entity_id}</p></details></>:<><p>{item.dimension} · {item.issue?.severity??"Histórico"} · {item.code} · {item.lifecycle}</p><p>{item.entity_type}: {item.entity_id} · {item.issue?.summary}</p></>}
  {item.annotation_stale&&<p>La fuente cambió: la decisión anterior se conserva, pero el seguimiento actual vuelve a OPEN.</p>}
  {item.canonical_blocker_remains&&<p>El bloqueo canónico permanece aunque se cierre la actividad humana.</p>}
  <a href={`${apiUrl}${item.action_target}`} target="_blank" rel="noreferrer">Consultar contexto relacionado</a>
- <fieldset disabled={disabled||busy||item.lifecycle!=="ACTIVE"}><legend>Seguimiento humano {item.id}</legend>
- <label>Estado de actividad <select value={state} onChange={e=>setState(e.target.value as Workflow)}>{states.map(s=><option key={s}>{s}</option>)}</select></label>
+ <fieldset disabled={disabled||busy||item.lifecycle!=="ACTIVE"}><legend>Seguimiento humano {product?"":item.id}</legend>
+ <label>Estado de actividad <select value={state} onChange={e=>setState(e.target.value as Workflow)}>{states.map(s=><option key={s} value={s}>{product?label(s):s}</option>)}</select></label>
  <label>Nota <textarea maxLength={4000} value={note} onChange={e=>setNote(e.target.value)}/></label>
  <label>Responsable declarado <input maxLength={200} value={owner} onChange={e=>setOwner(e.target.value)}/></label>
  <label>Actor declarado <input maxLength={200} value={actor} onChange={e=>setActor(e.target.value)}/></label>

@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useEffect, useState } from 'react';
@@ -29,14 +29,15 @@ describe('UI-R1 shell / routing',()=>{
   route('/missing');expect(await screen.findByRole('heading',{name:'Esta dirección no está disponible'})).toBeVisible();
  });
  it('UIR1-06/07/11/13–16/29–31: contexto conserva identidad y borrador; no remonta por tab',async()=>{
-  const user=userEvent.setup();render(<ProductApp/>);route('/discovery');expect(await screen.findByText('Discovery existente')).toBeVisible();route('/licitaciones/synthetic/comercial');
-  expect(await screen.findByRole('heading',{level:1,name:'Expediente de prueba'})).toBeVisible();
-  expect(within(screen.getByRole('navigation',{name:'Secciones de la licitación'})).getAllByRole('link')).toHaveLength(8);
+  const user=userEvent.setup();render(<ProductApp/>);route('/discovery');expect(await screen.findByText('Discovery existente')).toBeVisible();route('/configuracion/diagnostico');
+  expect(await screen.findByRole('heading',{level:1,name:'Diagnóstico'})).toBeVisible();
+  // Core routes are tested with the real product views in CommercialProduct/TenderRouting.
+
   expect(screen.getByRole('navigation',{name:'Navegación principal'})).not.toHaveTextContent('Partidas');
   await user.type(screen.getByLabelText('Decisión local de prueba'),'precio pendiente');const count=reads.workspace.mock.calls.length;
-  route('/licitaciones/synthetic/propuesta');expect(await screen.findByRole('link',{name:'Propuesta'})).toHaveAttribute('aria-current','page');
+  route('/configuracion');expect(await screen.findByRole('heading',{level:1,name:'Configuración'})).toBeVisible();
   expect(screen.getByLabelText('Decisión local de prueba')).toHaveValue('precio pendiente');expect(reads.workspace).toHaveBeenCalledTimes(count);
-  route('/');route('/licitaciones/synthetic/comercial');await waitFor(()=>expect(screen.getByLabelText('Decisión local de prueba')).toBeVisible());
+  route('/');route('/configuracion/diagnostico');await waitFor(()=>expect(screen.getByLabelText('Decisión local de prueba')).toBeVisible());
   expect(screen.getByLabelText('Decisión local de prueba')).toHaveValue('precio pendiente');expect(reads.workspace).toHaveBeenCalledTimes(count);
  });
  it('UIR1-12/28: menú accesible y Escape',async()=>{
