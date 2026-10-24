@@ -52,8 +52,8 @@ export function CommercialLine({ apiUrl, tenderId, scopeDetailId, documents, pro
     {error && <p role="alert">{error}</p>}
     {opened && loaded && <>
       <p>Decisión comercial humana. Importes decimales; sin conversión de moneda. Guarda antes de aplicar una recomendación.</p>
-      {line?.source.scope && <p>{line.source.scope.description} · Revisión: {line.source.scope.review_status}</p>}
-      {line?.source.quantities.map(q => <p key={q.id}>Cantidad heredada: {q.quantity_raw} {q.unit_raw} · {q.status}</p>)}
+      {line?.source.scope && <p>{line.source.scope.description} · Revisión: {product?label(line.source.scope.review_status):line.source.scope.review_status}</p>}
+      {line?.source.quantities.map(q => <p key={q.id}>Cantidad heredada: {q.quantity_raw} {q.unit_raw} · {product?label(q.status):q.status}</p>)}
       <fieldset disabled={busy}><legend>Costo y precio</legend>
         <label>Fuente de costo <select value={form.cost_source_type} onChange={e => field("cost_source_type", e.target.value as CommercialInputs["cost_source_type"])}>{costSources.map(v => <option key={v} value={v}>{product?label(v):v}</option>)}</select></label>
         <label>Origen del costo <select value={form.cost_value_origin} onChange={e => field("cost_value_origin", e.target.value as CommercialInputs["cost_value_origin"])}>{valueOrigins.map(v => <option key={v} value={v}>{product?label(v):v}</option>)}</select></label>
@@ -70,9 +70,9 @@ export function CommercialLine({ apiUrl, tenderId, scopeDetailId, documents, pro
       {line && <>
         <p>Estado comercial: {product?label(line.summary.status):line.summary.status} · Precio: {product?label(line.price_method):line.price_method ?? "sin elegir"} · Origen: {product?label(line.price_value_origin):line.price_value_origin ?? "sin elegir"}</p>
         <dl>{([['recommended_unit_price','Recomendación unitaria'],['total_cost','Costo total'],['offered_total','Total ofertado'],['profit','Utilidad'],['actual_markup_percent','Markup efectivo (%)'],['actual_margin_percent','Margen efectivo (%)']] as const).map(([key,label]) => <div key={key}><dt>{label}</dt><dd>{product&&!key.includes("percent")?money(line.summary[key],line.summary.currency):line.summary[key] ?? "Sin resolver"}{!product&&!key.includes("percent") ? ` ${line.summary.currency ?? "sin moneda"}`:""}</dd></div>)}</dl>
-        <details><summary>Avisos de cálculo</summary>{line.summary.warnings.map(w => <p key={w}>Revisar: {w}</p>)}</details>
+        <details><summary>Avisos de cálculo</summary>{line.summary.warnings.map(w => <p key={w}>Revisar: {product?label(w):w}</p>)}</details>
         <button disabled={busy || Object.keys(dirty).length > 0 || !line.summary.recommended_unit_price} onClick={() => void apply()}>Aplicar recomendación al precio</button>
-        <details><summary>Historial comercial</summary>{line.history.map(h => <p key={h.revision}>Revisión {h.revision} · {h.created_at} · {h.action} · {h.inputs.input_origin} · {h.price_method} · {h.inputs.offered_unit_price ?? "sin precio"} {h.inputs.currency} · {h.price_value_origin}</p>)}</details>
+        <details><summary>Historial comercial</summary>{line.history.map(h => <p key={h.revision}>Revisión {h.revision} · {h.created_at} · {product?label(h.action):h.action} · {product?label(h.inputs.input_origin):h.inputs.input_origin} · {product?label(h.price_method):h.price_method} · {h.inputs.offered_unit_price ?? "sin precio"} {h.inputs.currency} · {product?label(h.price_value_origin):h.price_value_origin}</p>)}</details>
       </>}
     </>}
   </section>;

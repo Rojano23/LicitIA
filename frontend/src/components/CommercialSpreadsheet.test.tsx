@@ -8,9 +8,9 @@ const preview: ImportPreview={stage_id:"stage",export_id:"export",tender_id:"t",
   {scope_id:"bad",import_row:2,state:"INVALID",eligible:false,warnings:[],errors:["REFERENCE_FIELDS_MODIFIED"],diff:[],reference_diff:[{field:"quantity",current:"2",imported:"999"}]}]};
 const props={apiUrl:"http://local",tenderId:"t",disabled:false,onBusyChange:vi.fn(),onApplied:vi.fn(async()=>{})};
 beforeEach(()=>{vi.clearAllMocks();vi.mocked(exchangeApi.stage).mockResolvedValue(preview);vi.mocked(exchangeApi.apply).mockResolvedValue({stage_id:"stage",applied:true,counts:{UPDATED:1},outcomes:[{scope_id:"s",outcome:"UPDATED",reasons:[]}]});});
-async function inspect(){render(<CommercialSpreadsheet {...props}/>);fireEvent.change(screen.getByLabelText("Importar archivo comercial"),{target:{files:[new File(["xlsx"],"precios.xlsx")]}});fireEvent.click(screen.getByText("Previsualizar importación"));await screen.findByText(/XLSX_IMPORT:/);}
+async function inspect(){render(<CommercialSpreadsheet {...props}/>);fireEvent.change(screen.getByLabelText("Importar archivo comercial"),{target:{files:[new File(["xlsx"],"precios.xlsx")]}});fireEvent.click(screen.getByText("Previsualizar importación"));await screen.findByText(/Importado de Excel:/);}
 it("uploads to preview only and shows field diffs and source tamper",async()=>{
-  await inspect();expect(exchangeApi.apply).not.toHaveBeenCalled();expect(screen.getByText("unit_cost")).toBeInTheDocument();expect(screen.getByText(/Referencia alterada quantity/)).toHaveTextContent("999");expect(screen.getByText("MANUAL_PRICE_PROTECTED")).toBeInTheDocument();
+  await inspect();expect(exchangeApi.apply).not.toHaveBeenCalled();expect(screen.getByText("Costo unitario")).toBeInTheDocument();expect(screen.getByText(/Referencia alterada Cantidad/)).toHaveTextContent("999");expect(screen.getByText("Precio manual protegido")).toBeInTheDocument();
 });
 it("requires confirmation then refreshes canonical matrix via callback",async()=>{
   const confirm=vi.spyOn(window,"confirm").mockReturnValue(false);await inspect();fireEvent.click(screen.getByText("Aplicar cambios comerciales validados"));expect(exchangeApi.apply).not.toHaveBeenCalled();
@@ -18,7 +18,7 @@ it("requires confirmation then refreshes canonical matrix via callback",async()=
   expect(exchangeApi.apply).toHaveBeenCalledWith("http://local","t","stage");expect(props.onApplied).toHaveBeenCalledOnce();confirm.mockRestore();
 });
 it("changing import flags invalidates frozen preview",async()=>{
-  await inspect();fireEvent.click(screen.getByLabelText("Confirmar cambio de moneda sin conversión FX"));expect(screen.queryByText("Aplicar cambios comerciales validados")).not.toBeInTheDocument();
+  await inspect();fireEvent.click(screen.getByLabelText("Confirmar cambio de moneda sin conversión de divisas"));expect(screen.queryByText("Aplicar cambios comerciales validados")).not.toBeInTheDocument();
 });
 it("rejects unsupported file without applying",async()=>{
   render(<CommercialSpreadsheet {...props}/>);fireEvent.change(screen.getByLabelText("Importar archivo comercial"),{target:{files:[new File(["macro"],"x.xlsm")]}});fireEvent.click(screen.getByText("Previsualizar importación"));

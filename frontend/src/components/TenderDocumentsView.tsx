@@ -1,18 +1,19 @@
+import type {ImportSession} from './expedienteSelection';
 import {useEffect,useRef,useState} from 'react';
 import {extractionStatus,type TenderDocument} from '../api/tenders';
 import {Button,EmptyState,ErrorState,LoadingState,StatusBadge,TableShell} from '../ui/primitives';
 import {DocumentViewer} from './DocumentViewer';
 import {DocumentImports} from './DocumentImports';
 import {WorkspaceFlow} from './WorkspaceFlow';
-export function TenderDocumentsView({apiUrl,tenderId,documents,loading,error,refresh,active:isActive=true,requestedDocument,requestedPage}:{requestedDocument?:string;requestedPage?:number;active?:boolean;apiUrl:string;tenderId:string;documents:TenderDocument[];loading:boolean;error:boolean;refresh:()=>void}){
- const [selected,setSelected]=useState<string|null>(null),[search,setSearch]=useState(''),[revisions,setRevisions]=useState('all'),[importOpen,setImportOpen]=useState(false);
+export function TenderDocumentsView({apiUrl,tenderId,documents,loading,error,refresh,active:isActive=true,requestedDocument,requestedPage,importSession,onImportAccepted}:{importSession?:ImportSession;onImportAccepted?:()=>void;requestedDocument?:string;requestedPage?:number;active?:boolean;apiUrl:string;tenderId:string;documents:TenderDocument[];loading:boolean;error:boolean;refresh:()=>void}){
+ const [selected,setSelected]=useState<string|null>(null),[search,setSearch]=useState(''),[revisions,setRevisions]=useState('all'),[importOpen,setImportOpen]=useState(!!importSession);
  const list=useRef<HTMLDivElement>(null);const previous=useRef<HTMLButtonElement|null>(null);
  const rows=documents.filter(d=>d.original_filename.toLocaleLowerCase('es-MX').includes(search.toLocaleLowerCase('es-MX'))&&(revisions==='all'||d.is_current===(revisions==='current')));
  useEffect(()=>{if(requestedDocument)setSelected(requestedDocument);},[requestedDocument,requestedPage]);
  const active=documents.find(d=>d.id===selected);
  const back=()=>{setSelected(null);requestAnimationFrame(()=>previous.current?.focus());};
  return <div className="tender-documents"><div className="product-toolbar"><p>Originales y revisiones registrados en este expediente.</p><div className="product-actions"><Button variant="primary" onClick={()=>setImportOpen(v=>!v)}>Importar documentos</Button><Button disabled={loading} onClick={refresh}>Actualizar lista</Button></div></div>
- <div hidden={!importOpen}><DocumentImports key={tenderId} apiUrl={apiUrl} tenderId={tenderId} documents={documents} onImported={refresh}/></div>
+ <div hidden={!importOpen}><DocumentImports initialSession={importSession} onSessionAccepted={onImportAccepted} key={tenderId} apiUrl={apiUrl} tenderId={tenderId} documents={documents} onImported={refresh}/></div>
  {loading&&<LoadingState>Consultando documentos…</LoadingState>}{error&&<ErrorState retry={refresh}>No pudimos consultar los documentos. La lista puede estar desactualizada.</ErrorState>}
  <div className="documents-workbench" data-viewing={!!active}>
  <div className="document-registry" ref={list}><h2>Documentos del expediente</h2><div className="document-filters"><label>Buscar documento<input value={search} onChange={e=>setSearch(e.target.value)}/></label><label>Revisiones<select value={revisions} onChange={e=>setRevisions(e.target.value)}><option value="all">Todas las revisiones</option><option value="current">Actuales</option><option value="previous">Anteriores</option></select></label></div>

@@ -11,7 +11,9 @@ Siguiente fase: **RX23 TuScope Product UI / UX**. UI-R0 entrega únicamente audi
 [UI-R3 Licitaciones/Resumen/Documentos](ui-r3-implementation.md): **ARCHITECTURE/FUNCTIONAL/VISUAL PASS**, commit `935dce1017195f69c1fb74138571b1c8583d037f`; sin push.
 [UI-R4 Requisitos/Cumplimiento/Partidas](ui-r4-implementation.md): **ARCHITECTURE/FUNCTIONAL/VISUAL PASS**, commit `0915e83a4173a14653df089b302d30aa2c7a7a13`; sin push.
 [UI-R5 Comercial/Preparación/Propuesta + sidebar](ui-r5-implementation.md): **ARCHITECTURE/FUNCTIONAL/VISUAL/SIDEBAR PASS**, commit `de29deb3306d261dc40e9e5c15a4617ee5666748`; sin push.
-[UI-R6 Mi empresa/Reportes/Configuración/Diagnóstico](ui-r6-implementation.md): implementado y validado, pendiente revisión arquitectónica/visual; sin stage/commit/push. UI-R7 no implementado.
+[UI-R6 Mi empresa/Reportes/Configuración/Diagnóstico](ui-r6-implementation.md): **ARCHITECTURE/FUNCTIONAL/VISUAL PASS**, commit `239c8b5e057f089d28bb0bccc053f8b4a97043e6`; sin push.
+[UI-R7 cierre Product UI](ui-r7-closure.md): **FINAL HUMAN REVIEW PASS — CLOSED**. Incluye [Nueva licitación desde expediente](ui-r7-new-tender.md) y su [pulido final](ui-r7-new-tender-visual-polish.md).
+**MVP-01–10 CLOSED · UI-R0–R7 CLOSED · RX23 TuScope PRODUCT UI CLOSED.** Commit local de cierre autorizado; sin push. No UI-R8 ni instalador en esta entrega.
 Después de UI final: pruebas reales del product owner → demos controladas → correcciones →
 instalador Windows → Private Beta externa instalada. Sin nuevas fuentes/backend/IA ahora.
 El detalle siguiente conserva la secuencia histórica de implementación y aceptación.

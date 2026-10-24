@@ -12,7 +12,7 @@ export function CommercialAuditDetails({apiUrl,tenderId,scopeId,disabled}: {apiU
   }
   return <div><button disabled={disabled || busy} onClick={()=>void read()}>Consultar historial comercial {scopeId}</button>
     {error && <p role="alert">No se pudo consultar la auditoría comercial.</p>}
-    {history && <details open><summary>Historial comercial · revisión {history.current_revision}</summary>
+    {history && <details open><summary>Historial técnico comercial · revisión {history.current_revision}</summary>
       <p>Precio actual {history.current_manual_price ? "manual protegido":"calculado o sin definir"}. Actor declarado cuando existe; sin autenticación.</p>
       {history.events.map(event=><div key={event.revision}><p>Revisión {event.revision} · {event.origin} · {event.timestamp} · {event.actor_label ?? "Sin actor declarado"}</p>
         <p>{event.manual_price ? "Decisión manual":"Cálculo/edición"}: precio {event.offered_unit_price ?? "Sin definir"} · recomendación histórica {event.recommended_unit_price ?? "Sin resolver"} · {event.note ?? "Sin nota"}</p>

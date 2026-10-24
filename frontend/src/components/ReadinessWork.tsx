@@ -9,8 +9,8 @@ export function WorkRow({item,apiUrl,tenderId,disabled,onSaved,product=false}:{p
  async function inspect(){setBusy(true);setError(false);try{const result=await workApi.history(apiUrl,tenderId,item.id);if(mounted.current)setHistory(result);}catch{if(mounted.current)setError(true);}finally{if(mounted.current)setBusy(false);}}
  const states:Workflow[]=item.accepted_risk_allowed?["OPEN","IN_REVIEW","RESOLVED","ACCEPTED_RISK","NOT_APPLICABLE"]:["OPEN","IN_REVIEW","RESOLVED"];
  return <article>{product?<><p>{label(item.dimension)} · {label(item.issue?.severity)}</p><details><summary>Identidad y contexto técnico</summary><p>{item.code} · {item.lifecycle} · {item.entity_type}: {item.entity_id}</p></details></>:<><p>{item.dimension} · {item.issue?.severity??"Histórico"} · {item.code} · {item.lifecycle}</p><p>{item.entity_type}: {item.entity_id} · {item.issue?.summary}</p></>}
- {item.annotation_stale&&<p>La fuente cambió: la decisión anterior se conserva, pero el seguimiento actual vuelve a OPEN.</p>}
- {item.canonical_blocker_remains&&<p>El bloqueo canónico permanece aunque se cierre la actividad humana.</p>}
+ {item.annotation_stale&&<p>La fuente cambió: la decisión anterior se conserva, pero el seguimiento actual vuelve a Pendiente.</p>}
+ {item.canonical_blocker_remains&&<p>El dato pendiente en el expediente permanece aunque se cierre la actividad humana.</p>}
  <a href={`${apiUrl}${item.action_target}`} target="_blank" rel="noreferrer">Consultar contexto relacionado</a>
  <fieldset disabled={disabled||busy||item.lifecycle!=="ACTIVE"}><legend>Seguimiento humano {product?"":item.id}</legend>
  <label>Estado de actividad <select value={state} onChange={e=>setState(e.target.value as Workflow)}>{states.map(s=><option key={s} value={s}>{product?label(s):s}</option>)}</select></label>
@@ -20,7 +20,7 @@ export function WorkRow({item,apiUrl,tenderId,disabled,onSaved,product=false}:{p
  <button onClick={()=>void save()}>Guardar seguimiento</button></fieldset>
  {item.lifecycle!=="ACTIVE"&&<p>Nota histórica: {item.note??"Sin nota"}</p>}
  <button disabled={disabled||busy} onClick={()=>void inspect()}>Consultar decisiones {item.id}</button>
- {history?.map(event=><p key={event.revision}>Revisión {event.revision} · {event.workflow_status} · {event.timestamp} · {event.actor_label??"Sin actor declarado"} · {event.note}</p>)}
+ {history?.map(event=><p key={event.revision}>Revisión {event.revision} · {product?label(event.workflow_status):event.workflow_status} · {event.timestamp} · {event.actor_label??"Sin actor declarado"} · {event.note}</p>)}
  {error&&<p role="alert">No se pudo guardar o consultar. Actualiza el contexto antes de repetir; una revisión anterior no sobrescribe otra nueva.</p>}
  </article>;
 }

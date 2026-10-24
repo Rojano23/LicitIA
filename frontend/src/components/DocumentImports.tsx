@@ -1,33 +1,36 @@
+import {displayFilename,type ImportSession} from './expedienteSelection';
 import {useEffect,useRef,useState} from 'react';
 import {tendersApi,type TenderDocument,type ImportResult} from '../api/tenders';
 import {Button,Notice} from '../ui/primitives';
-type Pending={clientImportId:string;file:File;state:'QUEUED'|'BUSY'|'DONE'|'ERROR'|'CANCELLED';result?:ImportResult;target:string;action:string};
+type Pending={clientImportId:string;file:File;state:'QUEUED'|'BUSY'|'DONE'|'ERROR'|'CANCELLED';result?:ImportResult;relativePath?:string;target:string;action:string};
 const labels:Record<string,string>={IMPORTED:'Importado',DUPLICATE:'Contenido idéntico ya registrado',NAME_CONFLICT:'Mismo nombre, contenido diferente',FAILED:'No se pudo importar'};
-export function DocumentImports({apiUrl,tenderId,documents,onImported}:{apiUrl:string;tenderId:string;documents:readonly TenderDocument[];onImported:()=>void}){
- const [items,setItems]=useState<Pending[]>([]);const alive=useRef(true);const locks=useRef(new Set<string>());
+export function DocumentImports({apiUrl,tenderId,documents,onImported,initialSession,onSessionAccepted}:{initialSession?:ImportSession;onSessionAccepted?:()=>void;apiUrl:string;tenderId:string;documents:readonly TenderDocument[];onImported:()=>void}){
+ const [items,setItems]=useState<Pending[]>(()=>initialSession?.tenderId===tenderId?initialSession.files.map(f=>({...f,state:'QUEUED',target:'',action:''})):[]);const alive=useRef(true);const locks=useRef(new Set<string>());const started=useRef(false);const [createdHere]=useState(!!initialSession);const [omittedCount]=useState(initialSession?.omittedCount??0);
  useEffect(()=>{alive.current=true;return()=>{alive.current=false;};},[]);
  const update=(id:string,patch:Partial<Pending>)=>setItems(old=>old.map(i=>i.clientImportId===id?{...i,...patch}:i));
  async function submit(item:Pending,action='NONE',target?:string){
   if(locks.current.has(item.clientImportId))return;
   if(action==='NEW_REVISION'&&!documents.some(d=>d.id===target&&d.is_current&&d.original_filename===item.file.name&&d.tender_id===tenderId))return;
   locks.current.add(item.clientImportId);update(item.clientImportId,{state:'BUSY'});
-  try{const result=await tendersApi.import(apiUrl,tenderId,item.file,action,target);if(alive.current){update(item.clientImportId,{state:'DONE',result,action:'',target:''});onImported();}}
-  catch{if(alive.current)update(item.clientImportId,{state:'ERROR'});}
+  try{const result=await (item.relativePath?tendersApi.import(apiUrl,tenderId,item.file,action,target,item.relativePath):tendersApi.import(apiUrl,tenderId,item.file,action,target));if(alive.current){update(item.clientImportId,{state:'DONE',result,action:'',target:''});onImported();}}
+  catch{if(alive.current)update(item.clientImportId,{state:'ERROR',action,target:target??''});}
   finally{locks.current.delete(item.clientImportId);}
  }
+ useEffect(()=>{if(started.current||!initialSession||initialSession.tenderId!==tenderId)return;started.current=true;onSessionAccepted?.();void(async()=>{for(const item of items){if(!alive.current)break;await submit(item);}})();},[initialSession]);
  useEffect(()=>{const guard=(event:Event)=>{const next=(event as CustomEvent<{tenderId?:string}>).detail.tenderId;
   if(next&&next!==tenderId&&items.some(i=>i.state==='QUEUED'||i.state==='BUSY'||i.state==='ERROR'||i.result?.status==='NAME_CONFLICT'&&i.state!=='CANCELLED')){
    if(items.some(i=>i.state==='BUSY')||!window.confirm('Hay importaciones pendientes. ¿Abandonar este expediente?'))event.preventDefault();
   }};window.addEventListener('tuscope:navigate',guard);return()=>window.removeEventListener('tuscope:navigate',guard);},[items,tenderId]);
  const busy=items.some(i=>i.state==='BUSY');
  useEffect(()=>{const guard=(event:BeforeUnloadEvent)=>{if(items.some(i=>i.state==='QUEUED'||i.state==='BUSY'||i.state==='ERROR'||i.result?.status==='NAME_CONFLICT'&&i.state!=='CANCELLED')){event.preventDefault();event.returnValue='';}};window.addEventListener('beforeunload',guard);return()=>window.removeEventListener('beforeunload',guard);},[items]);
- return <section className="document-imports" aria-label="Importación de documentos"><h3>Importar documentos</h3>
+ return <section className="document-imports" data-created={createdHere} aria-label="Importación de documentos"><h3>Importar documentos</h3>
+ {createdHere&&<div aria-label="Resultado de creación"><h3>Licitación creada</h3><p role="status">{items.filter(i=>i.result?.status==='IMPORTED').length} documentos agregados · {items.filter(i=>i.result?.status==='DUPLICATE').length} duplicados · {items.filter(i=>i.result?.status==='NAME_CONFLICT'&&i.state!=='CANCELLED').length} requieren decisión · {items.filter(i=>i.state==='ERROR'||i.result?.status==='FAILED').length} fallidos · {items.filter(i=>i.state==='QUEUED'||i.state==='BUSY').length} pendientes · {items.filter(i=>i.state==='CANCELLED').length} cancelados · {omittedCount} archivos omitidos</p><Button onClick={()=>document.querySelector('.document-registry')?.scrollIntoView({block:'start'})}>Revisar documentos</Button></div>}
  <p>Los originales se conservan. Importar no ejecuta análisis. Selecciona archivos y confirma su importación.</p>
  <label>Archivos del expediente<input type="file" multiple disabled={busy} onChange={e=>{const incoming=Array.from(e.target.files??[]).map(file=>({clientImportId:crypto.randomUUID(),file,state:'QUEUED' as const,target:'',action:''}));setItems(old=>[...old,...incoming]);e.target.value='';}}/></label>
  {items.some(i=>i.state==='QUEUED')&&<Button disabled={busy} variant="primary" onClick={()=>{void(async()=>{for(const item of items.filter(i=>i.state==='QUEUED'))await submit(item);})();}}>Importar archivos seleccionados</Button>}
- {items.length>0&&<ul className="import-outcomes">{items.map(item=><li key={item.clientImportId} data-import-id={item.clientImportId}><strong>{item.file.name}</strong>
+ {items.length>0&&<ul className="import-outcomes">{items.map(item=><li key={item.clientImportId} data-import-id={item.clientImportId}><strong>{displayFilename(item.file.name)}</strong>{item.relativePath&&<p>{item.relativePath}</p>}
  <p role="status">{item.state==='QUEUED'?'Pendiente de importar':item.state==='BUSY'?'Importando…':item.state==='CANCELLED'?'Cancelado: no se aplicó una decisión':item.state==='ERROR'?'No se pudo confirmar la importación. Actualiza la lista antes de reintentar; puede haberse guardado.':labels[item.result?.status??'']??'Resultado por revisar'}</p>
- {(item.state==='ERROR'||item.result?.status==='FAILED')&&<Button disabled={busy} onClick={()=>void submit(item)}>Reintentar importación</Button>}
+ {(item.state==='ERROR'||item.result?.status==='FAILED')&&<Button disabled={busy} onClick={()=>void submit(item,item.action||'NONE',item.target||undefined)}>Reintentar importación</Button>}
  {item.result?.status==='NAME_CONFLICT'&&item.state==='DONE'&&<div className="conflict-decision"><Notice tone="warning">Elige qué hacer con este archivo; no se resuelve automáticamente.</Notice>
  <label>Decisión para {item.file.name}<select value={item.action} onChange={e=>update(item.clientImportId,{action:e.target.value,target:''})}><option value="">Selecciona una decisión</option><option value="IMPORT_INDEPENDENT">Importar como documento independiente</option><option value="NEW_REVISION">Registrar como nueva revisión</option></select></label>
  {item.action==='NEW_REVISION'&&<label>Revisión actual para {item.file.name}<select value={item.target} onChange={e=>update(item.clientImportId,{target:e.target.value})}><option value="">Selecciona el documento actual</option>{documents.filter(d=>d.tender_id===tenderId&&d.is_current&&d.original_filename===item.file.name).map(d=><option key={d.id} value={d.id}>{d.original_filename} · Revisión {d.revision_number} · Actual · importado {new Date(d.imported_at).toLocaleString('es-MX')}</option>)}</select></label>}

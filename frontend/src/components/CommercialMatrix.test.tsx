@@ -19,7 +19,7 @@ async function open() {render(<CommercialMatrix {...props}/>);fireEvent.click(sc
 it("M7B21 renders all rows lazily without writes",async () => {
   render(<CommercialMatrix {...props}/>);expect(matrixApi.read).not.toHaveBeenCalled();fireEvent.click(screen.getByText("Abrir matriz comercial"));
   expect(await screen.findByText("Equipo 31")).toBeInTheDocument();expect(screen.getByText("Equipo 32")).toBeInTheDocument();
-  expect(screen.getAllByText("PRICE_BELOW_COST")).toHaveLength(2);expect(matrixApi.bulk).not.toHaveBeenCalled();
+  expect(screen.getAllByText("Precio por debajo del costo")).toHaveLength(2);expect(matrixApi.bulk).not.toHaveBeenCalled();
 });
 it("M7B22 selection includes only visible filtered rows",async () => {
   await open();fireEvent.click(screen.getByText("Seleccionar visibles"));
@@ -37,7 +37,7 @@ it("distinct inline drafts travel together as decimal strings",async () => {
 it("M7B23 reports protected prices and per-row failures",async () => {
   vi.mocked(matrixApi.bulk).mockResolvedValue({operation_id:"operation",applied:false,counts:{ELIGIBLE:1,STALE:1},outcomes:[{scope_id:"31",outcome:"ELIGIBLE",reasons:["MANUAL_PRICE_PROTECTED"],price_outcome:"PROTECTED"},{scope_id:"32",outcome:"STALE",reasons:["COMMERCIAL_CONTEXT_STALE"],price_outcome:"NOT_REQUESTED"}]});
   await open();fireEvent.click(screen.getByText("Seleccionar visibles"));fireEvent.click(screen.getByText("Previsualizar lote"));
-  expect(await screen.findByText(/COMMERCIAL_CONTEXT_STALE/)).toBeInTheDocument();expect(screen.getByText(/31: ELIGIBLE/)).toHaveTextContent("MANUAL_PRICE_PROTECTED");
+  expect(await screen.findByText(/La información comercial cambió/)).toBeInTheDocument();expect(screen.getByText(/31: Elegible para captura/)).toHaveTextContent("Precio manual protegido");
 });
 it("requires explicit apply and confirmation for manual replacement",async () => {
   const confirm=vi.spyOn(window,"confirm").mockReturnValue(false);
@@ -71,5 +71,5 @@ it("M7D shows canonical completeness and separates blockers from warnings",async
   const ready=row("31","MXN");ready.summary.status="READY";ready.summary.readiness={status:"READY",proposal_eligible:true,reasons:[{code:"PRICE_BELOW_COST",severity:"WARNING"}],warnings:["PRICE_BELOW_COST"]};
   const missing=row("32","USD");missing.summary.status="INCOMPLETE";missing.summary.readiness={status:"INCOMPLETE",proposal_eligible:false,reasons:[{code:"MISSING_OFFERED_PRICE",severity:"BLOCKER"}],warnings:[]};
   vi.mocked(matrixApi.read).mockResolvedValue({...data,rows:[ready,missing],commercial_readiness:{status:"INCOMPLETE",total_scope_items:2,ready_count:1,incomplete_count:1,review_required_count:0,warning_count:1,missing_commercial_treatment_count:0}});
-  await open();expect(screen.getByLabelText("Completitud comercial")).toHaveTextContent("1 READY · 1 INCOMPLETE · 0 REVIEW_REQUIRED");expect(screen.getByText("WARNING: PRICE_BELOW_COST")).toBeInTheDocument();expect(screen.getByText("BLOCKER: MISSING_OFFERED_PRICE")).toBeInTheDocument();
+  await open();expect(screen.getByLabelText("Completitud comercial")).toHaveTextContent("1 listas · 1 incompletas · 0 requieren revisión");expect(screen.getByText("Advertencia: Precio por debajo del costo")).toBeInTheDocument();expect(screen.getByText("Bloqueo: Falta el precio ofrecido")).toBeInTheDocument();
 });
