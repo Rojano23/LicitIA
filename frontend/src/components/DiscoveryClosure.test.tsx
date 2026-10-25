@@ -7,7 +7,7 @@ vi.mock('../api/discovery',()=>({discoveryApi:{sources:vi.fn(),profiles:vi.fn(),
 let row:Opportunity;
 function preview():Preview{return {opportunity_id:row.id,source_id:row.source_id,source_fingerprint:'f',binding:'binding',internal_state:row.internal_state,suggested_title:row.title,context:{},documents:[{id:'document',name:'Bases.pdf',public_url:'https://www.pemex.com/public-document',metadata_fingerprint:'d',last_import:null}],linked_tender:row.linked_tender??null,selection_default:'NONE',analysis_automatic:false};}
 beforeEach(()=>{
- vi.clearAllMocks();row={id:'opportunity',source_id:'PEMEX',external_id:'EVENT',title:'Controlador PLC',description:'Objeto público',business_area:'Soporte',published_date:null,event_type:null,supply_type:null,source_status:'Publicado',internal_state:'NEW',revision:1,document_count:1,public_url:'https://www.pemex.com',first_seen:'2026-10-23',last_seen:'2026-10-23',match:{matched:true,include_hits:[{term:'PLC',matched_text:'PLC',field:'title',kind:'EXACT'}],exclude_hits:[],restrictions:[]}};
+ vi.clearAllMocks();row={id:'opportunity',source_id:'PEMEX',external_id:'EVENT',procedure_number:'EVENT',title:'Controlador PLC',description:'Objeto público',business_area:'Soporte',published_date:null,event_type:null,supply_type:null,source_status:'Publicado',internal_state:'NEW',revision:1,document_count:1,public_url:'https://www.pemex.com',first_seen:'2026-10-23',last_seen:'2026-10-23',match:{matched:true,include_hits:[{term:'PLC',matched_text:'PLC',field:'title',kind:'EXACT'}],exclude_hits:[],restrictions:[]}};
  vi.mocked(discoveryApi.sources).mockResolvedValue([{id:'PEMEX',name:'PEMEX público',enabled:true,last_scan_state:null,last_error:null,areas:[{key:'support',label:'Soporte'}],configuration:{areas:['support']}}]);
  vi.mocked(discoveryApi.profiles).mockResolvedValue([{id:'profile',name:'Interés local',revision:1,include_keywords:['PLC'],exclude_keywords:['cancelado'],synonyms:{},source_ids:[],business_areas:[],active:true}]);
  vi.mocked(discoveryApi.scans).mockResolvedValue([]);vi.mocked(discoveryApi.scan).mockResolvedValue({id:'scan',status:'SUCCESS',started_at:'now',metrics:{pages_completed:3,unique_opportunities:217}});
@@ -20,7 +20,7 @@ beforeEach(()=>{
 });
 it('recorre scan/perfil/follow/detalle/selección/confirmación/Abrir licitación sin creación automática',async()=>{
  const open=vi.fn();render(<DiscoveryView apiUrl="" onOpenTender={open}/>);fireEvent.click(screen.getByText('Actualizar fuentes y perfiles locales'));await screen.findByText('PEMEX público');
- fireEvent.change(screen.getByLabelText('Perfil de búsqueda'),{target:{value:'profile'}});fireEvent.click(screen.getByLabelText('Sólo coincidencias del perfil'));fireEvent.click(screen.getByText('Consultar fuente ahora'));
+ fireEvent.change(screen.getByLabelText('Perfil de búsqueda'),{target:{value:'profile'}});fireEvent.click(screen.getByLabelText('Sólo coincidencias del perfil'));fireEvent.click(screen.getByText('Consultar fuente'));
  await screen.findByText('EVENT');expect(monitoringApi.handoff).not.toHaveBeenCalled();expect(discoveryApi.list).toHaveBeenLastCalledWith('',expect.objectContaining({profile_id:'profile',matched_only:true}));
  await waitFor(()=>expect(screen.getByLabelText('Estado interno EVENT')).not.toBeDisabled());fireEvent.change(screen.getByLabelText('Estado interno EVENT'),{target:{value:'FOLLOWING'}});
  await waitFor(()=>expect(discoveryApi.state).toHaveBeenCalled());await waitFor(()=>expect(screen.getByText('Revisar')).not.toBeDisabled());fireEvent.click(screen.getByText('Revisar'));

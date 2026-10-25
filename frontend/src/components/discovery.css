@@ -111,3 +111,28 @@
   .discovery-product .opportunity-detail { padding: var(--space-3); }
   .opportunity-detail .handoff-confirmation { padding: var(--space-3); }
 }
+
+/* Discovery hotfix: compact sequence, acquisition and stored filtering remain independent. */
+.discovery-step { border-top: 1px solid var(--border-normal); padding: var(--space-3) 0; margin: var(--space-3) 0; scroll-margin-top: var(--space-4); }
+.discovery-step h2, .discovery-step > summary { font-size: var(--font-section); font-weight: 600; margin: 0 0 var(--space-3); }
+.discovery-step > label { display: inline-flex; flex-direction: column; margin: var(--space-2); max-width: 100%; }
+.discovery-period { display:flex; flex-wrap:wrap; gap:var(--space-2); align-items:end; max-width:100%; }
+.discovery-period label { display:flex; flex-direction:column; gap:var(--space-2); }
+.discovery-period small { flex-basis:100%; color:var(--text-secondary); }
+.discovery-help { align-self:center; max-width:32rem; }
+.discovery-help > summary { cursor:pointer; color:var(--action); font-weight:600; padding:var(--space-2); }
+.discovery-help p { margin:var(--space-2); color:var(--text-secondary); }
+.discovery-step input, .discovery-step select { max-width:100%; }
+.discovery-step dl { display:grid; grid-template-columns:max-content 1fr; gap:var(--space-2); }
+.discovery-step dd { margin:0; }
+#search-profiles { scroll-margin-top:var(--space-4); }
+.discovery-filter-field { display:flex; flex-direction:column; align-self:start; flex:1 1 220px; max-width:360px; gap:var(--space-1); }
+.discovery-filter-field > label { width:100%; }
+.discovery-filter-field .discovery-help > summary { min-height:24px; padding:var(--space-1); }
+.discovery-filter-field .discovery-help p { font-size:var(--font-secondary); line-height:1.5; }
+.detail-history > ol { max-height:32rem; overflow:auto; }
+.detail-history > ol > li p { margin:var(--space-1) 0; }
+.opportunity-detail { scroll-margin-top:var(--space-4); }
+/* Source names/status share a line; individual blocks wrap only when space requires it. */
+.discovery-product .source-strip > span { flex-direction:row; align-items:baseline; flex-wrap:wrap; gap:var(--space-1); max-width:100%; }
+.discovery-product .source-strip .ui-source { flex-wrap:wrap; }

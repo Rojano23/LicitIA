@@ -111,7 +111,7 @@ export default function ProductApp() {
     {visited.has('discovery') && <div hidden={route.page !== 'discovery'}><DiscoveryView apiUrl={API_URL} onOpenTender={openTender} view={discoveryRoute.current.view} opportunityId={discoveryRoute.current.opportunityId} scanId={discoveryRoute.current.scanId} scanSource={discoveryRoute.current.scanSource} filterRequest={discoveryRoute.current} /></div>}
     {visited.has('empresa') && <div hidden={route.page !== 'empresa'}><CompanyView embedded apiUrl={API_URL} /></div>}
     {visited.has('reportes')&&<div hidden={route.page!=='reportes'}><ReportsView embedded apiUrl={API_URL}/></div>}
-    {visited.has('configuracion')&&<div hidden={route.page!=='configuracion'}><SettingsView embedded apiUrl={API_URL}/></div>}
+    {visited.has('configuracion')&&<div hidden={route.page!=='configuracion'}><SettingsView embedded apiUrl={API_URL} focusProfiles={route.page==='configuracion'&&route.settingsSection==='profiles'} focusSources={route.page==='configuracion'&&route.settingsSection==='sources'}/></div>}
     {visited.has('diagnostico')&&<div hidden={route.page!=='diagnostico'}><DiagnosticsView embedded apiUrl={API_URL} toolsOpened={diagnosticToolsOpened} onOpenTools={()=>setDiagnosticToolsOpened(v=>!v)}/></div>}
     {route.page === 'not-found' && <EmptyState title="Esta dirección no está disponible" action={<a href="#/">Volver a Inicio</a>}>Usa la navegación para elegir una sección del producto.</EmptyState>}
     {workspaceVisited && <div id="legacy-content" hidden={!workspaceVisible}><DeferredWorkspace embedded processingActive={workspaceVisible} requestedTenderId={legacyId.current ?? context?.id} onTenderOpen={openTender} onContext={contextChange} onAvailability={setAvailability} /></div>}

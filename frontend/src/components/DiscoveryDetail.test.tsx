@@ -5,7 +5,7 @@ import {monitoringApi,type Preview,type Opportunity} from '../api/discovery';
 vi.mock('../api/discovery',()=>({monitoringApi:{get:vi.fn(),preview:vi.fn(),history:vi.fn(),follow:vi.fn(),acknowledge:vi.fn(),handoff:vi.fn()}}));
 const row:Opportunity={id:'o',source_id:'PEMEX',external_id:'E1',title:'Válvula',description:'Fuente literal',business_area:'Área',published_date:null,event_type:null,supply_type:null,source_status:'Publicado',internal_state:'NEW',revision:1,document_count:1,public_url:'https://www.pemex.com',first_seen:'now',last_seen:'now',match:null,watching:false,unread_changes:1};
 const preview:Preview={opportunity_id:'o',source_id:'PEMEX',source_fingerprint:'a',binding:'b',internal_state:'NEW',suggested_title:'Válvula',context:{},documents:[{id:'d',name:'Bases.pdf',public_url:'https://www.pemex.com/doc',metadata_fingerprint:'f',last_import:null}],linked_tender:null,selection_default:'NONE',analysis_automatic:false};
-beforeEach(()=>{vi.clearAllMocks();vi.mocked(monitoringApi.get).mockResolvedValue(row);vi.mocked(monitoringApi.preview).mockResolvedValue(preview);vi.mocked(monitoringApi.history).mockResolvedValue({items:[{id:'c',category:'DOCUMENT_ADDED',origin:'SOURCE',detected_at:'now',summary:'New document available',changed_fields:{name:'Bases.pdf'},acknowledged_at:null}],total:1,limit:100,offset:0});});
+beforeEach(()=>{vi.clearAllMocks();vi.mocked(monitoringApi.get).mockResolvedValue(row);vi.mocked(monitoringApi.follow).mockResolvedValue({...row,watching:true});vi.mocked(monitoringApi.preview).mockResolvedValue(preview);vi.mocked(monitoringApi.history).mockResolvedValue({items:[{id:'c',category:'DOCUMENT_ADDED',origin:'SOURCE',detected_at:'now',summary:'New document available',changed_fields:{name:'Bases.pdf'},acknowledged_at:null}],total:1,limit:100,offset:0});});
 it('preview no crea ni descarga, selección vacía y confirmación obligatoria',async()=>{
  render(<DiscoveryDetail apiUrl="" id="o" onChanged={async()=>{}}/>);await screen.findByText('Crear licitación — vista previa');
  expect(monitoringApi.handoff).not.toHaveBeenCalled();expect(screen.getByLabelText('Bases.pdf')).not.toBeChecked();expect(screen.getByText('Crear licitación',{selector:'button'})).toBeDisabled();
@@ -17,12 +17,12 @@ it('selecciona documentos explícitos y muestra fallos parciales',async()=>{
  render(<DiscoveryDetail apiUrl="" id="o" onChanged={async()=>{}}/>);await screen.findByLabelText('Bases.pdf');
  vi.mocked(monitoringApi.handoff).mockResolvedValue({tender_id:'t',tender_available:true,already_created:false,documents_status:'PARTIAL',analysis_started:false,documents:[{source_document_id:'d',status:'FAILED',error_code:'SOURCE_DOWNLOAD_SIZE_LIMIT'}]});
  fireEvent.click(screen.getByLabelText('Bases.pdf'));fireEvent.click(screen.getByLabelText(/Confirmo crear licitación/));fireEvent.click(screen.getByText('Crear licitación',{selector:'button'}));
- await screen.findByText(/SOURCE_DOWNLOAD_SIZE_LIMIT/);expect(monitoringApi.handoff).toHaveBeenCalledWith('',preview,'Válvula',[{document_id:'d',conflict_action:'NONE',revision_of_document_id:null,refresh:false}]);
+ await screen.findByText(/No importado: revisa la fuente/);expect(screen.queryByText(/SOURCE_DOWNLOAD_SIZE_LIMIT/)).not.toBeInTheDocument();expect(monitoringApi.handoff).toHaveBeenCalledWith('',preview,'Válvula',[{document_id:'d',conflict_action:'NONE',revision_of_document_id:null,refresh:false}]);
 });
 it('follow y acknowledge son acciones separadas de creación',async()=>{
  render(<DiscoveryDetail apiUrl="" id="o" onChanged={async()=>{}}/>);await screen.findByText('Seguir');
  fireEvent.click(screen.getByText('Seguir'));await waitFor(()=>expect(monitoringApi.follow).toHaveBeenCalledWith('',row));
- await waitFor(()=>expect(screen.getByText('Marcar cambios visibles como leídos')).not.toBeDisabled());fireEvent.click(screen.getByText('Marcar cambios visibles como leídos'));
+ await waitFor(()=>expect(screen.getByText('Marcar estos cambios como revisados')).not.toBeDisabled());fireEvent.click(screen.getByText('Marcar estos cambios como revisados'));
  await waitFor(()=>expect(monitoringApi.acknowledge).toHaveBeenCalledWith('','o',['c']));expect(monitoringApi.handoff).not.toHaveBeenCalled();
 });
 it('Abrir licitación usa vínculo persistido y muestra tombstone sin recreación',async()=>{

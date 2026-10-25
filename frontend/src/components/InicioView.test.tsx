@@ -19,7 +19,7 @@ it('UIR2-05: instalación vacía sin tarjetas de cero decorativas',async()=>{
 it('UIR2-06: atención sólo a hechos reales, agrupación y vínculos fuente',async()=>{
  vi.mocked(discoveryApi.scans).mockResolvedValue([{id:'scan',source_id:'CFE',status:'PARTIAL',started_at:'2026-10-23',metrics:{}}]);
  vi.mocked(axios.get).mockResolvedValue({data:[{id:'t',title:'Expediente de prueba',external_reference:'REF',institution_profile:null,status:'DRAFT',updated_at:'2026-10-23'}]});
- render(<InicioView apiUrl=""/>);expect(await screen.findByText('CFE · La consulta fue parcial')).toBeVisible();expect(screen.getByRole('link',{name:'Revisar consulta'})).toHaveAttribute('href','#/discovery?scan=scan&source=CFE');
+ render(<InicioView apiUrl=""/>);expect(await screen.findByText('CFE · La consulta fue parcial')).toBeVisible();expect(screen.getByRole('link',{name:'Revisar consulta'})).toHaveAttribute('href','#/configuracion/diagnostico');
  expect(screen.getByRole('link',{name:'Abrir licitación'})).toHaveAttribute('href','#/licitaciones/t/resumen');expect(screen.queryByText('Lista para presentar')).toBeNull();
 });
 it('fallo de resumen no fabrica cero y permite conservar otras secciones/reintentar',async()=>{

@@ -16,6 +16,7 @@ Siguiente fase: **RX23 TuScope Product UI / UX**. UI-R0 entrega únicamente audi
 **MVP-01–10 CLOSED · UI-R0–R7 CLOSED · RX23 TuScope PRODUCT UI CLOSED.** Commit local de cierre autorizado; sin push. No UI-R8 ni instalador en esta entrega.
 Después de UI final: pruebas reales del product owner → demos controladas → correcciones →
 instalador Windows → Private Beta externa instalada. Sin nuevas fuentes/backend/IA ahora.
+[Hotfix Discovery tras primer uso real](discovery-ux-workflow-hotfix.md): flujo consulta → resultado → filtros → revisión y perfiles en Configuración; [pulido final](discovery-ux-final-polish.md) con detalle enfocado e historial de consultas en Diagnóstico; [micropulido de fuentes](discovery-ux-final-micro-polish.md) sin administración en pantalla operativa; implementado, pendiente de revisión PO, sin stage/commit/push. No UI-R8.
 El detalle siguiente conserva la secuencia histórica de implementación y aceptación.
 
 # LicitIA — Roadmap v0.1

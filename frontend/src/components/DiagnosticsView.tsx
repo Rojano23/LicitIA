@@ -1,3 +1,4 @@
+import {DiscoveryQueryHistory} from './DiscoveryQueryHistory';
 import {useState} from 'react';
 import {readDiagnostics,diagnosticSummary} from '../api/diagnostics';
 import {useRead} from './useRead';
@@ -14,6 +15,7 @@ export function DiagnosticsView({apiUrl,onOpenTools,toolsOpened=false,embedded=f
  <h3>Discovery</h3><p>{read.value.sources?`${read.value.sources.enabled} fuentes habilitadas de ${read.value.sources.total}; ${read.value.sources.restricted} restringidas`:'No se pudieron consultar las fuentes locales'}</p><a href="#/configuracion">Revisar configuración de fuentes</a>
  <details><summary>Ver detalle técnico</summary><h4>Resultados de las consultas</h4><pre>{JSON.stringify(read.value,null,2)}</pre><h4>Resumen seguro para soporte</h4><pre>{diagnosticSummary(read.value)}</pre><p>Se excluyeron nombres de documentos/empresas/licitaciones, contenido, valores comerciales, paths, URLs de proveedores, tokens y mensajes libres del servidor.</p></details></>}
  <details><summary>Datos administrativos no expuestos por la API</summary><p>No hay contrato de lectura de versión de aplicación/backend, schema Alembic, ruta de storage, espacio libre o salud completa de DB. Consulta el procedimiento local del administrador; no se infieren desde /health.</p></details>
+ <details><summary>Consultas Discovery</summary><DiscoveryQueryHistory apiUrl={apiUrl}/></details>
  <h3>Herramientas avanzadas del expediente</h3><p>Abre el workspace técnico existente sólo cuando necesites controles de documento, procesamiento y auditoría. Las acciones de análisis siguen siendo explícitas.</p><Button onClick={onOpenTools}>{toolsOpened?"Ocultar herramientas del expediente":"Abrir herramientas del expediente"}</Button>
  </section>;
 }

@@ -1,17 +1,19 @@
-import {useState} from 'react';
+import {SearchProfiles} from './SearchProfiles';
+import {useEffect,useState} from 'react';
 import {discoveryApi,type Source} from '../api/discovery';
 import {useRead} from './useRead';
 import {Button,ErrorState,LoadingState,Notice,TableShell} from '../ui/primitives';
 import './supportProduct.css';
 export const restrictedSource=(s:Source)=>s.id==='COMPRAS_MX'||s.capabilities?.automation_status==='RESTRICTED'||s.capabilities?.automation_status==='DEFERRED_SOURCE_AUTOMATION_RESTRICTED';
-export function SettingsView({apiUrl,embedded=false}:{apiUrl:string;embedded?:boolean}){
+export function SettingsView({apiUrl,embedded=false,focusProfiles=false,focusSources=false}:{apiUrl:string;embedded?:boolean;focusProfiles?:boolean;focusSources?:boolean}){
  const sources=useRead('settings-sources',()=>discoveryApi.sources(apiUrl));const [selected,setSelected]=useState(''),[editingBusy,setEditingBusy]=useState(false),[saved,setSaved]=useState('');const source=sources.value?.find(s=>s.id===selected);
+ useEffect(()=>{if(focusSources){const el=document.getElementById('source-settings');el?.focus();el?.scrollIntoView?.({block:'start'});}},[focusSources]);
  return <section className="support-product" aria-label="Configuración">{!embedded&&<h2>Configuración</h2>}<p>Preferencias y fuentes de consulta soportadas. Los documentos se administran localmente; consultar Discovery solicita información a portales públicos externos.</p><Notice>Abrir esta pantalla no consulta portales externos ni envía información a servicios externos.</Notice>
- <h3>Fuentes Discovery</h3><Button disabled={editingBusy} onClick={sources.refresh}>Actualizar configuración de fuentes</Button>{sources.loading&&<LoadingState/>}{sources.error&&<ErrorState retry={sources.refresh}>No se pudieron consultar las fuentes.</ErrorState>}
+ <h3 id="source-settings" tabIndex={-1}>Fuentes Discovery</h3><Button disabled={editingBusy} onClick={sources.refresh}>Actualizar configuración de fuentes</Button>{sources.loading&&<LoadingState/>}{sources.error&&<ErrorState retry={sources.refresh}>No se pudieron consultar las fuentes.</ErrorState>}
  <TableShell label="Fuentes configuradas"><table><thead><tr><th>Fuente</th><th>Capacidad / estado local</th><th>Acción</th></tr></thead><tbody>{sources.value?.map(s=><tr key={s.id}><td>{s.name}</td><td>{restrictedSource(s)?'Automatización no disponible actualmente':s.enabled?'Habilitada para consulta manual':'Deshabilitada localmente'}</td><td>{!restrictedSource(s)&&<Button disabled={editingBusy} onClick={()=>{setSelected(s.id);setSaved('');}}>Configurar {s.name}</Button>}</td></tr>)}</tbody></table></TableShell><p>La habilitación local no certifica disponibilidad del portal. Compras MX permanece restringido, sin consulta ejecutable ni sustitución de fuente.</p>
  {saved&&<p role="status">Configuración de {saved} guardada; no se ejecutó una consulta pública.</p>}
  {source&&!restrictedSource(source)&&<SourceSettings key={source.id+JSON.stringify(source.configuration)+source.enabled} source={source} apiUrl={apiUrl} onBusy={setEditingBusy} refresh={()=>{setSaved(source.name);sources.refresh();}}/>}
- <h3>Perfiles de búsqueda</h3><p>Los términos, exclusiones y áreas se editan en el flujo existente. La búsqueda se realiza localmente usando las reglas de tu perfil; no se envía tu perfil al portal.</p><a href="#/discovery">Abrir perfiles y consultas en Discovery</a>
+ <SearchProfiles apiUrl={apiUrl} focus={focusProfiles} availableSources={sources.value??[]}/>
  <h3>Presentación local</h3><p>Contrae o expande el menú lateral para guardar la preferencia en este navegador. No cambia los datos del expediente.</p>
  <details><summary>Administración local</summary><p>Almacenamiento, respaldos, conexión DB y configuración de proveedores siguen el procedimiento de instalación local del administrador. No hay un editor de variables de entorno ni rutas habilitado en Product UI.</p></details><a href="#/configuracion/diagnostico">Abrir Diagnóstico</a>
  </section>;
